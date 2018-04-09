@@ -1,0 +1,181 @@
+import React from "react";
+import { View } from "react-native";
+import {
+  addNavigationHelpers,
+  StackNavigator,
+  TabNavigator
+} from "react-navigation";
+
+// custom
+import { Colours } from "localyyz/constants";
+import { NavBar } from "localyyz/components";
+import { stores } from "localyyz/stores";
+import { ApiInstance } from "localyyz/global";
+import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
+
+// third party
+import { observer, Provider } from "mobx-react";
+import codePush from "react-native-code-push";
+
+//scenes
+import {
+  Home,
+  Product,
+  Login,
+  CartSummary,
+  Deeplink,
+  Information,
+  History
+} from "localyyz/scenes";
+
+const AppNavigator = StackNavigator(
+  {
+    Home: { screen: Home },
+    Product: { screen: Product },
+    CartSummary: { screen: CartSummary },
+    Information: { screen: Information }
+  },
+  {
+    initialRouteName: "Home",
+    navigationOptions: ({ navigation: { state } }) => ({
+      header: null,
+      gesturesEnabled: state.params && state.params.gesturesEnabled
+    })
+  }
+);
+
+const HistoryTab = StackNavigator(
+  {
+    History: { screen: History },
+    Product: { screen: Product }
+  },
+  {
+    initialRouteName: "History",
+    navigationOptions: ({ navigation: { state } }) => ({
+      header: null,
+      gesturesEnabled: state.params && state.params.gesturesEnabled
+    })
+  }
+);
+
+//TODO: NavBar should probably read from navigationOptions
+//rather than everything mostly hardcoded
+const TabBarNavigator = TabNavigator(
+  {
+    Root: { screen: AppNavigator },
+    History: { screen: HistoryTab }
+  },
+  {
+    tabBarComponent: NavBar,
+    lazy: true
+  }
+);
+
+const RootNavigator = StackNavigator(
+  {
+    Deeplink: { screen: Deeplink },
+    Login: { screen: Login },
+    App: { screen: TabBarNavigator }
+  },
+  {
+    mode: "modal",
+    headerMode: "none",
+    transitionConfig: () => ({
+      screenInterpolator: forVertical
+    }),
+    cardStyle: { backgroundColor: Colours.Transparent }
+  }
+);
+
+@observer
+class AppContainer extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+  }
+
+  componentDidMount() {
+    codePush.sync({
+      installMode: codePush.InstallMode.IMMEDIATE,
+      updateDialog: true
+    });
+
+    // initialize api instance with API_URL from User defined vars
+    ApiInstance.initialize(this.props.API_URL);
+
+    //NOTE: this has to be syncronous because home will render products
+    //before we pull user data out of storage. in that case, backend
+    //won't have user data and return un-personalized results.
+
+    //TODO: make a "session" scene that redirects to home
+    stores.loginStore.login("storage");
+  }
+
+  render() {
+    return (
+      <Provider {...stores} suppressChangedStoreWarning>
+        <View style={{ flex: 1 }}>
+          <RootNavigator
+            navigation={addNavigationHelpers({
+              dispatch: action => {
+                stores.navStore.dispatch(RootNavigator.router, action);
+              },
+              state: stores.navStore.navigationState,
+              addListener: () => {
+                /* left blank intentionally */
+              }
+            })}
+          />
+          <GlobalAssistant />
+        </View>
+      </Provider>
+    );
+  }
+}
+
+/**
+ * Render the initial style when the initial layout isn't measured yet.
+ */
+function forInitial(props) {
+  const { navigation, scene } = props;
+  const focused = navigation.state.index === scene.index;
+
+  // If not focused, move the scene far away.
+  const translate = focused ? 0 : 1000000;
+  return {
+    transform: [{ translateX: translate }, { translateY: translate }]
+  };
+}
+
+/**
+ * Standard iOS-style slide in from the bottom (used for modals).
+ */
+function forVertical(props) {
+  const { layout, position, scene } = props;
+
+  if (!layout.isMeasured) {
+    return forInitial(props);
+  }
+
+  const index = scene.index;
+  const height = layout.initHeight;
+
+  const opacity = position.interpolate({
+    inputRange: [index - 1, index - 0.99, index, index + 0.99, index + 1],
+    outputRange: [0.3, 0.9, 1, 0.9, 0.3]
+  });
+
+  const translateX = 0;
+  const translateY = position.interpolate({
+    inputRange: [index - 1, index - 0.99, index, index + 1],
+    outputRange: [height, height / 2, 0, 0]
+  });
+
+  return {
+    opacity,
+    transform: [{ translateX }, { translateY }]
+  };
+}
+
+export default codePush({
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME
+})(AppContainer);

@@ -1,0 +1,175 @@
+import { observable, computed, runInAction, action } from "mobx";
+import moment from "moment";
+
+import { facebook, storage } from "localyyz/effects";
+import { ApiInstance } from "localyyz/global";
+
+export default class LoginStore {
+  @observable _lastAttemptedLogin;
+  @observable _wasLoginSkipped;
+
+  constructor(userStore) {
+    this.api = ApiInstance;
+    this.user = userStore;
+  }
+
+  @computed
+  get _wasLoginSuccessful() {
+    return this._lastAttemptedLogin !== undefined;
+  }
+
+  @action
+  skipLogin = async (value = true) => {
+    await storage.save("skipLogin", { value });
+  };
+
+  @action
+  signup = async user => {
+    try {
+      const resp = await this.api.post("signup", user);
+      await storage.save("session", resp.data);
+      this.user.model.update(resp.data);
+      const token = `BEARER ${this.user.token}`;
+
+      // update the global api instance with the user's login token
+      this.api.setAuth(token);
+
+      // log facebook event
+      facebook.logEvent("fb_mobile_complete_registration", null, {
+        fb_registration_method: "email"
+      });
+
+      this._loginSuccess("signup");
+
+      return true;
+    } catch (err) {
+      this.handleErr(err);
+    }
+    return false;
+  };
+
+  @action
+  logout = async () => {
+    await storage.remove("session");
+    this.user.model.reset();
+  };
+
+  shouldSkipLogin = async () => {
+    const store = await storage.load("skipLogin");
+    return store && store.value;
+  };
+
+  _loginSuccess = (type = "") => {
+    runInAction(`[ACTION] ${type} record last attmped login`, () => {
+      this._lastAttemptedLogin = moment().unix();
+    });
+  };
+
+  _loginViaEmail = async (email, password) => {
+    try {
+      const response = await this.api.post("login", { email, password });
+      if (response && response.data) {
+        await storage.save("session", response.data);
+        this.user.model.update(response.data);
+        const token = `BEARER ${this.user.token}`;
+
+        // update the global api instance with the user's login token
+        this.api.setAuth(token);
+
+        this._loginSuccess("email");
+      }
+    } catch (err) {
+      this.handleErr(err);
+    }
+  };
+
+  _loginViaFacebook = async () => {
+    const fbtoken = await facebook.login();
+    if (fbtoken) {
+      try {
+        const response = await this.api.post("login/facebook", {
+          token: fbtoken
+        });
+
+        await storage.save("session", response.data);
+        this.user.model.update(response.data);
+        const token = `BEARER ${this.user.token}`;
+
+        // update the global api instance with the user's login token
+        this.api.setAuth(token);
+
+        // mark login as success
+        this._loginSuccess("fb");
+
+        // log facebook event
+        facebook.logEvent("fb_mobile_complete_registration", null, {
+          fb_registration_method: "facebook"
+        });
+      } catch (err) {
+        if (err.response) {
+          console.log(
+            `[Login Error] Status ${err.response.status}: ${err.response.data}`
+          );
+        } else {
+          console.log(`[Login Error] ${err.message}`);
+        }
+      }
+    }
+  };
+
+  _loginViaStorage = async () => {
+    const session = await storage.load("session");
+
+    if (session) {
+      // update the global api instance with the user's login token
+      this.api.setAuth(`BEARER ${session.jwt}`);
+      this.user.model.update(session);
+
+      //check with server if we need to bust cache
+      await this.api
+        .get("/users/me/ping", { lu: session.cachedAt || 0 })
+        .then(async ping => {
+          if (ping && ping.status === 205) {
+            //cache bust the storage
+            await this.api.get("/users/me").then(async me => {
+              await storage.save("session", {
+                ...me.data,
+                jwt: session.jwt
+              });
+              this.user.model.update(me.data);
+            });
+          }
+        });
+
+      this._loginSuccess("storage");
+    } else {
+      // try to find if the user skipped login already
+      // if no session + no skipLogin, return early
+      const skipLogin = await storage.load("skipLogin");
+      if (skipLogin && skipLogin.value) {
+        runInAction("[ACTION] skipped login", () => {
+          this._wasLoginSkipped = true;
+        });
+      }
+    }
+  };
+
+  @action
+  login = async (type, payload) => {
+    const { email, password } = payload || {};
+
+    switch (type) {
+      case "facebook":
+        await this._loginViaFacebook();
+        break;
+      case "email":
+        await this._loginViaEmail(email, password);
+        break;
+      case "storage":
+        await this._loginViaStorage();
+        break;
+    }
+
+    return this._wasLoginSuccessful;
+  };
+}
