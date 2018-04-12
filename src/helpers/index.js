@@ -76,8 +76,8 @@ export function randInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-export function onlyIfLoggedIn(userStore, action, navigation) {
-  if (userStore.model.hasSession) {
+export function onlyIfLoggedIn({ hasSession }, action, navigation) {
+  if (hasSession) {
     action && action();
   } else if (navigation) {
     // only show CTA if navigation is given

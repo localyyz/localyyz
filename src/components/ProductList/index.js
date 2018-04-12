@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, Keyboard, FlatList } from "react-native";
 import { Sizes } from "localyyz/constants";
 
 // custom
@@ -39,18 +39,21 @@ export default class ProductList extends React.Component {
           onPress={() =>
             this.props.navigation.navigate("Product", {
               product: product
-            })}
-          product={product}
-        />
+            })
+          }
+          product={product}/>
       </View>
     );
   }
 
   onScroll(e) {
+    // dismiss keyboard
+    Keyboard.dismiss();
+
     let scrollChange = e.nativeEvent.contentOffset.y - this.position;
     let isDirectionChanged = !(
-      (scrollChange >= 0 && this.change >= 0) ||
-      (scrollChange <= 0 && this.change <= 0)
+      (scrollChange >= 0 && this.change >= 0)
+      || (scrollChange <= 0 && this.change <= 0)
     );
 
     if (isDirectionChanged) {
@@ -75,6 +78,7 @@ export default class ProductList extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
+          keyboardShouldPersistTaps="always"
           data={this.props.products}
           numColumns={2}
           keyExtractor={e => e.id}
@@ -86,8 +90,7 @@ export default class ProductList extends React.Component {
           renderItem={this.renderItem}
           scrollEventThrottle={16}
           onScroll={this.onScroll}
-          columnWrapperStyle={styles.column}
-        />
+          columnWrapperStyle={styles.column}/>
       </View>
     );
   }
