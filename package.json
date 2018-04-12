@@ -11,6 +11,8 @@
     "jest": "^22.4.3",
     "jest-react-native": "^18.0.0",
     "prettier": "^1.11.1",
+    "prettier-eslint": "^8.8.1",
+    "prettier-eslint-cli": "^4.7.1",
     "react-test-renderer": "16.3.0-alpha.1"
   },
   "scripts": {
@@ -57,5 +59,4 @@
       "./assets/fonts"
     ]
   }
-
 }
