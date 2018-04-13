@@ -29,15 +29,18 @@ Animatable.initializeRegistryWithDefinitions({
 });
 
 // offset tabbar
-export const NAVBAR_HEIGHT =
-  Sizes.InnerFrame * 2 +
-  Sizes.SmallText +
-  Sizes.InnerFrame / 2 +
-  Sizes.IconButton +
-  (ifIphoneX() ? Sizes.InnerFrame : 0);
+export const NAVBAR_HEIGHT
+  = Sizes.InnerFrame * 2
+  + Sizes.SmallText
+  + Sizes.InnerFrame / 2
+  + Sizes.IconButton
+  + (ifIphoneX() ? Sizes.InnerFrame : 0);
 
-@inject("cartStore", "userStore")
 @withNavigation
+@inject(stores => ({
+  cartStore: stores.cartStore,
+  hasSession: stores.userStore.model.hasSession
+}))
 @observer
 export default class NavBar extends React.Component {
   static HEIGHT = NAVBAR_HEIGHT;
@@ -59,8 +62,21 @@ export default class NavBar extends React.Component {
     this.store = this.props.cartStore;
   }
 
+  // TODO: this should be a reaction inside of cartStore...
+  // inject loginStore into cartStore and react to the login
+  // status of the user
   componentDidMount() {
-    onlyIfLoggedIn(this.props.userStore, () => this.props.cartStore.fetch());
+    onlyIfLoggedIn({ hasSession: this.props.hasSession }, () =>
+      this.props.cartStore.fetch()
+    );
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.hasSession) {
+      onlyIfLoggedIn({ hasSession: nextProps.hasSession }, () =>
+        this.props.cartStore.fetch()
+      );
+    }
   }
 
   onSnap(snapHeight) {
@@ -124,8 +140,8 @@ export default class NavBar extends React.Component {
             onClose={this.onPullupClose}
             onPull={height => {
               this.cart && this.cart.items && this.cart.items.forceUpdate();
-              this.cart.paymentMethods &&
-                this.cart.paymentMethods.toggle(false);
+              this.cart.paymentMethods
+                && this.cart.paymentMethods.toggle(false);
               this.cart.addresses && this.cart.addresses.toggle(false);
             }}
             toggle={this.store.toggle}
@@ -133,18 +149,18 @@ export default class NavBar extends React.Component {
               <CartHeaderSummary
                 isReady={() => !!this.cart && this.cart.isReady()}
                 onCheckout={() => this.cart.onCheckout()}
-                toggleCartItems={() => this.cart.toggleCartItems()}
-              />
+                toggleCartItems={() => this.cart.toggleCartItems()}/>
             }>
             <Cart
               ref="cart"
               navigation={this.props.navigation}
               onCheckout={this.onPress}
               getHeight={() =>
-                (this.refs.pullup && this.refs.pullup.height) || 0}
+                (this.refs.pullup && this.refs.pullup.height) || 0
+              }
               snap={(height, onlyGrow) =>
-                this.refs.pullup.snap(height, onlyGrow)}
-            />
+                this.refs.pullup.snap(height, onlyGrow)
+              }/>
           </Pullup>
           <Animatable.View
             animation={this.store.isVisible ? "slideInUp" : "slideOutDown"}
@@ -157,7 +173,8 @@ export default class NavBar extends React.Component {
                   this.props.navigation.dispatch(
                     changeTab("Root", { reset: true })
                   );
-                })}>
+                })
+              }>
               <View
                 hitSlop={{
                   top: Sizes.InnerFrame,
@@ -173,8 +190,7 @@ export default class NavBar extends React.Component {
                     this.state.activeButton === "cart"
                       ? Colours.SubduedText
                       : Colours.MenuBackground
-                  }
-                />
+                  }/>
                 <UppercasedText style={styles.buttonLabel}>Shop</UppercasedText>
               </View>
             </TouchableOpacity>
@@ -182,7 +198,8 @@ export default class NavBar extends React.Component {
               onPress={() =>
                 this.onPress("history", () => {
                   this.props.navigation.dispatch(changeTab("History"));
-                })}>
+                })
+              }>
               <View
                 hitSlop={{
                   top: Sizes.InnerFrame,
@@ -198,8 +215,7 @@ export default class NavBar extends React.Component {
                     this.state.activeButton === "cart"
                       ? Colours.SubduedText
                       : Colours.MenuBackground
-                  }
-                />
+                  }/>
                 <UppercasedText style={styles.buttonLabel}>
                   History
                 </UppercasedText>
@@ -208,10 +224,11 @@ export default class NavBar extends React.Component {
             <TouchableOpacity
               onPress={() =>
                 onlyIfLoggedIn(
-                  this.props.userStore,
+                  { hasSession: this.props.hasSession },
                   () => this.onPress("cart", this.store.toggle, false),
                   this.props.navigation
-                )}>
+                )
+              }>
               <View
                 hitSlop={{
                   top: Sizes.InnerFrame,
@@ -223,11 +240,10 @@ export default class NavBar extends React.Component {
                 <EntypoIcon
                   name="shopping-basket"
                   size={Sizes.IconButton}
-                  color={Colours.MenuBackground}
-                />
+                  color={Colours.MenuBackground}/>
                 <UppercasedText style={styles.buttonLabel}>Cart</UppercasedText>
-                {this.store &&
-                  this.store.numItems > 0 && (
+                {this.store
+                  && this.store.numItems > 0 && (
                     <View style={styles.badge}>
                       <Text style={styles.badgeLabel}>
                         {this.store.numItems}

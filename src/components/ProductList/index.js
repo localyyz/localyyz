@@ -36,6 +36,7 @@ export default class ProductList extends React.Component {
     return (
       <View style={styles.tile}>
         <ProductTile
+          style={{ minHeight: 250 }}
           onPress={() =>
             this.props.navigation.navigate("Product", {
               product: product
@@ -83,7 +84,7 @@ export default class ProductList extends React.Component {
           numColumns={2}
           keyExtractor={e => e.id}
           onEndReached={this.fetchMore}
-          onEndReachedThreshold={5}
+          onEndReachedThreshold={1}
           contentContainerStyle={this.props.style}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
