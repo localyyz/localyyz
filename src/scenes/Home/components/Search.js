@@ -14,7 +14,7 @@ import SearchResult from "./SearchResult";
   searchActive: stores.homeStore.searchActive,
   headerHeight: stores.homeStore.headerHeight,
   onPress: () => {
-    if (!stores.homeStore.searchResults) {
+    if (stores.homeStore.searchResults.length === 0) {
       stores.homeStore.searchActive = false;
       stores.homeStore.searchQuery = "";
     }
@@ -35,12 +35,7 @@ export default class Search extends React.Component {
       <Animatable.View
         animation="fadeIn"
         duration={300}
-        style={[
-          styles.searchOverlay,
-          {
-            paddingTop: headerHeight
-          }
-        ]}>
+        style={[styles.searchOverlay, { paddingTop: headerHeight }]}>
         <TouchableWithoutFeedback onPress={onPress}>
           <BlurView
             style={styles.searchOverlayBlur}

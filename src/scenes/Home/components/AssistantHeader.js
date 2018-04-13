@@ -26,9 +26,9 @@ class AssistantHeader extends React.Component {
 
   get headerContentHeight() {
     return (
-      this.state.headerAssistantHeight +
-      this.state.headerWelcomeHeight +
-      Sizes.OuterFrame
+      this.state.headerAssistantHeight
+      + this.state.headerWelcomeHeight
+      + Sizes.OuterFrame
     );
   }
 
@@ -41,13 +41,16 @@ class AssistantHeader extends React.Component {
           styles.headerContent,
           {
             height: position.interpolate({
-              inputRange: [0, this.headerContentHeight + 200],
-              outputRange: [this.headerContentHeight, 0],
+              inputRange: [0, Sizes.Height / 4, Sizes.Height / 2],
+              outputRange: [
+                this.headerContentHeight,
+                this.headerContentHeight / 2,
+                0
+              ],
               extrapolate: "clamp"
             })
           }
-        ]}
-      >
+        ]}>
         <Animated.View
           style={{
             opacity: position.interpolate({
@@ -58,17 +61,15 @@ class AssistantHeader extends React.Component {
               outputRange: [1, 0],
               extrapolate: "clamp"
             })
-          }}
-        >
+          }}>
           <View
             style={styles.splitWelcome}
             onLayout={e =>
-              this.state.headerWelcomeHeight ||
-              this.setState({
+              this.state.headerWelcomeHeight
+              || this.setState({
                 headerWelcomeHeight: e.nativeEvent.layout.height
               })
-            }
-          >
+            }>
             <Image style={styles.logo} source={navLogo} />
             <View
               style={[
@@ -76,15 +77,13 @@ class AssistantHeader extends React.Component {
                 !avatarUrl && {
                   backgroundColor: Colours.Transparent
                 }
-              ]}
-            >
+              ]}>
               {!!avatarUrl && (
                 <Image
                   style={styles.avatar}
                   source={{
                     uri: avatarUrl
-                  }}
-                />
+                  }}/>
               )}
             </View>
           </View>
@@ -101,8 +100,7 @@ class AssistantHeader extends React.Component {
             this.setState({
               headerAssistantHeight: e.nativeEvent.layout.height
             })
-          }
-        />
+          }/>
       </Animated.View>
     );
   }

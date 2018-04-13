@@ -33,8 +33,7 @@ export default class Main extends React.Component {
               }
             }
           ])}
-          style={styles.content}
-        >
+          style={styles.content}>
           <ReactiveSpacer store={this.store} heightProp="headerHeight" />
           <List
             withMargin
@@ -42,15 +41,13 @@ export default class Main extends React.Component {
             description={
               "Hand selected daily just for you by our team of fashionistas based on what you've viewed before"
             }
-            listData={this.store.featuredProducts}
-          />
+            listData={this.store.featuredProducts}/>
           <List
             title={"Limited time offers"}
             description={
               "Watch this space for the hottest promotions and sales posted the minute they're live on Localyyz"
             }
-            listData={this.store.discountedProducts}
-          />
+            listData={this.store.discountedProducts}/>
         </ScrollView>
       </View>
     );

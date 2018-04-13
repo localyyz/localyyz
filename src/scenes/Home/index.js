@@ -11,12 +11,12 @@ import { observer, inject, Provider } from "mobx-react";
 import { Main, Header, Search } from "./components";
 import Store from "./store";
 
-@inject("loginStore")
+@inject("loginStore", "assistantStore")
 @observer
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.store = new Store(this.props.loginStore);
+    this.store = new Store(this.props.loginStore, this.props.assistantStore);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {

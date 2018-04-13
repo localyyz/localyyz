@@ -18,7 +18,7 @@ import { observer, inject } from "mobx-react";
     onClearSearch: () => {
       store.searchActive = false;
       store.searchQuery = "";
-      store.searchResults = undefined;
+      store.searchResults = [];
     }
   };
 })
@@ -74,7 +74,7 @@ class SearchInput extends React.Component {
         style={styles.searchContainer}>
         <Text style={styles.searchLabel}>
           {this.props.searchActive && !this.state.searchFocused
-            ? "Showing search results for"
+            ? "Results For:"
             : "Find"}
         </Text>
         <TextInput
