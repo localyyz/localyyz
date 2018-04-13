@@ -21,7 +21,7 @@ export default class HomeStore {
     // _initialized is needed to monitor loginStore initialization
     // mobx will not react when this.login becomes truthy
     runInAction("[ACTION] done initialized", () => {
-      this._isInitialized = true;
+      this.INTERNAL_isInitialized = true;
     });
   }
 
@@ -112,18 +112,24 @@ export default class HomeStore {
   // initialized marks the store being constructed, this is needed
   // to tell reactLogin to not jump the gun and load too early...
   // TODO: is there a better cleaner way?
-  @observable _isInitialized = false;
+  @observable INTERNAL_isInitialized = false;
   @observable featuredProducts;
   @observable discountedProducts;
 
   // when the app logs the user in (or skips login) fetch home products
-  reactLogin = when(
-    () =>
-      this._isInitialized
-      && (this.login._wasLoginSuccessful || this.login._wasLoginSkipped),
+  reactLogin = reaction(
     () => {
-      this.fetchFeaturedProducts();
-      this.fetchDiscountedProducts();
+      return {
+        success: this.INTERNAL_isInitialized && this.login._wasLoginSuccessful,
+        skipped: this.INTERNAL_isInitialized && this.login._wasLoginSkipped
+      };
+    },
+    ({ success, skipped }) => {
+      console.log("fetching because logged in", success, skipped);
+      if (success || skipped) {
+        this.fetchFeaturedProducts();
+        this.fetchDiscountedProducts();
+      }
     }
   );
 

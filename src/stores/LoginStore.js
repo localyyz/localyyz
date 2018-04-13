@@ -27,6 +27,7 @@ export default class LoginStore {
   signup = async user => {
     try {
       const resp = await this.api.post("signup", user);
+
       await storage.save("session", resp.data);
       this.user.model.update(resp.data);
       const token = `BEARER ${this.user.token}`;
@@ -52,6 +53,7 @@ export default class LoginStore {
   logout = async () => {
     await storage.remove("session");
     this.user.model.reset();
+    this.api.setAuth("");
   };
 
   shouldSkipLogin = async () => {
@@ -70,12 +72,17 @@ export default class LoginStore {
       const response = await this.api.post("login", { email, password });
       if (response && response.data) {
         await storage.save("session", response.data);
-        this.user.model.update(response.data);
-        const token = `BEARER ${this.user.token}`;
+        const token = `BEARER ${response.data.jwt}`;
 
         // update the global api instance with the user's login token
         this.api.setAuth(token);
 
+        // mark login as success
+        //  updating the user model + login success status has side-effects
+        //  that may trigger network calls across other components
+        //
+        //  ie home and cart
+        this.user.model.update(response.data);
         this._loginSuccess("email");
       }
     } catch (err) {
@@ -92,13 +99,17 @@ export default class LoginStore {
         });
 
         await storage.save("session", response.data);
-        this.user.model.update(response.data);
-        const token = `BEARER ${this.user.token}`;
+        const token = `BEARER ${response.data.jwt}`;
 
         // update the global api instance with the user's login token
         this.api.setAuth(token);
 
         // mark login as success
+        //  updating the user model + login success status has side-effects
+        //  that may trigger network calls across other components
+        //
+        //  ie home and cart
+        this.user.model.update(response.data);
         this._loginSuccess("fb");
 
         // log facebook event

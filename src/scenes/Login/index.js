@@ -106,14 +106,12 @@ export default class Login extends React.Component {
               name: name
             })
           }
-          onSubmitEditing={() => this.toggleGenderPicker(true)}
-        />
+          onSubmitEditing={() => this.toggleGenderPicker(true)}/>
         <PickerField
           onPress={() => this.toggleGenderPicker(true)}
           label="I'd prefer to see more of"
           options={GENDERS}
-          selectedValue={this.state.gender}
-        />
+          selectedValue={this.state.gender}/>
       </View>
     );
   }
@@ -144,8 +142,7 @@ export default class Login extends React.Component {
                 verifyPassword: password
               })
             }
-            onSubmitEditing={() => this.refs.name.focus()}
-          />
+            onSubmitEditing={() => this.refs.name.focus()}/>
         </View>
         {this.renderGenderSwitch()}
         {this.renderTos()}
@@ -176,24 +173,20 @@ export default class Login extends React.Component {
                 Styles.RoundedButton,
                 styles.button,
                 styles.facebookButton
-              ]}
-            >
+              ]}>
               <EntypoIcon
                 name="facebook"
                 color={Colours.AlternateText}
-                size={Sizes.Text}
-              />
+                size={Sizes.Text}/>
               <UppercasedText
-                style={[styles.buttonLabel, styles.buttonLabelWithIcon]}
-              >
+                style={[styles.buttonLabel, styles.buttonLabelWithIcon]}>
                 Sign in with Facebook
               </UppercasedText>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.onLogin}>
             <View
-              style={[Styles.RoundedButton, styles.button, styles.logInButton]}
-            >
+              style={[Styles.RoundedButton, styles.button, styles.logInButton]}>
               <UppercasedText style={styles.buttonLabel}>
                 Sign in
               </UppercasedText>
@@ -285,7 +278,6 @@ export default class Login extends React.Component {
 
   fetchSession = async (type, payload, skipRegister) => {
     const wasSuccessful = await this.props.loginStore.login(type, payload);
-    console.log("was login success", wasSuccessful);
 
     // dismiss assistant
     this.assistant.get(BUSY_MESSAGE).cancel();
@@ -294,8 +286,8 @@ export default class Login extends React.Component {
         ? this.props.navigation.goBack()
         : this.props.navigation.dispatch(resetAction("App"));
     } else {
-      !skipRegister &&
-        this.setState({
+      !skipRegister
+        && this.setState({
           loginFailed: true,
           alertTitle:
             "We couldn't find an account with that username and password combination.",
@@ -341,14 +333,11 @@ export default class Login extends React.Component {
             <Image
               resizeMode="cover"
               style={styles.background}
-              source={monogram}
-            />
-          }
-        >
+              source={monogram}/>
+          }>
           <ScrollView
             scrollEventThrottle={16}
-            onScroll={e => this.refs.container.onScroll(e)}
-          >
+            onScroll={e => this.refs.container.onScroll(e)}>
             <View style={styles.wrapper}>
               <View style={[styles.card, styles.header]}>
                 <Text style={styles.title}>Sign in to Localyyz</Text>
@@ -369,8 +358,7 @@ export default class Login extends React.Component {
                     )
                   }
                   onSubmitEditing={() => this.refs.password.focus()}
-                  placeholder="Email address"
-                />
+                  placeholder="Email address"/>
                 <InputField
                   ref="password"
                   secureTextEntry
@@ -385,8 +373,7 @@ export default class Login extends React.Component {
                     )
                   }
                   onSubmitEditing={this.onLogin}
-                  placeholder="Password"
-                />
+                  placeholder="Password"/>
               </View>
               {this.state.alertTitle || this.state.alertMessage
                 ? this.renderAlert()
@@ -402,8 +389,7 @@ export default class Login extends React.Component {
             options={GENDERS}
             selectedValue={this.state.gender}
             onValueChange={this.onGenderChange}
-            onDismiss={() => this.toggleGenderPicker(false)}
-          />
+            onDismiss={() => this.toggleGenderPicker(false)}/>
         )}
       </View>
     );

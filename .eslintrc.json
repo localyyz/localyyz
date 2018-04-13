@@ -19,6 +19,7 @@
     "react-native"
   ],
   "rules": {
+    "no-debugger": "off",
     "linebreak-style": [
       "error",
       "unix"

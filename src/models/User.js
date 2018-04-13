@@ -57,7 +57,9 @@ export default class User {
     this.email = null;
     this.name = null;
     this.gender = null;
-    this.token = null;
+    this.jwt = null;
+    this.etc = null;
+    this.firstName = null;
     this.loggedIn = null;
   }
 
