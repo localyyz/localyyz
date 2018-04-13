@@ -25,7 +25,7 @@ export default class SearchResult extends React.Component {
   }
 
   // TODO: do something here? search suggestions?
-  get renderEmptySearch() {
+  get renderEmpty() {
     return <View />;
   }
 
@@ -33,7 +33,7 @@ export default class SearchResult extends React.Component {
     return (
       <View style={styles.container}>
         {this.props.searchResults.slice().length === 0 ? (
-          this.renderEmptySearch
+          this.renderEmpty
         ) : (
           <Animatable.View animation="fadeIn" style={styles.results}>
             <ProductList

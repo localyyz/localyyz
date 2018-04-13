@@ -42,6 +42,7 @@ export default class ProductList extends React.Component {
               product: product
             })
           }
+          backgroundColor={this.props.backgroundColor}
           product={product}/>
       </View>
     );
@@ -73,6 +74,9 @@ export default class ProductList extends React.Component {
         this.props.onScrollUp && this.props.onScrollUp();
       }
     }
+
+    // callback
+    this.props.onScroll && this.props.onScroll(e);
   }
 
   render() {
@@ -85,7 +89,13 @@ export default class ProductList extends React.Component {
           keyExtractor={e => e.id}
           onEndReached={this.fetchMore}
           onEndReachedThreshold={1}
-          contentContainerStyle={this.props.style}
+          contentContainerStyle={[
+            styles.list,
+            this.props.style,
+            this.props.backgroundColor && {
+              backgroundColor: this.props.backgroundColor
+            }
+          ]}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           renderItem={this.renderItem}
@@ -99,8 +109,11 @@ export default class ProductList extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginHorizontal: Sizes.InnerFrame / 2
+    flex: 1
+  },
+
+  list: {
+    paddingHorizontal: Sizes.InnerFrame / 2
   },
 
   tile: {

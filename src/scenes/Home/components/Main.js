@@ -2,7 +2,7 @@ import React from "react";
 import { Animated, View, StyleSheet, ScrollView } from "react-native";
 
 // custom
-import { Colours } from "localyyz/constants";
+import { NAVBAR_HEIGHT, Colours } from "localyyz/constants";
 
 // third party
 import { observer, inject } from "mobx-react";
@@ -23,6 +23,7 @@ export default class Main extends React.Component {
     return (
       <View style={styles.contentContainer}>
         <ScrollView
+          showVerticalScrollIndicator={false}
           scrollEventThrottle={16}
           onScroll={Animated.event([
             {
@@ -32,22 +33,25 @@ export default class Main extends React.Component {
                 }
               }
             }
-          ])}
-          style={styles.content}>
-          <ReactiveSpacer store={this.store} heightProp="headerHeight" />
-          <List
-            withMargin
-            title={"Today's Finds"}
-            description={
-              "Hand selected daily just for you by our team of fashionistas based on what you've viewed before"
-            }
-            listData={this.store.featuredProducts}/>
-          <List
-            title={"Limited time offers"}
-            description={
-              "Watch this space for the hottest promotions and sales posted the minute they're live on Localyyz"
-            }
-            listData={this.store.discountedProducts}/>
+          ])}>
+          <View style={styles.content}>
+            <ReactiveSpacer store={this.store} heightProp="headerHeight" />
+            <List
+              withMargin
+              title={"Today's Finds"}
+              description={
+                "Hand selected daily just for you by our team of fashionistas based on what you've viewed before"
+              }
+              fetchPath={"products/featured"}
+              listData={this.store.featuredProducts}/>
+            <List
+              title={"Limited time offers"}
+              description={
+                "Watch this space for the hottest promotions and sales posted the minute they're live on Localyyz"
+              }
+              fetchPath={"products/onsale"}
+              listData={this.store.discountedProducts}/>
+          </View>
         </ScrollView>
       </View>
     );
@@ -58,9 +62,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1
   },
-
   content: {
-    flex: 1,
-    backgroundColor: Colours.Background
+    backgroundColor: Colours.Background,
+    paddingBottom: NAVBAR_HEIGHT
   }
 });

@@ -25,7 +25,8 @@ import {
   LiquidImage,
   DiscountBadge,
   VerifiedBadge,
-  ConstrainedAspectImage
+  ConstrainedAspectImage,
+  MoreTile
 } from "localyyz/components";
 import { NAVBAR_HEIGHT } from "../../components/NavBar";
 import { MAX_TITLE_WORD_LENGTH } from "../../models/Product";
@@ -62,8 +63,8 @@ class ProductScene extends React.Component {
     super(props);
 
     if (
-      props.navigation.state.params.product &&
-      typeof props.navigation.state.params.product != "Product"
+      props.navigation.state.params.product
+      && typeof props.navigation.state.params.product != "Product"
     ) {
       props.navigation.state.params.product = new Product(
         props.navigation.state.params.product
@@ -121,8 +122,8 @@ class ProductScene extends React.Component {
 
   fetchDeepLinkedProduct(next) {
     const { navigation: { state } } = next || this.props;
-    state.params &&
-      this.store
+    state.params
+      && this.store
         .fetchProduct(state.params.productId, true)
         .then(
           () => !this.store.relatedProducts && this.store.fetchRelatedProduct()
@@ -162,8 +163,8 @@ class ProductScene extends React.Component {
 
               Alert.alert(
                 response._failureTitle || "Payment Failed",
-                response._failureMessage ||
-                  "We couldn't complete your purchase at this time",
+                response._failureMessage
+                  || "We couldn't complete your purchase at this time",
                 [{ text: "OK" }]
               );
             }
@@ -273,9 +274,9 @@ class ProductScene extends React.Component {
     let imageMap = this.imageMap;
     if (imageMap) {
       let position = imageMap[id];
-      position &&
-        this.refs.carousel &&
-        this.refs.carousel.snapToItem(position.position, true);
+      position
+        && this.refs.carousel
+        && this.refs.carousel.snapToItem(position.position, true);
     }
   }
 
@@ -324,8 +325,7 @@ class ProductScene extends React.Component {
                 </div>
               </body></html>
             `
-          }}
-        />
+          }}/>
       </View>
     );
   }
@@ -347,8 +347,7 @@ class ProductScene extends React.Component {
                 <Icon
                   color={Colours.Success}
                   size={Sizes.IconButton}
-                  name="check-circle"
-                />
+                  name="check-circle"/>
               </Animatable.View>
             </View>
             <View style={[Styles.Card, styles.card, styles.summaryItem]}>
@@ -362,8 +361,7 @@ class ProductScene extends React.Component {
                     style={styles.summaryPhoto}
                     source={{
                       uri: this.images[0].imageUrl
-                    }}
-                  />
+                    }}/>
                 ) : (
                   <View style={styles.summaryPhoto} />
                 )}
@@ -373,17 +371,22 @@ class ProductScene extends React.Component {
                   {this.store.product.truncatedTitle}
                 </Text>
                 <Text style={styles.summaryItemDetails}>
-                  {`${this.store.selectedVariant.etc.size
-                    ? this.store.selectedVariant.etc.size + " - "
-                    : ""}${this.store.selectedVariant.etc.color
-                    ? this.store.selectedVariant.etc.color + " - "
-                    : ""}$${this.store.selectedVariant.price} ${this.store
-                    .product.place.currency}`}
+                  {`${
+                    this.store.selectedVariant.etc.size
+                      ? this.store.selectedVariant.etc.size + " - "
+                      : ""
+                  }${
+                    this.store.selectedVariant.etc.color
+                      ? this.store.selectedVariant.etc.color + " - "
+                      : ""
+                  }$${this.store.selectedVariant.price} ${
+                    this.store.product.place.currency
+                  }`}
                 </Text>
               </View>
             </View>
-            {this.store.relatedProducts &&
-            this.store.relatedProducts.length > 0 ? (
+            {this.store.relatedProducts
+            && this.store.relatedProducts.length > 0 ? (
               <View
                 style={[
                   styles.card,
@@ -405,8 +408,9 @@ class ProductScene extends React.Component {
                     onPress={() => {
                       this.onAddedSummaryDismiss();
                       this.props.navigation.navigate("ProductList", {
-                        fetchPath: `/places/${this.store.product.place
-                          .id}/products`,
+                        fetchPath: `/places/${
+                          this.store.product.place.id
+                        }/products`,
                         title: this.store.product.place.name
                       });
                     }}>
@@ -425,9 +429,9 @@ class ProductScene extends React.Component {
               </View>
             ) : null}
             <View style={styles.summaryRelatedContainer}>
-              {this.store.relatedProducts &&
-                this.store.relatedProducts.length > 0 &&
-                this.store.relatedProducts.map(product => (
+              {this.store.relatedProducts
+                && this.store.relatedProducts.length > 0
+                && this.store.relatedProducts.map(product => (
                   <TouchableOpacity
                     key={`summary-related-${product.id}`}
                     onPress={() => {
@@ -455,8 +459,7 @@ class ProductScene extends React.Component {
                           style={styles.summaryRelatedPhoto}
                           source={{
                             uri: product.images[0].imageUrl
-                          }}
-                        />
+                          }}/>
                       ) : (
                         <View style={styles.summaryRelatedPhoto} />
                       )}
@@ -472,11 +475,12 @@ class ProductScene extends React.Component {
                               Styles.Alternate,
                               Styles.SmallText
                             ]}>
-                            {`$${product.variants[0].price.toFixed(2)} ${product
-                              .place.currency}`}
+                            {`$${product.variants[0].price.toFixed(2)} ${
+                              product.place.currency
+                            }`}
                           </Text>
-                          {product.variants[0].prevPrice &&
-                          product.variants[0].prevPrice > 0 ? (
+                          {product.variants[0].prevPrice
+                          && product.variants[0].prevPrice > 0 ? (
                             <Text
                               style={[
                                 Styles.Text,
@@ -496,12 +500,12 @@ class ProductScene extends React.Component {
           </ScrollView>
           <LinearGradient
             colors={[Colours.BlackTransparent, Colours.DarkTransparent]}
-            style={styles.summaryGradient}
-          />
+            style={styles.summaryGradient}/>
           <View style={[Styles.Card, styles.card, styles.cartButtons]}>
             <TouchableOpacity
               onPress={() =>
-                this.onAddedSummaryDismiss(() => this.cart.toggle(true))}>
+                this.onAddedSummaryDismiss(() => this.cart.toggle(true))
+              }>
               <View style={Styles.RoundedButton}>
                 <UppercasedText style={styles.addButtonLabel}>
                   View your cart
@@ -514,8 +518,7 @@ class ProductScene extends React.Component {
               <EntypoIcon
                 color={Colours.AlternateText}
                 size={Sizes.Oversized}
-                name="chevron-with-circle-down"
-              />
+                name="chevron-with-circle-down"/>
             </TouchableOpacity>
           </View>
         </View>
@@ -527,8 +530,9 @@ class ProductScene extends React.Component {
     return this.store.product && this.store.product.shippingPolicy ? (
       <TouchableOpacity
         onPress={() =>
-          this.store.product.shippingPolicy.url &&
-          Linking.openURL(this.store.product.shippingPolicy.url)}>
+          this.store.product.shippingPolicy.url
+          && Linking.openURL(this.store.product.shippingPolicy.url)
+        }>
         <View style={styles.detailsSection}>
           <View style={styles.detailsSectionHeader}>
             <Text style={styles.detailsSectionTitle}>Shipping</Text>
@@ -548,8 +552,9 @@ class ProductScene extends React.Component {
     return this.store.product && this.store.product.returnPolicy ? (
       <TouchableOpacity
         onPress={() =>
-          this.store.product.returnPolicy.url &&
-          Linking.openURL(this.store.product.returnPolicy.url)}>
+          this.store.product.returnPolicy.url
+          && Linking.openURL(this.store.product.returnPolicy.url)
+        }>
         <View style={styles.detailsSection}>
           <View style={styles.detailsSectionHeader}>
             <Text style={styles.detailsSectionTitle}>Return policy</Text>
@@ -574,9 +579,9 @@ class ProductScene extends React.Component {
             color={Colours.Secondary}
             size={Sizes.IconButton}
             onPress={() =>
-              Linking.openURL(this.store.product.place.facebookUrl)}
-            style={styles.detailsMerchantInformationSocialIcon}
-          />
+              Linking.openURL(this.store.product.place.facebookUrl)
+            }
+            style={styles.detailsMerchantInformationSocialIcon}/>
         ) : null}
         {this.store.product.place.instagramUrl.length > 0 ? (
           <EntypoIcon
@@ -584,9 +589,9 @@ class ProductScene extends React.Component {
             color={Colours.Primary}
             size={Sizes.IconButton}
             onPress={() =>
-              Linking.openURL(this.store.product.place.instagramUrl)}
-            style={Styles.detailsMerchantInformationSocialIcon}
-          />
+              Linking.openURL(this.store.product.place.instagramUrl)
+            }
+            style={Styles.detailsMerchantInformationSocialIcon}/>
         ) : null}
       </View>
     ) : null;
@@ -619,8 +624,8 @@ class ProductScene extends React.Component {
           title={this.store.product.truncatedTitle}
           backAction={() => {
             this.props.navigation.goBack();
-            this.props.navigation.state.params.onBack &&
-              this.props.navigation.state.params.onBack();
+            this.props.navigation.state.params.onBack
+              && this.props.navigation.state.params.onBack();
           }}
           fadeHeight={this.state.backgroundPosition * 2 / 3}
           background={
@@ -630,7 +635,8 @@ class ProductScene extends React.Component {
                   // pushes content under the end of background dynamically
                   backgroundPosition:
                     e.nativeEvent.layout.y + e.nativeEvent.layout.height
-                })}
+                })
+              }
               style={styles.headerContainer}>
               <View style={styles.badges}>
                 {this.store.product.discount >= BADGE_MIN_DISCOUNT && (
@@ -638,9 +644,9 @@ class ProductScene extends React.Component {
                     <DiscountBadge product={this.store.product} />
                   </View>
                 )}
-                {this.store.product &&
-                  this.store.product.place &&
-                  this.store.product.place.weight > 5 && (
+                {this.store.product
+                  && this.store.product.place
+                  && this.store.product.place.weight > 5 && (
                     <View style={styles.badge}>
                       <VerifiedBadge />
                     </View>
@@ -678,19 +684,17 @@ class ProductScene extends React.Component {
               ]}>
               <ProductVariantSelector
                 product={this.store.product}
-                onSelect={this.onVariantChange}
-              />
+                onSelect={this.onVariantChange}/>
               <ProductBuy
                 ref={ref => (this.productBuyRef = ref)}
                 navigation={this.props.navigation}
                 product={this.store.product}
                 variant={this.store.selectedVariant}
                 onExpressCheckout={this.onExpress}
-                onAddtoCart={this.onAdd}
-              />
+                onAddtoCart={this.onAdd}/>
             </LinearGradient>
-            {this.images &&
-              this.images.length > 0 && (
+            {this.images
+              && this.images.length > 0 && (
                 <View style={styles.carouselContainer}>
                   <Carousel
                     ref="carousel"
@@ -702,7 +706,8 @@ class ProductScene extends React.Component {
                             this.refs.photoDetails.toggle(
                               true,
                               item.item.imageUrl
-                            )}>
+                            )
+                          }>
                           <LiquidImage
                             caller="product"
                             w={Sizes.Width - Sizes.InnerFrame * 2}
@@ -710,18 +715,17 @@ class ProductScene extends React.Component {
                             style={styles.photo}
                             source={{
                               uri: item.item.imageUrl
-                            }}
-                          />
+                            }}/>
                         </TouchableWithoutFeedback>
                       );
                     }}
                     onSnapToItem={i =>
                       this.setState({
                         activePhoto: i
-                      })}
+                      })
+                    }
                     sliderWidth={Sizes.Width}
-                    itemWidth={Sizes.Width - Sizes.InnerFrame * 2}
-                  />
+                    itemWidth={Sizes.Width - Sizes.InnerFrame * 2}/>
                   <View style={styles.pagination}>
                     <Text style={styles.paginationLabel}>
                       {`${this.state.activePhoto + 1}/${this.images.length}`}
@@ -741,7 +745,8 @@ class ProductScene extends React.Component {
                   this.props.navigation.navigate("Information", {
                     title: "Product information",
                     content: this.renderExpandedDescription
-                  })}>
+                  })
+                }>
                 <View style={styles.detailsSection}>
                   <View style={styles.detailsSectionHeader}>
                     <Text style={styles.detailsSectionTitle}>Product</Text>
@@ -754,13 +759,14 @@ class ProductScene extends React.Component {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
-                  this.store.product.isSizeChartSupported &&
-                  this.props.navigation.navigate("Information", {
+                  this.store.product.isSizeChartSupported
+                  && this.props.navigation.navigate("Information", {
                     title: "Sizing and fit",
                     content: (
                       <SizeChart type={this.store.product.category.value} />
                     )
-                  })}>
+                  })
+                }>
                 <View style={styles.detailsSection}>
                   <View style={styles.detailsSectionHeader}>
                     <Text style={styles.detailsSectionTitle}>
@@ -792,14 +798,13 @@ class ProductScene extends React.Component {
                   </Text>
                   {this.renderSocial}
                 </View>
-                {this.store.product &&
-                this.store.product.place &&
-                this.store.product.place.imageUrl ? (
+                {this.store.product
+                && this.store.product.place
+                && this.store.product.place.imageUrl ? (
                   <ConstrainedAspectImage
                     constrainHeight={Sizes.Width / 8}
                     constrainWidth={Sizes.Width / 3}
-                    source={{ uri: this.store.product.place.imageUrl }}
-                  />
+                    source={{ uri: this.store.product.place.imageUrl }}/>
                 ) : (
                   <View />
                 )}
@@ -807,8 +812,8 @@ class ProductScene extends React.Component {
               {this.renderShippingPolicy}
               {this.renderReturnPolicy}
             </View>
-            {this.store.relatedProducts &&
-            this.store.relatedProducts.length > 0 ? (
+            {this.store.relatedProducts
+            && this.store.relatedProducts.length > 0 ? (
               <View style={[styles.card, styles.headerCard]}>
                 <Text
                   style={[Styles.Text, Styles.Emphasized, Styles.SectionTitle]}>
@@ -816,22 +821,37 @@ class ProductScene extends React.Component {
                 </Text>
               </View>
             ) : null}
-            {this.store.relatedProducts &&
-            this.store.relatedProducts.length > 0 ? (
-              <StaggeredList offset={0} style={styles.related}>
-                {this.store.relatedProducts &&
-                  this.store.relatedProducts.length > 0 &&
-                  this.store.relatedProducts.map(product => (
-                    <ProductTile
-                      key={`related-${product.id}`}
-                      onPress={() =>
-                        this.props.navigation.navigate("Product", {
-                          product: product
-                        })}
-                      product={product}
-                    />
-                  ))}
-              </StaggeredList>
+            {this.store.relatedProducts
+            && this.store.relatedProducts.length > 0 ? (
+              <View>
+                <StaggeredList offset={0} style={styles.related}>
+                  {this.store.relatedProducts
+                    && this.store.relatedProducts.length > 0
+                    && this.store.relatedProducts.map(product => (
+                      <ProductTile
+                        key={`related-${product.id}`}
+                        onPress={() =>
+                          this.props.navigation.navigate("Product", {
+                            product: product
+                          })
+                        }
+                        product={product}/>
+                    ))}
+                </StaggeredList>
+                <View style={styles.listFooter}>
+                  <MoreTile
+                    onPress={() =>
+                      this.props.navigation.navigate("ProductList", {
+                        fetchPath: `places/${
+                          this.store.product.place.id
+                        }/products`,
+                        title: `${this.store.product.place.name}`,
+                        subtitle:
+                          "Here's some related products from this merchant"
+                      })
+                    }/>
+                </View>
+              </View>
             ) : null}
           </ScrollView>
         </ContentCoverSlider>
@@ -839,8 +859,7 @@ class ProductScene extends React.Component {
         <PhotoDetails
           ref="photoDetails"
           navigation={this.props.navigation}
-          cartStore={this.props.cartStore}
-        />
+          cartStore={this.props.cartStore}/>
       </View>
     ) : null;
   }
@@ -1066,10 +1085,6 @@ const styles = StyleSheet.create({
     ...Styles.EqualColumns
   },
 
-  detailsSeparator: {
-    marginTop: Sizes.InnerFrame
-  },
-
   detailsAlert: {
     backgroundColor: Colours.Alert,
     paddingVertical: Sizes.InnerFrame / 2,
@@ -1111,24 +1126,16 @@ const styles = StyleSheet.create({
     marginRight: Sizes.InnerFrame / 2
   },
 
-  informationContent: {
-    ...Styles.Text,
-    marginVertical: Sizes.InnerFrame / 2
-  },
-
-  informationContentHeader: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    marginTop: Sizes.InnerFrame
-  },
-
-  informationContentBullet: {
-    marginLeft: Sizes.InnerFrame
-  },
-
   expandedDescription: {
     flex: 1,
     height: Sizes.Height
+  },
+
+  listFooter: {
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    marginHorizontal: Sizes.InnerFrame,
+    marginVertical: Sizes.InnerFrame
   }
 });
 

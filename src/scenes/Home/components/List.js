@@ -1,9 +1,9 @@
 import React from "react";
-import { Animated, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { StaggeredList, ProductTile } from "localyyz/components";
+import { StaggeredList, MoreTile, ProductTile } from "localyyz/components";
 
 // third party
 import { observer } from "mobx-react";
@@ -29,18 +29,18 @@ class List extends React.Component {
     withMargin: false
   };
 
-  constructor(props) {
-    super(props);
-
-    this._position = new Animated.Value(0);
+  // TODO: do something here? search suggestions?
+  get renderLoading() {
+    return <View />;
   }
 
   render() {
+    // TODO: _position animation
+    // TODO: _motion animation
     const { listData, withMargin, navigation, ...rest } = this.props;
 
-    // TODO: loading view
     return !listData || listData.current() === undefined ? (
-      <View />
+      this.renderLoading
     ) : (
       <View>
         <ListHeader {...rest} />
@@ -57,11 +57,19 @@ class List extends React.Component {
                       product: product
                     })
                   }
-                  product={product}
-                  motion={this._motion}
-                />
+                  product={product}/>
               ))}
           </StaggeredList>
+        </View>
+        <View style={styles.listFooter}>
+          <MoreTile
+            onPress={() =>
+              navigation.navigate("ProductList", {
+                fetchPath: this.props.fetchPath,
+                title: this.props.title,
+                subtitle: this.props.description
+              })
+            }/>
         </View>
       </View>
     );
@@ -78,6 +86,13 @@ const styles = StyleSheet.create({
   splitList: {
     paddingHorizontal: Sizes.InnerFrame,
     paddingVertical: Sizes.InnerFrame / 2
+  },
+
+  listFooter: {
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    marginHorizontal: Sizes.InnerFrame,
+    marginVertical: Sizes.InnerFrame / 2
   }
 });
 

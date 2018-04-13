@@ -21,6 +21,7 @@ import codePush from "react-native-code-push";
 import {
   Home,
   Product,
+  ProductList,
   Login,
   CartSummary,
   Deeplink,
@@ -32,6 +33,7 @@ const AppNavigator = StackNavigator(
   {
     Home: { screen: Home },
     Product: { screen: Product },
+    ProductList: { screen: ProductList },
     CartSummary: { screen: CartSummary },
     Information: { screen: Information }
   },
@@ -123,8 +125,7 @@ class AppContainer extends React.Component {
               addListener: () => {
                 /* left blank intentionally */
               }
-            })}
-          />
+            })}/>
           <GlobalAssistant />
         </View>
       </Provider>
