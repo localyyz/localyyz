@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, Animated } from "react-native";
-import { Sizes } from "localyyz/constants";
+import { StyleSheet, Animated, Image } from "react-native";
 
 export default class LiquidImage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      resizeFailed: false
+    };
 
     // animated loading
     this._blur = new Animated.Value(0);
@@ -19,7 +20,7 @@ export default class LiquidImage extends React.Component {
     this.update(this.props);
   }
 
-  UNSAFE_componentWillReceiveProps(next) {
+  componentWillReceiveProps(next) {
     if (next != this.props) {
       this.update(next);
     }
@@ -27,26 +28,49 @@ export default class LiquidImage extends React.Component {
 
   update(props) {
     let dimensions = _dimensions(props.square, props.w, props.h);
-    this.setState({
-      width: dimensions[0],
-      height: dimensions[1]
-    });
+    this.setState(
+      {
+        width: dimensions[0],
+        height: dimensions[1],
+
+        // reset attempt at resizing
+        resizeFailed: false
+      },
+      () => {
+        !this.state.resizeFailed
+          && Image.getSize(
+            this.sourceFrom(props),
+            () => {},
+            () => {
+              console.log(`Failed loading ${this.sourceFrom(props)}`);
+              this.setState(
+                {
+                  resizeFailed: true
+                },
+                () => console.log(`Reverting to ${this.sourceFrom(props)}`)
+              );
+            }
+          );
+      }
+    );
   }
 
   sourceFrom(props) {
-    return _filter(props.source.uri, [
-      // resizing
-      ...(props.w || props.h
-        ? [
-            `${this.state.height ? this.state.height * 2 : ""}x${
-              this.state.width ? this.state.width * 2 : ""
-            }`
-          ]
-        : []),
+    return this.state.resizeFailed
+      ? props.source.uri
+      : _filter(props.source.uri, [
+          // resizing
+          ...(props.w || props.h
+            ? [
+                `${this.state.height ? this.state.height * 2 : ""}x${
+                  this.state.width ? this.state.width * 2 : ""
+                }`
+              ]
+            : []),
 
-      // cropping
-      ...(props.crop ? [`crop_${props.crop}`] : [])
-    ]);
+          // cropping
+          ...(props.crop ? [`crop_${props.crop}`] : [])
+        ]);
   }
 
   get source() {
@@ -87,8 +111,7 @@ export default class LiquidImage extends React.Component {
                 width: this.state.width
               }
             : null
-        ]}
-      />
+        ]}/>
     ) : null;
   }
 }
@@ -102,12 +125,12 @@ function _filter(base, options) {
   let name = parts[parts.length - 1].split(".");
 
   return (
-    parts.slice(0, parts.length - 1).join("/") +
-    "/" +
-    name.slice(0, name.length - 1).join(".") +
-    options.map(option => `_${option}`).join("") +
-    ".progressive." +
-    name[name.length - 1]
+    parts.slice(0, parts.length - 1).join("/")
+    + "/"
+    + name.slice(0, name.length - 1).join(".")
+    + options.map(option => `_${option}`).join("")
+    + ".progressive."
+    + name[name.length - 1]
   );
 }
 
