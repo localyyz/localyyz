@@ -19,7 +19,6 @@ class List extends React.Component {
     listData: PropTypes.object,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
-
     withMargin: PropTypes.bool
   };
 

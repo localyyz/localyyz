@@ -44,7 +44,7 @@ export default class SearchResult extends React.Component {
               products={this.props.searchResults.slice()}/>
           </Animatable.View>
         )}
-        {/* <SearchTagsWrapper /> */}
+        {/* TODO: <SearchTagsWrapper /> */}
       </View>
     );
   }

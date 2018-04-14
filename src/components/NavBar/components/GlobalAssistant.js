@@ -1,9 +1,9 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { StyleSheet, Keyboard } from "react-native";
 
 // custom
 import { Assistant, UppercasedText } from "localyyz/components";
+import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // third party
 import { inject, observer } from "mobx-react";
@@ -18,6 +18,25 @@ export default class GlobalAssistant extends React.Component {
     this.store = this.props.assistantStore;
   }
 
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this._keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this._keyboardDidHide
+    );
+  }
+
+  _keyboardDidShow = e => {
+    this._view && this._view.transitionTo({ bottom: e.endCoordinates.height });
+  };
+
+  _keyboardDidHide = () => {
+    this._view && this._view.transitionTo({ bottom: 0 });
+  };
+
   get assistant() {
     return this.refs.assistant ? this.refs.assistant.wrappedInstance : {};
   }
@@ -25,13 +44,14 @@ export default class GlobalAssistant extends React.Component {
   render() {
     return (
       <Animatable.View
+        ref={ref => (this._view = ref)}
         animation={this.assistant.isBlocking ? "fadeIn" : null}
         delay={300}
         duration={500}
         style={[
           styles.container,
-          !!this.store.lastUpdated &&
-            !!this.assistant.isBlocking && {
+          !!this.store.lastUpdated
+            && !!this.assistant.isBlocking && {
               top: 0
             }
         ]}>
@@ -62,8 +82,7 @@ export default class GlobalAssistant extends React.Component {
               delay={800}
               typeSpeed={30}
               messages={this.store.messages.slice()}
-              style={styles.assistant}
-            />
+              style={styles.assistant}/>
           </Animatable.View>
         </BlurView>
       </Animatable.View>

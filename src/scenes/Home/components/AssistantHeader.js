@@ -9,13 +9,16 @@ import { Assistant } from "localyyz/components";
 // third party
 import { observer, inject } from "mobx-react";
 
+const AssistentHeaderGreeting = name => `Welcome back${name}!`;
+const AssistentHeaderHelp = "I'm here to help you find something cool today ✨";
+
 @inject(stores => ({
   avatarUrl: stores.userStore.avatarUrl,
   name: stores.userStore.name,
   position: stores.homeStore.scrollAnimate
 }))
 @observer
-class AssistantHeader extends React.Component {
+export default class AssistantHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -91,10 +94,10 @@ class AssistantHeader extends React.Component {
         <Assistant
           animator={position}
           messages={[
-            `Welcome back${
+            AssistentHeaderGreeting(
               name && name.length > 0 ? `, ${name.split(" ")[0]}` : ""
-            }!`,
-            "I'm here to help you find something cool today ✨"
+            ),
+            AssistentHeaderHelp
           ]}
           onLoad={e =>
             this.setState({
@@ -105,8 +108,6 @@ class AssistantHeader extends React.Component {
     );
   }
 }
-
-export default AssistantHeader;
 
 const styles = StyleSheet.create({
   headerContent: {
