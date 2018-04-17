@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Keyboard, FlatList } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Keyboard,
+  FlatList
+} from "react-native";
 import { Sizes } from "localyyz/constants";
 
 // custom
@@ -89,6 +95,9 @@ export default class ProductList extends React.Component {
           keyExtractor={e => e.id}
           onEndReached={this.fetchMore}
           onEndReachedThreshold={1}
+          ListFooterComponent={
+            <ActivityIndicator size="large" animating={true} />
+          }
           contentContainerStyle={[
             styles.list,
             this.props.style,
