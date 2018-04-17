@@ -1,9 +1,29 @@
 import React from "react";
 import { StyleSheet, Animated, Image } from "react-native";
 
+import PropTypes from "prop-types";
+
 export default class LiquidImage extends React.Component {
+  static propTypes = {
+    ...Image.propTypes,
+
+    square: PropTypes.bool,
+    crop: PropTypes.string,
+    w: PropTypes.number,
+    h: PropTypes.number
+  };
+
+  static defaultProps = {
+    ...Image.defaultProps,
+
+    square: false,
+    crop: "",
+    resizeMode: "contain"
+  };
+
   constructor(props) {
     super(props);
+
     this.state = {
       resizeFailed: false
     };
@@ -12,91 +32,76 @@ export default class LiquidImage extends React.Component {
     this._blur = new Animated.Value(0);
 
     // bindings
-    this.update = this.update.bind(this);
     this.sourceFrom = this.sourceFrom.bind(this);
   }
 
-  componentDidMount() {
-    this.update(this.props);
-  }
+  // there's no state modification in source from. it's a
+  // pure function
+  sourceFrom(props = this.props) {
+    const { resizeFailed } = this.state;
+    const { square, w, h, crop, source } = props;
 
-  componentWillReceiveProps(next) {
-    if (next != this.props) {
-      this.update(next);
-    }
-  }
+    const dimensions = _dimensions(square, w, h);
+    const width = dimensions[0];
+    const height = dimensions[1];
 
-  update(props) {
-    let dimensions = _dimensions(props.square, props.w, props.h);
-    this.setState(
-      {
-        width: dimensions[0],
-        height: dimensions[1],
-
-        // reset attempt at resizing
-        resizeFailed: false
-      },
-      () => {
-        !this.state.resizeFailed
-          && Image.getSize(
-            this.sourceFrom(props),
-            () => {},
-            () => {
-              console.log(`Failed loading ${this.sourceFrom(props)}`);
-              this.setState(
-                {
-                  resizeFailed: true
-                },
-                () => console.log(`Reverting to ${this.sourceFrom(props)}`)
-              );
-            }
-          );
-      }
-    );
-  }
-
-  sourceFrom(props) {
-    return this.state.resizeFailed
-      ? props.source.uri
-      : _filter(props.source.uri, [
+    return resizeFailed
+      ? source.uri
+      : _filter(source.uri, [
           // resizing
-          ...(props.w || props.h
-            ? [
-                `${this.state.height ? this.state.height * 2 : ""}x${
-                  this.state.width ? this.state.width * 2 : ""
-                }`
-              ]
+          ...(width || height
+            ? [`${height ? height * 2 : ""}x${width ? width * 2 : ""}`]
             : []),
 
           // cropping
-          ...(props.crop ? [`crop_${props.crop}`] : [])
+          ...(crop ? [`crop_${crop}`] : [])
         ]);
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.w !== this.props.w || nextProps.h !== this.props.h) {
+      Image.getSize(
+        this.sourceFrom(nextProps),
+        () => {},
+        () => {
+          console.log(`Failed loading ${this.sourceFrom(nextProps)}`);
+          this.setState(
+            {
+              resizeFailed: true
+            },
+            () => console.log(`Reverting to ${this.sourceFrom(nextProps)}`)
+          );
+        }
+      );
+    }
+  }
+
   get source() {
-    return this.sourceFrom(this.props);
+    return this.sourceFrom();
   }
 
   render() {
-    const blurRadius = this._blur.interpolate({
-      inputRange: [0, 0.1, 0.2, 0.4, 0.5, 0.6, 0.8, 1],
-      outputRange: [20, 17, 14, 11, 9, 6, 3, 0],
-      extrapolate: "clamp"
-    });
-    return this.props.source && this.props.source.uri && this.source ? (
+    const { source, square, w, h, resizeMode, style } = this.props;
+
+    const dimensions = _dimensions(square, w, h);
+    const width = dimensions[0];
+    const height = dimensions[1];
+
+    return (width || height) && source && source.uri && this.source ? (
       <Animated.Image
         {...this.props}
-        blurRadius={blurRadius}
-        onProgress={({ nativeEvent: { loaded, total } }) => {
-          if (loaded / total < 1) {
-            this._blur.setValue(loaded / total);
-          }
+        blurRadius={this._blur.interpolate({
+          inputRange: [0, 0.5, 0.6, 0.8, 1],
+          outputRange: [20, 9, 6, 3, 0],
+          extrapolate: "clamp"
+        })}
+        resizeMode={resizeMode}
+        onLoad={() => {
+          Animated.timing(this._blur, { toValue: 1 }, { duration: 40 }).start();
         }}
-        onLoad={() => this._blur.setValue(1)}
-        resizeMode={this.props.resizeMode || "contain"}
         source={{
-          ...this.props.source,
-          ...(this.props.source && this.props.source.uri
+          ...source,
+          ...(source && source.uri
             ? {
                 uri: this.source
               }
@@ -104,11 +109,11 @@ export default class LiquidImage extends React.Component {
         }}
         style={[
           styles.container,
-          this.props.style,
-          this.props.h || this.props.w
+          style,
+          width || height
             ? {
-                height: this.state.height,
-                width: this.state.width
+                height: height,
+                width: width
               }
             : null
         ]}/>
