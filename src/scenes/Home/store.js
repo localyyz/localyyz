@@ -5,7 +5,7 @@ import { box } from "localyyz/helpers";
 import { Sizes } from "localyyz/constants";
 
 // third party
-import { observable, action, runInAction, reaction, when } from "mobx";
+import { observable, action, runInAction, reaction } from "mobx";
 import { lazyObservable } from "mobx-utils";
 import { Animated } from "react-native";
 
@@ -21,20 +21,24 @@ export default class HomeStore {
     // _initialized is needed to monitor loginStore initialization
     // mobx will not react when this.login becomes truthy
     runInAction("[ACTION] done initialized", () => {
-      this.INTERNAL_isInitialized = true;
+      this._isInitialized = true;
     });
   }
 
   _listProducts = listData => {
-    return (listData || []).map(
-      p =>
-        new Product({
-          ...p,
-          description: p.noTagDescription,
-          titleWordsLength: 3,
-          descriptionWordsLength: 10
-        })
-    );
+    return (listData || [])
+      .filter(p => {
+        return p.images && p.images.length > 0;
+      })
+      .map(
+        p =>
+          new Product({
+            ...p,
+            description: p.noTagDescription,
+            titleWordsLength: 3,
+            descriptionWordsLength: 10
+          })
+      );
   };
 
   /////////////////////////////////// search observables
@@ -48,18 +52,18 @@ export default class HomeStore {
   //  speed
   // processing: onEndReached would be incorrectly triggered as list items
   //  starts to load, need to switch to a loading state to not over load
-  INTERNAL_next = 1;
-  INTERNAL_hasNextPage = true;
-  INTERNAL_processing = false;
+  _next = 1;
+  _hasNextPage = true;
+  _processing = false;
 
   reactSearch = reaction(
     () => this.searchQuery,
     searchQuery => {
       if (searchQuery.length > 0) {
         // on new search, reset internal values and search result
-        this.INTERNAL_next = 1;
-        this.INTERNAL_hasNextPage = true;
-        this.INTERNAL_processing = false;
+        this._next = 1;
+        this._hasNextPage = true;
+        this._processing = false;
         this.searchResults.clear();
 
         // fetch new result
@@ -70,14 +74,14 @@ export default class HomeStore {
   );
 
   fetchNextPage = () => {
-    if (this.INTERNAL_hasNextPage && !this.INTERNAL_processing) {
-      this.INTERNAL_processing = true;
+    if (this._hasNextPage && !this._processing) {
+      this._processing = true;
 
       this.api
         .post(
           "search",
           { query: this.searchQuery },
-          { page: this.INTERNAL_next, limit: PAGE_LIMIT }
+          { page: this._next, limit: PAGE_LIMIT }
         )
         .then(response => {
           if (response && response.status < 400 && response.data.length > 0) {
@@ -87,9 +91,9 @@ export default class HomeStore {
                 ...this._listProducts(response.data)
               ];
             });
-            this.INTERNAL_next++;
+            this._next++;
           } else {
-            if (this.INTERNAL_next === PAGE_ONE) {
+            if (this._next === PAGE_ONE) {
               this.assistant.write(
                 `Sorry! I couldn't find any product for "${this.searchQuery}"`,
                 5000
@@ -99,9 +103,9 @@ export default class HomeStore {
 
           // NOTE: because search returns "estimated" number of pages, can't
           // rely on the provided next pages as indicator if there is next page
-          this.INTERNAL_hasNextPage
+          this._hasNextPage
             = response.data && response.data.length === PAGE_LIMIT;
-          this.INTERNAL_processing = false;
+          this._processing = false;
         })
         .catch(console.log);
     }
@@ -112,7 +116,7 @@ export default class HomeStore {
   // initialized marks the store being constructed, this is needed
   // to tell reactLogin to not jump the gun and load too early...
   // TODO: is there a better cleaner way?
-  @observable INTERNAL_isInitialized = false;
+  @observable _isInitialized = false;
   @observable featuredProducts;
   @observable discountedProducts;
 
@@ -120,8 +124,8 @@ export default class HomeStore {
   reactLogin = reaction(
     () => {
       return {
-        success: this.INTERNAL_isInitialized && this.login._wasLoginSuccessful,
-        skipped: this.INTERNAL_isInitialized && this.login._wasLoginSkipped
+        success: this._isInitialized && this.login._wasLoginSuccessful,
+        skipped: this._isInitialized && this.login._wasLoginSkipped
       };
     },
     ({ success, skipped }) => {
@@ -172,6 +176,7 @@ export default class HomeStore {
     () => this.searchActive,
     searchActive => {
       if (searchActive) {
+        // header is minimizing --->
         // save the previous scroll location
         this._previousScrollAnimate = this.scrollAnimate._value;
 
@@ -180,6 +185,7 @@ export default class HomeStore {
           toValue: Sizes.Height
         }).start();
       } else {
+        // header is maximizing --->
         // update the animate value to previously saved height
         Animated.timing(this.scrollAnimate, {
           toValue: this._previousScrollAnimate

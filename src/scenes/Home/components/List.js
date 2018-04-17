@@ -9,6 +9,7 @@ import { StaggeredList, MoreTile, ProductTile } from "localyyz/components";
 import { observer } from "mobx-react";
 import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
+import { PropTypes as mobxPropTypes } from "mobx-react";
 
 // local
 import ListHeader from "./ListHeader";
@@ -16,7 +17,11 @@ import ListHeader from "./ListHeader";
 @observer
 class List extends React.Component {
   static propTypes = {
-    listData: PropTypes.object,
+    // listData input type take a look at home store
+    //  fetchFeaturedProducts
+    //  fetchDiscountedProducts
+    // and https://github.com/mobxjs/mobx-utils#lazyobservable
+    listData: mobxPropTypes.objectOrObservableObject,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
     withMargin: PropTypes.bool
@@ -51,6 +56,7 @@ class List extends React.Component {
               .map(product => (
                 <ProductTile
                   key={`productTile-${product.id}`}
+                  backgroundColor={this.props.backgroundColor}
                   onPress={() =>
                     navigation.navigate("Product", {
                       product: product

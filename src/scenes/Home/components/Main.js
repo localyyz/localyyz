@@ -38,19 +38,21 @@ export default class Main extends React.Component {
             <ReactiveSpacer store={this.store} heightProp="headerHeight" />
             <List
               withMargin
-              title={"Today's Finds"}
+              title="Today's Finds"
               description={
                 "Hand selected daily just for you by our team of fashionistas based on what you've viewed before"
               }
-              fetchPath={"products/featured"}
-              listData={this.store.featuredProducts}/>
+              fetchPath="products/featured"
+              listData={this.store.featuredProducts}
+              backgroundColor={Colours.Foreground}/>
             <List
-              title={"Limited time offers"}
+              title="Limited time offers"
               description={
                 "Watch this space for the hottest promotions and sales posted the minute they're live on Localyyz"
               }
-              fetchPath={"products/onsale"}
-              listData={this.store.discountedProducts}/>
+              fetchPath="products/onsale"
+              listData={this.store.discountedProducts}
+              backgroundColor={Colours.Background}/>
           </View>
         </ScrollView>
       </View>
