@@ -39,6 +39,19 @@ class CartStore {
     this.hide = this.hide.bind(this);
   }
 
+  ////////////////////////////////////////////////// data observable ///
+  // when the app logs the user in (or skips login) fetch cart items
+  //reactLogin = when(
+  //() =>
+  //(this.login._wasLoginSuccessful || this.login._wasLoginSkipped),
+  //() => {
+  //this.fetchFeaturedProducts();
+  //this.fetchDiscountedProducts();
+  //}
+  //);
+
+  /////////////////////////////////////////////////////////////////////
+
   @action
   show() {
     this.isVisible = true;
@@ -52,8 +65,8 @@ class CartStore {
 
   @action
   toggle = async forceOpen => {
-    this.isPullupVisible =
-      forceOpen != null ? forceOpen : !this.isPullupVisible;
+    this.isPullupVisible
+      = forceOpen != null ? forceOpen : !this.isPullupVisible;
   };
 
   // cart conveniences
@@ -120,28 +133,28 @@ class CartStore {
   @computed
   get placeId() {
     return (
-      this.cart.items &&
-      this.cart.items.length > 0 &&
-      this.cart.items[0].product.placeId
+      this.cart.items
+      && this.cart.items.length > 0
+      && this.cart.items[0].product.placeId
     );
   }
 
   @computed
   get shippingExpectation() {
-    const firstShippingMethod =
-      this.placeId &&
-      this.cart.shippingMethods &&
-      this.cart.shippingMethods[this.placeId];
+    const firstShippingMethod
+      = this.placeId
+      && this.cart.shippingMethods
+      && this.cart.shippingMethods[this.placeId];
 
     // TODO: should be against all shipping methods
     // not just the first, but this will be
     // eventually handled by backend
     return firstShippingMethod
       ? deliveryExpectation(
-          firstShippingMethod.deliveryRange &&
-            firstShippingMethod.deliveryRange[0],
-          firstShippingMethod.deliveryRange &&
-            firstShippingMethod.deliveryRange[1]
+          firstShippingMethod.deliveryRange
+            && firstShippingMethod.deliveryRange[0],
+          firstShippingMethod.deliveryRange
+            && firstShippingMethod.deliveryRange[1]
         )
       : "";
   }
@@ -149,14 +162,14 @@ class CartStore {
   @computed
   get customerName() {
     return (
-      this.cart &&
-      this.cart.shippingAddress &&
-      this.cart.shippingAddress.firstName +
-        (this.cart.shippingAddress.firstName &&
-        this.cart.shippingAddress.lastName
+      this.cart
+      && this.cart.shippingAddress
+      && this.cart.shippingAddress.firstName
+        + (this.cart.shippingAddress.firstName
+        && this.cart.shippingAddress.lastName
           ? " "
-          : "") +
-        this.cart.shippingAddress.lastName
+          : "")
+        + this.cart.shippingAddress.lastName
     );
   }
 
@@ -378,9 +391,9 @@ class CartStore {
         currency: this.cart.currency,
 
         updateShippingMethod: async methodId => {
-          let shipping =
-            this.cart.shippingMethods &&
-            this.cart.shippingMethods.find(method => method.id === methodId);
+          let shipping
+            = this.cart.shippingMethods
+            && this.cart.shippingMethods.find(method => method.id === methodId);
 
           // sync to remote server
           const response = await this._api.put(
@@ -490,8 +503,8 @@ class CartStore {
                   title: rate.title,
                   price: rate.price,
                   desc:
-                    rate.deliveryRange &&
-                    deliveryExpectation(
+                    rate.deliveryRange
+                    && deliveryExpectation(
                       rate.deliveryRange[0],
                       rate.deliveryRange[1]
                     ),
@@ -678,8 +691,8 @@ class CartStore {
         .slice(0, billingPayerName.length - 1)
         .join(" "),
       lastName:
-        billingPayerName.length > 1 &&
-        billingPayerName[billingPayerName.length - 1],
+        billingPayerName.length > 1
+        && billingPayerName[billingPayerName.length - 1],
       address: billingLines && billingLines.length > 0 && billingLines[0],
       addressOpt:
         !isEmpty(billingLines) && billingLines.length > 1

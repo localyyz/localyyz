@@ -20,8 +20,7 @@ export default class MoreTile extends React.Component {
           <MaterialCommunityIcon
             name="arrow-right"
             size={Sizes.Text}
-            color={Colours.AlternateText}
-          />
+            color={Colours.Text}/>
         </View>
       </TouchableOpacity>
     );
@@ -29,30 +28,23 @@ export default class MoreTile extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingBottom: Sizes.OuterFrame
-  },
-
   tile: {
-    backgroundColor: Colours.MenuBackground,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: Sizes.InnerFrame,
-    paddingHorizontal: Sizes.InnerFrame,
-    paddingBottom: null
+    marginHorizontal: Sizes.InnerFrame
   },
 
   callToAction: {
     ...Styles.Horizontal,
-    paddingBottom: Sizes.InnerFrame / 3,
-    borderBottomWidth: 0.5,
-    borderBottomColor: Colours.AlternateText
+    paddingBottom: Sizes.InnerFrame / 4,
+    borderBottomWidth: 1,
+    borderBottomColor: Colours.Text
   },
 
   callToActionLabel: {
     ...Styles.Text,
     ...Styles.Terminal,
-    ...Styles.Alternate,
+    ...Styles.Medium,
     marginRight: Sizes.InnerFrame / 2
   }
 });

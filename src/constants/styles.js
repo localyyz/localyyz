@@ -118,9 +118,7 @@ export const Styles = {
     flex: 1,
     color: Colours.EmphasizedText,
     backgroundColor: Colours.Transparent,
-    fontWeight: "700",
-    fontSize: Sizes.SmallText,
-    marginLeft: Sizes.InnerFrame / 2
+    fontSize: Sizes.SmallText
   },
 
   // fix to align indicator with icons

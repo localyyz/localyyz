@@ -3,12 +3,62 @@ import { View, StyleSheet } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { SearchTag } from "localyyz/components";
+import { NavBar, SearchTag } from "localyyz/components";
 import { ApiInstance } from "localyyz/global";
 
 // third party
 import EntypoIcon from "react-native-vector-icons/Entypo";
-import { inject } from "mobx-react";
+import LinearGradient from "react-native-linear-gradient";
+import { observer, inject } from "mobx-react";
+import * as Animatable from "react-native-animatable";
+
+@inject(stores => ({
+  searchTagsVisible: stores.homeStore.searchTagsVisible,
+  query: stores.homeStore.searchQuery
+}))
+@observer
+export class SearchTagsWrapper extends React.Component {
+  render() {
+    return (
+      <View
+        pointerEvents={this.props.searchTagsVisible ? "auto" : "none"}
+        style={styles.filters}
+        onLayout={e =>
+          this.setState({
+            tagsHeight: e.nativeEvent.layout.height
+          })
+        }>
+        <Animatable.View
+          animation={this.props.searchTagsVisible ? "fadeInUp" : "fadeOutDown"}
+          duration={300}
+          delay={500}>
+          <LinearGradient
+            colors={[Colours.Foreground, Colours.Transparent]}
+            start={{ y: 1 }}
+            end={{ y: 0 }}
+            style={styles.recommendedTags}>
+            <SearchTags
+              query={this.props.query}
+              onFlush={tags => {
+                //this.props.updateSearchQuery(
+                //_combineQueryWithTags(this.props.query, tags)
+                //)
+              }}
+              onChange={tags => {
+                //this.setState(
+                //{
+                //tags: tags
+                //},
+                //() =>
+                //this.search(_combineQueryWithTags(this.props.query, tags))
+                //);
+              }}/>
+          </LinearGradient>
+        </Animatable.View>
+      </View>
+    );
+  }
+}
 
 export default class SearchTags extends React.Component {
   constructor(props) {
@@ -36,8 +86,8 @@ export default class SearchTags extends React.Component {
 
   get used() {
     return (
-      this.state.tags &&
-      Object.values(this.state.tags).filter(
+      this.state.tags
+      && Object.values(this.state.tags).filter(
         tag => !!tag.isActive && !tag.isFlushed
       )
     );
@@ -45,8 +95,8 @@ export default class SearchTags extends React.Component {
 
   get excludedLabels() {
     return (
-      this.state.tags &&
-      Object.values(this.state.tags)
+      this.state.tags
+      && Object.values(this.state.tags)
         .filter(tag => tag.isFlushed)
         .map(tag => tag.label)
     );
@@ -54,8 +104,8 @@ export default class SearchTags extends React.Component {
 
   get displayedLabels() {
     return (
-      this.state.tags &&
-      Object.values(this.state.tags)
+      this.state.tags
+      && Object.values(this.state.tags)
         .filter(tag => !tag.isFlushed)
         .map(tag => tag.label)
     );
@@ -124,10 +174,10 @@ export default class SearchTags extends React.Component {
         }
       },
       () => {
-        let query =
-          this.props.query +
-          (!!this.props.query && this.used.length > 0 ? " " : "") +
-          this.used.map(tag => tag.label).join(" ");
+        let query
+          = this.props.query
+          + (!!this.props.query && this.used.length > 0 ? " " : "")
+          + this.used.map(tag => tag.label).join(" ");
 
         // update with new tags
         this.fetch({ query: query });
@@ -165,8 +215,7 @@ export default class SearchTags extends React.Component {
               delay={200}
               key={`searchTag-${tag.label}`}
               color={tag.isActive ? Colours.PositiveButton : null}
-              onPress={() => this.select(tag.label, !tag.isActive)}
-            >
+              onPress={() => this.select(tag.label, !tag.isActive)}>
               {tag.label}
             </SearchTag>
           ))}
@@ -174,17 +223,26 @@ export default class SearchTags extends React.Component {
           <SearchTag
             delay={500}
             color={Colours.Success}
-            onPress={() => this.flush()}
-          >
+            onPress={() => this.flush()}>
             <EntypoIcon
               name="add-to-list"
               color={Colours.AlternateText}
-              size={Sizes.SmallText}
-            />
+              size={Sizes.SmallText}/>
           </SearchTag>
         )}
       </View>
     );
+  }
+}
+
+function _combineQueryWithTags(query, tags) {
+  if (!tags) {
+    return query;
+  } else {
+    let tagLabels = tags.length > 0 ? tags.map(tag => tag.label).join(" ") : "";
+    let combinedQuery
+      = (query || "") + (!!query && !!tagLabels ? " " : "") + tagLabels;
+    return combinedQuery;
   }
 }
 
@@ -194,5 +252,17 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignItems: "flex-end",
     justifyContent: "center"
+  },
+
+  recommendedTags: {
+    paddingVertical: Sizes.InnerFrame,
+    paddingHorizontal: Sizes.OuterFrame
+  },
+
+  filters: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: NavBar.HEIGHT
   }
 });

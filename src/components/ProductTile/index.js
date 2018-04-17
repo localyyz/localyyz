@@ -16,9 +16,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 export default class ProductTile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      photoSize: 0
-    };
+    this.state = {};
 
     // update title length
     this.props.product && this.props.product.changeTitleWordsLength(4);
@@ -28,9 +26,12 @@ export default class ProductTile extends React.Component {
   }
 
   onLayout(e) {
-    this.setState({
-      photoSize: e.nativeEvent.layout.width
-    });
+    // get the first on layout
+    if (!this.state.photoSize && e.nativeEvent.layout.width > 0) {
+      this.setState({
+        photoSize: Math.round(e.nativeEvent.layout.width)
+      });
+    }
   }
 
   render() {
@@ -38,16 +39,14 @@ export default class ProductTile extends React.Component {
       <TouchableOpacity
         onPress={this.props.onPress}
         style={[styles.container, this.props.style]}
-        onLayout={this.onLayout}
-      >
+        onLayout={this.onLayout}>
         <LiquidImage
           square
           crop="bottom"
           resizeMode="cover"
           w={this.state.photoSize}
           style={styles.photo}
-          source={{ uri: this.props.product && this.props.product.imageUrl }}
-        />
+          source={{ uri: this.props.product && this.props.product.imageUrl }}/>
         <View style={styles.header}>
           <UppercasedText numberOfLines={1} style={styles.merchantName}>
             {`${this.props.product.place.name}`}
@@ -62,20 +61,18 @@ export default class ProductTile extends React.Component {
               numberOfLines={1}
               style={[
                 styles.pricing,
-                !!this.props.product &&
-                  !!this.props.product.previousPrice &&
-                  styles.salePricing
-              ]}
-            >
-              {`${getSymbolFromCurrency(this.props.product.place.currency) ||
-                "$"}${this.props.product.price.toFixed(2)}`}
+                !!this.props.product
+                  && !!this.props.product.previousPrice
+                  && styles.salePricing
+              ]}>
+              {`${getSymbolFromCurrency(this.props.product.place.currency)
+                || "$"}${this.props.product.price.toFixed(2)}`}
             </Text>
-            {!!this.props.product &&
-              !!this.props.product.previousPrice && (
+            {!!this.props.product
+              && !!this.props.product.previousPrice && (
                 <Text
                   numberOfLines={1}
-                  style={[styles.pricing, styles.previousPricing]}
-                >
+                  style={[styles.pricing, styles.previousPricing]}>
                   {`${this.props.product.previousPrice.toFixed(2)}`}
                 </Text>
               )}
@@ -87,14 +84,12 @@ export default class ProductTile extends React.Component {
             ]}
             start={{ x: 1 }}
             end={{ x: 0 }}
-            style={styles.overflowGradient}
-          />
+            style={styles.overflowGradient}/>
           {this.props.product.discount > 0 && (
             <View style={styles.saleBadge}>
               <DiscountBadge
                 size={Sizes.TinyText}
-                product={this.props.product}
-              />
+                product={this.props.product}/>
             </View>
           )}
         </View>
@@ -172,7 +167,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: Sizes.InnerFrame / 2,
     right: 0
-    // TODO: throws warnings some stuff about no background colour
     //shadowColor: Colours.Foreground,
     //shadowRadius: 10,
     //shadowOpacity: 1,

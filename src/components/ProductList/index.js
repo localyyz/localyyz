@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Keyboard,
+  FlatList
+} from "react-native";
 import { Sizes } from "localyyz/constants";
 
 // custom
@@ -36,21 +42,26 @@ export default class ProductList extends React.Component {
     return (
       <View style={styles.tile}>
         <ProductTile
+          style={{ minHeight: 250 }}
           onPress={() =>
             this.props.navigation.navigate("Product", {
               product: product
-            })}
-          product={product}
-        />
+            })
+          }
+          backgroundColor={this.props.backgroundColor}
+          product={product}/>
       </View>
     );
   }
 
   onScroll(e) {
+    // dismiss keyboard
+    Keyboard.dismiss();
+
     let scrollChange = e.nativeEvent.contentOffset.y - this.position;
     let isDirectionChanged = !(
-      (scrollChange >= 0 && this.change >= 0) ||
-      (scrollChange <= 0 && this.change <= 0)
+      (scrollChange >= 0 && this.change >= 0)
+      || (scrollChange <= 0 && this.change <= 0)
     );
 
     if (isDirectionChanged) {
@@ -69,25 +80,37 @@ export default class ProductList extends React.Component {
         this.props.onScrollUp && this.props.onScrollUp();
       }
     }
+
+    // callback
+    this.props.onScroll && this.props.onScroll(e);
   }
 
   render() {
     return (
       <View style={styles.container}>
         <FlatList
+          keyboardShouldPersistTaps="always"
           data={this.props.products}
           numColumns={2}
           keyExtractor={e => e.id}
           onEndReached={this.fetchMore}
-          onEndReachedThreshold={5}
-          contentContainerStyle={this.props.style}
+          onEndReachedThreshold={1}
+          ListFooterComponent={
+            <ActivityIndicator size="large" animating={true} />
+          }
+          contentContainerStyle={[
+            styles.list,
+            this.props.style,
+            this.props.backgroundColor && {
+              backgroundColor: this.props.backgroundColor
+            }
+          ]}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           renderItem={this.renderItem}
           scrollEventThrottle={16}
           onScroll={this.onScroll}
-          columnWrapperStyle={styles.column}
-        />
+          columnWrapperStyle={styles.column}/>
       </View>
     );
   }
@@ -95,8 +118,11 @@ export default class ProductList extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginHorizontal: Sizes.InnerFrame / 2
+    flex: 1
+  },
+
+  list: {
+    paddingHorizontal: Sizes.InnerFrame / 2
   },
 
   tile: {
