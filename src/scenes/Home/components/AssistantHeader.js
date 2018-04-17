@@ -7,10 +7,11 @@ import { navLogo } from "localyyz/assets";
 import { Assistant } from "localyyz/components";
 
 // third party
+import { action, observable, computed, reaction } from "mobx";
 import { observer, inject } from "mobx-react";
 
-const AssistentHeaderGreeting = name => `Welcome back${name}!`;
-const AssistentHeaderHelp = "I'm here to help you find something cool today ✨";
+const AssistantHeaderGreeting = name => `Welcome back${name}!`;
+const AssistantHeaderHelp = "I'm here to help you find something cool today ✨";
 
 @inject(stores => ({
   avatarUrl: stores.userStore.avatarUrl,
@@ -19,19 +20,38 @@ const AssistentHeaderHelp = "I'm here to help you find something cool today ✨"
 }))
 @observer
 export default class AssistantHeader extends React.Component {
+  @observable headerAssistantHeight = 1;
+  @observable headerWelcomeHeight = 0;
+
   constructor(props) {
     super(props);
-    this.state = {
-      headerAssistantHeight: 1,
-      headerWelcomeHeight: 0
-    };
+    this._lastMaxHeaderHeight = this.headerContentHeight;
   }
 
+  @action
+  setHeaderAssistantHeight = e => {
+    this.headerAssistantHeight = e.nativeEvent.layout.height;
+  };
+
+  @action
+  setHeaderWelcomeHeight = e => {
+    this.headerWelcomeHeight = e.nativeEvent.layout.height;
+  };
+
+  reactHeaderContentHeight = reaction(
+    () => this.headerContentHeight,
+    height => {
+      if (height > this._lastMaxHeaderHeight) {
+        //TODO: unless number of assistant messages has changed
+        this._lastMaxHeaderHeight = height;
+      }
+    }
+  );
+
+  @computed
   get headerContentHeight() {
     return (
-      this.state.headerAssistantHeight
-      + this.state.headerWelcomeHeight
-      + Sizes.OuterFrame
+      this.headerAssistantHeight + this.headerWelcomeHeight + Sizes.OuterFrame
     );
   }
 
@@ -43,11 +63,12 @@ export default class AssistantHeader extends React.Component {
         style={[
           styles.headerContent,
           {
+            // TODO: header animation output should be last maximum height (Paul thinks)
             height: position.interpolate({
               inputRange: [0, Sizes.Height / 4, Sizes.Height / 2],
               outputRange: [
-                this.headerContentHeight,
-                this.headerContentHeight / 2,
+                this._lastMaxHeaderHeight,
+                this._lastMaxHeaderHeight / 2,
                 0
               ],
               extrapolate: "clamp"
@@ -67,12 +88,7 @@ export default class AssistantHeader extends React.Component {
           }}>
           <View
             style={styles.splitWelcome}
-            onLayout={e =>
-              this.state.headerWelcomeHeight
-              || this.setState({
-                headerWelcomeHeight: e.nativeEvent.layout.height
-              })
-            }>
+            onLayout={this.setHeaderWelcomeHeight}>
             <Image style={styles.logo} source={navLogo} />
             <View
               style={[
@@ -94,16 +110,12 @@ export default class AssistantHeader extends React.Component {
         <Assistant
           animator={position}
           messages={[
-            AssistentHeaderGreeting(
+            AssistantHeaderGreeting(
               name && name.length > 0 ? `, ${name.split(" ")[0]}` : ""
             ),
-            AssistentHeaderHelp
+            AssistantHeaderHelp
           ]}
-          onLoad={e =>
-            this.setState({
-              headerAssistantHeight: e.nativeEvent.layout.height
-            })
-          }/>
+          onLoad={this.setHeaderAssistantHeight}/>
       </Animated.View>
     );
   }

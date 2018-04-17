@@ -11,6 +11,7 @@ import { Animated } from "react-native";
 
 const PAGE_LIMIT = 8;
 const PAGE_ONE = 1;
+const SEARCH_DELAY = 1500;
 
 export default class HomeStore {
   constructor(loginStore, assistantStore) {
@@ -52,6 +53,7 @@ export default class HomeStore {
   //  speed
   // processing: onEndReached would be incorrectly triggered as list items
   //  starts to load, need to switch to a loading state to not over load
+
   _next = 1;
   _hasNextPage = true;
   _processing = false;
@@ -70,7 +72,7 @@ export default class HomeStore {
         this.fetchNextPage();
       }
     },
-    { delay: 1000 }
+    { delay: SEARCH_DELAY }
   );
 
   fetchNextPage = () => {
