@@ -13,8 +13,6 @@ import {
 import LinearGradient from "react-native-linear-gradient";
 import getSymbolFromCurrency from "currency-symbol-map";
 
-const LAYOUT_UPDATE_THRESHOLD = 30;
-
 export default class ProductTile extends React.Component {
   constructor(props) {
     super(props);
@@ -28,19 +26,10 @@ export default class ProductTile extends React.Component {
   }
 
   onLayout(e) {
-    if (
-      !this.state.photoSize
-      || this.state.photoSize === 0
-      || (this.state.photoSize
-        && this.state.photoSize > 0
-        && Math.abs(this.state.photoSize - e.nativeEvent.layout.width)
-          * 100
-          / this.state.photoSize
-          > LAYOUT_UPDATE_THRESHOLD)
-    ) {
-      // don't over update the state
+    // get the first on layout
+    if (!this.state.photoSize && e.nativeEvent.layout.width > 0) {
       this.setState({
-        photoSize: e.nativeEvent.layout.width
+        photoSize: Math.round(e.nativeEvent.layout.width)
       });
     }
   }
@@ -55,7 +44,7 @@ export default class ProductTile extends React.Component {
           square
           crop="bottom"
           resizeMode="cover"
-          w={this.state.photoSize ? this.state.photoSize : undefined}
+          w={this.state.photoSize}
           style={styles.photo}
           source={{ uri: this.props.product && this.props.product.imageUrl }}/>
         <View style={styles.header}>
