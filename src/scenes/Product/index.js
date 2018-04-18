@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   WebView,
   Alert,
-  TouchableWithoutFeedback,
   Linking
 } from "react-native";
 
@@ -32,8 +31,7 @@ import { NAVBAR_HEIGHT } from "../../components/NavBar";
 import { MAX_TITLE_WORD_LENGTH } from "../../models/Product";
 
 // third party
-import { inject, observer } from "mobx-react/native";
-import Carousel from "react-native-snap-carousel";
+import { inject, observer, Provider } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
@@ -41,7 +39,12 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
 // local component
-import { ProductBuy, ProductVariantSelector, SizeChart } from "./components";
+import {
+  ImageCarousel,
+  ProductBuy,
+  ProductVariantSelector,
+  SizeChart
+} from "./components";
 
 // consts
 const BADGE_MIN_DISCOUNT = 0.1;
@@ -81,12 +84,16 @@ class ProductScene extends React.Component {
       backgroundPosition: 0
     };
 
+    // refs
+    this.containerRef = React.createRef();
+    this.productBuyRef = React.createRef();
+    this.photoDetailsRef = React.createRef();
+
     // bindings
     this.onAdd = this.onAdd.bind(this);
     this.onExpress = this.onExpress.bind(this);
     this.onAddedSummaryDismiss = this.onAddedSummaryDismiss.bind(this);
     this.fetchDeepLinkedProduct = this.fetchDeepLinkedProduct.bind(this);
-    this.showImage = this.showImage.bind(this);
     this.onVariantChange = this.onVariantChange.bind(this);
   }
 
@@ -240,7 +247,7 @@ class ProductScene extends React.Component {
     });
 
     // reset exploder and reshow navbar
-    this.productBuyRef.wrappedInstance.reset();
+    this.productBuyRef.current.wrappedInstance.reset();
     this.cart.show();
 
     // callback
@@ -267,17 +274,6 @@ class ProductScene extends React.Component {
 
   onVariantChange(variant) {
     this.store.onSelectVariant(variant);
-    variant.imageId && this.showImage(variant.imageId);
-  }
-
-  showImage(id) {
-    let imageMap = this.imageMap;
-    if (imageMap) {
-      let position = imageMap[id];
-      position
-        && this.refs.carousel
-        && this.refs.carousel.snapToItem(position.position, true);
-    }
   }
 
   get renderExpandedDescription() {
@@ -618,249 +614,221 @@ class ProductScene extends React.Component {
 
   render() {
     return this.store.product ? (
-      <View style={styles.productView}>
-        <ContentCoverSlider
-          ref="container"
-          title={this.store.product.truncatedTitle}
-          backAction={() => {
-            this.props.navigation.goBack();
-            this.props.navigation.state.params.onBack
-              && this.props.navigation.state.params.onBack();
-          }}
-          fadeHeight={this.state.backgroundPosition * 2 / 3}
-          background={
-            <View
-              onLayout={e =>
-                this.setState({
-                  // pushes content under the end of background dynamically
-                  backgroundPosition:
-                    e.nativeEvent.layout.y + e.nativeEvent.layout.height
-                })
-              }
-              style={styles.headerContainer}>
-              <View style={styles.badges}>
-                {this.store.product.discount >= BADGE_MIN_DISCOUNT && (
-                  <View style={styles.badge}>
-                    <DiscountBadge product={this.store.product} />
-                  </View>
-                )}
-                {this.store.product
-                  && this.store.product.place
-                  && this.store.product.place.weight > 5 && (
+      <Provider productStore={this.store}>
+        <View style={styles.productView}>
+          <ContentCoverSlider
+            ref={this.containerRef}
+            title={this.store.product.truncatedTitle}
+            backAction={() => {
+              this.props.navigation.goBack();
+              this.props.navigation.state.params.onBack
+                && this.props.navigation.state.params.onBack();
+            }}
+            fadeHeight={this.state.backgroundPosition * 2 / 3}
+            background={
+              <View
+                onLayout={e =>
+                  this.setState({
+                    // pushes content under the end of background dynamically
+                    backgroundPosition:
+                      e.nativeEvent.layout.y + e.nativeEvent.layout.height
+                  })
+                }
+                style={styles.headerContainer}>
+                <View style={styles.badges}>
+                  {this.store.product.discount >= BADGE_MIN_DISCOUNT && (
                     <View style={styles.badge}>
-                      <VerifiedBadge />
+                      <DiscountBadge product={this.store.product} />
                     </View>
                   )}
-              </View>
-              <Text
-                style={[
-                  styles.headerTitle,
-                  this.store.product.numTitleWords > MAX_TITLE_WORD_LENGTH
-                    ? Styles.Title
-                    : Styles.Oversized
-                ]}>
-                {this.store.product.title}
-              </Text>
-              {this.store.product.place ? (
-                <Text style={styles.headerSubtitle}>
-                  {this.store.product.place.name}
+                  {this.store.product
+                    && this.store.product.place
+                    && this.store.product.place.weight > 5 && (
+                      <View style={styles.badge}>
+                        <VerifiedBadge />
+                      </View>
+                    )}
+                </View>
+                <Text
+                  style={[
+                    styles.headerTitle,
+                    this.store.product.numTitleWords > MAX_TITLE_WORD_LENGTH
+                      ? Styles.Title
+                      : Styles.Oversized
+                  ]}>
+                  {this.store.product.title}
                 </Text>
-              ) : null}
-            </View>
-          }
-          backColor={Colours.Text}>
-          <ScrollView
-            contentContainerStyle={styles.productContainer}
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator={false}
-            onScroll={event => this.refs.container.onScroll(event)}>
-            <LinearGradient
-              colors={[Colours.Transparent, Colours.Background]}
-              style={[
-                styles.optionsContainer,
-                {
-                  marginTop: this.state.backgroundPosition
-                }
-              ]}>
-              <ProductVariantSelector
-                product={this.store.product}
-                onSelect={this.onVariantChange}/>
-              <ProductBuy
-                ref={ref => (this.productBuyRef = ref)}
-                navigation={this.props.navigation}
-                product={this.store.product}
-                variant={this.store.selectedVariant}
-                onExpressCheckout={this.onExpress}
-                onAddtoCart={this.onAdd}/>
-            </LinearGradient>
-            {this.images
-              && this.images.length > 0 && (
-                <View style={styles.carouselContainer}>
-                  <Carousel
-                    ref="carousel"
-                    data={this.images}
-                    renderItem={item => {
-                      return (
-                        <TouchableWithoutFeedback
-                          onPress={() =>
-                            this.refs.photoDetails.toggle(
-                              true,
-                              item.item.imageUrl
-                            )
-                          }>
-                          <LiquidImage
-                            caller="product"
-                            w={Sizes.Width - Sizes.InnerFrame * 2}
-                            h={Sizes.Height / 2}
-                            style={styles.photo}
-                            source={{
-                              uri: item.item.imageUrl
-                            }}/>
-                        </TouchableWithoutFeedback>
-                      );
-                    }}
-                    onSnapToItem={i =>
-                      this.setState({
-                        activePhoto: i
-                      })
-                    }
-                    sliderWidth={Sizes.Width}
-                    itemWidth={Sizes.Width - Sizes.InnerFrame * 2}/>
-                  <View style={styles.pagination}>
-                    <Text style={styles.paginationLabel}>
-                      {`${this.state.activePhoto + 1}/${this.images.length}`}
-                    </Text>
-                  </View>
-                </View>
-              )}
-            <View style={[styles.card, styles.headerCard]}>
-              <Text
-                style={[Styles.Text, Styles.Emphasized, Styles.SectionTitle]}>
-                Details
-              </Text>
-            </View>
-            <View style={[Styles.Card, styles.card]}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("Information", {
-                    title: "Product information",
-                    content: this.renderExpandedDescription
-                  })
-                }>
-                <View style={styles.detailsSection}>
-                  <View style={styles.detailsSectionHeader}>
-                    <Text style={styles.detailsSectionTitle}>Product</Text>
-                    <MaterialIcon name="expand-more" size={Sizes.Text} />
-                  </View>
-                  <Text style={styles.detailsSectionContent}>
-                    {this.store.product.truncatedDescription}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  this.store.product.isSizeChartSupported
-                  && this.props.navigation.navigate("Information", {
-                    title: "Sizing and fit",
-                    content: (
-                      <SizeChart type={this.store.product.category.value} />
-                    )
-                  })
-                }>
-                <View style={styles.detailsSection}>
-                  <View style={styles.detailsSectionHeader}>
-                    <Text style={styles.detailsSectionTitle}>
-                      Sizing and fit
-                    </Text>
-                    {this.store.product.isSizeChartSupported ? (
-                      <MaterialIcon name="expand-more" size={Sizes.Text} />
-                    ) : null}
-                  </View>
-                  <Text style={styles.detailsSectionContent}>
-                    Fits true to size
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              {this.renderUsedIndicator}
-            </View>
-            <View style={[Styles.Card, styles.card]}>
-              <View style={styles.detailsSection}>
-                <View style={styles.detailsSectionHeader}>
-                  <Text style={styles.detailsSectionTitle}>
-                    About the merchant
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.detailsMerchantBanner}>
-                <View style={styles.detailsMerchantInformation}>
-                  <Text style={styles.detailsMerchantInformationTitle}>
+                {this.store.product.place ? (
+                  <Text style={styles.headerSubtitle}>
                     {this.store.product.place.name}
                   </Text>
-                  {this.renderSocial}
-                </View>
-                {this.store.product
-                && this.store.product.place
-                && this.store.product.place.imageUrl ? (
-                  <ConstrainedAspectImage
-                    constrainHeight={Sizes.Width / 8}
-                    constrainWidth={Sizes.Width / 3}
-                    source={{ uri: this.store.product.place.imageUrl }}/>
-                ) : (
-                  <View />
-                )}
+                ) : null}
               </View>
-              {this.renderShippingPolicy}
-              {this.renderReturnPolicy}
-            </View>
-            {this.store.relatedProducts
-            && this.store.relatedProducts.length > 0 ? (
+            }
+            backColor={Colours.Text}>
+            <ScrollView
+              contentContainerStyle={styles.productContainer}
+              scrollEventThrottle={16}
+              showsVerticalScrollIndicator={false}
+              onScroll={event => {
+                this.containerRef.current.onScroll(event);
+              }}>
+              <LinearGradient
+                colors={[Colours.Transparent, Colours.Background]}
+                style={[
+                  styles.optionsContainer,
+                  {
+                    marginTop: this.state.backgroundPosition
+                  }
+                ]}>
+                <ProductVariantSelector
+                  product={this.store.product}
+                  onSelect={this.onVariantChange}/>
+                <ProductBuy
+                  ref={this.productBuyRef}
+                  navigation={this.props.navigation}
+                  product={this.store.product}
+                  variant={this.store.selectedVariant}
+                  onExpressCheckout={this.onExpress}
+                  onAddtoCart={this.onAdd}/>
+              </LinearGradient>
+              <ImageCarousel
+                onPress={imageUrl => {
+                  this.photoDetailsRef.current.toggle(true, imageUrl);
+                }}/>
               <View style={[styles.card, styles.headerCard]}>
                 <Text
                   style={[Styles.Text, Styles.Emphasized, Styles.SectionTitle]}>
-                  Related products
+                  Details
                 </Text>
               </View>
-            ) : null}
-            {this.store.relatedProducts
-            && this.store.relatedProducts.length > 0 ? (
-              <View>
-                <StaggeredList offset={0} style={styles.related}>
-                  {this.store.relatedProducts
-                    && this.store.relatedProducts.length > 0
-                    && this.store.relatedProducts.map(product => (
-                      <ProductTile
-                        key={`related-${product.id}`}
-                        onPress={() =>
-                          this.props.navigation.navigate("Product", {
-                            product: product
-                          })
-                        }
-                        product={product}/>
-                    ))}
-                </StaggeredList>
-                <View style={styles.listFooter}>
-                  <MoreTile
-                    onPress={() =>
-                      this.props.navigation.navigate("ProductList", {
-                        fetchPath: `places/${
-                          this.store.product.place.id
-                        }/products`,
-                        title: `${this.store.product.place.name}`,
-                        subtitle:
-                          "Here's some related products from this merchant"
-                      })
-                    }/>
-                </View>
+              <View style={[Styles.Card, styles.card]}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate("Information", {
+                      title: "Product information",
+                      content: this.renderExpandedDescription
+                    })
+                  }>
+                  <View style={styles.detailsSection}>
+                    <View style={styles.detailsSectionHeader}>
+                      <Text style={styles.detailsSectionTitle}>Product</Text>
+                      <MaterialIcon name="expand-more" size={Sizes.Text} />
+                    </View>
+                    <Text style={styles.detailsSectionContent}>
+                      {this.store.product.truncatedDescription}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.store.product.isSizeChartSupported
+                    && this.props.navigation.navigate("Information", {
+                      title: "Sizing and fit",
+                      content: (
+                        <SizeChart type={this.store.product.category.value} />
+                      )
+                    })
+                  }>
+                  <View style={styles.detailsSection}>
+                    <View style={styles.detailsSectionHeader}>
+                      <Text style={styles.detailsSectionTitle}>
+                        Sizing and fit
+                      </Text>
+                      {this.store.product.isSizeChartSupported ? (
+                        <MaterialIcon name="expand-more" size={Sizes.Text} />
+                      ) : null}
+                    </View>
+                    <Text style={styles.detailsSectionContent}>
+                      Fits true to size
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                {this.renderUsedIndicator}
               </View>
-            ) : null}
-          </ScrollView>
-        </ContentCoverSlider>
-        {this.state.productAdded && this.renderAddedSummary}
-        <PhotoDetails
-          ref="photoDetails"
-          navigation={this.props.navigation}
-          cartStore={this.props.cartStore}/>
-      </View>
+              <View style={[Styles.Card, styles.card]}>
+                <View style={styles.detailsSection}>
+                  <View style={styles.detailsSectionHeader}>
+                    <Text style={styles.detailsSectionTitle}>
+                      About the merchant
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.detailsMerchantBanner}>
+                  <View style={styles.detailsMerchantInformation}>
+                    <Text style={styles.detailsMerchantInformationTitle}>
+                      {this.store.product.place.name}
+                    </Text>
+                    {this.renderSocial}
+                  </View>
+                  {this.store.product
+                  && this.store.product.place
+                  && this.store.product.place.imageUrl ? (
+                    <ConstrainedAspectImage
+                      constrainHeight={Sizes.Width / 8}
+                      constrainWidth={Sizes.Width / 3}
+                      source={{ uri: this.store.product.place.imageUrl }}/>
+                  ) : (
+                    <View />
+                  )}
+                </View>
+                {this.renderShippingPolicy}
+                {this.renderReturnPolicy}
+              </View>
+              {this.store.relatedProducts
+              && this.store.relatedProducts.length > 0 ? (
+                <View style={[styles.card, styles.headerCard]}>
+                  <Text
+                    style={[
+                      Styles.Text,
+                      Styles.Emphasized,
+                      Styles.SectionTitle
+                    ]}>
+                    Related products
+                  </Text>
+                </View>
+              ) : null}
+              {this.store.relatedProducts
+              && this.store.relatedProducts.length > 0 ? (
+                <View>
+                  <StaggeredList offset={0} style={styles.related}>
+                    {this.store.relatedProducts
+                      && this.store.relatedProducts.length > 0
+                      && this.store.relatedProducts.map(product => (
+                        <ProductTile
+                          key={`related-${product.id}`}
+                          onPress={() =>
+                            this.props.navigation.navigate("Product", {
+                              product: product
+                            })
+                          }
+                          product={product}/>
+                      ))}
+                  </StaggeredList>
+                  <View style={styles.listFooter}>
+                    <MoreTile
+                      onPress={() =>
+                        this.props.navigation.navigate("ProductList", {
+                          fetchPath: `places/${
+                            this.store.product.place.id
+                          }/products`,
+                          title: `${this.store.product.place.name}`,
+                          subtitle:
+                            "Here's some related products from this merchant"
+                        })
+                      }/>
+                  </View>
+                </View>
+              ) : null}
+            </ScrollView>
+          </ContentCoverSlider>
+          {this.state.productAdded && this.renderAddedSummary}
+          <PhotoDetails
+            ref={this.photoDetailsRef}
+            navigation={this.props.navigation}
+            cartStore={this.props.cartStore}/>
+        </View>
+      </Provider>
     ) : null;
   }
 }
@@ -901,29 +869,6 @@ const styles = StyleSheet.create({
 
   headerSubtitle: {
     ...Styles.Text
-  },
-
-  // photo carousel
-  carouselContainer: {
-    height: Sizes.Height / 2,
-    width: Sizes.Width,
-    backgroundColor: Colours.Transparent
-  },
-
-  pagination: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    alignItems: "flex-end",
-    marginVertical: Sizes.InnerFrame,
-    marginHorizontal: Sizes.OuterFrame + Sizes.InnerFrame
-  },
-
-  paginationLabel: {
-    ...Styles.Text,
-    ...Styles.Terminal,
-    ...Styles.SmallText,
-    ...Styles.Emphasized
   },
 
   // on cart add summary
@@ -1060,10 +1005,6 @@ const styles = StyleSheet.create({
   related: {
     ...Styles.Card,
     paddingHorizontal: Sizes.InnerFrame
-  },
-
-  photo: {
-    backgroundColor: Colours.Foreground
   },
 
   detailsSection: {
