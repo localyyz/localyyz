@@ -1,9 +1,15 @@
 import React from "react";
 import { StyleSheet, Animated, Image } from "react-native";
 
+// third party
+import { observable, computed, runInAction } from "mobx";
+import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 
+@observer
 export default class LiquidImage extends React.Component {
+  @observable resizeFailed = false;
+
   static propTypes = {
     ...Image.propTypes,
 
@@ -24,10 +30,6 @@ export default class LiquidImage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      resizeFailed: false
-    };
-
     // animated loading
     this._blur = new Animated.Value(0);
 
@@ -38,14 +40,13 @@ export default class LiquidImage extends React.Component {
   // there's no state modification in source from. it's a
   // pure function
   sourceFrom(props = this.props) {
-    const { resizeFailed } = this.state;
     const { square, w, h, crop, source } = props;
 
     const dimensions = _dimensions(square, w, h);
     const width = dimensions[0];
     const height = dimensions[1];
 
-    return resizeFailed
+    return this.resizeFailed
       ? source.uri
       : _filter(source.uri, [
           // resizing
@@ -60,22 +61,21 @@ export default class LiquidImage extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.w !== this.props.w || nextProps.h !== this.props.h) {
+      const source = this.sourceFrom(nextProps);
       Image.getSize(
-        this.sourceFrom(nextProps),
+        source,
         () => {},
         () => {
-          console.log(`Failed loading ${this.sourceFrom(nextProps)}`);
-          this.setState(
-            {
-              resizeFailed: true
-            },
-            () => console.log(`Reverting to ${this.sourceFrom(nextProps)}`)
-          );
+          console.log(`Failed loading ${source}`);
+          runInAction("[ACTION] Reverting original source", () => {
+            this.resizeFailed = true;
+          });
         }
       );
     }
   }
 
+  @computed
   get source() {
     return this.sourceFrom();
   }
