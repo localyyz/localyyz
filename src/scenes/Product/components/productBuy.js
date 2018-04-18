@@ -10,7 +10,6 @@ import {
 import PropTypes from "prop-types";
 
 // custom
-import { ApplePayExpressPayment } from "localyyz/effects";
 import { applePayButton } from "localyyz/assets";
 import { onlyIfLoggedIn } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
@@ -21,60 +20,31 @@ import { facebook as Facebook } from "localyyz/effects";
 import { inject, observer } from "mobx-react/native";
 import getSymbolFromCurrency from "currency-symbol-map";
 
-@inject(stores => {
-  return { hasSession: stores.userStore.model.hasSession };
-})
+@inject(stores => ({
+  hasSession: stores.userStore.model.hasSession,
+  isExpressSupported: stores.deviceStore.applePaySupported
+}))
 @observer
 class ProductBuy extends React.Component {
   static propTypes = {
     variant: PropTypes.object,
     onExpressCheckout: PropTypes.func,
     onAddtoCart: PropTypes.func,
+    product: PropTypes.object,
+
+    // mobx injected store props
     hasSession: PropTypes.bool,
-    product: PropTypes.object
+    isExpressSupported: PropTypes.bool
   };
 
   static defaultProps = {
-    hasSession: false
+    hasSession: false,
+    isExpressSupported: false
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      expressSupported: false
-    };
     this.reset = this.reset.bind(this);
-  }
-
-  componentDidMount() {
-    // Enable apple pay express is supported
-    // show express button when a supported express
-    // method is available
-    let _apep = new ApplePayExpressPayment(
-      // use stubs since we're just checking for
-      // device support here
-      "stub",
-      [
-        {
-          label: "stub",
-          amount: "1"
-        }
-      ]
-    );
-
-    _apep
-      .isSupported()
-      .then(supported => {
-        this.setState({
-          expressSupported: supported
-        });
-        // track product viewing
-        Facebook.logEvent("fb_mobile_express_pay", {
-          fb_content_type: "apple_pay",
-          fb_content: supported
-        });
-      })
-      .catch(console.log);
   }
 
   reset() {
@@ -92,15 +62,16 @@ class ProductBuy extends React.Component {
     );
   }
 
-  render() {
-    const {
-      variant,
-      hasSession,
+  _onExpressCheckout = () => {
+    Facebook.logEvent("fb_mobile_express_pay", {
+      fb_content_type: "apple_pay",
+      fb_content: true
+    });
+    this.props.onExpressCheckout && this.props.onExpressCheckout();
+  };
 
-      onExpressCheckout,
-      onAddtoCart,
-      navigation
-    } = this.props;
+  render() {
+    const { variant, hasSession, onAddtoCart, navigation } = this.props;
 
     const isStockAvailable = variant && variant.limits > 0;
     const shouldExplode = hasSession && isStockAvailable;
@@ -114,33 +85,33 @@ class ProductBuy extends React.Component {
       <View style={styles.addGroup}>
         <View style={styles.priceContainer}>
           <View style={Styles.Horizontal}>
-            {!!prevPrice &&
-              prevPrice > 0 && (
+            {!!prevPrice
+              && prevPrice > 0 && (
                 <Text style={[styles.price, styles.prevPrice]}>
                   {`${prevPrice.toFixed(2)}`}
                 </Text>
               )}
             <Text style={styles.price}>
-              {`${getSymbolFromCurrency(this.props.product.place.currency) ||
-                "$"}${price.toFixed(2)} ${
+              {`${getSymbolFromCurrency(this.props.product.place.currency)
+                || "$"}${price.toFixed(2)} ${
                 this.props.product ? this.props.product.place.currency : "USD"
               }`}
             </Text>
           </View>
         </View>
-        {this.state.expressSupported ? (
+        {this.props.isExpressSupported ? (
           <View>
             <TouchableOpacity
               onPress={() =>
-                isStockAvailable ? onExpressCheckout() : this.onOutOfStock()
-              }
-            >
+                isStockAvailable
+                  ? this._onExpressCheckout()
+                  : this.onOutOfStock()
+              }>
               <View style={styles.expressButton}>
                 <Image
                   resizeMode="contain"
                   style={styles.expressButtonLogo}
-                  source={applePayButton}
-                />
+                  source={applePayButton}/>
               </View>
             </TouchableOpacity>
             <ExplodingButton
@@ -152,8 +123,7 @@ class ProductBuy extends React.Component {
                 isStockAvailable
                   ? onlyIfLoggedIn({ hasSession }, onAddtoCart, navigation)
                   : this.onOutOfStock()
-              }
-            >
+              }>
               <Text style={styles.addButtonWithExpressLabel}>
                 .. or add to cart
               </Text>
@@ -169,8 +139,7 @@ class ProductBuy extends React.Component {
               isStockAvailable
                 ? onlyIfLoggedIn({ hasSession }, onAddtoCart, navigation)
                 : this.onOutOfStock()
-            }
-          >
+            }>
             <View style={Styles.RoundedButton}>
               <UppercasedText style={styles.addButtonLabel}>
                 add to cart

@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import { Image } from "react-native";
 
 // consts
 const MAX_DESCRIPTION_WORD_LENGTH = 20;
@@ -84,10 +85,10 @@ export default class Product {
 
   get previousPrice() {
     return (
-      (this.variants &&
-        this.variants.length > 0 &&
-        this.variants[0].prevPrice) ||
-      0
+      (this.variants
+        && this.variants.length > 0
+        && this.variants[0].prevPrice)
+      || 0
     );
   }
 
@@ -98,8 +99,8 @@ export default class Product {
   }
 
   get shippingPolicy() {
-    return this.place.shippingPolicy &&
-      this.place.shippingPolicy.desc.length > 0
+    return this.place.shippingPolicy
+      && this.place.shippingPolicy.desc.length > 0
       ? this.place.shippingPolicy
       : null;
   }
@@ -118,17 +119,17 @@ export default class Product {
 
   get isSizeChartSupported() {
     return (
-      !!this.category.type &&
-      !!SUPPORTED_SIZE_CHARTS.find(type => type === this.category.value)
+      !!this.category.type
+      && !!SUPPORTED_SIZE_CHARTS.find(type => type === this.category.value)
     );
   }
 
   get isSocial() {
     return (
-      (this.place &&
-        (this.place.facebookUrl.length > 0 ||
-          this.place.instagramUrl.length > 0)) ||
-      null
+      (this.place
+        && (this.place.facebookUrl.length > 0
+          || this.place.instagramUrl.length > 0))
+      || null
     );
   }
 
@@ -157,9 +158,8 @@ function truncate(text, wordLimit) {
   const words = text ? text.split(" ") : [];
   const lastWord = words.length > 0 ? words[words.length - 1] : "";
   return words.length > wordLimit
-    ? `${words.slice(0, wordLimit).join(" ")}${lastWord[lastWord.length - 1] ===
-      "."
-        ? ""
-        : "."}.`
+    ? `${words.slice(0, wordLimit).join(" ")}${
+        lastWord[lastWord.length - 1] === "." ? "" : "."
+      }.`
     : text;
 }
