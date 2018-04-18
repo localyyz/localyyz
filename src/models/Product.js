@@ -26,6 +26,7 @@ export default class Product {
   @observable category;
   @observable variants = [];
   @observable etc;
+  @observable images = [];
 
   @observable thumbUrl;
   @observable htmlDescription;
@@ -33,12 +34,6 @@ export default class Product {
 
   @observable sizes;
   @observable colors;
-
-  // image states and observables
-  @observable images = [];
-  @observable hasImageError = false;
-  @observable imageWidth = 0;
-  @observable imageHeight = 0;
 
   constructor(product) {
     this.setProduct(product);

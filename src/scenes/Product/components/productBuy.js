@@ -22,7 +22,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 
 @inject(stores => ({
   hasSession: stores.userStore.model.hasSession,
-  isExpressSupported: true
+  isExpressSupported: stores.deviceStore.applePaySupported
 }))
 @observer
 class ProductBuy extends React.Component {
