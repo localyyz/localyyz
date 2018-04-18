@@ -1,6 +1,7 @@
 // custom
 import { Product } from "localyyz/models";
 import { ApiInstance } from "localyyz/global";
+import { assistantStore, loginStore } from "localyyz/stores";
 import { box } from "localyyz/helpers";
 import { Sizes } from "localyyz/constants";
 
@@ -14,10 +15,8 @@ const PAGE_ONE = 1;
 const SEARCH_DELAY = 1500;
 
 export default class HomeStore {
-  constructor(loginStore, assistantStore) {
+  constructor() {
     this.api = ApiInstance;
-    this.login = loginStore;
-    this.assistant = assistantStore;
 
     // _initialized is needed to monitor loginStore initialization
     // mobx will not react when this.login becomes truthy
@@ -96,7 +95,7 @@ export default class HomeStore {
             this._next++;
           } else {
             if (this._next === PAGE_ONE) {
-              this.assistant.write(
+              assistantStore.write(
                 `Sorry! I couldn't find any product for "${this.searchQuery}"`,
                 5000
               );
@@ -126,8 +125,8 @@ export default class HomeStore {
   reactLogin = reaction(
     () => {
       return {
-        success: this._isInitialized && this.login._wasLoginSuccessful,
-        skipped: this._isInitialized && this.login._wasLoginSkipped
+        success: this._isInitialized && loginStore._wasLoginSuccessful,
+        skipped: this._isInitialized && loginStore._wasLoginSkipped
       };
     },
     ({ success, skipped }) => {
