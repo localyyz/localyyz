@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   WebView,
   Alert,
-  TouchableWithoutFeedback,
   Linking
 } from "react-native";
 
@@ -84,6 +83,11 @@ class ProductScene extends React.Component {
       activePhoto: 0,
       backgroundPosition: 0
     };
+
+    // refs
+    this.containerRef = React.createRef();
+    this.productBuyRef = React.createRef();
+    this.photoDetailsRef = React.createRef();
 
     // bindings
     this.onAdd = this.onAdd.bind(this);
@@ -243,7 +247,7 @@ class ProductScene extends React.Component {
     });
 
     // reset exploder and reshow navbar
-    this.productBuyRef.wrappedInstance.reset();
+    this.productBuyRef.current.wrappedInstance.reset();
     this.cart.show();
 
     // callback
@@ -613,7 +617,7 @@ class ProductScene extends React.Component {
       <Provider productStore={this.store}>
         <View style={styles.productView}>
           <ContentCoverSlider
-            ref="container"
+            ref={this.containerRef}
             title={this.store.product.truncatedTitle}
             backAction={() => {
               this.props.navigation.goBack();
@@ -666,7 +670,9 @@ class ProductScene extends React.Component {
               contentContainerStyle={styles.productContainer}
               scrollEventThrottle={16}
               showsVerticalScrollIndicator={false}
-              onScroll={event => this.refs.container.onScroll(event)}>
+              onScroll={event => {
+                this.containerRef.current.onScroll(event);
+              }}>
               <LinearGradient
                 colors={[Colours.Transparent, Colours.Background]}
                 style={[
@@ -679,7 +685,7 @@ class ProductScene extends React.Component {
                   product={this.store.product}
                   onSelect={this.onVariantChange}/>
                 <ProductBuy
-                  ref={ref => (this.productBuyRef = ref)}
+                  ref={this.productBuyRef}
                   navigation={this.props.navigation}
                   product={this.store.product}
                   variant={this.store.selectedVariant}
@@ -688,7 +694,7 @@ class ProductScene extends React.Component {
               </LinearGradient>
               <ImageCarousel
                 onPress={imageUrl => {
-                  this.refs.photoDetails.toggle(true, imageUrl);
+                  this.photoDetailsRef.current.toggle(true, imageUrl);
                 }}/>
               <View style={[styles.card, styles.headerCard]}>
                 <Text
@@ -818,7 +824,7 @@ class ProductScene extends React.Component {
           </ContentCoverSlider>
           {this.state.productAdded && this.renderAddedSummary}
           <PhotoDetails
-            ref="photoDetails"
+            ref={this.photoDetailsRef}
             navigation={this.props.navigation}
             cartStore={this.props.cartStore}/>
         </View>
@@ -863,29 +869,6 @@ const styles = StyleSheet.create({
 
   headerSubtitle: {
     ...Styles.Text
-  },
-
-  // photo carousel
-  carouselContainer: {
-    height: Sizes.Height / 2,
-    width: Sizes.Width,
-    backgroundColor: Colours.Transparent
-  },
-
-  pagination: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    alignItems: "flex-end",
-    marginVertical: Sizes.InnerFrame,
-    marginHorizontal: Sizes.OuterFrame + Sizes.InnerFrame
-  },
-
-  paginationLabel: {
-    ...Styles.Text,
-    ...Styles.Terminal,
-    ...Styles.SmallText,
-    ...Styles.Emphasized
   },
 
   // on cart add summary
@@ -1022,10 +1005,6 @@ const styles = StyleSheet.create({
   related: {
     ...Styles.Card,
     paddingHorizontal: Sizes.InnerFrame
-  },
-
-  photo: {
-    backgroundColor: Colours.Foreground
   },
 
   detailsSection: {
