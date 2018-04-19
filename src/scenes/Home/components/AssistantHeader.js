@@ -11,7 +11,7 @@ import { action, observable, computed, reaction } from "mobx";
 import { observer, inject } from "mobx-react";
 
 const AssistantHeaderGreeting = name => `Welcome back, ${name}!`;
-const AssistantHeaderHelp = "I'm here to help you today ✨";
+const AssistantHeaderHelp = "I'm here to help you find something cool today ✨";
 
 @inject(stores => ({
   avatarUrl: stores.userStore.avatarUrl,

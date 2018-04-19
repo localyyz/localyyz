@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Animated, Image } from "react-native";
+import { StyleSheet, Animated, Easing, Image } from "react-native";
 
 // third party
 import { observable, computed, runInAction } from "mobx";
@@ -87,18 +87,14 @@ export default class LiquidImage extends React.Component {
     const width = dimensions[0];
     const height = dimensions[1];
 
+    // NOTE + TODO: Animated image is doing some really weird
+    // thing to image. check onLoadStart, it's being called thousands of
+    // times.
+
     return (width || height) && source && source.uri && this.source ? (
-      <Animated.Image
+      <Image
         {...this.props}
-        blurRadius={this._blur.interpolate({
-          inputRange: [0, 0.5, 0.6, 0.8, 1],
-          outputRange: [20, 9, 6, 3, 0],
-          extrapolate: "clamp"
-        })}
         resizeMode={resizeMode}
-        onLoad={() => {
-          Animated.timing(this._blur, { toValue: 1 }, { duration: 40 }).start();
-        }}
         source={{
           ...source,
           ...(source && source.uri
