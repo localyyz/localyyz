@@ -8,7 +8,7 @@ import { Sizes } from "localyyz/constants";
 // third party
 import { observable, action, runInAction, reaction } from "mobx";
 import { lazyObservable } from "mobx-utils";
-import { Animated } from "react-native";
+import { Animated, Easing } from "react-native";
 
 const PAGE_LIMIT = 8;
 const PAGE_ONE = 1;
@@ -74,6 +74,17 @@ export default class HomeStore {
     { delay: SEARCH_DELAY }
   );
 
+  // TODO: show message at end of search
+  //reactReachedQueryEnd = when(
+  //() => !this._hasNextPage && !this._processing,
+  //() => {
+  //this.assistant.write(
+  //`You've reached the end for "${this.searchQuery}"`,
+  //5000
+  //);
+  //}
+  //);
+
   fetchNextPage = () => {
     if (this._hasNextPage && !this._processing) {
       this._processing = true;
@@ -130,7 +141,6 @@ export default class HomeStore {
       };
     },
     ({ success, skipped }) => {
-      console.log("fetching because logged in", success, skipped);
       if (success || skipped) {
         this.fetchFeaturedProducts();
         this.fetchDiscountedProducts();
@@ -182,9 +192,13 @@ export default class HomeStore {
         this._previousScrollAnimate = this.scrollAnimate._value;
 
         // update the animate value
-        Animated.timing(this.scrollAnimate, {
-          toValue: Sizes.Height
-        }).start();
+        Animated.timing(
+          this.scrollAnimate,
+          {
+            toValue: Sizes.Height
+          },
+          { duration: 500, easing: Easing.in(Easing.ease) }
+        ).start();
       } else {
         // header is maximizing --->
         // update the animate value to previously saved height

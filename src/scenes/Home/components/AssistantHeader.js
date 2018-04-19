@@ -10,8 +10,8 @@ import { Assistant } from "localyyz/components";
 import { action, observable, computed, reaction } from "mobx";
 import { observer, inject } from "mobx-react";
 
-const AssistantHeaderGreeting = name => `Welcome back${name}!`;
-const AssistantHeaderHelp = "I'm here to help you find something cool today ✨";
+const AssistantHeaderGreeting = name => `Welcome back, ${name}!`;
+const AssistantHeaderHelp = "I'm here to help you today ✨";
 
 @inject(stores => ({
   avatarUrl: stores.userStore.avatarUrl,
@@ -26,6 +26,7 @@ export default class AssistantHeader extends React.Component {
   constructor(props) {
     super(props);
     this._lastMaxHeaderHeight = this.headerContentHeight;
+    this.assistantRef = React.createRef();
   }
 
   @action
@@ -55,8 +56,22 @@ export default class AssistantHeader extends React.Component {
     );
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (
+      this.props.name === undefined
+      && nextProps.name
+      && nextProps.name.length > 0
+    ) {
+      const firstName = nextProps.name.split(" ")[0];
+      this.assistantRef.current.wrappedInstance.dequeueAll([
+        { message: AssistantHeaderGreeting(firstName), duration: 2000 },
+        { message: AssistantHeaderHelp }
+      ]);
+    }
+  }
+
   render() {
-    const { name, avatarUrl, position } = this.props;
+    const { avatarUrl, position } = this.props;
 
     return (
       <Animated.View
@@ -108,13 +123,10 @@ export default class AssistantHeader extends React.Component {
           </View>
         </Animated.View>
         <Assistant
+          ref={this.assistantRef}
+          typeSpeed={0}
           animator={position}
-          messages={[
-            AssistantHeaderGreeting(
-              name && name.length > 0 ? `, ${name.split(" ")[0]}` : ""
-            ),
-            AssistantHeaderHelp
-          ]}
+          messages={[]}
           onLoad={this.setHeaderAssistantHeight}/>
       </Animated.View>
     );
