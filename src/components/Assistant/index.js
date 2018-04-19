@@ -44,8 +44,8 @@ export default class Assistant extends React.Component {
 
   UNSAFE_componentWillReceiveProps(next) {
     if (
-      next.messages &&
-      next.messages.length > (this.props.messages || []).length
+      next.messages
+      && next.messages.length > (this.props.messages || []).length
     ) {
       this.dequeueAll(next.messages);
     }
@@ -54,13 +54,13 @@ export default class Assistant extends React.Component {
   dequeueAll(queue) {
     this.dequeue(queue, null, length => {
       if (
-        queue.length >
-        this.state.messages.length + this.state.numManualMessages
+        queue.length
+        > this.state.messages.length + this.state.numManualMessages
       ) {
         setTimeout(
           () => this.dequeueAll(queue),
-          getTypeTime(length, this.props.typeSpeed, this.props.delay || 0) +
-            TYPE_DELAY
+          getTypeTime(length, this.props.typeSpeed, this.props.delay || 0)
+            + TYPE_DELAY
         );
       }
     });
@@ -70,8 +70,8 @@ export default class Assistant extends React.Component {
     if (message) {
       this.write(message, true, cb);
     } else if (
-      queue.length >
-      this.state.messages.length + this.state.numManualMessages
+      queue.length
+      > this.state.messages.length + this.state.numManualMessages
     ) {
       // dequeue first from prop list
       this.write(
@@ -113,7 +113,8 @@ export default class Assistant extends React.Component {
       () => {
         this.store.ping();
         this.clearTimedMessage(message);
-        cb((message.message ? message.message.length : message.length) || 0);
+        cb
+          && cb((message.message ? message.message.length : message.length) || 0);
       }
     );
 
@@ -164,8 +165,7 @@ export default class Assistant extends React.Component {
     return (
       <View
         style={[styles.container, this.props.style]}
-        onLayout={e => this.props.onLoad && this.props.onLoad(e)}
-      >
+        onLayout={e => this.props.onLoad && this.props.onLoad(e)}>
         {this.state.messages.map((message, i) => (
           <Animated.View
             key={`assistant-${i}`}
@@ -174,8 +174,8 @@ export default class Assistant extends React.Component {
             }
             style={{
               opacity:
-                this.props.animator &&
-                this.props.animator.interpolate({
+                this.props.animator
+                && this.props.animator.interpolate({
                   inputRange: [
                     this.height() - this.height(i + 1),
                     this.height() * 2
@@ -183,14 +183,12 @@ export default class Assistant extends React.Component {
                   outputRange: [1, 0],
                   extrapolate: "clamp"
                 })
-            }}
-          >
+            }}>
             <AssistantMessage
               delay={this.props.delay}
               getTypeTime={getTypeTime}
               typeSpeed={this.props.typeSpeed}
-              message={message}
-            />
+              message={message}/>
           </Animated.View>
         ))}
       </View>
