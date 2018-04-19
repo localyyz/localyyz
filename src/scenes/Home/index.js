@@ -5,18 +5,17 @@ import { View, StyleSheet, StatusBar } from "react-native";
 import { NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
-import { observer, inject, Provider } from "mobx-react";
+import { observer, Provider } from "mobx-react";
 
 // local
 import { Main, Header, Search } from "./components";
 import Store from "./store";
 
-@inject("loginStore", "assistantStore")
 @observer
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.store = new Store(this.props.loginStore, this.props.assistantStore);
+    this.store = new Store();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
