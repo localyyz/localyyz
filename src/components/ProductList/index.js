@@ -21,7 +21,9 @@ const SCROLL_THRESHOLD = 100;
 export default class ProductList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: true
+    };
 
     // bindings
     this.fetchMore = this.fetchMore.bind(this);
@@ -35,7 +37,13 @@ export default class ProductList extends React.Component {
   }
 
   fetchMore() {
+    this.setState({ isLoading: true });
+    this.timer = setTimeout(() => this.setState({ isLoading: false }), 1500);
     this.props.onEndReached && this.props.onEndReached();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   renderItem({ item: product }) {
@@ -91,12 +99,13 @@ export default class ProductList extends React.Component {
         <FlatList
           keyboardShouldPersistTaps="always"
           data={this.props.products}
+          extraData={this.state}
           numColumns={2}
           keyExtractor={e => e.id}
           onEndReached={this.fetchMore}
           onEndReachedThreshold={1}
           ListFooterComponent={
-            <ActivityIndicator size="large" animating={true} />
+            <ActivityIndicator size="large" animating={this.state.isLoading} />
           }
           contentContainerStyle={[
             styles.list,
