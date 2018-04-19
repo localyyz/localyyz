@@ -48,6 +48,9 @@ import {
 
 // consts
 const BADGE_MIN_DISCOUNT = 0.1;
+// NOTE: there's an issue with setState after component is unmounted
+//  here we throttle the speed to navigate back to 200ms
+const RECOMMENDED_BROWSING_SPEED = 200;
 
 @inject("navStore", "cartStore", "userStore", "assistantStore", "historyStore")
 @observer
@@ -620,9 +623,11 @@ class ProductScene extends React.Component {
             ref={this.containerRef}
             title={this.store.product.truncatedTitle}
             backAction={() => {
-              this.props.navigation.goBack();
-              this.props.navigation.state.params.onBack
-                && this.props.navigation.state.params.onBack();
+              setTimeout(() => {
+                this.props.navigation.goBack();
+                this.props.navigation.state.params.onBack
+                  && this.props.navigation.state.params.onBack();
+              }, RECOMMENDED_BROWSING_SPEED);
             }}
             fadeHeight={this.state.backgroundPosition * 2 / 3}
             background={
