@@ -33,7 +33,7 @@ export default class LoginStore {
 
       await storage.save("session", resp.data);
       this.user.model.update(resp.data);
-      const token = `BEARER ${this.user.token}`;
+      const token = `BEARER ${this.user.model.token}`;
 
       // update the global api instance with the user's login token
       this.api.setAuth(token);
@@ -77,6 +77,8 @@ export default class LoginStore {
 
         // update the global api instance with the user's login token
         this.api.setAuth(token);
+
+        console.log(this.api);
 
         // mark login as success
         //  updating the user model + login success status has side-effects
