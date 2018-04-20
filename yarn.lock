@@ -5497,11 +5497,11 @@ react-native-safe-area-view@^0.7.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-native-snap-carousel@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.6.0.tgz#bbd4c988314500af4a695f787f592fdfcd5c3df1"
+react-native-snap-carousel@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.7.0.tgz#7d2794339c661d3e1f8ec4786b6335ae7cb23262"
   dependencies:
-    prop-types "^15.6.0"
+    prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
 
 "react-native-tab-view@github:react-navigation/react-native-tab-view":
@@ -5588,9 +5588,9 @@ react-native@0.55.1:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
-react-navigation@^1.5.9:
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.9.tgz#2740fd1b0056559c1d15f12958f6b30448a2154d"
+react-navigation@^1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.11.tgz#fba6ab45d7b9987c1763a5aaac53b4f6d62b7f5c"
   dependencies:
     clamp "^1.0.1"
     hoist-non-react-statics "^2.2.0"

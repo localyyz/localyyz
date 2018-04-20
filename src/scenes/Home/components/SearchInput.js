@@ -27,10 +27,6 @@ class SearchInput extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      searchFocused: false
-    };
-
     // refs
     this.inputRef = React.createRef();
   }
@@ -38,8 +34,9 @@ class SearchInput extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (!nextProps.searchActive) {
       this.inputRef.current.blur();
+    } else {
+      this.inputRef.current.focus();
     }
-    this.setState({ searchFocused: true });
   }
 
   get renderInputClear() {
@@ -73,8 +70,8 @@ class SearchInput extends React.Component {
         onPress={() => this.inputRef.current.focus()}
         style={styles.searchContainer}>
         <Text style={styles.searchLabel}>
-          {this.props.searchActive && !this.state.searchFocused
-            ? "Results For:"
+          {this.props.searchActive && !this.inputRef.current.isFocused()
+            ? "Results For"
             : "Find"}
         </Text>
         <TextInput
@@ -89,10 +86,8 @@ class SearchInput extends React.Component {
             // do something.
           }}
           onFocus={() => {
-            this.setState({ searchFocused: true });
             this.props.onActivateSearch();
           }}
-          onBlur={() => this.setState({ searchFocused: false })}
           style={styles.search}/>
         {this.renderInputClear}
       </TouchableOpacity>

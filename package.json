@@ -48,10 +48,10 @@
     "react-native-linear-gradient": "^2.4.0",
     "react-native-payments": "git://github.com/localyyz/react-native-payments.git#3d83bc37ed6c3a960fcc95f4b6379d14332f4514",
     "react-native-photo-view": "^1.5.2",
-    "react-native-snap-carousel": "^3.6.0",
+    "react-native-snap-carousel": "^3.7.0",
     "react-native-tear-lines": "^1.0.3",
     "react-native-vector-icons": "^4.6.0",
-    "react-navigation": "^1.5.9",
+    "react-navigation": "^1.5.11",
     "url": "^0.11.0"
   },
   "rnpm": {

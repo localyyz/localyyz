@@ -4,7 +4,7 @@ export default class User {
   @observable id;
   @observable username = "";
   @observable email = "";
-  @observable name = "";
+  @observable name;
   @observable avatarUrl = "";
   @observable network = "";
   @observable etc;
