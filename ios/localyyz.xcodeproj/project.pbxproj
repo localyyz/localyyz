@@ -917,6 +917,7 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 827TP59MXR;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
@@ -1574,6 +1575,7 @@
 			baseConfigurationReference = 7387CD61F13458CA1E3C8C53 /* Pods-localyyzTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 827TP59MXR;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1608,6 +1610,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 827TP59MXR;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
@@ -1661,7 +1664,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.localyyz.toronto-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = org.localyyz.toronto;
 				PRODUCT_NAME = "localyyz-dev";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1704,7 +1707,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				API_URL = "http://localhost:5331";
+				API_URL = "http://px.local:5331";
 				BRANCH_APP_DOMAIN = "localyyz.test-app.link";
 				BRANCH_KEY = key_test_gmuNi9CqX9zX9rPlhoGLPhodAzoPL6CJ;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1864,7 +1867,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.localyyz.toronto-staging";
+				PRODUCT_BUNDLE_IDENTIFIER = org.localyyz.toronto;
 				PRODUCT_NAME = "localyyz-staging";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1875,6 +1878,7 @@
 			baseConfigurationReference = 7387CD61F13458CA1E3C8C53 /* Pods-localyyzTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 827TP59MXR;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",

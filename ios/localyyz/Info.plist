@@ -35,7 +35,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>163</string>
+	<string>211</string>
 	<key>CodePushDeploymentKey</key>
 	<string>38fHcLE-rpHeE1YO-3cDtw19RTcVry-u2nyeG</string>
 	<key>FacebookAppID</key>
@@ -80,7 +80,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>chronicle.otf</string>
