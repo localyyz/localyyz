@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity
-} from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { monogram } from "localyyz/assets";
 
@@ -20,22 +13,39 @@ import {
 import { resetAction } from "localyyz/helpers";
 
 // third party
+import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react";
 import * as Animatable from "react-native-animatable";
 import EntypoIcon from "react-native-vector-icons/Entypo";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // constants
 const BUSY_MESSAGE = "Hold on, I'm retrieving your account..";
 const BUSY_REGISTER_MESSAGE = "Hold on, I'm setting up your new account..";
 const GENDERS = {
-  "": { label: "No preference" },
+  unknown: { label: "No preference" },
   male: { label: "Male fashion" },
   female: { label: "Female fashion" }
 };
 
-@inject("loginStore", "assistantStore")
+@inject(stores => ({
+  login: (type, payload) => stores.loginStore.login(type, payload),
+  signup: payload => stores.loginStore.signup(payload),
+  write: message => stores.assistantStore.write(message, null, true),
+  getWrite: message => stores.assistantStore.get(message)
+}))
 @observer
 export default class Login extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.any.isRequired,
+
+    // mobx injected
+    login: PropTypes.func.isRequired,
+    signup: PropTypes.func.isRequired,
+    write: PropTypes.func.isRequired,
+    getWrite: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.assistant = this.props.assistantStore;
@@ -145,28 +155,40 @@ export default class Login extends React.Component {
             onSubmitEditing={() => this.refs.name.focus()}/>
         </View>
         {this.renderGenderSwitch()}
-        {this.renderTos()}
-        {this.renderRegisterButton()}
+        <View style={styles.buttonContainer}>
+          {this.renderTos()}
+          {this.renderRegisterButton()}
+        </View>
       </Animatable.View>
     );
   }
 
   renderRegisterButton() {
     return (
-      <TouchableOpacity onPress={this.onRegister}>
-        <View style={[Styles.RoundedButton, styles.button]}>
-          <UppercasedText style={styles.buttonLabel}>
-            Create a new account
-          </UppercasedText>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.buttons}>
+        <TouchableOpacity onPress={this.onRegister}>
+          <View style={[Styles.RoundedButton, styles.button]}>
+            <UppercasedText style={styles.buttonLabel}>
+              Create a new account
+            </UppercasedText>
+          </View>
+        </TouchableOpacity>
+      </View>
     );
   }
 
   renderLoginButton() {
     return (
-      <View>
+      <View style={styles.buttonContainer}>
         <View style={styles.buttons}>
+          <TouchableOpacity onPress={this.onLogin}>
+            <View
+              style={[Styles.RoundedButton, styles.button, styles.logInButton]}>
+              <UppercasedText style={styles.buttonLabel}>
+                Sign in
+              </UppercasedText>
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity onPress={this.onFacebookLogin}>
             <View
               style={[
@@ -181,14 +203,6 @@ export default class Login extends React.Component {
               <UppercasedText
                 style={[styles.buttonLabel, styles.buttonLabelWithIcon]}>
                 Sign in with Facebook
-              </UppercasedText>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onLogin}>
-            <View
-              style={[Styles.RoundedButton, styles.button, styles.logInButton]}>
-              <UppercasedText style={styles.buttonLabel}>
-                Sign in
               </UppercasedText>
             </View>
           </TouchableOpacity>
@@ -207,9 +221,11 @@ export default class Login extends React.Component {
       <View style={[Styles.Card, styles.card, styles.tos]}>
         <Text style={styles.tosLabel}>
           By proceeding to create a Localyyz account, you hereby acknowledge and
-          accept both the Terms of Service Agreement and our Privacy Policy. You
-          also consent to receive relevant communication that Localyyz and our
-          merchants may send you via email from time to time.
+          accept both the Terms of Service Agreement and our Privacy Policy.
+        </Text>
+        <Text style={styles.tosLabel}>
+          You also consent to receive relevant communication that Localyyz and
+          our merchants may send you via email from time to time.
         </Text>
       </View>
     );
@@ -239,7 +255,7 @@ export default class Login extends React.Component {
         alertMessage: "Please use a longer password."
       });
     } else {
-      this.assistant.write(BUSY_MESSAGE, null, true);
+      this.props.write(BUSY_MESSAGE);
       this.fetchSession("email", {
         email: this.state.username,
         password: this.state.password
@@ -266,7 +282,7 @@ export default class Login extends React.Component {
           "We use your name to personalize your experience and to expedite shipping."
       });
     } else {
-      this.assistant.write(BUSY_REGISTER_MESSAGE, null, true);
+      this.props.write(BUSY_REGISTER_MESSAGE);
       this.register(
         this.state.username,
         this.state.password,
@@ -277,10 +293,10 @@ export default class Login extends React.Component {
   }
 
   fetchSession = async (type, payload, skipRegister) => {
-    const wasSuccessful = await this.props.loginStore.login(type, payload);
+    const wasSuccessful = await this.props.login(type, payload);
 
     // dismiss assistant
-    this.assistant.get(BUSY_MESSAGE).cancel();
+    this.props.getWrite(BUSY_MESSAGE).cancel();
     if (wasSuccessful) {
       this.state.appContext
         ? this.props.navigation.goBack()
@@ -298,7 +314,7 @@ export default class Login extends React.Component {
   };
 
   register = async (email, password, name, gender) => {
-    const wasSuccessful = await this.props.loginStore.signup({
+    const wasSuccessful = await this.props.signup({
       email: email,
       password: password,
       passwordConfirm: password,
@@ -307,7 +323,7 @@ export default class Login extends React.Component {
     });
 
     // dismiss assistant
-    this.assistant.get(BUSY_REGISTER_MESSAGE).cancel();
+    this.props.getWrite(BUSY_REGISTER_MESSAGE).cancel();
     if (wasSuccessful) {
       this.state.appContext
         ? this.props.navigation.goBack()
@@ -335,7 +351,8 @@ export default class Login extends React.Component {
               style={styles.background}
               source={monogram}/>
           }>
-          <ScrollView
+          <KeyboardAwareScrollView
+            ref="scrollView"
             scrollEventThrottle={16}
             onScroll={e => this.refs.container.onScroll(e)}>
             <View style={styles.wrapper}>
@@ -382,7 +399,7 @@ export default class Login extends React.Component {
                 ? this.renderRegisterForm()
                 : this.renderLoginButton()}
             </View>
-          </ScrollView>
+          </KeyboardAwareScrollView>
         </ContentCoverSlider>
         {this.state.isGenderVisible && (
           <PickerField.Modal
@@ -403,12 +420,13 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    marginVertical: Sizes.InnerFrame / 3,
-    marginHorizontal: Sizes.InnerFrame
+    marginVertical: Sizes.InnerFrame / 8,
+    paddingVertical: Sizes.OuterFrame
   },
 
   header: {
-    marginTop: Sizes.OuterFrame * 4
+    marginTop: Sizes.OuterFrame * 4,
+    paddingVertical: Sizes.InnerFrame / 2
   },
 
   background: {
@@ -419,8 +437,7 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Emphasized,
     ...Styles.SectionTitle,
-    ...Styles.Alternate,
-    marginHorizontal: Sizes.InnerFrame / 2
+    ...Styles.Alternate
   },
 
   alert: {
@@ -429,7 +446,7 @@ const styles = StyleSheet.create({
 
   tos: {
     backgroundColor: Colours.Transparent,
-    paddingVertical: Sizes.InnerFrame / 2
+    paddingVertical: Sizes.InnerFrame / 4
   },
 
   registerLabel: {
@@ -439,7 +456,8 @@ const styles = StyleSheet.create({
   tosLabel: {
     ...Styles.Text,
     ...Styles.TinyText,
-    ...Styles.Center
+    ...Styles.Center,
+    marginBottom: Sizes.InnerFrame / 2
   },
 
   loginLabel: {
@@ -448,14 +466,23 @@ const styles = StyleSheet.create({
     ...Styles.Center
   },
 
+  buttonContainer: {
+    marginVertical: Sizes.InnerFrame / 2
+  },
+
   buttons: {
     ...Styles.Horizontal,
+    flexWrap: "wrap",
+    marginVertical: Sizes.InnerFrame / 2,
+    marginHorizontal: Sizes.OuterFrame,
     alignItems: "center",
     justifyContent: "center"
   },
 
   button: {
-    alignSelf: "center"
+    alignSelf: "center",
+    minHeight: Sizes.Text * 2,
+    marginVertical: Sizes.InnerFrame / 4
   },
 
   logInButton: {

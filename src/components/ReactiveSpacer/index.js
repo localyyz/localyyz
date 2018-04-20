@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 
 @observer
-class ReactiveSpacer extends React.Component {
+export default class ReactiveSpacer extends React.Component {
   static propTypes = {
     store: PropTypes.any.isRequired,
     heightProp: PropTypes.string.isRequired
@@ -17,5 +17,3 @@ class ReactiveSpacer extends React.Component {
     return <View style={{ paddingTop: store[heightProp] }} />;
   }
 }
-
-export default ReactiveSpacer;
