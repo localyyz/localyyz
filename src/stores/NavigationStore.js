@@ -51,6 +51,12 @@ export default class NavigationStore {
   // NOTE: the second param, is to avoid stacking and reset the nav state
   @action
   dispatch = (router, action, stackNavState = true) => {
+    // TODO: properly handle extra navigations
+    if (action.type == "Navigation/COMPLETE_TRANSITION") {
+      // DO NOTHING
+      return;
+    }
+
     const previousNavState = stackNavState ? this.navigationState : null;
 
     // deep linking directly to product page
@@ -94,8 +100,8 @@ export default class NavigationStore {
       let root = previousNavState ? previousNavState.routes : [];
       let tabs = root[0] || {};
       let originalSelectedTab = tabs.index;
-      var tabIndex =
-        tabs.routes.findIndex(tab => tab.routeName === action.routeName) || 0;
+      var tabIndex
+        = tabs.routes.findIndex(tab => tab.routeName === action.routeName) || 0;
 
       // rebuild and swap indices at tab level
       this.navigationState = {
@@ -116,8 +122,8 @@ export default class NavigationStore {
                           index: 0,
                           routes: [
                             {
-                              ...(tabs.routes[tabIndex].routes &&
-                                tabs.routes[tabIndex].routes[0]),
+                              ...(tabs.routes[tabIndex].routes
+                                && tabs.routes[tabIndex].routes[0]),
                               params: action.params
                             }
                           ]
