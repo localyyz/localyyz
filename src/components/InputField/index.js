@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, TextInput } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import { Sizes, Colours, Styles } from "localyyz/constants";
 
 // third party
@@ -36,14 +36,12 @@ export default class InputField extends React.Component {
             {...this.props}
             placeholder={this.props.placeholder}
             placeholderTextColor={Colours.SubduedText}
-            style={styles.input}
-          />
+            style={styles.input}/>
           {this.props.icon && (
             <EntypoIcon
               name={this.props.icon}
               size={Sizes.Text}
-              color={Colours.SubduedText}
-            />
+              color={Colours.SubduedText}/>
           )}
         </View>
       </View>
@@ -53,7 +51,8 @@ export default class InputField extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: Sizes.InnerFrame / 2
+    paddingTop: Sizes.InnerFrame / 4,
+    paddingBottom: Sizes.OuterFrame / 2
   },
 
   underline: {

@@ -26,7 +26,8 @@ export default class PickerField extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: Sizes.InnerFrame / 2
+    paddingTop: Sizes.InnerFrame / 4,
+    paddingBottom: Sizes.OuterFrame / 2
   },
 
   underline: {
@@ -45,6 +46,6 @@ const styles = StyleSheet.create({
 
   selected: {
     ...Styles.Text,
-    paddingRight: Sizes.InnerFrame
+    paddingRight: Sizes.InnerFrame / 2
   }
 });

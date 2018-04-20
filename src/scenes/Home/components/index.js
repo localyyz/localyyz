@@ -7,5 +7,3 @@ export { default as ListHeader } from "./ListHeader";
 
 export { default as Header } from "./Header";
 export { default as AssistantHeader } from "./AssistantHeader";
-
-export { default as ReactiveSpacer } from "./ReactiveSpacer";

@@ -3,13 +3,13 @@ import { Animated, View, StyleSheet, ScrollView } from "react-native";
 
 // custom
 import { NAVBAR_HEIGHT, Colours } from "localyyz/constants";
+import { ReactiveSpacer } from "localyyz/components";
 
 // third party
 import { observer, inject } from "mobx-react";
 
 // local
 import List from "./List";
-import ReactiveSpacer from "./ReactiveSpacer";
 
 @inject("homeStore")
 @observer

@@ -11,6 +11,9 @@ export default class LoginStore {
   constructor(userStore) {
     this.api = ApiInstance;
     this.user = userStore;
+
+    // bindings
+    this.handleErr = this.handleErr.bind(this);
   }
 
   @computed
@@ -41,12 +44,10 @@ export default class LoginStore {
       });
 
       this._loginSuccess("signup");
-
-      return true;
     } catch (err) {
       this.handleErr(err);
     }
-    return false;
+    return this._wasLoginSuccessful;
   };
 
   @action
@@ -117,13 +118,7 @@ export default class LoginStore {
           fb_registration_method: "facebook"
         });
       } catch (err) {
-        if (err.response) {
-          console.log(
-            `[Login Error] Status ${err.response.status}: ${err.response.data}`
-          );
-        } else {
-          console.log(`[Login Error] ${err.message}`);
-        }
+        this.handleErr(err);
       }
     }
   };
@@ -183,4 +178,12 @@ export default class LoginStore {
 
     return this._wasLoginSuccessful;
   };
+
+  handleErr(err) {
+    console.log(
+      err.response
+        ? `[Login Error] Status ${err.response.status}: ${err.response.data}`
+        : `[Login Error] ${err.message}`
+    );
+  }
 }
