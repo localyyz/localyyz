@@ -3,7 +3,8 @@ import { Cart, UserAddress } from "localyyz/models";
 import { CART_STATUS_INPROGRESS } from "localyyz/constants";
 
 // custom
-import { facebook as Facebook, ApplePayExpressPayment } from "localyyz/effects";
+import { ApplePayExpressPayment } from "localyyz/effects";
+import { facebook as Facebook } from "localyyz/effects";
 import { ApiInstance } from "localyyz/global";
 
 // third party
@@ -15,59 +16,21 @@ const DEFAULT_CART = "default";
 
 class CartStore {
   @observable cart;
-  @observable isVisible;
-  @observable isPullupVisible;
   @observable paymentDetails;
   @observable shippingAddress;
+  @observable billingAddress;
 
   // used for apple pay
   @observable selectedShipping;
 
   constructor() {
     this._api = ApiInstance;
-    this.isVisible = true;
-    this.isPullupVisible = false;
     this.paymentDetails = {};
     this.cart = new Cart({
       id: "default",
       items: []
     });
-
-    // bindings
-    this.toggle = this.toggle.bind(this);
-    this.show = this.show.bind(this);
-    this.hide = this.hide.bind(this);
   }
-
-  ////////////////////////////////////////////////// data observable ///
-  // when the app logs the user in (or skips login) fetch cart items
-  //reactLogin = when(
-  //() =>
-  //(this.login._wasLoginSuccessful || this.login._wasLoginSkipped),
-  //() => {
-  //this.fetchFeaturedProducts();
-  //this.fetchDiscountedProducts();
-  //}
-  //);
-
-  /////////////////////////////////////////////////////////////////////
-
-  @action
-  show() {
-    this.isVisible = true;
-  }
-
-  @action
-  hide() {
-    this.isVisible = false;
-    this.toggle(false);
-  }
-
-  @action
-  toggle = async forceOpen => {
-    this.isPullupVisible
-      = forceOpen != null ? forceOpen : !this.isPullupVisible;
-  };
 
   // cart conveniences
   @computed
@@ -117,6 +80,11 @@ class CartStore {
   @computed
   get shippingDetails() {
     return this.cart.shippingAddress || {};
+  }
+
+  @computed
+  get billingDetails() {
+    return this.cart.billingAddress || {};
   }
 
   @computed
@@ -280,22 +248,27 @@ class CartStore {
   };
 
   @action
-  updateAddress = async ({ address, cartId }) => {
+  updateAddress = async ({ address, cartId, billingAddress }) => {
     // TODO: default should be this.cart.id not "default", backend design issue
     const route = `/carts/${cartId || DEFAULT_CART}`;
     const payload = {
-      shippingAddress: address,
-      billingAddress: address
+      shippingAddress:
+        address === false ? null : address || this.shippingAddress,
+      billingAddress:
+        billingAddress === false ? null : billingAddress || this.billingAddress
     };
+
+    // update locally
+    this.shippingAddress = payload.shippingAddress;
+    this.billingAddress = payload.billingAddress;
 
     const response = await this._api.put(route, payload);
     if (response && response.status < 400 && response.data) {
-      this.shippingAddress = address;
-
       Facebook.logEvent("fb_mobile_shipping_address", {
         fb_content_type: "default",
         fb_content_id: this.cart.id
       });
+
       return await this.replace(response.data);
     }
   };
@@ -349,7 +322,7 @@ class CartStore {
       {
         payment: this.payment,
         // TODO: billing could be different from shipping address
-        billingAddress: this.shippingDetails
+        billingAddress: this.billingDetails
       }
     );
 

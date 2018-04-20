@@ -1,103 +1,94 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
+import PropTypes from "prop-types";
 
 // custom
 import Address from "./Address";
 import AddressForm from "./AddressForm";
 import CartHeader from "./CartHeader";
-import { UppercasedText } from "localyyz/components";
 
 // third party
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { inject, observer } from "mobx-react";
 
-@inject("addressStore", "cartStore")
+@inject(stores => ({
+  fetch: () => stores.addressStore.fetch(),
+  addresses: stores.addressStore.addresses.slice(),
+  remove: addressId => stores.addressStore.remove(addressId),
+  getCheckoutSummary: () => stores.cartUiStore.getCheckoutSummary()
+}))
 @observer
 export default class Addresses extends React.Component {
+  static propTypes = {
+    isVisible: PropTypes.bool.isRequired,
+    toggle: PropTypes.func.isRequired,
+    address: PropTypes.object.isRequired,
+    onReady: PropTypes.func,
+    title: PropTypes.string,
+
+    // mobx injected
+    addresses: PropTypes.array.isRequired,
+    fetch: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
+    getCheckoutSummary: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    title: "Shipping to"
+  };
+
   constructor(props) {
     super(props);
     this.store = this.props.addressStore;
     this.cart = this.props.cartStore;
     this.state = {
-      isAddressesVisible: false,
-      isFormVisible: false,
-      address: props.address || this.cart.shippingAddress
+      isFormVisible: false
     };
 
     // bindings
-    this.toggle = this.toggle.bind(this);
-    this.openForm = this.openForm.bind(this);
-    this.closeForm = this.closeForm.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
     this.onAddressUpdate = this.onAddressUpdate.bind(this);
   }
 
-  componentDidMount() {
-    this.store.fetch().then(addresses => {
-      // automatically select the first address, or previously selected
-      if ((addresses && addresses.length > 0) || this.state.address) {
-        // forward up address and close addresses
-        this.onAddressUpdate(this.state.address || addresses[0], true);
-        this.toggle(false);
-      }
-    });
+  componentWillMount() {
+    this.props.fetch();
   }
 
-  toggle(forceOpen) {
-    // either set to some explicit value, or alternate from
-    // prev value
-    const shouldOpen =
-      forceOpen != null ? forceOpen : !this.state.isAddressesVisible;
-    this.setState(
-      {
-        isAddressesVisible: shouldOpen
-      },
-      () => {
-        if (this.state.isAddressesVisible) {
-          this.props.onOpenAddresses && this.props.onOpenAddresses();
-        } else {
-          this.props.onCloseAddresses && this.props.onCloseAddresses();
-
-          // and finally close the form
-          this.closeForm();
-        }
-      }
-    );
-  }
-
-  openForm() {
-    this.setState({ isFormVisible: true });
-    this.props.onOpenForm && this.props.onOpenForm();
-  }
-
-  closeForm() {
+  toggleForm(visible) {
     this.setState({
-      isFormVisible: false
+      isFormVisible: visible != null ? visible : !this.state.isFormVisible
     });
-    this.props.onCloseForm && this.props.onCloseForm();
   }
 
-  onAddressUpdate(address, skipToggle) {
-    this.setState(
-      {
-        address: address
-      },
-      () => {
-        // update parent callback
-        this.props.onReady && this.props.onReady(address, skipToggle);
+  onAddressUpdate(address) {
+    this.props.onReady && this.props.onReady(address);
+    if (address) {
+      this.props.toggle(false);
+      this.toggleForm(false);
+
+      // and move to next incomplete field
+      try {
+        this.props.getCheckoutSummary();
+      } catch (err) {
+        // pass on any errors
       }
-    );
+    }
+  }
+
+  get isReady() {
+    return this.props.address.address;
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.toggle()}>
+        <TouchableOpacity onPress={() => this.props.toggle()}>
           <CartHeader
-            title="Shipping to"
+            title={this.props.title}
             icon={
-              !this.props.address ? (
+              !this.isReady ? (
                 <EntypoIcon
                   name="dot-single"
                   size={Sizes.IconButton}
@@ -111,39 +102,35 @@ export default class Addresses extends React.Component {
                   style={Styles.IconOffset}
                 />
               )
-            }
-          >
-            {!this.props.address
+            }>
+            {!this.isReady
               ? "no address selected"
               : this.props.address.shortAddress}
           </CartHeader>
         </TouchableOpacity>
-        {this.state.isAddressesVisible && (
+        {this.props.isVisible && (
           <View style={styles.addresses}>
             {!this.state.isFormVisible && (
               <View>
-                {this.store.addresses.map(address => (
+                {this.props.addresses.map(address => (
                   <Address
                     key={`address-${address.id}`}
                     address={address}
                     buttonIcon="trash"
                     onActionPress={() => {
-                      this.store.remove(address.id).then(
+                      this.props.remove(address.id).then(
                         // clear previously selected address
-                        () => this.onAddressUpdate(null, true)
+                        () => this.onAddressUpdate(false)
                       );
                     }}
-                    onPress={() => {
-                      this.onAddressUpdate(address);
-                      this.toggle(false);
-                    }}
+                    onPress={() => this.onAddressUpdate(address)}
                   />
                 ))}
               </View>
             )}
-            {!this.state.isFormVisible && this.store.addresses.length > 0 ? (
+            {!this.state.isFormVisible && this.props.addresses.length > 0 ? (
               <View style={styles.addAddress}>
-                <TouchableOpacity onPress={this.openForm}>
+                <TouchableOpacity onPress={() => this.toggleForm(true)}>
                   <Text
                     style={[
                       Styles.Text,
@@ -151,19 +138,14 @@ export default class Addresses extends React.Component {
                       Styles.Emphasized,
                       Styles.Underlined,
                       styles.addAddressLabel
-                    ]}
-                  >
-                    use a different address
+                    ]}>
+                    add a new address
                   </Text>
                 </TouchableOpacity>
               </View>
             ) : (
               <AddressForm
-                defaultName={this.props.defaultName}
-                onSubmit={(address, skipToggle) => {
-                  this.onAddressUpdate(address, skipToggle);
-                  this.toggle(false);
-                }}
+                onSubmit={address => this.onAddressUpdate(address)}
               />
             )}
           </View>
@@ -175,10 +157,6 @@ export default class Addresses extends React.Component {
 
 const styles = StyleSheet.create({
   container: {},
-
-  addressDetails: {
-    marginLeft: Sizes.InnerFrame / 2
-  },
 
   addAddress: {
     padding: Sizes.InnerFrame,

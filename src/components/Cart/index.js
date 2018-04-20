@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  Alert
-} from "react-native";
+import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // custom
@@ -14,44 +8,66 @@ import CartSummary from "./components/CartSummary";
 import CartHeader from "./components/CartHeader";
 import Addresses from "./components/Addresses";
 import PaymentMethods from "./components/PaymentMethods";
-import {
-  PULLUP_LOW_SPAN,
-  PULLUP_HALF_SPAN,
-  PULLUP_FULL_SPAN
-} from "../NavBar/components/Pullup";
 import { Assistant } from "localyyz/components";
 
 // third party
+import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
 
-@inject("cartStore")
+@inject(stores => ({
+  // ui
+  isEmpty: stores.cartStore.isEmpty,
+  isAddressVisible: stores.cartUiStore.isAddressVisible,
+  isBillingVisible: stores.cartUiStore.isBillingVisible,
+
+  // methods
+  fetch: () => stores.cartStore.fetch(),
+  toggleAddress: visible => stores.cartUiStore.toggleAddress(visible),
+  toggleBilling: visible => stores.cartUiStore.toggleBilling(visible),
+  updateAddress: (address, billing) =>
+    stores.cartStore.updateAddress({
+      address: address,
+      billingAddress: billing
+    }),
+
+  // data
+  shippingDetails: stores.cartStore.shippingDetails,
+  billingDetails: stores.cartStore.billingDetails,
+  payingDetails: stores.cartStore.paymentDetails
+}))
 @observer
 export default class Cart extends React.Component {
+  static propTypes = {
+    shippingDetails: PropTypes.object,
+    billingDetails: PropTypes.object,
+
+    // mobx injected
+    fetch: PropTypes.func.isRequired,
+    toggleAddress: PropTypes.func.isRequired,
+    toggleBilling: PropTypes.func.isRequired,
+    updateAddress: PropTypes.func.isRequired,
+    isEmpty: PropTypes.bool,
+    isAddressVisible: PropTypes.bool,
+    isBillingVisible: PropTypes.bool
+  };
+
+  static defaultProps = {
+    isEmpty: true,
+    isAddressVisible: false,
+    isBillingVisible: false
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      // cart views
-      isCartItemsVisible: true,
-
-      // data
-      address: null,
-      name: null
-    };
 
     // bindings
-    this.onAddressReady = this.onAddressReady.bind(this);
-    this.onPaymentMethodsReady = this.onPaymentMethodsReady.bind(this);
-    this.toggleCartItems = this.toggleCartItems.bind(this);
-    this.onCheckout = this.onCheckout.bind(this);
-    this.isReady = this.isReady.bind(this);
-
-    // stores
-    this.store = this.props.cartStore;
+    this.onAddressUpdate = this.onAddressUpdate.bind(this);
+    this.onBillingUpdate = this.onBillingUpdate.bind(this);
   }
 
   componentDidMount() {
     // load cart
-    this.store.fetch();
+    this.props.fetch();
     this._mounted = true;
   }
 
@@ -59,185 +75,44 @@ export default class Cart extends React.Component {
     this._mounted = false;
   }
 
-  toggleCartItems(forceShow) {
-    this.setState({
-      isCartItemsVisible:
-        forceShow != null ? forceShow : !this.state.isCartItemsVisible
-    });
+  onAddressUpdate(address) {
+    this.props.updateAddress(address);
   }
 
-  onAddressReady(address, skipToggle) {
-    this._mounted &&
-      this.setState(
-        {
-          address: address,
-          name: address
-            ? `${address.firstName}` +
-              (address.lastName ? ` ${address.lastName}` : "")
-            : this.state.name
-        },
-        () => {
-          if (address) {
-            this.store.updateAddress({ address: address }).then(() => {
-              // follow up with checkout
-              // TODO: catch error
-              this.store.checkout();
-            });
-          }
-
-          // and out
-          if (
-            !this.store.paymentDetails.ready &&
-            !skipToggle &&
-            !!this.paymentMethods
-          )
-            this.paymentMethods.toggle(true);
-        }
-      );
-  }
-
-  onPaymentMethodsReady(card, skipToggle) {
-    this.setState(
-      {
-        name: card.name
-      },
-      () => {
-        if (card.ready && !this.state.address && !skipToggle)
-          this.addresses.toggle(true);
-      }
-    );
-
-    // and update the store
-    card.ready && this.store.usePaymentMethod({ card: card });
-  }
-
-  onCheckout() {
-    if (!this.isReady() && !this.store.isEmpty) {
-      if (!this.store.shippingDetails || !this.state.address) {
-        // missing address, open that
-        // TODO: ref is injected, find some nicer
-        // way of handling this to get the original ref
-        // and since renderer is called inside pullup, refs live inside
-        // of pullup
-        this.addresses.toggle(true);
-      } else if (this.store.hasErrors) {
-        // out of stock issues
-        Alert.alert(
-          "Error",
-          this.store.hasErrors
-            ? this.store.hasErrors.charAt(0).toUpperCase() +
-              this.store.hasErrors.slice(1)
-            : "There was an unexpected error during the checkout process. Please try again later",
-          [
-            {
-              text: "OK",
-              onPress: () => this.toggleCartItems(true)
-            }
-          ]
-        );
-      } else {
-        // payment issues, open that
-        this.paymentMethods.toggle(true);
-      }
-    } else if (!this.store.isEmpty) {
-      // good to go, process checkout via store
-      // and close cart
-      this.props.onCheckout &&
-        this.props.onCheckout() &&
-        this.props.navigation.navigate("CartSummary", {
-          // static vars for when summary is completed, so when store
-          // cart resets, display remains on props
-          cart: this.store.cart,
-          customerName: this.store.customerName,
-          shippingDetails: this.store.shippingDetails,
-          shippingExpectation: this.store.shippingExpectation,
-          amountSubtotal: this.store.amountSubtotal,
-          amountTaxes: this.store.amountTaxes,
-          amountDiscount: this.store.amountDiscount,
-          amountTotal: this.store.amountTotal,
-          amountShipping: this.store.amountShipping,
-          paymentType: this.store.paymentType,
-          paymentLastFour: this.store.paymentLastFour
-        });
-    }
-  }
-
-  // convenience getters to manipulate inner components
-  get paymentMethods() {
-    return this.refs.paymentMethods;
-  }
-
-  get addresses() {
-    return this.refs.addresses && this.refs.addresses.wrappedInstance;
-  }
-
-  get items() {
-    return this.refs.items && this.refs.items.wrappedInstance;
-  }
-
-  isReady() {
-    return (
-      !!this.store.shippingDetails &&
-      !!this.store.paymentDetails.ready &&
-      !this.store.isEmpty &&
-      !!this.state.address &&
-      !this.store.hasErrors
-    );
+  onBillingUpdate(address) {
+    this.props.updateAddress(null, address);
   }
 
   render() {
-    return !this.store.isEmpty ? (
+    return !this.props.isEmpty ? (
       <TouchableWithoutFeedback>
         <View>
-          <CartItems
-            ref="items"
-            onPhotoPress={() => {
-              this.props.snap && this.props.snap("high", true);
-              this.toggleCartItems(true);
-            }}
-            onProductPress={() => this.store.toggle(false)}
-            // always show items, but when "not visible, shrink items"
-            getHeight={() =>
-              this.state.isCartItemsVisible && this.props.getHeight
-                ? this.props.getHeight()
-                : PULLUP_LOW_SPAN}
-            spanHeights={{
-              [PULLUP_LOW_SPAN]: 0,
-              [PULLUP_HALF_SPAN]: 1,
-              [PULLUP_FULL_SPAN]: 2
-            }}
-          />
+          <CartItems />
           <Addresses
-            ref="addresses"
-            address={this.state.address}
-            defaultName={this.state.name}
-            onOpenForm={() => this.props.snap && this.props.snap("high", true)}
-            onOpenAddresses={() => {
-              this.props.snap && this.props.snap("middle", true);
-              this.toggleCartItems(false);
-            }}
-            onReady={this.onAddressReady}
+            isVisible={this.props.isAddressVisible}
+            toggle={this.props.toggleAddress}
+            address={this.props.shippingDetails}
+            onReady={this.onAddressUpdate}
           />
-          <PaymentMethods
-            ref="paymentMethods"
-            defaultName={this.state.name}
-            card={this.store.paymentDetails}
-            onOpenPaymentMethods={() => {
-              this.props.snap && this.props.snap("high", true);
-              this.toggleCartItems(false);
-            }}
-            onReady={card => this.onPaymentMethodsReady(card, true)}
-            onSubmit={() => this.onCheckout()}
+          <PaymentMethods />
+          <Addresses
+            title="Billing address"
+            isVisible={this.props.isBillingVisible}
+            toggle={this.props.toggleBilling}
+            address={this.props.billingDetails}
+            onReady={this.onBillingUpdate}
           />
           <CartHeader title="Order Summary" />
-          <View style={styles.alert}>
-            <Text style={[Styles.Text, Styles.Terminal]}>
-              {
-                "You'll have a chance to review your order before it's confirmed and processed."
-              }
-            </Text>
+          <View style={[styles.content, styles.end]}>
+            <View style={styles.alert}>
+              <Text style={Styles.Text}>
+                {
+                  "You'll have a chance to review your order before it's confirmed and processed."
+                }
+              </Text>
+            </View>
+            <CartSummary />
           </View>
-          <CartSummary />
         </View>
       </TouchableWithoutFeedback>
     ) : (
@@ -262,5 +137,14 @@ const styles = StyleSheet.create({
 
   assistant: {
     paddingHorizontal: Sizes.InnerFrame
+  },
+
+  content: {
+    paddingVertical: Sizes.InnerFrame / 2,
+    backgroundColor: Colours.Foreground
+  },
+
+  end: {
+    paddingBottom: Sizes.OuterFrame
   }
 });

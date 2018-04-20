@@ -27,3 +27,4 @@ export { default as VerifiedBadge } from "./Badge/variants/VerifiedBadge";
 export { default as InputField } from "./InputField";
 export { default as PickerField } from "./PickerField";
 export { default as ReactiveSpacer } from "./ReactiveSpacer";
+export { default as SloppyView } from "./SloppyView";

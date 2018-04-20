@@ -6,17 +6,29 @@ import { Assistant, UppercasedText } from "localyyz/components";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // third party
+import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
 import { BlurView } from "react-native-blur";
 import * as Animatable from "react-native-animatable";
 
-@inject("assistantStore")
+@inject(stores => ({
+  lastUpdated: stores.assistantStore.lastUpdated,
+  messages: stores.assistantStore.messages.slice()
+}))
 @observer
 export default class GlobalAssistant extends React.Component {
   constructor(props) {
     super(props);
     this.store = this.props.assistantStore;
   }
+  static propTypes = {
+    lastUpdated: PropTypes.any,
+    messages: PropTypes.array
+  };
+
+  static defaultProps = {
+    messages: []
+  };
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -50,7 +62,7 @@ export default class GlobalAssistant extends React.Component {
         duration={500}
         style={[
           styles.container,
-          !!this.store.lastUpdated
+          !!this.props.lastUpdated
             && !!this.assistant.isBlocking && {
               top: 0
             }
@@ -73,7 +85,7 @@ export default class GlobalAssistant extends React.Component {
             duration={500}
             style={[
               styles.closedAssistantContainer,
-              !!this.store.lastUpdated && !!this.assistant.isVisible
+              !!this.props.lastUpdated && !!this.assistant.isVisible
                 ? styles.assistantContainer
                 : null
             ]}>
@@ -81,7 +93,7 @@ export default class GlobalAssistant extends React.Component {
               ref="assistant"
               delay={800}
               typeSpeed={30}
-              messages={this.store.messages.slice()}
+              messages={this.props.messages.slice()}
               style={styles.assistant}/>
           </Animatable.View>
         </BlurView>
