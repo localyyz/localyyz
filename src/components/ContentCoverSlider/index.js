@@ -11,6 +11,10 @@ import { Icon } from "react-native-elements";
 const FADE_HEIGHT = 50;
 const POP_HEIGHT = Sizes.Height / 4;
 
+// NOTE: there's an issue with setState after component is unmounted
+//  here we throttle the speed to navigate back to 200ms
+const RECOMMENDED_BROWSING_SPEED = 200;
+
 export default class ContentCoverSlider extends React.Component {
   constructor(props) {
     super(props);
@@ -56,8 +60,7 @@ export default class ContentCoverSlider extends React.Component {
             this.props.backgroundHeight && {
               height: this.props.backgroundHeight
             }
-          ]}
-        />
+          ]}/>
       )
     );
   }
@@ -94,8 +97,8 @@ export default class ContentCoverSlider extends React.Component {
             styles.background,
             {
               opacity:
-                ((this.props.fadeHeight || FADE_HEIGHT) - this.state.y) /
-                (this.props.fadeHeight || FADE_HEIGHT)
+                ((this.props.fadeHeight || FADE_HEIGHT) - this.state.y)
+                / (this.props.fadeHeight || FADE_HEIGHT)
             }
           ]}>
           {this.renderBackground()}
@@ -117,15 +120,20 @@ export default class ContentCoverSlider extends React.Component {
                   ? Colours.AlternateText
                   : this.props.backColor || Colours.AlternateText
               }
-              onPress={this.props.backAction}
+              onPress={() => {
+                // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
+                // for clarification on why this is needed
+                setTimeout(() => {
+                  this.props.backAction();
+                }, RECOMMENDED_BROWSING_SPEED);
+              }}
               underlayColor={Colours.Transparent}
               hitSlop={{
                 top: Sizes.InnerFrame,
                 bottom: Sizes.InnerFrame,
                 left: Sizes.InnerFrame,
                 right: Sizes.InnerFrame
-              }}
-            />
+              }}/>
           </Animatable.View>
         )}
       </View>

@@ -48,9 +48,6 @@ import {
 
 // consts
 const BADGE_MIN_DISCOUNT = 0.1;
-// NOTE: there's an issue with setState after component is unmounted
-//  here we throttle the speed to navigate back to 200ms
-const RECOMMENDED_BROWSING_SPEED = 200;
 
 @inject("navStore", "cartStore", "userStore", "assistantStore", "historyStore")
 @observer
@@ -91,6 +88,7 @@ class ProductScene extends React.Component {
     this.containerRef = React.createRef();
     this.productBuyRef = React.createRef();
     this.photoDetailsRef = React.createRef();
+    this.contentScrollViewRef = React.createRef();
 
     // bindings
     this.onAdd = this.onAdd.bind(this);
@@ -116,6 +114,13 @@ class ProductScene extends React.Component {
 
     // internal history logging
     this.store.product && this.history.log(this.store.product);
+
+    // trigger rendering image hack/fix
+    // https://github.com/facebook/react-native/issues/1831#issuecomment-231069668
+    this.timer = setTimeout(() => {
+      this.contentScrollViewRef.current
+        && this.contentScrollViewRef.current.scrollTo({ y: 1 });
+    }, 10);
   }
 
   get productId() {
@@ -125,6 +130,8 @@ class ProductScene extends React.Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.timer);
+
     // set app context to help app resume the correct state
     // please see "Deeplink" for comments and why this is needed
     this.props.navStore.setAppContext();
@@ -623,11 +630,9 @@ class ProductScene extends React.Component {
             ref={this.containerRef}
             title={this.store.product.truncatedTitle}
             backAction={() => {
-              setTimeout(() => {
-                this.props.navigation.goBack();
-                this.props.navigation.state.params.onBack
-                  && this.props.navigation.state.params.onBack();
-              }, RECOMMENDED_BROWSING_SPEED);
+              this.props.navigation.goBack();
+              this.props.navigation.state.params.onBack
+                && this.props.navigation.state.params.onBack();
             }}
             fadeHeight={this.state.backgroundPosition * 2 / 3}
             background={
@@ -672,6 +677,7 @@ class ProductScene extends React.Component {
             }
             backColor={Colours.Text}>
             <ScrollView
+              ref={this.contentScrollViewRef}
               contentContainerStyle={styles.productContainer}
               scrollEventThrottle={16}
               showsVerticalScrollIndicator={false}

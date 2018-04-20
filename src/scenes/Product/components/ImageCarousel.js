@@ -47,22 +47,6 @@ export default class ImageCarousel extends React.Component {
     }, {});
   }
 
-  componentDidMount() {
-    // NOTE: bug in RN's flatlist that prevents
-    // rendering until the first screen..
-    //
-    // more detail:
-    // https://github.com/archriss/react-native-snap-carousel/issues/238
-    this.timer = setTimeout(() => {
-      this.carouselRef.current
-        && this.carouselRef.current.triggerRenderingHack();
-    }, 10);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer);
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     if (
       nextProps.images.length !== this.props.images.length
