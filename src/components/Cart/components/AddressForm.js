@@ -26,23 +26,42 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { inject } from "mobx-react";
 
 // constants
-const ADDRESS_PLACEHOLDER = "1 Infinite Loop";
-const CITY_PLACEHOLDER = "Cupertino";
-const PROVINCE_PLACEHOLDER = "CA";
-const POSTAL_PLACEHOLDER = "ZIP";
-const COUNTRY_PLACEHOLDER = "US";
+const PLACEHOLDER_US = {
+  address: "1 Infinite Loop",
+  city: "Cupertino",
+  province: "CA",
+  postal: "10118",
+  country: "United States"
+};
+const PLACEHOLDER_CA = {
+  address: "1 Yonge Street",
+  city: "Toronto",
+  province: "ON",
+  postal: "A1A 1A1",
+  country: "Canada"
+};
+
+const COUNTRY_CODE_US = "US";
+const COUNTRY_CODE_CA = "CA";
 
 @inject(stores => ({
   defaultName: stores.cartUiStore.defaultName,
-  add: address => stores.addressStore.add(address)
+  add: address => stores.addressStore.add(address),
+  update: address => stores.addressStore.update(address)
 }))
 export default class AddressForm extends React.Component {
   static propTypes = {
+    address: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
 
     // mobx injected
     add: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired,
     defaultName: PropTypes.string
+  };
+
+  static defaultProps = {
+    address: {}
   };
 
   constructor(props) {
@@ -51,10 +70,11 @@ export default class AddressForm extends React.Component {
       address: new UserAddress({
         ..._splitName(this.props.defaultName),
         isShipping: true,
-        isBilling: true
+        isBilling: true,
+
+        ...props.address
       }),
-      name: this.props.defaultName,
-      submitted: false
+      name: props.address.fullName || this.props.defaultName
     };
 
     // bindings
@@ -67,29 +87,29 @@ export default class AddressForm extends React.Component {
 
   componentWillReceiveProps(next) {
     // defaultName changes updates state
-    next.defaultName !== this.props.defaultName &&
-      this.onNameUpdate(next.defaultName);
+    next.defaultName !== this.props.defaultName
+      && this.onNameUpdate(next.defaultName);
   }
 
   get isComplete() {
     return (
-      this.state.address &&
-      !!this.state.address.address &&
-      !!this.state.address.city &&
-      !!this.state.address.province &&
-      !!this.state.address.zip &&
-      !!this.state.address.country
+      this.state.address
+      && !!this.state.address.address
+      && !!this.state.address.city
+      && !!this.state.address.province
+      && !!this.state.address.zip
+      && !!this.state.address.country
     );
   }
 
   get isFilled() {
     return (
-      this.state.address &&
-      (!!this.state.address.address ||
-        !!this.state.address.city ||
-        !!this.state.address.province ||
-        !!this.state.address.zip ||
-        !!this.state.address.country)
+      this.state.address
+      && (!!this.state.address.address
+        || !!this.state.address.city
+        || !!this.state.address.province
+        || !!this.state.address.zip
+        || !!this.state.address.country)
     );
   }
 
@@ -99,15 +119,15 @@ export default class AddressForm extends React.Component {
       if (component.types && component.types.length > 0) {
         switch (component.types[0]) {
           case "street_number":
-            address.address = `${component.short_name}${address.address
-              ? ` ${address.address}`
-              : ""}`;
+            address.address = `${component.short_name}${
+              address.address ? ` ${address.address}` : ""
+            }`;
             address.streetNumber = component.short_name;
             break;
           case "route":
-            address.address = `${address.streetNumber
-              ? `${address.streetNumber} `
-              : ""}${component.short_name}`;
+            address.address = `${
+              address.streetNumber ? `${address.streetNumber} ` : ""
+            }${component.short_name}`;
             break;
           case "locality":
           case "sublocality_level_1":
@@ -160,23 +180,31 @@ export default class AddressForm extends React.Component {
       // error out and focus to field
       Alert.alert(
         "Invalid address",
-        "There's an issue with the entered shipping address"
+        "There's an issue with the entered shipping address",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              // focus on incomplete field
+              // NOTE: this on callback so we don't
+              // lose text input focus on OK
+              if (!this.state.address.address) {
+                this.refs.address
+                  ? this.refs.address.triggerFocus()
+                  : this.refs.manualAddress.focus();
+              } else if (!this.state.address.city) {
+                this.refs.manualCity.focus();
+              } else if (!this.state.address.province) {
+                this.refs.manualProvince.focus();
+              } else if (!this.state.address.country) {
+                this.refs.manualCountry.focus();
+              } else if (!this.state.address.zip) {
+                this.refs.manualPostal.focus();
+              }
+            }
+          }
+        ]
       );
-
-      // focus on incomplete field
-      if (!this.state.address.address) {
-        this.refs.address
-          ? this.refs.address.triggerFocus()
-          : this.refs.manualAddress.focus();
-      } else if (!this.state.address.city) {
-        this.refs.manualCity.focus();
-      } else if (!this.state.address.province) {
-        this.refs.manualProvince.focus();
-      } else if (!this.state.address.country) {
-        this.refs.manualCountry.focus();
-      } else if (!this.state.address.zip) {
-        this.refs.manualPostal.focus();
-      }
     } else if (!this.isNameReady) {
       this.setState(
         {
@@ -185,22 +213,65 @@ export default class AddressForm extends React.Component {
         this.refs.name.focus
       );
     } else {
-      // good to go, try saving it
-      this.props.add(this.state.address).then(() => {
-        // and send to parent caller
-        this.props.onSubmit(this.state.address);
-      });
+      if (this.state.address.id) {
+        // good to go, try saving it
+        this.props.update(this.state.address).then(() => {
+          // and send to parent caller
+          this.props.onSubmit(this.state.address);
+        });
+      } else {
+        // good to go, try saving it
+        this.props.add(this.state.address).then(address => {
+          // and send to parent caller
+          // NOTE: takes a returned address value here because
+          // we need to save the newly created address id
+          this.props.onSubmit(address);
+        });
+      }
     }
   }
 
   get isNameReady() {
     return (
-      !!this.state.name &&
-      this.state.name.length > 0 &&
-      this.state.name.split(" ").length > 1 &&
-      this.state.name.split(" ").every(part => part.length > 0)
+      !!this.state.name
+      && this.state.name.length > 0
+      && this.state.name.split(" ").length > 1
+      && this.state.name.split(" ").every(part => part.length > 0)
     );
   }
+
+  get labelProvince() {
+    switch (this.state.address.countryCode) {
+      case COUNTRY_CODE_CA:
+        return "Province";
+      case COUNTRY_CODE_US:
+        return "State";
+      default:
+        return "State";
+    }
+  }
+
+  get labelPostal() {
+    switch (this.state.address.countryCode) {
+      case COUNTRY_CODE_CA:
+        return "Postal Code";
+      case COUNTRY_CODE_US:
+        return "Zip";
+      default:
+        return "Zip";
+    }
+  }
+
+  placeHolder = field => {
+    switch (this.state.address.countryCode) {
+      case COUNTRY_CODE_CA:
+        return PLACEHOLDER_CA[field];
+      case COUNTRY_CODE_US:
+        return PLACEHOLDER_US[field];
+      default:
+        return PLACEHOLDER_US[field];
+    }
+  };
 
   render() {
     return (
@@ -218,8 +289,7 @@ export default class AddressForm extends React.Component {
             GooglePlacesSearchQuery={{ rankby: "distance" }}
             onPress={this.onAddressSelect}
             placeholderTextColor={Colours.SubduedText}
-            styles={googleAcStyles}
-          />
+            styles={googleAcStyles}/>
         ) : null}
         <Animatable.View
           animation="fadeInDown"
@@ -242,8 +312,7 @@ export default class AddressForm extends React.Component {
                 this.state.isNameInvalid && {
                   color: Colours.Fail
                 }
-              ]}
-            />
+              ]}/>
           </CartField>
         </Animatable.View>
         {this.isFilled ? (
@@ -258,12 +327,14 @@ export default class AddressForm extends React.Component {
                   autoCorrect={false}
                   value={this.state.address && this.state.address.address}
                   onChangeText={a =>
-                    this.onAddressComponentUpdate("address", a)}
-                  placeholder={ADDRESS_PLACEHOLDER}
+                    this.onAddressComponentUpdate("address", a)
+                  }
+                  placeholder={this.placeHolder("address")}
                   placeholderTextColor={Colours.SubduedText}
-                  style={Styles.Input}
-                />
+                  style={Styles.Input}/>
               </CartField>
+            </View>
+            <View style={[Styles.Horizontal, Styles.EqualColumns]}>
               <CartField icon="domain" label="Unit Number">
                 <TextInput
                   ref="addressOpt"
@@ -272,8 +343,7 @@ export default class AddressForm extends React.Component {
                   onChangeText={this.onAddressOptUpdate}
                   placeholder={DEFAULT_ADDRESS_OPT}
                   placeholderTextColor={Colours.SubduedText}
-                  style={Styles.Input}
-                />
+                  style={Styles.Input}/>
               </CartField>
             </View>
             <View style={[Styles.Horizontal, Styles.EqualColumns]}>
@@ -283,22 +353,21 @@ export default class AddressForm extends React.Component {
                   autoCorrect={false}
                   value={this.state.address && this.state.address.city}
                   onChangeText={a => this.onAddressComponentUpdate("city", a)}
-                  placeholder={CITY_PLACEHOLDER}
+                  placeholder={this.placeHolder("city")}
                   placeholderTextColor={Colours.SubduedText}
-                  style={Styles.Input}
-                />
+                  style={Styles.Input}/>
               </CartField>
-              <CartField icon="landscape" label="Province/State">
+              <CartField icon="landscape" label={this.labelProvince}>
                 <TextInput
                   ref="manualProvince"
                   autoCorrect={false}
                   value={this.state.address && this.state.address.province}
                   onChangeText={a =>
-                    this.onAddressComponentUpdate("province", a)}
-                  placeholder={PROVINCE_PLACEHOLDER}
+                    this.onAddressComponentUpdate("province", a)
+                  }
+                  placeholder={this.placeHolder("province")}
                   placeholderTextColor={Colours.SubduedText}
-                  style={Styles.Input}
-                />
+                  style={Styles.Input}/>
               </CartField>
               <CartField icon="public" label="Country">
                 <TextInput
@@ -306,24 +375,23 @@ export default class AddressForm extends React.Component {
                   autoCorrect={false}
                   value={this.state.address && this.state.address.country}
                   onChangeText={a =>
-                    this.onAddressComponentUpdate("country", a)}
-                  placeholder={COUNTRY_PLACEHOLDER}
+                    this.onAddressComponentUpdate("country", a)
+                  }
+                  placeholder={this.placeHolder("country")}
                   placeholderTextColor={Colours.SubduedText}
-                  style={Styles.Input}
-                />
+                  style={Styles.Input}/>
               </CartField>
             </View>
             <View style={[Styles.Horizontal, Styles.EqualColumns]}>
-              <CartField icon="mail" label="Postal Code/ZIP">
+              <CartField icon="mail" label={this.labelPostal}>
                 <TextInput
                   ref="manualPostal"
                   autoCorrect={false}
                   value={this.state.address && this.state.address.zip}
                   onChangeText={a => this.onAddressComponentUpdate("zip", a)}
-                  placeholder={POSTAL_PLACEHOLDER}
+                  placeholder={this.placeHolder("postal")}
                   placeholderTextColor={Colours.SubduedText}
-                  style={Styles.Input}
-                />
+                  style={Styles.Input}/>
               </CartField>
             </View>
           </Animatable.View>

@@ -9,6 +9,8 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 
 export default class Address extends React.Component {
   static propTypes = {
+    address: PropTypes.object.isRequired,
+
     onActionPress: PropTypes.func,
     buttonIcon: PropTypes.string,
     buttonColor: PropTypes.string,
@@ -21,20 +23,20 @@ export default class Address extends React.Component {
   };
 
   render() {
+    const { address } = this.props;
+
     return (
-      <TouchableOpacity onPress={this.props.onPress}>
+      <TouchableOpacity onPress={() => this.props.onPress(address)}>
         <View style={styles.container}>
           {this.props.children || (
             <View style={styles.address}>
-              <Text style={styles.addressLine}>
-                {this.props.address.shortAddress}
-              </Text>
+              <Text style={styles.addressLine}>{address.shortAddress}</Text>
               <Text style={styles.addressDetails}>
-                {this.props.address.extendedAddress}
+                {address.extendedAddress}
               </Text>
             </View>
           )}
-          <TouchableOpacity onPress={this.props.onActionPress}>
+          <TouchableOpacity onPress={() => this.props.onActionPress(address)}>
             <LinearGradient
               colors={[Colours.Foreground, Colours.Transparent]}
               locations={[0.8, 1]}
@@ -45,8 +47,7 @@ export default class Address extends React.Component {
                 name={this.props.buttonIcon}
                 size={Sizes.IconButton / 2}
                 color={this.props.buttonColor}
-                style={Styles.IconOffset}
-              />
+                style={Styles.IconOffset}/>
             </LinearGradient>
           </TouchableOpacity>
         </View>

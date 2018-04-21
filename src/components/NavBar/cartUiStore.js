@@ -11,6 +11,9 @@ import { observable, action, reaction } from "mobx";
 
 // constants
 const DEFAULT_ITEM_SIZE_TYPE = 0;
+const ITEM_SIZE_TINY = 0;
+const ITEM_SIZE_MEDIUM = 1;
+const ITEM_SIZE_FULL = 2;
 
 export default class CartUIStore {
   @observable name;
@@ -31,7 +34,6 @@ export default class CartUIStore {
     this.navbar = navbarStore;
     this.cart = cartStore;
     this.toggleItems = this.toggleItems.bind(this);
-    this.toggleBilling = this.toggleBilling.bind(this);
     this.togglePayment = this.togglePayment.bind(this);
     this.setItemSizeType = this.setItemSizeType.bind(this);
     this.getCheckoutSummary = this.getCheckoutSummary.bind(this);
@@ -58,18 +60,6 @@ export default class CartUIStore {
   }
 
   @action
-  toggleAddress(visible) {
-    this.isAddressVisible = visible != null ? visible : !this.isAddressVisible;
-    this.isAddressVisible && this.setFullscreenPullup();
-  }
-
-  @action
-  toggleBilling(visible) {
-    this.isBillingVisible = visible != null ? visible : !this.isBillingVisible;
-    this.isBillingVisible && this.setFullscreenPullup();
-  }
-
-  @action
   togglePayment(visible) {
     this.isPaymentVisible = visible != null ? visible : !this.isPaymentVisible;
     this.isPaymentVisible && this.setFullscreenPullup();
@@ -86,8 +76,6 @@ export default class CartUIStore {
   }
 
   closeAll() {
-    this.toggleAddress(false);
-    this.toggleBilling(false);
     this.togglePayment(false);
 
     // reset height for next launch
@@ -111,49 +99,60 @@ export default class CartUIStore {
     }
   );
 
-  getCheckoutSummary() {
+  // validate forms
+  validate = () => {
+    this.setFullscreenPullup();
+
     if (!(this.cart.shippingDetails && this.cart.shippingDetails.address)) {
-      this.toggleAddress(true);
+      this.toggleItems(false);
       throw {};
-    } else if (!(this.cart.paymentDetails && this.cart.paymentDetails.ready)) {
+    }
+
+    if (!(this.cart.paymentDetails && this.cart.paymentDetails.ready)) {
       this.togglePayment(true);
+      this.toggleItems(false);
       throw {};
-    } else if (
-      !(this.cart.billingDetails && this.cart.billingDetails.address)
-    ) {
-      this.toggleBilling(true);
+    }
+
+    if (!(this.cart.billingDetails && this.cart.billingDetails.address)) {
+      this.toggleItems(false);
       throw {};
-    } else if (this.cart.hasErrors) {
+    }
+
+    if (this.cart.hasItemError) {
+      this.setItemSizeType(ITEM_SIZE_FULL);
       throw {
-        alertButtons: [{ text: "OK", onPress: () => this.toggleItems(true) }],
-        alertTitle: "Error",
-        alertMessage:
-          this.cart.hasErrors.charAt(0).toUpperCase()
-          + this.cart.hasErrors.slice(1)
+        alertButtons: [{ text: "OK" }],
+        alertTitle: "Some items are out of stock",
+        alertMessage: "Please remove them from your cart"
       };
-    } else if (this.cart.isEmpty) {
+    }
+
+    if (this.cart.isEmpty) {
       throw {
-        alertButton: [{ text: "OK" }],
+        alertButtons: [{ text: "OK" }],
         alertTitle: "Your cart is empty",
         alertMessage: "Please add a product to your cart"
       };
-    } else {
-      return {
-        // static vars for when summary is completed, so when store
-        // cart resets, display remains on props
-        cart: this.cart.cart,
-        customerName: this.cart.customerName,
-        shippingDetails: this.cart.shippingDetails,
-        billingDetails: this.cart.billingDetails,
-        shippingExpectation: this.cart.shippingExpectation,
-        amountSubtotal: this.cart.amountSubtotal,
-        amountTaxes: this.cart.amountTaxes,
-        amountDiscount: this.cart.amountDiscount,
-        amountTotal: this.cart.amountTotal,
-        amountShipping: this.cart.amountShipping,
-        paymentType: this.cart.paymentType,
-        paymentLastFour: this.cart.paymentLastFour
-      };
     }
+  };
+
+  getCheckoutSummary() {
+    return {
+      // static vars for when summary is completed, so when store
+      // cart resets, display remains on props
+      cart: this.cart.cart,
+      customerName: this.cart.customerName,
+      shippingDetails: this.cart.shippingDetails,
+      billingDetails: this.cart.billingDetails,
+      shippingExpectation: this.cart.shippingExpectation,
+      amountSubtotal: this.cart.amountSubtotal,
+      amountTaxes: this.cart.amountTaxes,
+      amountDiscount: this.cart.amountDiscount,
+      amountTotal: this.cart.amountTotal,
+      amountShipping: this.cart.amountShipping,
+      paymentType: this.cart.paymentType,
+      paymentLastFour: this.cart.paymentLastFour
+    };
   }
 }

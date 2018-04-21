@@ -1,17 +1,20 @@
-import { observable } from "mobx"
+import { observable } from "mobx";
 
 export default class CartItem {
-  @observable id
+  @observable id;
 
-  @observable product
-  @observable variant
-  @observable quantity
-  @observable price = 0
+  @observable product;
+  @observable variant;
+  @observable quantity;
+  @observable price = 0;
+
+  @observable hasError = false;
+  @observable error = "";
 
   constructor(props) {
-    for (var key in props) {
+    for (let k in props) {
       // NOTE: set if passed in, if not use default
-      this[key] = props[key] || this[key]
+      this[k] = props[k] || this[k];
     }
   }
 }

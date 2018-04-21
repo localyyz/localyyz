@@ -21,9 +21,10 @@ const MIN_PHOTO = MAX_PHOTO / 3;
 @withNavigation
 @inject(stores => ({
   setFullscreenPullup: () => stores.cartUiStore.setFullscreenPullup(),
+  setLargeItemType: () => stores.cartUiStore.setItemSizeType(2),
   closeCart: () => stores.navbarStore.togglePullup(false),
-  remove: productId => stores.cartStore.removeItem({ productId: productId }),
-  sync: () => stores.cartStore.checkout(),
+  remove: product => stores.cartStore.removeItem(product),
+  sync: () => stores.cartStore.checkoutWithReject(),
   write: message => stores.assistantStore.write(message, null, true),
   getWrite: message => stores.assistantStore.get(message)
 }))
@@ -37,6 +38,7 @@ export default class CartItem extends React.Component {
 
     // mobx injected
     setFullscreenPullup: PropTypes.func.isRequired,
+    setLargeItemType: PropTypes.func.isRequired,
     closeCart: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
     sync: PropTypes.func.isRequired,
@@ -50,7 +52,7 @@ export default class CartItem extends React.Component {
     super(props);
 
     // data
-    this.product = new Product(this.props.item.product);
+    this.product = new Product(props.item.product);
 
     // bindings
     this.onPress = this.onPress.bind(this);
@@ -58,12 +60,16 @@ export default class CartItem extends React.Component {
   }
 
   onPress() {
-    this.props.closeCart();
+    if (!this.props.isLarge) {
+      this.props.setLargeItemType();
+    } else {
+      this.props.closeCart();
 
-    // forward out to product page
-    this.props.navigation.navigate("Product", {
-      product: this.props.item.product
-    });
+      // forward out to product page
+      this.props.navigation.navigate("Product", {
+        product: this.props.item.product
+      });
+    }
   }
 
   onRemove() {
@@ -75,13 +81,9 @@ export default class CartItem extends React.Component {
       {
         text: "Remove",
         onPress: () => {
-          let message =
-            "Hold on, I'm currently trying to remove that item from your cart..";
-          this.props.write(message);
-
-          // and remove item from cart
-          this.props.remove(this.props.item.id).then(() => {
-            this.props.getWrite(message).cancel();
+          // remove item from cart
+          //  and sync to remove
+          this.props.remove(this.props.item).then(() => {
             this.props.sync();
           });
         }
@@ -104,8 +106,7 @@ export default class CartItem extends React.Component {
               square
               w={this.props.isTiny ? MIN_PHOTO : MAX_PHOTO}
               style={styles.photo}
-              source={{ uri: this.props.item.product.imageUrl }}
-            />
+              source={{ uri: this.props.item.product.imageUrl }}/>
             {this.props.isSmall ? (
               <Text
                 style={[
@@ -124,12 +125,13 @@ export default class CartItem extends React.Component {
                 style={[Styles.Horizontal, Styles.EqualColumns, styles.header]}>
                 <View>
                   <UppercasedText style={styles.optionsLabel}>
-                    {`${this.props.item.variant.etc
-                      .size}${/* spacer in between if both are given*/
-                    this.props.item.variant.etc.size &&
-                    this.props.item.variant.etc.color
-                      ? " — "
-                      : ""}${this.props.item.variant.etc.color}`}
+                    {`${this.props.item.variant.etc.size}${
+                      /* spacer in between if both are given*/
+                      this.props.item.variant.etc.size
+                      && this.props.item.variant.etc.color
+                        ? " — "
+                        : ""
+                    }${this.props.item.variant.etc.color}`}
                   </UppercasedText>
                   <Text style={styles.titleLabel}>
                     {this.product.truncatedTitle}
@@ -141,8 +143,7 @@ export default class CartItem extends React.Component {
                       name="trash"
                       size={Sizes.IconButton / 2}
                       color={Colours.Text}
-                      style={styles.removeItem}
-                    />
+                      style={styles.removeItem}/>
                   </SloppyView>
                 </TouchableOpacity>
               </View>

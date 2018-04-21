@@ -80,28 +80,28 @@ export default class CartSummary extends React.Component {
             </Text>
           </View>
         )}
-        {this.props.amountShipping > 0 && (
-          <View style={styles.summaryLine}>
-            <Text
-              style={[
-                styles.summaryLineTitle,
-                this.props.color && {
-                  color: this.props.color
-                }
-              ]}>
-              Shipping
-            </Text>
-            <Text
-              style={[
-                styles.summaryLinePrice,
-                this.props.color && {
-                  color: this.props.color
-                }
-              ]}>
-              {`$${this.props.amountShipping.toFixed(2)}`}
-            </Text>
-          </View>
-        )}
+        <View style={styles.summaryLine}>
+          <Text
+            style={[
+              styles.summaryLineTitle,
+              this.props.color && {
+                color: this.props.color
+              }
+            ]}>
+            Shipping
+          </Text>
+          <Text
+            style={[
+              styles.summaryLinePrice,
+              this.props.color && {
+                color: this.props.color
+              }
+            ]}>
+            {this.props.amountShipping > 0
+              ? `${this.props.amountShipping.toFixed(2)}`
+              : "Free"}
+          </Text>
+        </View>
         <View style={styles.summaryLine}>
           <Text
             style={[

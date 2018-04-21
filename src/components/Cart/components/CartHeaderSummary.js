@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
+import { Alert, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // custom
@@ -15,8 +15,9 @@ import * as Animatable from "react-native-animatable";
 @inject(stores => ({
   numItems: stores.cartStore.numItems,
   amountTotal: stores.cartStore.amountTotal,
-  onCheckout: () => stores.cartStore.checkout(),
+  checkoutWithReject: () => stores.cartStore.checkoutWithReject(),
   toggleItems: () => stores.cartUiStore.toggleItems(),
+  validate: () => stores.cartUiStore.validate(),
   getCheckoutSummary: () => stores.cartUiStore.getCheckoutSummary()
 }))
 @observer
@@ -25,43 +26,45 @@ export default class CartHeaderSummary extends React.Component {
     navigation: PropTypes.any.isRequired,
 
     // mobx injected
-    onCheckout: PropTypes.func.isRequired,
+    checkoutWithReject: PropTypes.func.isRequired,
+    validate: PropTypes.func.isRequired,
+
     numItems: PropTypes.number.isRequired,
     amountTotal: PropTypes.number.isRequired,
     toggleItems: PropTypes.func.isRequired,
     getCheckoutSummary: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.onCheckout = this.onCheckout.bind(this);
-  }
-
   get renderCartSummary() {
     return (
       <Text style={styles.content}>
-        {`${this.props
-          .numItems} items — total $${this.props.amountTotal.toFixed(2)}`}
+        {`${
+          this.props.numItems
+        } items — total $${this.props.amountTotal.toFixed(2)}`}
       </Text>
     );
   }
 
-  onCheckout() {
+  onCheckout = async () => {
     try {
-      this.props.onCheckout();
+      // client side checkout validation, throws error if needed
+      this.props.validate();
+      // server side checkout initiation throws response error
+      //  will throw error if server returns validation errors
+      await this.props.checkoutWithReject();
+
+      // success
       this.props.navigation.navigate(
         "CartSummary",
         this.props.getCheckoutSummary()
       );
     } catch (err) {
-      err.alertTitle &&
-        err.alertMessage &&
-        err.alertButtons &&
-        Alert.alert(err.alertTitle, err.alertMessage, err.alertButtons);
+      const alertButtons = err.alertButtons || [{ text: "OK" }];
+      err.alertTitle
+        && err.alertMessage
+        && Alert.alert(err.alertTitle, err.alertMessage, alertButtons);
     }
-  }
+  };
 
   render() {
     return (

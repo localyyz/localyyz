@@ -17,19 +17,9 @@ import { inject, observer } from "mobx-react";
 @inject(stores => ({
   // ui
   isEmpty: stores.cartStore.isEmpty,
-  isAddressVisible: stores.cartUiStore.isAddressVisible,
-  isBillingVisible: stores.cartUiStore.isBillingVisible,
 
   // methods
   fetch: () => stores.cartStore.fetch(),
-  toggleAddress: visible => stores.cartUiStore.toggleAddress(visible),
-  toggleBilling: visible => stores.cartUiStore.toggleBilling(visible),
-  updateAddress: (address, billing) =>
-    stores.cartStore.updateAddress({
-      address: address,
-      billingAddress: billing
-    }),
-
   // data
   shippingDetails: stores.cartStore.shippingDetails,
   billingDetails: stores.cartStore.billingDetails,
@@ -43,27 +33,12 @@ export default class Cart extends React.Component {
 
     // mobx injected
     fetch: PropTypes.func.isRequired,
-    toggleAddress: PropTypes.func.isRequired,
-    toggleBilling: PropTypes.func.isRequired,
-    updateAddress: PropTypes.func.isRequired,
-    isEmpty: PropTypes.bool,
-    isAddressVisible: PropTypes.bool,
-    isBillingVisible: PropTypes.bool
+    isEmpty: PropTypes.bool
   };
 
   static defaultProps = {
-    isEmpty: true,
-    isAddressVisible: false,
-    isBillingVisible: false
+    isEmpty: true
   };
-
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.onAddressUpdate = this.onAddressUpdate.bind(this);
-    this.onBillingUpdate = this.onBillingUpdate.bind(this);
-  }
 
   componentDidMount() {
     // load cart
@@ -75,33 +50,16 @@ export default class Cart extends React.Component {
     this._mounted = false;
   }
 
-  onAddressUpdate(address) {
-    this.props.updateAddress(address);
-  }
-
-  onBillingUpdate(address) {
-    this.props.updateAddress(null, address);
-  }
-
   render() {
     return !this.props.isEmpty ? (
       <TouchableWithoutFeedback>
         <View>
           <CartItems />
-          <Addresses
-            isVisible={this.props.isAddressVisible}
-            toggle={this.props.toggleAddress}
-            address={this.props.shippingDetails}
-            onReady={this.onAddressUpdate}
-          />
+          <Addresses title="Shipping to" address={this.props.shippingDetails} />
           <PaymentMethods />
           <Addresses
             title="Billing address"
-            isVisible={this.props.isBillingVisible}
-            toggle={this.props.toggleBilling}
-            address={this.props.billingDetails}
-            onReady={this.onBillingUpdate}
-          />
+            address={this.props.billingDetails}/>
           <CartHeader title="Order Summary" />
           <View style={[styles.content, styles.end]}>
             <View style={styles.alert}>
@@ -119,8 +77,7 @@ export default class Cart extends React.Component {
       <View style={styles.assistant}>
         <Assistant
           typeSpeed={50}
-          messages={["There's nothing in your cart right now."]}
-        />
+          messages={["There's nothing in your cart right now."]}/>
       </View>
     );
   }

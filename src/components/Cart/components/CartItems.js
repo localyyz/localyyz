@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 import { Sizes } from "localyyz/constants";
 import CartItem from "./CartItem";
 
@@ -25,19 +25,29 @@ export default class CartItems extends React.Component {
     return (this.props.isVisible && this.props.sizeType) || 0;
   }
 
+  renderItem = ({ item }) => {
+    return (
+      <CartItem
+        item={item}
+        isTiny={this.span === 0}
+        isSmall={this.span === 1}
+        isLarge={this.span === 2}/>
+    );
+  };
+
   render() {
     return (
-      <View style={this.span == 2 ? styles.containerFull : styles.container}>
-        {this.props.items.map(item => (
-          <CartItem
-            key={`cartItem-${item.id}`}
-            item={item}
-            isTiny={this.span === 0}
-            isSmall={this.span === 1}
-            isLarge={this.span === 2}
-          />
-        ))}
-      </View>
+      <FlatList
+        keyboardShouldPersistTaps="always"
+        data={this.props.items}
+        keyExtractor={e => `cartItem${e.id}`}
+        contentContainerStyle={
+          this.span == 2 ? styles.containerFull : styles.container
+        }
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        renderItem={this.renderItem}
+        scrollEventThrottle={16}/>
     );
   }
 }
@@ -45,7 +55,7 @@ export default class CartItems extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    flexWrap: "wrap",
+    //flexWrap: "wrap",
     marginHorizontal: Sizes.InnerFrame / 2
   },
 

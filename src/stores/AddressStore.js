@@ -2,7 +2,7 @@ import { UserAddress } from "localyyz/models";
 import { observable, action, runInAction } from "mobx";
 import { ApiInstance } from "localyyz/global";
 
-export default class UserStore {
+export default class AddressStore {
   @observable addresses = [];
 
   constructor() {
@@ -14,15 +14,16 @@ export default class UserStore {
   fetch = async () => {
     const response = await this.api.get("/users/me/address");
     return (
-      response &&
-      response.data &&
-      (await runInAction("[ACTION] fetch addresses", () => {
+      response
+      && response.data
+      && (await runInAction("[ACTION] fetch addresses", () => {
         // sub in address model and set the first to default
-        this.addresses = response.data.map(address => new UserAddress(address));
+        this.addresses.replace(
+          response.data.map(address => new UserAddress(address))
+        );
         if (this.addresses.length > 0) {
           this.addresses[0].isDefault = true;
         }
-
         return this.addresses;
       }))
     );
@@ -32,6 +33,18 @@ export default class UserStore {
   add = async address => {
     // send and update address list
     const response = await this.api.post("/users/me/address", address);
+    if (response && response.status < 400) {
+      await this.fetch();
+      return response.data;
+    }
+  };
+
+  @action
+  update = async address => {
+    const response = await this.api.put(
+      `/users/me/address/${address.id}`,
+      address
+    );
     if (response && response.status < 400) {
       return await this.fetch();
     }

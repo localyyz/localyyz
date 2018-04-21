@@ -103,6 +103,7 @@ export default class ContentCoverSlider extends React.Component {
           ]}>
           {this.renderBackground()}
         </View>
+
         <Animatable.View
           ref="slider"
           animation="slideInUp"
@@ -111,6 +112,7 @@ export default class ContentCoverSlider extends React.Component {
           style={styles.content}>
           {this.props.children}
         </Animatable.View>
+
         {this.props.backAction != false && (
           <Animatable.View animation="bounceIn" delay={200} style={styles.back}>
             <Icon
@@ -123,9 +125,11 @@ export default class ContentCoverSlider extends React.Component {
               onPress={() => {
                 // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
                 // for clarification on why this is needed
-                setTimeout(() => {
-                  this.props.backAction();
-                }, RECOMMENDED_BROWSING_SPEED);
+                this.props.backActionThrottle
+                  ? setTimeout(() => {
+                      this.props.backAction();
+                    }, RECOMMENDED_BROWSING_SPEED)
+                  : this.props.backAction();
               }}
               underlayColor={Colours.Transparent}
               hitSlop={{

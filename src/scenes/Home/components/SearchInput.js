@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
@@ -26,6 +32,10 @@ import { observer, inject } from "mobx-react";
 class SearchInput extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isFocused: false
+    };
 
     // refs
     this.inputRef = React.createRef();
@@ -66,11 +76,9 @@ class SearchInput extends React.Component {
     //   - observing / modifying said mobx observable will focus/unfocus the
     //   component without resulting to ref blur()/focus() calls
     return (
-      <TouchableOpacity
-        onPress={() => this.inputRef.current.focus()}
-        style={styles.searchContainer}>
+      <View style={styles.searchContainer}>
         <Text style={styles.searchLabel}>
-          {this.props.searchActive && !this.inputRef.current.isFocused()
+          {this.props.searchActive && !this.state.isFocused
             ? "Results For"
             : "Find"}
         </Text>
@@ -84,13 +92,15 @@ class SearchInput extends React.Component {
           onChangeText={this.props.onChangeText}
           onEndEditing={() => {
             // do something.
+            this.setState({ isFocused: false });
           }}
           onFocus={() => {
             this.props.onActivateSearch();
+            this.setState({ isFocused: true });
           }}
           style={styles.search}/>
         {this.renderInputClear}
-      </TouchableOpacity>
+      </View>
     );
   }
 }

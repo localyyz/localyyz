@@ -84,10 +84,10 @@ export default class PaymentMethods extends React.Component {
       numberValid: isValid,
       isCardInvalid: null,
       ready:
-        isValid &&
-        this.state.nameValid &&
-        this.state.cvcValid &&
-        this.state.expiryValid
+        isValid
+        && this.state.nameValid
+        && this.state.cvcValid
+        && this.state.expiryValid
     });
 
     // forwarding
@@ -102,10 +102,10 @@ export default class PaymentMethods extends React.Component {
       expiryYear: splitExpiry.length > 1 ? splitExpiry[1] : null,
       expiryValid: this.isExpiryValid(expiry),
       ready:
-        this.isExpiryValid(expiry) &&
-        this.state.nameValid &&
-        this.state.cvcValid &&
-        this.state.numberValid
+        this.isExpiryValid(expiry)
+        && this.state.nameValid
+        && this.state.cvcValid
+        && this.state.numberValid
     });
 
     // forwarding
@@ -117,10 +117,10 @@ export default class PaymentMethods extends React.Component {
       cvc: cvc || "",
       cvcValid: this.isCvcValid(cvc),
       ready:
-        this.isCvcValid(cvc) &&
-        this.state.nameValid &&
-        this.state.expiryValid &&
-        this.state.numberValid
+        this.isCvcValid(cvc)
+        && this.state.nameValid
+        && this.state.expiryValid
+        && this.state.numberValid
     });
 
     // forwarding
@@ -133,10 +133,10 @@ export default class PaymentMethods extends React.Component {
       nameValid: this.isNameValid(name),
       isNameInvalid: null,
       ready:
-        this.isNameValid(name) &&
-        this.state.cvcValid &&
-        this.state.expiryValid &&
-        this.state.numberValid
+        this.isNameValid(name)
+        && this.state.cvcValid
+        && this.state.expiryValid
+        && this.state.numberValid
     });
   }
 
@@ -171,15 +171,13 @@ export default class PaymentMethods extends React.Component {
                 <EntypoIcon
                   name="dot-single"
                   size={Sizes.IconButton}
-                  color={Colours.NegativeButton}
-                />
+                  color={Colours.NegativeButton}/>
               ) : (
                 <FontAwesomeIcon
                   name="check-circle"
                   size={Sizes.IconButton / 2}
                   color={Colours.PositiveButton}
-                  style={Styles.IconOffset}
-                />
+                  style={Styles.IconOffset}/>
               )
             }>
             {this.isReady()
@@ -204,14 +202,14 @@ export default class PaymentMethods extends React.Component {
                     value={this.state.number}
                     onChangeText={this.onCardUpdate}
                     onEndEditing={() =>
-                      this.onBlur("card", !this.isCardValid(this.state.number))}
+                      this.onBlur("card", !this.isCardValid(this.state.number))
+                    }
                     placeholder="0000 0000 0000 0000"
                     maxLength={19}
                     style={[
                       Styles.Input,
                       this.state.cardValid === false && styles.inputError
-                    ]}
-                  />
+                    ]}/>
                 </CartField>
                 <CartField
                   icon="date-range"
@@ -229,14 +227,14 @@ export default class PaymentMethods extends React.Component {
                       this.onBlur(
                         "expiry",
                         !this.isExpiryValid(this.state.expiry)
-                      )}
+                      )
+                    }
                     placeholder="00/00"
                     maxLength={5}
                     style={[
                       Styles.Input,
                       this.state.expiryValid === false && styles.inputError
-                    ]}
-                  />
+                    ]}/>
                 </CartField>
                 <CartField
                   icon="lock"
@@ -249,14 +247,14 @@ export default class PaymentMethods extends React.Component {
                     value={this.state.cvc}
                     onChangeText={this.onCvcUpdate}
                     onEndEditing={() =>
-                      this.onBlur("cvc", !this.isCvcValid(this.state.cvc))}
+                      this.onBlur("cvc", !this.isCvcValid(this.state.cvc))
+                    }
                     placeholder="000"
                     maxLength={3}
                     style={[
                       Styles.Input,
                       this.state.cvcValid === false && styles.inputError
-                    ]}
-                  />
+                    ]}/>
                 </CartField>
               </View>
               <CartField
@@ -272,13 +270,13 @@ export default class PaymentMethods extends React.Component {
                   value={this.state.name}
                   onChangeText={this.onNameUpdate}
                   onEndEditing={() =>
-                    this.onBlur("name", !this.isNameValid(this.state.name))}
+                    this.onBlur("name", !this.isNameValid(this.state.name))
+                  }
                   placeholder="Johnny Appleseed"
                   style={[
                     Styles.Input,
                     this.state.nameValid === false && styles.inputError
-                  ]}
-                />
+                  ]}/>
               </CartField>
               <View style={styles.useCard}>
                 <TouchableOpacity onPress={this.onSubmit}>
@@ -342,11 +340,11 @@ export default class PaymentMethods extends React.Component {
   isExpiryValid(expiry) {
     let splitExpiry = expiry && expiry.split("/");
     return (
-      !!expiry &&
-      (parseInt(splitExpiry[0]) > 0 &&
-        parseInt(splitExpiry[0]) < 13 &&
+      !!expiry
+      && (parseInt(splitExpiry[0]) > 0
+        && parseInt(splitExpiry[0]) < 13
         // 2017
-        parseInt(splitExpiry[1]) > 17)
+        && parseInt(splitExpiry[1]) > 17)
     );
   }
 
@@ -356,20 +354,20 @@ export default class PaymentMethods extends React.Component {
 
   isNameValid(name) {
     return (
-      !!name &&
-      name.length > 0 &&
-      name.split(" ").length > 1 &&
-      name.split(" ").every(part => part.length > 0)
+      !!name
+      && name.length > 0
+      && name.split(" ").length > 1
+      && name.split(" ").every(part => part.length > 0)
     );
   }
 
   isReady(card) {
     card = card || this.props.paymentDetails || this.state;
     return (
-      this.isCardValid(card.number) &&
-      this.isNameValid(card.name) &&
-      this.isCvcValid(card.cvc) &&
-      this.isExpiryValid(card.expiry)
+      this.isCardValid(card.number)
+      && this.isNameValid(card.name)
+      && this.isCvcValid(card.cvc)
+      && this.isExpiryValid(card.expiry)
     );
   }
 }
