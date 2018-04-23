@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
 
   search: {
     ...Styles.Text,
-    ...Styles.SmallText,
     ...Styles.Alternate,
     flex: 1
   }

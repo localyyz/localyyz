@@ -1,70 +1,140 @@
 import React from "react";
-import {
-  View, StyleSheet, Text, TouchableOpacity
-} from "react-native";
-import {
-  Colours, Sizes, Styles
-} from "localyyz/constants";
-import {
-  randInt
-} from "localyyz/helpers";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Colours, Sizes } from "localyyz/constants";
 
 // third party
+import PropTypes from "prop-types";
+import { inject } from "mobx-react";
+import { withNavigation } from "react-navigation";
 import * as Animatable from "react-native-animatable";
 
+@withNavigation
+@inject(stores => ({
+  showNavbar: () => stores.cartStore.show(),
+  hideNavbar: () => stores.cartStore.hide()
+}))
 export default class ExplodingButton extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    children: PropTypes.node,
+    shouldExplode: PropTypes.bool,
+    onPress: PropTypes.func,
+    color: PropTypes.string,
+
+    // state handled by parent
+    isExploded: PropTypes.bool,
+    explode: PropTypes.func,
+
+    // mobx injected
+    showNavbar: PropTypes.func.isRequired,
+    hideNavbar: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    onPress: () => {},
+    isExploded: false
+  };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!prevState || nextProps.isExploded != prevState.isExploded) {
+      return {
+        isExploded: nextProps.isExploded
+      };
+    } else {
+      return null;
+    }
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      showExploder: false,
+      isExploded: props.isExploded
     };
+
+    // refs
+    this.exploderRef = React.createRef();
+    this.buttonRef = React.createRef();
 
     // bindings
     this.explode = this.explode.bind(this);
+    this._explode = this._explode.bind(this);
+    this._onPostExplosion = this._onPostExplosion.bind(this);
     this.reset = this.reset.bind(this);
   }
 
-  explode() {
-
-    // fade the icon
-    this.props.shouldExplode !== false ? this.setState({
-      showExploder: true
-    }, () => {
-      this.props.navigation.setParams({ gesturesEnabled: false });
-      this.refs.container.fadeOut(100);
-      this.refs.exploder.transitionTo({
-        width: Sizes.Height * 2.2,
-        height: Sizes.Height * 2.2,
-        borderRadius: Sizes.Height,
-        bottom: -Sizes.Height,
-        right: -Sizes.Height
-      });
-
-      this.props.onPress && this.props.onPress();
-    }): this.props.onPress && this.props.onPress();
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState
+      && prevState.isExploded != this.state.isExploded
+      && !this.state.isExploded
+    ) {
+      this.props.showNavbar();
+      this.props.navigation.setParams({ gesturesEnabled: true });
+      this.button.fadeIn();
+    }
   }
 
-  reset() {
-    this.setState({
-      showExploder: false
-    }, () => {
+  get isExploded() {
+    return this.state.isExploded;
+  }
 
-      // TODO: rather than true, should restore the original option prior to
-      // exploding and blocking view
-      this.props.navigation.setParams({ gesturesEnabled: true });
-      this.refs.container.fadeIn();
+  get button() {
+    return this.buttonRef.current || { fadeIn: () => {}, fadeOut: () => {} };
+  }
+
+  get exploder() {
+    return this.exploderRef.current || { transitionTo: () => {} };
+  }
+
+  explode() {
+    (this.props.explode || this._explode)()
+      .then(shouldExplode => shouldExplode && this._onPostExplosion())
+      .then(() => this.props.onPress());
+  }
+
+  _explode() {
+    return new Promise(resolve => {
+      this.setState(
+        {
+          isExploded: true
+        },
+        () => resolve(this.state)
+      );
     });
+  }
+
+  _onPostExplosion() {
+    this.props.hideNavbar();
+    this.props.navigation.setParams({ gesturesEnabled: false });
+    this.button.fadeOut(100);
+    this.exploder.transitionTo({
+      width: Sizes.Height * 2.2,
+      height: Sizes.Height * 2.2,
+      borderRadius: Sizes.Height,
+      bottom: -Sizes.Height,
+      right: -Sizes.Height
+    });
+  }
+
+  // if state internally managed, then expose reset method
+  reset() {
+    this.setState({ isExploded: false });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {this.state.showExploder && (
+        {this.isExploded ? (
           <Animatable.View
-            ref="exploder"
-            style={[styles.exploder, this.props.color && {
-              backgroundColor: this.props.color}]} />)}
-        <Animatable.View ref="container">
+            ref={this.exploderRef}
+            style={[
+              styles.exploder,
+              this.props.color && {
+                backgroundColor: this.props.color
+              }
+            ]}/>
+        ) : null}
+        <Animatable.View ref={this.buttonRef}>
           <TouchableOpacity onPress={() => this.explode()}>
             {this.props.children}
           </TouchableOpacity>

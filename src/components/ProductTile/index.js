@@ -8,10 +8,10 @@ import {
   DiscountBadge,
   UppercasedText
 } from "localyyz/components";
+import { toPriceString } from "localyyz/helpers";
 
 // third party
 import LinearGradient from "react-native-linear-gradient";
-import getSymbolFromCurrency from "currency-symbol-map";
 
 export default class ProductTile extends React.Component {
   constructor(props) {
@@ -65,8 +65,10 @@ export default class ProductTile extends React.Component {
                   && !!this.props.product.previousPrice
                   && styles.salePricing
               ]}>
-              {`${getSymbolFromCurrency(this.props.product.place.currency)
-                || "$"}${this.props.product.price.toFixed(2)}`}
+              {toPriceString(
+                this.props.product.price,
+                this.props.product.place.currency
+              )}
             </Text>
             {!!this.props.product
               && !!this.props.product.previousPrice && (
@@ -89,7 +91,7 @@ export default class ProductTile extends React.Component {
             <View style={styles.saleBadge}>
               <DiscountBadge
                 size={Sizes.TinyText}
-                product={this.props.product}/>
+                discount={this.props.product.discount}/>
             </View>
           )}
         </View>

@@ -2,7 +2,14 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Styles, Sizes } from "localyyz/constants";
 
+// third party
+import PropTypes from "prop-types";
+
 export default class SizeChart extends React.Component {
+  static propTypes = {
+    type: PropTypes.string
+  };
+
   renderChart(columns) {
     return (
       <View style={styles.container}>

@@ -15,6 +15,10 @@ const POP_HEIGHT = Sizes.Height / 4;
 //  here we throttle the speed to navigate back to 200ms
 const RECOMMENDED_BROWSING_SPEED = 200;
 
+// NOTE: there's also an issue with scrollviews not rendering photos, so
+// allows hack to work without making the header visible on load
+const SCROLL_OFFSET = 1;
+
 export default class ContentCoverSlider extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +32,7 @@ export default class ContentCoverSlider extends React.Component {
   }
 
   onScroll(event) {
-    const y = event.nativeEvent.contentOffset.y;
+    const y = event.nativeEvent.contentOffset.y - SCROLL_OFFSET;
 
     // toggle the statusbar style based on current opacity
     StatusBar.setBarStyle(

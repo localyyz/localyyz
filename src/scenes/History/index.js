@@ -3,13 +3,18 @@ import { View, StyleSheet, SectionList, Text } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // third party
+import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react";
 
 // custom
 import { ContentCoverSlider, NavBar } from "localyyz/components";
 import HistoryItem from "./components/HistoryItem";
 
-@inject("historyStore")
+@inject(stores => ({
+  products: stores.historyStore.products,
+  groups: stores.historyStore.groups,
+  fetchHistory: () => stores.historyStore.fetchHistory()
+}))
 @observer
 export default class HistoryScene extends React.Component {
   constructor(props) {
@@ -18,22 +23,22 @@ export default class HistoryScene extends React.Component {
       headerHeight: 0
     };
 
-    // history store
-    this.store = this.props.historyStore;
-
     // bindings
     this.renderItem = this.renderItem.bind(this);
     this.renderSectionHeader = this.renderSectionHeader.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
   }
 
+  componentDidMount() {
+    this.props.fetchHistory();
+  }
+
   renderItem({ item }) {
     return (
       <HistoryItem
-        product={this.store.products[item.productId]}
+        product={this.props.products[item.productId]}
         lastPrice={item.price}
-        lastViewedAt={item.lastViewed}
-      />
+        lastViewedAt={item.lastViewed}/>
     );
   }
 
@@ -65,7 +70,8 @@ export default class HistoryScene extends React.Component {
         onLayout={e =>
           this.setState({
             headerHeight: e.nativeEvent.layout.height
-          })}>
+          })
+        }>
         <Text style={styles.headerTitle}>Your browsing history </Text>
         <Text style={styles.headerSubtitle}>
           {
@@ -89,7 +95,7 @@ export default class HistoryScene extends React.Component {
           <SectionList
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}
-            sections={_sectionedHistory(this.store.groups)}
+            sections={_sectionedHistory(this.props.groups)}
             onScroll={e => this.refs.container.onScroll(e)}
             renderItem={this.renderItem}
             renderSectionHeader={this.renderSectionHeader}
@@ -98,12 +104,10 @@ export default class HistoryScene extends React.Component {
               <View
                 style={{
                   marginTop: this.state.headerHeight
-                }}
-              />
+                }}/>
             }
             ListEmptyComponent={this.renderEmptyComponent}
-            ListFooterComponent={<View style={styles.footer} />}
-          />
+            ListFooterComponent={<View style={styles.footer} />}/>
         </ContentCoverSlider>
       </View>
     );

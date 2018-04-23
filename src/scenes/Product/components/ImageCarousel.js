@@ -90,7 +90,7 @@ export default class ImageCarousel extends React.Component {
 
   render() {
     return this.images && this.images.length > 0 ? (
-      <View style={styles.carouselContainer}>
+      <View style={styles.container}>
         <Carousel
           ref={this.carouselRef}
           data={this.images}
@@ -115,7 +115,7 @@ export default class ImageCarousel extends React.Component {
 
 const styles = StyleSheet.create({
   // photo carousel
-  carouselContainer: {
+  container: {
     height: Sizes.Height / 2,
     width: Sizes.Width,
     backgroundColor: Colours.Transparent

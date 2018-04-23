@@ -121,7 +121,10 @@ export default class Assistant extends React.Component {
 
     // for manual cancellation (expiring and removing from view)
     let cancel = () => {
-      this.state.messages.find(m => m === message).expired = true;
+      let _message = this.state.messages.find(m => m === message);
+      if (_message) {
+        _message.expired = true;
+      }
 
       // remove auto cancel if present
       let timedMessageUnlistener = this._timedMessages[message.message];
