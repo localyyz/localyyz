@@ -1,5 +1,4 @@
 import { observable, action } from "mobx";
-import { Image } from "react-native";
 
 // consts
 const MAX_DESCRIPTION_WORD_LENGTH = 20;
@@ -27,6 +26,7 @@ export default class Product {
   @observable variants = [];
   @observable etc;
   @observable images = [];
+  @observable brand = "";
 
   @observable thumbUrl;
   @observable htmlDescription;
@@ -147,6 +147,7 @@ export default class Product {
     this.colors = product.colors;
     this.category = product.category;
     this.images = product.images;
+    this.brand = product.brand;
 
     this.htmlDescription = product.htmlDescription;
     this.noTagDescription = product.noTagDescription;

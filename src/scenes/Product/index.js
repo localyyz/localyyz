@@ -39,7 +39,7 @@ class ProductScene extends React.Component {
 
     return {
       ...navigationOptions,
-      headerTitle: product && product.etc.brand
+      headerTitle: product && product.brand
     };
   };
 

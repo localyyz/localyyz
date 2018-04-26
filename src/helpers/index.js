@@ -77,6 +77,12 @@ export function randInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+export function capitalize(string) {
+  return (string + "").replace(/^(.)|\s+(.)/g, function($1) {
+    return $1.toUpperCase();
+  });
+}
+
 export function onlyIfLoggedIn({ hasSession }, action, navigation) {
   if (hasSession) {
     action && action();

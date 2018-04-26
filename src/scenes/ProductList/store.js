@@ -6,37 +6,13 @@ import { ApiInstance } from "localyyz/global";
 
 class Store {
   @observable listData = [];
-  @observable categories = [];
-
   @box isLoading = false;
 
   constructor(props) {
     this.fetchPath = props.fetchPath;
-    this.categoryPath = props.categoryPath;
+    this.categories = props.categories;
     this.defaultParams = props.params;
   }
-
-  @action
-  fetchCategories = async () => {
-    const response = await ApiInstance.get(this.categoryPath);
-    runInAction("[ACTION] fetch categories", () => {
-      if (response && response.data) {
-        this.categories = response.data.map(c => c);
-      }
-    });
-  };
-
-  @action
-  fetchProductWithParams = async params => {
-    const newParams = Object.assign(params, this.defaultParams);
-    // trick to reset the scrolling so flatlist can redetect
-    // scrolling and end reached
-    this.listData.clear();
-    // clear pagination
-    this.self = undefined;
-    this.next = undefined;
-    this.fetchNextPage(newParams);
-  };
 
   @action
   fetchNextPage = async (params = {}) => {
@@ -47,7 +23,7 @@ class Store {
     this.isLoading = true;
     const response = await ApiInstance.get(
       (this.next && this.next.url) || `${this.fetchPath}`,
-      params
+      { ...params, limit: 8 }
     );
     runInAction("[ACTION] fetch products", () => {
       if (response && response.data) {

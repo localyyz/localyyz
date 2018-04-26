@@ -20,6 +20,7 @@ let Blue = "rgb(33, 212, 253)";
 
 // brand colors
 let PurpleRain = "#44179E";
+let PurpleRainTransparent = "rgba(68, 23, 158, 0)";
 let BlueSteel = "#2E62F1";
 let UltraViolet = "#9013FE";
 let CokeBottleGreen = "#50E3C2";
@@ -58,6 +59,7 @@ export const Colours = {
   AlternateText: Foreground,
   EmphasizedText: Black,
   SubduedText: LightGrey,
+  OnSale: Red,
 
   // debug
   Facebook: "rgb(59, 89, 153)",
@@ -72,7 +74,10 @@ export const Colours = {
   // brand colors
   Primary: PurpleRain,
   Secondary: BlueSteel,
-  Accented: CokeBottleGreen
+  Accented: CokeBottleGreen,
+
+  // brand transparencies
+  PrimaryTransparent: PurpleRainTransparent
 };
 
 export default Colours;

@@ -1,13 +1,12 @@
 // custom
 import { Product } from "localyyz/models";
 import { ApiInstance } from "localyyz/global";
-import { assistantStore, loginStore } from "localyyz/stores";
-import { box } from "localyyz/helpers";
+import { assistantStore } from "localyyz/stores";
+import { box, capitalize, randInt } from "localyyz/helpers";
 import { Sizes } from "localyyz/constants";
 
 // third party
-import { observable, action, runInAction, reaction } from "mobx";
-import { lazyObservable } from "mobx-utils";
+import { observable, action, runInAction, reaction, computed } from "mobx";
 import { Animated, Easing } from "react-native";
 
 const PAGE_LIMIT = 8;
@@ -17,12 +16,6 @@ const SEARCH_DELAY = 1500;
 export default class HomeStore {
   constructor() {
     this.api = ApiInstance;
-
-    // _initialized is needed to monitor loginStore initialization
-    // mobx will not react when this.login becomes truthy
-    runInAction("[ACTION] done initialized", () => {
-      this._isInitialized = true;
-    });
   }
 
   _listProducts = listData => {
@@ -74,17 +67,6 @@ export default class HomeStore {
     { delay: SEARCH_DELAY }
   );
 
-  // TODO: show message at end of search
-  //reactReachedQueryEnd = when(
-  //() => !this._hasNextPage && !this._processing,
-  //() => {
-  //this.assistant.write(
-  //`You've reached the end for "${this.searchQuery}"`,
-  //5000
-  //);
-  //}
-  //);
-
   fetchNextPage = () => {
     if (this._hasNextPage && !this._processing) {
       this._processing = true;
@@ -123,48 +105,6 @@ export default class HomeStore {
     }
   };
 
-  /////////////////////////////////// data observables
-
-  // initialized marks the store being constructed, this is needed
-  // to tell reactLogin to not jump the gun and load too early...
-  // TODO: is there a better cleaner way?
-  @observable _isInitialized = false;
-  @observable featuredProducts;
-  @observable discountedProducts;
-
-  // when the app logs the user in (or skips login) fetch home products
-  reactLogin = reaction(
-    () => {
-      return {
-        success: this._isInitialized && loginStore._wasLoginSuccessful,
-        skipped: this._isInitialized && loginStore._wasLoginSkipped
-      };
-    },
-    ({ success, skipped }) => {
-      if (success || skipped) {
-        this.fetchFeaturedProducts();
-        this.fetchDiscountedProducts();
-      }
-    }
-  );
-
-  fetchFeaturedProducts = async () => {
-    this.featuredProducts = lazyObservable(sink =>
-      this.api
-        .get("products/featured", { limit: 6 })
-        .then(response => sink(this._listProducts(response.data)))
-    );
-  };
-
-  @action
-  fetchDiscountedProducts = async () => {
-    this.discountedProducts = lazyObservable(sink =>
-      this.api
-        .get("products/onsale", { limit: 25 })
-        .then(response => sink(this._listProducts(response.data)))
-    );
-  };
-
   /////////////////////////////////// shared UI states below
 
   // UI states shared between components
@@ -176,6 +116,180 @@ export default class HomeStore {
 
   @box searchActive = false;
   @box searchFocused = false;
+
+  // blocks horizontal scroller and blocks registry
+  // all blocks have the following min props: type
+  @observable
+  blocks = [
+    { type: "header" },
+    // {
+    //   type: "photo",
+    //   uri:
+    //     "http://swaysuniverse.com/wp-content/uploads/2017/01/bape-2017-spring-summer-collection-1.jpeg",
+    //   offset: -200
+    // },
+    {
+      type: "productList",
+      title: "Today's finds",
+      description:
+        "Hand selected daily for you by our team of fashionistas based on what you've viewed before",
+      path: "products/curated",
+      limit: 6
+    },
+    {
+      type: "brand",
+      brandType: "designers",
+      title: "Brands",
+      description:
+        "Browse the thousands of brands available on the Localyyz app",
+      numBrands: 10000
+    },
+    // {
+    //   type: "photo",
+    //   uri:
+    //     "http://swaysuniverse.com/wp-content/uploads/2017/01/bape-2017-spring-summer-collection-1.jpeg"
+    // },
+    {
+      type: "productList",
+      title: "Limited time offers",
+      description:
+        "Watch this space for the hottest promotions and sales posted the minute they're live on Localyyz",
+      path: "products/onsale",
+      limit: 10
+    },
+    {
+      type: "brand",
+      brandType: "places",
+      shouldShowName: true,
+      title: "Merchants on Localyyz",
+      description:
+        "Browse the hundreds of merchants available on the Localyyz app",
+      numBrands: 100
+    }
+  ];
+  @observable currentBlock;
+
+  @action
+  fetchCategoryBlocks() {
+    this.api.get("categories").then(response => {
+      if (response.status < 400 && response.data && response.data.length > 0) {
+        let categoryBlocks = response.data.map(category => ({
+          type: "productList",
+          categories: category.values,
+
+          // used to differentiate from locally specified
+          _fetched: true,
+          title: capitalize(category.type),
+          basePath: `categories/${category.type}`,
+          path: `categories/${category.type}/products`,
+          limit: 4
+        }));
+
+        runInAction("[ACTION] appending category blocks to layout", () => {
+          this.blocks = [
+            ...this.filterBlocks(this.blocks, "productList"),
+            ...categoryBlocks
+          ];
+        });
+      }
+    });
+  }
+
+  filterBlocks(blocks, type) {
+    return blocks.filter(block => block.type !== type || !block._fetched);
+  }
+
+  @action
+  fetchCollectionBlocks() {
+    this.api.get("collections").then(response => {
+      if (response.status < 400 && response.data && response.data.length > 0) {
+        // first one is always at the top
+        let insertBlockIndex = 1;
+        let blocks = this.filterBlocks(this.blocks.slice(), "collection");
+
+        // insert the remaining ones randomly across the block layout
+        for (let collection of response.data) {
+          blocks.splice(insertBlockIndex, 0, {
+            ...collection,
+            type: "collection",
+            path: `collections/${collection.id}/products`,
+            title: collection.name
+          });
+
+          // starting at second item, since don't want before first and spacer,
+          // and immediately after first
+          //
+          // TODO: don't allow two collections beside each other
+          insertBlockIndex = randInt(blocks.length - 3) + 3;
+        }
+
+        // update blocks layout with inserted collections scattered randomly
+        // and header
+        runInAction(
+          "[ACTION] appending category blocks randomly to layout",
+          () => {
+            this.blocks = blocks;
+          }
+        );
+      }
+    });
+  }
+
+  @computed
+  get trackedBlocks() {
+    return this.blocks
+      .map((block, i) => ({ ...block, actualId: i }))
+      .filter(block => block.title);
+  }
+
+  @computed
+  get currentTrackedBlock() {
+    return (
+      (this.blocks.slice(0, this.currentBlock + 1).filter(block => block.title)
+        .length || 1) - 1
+    );
+  }
+
+  getActualBlockFromTrackedBlock = i => {
+    return this.trackedBlocks[i].actualId;
+  };
+
+  getBlockPosition = i =>
+    this.blocks
+      .slice(0, i)
+      .map(block => block._height)
+      .filter(height => height && height > 0)
+      .reduce((a, b) => a + b, 0);
+
+  @action
+  updateBlockHeight(i, { nativeEvent: { layout: { height } } }) {
+    this.blocks[i]._height = height;
+  }
+
+  @action
+  onViewableBlockChange = ({ viewableItems }) => {
+    let currentlyVisibleBlock = viewableItems[viewableItems.length - 1];
+
+    // only update if changing
+    if (currentlyVisibleBlock.index !== this.currentBlock) {
+      this.currentBlock = currentlyVisibleBlock.index;
+
+      // update internal block height for all visible blocks
+      viewableItems.map(blockItem => {
+        this.blocks[blockItem.index]._position = this.getBlockPosition(
+          blockItem.index
+        );
+      });
+
+      runInAction(
+        "[ACTION] updating positions on viewable block change",
+        () => {
+          this.currentBlock = currentlyVisibleBlock.index;
+          this.blocks = this.blocks.slice();
+        }
+      );
+    }
+  };
 
   // react header scroll reacts to "searchActive" value changes
   // when true:

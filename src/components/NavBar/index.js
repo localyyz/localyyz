@@ -13,16 +13,16 @@ import { onlyIfLoggedIn } from "localyyz/helpers";
 // third party
 import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
-import { ifIphoneX } from "react-native-iphone-x-helper";
+import { isIphoneX } from "react-native-iphone-x-helper";
 import { inject, observer, Provider } from "mobx-react";
 
 // offset tabbar
 export const NAVBAR_HEIGHT
-  = Sizes.InnerFrame * 2
-  + Sizes.SmallText
-  + Sizes.InnerFrame / 2
+  = Sizes.InnerFrame // bar padding
   + Sizes.IconButton
-  + (ifIphoneX() ? Sizes.InnerFrame : 0);
+  + Sizes.InnerFrame / 6 // button label (tiny text may not be representative)
+  + Sizes.InnerFrame
+  + (isIphoneX() ? Sizes.InnerFrame : 0);
 
 @inject(stores => ({
   userStore: stores.userStore,

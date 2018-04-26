@@ -3,15 +3,10 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import {
-  LiquidImage,
-  DiscountBadge,
-  UppercasedText
-} from "localyyz/components";
-import { toPriceString } from "localyyz/helpers";
+import { ConstrainedAspectImage } from "localyyz/components";
 
 // third party
-import LinearGradient from "react-native-linear-gradient";
+import getSymbolFromCurrency from "currency-symbol-map";
 
 export default class ProductTile extends React.Component {
   constructor(props) {
@@ -23,6 +18,7 @@ export default class ProductTile extends React.Component {
 
     // bindings
     this.onLayout = this.onLayout.bind(this);
+    this.toPriceString = this.toPriceString.bind(this);
   }
 
   onLayout(e) {
@@ -34,66 +30,56 @@ export default class ProductTile extends React.Component {
     }
   }
 
+  toPriceString(price, avoidFree = false) {
+    return price != null && (price > 0 || !avoidFree)
+      ? price > 0
+        ? `${getSymbolFromCurrency(this.props.product.place.currency)
+            || "$"}${price.toFixed(2)}`
+        : "Free"
+      : "";
+  }
+
+  get isOnSale() {
+    return (
+      this.props.product.previousPrice != null
+      && this.props.product.previousPrice > 0
+    );
+  }
+
   render() {
     return this.props.product ? (
-      <TouchableOpacity
-        onPress={this.props.onPress}
-        style={[styles.container, this.props.style]}
-        onLayout={this.onLayout}>
-        <LiquidImage
-          square
-          crop="bottom"
-          resizeMode="cover"
-          w={this.state.photoSize}
-          style={styles.photo}
-          source={{ uri: this.props.product && this.props.product.imageUrl }}/>
-        <View style={styles.header}>
-          <UppercasedText numberOfLines={1} style={styles.merchantName}>
-            {`${this.props.product.place.name}`}
-          </UppercasedText>
-          <View style={styles.titleContainer}>
-            <Text numberOfLines={1} style={styles.title}>
-              {this.props.product.truncatedTitle || "Something"}
-            </Text>
+      <TouchableOpacity onPress={this.props.onPress} onLayout={this.onLayout}>
+        <View style={styles.container}>
+          <View style={styles.photoContainer}>
+            <ConstrainedAspectImage
+              source={{ uri: this.props.product.imageUrl }}
+              constrainWidth={this.state.photoSize}
+              constrainHeight={Sizes.Height / 4}/>
           </View>
-          <View style={styles.contentContainer}>
-            <Text
-              numberOfLines={1}
-              style={[
-                styles.pricing,
-                !!this.props.product
-                  && !!this.props.product.previousPrice
-                  && styles.salePricing
-              ]}>
-              {toPriceString(
-                this.props.product.price,
-                this.props.product.place.currency
-              )}
-            </Text>
-            {!!this.props.product
-              && !!this.props.product.previousPrice && (
-                <Text
-                  numberOfLines={1}
-                  style={[styles.pricing, styles.previousPricing]}>
-                  {`${this.props.product.previousPrice.toFixed(2)}`}
-                </Text>
-              )}
-          </View>
-          <LinearGradient
-            colors={[
-              this.props.backgroundColor || Colours.Foreground,
-              Colours.Transparent
-            ]}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 0 }}
-            style={styles.overflowGradient}/>
-          {this.props.product.discount > 0 && (
-            <View style={styles.saleBadge}>
-              <DiscountBadge
-                size={Sizes.TinyText}
-                discount={this.props.product.discount}/>
+          <View style={styles.content}>
+            <View style={styles.price}>
+              {this.isOnSale ? <View style={styles.priceOnSale} /> : null}
+              <Text style={styles.priceLabel}>
+                {this.toPriceString(this.props.product.price)}
+              </Text>
             </View>
-          )}
+            <View style={styles.details}>
+              <Text numberOfLines={1} style={styles.label}>
+                <Text style={styles.prevPrice}>
+                  {this.toPriceString(this.props.product.previousPrice, true)}
+                </Text>
+                {this.props.product.previousPrice
+                && (this.props.product.brand
+                  || this.props.product.truncatedTitle) ? (
+                  <Text> · </Text>
+                ) : null}
+                <Text style={styles.name}>
+                  {this.props.product.brand
+                    || this.props.product.truncatedTitle}
+                </Text>
+              </Text>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     ) : null;
@@ -102,79 +88,50 @@ export default class ProductTile extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    marginVertical: Sizes.InnerFrame / 4
+    marginVertical: 1,
+    paddingVertical: Sizes.InnerFrame / 2
+    // backgroundColor: Colours.Accented
   },
 
-  photo: {
-    backgroundColor: Colours.Foreground,
-    borderRadius: 2
-  },
-
-  header: {
-    justifyContent: "space-between",
-    marginBottom: Sizes.InnerFrame / 2,
-    paddingVertical: Sizes.InnerFrame
-  },
-
-  titleContainer: {
-    overflow: "hidden"
-  },
-
-  contentContainer: {
-    overflow: "hidden",
-    flexDirection: "row",
+  photoContainer: {
     alignItems: "center",
-    marginTop: Sizes.InnerFrame / 2
+    justifyContent: "center",
+    height: Sizes.Height / 4,
+    backgroundColor: Colours.Foreground
   },
 
-  merchantName: {
+  content: {
+    height: Sizes.InnerFrame * 4,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
+  price: {
+    ...Styles.Horizontal,
+    marginBottom: Sizes.InnerFrame / 2
+  },
+
+  priceLabel: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
+    fontSize: Sizes.H3
+  },
+
+  priceOnSale: {
+    height: Sizes.TinyText / 2,
+    width: Sizes.TinyText / 2,
+    borderRadius: Sizes.TinyText / 4,
+    marginRight: Sizes.InnerFrame / 2,
+    backgroundColor: Colours.OnSale
+  },
+
+  label: {
     ...Styles.Text,
     ...Styles.TinyText,
-    ...Styles.Emphasized,
-    color: Colours.Accented
+    ...Styles.Subdued
   },
 
-  title: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    fontSize: Sizes.H3,
-    flexWrap: "nowrap"
-  },
-
-  pricing: {
-    ...Styles.Text,
-    ...Styles.SmallText,
-    marginRight: Sizes.InnerFrame / 3
-  },
-
-  salePricing: {
-    ...Styles.Medium
-  },
-
-  previousPricing: {
-    ...Styles.Subdued,
+  prevPrice: {
     textDecorationLine: "line-through"
-  },
-
-  overflowGradient: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-    bottom: 0,
-    width: Sizes.OuterFrame
-  },
-
-  saleBadge: {
-    position: "absolute",
-    bottom: Sizes.InnerFrame / 2,
-    right: 0
-    //shadowColor: Colours.Foreground,
-    //shadowRadius: 10,
-    //shadowOpacity: 1,
-    //shadowOffset: {
-    //width: 0,
-    //height: 0
-    //}
   }
 });

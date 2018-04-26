@@ -26,7 +26,8 @@ import {
   CartSummary,
   Deeplink,
   Information,
-  History
+  History,
+  Brands
 } from "localyyz/scenes";
 
 const AppNavigator = StackNavigator(
@@ -35,7 +36,8 @@ const AppNavigator = StackNavigator(
     Product: { screen: Product },
     ProductList: { screen: ProductList },
     CartSummary: { screen: CartSummary },
-    Information: { screen: Information }
+    Information: { screen: Information },
+    Brands: { screen: Brands }
   },
   {
     initialRouteName: "Home",
