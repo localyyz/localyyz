@@ -1,6 +1,7 @@
 import { observable, action, computed, toJS } from "mobx";
 
 class UserAddress {
+  @observable id;
   @observable firstName;
   @observable lastName;
   @observable address;
@@ -20,17 +21,32 @@ class UserAddress {
   // flag indicates if the address is partial
   @observable isPartial;
 
+  // error status helpers
+  @observable hasError = false;
+  @observable error;
+
   constructor(address) {
     this.set(address);
   }
 
-  @action set(address) {
+  @action
+  set(address) {
     for (let k in address) {
       this[k] = address[k];
     }
   }
 
-  @computed get formatted_address() {
+  @computed
+  get fullName() {
+    let n = this.firstName;
+    if (this.lastName) {
+      n = `${n} ${this.lastName}`;
+    }
+    return n;
+  }
+
+  @computed
+  get formatted_address() {
     return `
 ${this.firstName} ${this.lastName}
 ${this.addressOpt}
@@ -40,19 +56,24 @@ ${this.country}
     `.trim();
   }
 
-  @computed get shortAddress() {
+  @computed
+  get shortAddress() {
     return this.address;
   }
 
-  @computed get extendedAddress() {
-    return (this.addressOpt ? `${this.addressOpt}, `: "")
-      + (this.city ? `${this.city}, `: "")
-      + (this.province ? `${this.province}`: "")
-      + (this.zip ? ` ${this.zip}, `: ", ")
-      + (this.country || "");
+  @computed
+  get extendedAddress() {
+    return (
+      (this.addressOpt ? `${this.addressOpt}, ` : "")
+      + (this.city ? `${this.city}, ` : "")
+      + (this.province ? `${this.province}` : "")
+      + (this.zip ? ` ${this.zip}, ` : ", ")
+      + (this.country || "")
+    );
   }
 
-  @computed get fullAddress() {
+  @computed
+  get fullAddress() {
     return `${this.shortAddress}, ${this.extendedAddress}`;
   }
 

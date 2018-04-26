@@ -1,29 +1,27 @@
 import React from "react";
-import {
-  View, StyleSheet, Text
-} from "react-native";
-import {
-  Colours, Sizes, Styles
-} from "localyyz/constants";
+import { View, StyleSheet, Text } from "react-native";
+import { Sizes, Styles } from "localyyz/constants";
 
-// custom
-import {
-  UppercasedText
-} from "localyyz/components";
+// third party
+import PropTypes from "prop-types";
 
 export default class CartHeader extends React.Component {
+  static propTypes = {
+    title: PropTypes.string,
+    children: PropTypes.node,
+    icon: PropTypes.node
+  };
+
+  static defaultProps = {
+    title: ""
+  };
+
   render() {
     return (
-      <View style={[Styles.Horizontal, styles.container]}>
-        <UppercasedText style={[
-          Styles.Text, Styles.Emphasized, styles.titleLabel]}>
-          {this.props.title}
-        </UppercasedText>
-        <View style={[Styles.Horizontal, styles.content]}>
-          <Text style={[
-            Styles.Text, Styles.Terminal, styles.contentLabel]}>
-            {this.props.children}
-          </Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>{this.props.title}</Text>
+        <View style={styles.content}>
+          <Text style={styles.contentLabel}>{this.props.children}</Text>
         </View>
         {this.props.icon}
       </View>
@@ -33,13 +31,25 @@ export default class CartHeader extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Sizes.InnerFrame,
-    paddingVertical: Sizes.InnerFrame / 2,
-    justifyContent: "center"
+    ...Styles.Horizontal,
+    flex: 1,
+    marginHorizontal: Sizes.InnerFrame,
+    marginVertical: Sizes.InnerFrame,
+    alignItems: "center"
+  },
+
+  title: {
+    ...Styles.Text,
+    ...Styles.Emphasized
   },
 
   content: {
+    ...Styles.Horizontal,
     flex: 1,
-    marginLeft: Sizes.InnerFrame
+    marginHorizontal: Sizes.InnerFrame / 2
+  },
+
+  contentLabel: {
+    ...Styles.Text
   }
 });

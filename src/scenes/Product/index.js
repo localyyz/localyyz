@@ -49,7 +49,13 @@ import {
 // consts
 const BADGE_MIN_DISCOUNT = 0.1;
 
-@inject("navStore", "cartStore", "userStore", "assistantStore", "historyStore")
+@inject(
+  "navStore",
+  "navbarStore",
+  "cartStore",
+  "assistantStore",
+  "historyStore"
+)
 @observer
 class ProductScene extends React.Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -242,7 +248,7 @@ class ProductScene extends React.Component {
     this.setState({ productAdded: true }, () => {
       // add item to cart and hide the navbar
       // TODO: error handling
-      this.cart.hide();
+      this.props.navbarStore.hide();
       this.cart.addItem({
         productId: this.store.product.id,
         color: this.store.selectedVariant.etc.color,
@@ -258,7 +264,7 @@ class ProductScene extends React.Component {
 
     // reset exploder and reshow navbar
     this.productBuyRef.current.wrappedInstance.reset();
-    this.cart.show();
+    this.props.navbarStore.show();
 
     // callback
     callback && callback();
@@ -510,7 +516,9 @@ class ProductScene extends React.Component {
           <View style={[Styles.Card, styles.card, styles.cartButtons]}>
             <TouchableOpacity
               onPress={() =>
-                this.onAddedSummaryDismiss(() => this.cart.toggle(true))
+                this.onAddedSummaryDismiss(() =>
+                  this.props.navbarStore.togglePullup(true)
+                )
               }>
               <View style={Styles.RoundedButton}>
                 <UppercasedText style={styles.addButtonLabel}>
@@ -629,6 +637,7 @@ class ProductScene extends React.Component {
           <ContentCoverSlider
             ref={this.containerRef}
             title={this.store.product.truncatedTitle}
+            backActionThrottle
             backAction={() => {
               this.props.navigation.goBack();
               this.props.navigation.state.params.onBack

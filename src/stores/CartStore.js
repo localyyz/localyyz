@@ -1,78 +1,54 @@
-import { observable, action, computed, runInAction } from "mobx";
+// custom
+import { ApplePayExpressPayment } from "localyyz/effects";
+import { facebook as Facebook } from "localyyz/effects";
+import { ApiInstance } from "localyyz/global";
 import { Cart, UserAddress } from "localyyz/models";
 import { CART_STATUS_INPROGRESS } from "localyyz/constants";
-
-// custom
-import { facebook as Facebook, ApplePayExpressPayment } from "localyyz/effects";
-import { ApiInstance } from "localyyz/global";
+import { assistantStore, addressStore } from "localyyz/stores";
 
 // third party
 import Moment from "moment";
 import isEmpty from "lodash/isEmpty";
+import { observable, action, computed, runInAction } from "mobx";
 
 // consts
 const DEFAULT_CART = "default";
 
-class CartStore {
+export default class CartStore {
   @observable cart;
-  @observable isVisible;
-  @observable isPullupVisible;
   @observable paymentDetails;
-  @observable shippingAddress;
+
+  // transition states
+  @observable isCheckingOut = false;
 
   // used for apple pay
   @observable selectedShipping;
 
   constructor() {
     this._api = ApiInstance;
-    this.isVisible = true;
-    this.isPullupVisible = false;
     this.paymentDetails = {};
     this.cart = new Cart({
       id: "default",
       items: []
     });
-
-    // bindings
-    this.toggle = this.toggle.bind(this);
-    this.show = this.show.bind(this);
-    this.hide = this.hide.bind(this);
   }
 
-  ////////////////////////////////////////////////// data observable ///
-  // when the app logs the user in (or skips login) fetch cart items
-  //reactLogin = when(
-  //() =>
-  //(this.login._wasLoginSuccessful || this.login._wasLoginSkipped),
-  //() => {
-  //this.fetchFeaturedProducts();
-  //this.fetchDiscountedProducts();
-  //}
-  //);
-
-  /////////////////////////////////////////////////////////////////////
-
-  @action
-  show() {
-    this.isVisible = true;
-  }
-
-  @action
-  hide() {
-    this.isVisible = false;
-    this.toggle(false);
-  }
-
-  @action
-  toggle = async forceOpen => {
-    this.isPullupVisible
-      = forceOpen != null ? forceOpen : !this.isPullupVisible;
-  };
+  /*
+  * Computed values
+  *
+  */
 
   // cart conveniences
   @computed
   get numItems() {
     return this.cart && this.cart.items ? this.cart.items.length : 0;
+  }
+
+  @computed
+  get hasItemError() {
+    return (
+      this.cart && this.cart.items && this.cart.items.some(el => el.hasError)
+    );
   }
 
   @computed
@@ -116,17 +92,21 @@ class CartStore {
 
   @computed
   get shippingDetails() {
-    return this.cart.shippingAddress || {};
+    // by default, return isShipping = true to help
+    // components make sense of the address
+    return this.cart.shippingAddress;
+  }
+
+  @computed
+  get billingDetails() {
+    // by default, return isBilling = true to help
+    // components make sense of the address
+    return this.cart.billingAddress;
   }
 
   @computed
   get shippingMethods() {
     return this.cart.shippingMethods || [];
-  }
-
-  @computed
-  get hasErrors() {
-    return this.cart.error;
   }
 
   // TODO: remove this, gets the first placeId
@@ -208,9 +188,7 @@ class CartStore {
 
   // cart actions
   @action
-  replace = async cart => {
-    // create a new cart instance each time
-    this.cart = new Cart({});
+  replace = cart => {
     this.cart.update(cart);
     return this.cart;
   };
@@ -222,6 +200,11 @@ class CartStore {
     // instantiate the cart if succeeded
     return response && response.data && (await this.replace(response.data));
   };
+
+  /*
+  * Cart Items
+  *
+  */
 
   @action
   addItem = async ({
@@ -253,7 +236,7 @@ class CartStore {
         });
 
         // update cart
-        runInAction("[ACTION] update cart with response", () => {
+        runInAction("[ACTION] add cart item", () => {
           this.cart.items.push(response.data);
         });
       }
@@ -261,18 +244,27 @@ class CartStore {
   };
 
   @action
-  removeItem = async ({ productId, product, cartId }) => {
-    if (productId) {
+  removeItem = async cartItem => {
+    if (cartItem) {
       const response = await this._api.delete(
         // deletes from the current cart or a specified one
-        `/carts/${cartId || DEFAULT_CART}/items/${productId || product.id}`
+        `/carts/${cartItem.cartId || DEFAULT_CART}/items/${cartItem.id}`
       );
 
-      if (response && response.status < 400) {
-        // remove cart item side effects?
+      // NOTE: deleting item returns Status No Content (204)
+      if (response && response.status == 204) {
+        // NOTE: this may trigger side effect reactions
+        runInAction("[ACTION] removing cart item", () => {
+          this.cart.items.remove(cartItem);
+        });
       }
     }
   };
+
+  /*
+  * Cart General
+  *
+  */
 
   @action
   destroy = async ({ cartId }) => {
@@ -284,25 +276,73 @@ class CartStore {
     // TODO: default should be this.cart.id not "default", backend design issue
     const route = `/carts/${cartId || DEFAULT_CART}`;
     const payload = {
-      shippingAddress: address,
-      billingAddress: address
+      shippingAddress: address.isShipping ? address : this.cart.shippingAddress,
+      billingAddress: address.isBilling ? address : this.cart.billingAddress
     };
 
     const response = await this._api.put(route, payload);
     if (response && response.status < 400 && response.data) {
-      this.shippingAddress = address;
+      Facebook.logEvent(
+        address.isShipping
+          ? "fb_mobile_shipping_address"
+          : "fb_mobile_billing_address",
+        {
+          fb_content_type: "default",
+          fb_content_id: this.cart.id
+        }
+      );
 
-      Facebook.logEvent("fb_mobile_shipping_address", {
-        fb_content_type: "default",
-        fb_content_id: this.cart.id
-      });
-      return await this.replace(response.data);
+      return this.replace(response.data);
     }
   };
 
-  // checkout
   @action
-  checkout = async cartId => {
+  removeAddress = async ({ address, cartId }) => {
+    // for now, when removing an address on the cart... remove it from
+    // user address as well.
+    //
+    // TODO: make this independent of cart address + and removing
+    if (address.id) {
+      addressStore.remove(address.id);
+    }
+
+    // only remove if the removing address matches one of the
+    // shipping or billing address already on the cart
+    if (
+      address.id === this.shippingDetails.id
+      || address.id === this.billingDetails.id
+    ) {
+      // TODO: default should be this.cart.id not "default", backend design issue
+      const route = `/carts/${cartId || DEFAULT_CART}`;
+      const payload = {
+        // if the address is passed in..set it to null
+        shippingAddress:
+          address.id === this.shippingDetails.id
+            ? null
+            : this.cart.shippingAddress,
+        billingAddress:
+          address.id === this.billingDetails.id
+            ? null
+            : this.cart.billingAddress
+      };
+
+      const response = await this._api.put(route, payload);
+      if (response && response.status < 400 && response.data) {
+        return this.replace(response.data);
+      }
+    }
+  };
+
+  /*
+  * Cart Checkout
+  *
+  */
+
+  @action
+  checkoutWithReject = async cartId => {
+    let message = "Hold on, I'm preparing your checkout..";
+    assistantStore.write(message, 10000, true);
+
     // TODO: default should be this.cart.id not "default", backend design issue
     const route = `/carts/${cartId || DEFAULT_CART}/checkout`;
 
@@ -311,7 +351,16 @@ class CartStore {
       // NOTE: shouldLog is set when cart status is transitioned
       // from inProgress => checkout
       const shouldLog = this.cart.status === CART_STATUS_INPROGRESS;
-      await this.replace(response.data);
+
+      // check if cart returned error
+      this.replace(response.data);
+      if (response.data.hasError) {
+        assistantStore.get(message).cancel();
+        return await Promise.reject({
+          alertTitle: "invalid",
+          alertMessage: response.data.error
+        });
+      }
 
       if (shouldLog) {
         // log if cart status "was" in progress
@@ -325,10 +374,16 @@ class CartStore {
           }
         );
       }
-      return this.cart;
+
+      assistantStore.get(message).cancel();
+      return;
     }
 
-    return { err: response.error };
+    assistantStore.get(message).cancel();
+    return await Promise.reject({
+      alertTitle: response.error,
+      alertMessage: "please try again"
+    });
   };
 
   @action
@@ -349,7 +404,7 @@ class CartStore {
       {
         payment: this.payment,
         // TODO: billing could be different from shipping address
-        billingAddress: this.shippingDetails
+        billingAddress: this.billingDetails
       }
     );
 
@@ -757,8 +812,6 @@ class CartStore {
     });
   };
 }
-
-export default CartStore;
 
 function daysUntil(targetDate) {
   return Moment(targetDate).diff(Moment(), "days");

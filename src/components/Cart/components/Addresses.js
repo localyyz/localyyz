@@ -1,173 +1,237 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Alert, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
+import PropTypes from "prop-types";
 
 // custom
 import Address from "./Address";
 import AddressForm from "./AddressForm";
 import CartHeader from "./CartHeader";
-import { UppercasedText } from "localyyz/components";
 
 // third party
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { inject, observer } from "mobx-react";
+import { inject, observer, PropTypes as mobxPropTypes } from "mobx-react";
 
-@inject("addressStore", "cartStore")
+@inject(stores => ({
+  addresses: stores.addressStore.addresses,
+  fetch: () => stores.addressStore.fetch(),
+  remove: address =>
+    stores.cartStore.removeAddress({
+      address: address
+    }),
+  update: address =>
+    stores.cartStore.updateAddress({
+      address: address
+    })
+}))
 @observer
 export default class Addresses extends React.Component {
+  static propTypes = {
+    address: PropTypes.object.isRequired,
+    title: PropTypes.string,
+
+    // mobx injected
+    addresses: mobxPropTypes.arrayOrObservableArray.isRequired,
+    fetch: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    title: "",
+    address: {}
+  };
+
   constructor(props) {
     super(props);
-    this.store = this.props.addressStore;
-    this.cart = this.props.cartStore;
-    this.state = {
-      isAddressesVisible: false,
-      isFormVisible: false,
-      address: props.address || this.cart.shippingAddress
-    };
 
-    // bindings
-    this.toggle = this.toggle.bind(this);
-    this.openForm = this.openForm.bind(this);
-    this.closeForm = this.closeForm.bind(this);
-    this.onAddressUpdate = this.onAddressUpdate.bind(this);
+    // initial states
+    this.state = {
+      // current address from prop
+      currentAddress: props.address,
+      // isSelecting opens address(es) selection list
+      isSelecting: !props.address.address,
+      // isEditing opens editable address form
+      isEditing: props.address.hasError || props.addresses.length === 0,
+      // isComplete shows completed status
+      isComplete:
+        props.address && props.address.address && !props.address.hasError,
+      // isShipping and isBilling defines type of address this component is
+      // editing
+      isShipping: props.address.isShipping,
+      isBilling: props.address.isBilling
+    };
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.address.hasError) {
+      this.setState({
+        isSelecting: true,
+        isEditing: true,
+        isComplete: false
+      });
+    } else {
+      this.setState({
+        currentAddress: nextProps.address,
+        // isSelecting opens address(es) selection list
+        isSelecting: !nextProps.address.address,
+        // isEditing opens editable address form
+        isEditing:
+          nextProps.address.hasError || nextProps.addresses.length === 0,
+        // isComplete shows completed status
+        isComplete: !!nextProps.address.address
+      });
+    }
   }
 
   componentDidMount() {
-    this.store.fetch().then(addresses => {
-      // automatically select the first address, or previously selected
-      if ((addresses && addresses.length > 0) || this.state.address) {
-        // forward up address and close addresses
-        this.onAddressUpdate(this.state.address || addresses[0], true);
-        this.toggle(false);
-      }
-    });
+    this.props.fetch();
   }
 
-  toggle(forceOpen) {
-    // either set to some explicit value, or alternate from
-    // prev value
-    const shouldOpen =
-      forceOpen != null ? forceOpen : !this.state.isAddressesVisible;
-    this.setState(
-      {
-        isAddressesVisible: shouldOpen
-      },
-      () => {
-        if (this.state.isAddressesVisible) {
-          this.props.onOpenAddresses && this.props.onOpenAddresses();
-        } else {
-          this.props.onCloseAddresses && this.props.onCloseAddresses();
+  toggleSelect = selecting => {
+    // determine if selecting
+    const isSelecting = selecting != null ? selecting : !this.state.isSelecting;
 
-          // and finally close the form
-          this.closeForm();
+    this.setState({
+      isSelecting: isSelecting,
+      // empty addresses automatically toggle isEditing
+      isEditing: isSelecting && this.props.addresses.length === 0
+    });
+  };
+
+  onAddressUpdate = address => {
+    this.props.update({
+      ...address,
+      isShipping: this.state.isShipping,
+      isBilling: this.state.isBilling
+    });
+
+    this.setState({
+      isEditing: false
+    });
+  };
+
+  onAddressRemove = address => {
+    Alert.alert("Remove this address?", null, [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      {
+        text: "Remove",
+        onPress: () => {
+          this.props.remove(address);
         }
       }
+    ]);
+  };
+
+  get renderEditAddress() {
+    return this.state.currentAddress.id ? (
+      <View style={styles.addAddress}>
+        <TouchableOpacity
+          onPress={() => {
+            this.setState({ isEditing: true });
+          }}>
+          <Text
+            style={[
+              Styles.Text,
+              Styles.Terminal,
+              Styles.Emphasized,
+              Styles.Underlined,
+              styles.addAddressLabel
+            ]}>
+            edit current address
+          </Text>
+        </TouchableOpacity>
+      </View>
+    ) : null;
+  }
+
+  get renderCreateAddress() {
+    return this.props.addresses.length > 0 ? (
+      <View style={styles.addAddress}>
+        <TouchableOpacity
+          onPress={() => {
+            this.setState({ isEditing: true });
+          }}>
+          <Text
+            style={[
+              Styles.Text,
+              Styles.Terminal,
+              Styles.Emphasized,
+              Styles.Underlined,
+              styles.addAddressLabel
+            ]}>
+            add a new address
+          </Text>
+        </TouchableOpacity>
+      </View>
+    ) : null;
+  }
+
+  get renderAddressForm() {
+    return (
+      <AddressForm
+        address={this.state.currentAddress}
+        onSubmit={address => this.onAddressUpdate(address)}/>
     );
   }
 
-  openForm() {
-    this.setState({ isFormVisible: true });
-    this.props.onOpenForm && this.props.onOpenForm();
-  }
-
-  closeForm() {
-    this.setState({
-      isFormVisible: false
-    });
-    this.props.onCloseForm && this.props.onCloseForm();
-  }
-
-  onAddressUpdate(address, skipToggle) {
-    this.setState(
-      {
-        address: address
-      },
-      () => {
-        // update parent callback
-        this.props.onReady && this.props.onReady(address, skipToggle);
-      }
+  get renderAddresses() {
+    return (
+      <View style={styles.addresses}>
+        {!this.state.isEditing ? (
+          <View>
+            {this.props.addresses.slice().map(address => (
+              <Address
+                key={`address-${address.id}`}
+                address={address}
+                buttonIcon="trash"
+                onActionPress={this.onAddressRemove}
+                onPress={() => {
+                  this.setState({
+                    currentAddress: address,
+                    isEditing: true
+                  });
+                }}/>
+            ))}
+            {this.renderCreateAddress}
+          </View>
+        ) : (
+          this.renderAddressForm
+        )}
+      </View>
     );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.toggle()}>
+        <TouchableOpacity onPress={() => this.toggleSelect()}>
           <CartHeader
-            title="Shipping to"
+            title={this.props.title}
             icon={
-              !this.props.address ? (
-                <EntypoIcon
-                  name="dot-single"
-                  size={Sizes.IconButton}
-                  color={Colours.NegativeButton}
-                />
-              ) : (
+              this.state.isComplete ? (
                 <FontAwesomeIcon
                   name="check-circle"
                   size={Sizes.IconButton / 2}
                   color={Colours.PositiveButton}
-                  style={Styles.IconOffset}
-                />
+                  style={Styles.IconOffset}/>
+              ) : (
+                <EntypoIcon
+                  name="dot-single"
+                  size={Sizes.IconButton}
+                  color={Colours.NegativeButton}/>
               )
-            }
-          >
-            {!this.props.address
-              ? "no address selected"
-              : this.props.address.shortAddress}
+            }>
+            {this.state.isComplete
+              ? this.state.currentAddress.shortAddress
+              : "no address selected"}
           </CartHeader>
         </TouchableOpacity>
-        {this.state.isAddressesVisible && (
-          <View style={styles.addresses}>
-            {!this.state.isFormVisible && (
-              <View>
-                {this.store.addresses.map(address => (
-                  <Address
-                    key={`address-${address.id}`}
-                    address={address}
-                    buttonIcon="trash"
-                    onActionPress={() => {
-                      this.store.remove(address.id).then(
-                        // clear previously selected address
-                        () => this.onAddressUpdate(null, true)
-                      );
-                    }}
-                    onPress={() => {
-                      this.onAddressUpdate(address);
-                      this.toggle(false);
-                    }}
-                  />
-                ))}
-              </View>
-            )}
-            {!this.state.isFormVisible && this.store.addresses.length > 0 ? (
-              <View style={styles.addAddress}>
-                <TouchableOpacity onPress={this.openForm}>
-                  <Text
-                    style={[
-                      Styles.Text,
-                      Styles.Terminal,
-                      Styles.Emphasized,
-                      Styles.Underlined,
-                      styles.addAddressLabel
-                    ]}
-                  >
-                    use a different address
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <AddressForm
-                defaultName={this.props.defaultName}
-                onSubmit={(address, skipToggle) => {
-                  this.onAddressUpdate(address, skipToggle);
-                  this.toggle(false);
-                }}
-              />
-            )}
-          </View>
-        )}
+        {this.state.isSelecting ? this.renderAddresses : null}
       </View>
     );
   }
@@ -175,10 +239,6 @@ export default class Addresses extends React.Component {
 
 const styles = StyleSheet.create({
   container: {},
-
-  addressDetails: {
-    marginLeft: Sizes.InnerFrame / 2
-  },
 
   addAddress: {
     padding: Sizes.InnerFrame,

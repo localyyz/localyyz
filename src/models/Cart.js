@@ -10,6 +10,7 @@ export default class Cart {
   @observable isExpress;
 
   @observable shippingAddress;
+  @observable billingAddress;
   @observable shippingMethods;
 
   @observable totalShipping;
@@ -22,17 +23,13 @@ export default class Cart {
 
   @observable stripeAccountId = "";
 
+  // errors
+  @observable hasError = false;
+  @observable error = "";
+  errorCode = 0;
+
   constructor(cart) {
     this.update(cart);
-  }
-
-  @action
-  convertEtcToProps(cart) {
-    this.items = cart.items ? cart.items.map(i => new CartItem(i)) : [];
-    const { shippingAddress: address, shippingMethods: methods } =
-      cart.etc || {};
-    this.shippingAddress = address ? new UserAddress(address) : null;
-    this.shippingMethods = methods ? methods : null;
   }
 
   @action
@@ -43,13 +40,17 @@ export default class Cart {
   @action
   update(data = {}) {
     for (let k in data) {
-      // prevent private things from being added
-      if (data[k] && k.length > 0 && k[0] !== "_") {
+      if (k == "shippingAddress" || k == "billingAddress") {
+        this[k] = new UserAddress(data[k]);
+      } else if (k == "items") {
+        this.items = data.items ? data.items.map(i => new CartItem(i)) : [];
+      } else {
         this[k] = data[k];
       }
     }
 
-    this.convertEtcToProps(data);
+    const { shippingMethods: methods } = data.etc || {};
+    this.shippingMethods = methods ? methods : null;
   }
 
   toJS() {

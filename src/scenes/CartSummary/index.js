@@ -14,10 +14,12 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import {
   ContentCoverSlider,
   UppercasedText,
-  ExplodingButton
+  ExplodingButton,
+  ConstrainedAspectImage
 } from "localyyz/components";
 
 // third party
+import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 import LinearGradient from "react-native-linear-gradient";
@@ -25,9 +27,62 @@ import TearLines from "react-native-tear-lines";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { ifIphoneX } from "react-native-iphone-x-helper";
 
-@inject("cartStore")
+class ContentChild extends React.Component {
+  static propTypes = {
+    backgroundPosition: PropTypes.number,
+    onScroll: PropTypes.func
+  };
+
+  static defaultProps = {
+    backgroundPosition: 0
+  };
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.backgroundPosition !== this.props.backgroundPosition) {
+      return true;
+    }
+    return false;
+  }
+
+  render() {
+    return (
+      <ScrollView
+        ref="content"
+        contentContainerStyle={styles.itemsContainer}
+        scrollEventThrottle={16}
+        onScroll={this.props.onScroll}>
+        {this.props.children}
+      </ScrollView>
+    );
+  }
+}
+
+@inject(stores => ({
+  hideNavbar: () => stores.navbarStore.hide(),
+  showNavbar: () => stores.navbarStore.show(),
+  showPullup: () => stores.navbarStore.togglePullup(true),
+  onShowSummary: () => stores.cartStore.onShowSummary(),
+  finalize: () => stores.cartStore.finalize({}),
+  amountDiscount: stores.cartStore.amountDiscount,
+  paymentLastFour: stores.cartStore.paymentLastFour
+}))
 @observer
 export default class CartSummaryScene extends React.Component {
+  static propTypes = {
+    hideNavbar: PropTypes.func.isRequired,
+    showNavbar: PropTypes.func.isRequired,
+    showPullup: PropTypes.func.isRequired,
+    onShowSummary: PropTypes.func.isRequired,
+    finalize: PropTypes.func.isRequired,
+    amountDiscount: PropTypes.number,
+    paymentLastFour: PropTypes.string
+  };
+
+  static defaultProps = {
+    amountDiscount: 0,
+    paymentLastFour: "0000"
+  };
+
   static navigationOptions = ({ navigation: { state }, navigationOptions }) => {
     const { params } = state;
     return {
@@ -38,7 +93,6 @@ export default class CartSummaryScene extends React.Component {
 
   constructor(props) {
     super(props);
-    this.store = props.cartStore;
     this.state = {
       backgroundPosition: 0,
       isProcessing: false,
@@ -50,11 +104,11 @@ export default class CartSummaryScene extends React.Component {
     this.onConfirm = this.onConfirm.bind(this);
   }
 
-  UNSAFE_componentWillReceiveProps(next) {
+  componentWillReceiveProps(next) {
     if (
-      next.navigation.state.params.wasSuccessful !== this.state.wasSuccessful &&
-      next.navigation.state.params.wasSuccessful !==
-        this.props.navigation.state.params.wasSuccessful
+      next.navigation.state.params.wasSuccessful !== this.state.wasSuccessful
+      && next.navigation.state.params.wasSuccessful
+        !== this.props.navigation.state.params.wasSuccessful
     ) {
       this.setState({
         wasSuccessful: next.navigation.state.params.wasSuccessful
@@ -62,19 +116,19 @@ export default class CartSummaryScene extends React.Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
-    this.store.hide();
+  componentWillMount() {
+    this.props.hideNavbar();
   }
 
   componentDidMount() {
-    this.store.onShowSummary();
+    this.props.onShowSummary();
   }
 
   onBack(showCart) {
-    this.store.show();
+    this.props.showNavbar();
 
     // and show the cart if coming back from cancelling
-    showCart && this.store.toggle(true);
+    showCart && this.props.showPullup();
     this.props.navigation.goBack();
   }
 
@@ -82,7 +136,7 @@ export default class CartSummaryScene extends React.Component {
     // timeout to allow animations show through even
     // if payment takes less time
     setTimeout(() =>
-      this.store.finalize({}).then(
+      this.props.finalize().then(
         wasSuccessful =>
           this.setState(
             {
@@ -92,7 +146,8 @@ export default class CartSummaryScene extends React.Component {
             },
             () => {
               this.refs.exploder && this.refs.exploder.reset();
-              this.refs.content.scrollTo({ y: 0 });
+              // TODO
+              //this.refs.content.scrollTo({ y: 0 });
             }
           ),
         1000
@@ -108,26 +163,31 @@ export default class CartSummaryScene extends React.Component {
           backgroundColor={Colours.Background}
           style={{
             marginTop: this.state.backgroundPosition + Sizes.OuterFrame
-          }}
-        />
+          }}/>
         <View
           onLayout={e => {
             this.refs.topTearLine.onLayout(e);
             this.refs.bottomTearLine.onLayout(e);
           }}
-          style={styles.detailsContainer}
-        >
+          style={styles.detailsContainer}>
           <View style={styles.detailsHeader}>
             <View style={styles.logoContainer}>
-              <Image style={styles.logo} source={logo} />
+              {this.merchantLogo ? (
+                <ConstrainedAspectImage
+                  constrainHeight={Sizes.SquareButton}
+                  constrainWidth={Sizes.SquareButton}
+                  source={{ uri: this.merchantLogo }}/>
+              ) : (
+                <Image style={styles.logo} source={logo} />
+              )}
             </View>
             <Text style={styles.detailsText}>
-              {`Shipping to ${this.props.navigation.state.params.customerName ||
-                "Somebody"}`}
+              {`Shipping to ${this.props.navigation.state.params.customerName
+                || "Somebody"}`}
             </Text>
             <Text style={styles.detailsText}>
-              {this.props.navigation.state.params.shippingDetails.address +
-                (this.props.navigation.state.params.shippingDetails.addressOpt
+              {this.props.navigation.state.params.shippingDetails.address
+                + (this.props.navigation.state.params.shippingDetails.addressOpt
                   ? `, ${
                       this.props.navigation.state.params.shippingDetails
                         .addressOpt
@@ -137,10 +197,10 @@ export default class CartSummaryScene extends React.Component {
             <Text style={styles.detailsText}>
               {(this.props.navigation.state.params.shippingDetails.city
                 ? `${this.props.navigation.state.params.shippingDetails.city}, `
-                : "") +
-                this.props.navigation.state.params.shippingDetails.province ||
-                this.props.navigation.state.params.shippingDetails.region +
-                  (this.props.navigation.state.params.shippingDetails.zip
+                : "")
+                + this.props.navigation.state.params.shippingDetails.province
+                || this.props.navigation.state.params.shippingDetails.region
+                  + (this.props.navigation.state.params.shippingDetails.zip
                     ? ` ${
                         this.props.navigation.state.params.shippingDetails.zip
                       }`
@@ -154,8 +214,7 @@ export default class CartSummaryScene extends React.Component {
                 Styles.TopSpacing,
                 styles.detailsText,
                 styles.detailsTitle
-              ]}
-            >
+              ]}>
               via Standard
             </Text>
             {!!this.props.navigation.state.params.shippingExpectation && (
@@ -165,10 +224,10 @@ export default class CartSummaryScene extends React.Component {
             )}
           </View>
           <View style={Styles.Divider} />
-          {this.props.navigation.state.params.cart &&
-            this.props.navigation.state.params.cart.items &&
-            this.props.navigation.state.params.cart.items.length > 0 &&
-            this.props.navigation.state.params.cart.items.map(item => (
+          {this.props.navigation.state.params.cart
+            && this.props.navigation.state.params.cart.items
+            && this.props.navigation.state.params.cart.items.length > 0
+            && this.props.navigation.state.params.cart.items.slice().map(item => (
               <View key={`item-${item.id}`} style={styles.detailsItem}>
                 <Text style={styles.detailsText}>1 x</Text>
                 <View style={styles.detailsItemTitle}>
@@ -176,9 +235,9 @@ export default class CartSummaryScene extends React.Component {
                     {item.product.title && item.product.title.toLowerCase()}
                   </Text>
                   <Text style={[styles.detailsText, styles.detailsOptions]}>
-                    {item.variant &&
-                      item.variant.description &&
-                      item.variant.description.toLowerCase()}
+                    {item.variant
+                      && item.variant.description
+                      && item.variant.description.toLowerCase()}
                   </Text>
                 </View>
                 <Text style={styles.detailsText}>
@@ -189,8 +248,7 @@ export default class CartSummaryScene extends React.Component {
           <View style={Styles.Divider} />
           <View style={styles.detailsItem}>
             <UppercasedText
-              style={[styles.detailsText, styles.detailsItemTitle]}
-            >
+              style={[styles.detailsText, styles.detailsItemTitle]}>
               subtotal
             </UppercasedText>
             <Text style={styles.detailsText}>
@@ -201,19 +259,17 @@ export default class CartSummaryScene extends React.Component {
           </View>
           <View style={styles.detailsItem}>
             <UppercasedText
-              style={[styles.detailsText, styles.detailsItemTitle]}
-            >
+              style={[styles.detailsText, styles.detailsItemTitle]}>
               taxes
             </UppercasedText>
             <Text style={styles.detailsText}>
               {`$${this.props.navigation.state.params.amountTaxes.toFixed(2)}`}
             </Text>
           </View>
-          {this.store.amountDiscount > 0 && (
+          {this.props.amountDiscount > 0 && (
             <View style={styles.detailsItem}>
               <UppercasedText
-                style={[styles.detailsText, styles.detailsItemTitle]}
-              >
+                style={[styles.detailsText, styles.detailsItemTitle]}>
                 discounts
               </UppercasedText>
               <Text style={[styles.detailsText, styles.detailsTitle]}>
@@ -225,8 +281,7 @@ export default class CartSummaryScene extends React.Component {
           )}
           <View style={styles.detailsItem}>
             <UppercasedText
-              style={[styles.detailsText, styles.detailsItemTitle]}
-            >
+              style={[styles.detailsText, styles.detailsItemTitle]}>
               shipping
             </UppercasedText>
             <Text style={styles.detailsText}>
@@ -241,14 +296,47 @@ export default class CartSummaryScene extends React.Component {
                 styles.detailsText,
                 styles.detailsItemTitle,
                 styles.detailsTitle
-              ]}
-            >
+              ]}>
               grand total
             </UppercasedText>
             <Text style={[styles.detailsText, styles.detailsTitle]}>
               {`$${this.props.navigation.state.params.amountTotal.toFixed(2)}`}
             </Text>
           </View>
+          {this.props.navigation.state.params.shippingDetails.address
+          !== this.props.navigation.state.params.billingDetails.address ? (
+            <View style={styles.chargeWrapper}>
+              <View style={Styles.Divider} />
+              <View style={[styles.detailsItem, styles.charge]}>
+                <Text style={[styles.detailsItem, styles.chargeLabel]}>
+                  Charge to
+                </Text>
+                <View style={styles.chargeContainer}>
+                  <FontAwesomeIcon
+                    name={this.props.navigation.state.params.paymentType}
+                    size={Sizes.OuterFrame}
+                    style={styles.paymentIcon}/>
+                  <Text style={styles.chargeValueLabel}>
+                    {`ending in ${
+                      this.props.navigation.state.params.paymentLastFour
+                    }`}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.detailsItem}>
+                <Text style={styles.detailsText}>
+                  {this.props.navigation.state.params.billingDetails.address
+                    + (this.props.navigation.state.params.billingDetails
+                      .addressOpt
+                      ? `, ${
+                          this.props.navigation.state.params.billingDetails
+                            .addressOpt
+                        }`
+                      : "")}
+                </Text>
+              </View>
+            </View>
+          ) : null}
           <View style={[styles.logoContainer, styles.thankYou]}>
             <Text style={styles.detailsText}>Thank you!</Text>
             <Text style={Styles.Text}>🙏</Text>
@@ -258,8 +346,7 @@ export default class CartSummaryScene extends React.Component {
           isUnder
           ref="bottomTearLine"
           backgroundColor={Colours.Background}
-          style={{ marginBottom: Sizes.OuterFrame * 2 }}
-        />
+          style={{ marginBottom: Sizes.OuterFrame * 2 }}/>
       </Animatable.View>
     );
   }
@@ -314,8 +401,7 @@ export default class CartSummaryScene extends React.Component {
               animation="fadeInRight"
               duration={300}
               delay={500}
-              style={styles.loginContainer}
-            >
+              style={styles.loginContainer}>
               {this.renderLogin}
             </Animatable.View>
           ) : (
@@ -323,14 +409,12 @@ export default class CartSummaryScene extends React.Component {
               animation="fadeInRight"
               duration={300}
               delay={500}
-              style={styles.paymentContainer}
-            >
+              style={styles.paymentContainer}>
               <FontAwesomeIcon
                 name={this.props.navigation.state.params.paymentType}
                 size={Sizes.OuterFrame}
                 color={Colours.AlternateText}
-                style={styles.paymentIcon}
-              />
+                style={styles.paymentIcon}/>
               <Text style={styles.paymentLabel}>
                 {`xxxx xxxx xxxx ${
                   this.props.navigation.state.params.paymentLastFour
@@ -347,8 +431,7 @@ export default class CartSummaryScene extends React.Component {
                     },
                     this.onConfirm
                   )
-                }
-              >
+                }>
                 <View style={[Styles.RoundedButton, styles.paymentButton]}>
                   <UppercasedText style={styles.paymentButtonLabel}>
                     Confirm Payment
@@ -368,8 +451,7 @@ export default class CartSummaryScene extends React.Component {
         animation="fadeInUp"
         duration={300}
         delay={300}
-        style={styles.overlay}
-      >
+        style={styles.overlay}>
         <View style={styles.overlayText}>
           <Text style={styles.overlayTitle}>Just a minute</Text>
           <Text style={styles.overlaySubtitle}>
@@ -380,12 +462,24 @@ export default class CartSummaryScene extends React.Component {
           animation="pulse"
           easing="ease-out"
           duration={200}
-          iterationCount="infinite"
-        >
+          iterationCount="infinite">
           <Text style={styles.overlayIcon}>💸</Text>
         </Animatable.View>
       </Animatable.View>
     );
+  }
+
+  get merchantLogo() {
+    let products = (this.props.navigation.state.params.cart
+    && this.props.navigation.state.params.cart.items
+    && this.props.navigation.state.params.cart.items.length > 0
+      ? this.props.navigation.state.params.cart.items
+      : []
+    ).filter(
+      item => item.product && item.product.place && item.product.place.imageUrl
+    );
+
+    return products.length > 0 && products[0].product.place.imageUrl;
   }
 
   render() {
@@ -401,22 +495,20 @@ export default class CartSummaryScene extends React.Component {
           backColor={Colours.Text}
           background={
             <View
-              onLayout={e =>
+              onLayout={e => {
                 this.setState({
                   // pushes content under the end of background dynamically
                   backgroundPosition:
                     e.nativeEvent.layout.y + e.nativeEvent.layout.height
-                })
-              }
-              style={styles.background}
-            >
+                });
+              }}
+              style={styles.background}>
               {this.state.wasSuccessful != null && (
                 <View style={styles.resultIconContainer}>
                   <Animatable.View
                     animation="bounce"
                     duration={300}
-                    delay={300}
-                  >
+                    delay={300}>
                     <FontAwesomeIcon
                       name={
                         this.state.wasSuccessful
@@ -429,8 +521,7 @@ export default class CartSummaryScene extends React.Component {
                           : Colours.Fail
                       }
                       size={Sizes.Avatar}
-                      style={styles.resultIcon}
-                    />
+                      style={styles.resultIcon}/>
                   </Animatable.View>
                 </View>
               )}
@@ -446,27 +537,23 @@ export default class CartSummaryScene extends React.Component {
                   ? this.state.wasSuccessful
                     ? "Your payment was processed successfully by the merchant and will be delivered out shortly. We've also sent you an email confirmation for record keeping."
                     : `We couldn't process your selected payment method ending in ${
-                        this.store.paymentLastFour
+                        this.props.paymentLastFour
                       }. Please either try again, or go back and use a different payment method.`
                   : "Your order will be immediately dispatched to the merchant for processing as soon as this screen is confirmed by you."}
               </Text>
             </View>
-          }
-        >
-          <ScrollView
-            ref="content"
-            contentContainerStyle={styles.itemsContainer}
-            scrollEventThrottle={16}
+          }>
+          <ContentChild
             onScroll={event => this.refs.container.onScroll(event)}
-          >
+            backgroundPosition={this.state.backgroundPosition}>
             {this.renderDetails}
-          </ScrollView>
+          </ContentChild>
           <LinearGradient
+            pointerEvents="none"
             colors={[Colours.Background, Colours.Transparent]}
             start={{ y: 1 }}
             end={{ y: 0 }}
-            style={styles.gradient}
-          />
+            style={styles.gradient}/>
         </ContentCoverSlider>
         {this.renderSummary}
         {this.state.isProcessing && this.renderOverlay}
@@ -588,6 +675,25 @@ const styles = StyleSheet.create({
     ...Styles.Terminal,
     ...Styles.Alternate,
     marginHorizontal: Sizes.InnerFrame
+  },
+
+  chargeWrapper: {},
+
+  chargeContainer: {
+    ...Styles.Horizontal
+  },
+
+  chargeLabel: {
+    ...Styles.Text,
+    ...Styles.Terminal,
+    flex: 1
+  },
+
+  chargeValueLabel: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
+    ...Styles.Terminal,
+    marginLeft: Sizes.InnerFrame / 2
   },
 
   paymentButton: {
