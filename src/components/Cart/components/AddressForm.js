@@ -279,7 +279,6 @@ export default class AddressForm extends React.Component {
         {!this.isFilled ? (
           <GooglePlacesAutocomplete
             ref="address"
-            autoFocus
             fetchDetails
             minLength={2}
             debounce={200}
