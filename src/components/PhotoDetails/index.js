@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
@@ -9,7 +9,6 @@ import * as Animatable from "react-native-animatable";
 import PhotoView from "react-native-photo-view";
 import LinearGradient from "react-native-linear-gradient";
 import EntypoIcon from "react-native-vector-icons/Entypo";
-import { BlurView } from "react-native-blur";
 
 @inject(stores => ({
   hideNav: stores.navbarStore.hide,
@@ -61,7 +60,7 @@ export default class PhotoDetails extends React.Component {
           animation="fadeIn"
           duration={500}
           style={styles.container}>
-          <BlurView blurType="dark" style={styles.overlay}>
+          <View style={styles.overlay}>
             <PhotoView
               source={{ uri: this.state.source }}
               minimumZoomScale={0.9}
@@ -71,8 +70,8 @@ export default class PhotoDetails extends React.Component {
               style={styles.photo}/>
             <LinearGradient
               colors={[Colours.DarkTransparent, Colours.BlackTransparent]}
-              start={{ y: 1 }}
-              end={{ y: 0 }}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 0, y: 0 }}
               style={styles.options}>
               <Animatable.View animation="fadeInUp" duration={200} delay={500}>
                 <EntypoIcon
@@ -82,7 +81,7 @@ export default class PhotoDetails extends React.Component {
                   size={Sizes.Oversized}/>
               </Animatable.View>
             </LinearGradient>
-          </BlurView>
+          </View>
         </Animatable.View>
       )
     );

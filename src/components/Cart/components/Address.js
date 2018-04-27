@@ -40,8 +40,8 @@ export default class Address extends React.Component {
             <LinearGradient
               colors={[Colours.Foreground, Colours.Transparent]}
               locations={[0.8, 1]}
-              start={{ x: 1 }}
-              end={{ x: 0 }}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 0, y: 0 }}
               style={styles.iconContainer}>
               <EntypoIcon
                 name={this.props.buttonIcon}

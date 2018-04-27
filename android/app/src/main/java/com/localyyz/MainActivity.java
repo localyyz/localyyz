@@ -1,6 +1,15 @@
 package com.localyyz;
 
+import android.content.Intent;
+import android.os.Bundle;
+
+import io.branch.rnbranch.*;
+
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+
+
+import javax.annotation.Nullable;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,4 +21,37 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "localyyz";
     }
+
+    // Override onStart, onNewIntent:
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RNBranchModule.initSession(getIntent().getData(), this);
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        setIntent(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected ReactActivityDelegate createReactActivityDelegate() {
+        return new ReactActivityDelegate(this, getMainComponentName()) {
+            @Nullable
+            @Override
+            protected Bundle getLaunchOptions() {
+                Bundle initialProps = new Bundle();
+                initialProps.putString("API_URL", BuildConfig.API_URL);
+                return initialProps;
+            }
+        };
+    }
+
+
 }

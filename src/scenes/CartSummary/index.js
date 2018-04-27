@@ -551,8 +551,8 @@ export default class CartSummaryScene extends React.Component {
           <LinearGradient
             pointerEvents="none"
             colors={[Colours.Background, Colours.Transparent]}
-            start={{ y: 1 }}
-            end={{ y: 0 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 0, y: 0 }}
             style={styles.gradient}/>
         </ContentCoverSlider>
         {this.renderSummary}

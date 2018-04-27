@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Keyboard } from "react-native";
+import { View, StyleSheet, Keyboard } from "react-native";
 
 // custom
 import { Assistant, UppercasedText } from "localyyz/components";
@@ -67,7 +67,7 @@ export default class GlobalAssistant extends React.Component {
               top: 0
             }
         ]}>
-        <BlurView style={styles.blur} blurType="light" blurAmount={5}>
+        <View style={styles.blur}>
           {this.assistant.isVisible ? (
             <Animatable.View
               animation="fadeIn"
@@ -96,7 +96,7 @@ export default class GlobalAssistant extends React.Component {
               messages={this.props.messages.slice()}
               style={styles.assistant}/>
           </Animatable.View>
-        </BlurView>
+        </View>
       </Animatable.View>
     );
   }
