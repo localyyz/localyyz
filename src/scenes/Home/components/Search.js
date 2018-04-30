@@ -1,8 +1,8 @@
 import React from "react";
-import { View, TouchableWithoutFeedback, StyleSheet } from "react-native";
+import { TouchableWithoutFeedback, StyleSheet } from "react-native";
 
 // third party
-import { BlurView } from "react-native-blur";
+import { BlurView } from "localyyz/components";
 import * as Animatable from "react-native-animatable";
 import { inject, observer } from "mobx-react";
 import PropTypes from "prop-types";
@@ -37,9 +37,12 @@ export default class Search extends React.Component {
         duration={300}
         style={[styles.searchOverlay, { paddingTop: headerHeight }]}>
         <TouchableWithoutFeedback onPress={onPress}>
-          <View style={styles.searchOverlayBlur}>
+          <BlurView
+            blurType="light"
+            blurAmount={10}
+            style={styles.searchOverlayBlur}>
             <SearchResult />
-          </View>
+          </BlurView>
         </TouchableWithoutFeedback>
       </Animatable.View>
     ) : null;

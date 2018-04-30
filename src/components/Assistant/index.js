@@ -6,6 +6,7 @@ import { Sizes } from "localyyz/constants";
 import AssistantMessage from "./components/Message.js";
 
 // third party
+import { computed } from "mobx";
 import { inject } from "mobx-react";
 
 // constants
@@ -153,6 +154,7 @@ export default class Assistant extends React.Component {
     return this.state.messages.filter(message => !message.expired).length > 0;
   }
 
+  @computed
   get isBlocking() {
     return (
       this.state.messages.filter(

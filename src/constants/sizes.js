@@ -1,7 +1,18 @@
-import { Dimensions } from "react-native";
+import { Dimensions, Platform } from "react-native";
+import ExtraDimensions from "react-native-extra-dimensions-android";
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
+// platform specific to accomodate soft buttons on android
+const WIDTH
+  = Platform.OS === "ios"
+    ? Dimensions.get("window").width
+    : ExtraDimensions.get("REAL_WINDOW_WIDTH");
+const HEIGHT
+  = Platform.OS === "ios"
+    ? Dimensions.get("window").height
+    : ExtraDimensions.get("REAL_WINDOW_HEIGHT")
+      - ExtraDimensions.get("STATUS_BAR_HEIGHT")
+      - ExtraDimensions.get("SOFT_MENU_BAR_HEIGHT")
+      - ExtraDimensions.get("SMART_BAR_HEIGHT");
 
 export const Sizes = {
   Width: WIDTH,

@@ -11,6 +11,18 @@ import { withNavigation } from "react-navigation";
 import { inject, observer } from "mobx-react";
 import * as Animatable from "react-native-animatable";
 
+// custom animation
+Animatable.initializeRegistryWithDefinitions({
+  checkoutSlide: {
+    from: {
+      width: 0
+    },
+    to: {
+      width: 130
+    }
+  }
+});
+
 @withNavigation
 @inject(stores => ({
   numItems: stores.cartStore.numItems,
@@ -68,7 +80,9 @@ export default class CartHeaderSummary extends React.Component {
 
   render() {
     return (
-      <View style={[Styles.EqualColumns, styles.cartHeader]}>
+      <View
+        pointerEvents="auto"
+        style={[Styles.EqualColumns, styles.cartHeader]}>
         <TouchableOpacity onPress={this.props.toggleItems}>
           <View style={styles.cartSummary}>
             <Text style={styles.title}>Cart</Text>

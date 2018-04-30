@@ -51,9 +51,9 @@ export default class Addresses extends React.Component {
       // current address from prop
       currentAddress: props.address,
       // isSelecting opens address(es) selection list
-      isSelecting: !props.address.address,
+      isSelecting: props.address.address,
       // isEditing opens editable address form
-      isEditing: props.address.hasError || props.addresses.length === 0,
+      isEditing: props.address.hasError || this.props.addresses.length === 0,
       // isComplete shows completed status
       isComplete:
         props.address && props.address.address && !props.address.hasError,
@@ -75,7 +75,7 @@ export default class Addresses extends React.Component {
       this.setState({
         currentAddress: nextProps.address,
         // isSelecting opens address(es) selection list
-        isSelecting: !nextProps.address.address,
+        isSelecting: nextProps.address.address,
         // isEditing opens editable address form
         isEditing:
           nextProps.address.hasError || nextProps.addresses.length === 0,

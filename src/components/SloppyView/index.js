@@ -12,8 +12,7 @@ export default class SloppyView extends React.Component {
           left: Sizes.InnerFrame,
           right: Sizes.InnerFrame
         }}
-        {...this.props}
-      />
+        {...this.props}/>
     );
   }
 }
