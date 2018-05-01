@@ -88,26 +88,44 @@ apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
 def enableProguardInReleaseBuilds = false
 
+def getPassword(String currentUser, String keyChain) {
+   def stdout = new ByteArrayOutputStream()
+   def stderr = new ByteArrayOutputStream()
+   exec {
+       commandLine 'security', '-q', 'find-generic-password', '-a', currentUser, '-s', keyChain, '-w'
+       standardOutput = stdout
+       errorOutput = stderr
+       ignoreExitValue true
+   }
+   //noinspection GroovyAssignabilityCheck
+      stdout.toString().trim()
+}
+
+def keyPass = getPassword("localyyz","android_keystore_keypass")
+def keystorePass = getPassword("localyyz","android_keystore")
+
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.0"
-
     defaultConfig {
         applicationId "com.localyyz"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
+        versionCode 4
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+//        packagingOptions {
+//            exclude "lib/arm64-v8a/librealm-jni.so"
+//        }
         // Add these lines below the existing config
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
@@ -115,11 +133,21 @@ android {
         resValue 'string', 'facebook_app_id', '1571913849596059'
         resValue 'string', 'fb_login_protocol_scheme', 'fb1571913849596059'
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword keystorePass
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword keyPass
+            }
+        }
+    }
     splits {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
+            universalApk false // If true, also generate a universal APK
             include "armeabi-v7a", "x86"
         }
     }
@@ -137,6 +165,7 @@ android {
             buildConfigField 'String', 'CODEPUSH_KEY', '"1wHIV0RpWjDe5IScju9u22i7jZGkSkbqxNkRPz"'
             resValue 'string', 'facebook_app_id', '1610598825925267'
             resValue 'string', 'fb_login_protocol_scheme', 'fb1610598825925267'
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -144,7 +173,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -155,19 +184,21 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-extra-dimensions-android')
     compile project(':react-native-code-push')
     compile project(':react-native-branch')
-//    compile project(':react-native-payments')
+    //    compile project(':react-native-payments')
     compile project(':react-native-fbsdk')
     compile project(':react-native-photo-view')
     compile project(':react-native-vector-icons')
     compile project(':react-native-device-info')
     compile project(':react-native-blur')
     compile project(':react-native-linear-gradient')
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:27.0.0"
-    compile "com.facebook.react:react-native:+"  // From node_modules
-    compile "com.facebook.android:facebook-android-sdk:4.32.0"
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:27.0.0'
+    compile 'com.facebook.react:react-native:+'
+    // From node_modules
+    compile 'com.facebook.android:facebook-android-sdk:4.32.0'
 }
 
 // Run this once to be able to run the application with BUCK

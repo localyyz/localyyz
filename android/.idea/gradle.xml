@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/../node_modules/react-native-branch/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-code-push/android/app" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-device-info/android" />
+            <option value="$PROJECT_DIR$/../node_modules/react-native-extra-dimensions-android/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-fbsdk/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-linear-gradient/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-payments/android" />

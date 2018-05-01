@@ -3,13 +3,12 @@ package com.localyyz;
 import android.content.Intent;
 import android.os.Bundle;
 
-import io.branch.rnbranch.*;
-
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 
-
 import javax.annotation.Nullable;
+
+import io.branch.rnbranch.RNBranchModule;
 
 public class MainActivity extends ReactActivity {
 
@@ -22,7 +21,6 @@ public class MainActivity extends ReactActivity {
         return "localyyz";
     }
 
-    // Override onStart, onNewIntent:
     @Override
     protected void onStart() {
         super.onStart();
@@ -52,6 +50,5 @@ public class MainActivity extends ReactActivity {
             }
         };
     }
-
 
 }
