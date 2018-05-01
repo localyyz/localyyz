@@ -714,7 +714,10 @@ class ProductScene extends React.Component {
               </LinearGradient>
               <ImageCarousel
                 onPress={imageUrl => {
-                  this.photoDetailsRef.current.toggle(true, imageUrl);
+                  this.photoDetailsRef.current.wrappedInstance.toggle(
+                    true,
+                    imageUrl
+                  );
                 }}/>
               <View style={[styles.card, styles.headerCard]}>
                 <Text
