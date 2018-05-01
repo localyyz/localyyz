@@ -88,9 +88,6 @@ captures/
 # Android release
 release/
 
-# Android keystore
-*.keystore
-
 # IntelliJ
 *.iml
 .idea/workspace.xml
