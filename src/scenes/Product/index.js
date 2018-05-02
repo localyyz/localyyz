@@ -1,35 +1,24 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 // custom
 import Store from "./store";
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Colours } from "localyyz/constants";
 import { Product } from "localyyz/models";
 import { ContentCoverSlider, PhotoDetails } from "localyyz/components";
-import { NAVBAR_HEIGHT } from "../../components/NavBar";
 
 // third party
 import PropTypes from "prop-types";
 import { inject, observer, Provider } from "mobx-react/native";
-import LinearGradient from "react-native-linear-gradient";
 
 // local component
-import {
-  ImageCarousel,
-  ProductBuy,
-  ProductVariantSelector,
-  AddedSummary,
-  RelatedProducts,
-  ProductHeader,
-  ProductDetails,
-  MerchantDetails
-} from "./components";
+import { AddedSummary, ProductHeader } from "./components";
 import Content from "./content";
 
 @inject(stores => ({
   setAppContext: context => stores.navStore.setAppContext(context),
   logToHistory: product => stores.historyStore.log(product),
-  hideNavbar: () => stores.cartStore.hide(),
+  hideNavbar: () => stores.navbarStore.hide(),
   write: message => stores.assistantStore(message, 10000, true),
   getWrite: message => stores.assistantStore.get(message)
 }))
@@ -180,28 +169,6 @@ const styles = StyleSheet.create({
   productView: {
     flex: 1,
     backgroundColor: Colours.Background
-  },
-
-  productContainer: {
-    paddingBottom: NAVBAR_HEIGHT + Sizes.OuterFrame
-  },
-
-  carousel: {
-    marginBottom: Sizes.OuterFrame
-  },
-
-  // content area
-  card: {
-    ...Styles.Card,
-    marginVertical: Sizes.InnerFrame / 8
-  },
-
-  // options
-  optionsContainer: {
-    ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    paddingVertical: Sizes.InnerFrame,
-    paddingHorizontal: Sizes.OuterFrame
   }
 });
 

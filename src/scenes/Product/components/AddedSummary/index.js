@@ -51,8 +51,8 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
   relatedProducts: stores.productStore.relatedProducts.slice() || [],
   isAddedSummaryVisible: stores.productStore.isAddedSummaryVisible,
   closeAddedSummary: () => stores.productStore.toggleAddedSummary(false),
-  showCart: () => stores.cartStore.toggle(true),
-  showNavbar: () => stores.cartStore.show()
+  showCart: () => stores.navbarStore.togglePullup(true),
+  showNavbar: () => stores.navbarStore.show()
 }))
 @observer
 export default class AddedSummary extends React.Component {

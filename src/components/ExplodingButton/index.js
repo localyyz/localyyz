@@ -10,8 +10,8 @@ import * as Animatable from "react-native-animatable";
 
 @withNavigation
 @inject(stores => ({
-  showNavbar: () => stores.cartStore.show(),
-  hideNavbar: () => stores.cartStore.hide()
+  showNavbar: () => stores.navbarStore.show(),
+  hideNavbar: () => stores.navbarStore.hide()
 }))
 export default class ExplodingButton extends React.Component {
   static propTypes = {
