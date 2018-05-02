@@ -13,6 +13,8 @@ import { inject } from "mobx-react";
 const DEFAULT_TYPE_TIME = 120;
 const TYPE_DELAY = 1000;
 
+export { default as AssistantMessage } from "./components/Message.js";
+
 @inject("assistantStore")
 export default class Assistant extends React.Component {
   constructor(props) {

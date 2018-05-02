@@ -14,6 +14,14 @@ export default class AssistantStore {
   };
 
   @action
+  cancel = message => {
+    this.messages.push({
+      message: message,
+      isCancel: true
+    });
+  };
+
+  @action
   ping = () => {
     this.lastUpdated = new Date();
   };

@@ -812,7 +812,7 @@ export default class CartStore {
 
   _onExpressCheckoutFailure = (response = {}, message) => {
     response && console.log(response);
-    assistantStore.get(message).cancel();
+    assistantStore.cancel(message);
     this.fetch();
 
     // only close if user aborted failure
@@ -880,7 +880,7 @@ export default class CartStore {
       response = await this._launchExpressPayment();
 
       // sheet ready, so reveal and close assistant
-      assistantStore.get(message).cancel();
+      assistantStore.cancel(message);
 
       // wait for user to complete sheet
       response = await this._onUserAcceptPayment(response);

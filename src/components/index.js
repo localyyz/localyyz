@@ -21,6 +21,7 @@ export { default as MoreTile } from "./MoreTile";
 export { default as StaggeredList } from "./StaggeredList";
 export { default as SearchTag } from "./SearchTag";
 export { default as Assistant } from "./Assistant";
+export { AssistantMessage } from "./Assistant";
 export { default as ProductList } from "./ProductList";
 export { default as DiscountBadge } from "./Badge/variants/DiscountBadge";
 export { default as VerifiedBadge } from "./Badge/variants/VerifiedBadge";

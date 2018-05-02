@@ -2,27 +2,33 @@ import React from "react";
 import { View, StyleSheet, Keyboard, Platform } from "react-native";
 
 // custom
-import { Assistant, BlurView } from "localyyz/components";
+import { AssistantMessage } from "localyyz/components";
 import { Colours, Sizes } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import { inject, observer, PropTypes as mobxPropTypes } from "mobx-react";
+import { queueProcessor } from "mobx-utils";
+import { BlurView } from "react-native-blur";
 import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({
-  lastUpdated: stores.assistantStore.lastUpdated,
-  messages: stores.assistantStore.messages.slice()
+  messages: stores.assistantStore.messages,
+  write: stores.assistantStore.write
 }))
 @observer
 export default class GlobalAssistant extends React.Component {
   constructor(props) {
     super(props);
-    this.store = this.props.assistantStore;
+
+    this.state = {};
+    this.startWorker();
+
+    this._keyboardHeight = 0;
   }
   static propTypes = {
-    lastUpdated: PropTypes.any,
-    messages: PropTypes.array
+    messages: mobxPropTypes.arrayOrObservableArray,
+    write: PropTypes.func
   };
 
   static defaultProps = {
@@ -34,20 +40,24 @@ export default class GlobalAssistant extends React.Component {
     if (Platform.OS === "ios") {
       this.keyboardDidShowListener = Keyboard.addListener(
         "keyboardDidShow",
-        evt =>
+        evt => {
+          this._keyboardHeight = evt.endCoordinates.height;
           this.refs.container
-          && this.refs.container.transitionTo({
-            bottom: evt.endCoordinates.height
-          })
+            && this.refs.container.transitionTo({
+              bottom: evt.endCoordinates.height
+            });
+        }
       );
 
       this.keyboardDidHideListener = Keyboard.addListener(
         "keyboardDidHide",
-        () =>
+        () => {
+          this._keyboardHeight = 0;
           this.refs.container
-          && this.refs.container.transitionTo({
-            bottom: 0
-          })
+            && this.refs.container.transitionTo({
+              bottom: 0
+            });
+        }
       );
     }
   }
@@ -55,27 +65,44 @@ export default class GlobalAssistant extends React.Component {
   componentWillUnmount() {
     this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
+
+    this.state.timeout && clearTimeout(this.state.timeout);
+    this.dispose();
   }
 
-  get assistant() {
-    return this.refs.assistant ? this.refs.assistant.wrappedInstance : {};
-  }
-
-  get shouldShow() {
-    return !!this.props.lastUpdated && !!this.assistant.isVisible;
-  }
-
-  get shouldBlock() {
-    return this.shouldShow && !!this.assistant.isBlocking;
-  }
+  startWorker = () => {
+    this.dispose = queueProcessor(this.props.messages, msg => {
+      // if there's already a message in progress...
+      if (this.state.message && !msg.isCancel) {
+        // stick it back into the message queue for later
+        setTimeout(() => {
+          this.props.write(msg.message, msg.duration, msg.blockProgress);
+        }, 1000);
+      } else if (msg.isCancel && msg.message == this.state.message) {
+        clearTimeout(this.state.timeout);
+        this.setState({
+          message: null
+        });
+      } else {
+        this.setState({
+          message: msg,
+          timeouts: setTimeout(() => {
+            this.setState({
+              message: null
+            });
+          }, msg.duration)
+        });
+      }
+    });
+  };
 
   render() {
-    return (
+    return this.state.message ? (
       <Animatable.View
         ref="container"
         pointerEvents="box-none"
-        style={styles.container}>
-        {this.shouldBlock ? (
+        style={[styles.container, { bottom: this._keyboardHeight }]}>
+        {this.state.message.blockProgress ? (
           <BlurView
             blurType="light"
             blurAmount={5}
@@ -90,18 +117,32 @@ export default class GlobalAssistant extends React.Component {
           duration={500}
           style={[
             styles.closedAssistantContainer,
-            this.shouldShow ? styles.assistantContainer : null
+            (styles.assistantContainer: null)
           ]}>
-          <Assistant
-            ref="assistant"
-            delay={800}
-            typeSpeed={30}
-            messages={this.props.messages.slice()}
-            style={styles.assistant}/>
+          <View
+            style={[
+              {
+                alignItems: "flex-start",
+                paddingRight: Sizes.Width / 5
+              },
+              styles.assistant
+            ]}>
+            <AssistantMessage
+              delay={0}
+              getTypeTime={getTypeTime}
+              typeSpeed={30}
+              message={this.state.message}/>
+          </View>
         </Animatable.View>
       </Animatable.View>
-    );
+    ) : null;
   }
+}
+
+// constants
+const DEFAULT_TYPE_TIME = 120;
+function getTypeTime(length, speed, delay) {
+  return (length || 0) * (speed || DEFAULT_TYPE_TIME) + (delay || 0);
 }
 
 const styles = StyleSheet.create({
