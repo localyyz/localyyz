@@ -69,6 +69,7 @@ const TabBarNavigator = TabNavigator(
   },
   {
     tabBarComponent: NavBar,
+    tabBarPosition: "bottom",
     lazy: true
   }
 );

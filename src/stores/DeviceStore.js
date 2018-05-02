@@ -1,4 +1,5 @@
 import { observable, runInAction } from "mobx";
+import { Platform } from "react-native";
 
 // custom
 import { ApplePayExpressPayment } from "localyyz/effects";
@@ -8,7 +9,10 @@ export default class DeviceStore {
 
   constructor() {
     // check if apple pay is supported on the current device
-    this.checkApplePay();
+
+    if (Platform.OS == "ios") {
+      this.checkApplePay();
+    }
   }
 
   // TODO: check android pay if android device

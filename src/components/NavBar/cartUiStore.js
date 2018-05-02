@@ -85,7 +85,7 @@ export default class CartUIStore {
   pullupReaction = reaction(
     () => ({
       isVisible: navbarStore.isPullupVisible,
-      closestHeight: navbarStore.pullupClosestHeight
+      closestHeight: navbarStore._pullupClosestHeight
     }),
     pullup => {
       this.setItemSizeType(

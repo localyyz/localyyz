@@ -82,8 +82,8 @@ export default class ProductTile extends React.Component {
               this.props.backgroundColor || Colours.Foreground,
               Colours.Transparent
             ]}
-            start={{ x: 1 }}
-            end={{ x: 0 }}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 0, y: 0 }}
             style={styles.overflowGradient}/>
           {this.props.product.discount > 0 && (
             <View style={styles.saleBadge}>

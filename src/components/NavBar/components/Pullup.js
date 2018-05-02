@@ -17,10 +17,14 @@ import { ifIphoneX } from "react-native-iphone-x-helper";
 import { observer, inject } from "mobx-react";
 
 // pullup snappers (all numbers from the top)
-export const PULLUP_FULL_SPAN = Sizes.InnerFrame * 4;
+export const PULLUP_FULL_SPAN = Sizes.InnerFrame * 6;
 export const PULLUP_HALF_SPAN = Sizes.Height / 2;
 export const PULLUP_LOW_SPAN = Sizes.Height - Sizes.InnerFrame * 10;
-const HEIGHT_THRESHOLDS = [PULLUP_LOW_SPAN, PULLUP_HALF_SPAN, PULLUP_FULL_SPAN];
+export const HEIGHT_THRESHOLDS = [
+  PULLUP_LOW_SPAN,
+  PULLUP_HALF_SPAN,
+  PULLUP_FULL_SPAN
+];
 export const HEIGHT_THRESHOLD_TYPES = HEIGHT_THRESHOLDS.reduce(
   (acc, e, i) => ({ ...acc, [e]: i }),
   {}
@@ -92,9 +96,9 @@ export default class Pullup extends React.Component {
       onMoveShouldSetPanResponder: (e, state) => state.dy !== 0,
       onPanResponderMove: (e, state) => {
         // only register initial touch offset
-        const offset =
-          this.state.touchOffset ||
-          e.nativeEvent.locationY - this.props.navBarHeight;
+        const offset
+          = this.state.touchOffset
+          || e.nativeEvent.locationY - this.props.navBarHeight;
         const closestThreshold = _closestSnap(
           HEIGHT_THRESHOLDS,
           e.nativeEvent.pageY
@@ -124,10 +128,10 @@ export default class Pullup extends React.Component {
         );
 
         if (
-          !this.state.isUpward &&
-          snapThreshold === PULLUP_LOW_SPAN &&
-          _getTopDistance(e, this.state.touchOffset) >
-            PULLUP_LOW_SPAN + Sizes.OuterFrame * 2
+          !this.state.isUpward
+          && snapThreshold === PULLUP_LOW_SPAN
+          && _getTopDistance(e, this.state.touchOffset)
+            > PULLUP_LOW_SPAN + Sizes.OuterFrame * 2
         ) {
           // hide pullup since dropped below minimum threshold
           this.close();
@@ -178,7 +182,7 @@ export default class Pullup extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container} pointerEvents="box-none">
         {this.props.isPullupVisible ? (
           <TouchableWithoutFeedback onPress={this.close}>
             <Animatable.View
@@ -193,39 +197,42 @@ export default class Pullup extends React.Component {
                   delay={300}
                   duration={200}
                   easing="ease-in"
+                  pointerEvents="auto"
                   style={[
                     styles.pullupContainer,
                     {
                       top: this.props.pullupHeight
                     },
-                    this.props.pullupHeight === PULLUP_FULL_SPAN &&
-                      ifIphoneX(
+                    this.props.pullupHeight === PULLUP_FULL_SPAN
+                      && ifIphoneX(
                         {
                           paddingTop: Sizes.OuterFrame * 2
                         },
                         {}
                       )
                   ]}>
-                  <View {...this._pr.panHandlers}>
+                  <View {...this._pr.panHandlers} pointerEvents="auto">
                     <View
+                      pointerEvents="auto"
                       style={[
                         styles.pullIndicator,
-                        this.props.pullupHeight === PULLUP_FULL_SPAN && {
+                        this.props.pullupHeight <= PULLUP_FULL_SPAN && {
                           // hide indicator when fully spanned
                           backgroundColor: Colours.Transparent
                         }
-                      ]}
-                    />
+                      ]}/>
                     {this.props.header}
                   </View>
                   <ScrollView
                     ref="content"
+                    showsVerticalScrollIndicator={false}
                     scrollEnabled={
                       this.props.pullupClosestHeight <= PULLUP_HALF_SPAN
                     }>
                     <View
                       style={{
-                        paddingBottom: this.state.keyboardHeight
+                        paddingBottom:
+                          this.state.keyboardHeight + this.props.navBarHeight
                       }}>
                       {this.props.children}
                     </View>
@@ -233,8 +240,7 @@ export default class Pullup extends React.Component {
                   <LinearGradient
                     pointerEvents="none"
                     colors={[Colours.Transparent, Colours.Foreground]}
-                    style={styles.gradient}
-                  />
+                    style={styles.gradient}/>
                 </Animatable.View>
               </TouchableWithoutFeedback>
             </Animatable.View>
@@ -250,9 +256,9 @@ export default class Pullup extends React.Component {
     });
 
     // fullscreen cart
-    type === "show" &&
-      this.props.pullupHeight < PULLUP_FULL_SPAN &&
-      this.snap(PULLUP_FULL_SPAN, true);
+    type === "show"
+      && this.props.pullupHeight < PULLUP_FULL_SPAN
+      && this.snap(PULLUP_FULL_SPAN, true);
   }
 }
 
@@ -279,12 +285,16 @@ function _closestSnap(snaps, y) {
 }
 
 const styles = StyleSheet.create({
-  overlay: {
+  container: {
     position: "absolute",
-    right: 0,
-    bottom: 0,
+    top: 0,
     left: 0,
-    height: Sizes.Height,
+    right: 0,
+    bottom: 0
+  },
+
+  overlay: {
+    flex: 1,
     backgroundColor: Colours.DarkTransparent
   },
 

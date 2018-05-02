@@ -34,8 +34,8 @@ export class SearchTagsWrapper extends React.Component {
           delay={500}>
           <LinearGradient
             colors={[Colours.Foreground, Colours.Transparent]}
-            start={{ y: 1 }}
-            end={{ y: 0 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 0, y: 0 }}
             style={styles.recommendedTags}>
             <SearchTags
               query={this.props.query}

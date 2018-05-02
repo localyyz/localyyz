@@ -4,7 +4,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import PropTypes from "prop-types";
 
 // custom
-import { UppercasedText } from "localyyz/components";
+import { SloppyView, UppercasedText } from "localyyz/components";
 
 // third party
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -33,26 +33,17 @@ export default class Button extends React.Component {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <View
-          hitSlop={{
-            top: Sizes.InnerFrame,
-            bottom: Sizes.InnerFrame,
-            left: Sizes.InnerFrame,
-            right: Sizes.InnerFrame
-          }}
-          style={styles.container}>
+        <SloppyView style={styles.container}>
           {this.props.entypo ? (
             <EntypoIcon
               name={this.props.icon}
               size={Sizes.IconButton}
-              color={this.buttonColor}
-            />
+              color={this.buttonColor}/>
           ) : (
             <MaterialCommunityIcon
               name={this.props.icon}
               size={Sizes.IconButton}
-              color={this.buttonColor}
-            />
+              color={this.buttonColor}/>
           )}
           <UppercasedText style={styles.buttonLabel}>
             {this.props.label}
@@ -62,7 +53,7 @@ export default class Button extends React.Component {
               <Text style={styles.badgeLabel}>{this.props.badge}</Text>
             </View>
           ) : null}
-        </View>
+        </SloppyView>
       </TouchableOpacity>
     );
   }
@@ -71,7 +62,8 @@ export default class Button extends React.Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingHorizontal: Sizes.InnerFrame
   },
 
   buttonLabel: {
@@ -86,7 +78,7 @@ const styles = StyleSheet.create({
     paddingVertical: Sizes.InnerFrame / 6,
     paddingHorizontal: Sizes.InnerFrame / 2,
     position: "absolute",
-    right: -Sizes.InnerFrame / 2,
+    right: 0,
     bottom: Sizes.InnerFrame * 2 / 3
   },
 

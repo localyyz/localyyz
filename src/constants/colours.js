@@ -10,6 +10,7 @@ let Text = NearBlack;
 let Transparent = "rgba(255, 255, 255, 0)";
 let BlackTransparent = "rgba(0, 0, 0, 0)";
 let DarkTransparent = "rgba(0, 0, 0, 0.8)";
+let WhiteTransparent = "rgba(255, 255, 255, 0.9)";
 let Shadow = "rgba(0, 0, 0, 0.1)";
 let LightShadow = "rgba(255, 255, 255, 0.5)";
 let LightYellow = "#FFFFE0";
@@ -42,6 +43,7 @@ export const Colours = {
   Transparent: Transparent,
   BlackTransparent: BlackTransparent,
   DarkTransparent: DarkTransparent,
+  WhiteTransparent: WhiteTransparent,
   Shadow: Shadow,
   LightShadow: LightShadow,
   Alert: LightYellow,

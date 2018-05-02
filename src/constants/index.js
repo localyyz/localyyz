@@ -4,8 +4,6 @@
  */
 /*global __DEV__:true*/
 
-export { API_URL, IMGRY_URL } from "./urls";
-
 export { default as Sizes } from "./sizes";
 export { default as Colours } from "./colours";
 export { default as Styles } from "./styles";
