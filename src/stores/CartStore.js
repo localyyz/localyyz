@@ -359,7 +359,7 @@ export default class CartStore {
       // check if cart returned error
       this.replace(response.data);
       if (response.data.hasError) {
-        assistantStore.get(message).cancel();
+        assistantStore.cancel(message);
         return await Promise.reject({
           alertTitle: "invalid",
           alertMessage: response.data.error
@@ -379,11 +379,11 @@ export default class CartStore {
         );
       }
 
-      assistantStore.get(message).cancel();
+      assistantStore.cancel(message);
       return;
     }
 
-    assistantStore.get(message).cancel();
+    assistantStore.cancel(message);
     return await Promise.reject({
       alertTitle: response.error,
       alertMessage: "please try again"
