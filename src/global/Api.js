@@ -43,7 +43,6 @@ export default class Api {
   }
 
   // http method functions
-
   async get(path, params = {}) {
     try {
       const response = await this._client.get(path, {

@@ -81,15 +81,15 @@ class ProductVariantSelector extends React.Component {
           onUpdate={size =>
             this.setState({
               size: size
-            })}
-        />
+            })
+          }/>
         <OptionsBar
           options={product.colors}
           onUpdate={color =>
             this.setState({
               color: color
-            })}
-        />
+            })
+          }/>
       </View>
     );
   }

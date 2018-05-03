@@ -8,7 +8,7 @@ export default class DiscountBadge extends React.Component {
   render() {
     return (
       <Badge color={Colours.Accented} {...this.props}>
-        {`${(this.props.product.discount * 100).toFixed(0)}% off`}
+        {`${(this.props.discount * 100).toFixed(0)}% off`}
       </Badge>
     );
   }

@@ -31,16 +31,16 @@ export default class AssistantMessage extends React.Component {
         }),
       this.props.getTypeTime
         ? this.props.getTypeTime(
-            (this.props.message.message && this.props.message.message.length) ||
-              this.props.message.length,
+            (this.props.message.message && this.props.message.message.length)
+              || this.props.message.length,
             this.props.typeSpeed,
             this.props.delay
           )
-        : ((this.props.message.message && this.props.message.message.length) ||
-            this.props.message.length ||
-            0) *
-            (this.props.typeSpeed || 100) +
-          (this.props.delay || 0)
+        : ((this.props.message.message && this.props.message.message.length)
+            || this.props.message.length
+            || 0)
+            * (this.props.typeSpeed || 100)
+          + (this.props.delay || 0)
     );
   }
 
@@ -50,7 +50,7 @@ export default class AssistantMessage extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(next) {
-    if (next.message.expired && this.state.visible) {
+    if (next.message && next.message.expired && this.state.visible) {
       this._fader = setTimeout(
         () =>
           this.setState({
@@ -63,12 +63,15 @@ export default class AssistantMessage extends React.Component {
 
   render() {
     return (
-      this.state.visible &&
-      (this.state.ready ? (
+      this.state.visible
+      && (this.state.ready ? (
         <Animatable.View
-          animation={!this.props.message.expired ? "fadeIn" : "fadeOut"}
-          duration={FADE_DURATION}
-        >
+          animation={
+            this.props.message && !this.props.message.expired
+              ? "fadeIn"
+              : "fadeOut"
+          }
+          duration={FADE_DURATION}>
           <View style={styles.shadow}>
             <View style={styles.chatBubble}>
               <Text style={styles.chatMessage}>

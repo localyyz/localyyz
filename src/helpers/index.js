@@ -6,6 +6,7 @@
 import { NavigationActions } from "react-navigation";
 import { Alert } from "react-native";
 import { observable, computed } from "mobx";
+import getSymbolFromCurrency from "currency-symbol-map";
 export { default as isCssColor } from "./csscolor";
 export { default as linkParser } from "./linkparser";
 
@@ -79,6 +80,8 @@ export function randInt(max) {
 export function onlyIfLoggedIn({ hasSession }, action, navigation) {
   if (hasSession) {
     action && action();
+
+    return true;
   } else if (navigation) {
     // only show CTA if navigation is given
     Alert.alert("Please login or create a new account", null, [
@@ -94,5 +97,14 @@ export function onlyIfLoggedIn({ hasSession }, action, navigation) {
           })
       }
     ]);
+
+    // used to trigger external events
+    return false;
   }
+}
+
+export function toPriceString(price, currency) {
+  return `${getSymbolFromCurrency(currency) || "$"}${price.toFixed(
+    2
+  )} ${currency || "USD"}`;
 }

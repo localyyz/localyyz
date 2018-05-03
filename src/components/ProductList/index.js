@@ -12,6 +12,7 @@ import { Sizes } from "localyyz/constants";
 import { ProductTile } from "localyyz/components";
 
 // third party
+import PropTypes from "prop-types";
 import { withNavigation } from "react-navigation";
 
 // constants
@@ -19,6 +20,24 @@ const SCROLL_THRESHOLD = 100;
 
 @withNavigation
 export default class ProductList extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    products: PropTypes.array,
+    style: PropTypes.any,
+    backgroundColor: PropTypes.string,
+    onScrollUp: PropTypes.func,
+    onScrollDown: PropTypes.func,
+    onScroll: PropTypes.func,
+    onEndReached: PropTypes.func
+  };
+
+  static defaultProps = {
+    products: [],
+    onScrollUp: () => {},
+    onScrollDown: () => {},
+    onScroll: () => {}
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -83,14 +102,14 @@ export default class ProductList extends React.Component {
       this.thresholdReached = true;
 
       if (this.change > 0) {
-        this.props.onScrollDown && this.props.onScrollDown();
+        this.props.onScrollDown();
       } else {
-        this.props.onScrollUp && this.props.onScrollUp();
+        this.props.onScrollUp();
       }
     }
 
     // callback
-    this.props.onScroll && this.props.onScroll(e);
+    this.props.onScroll(e);
   }
 
   render() {
@@ -105,7 +124,11 @@ export default class ProductList extends React.Component {
           onEndReached={this.fetchMore}
           onEndReachedThreshold={1}
           ListFooterComponent={
-            <ActivityIndicator size="large" animating={this.state.isLoading} />
+            this.props.onEndReached && (
+              <ActivityIndicator
+                size="large"
+                animating={this.state.isLoading}/>
+            )
           }
           contentContainerStyle={[
             styles.list,

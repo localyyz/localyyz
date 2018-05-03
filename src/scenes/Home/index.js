@@ -18,14 +18,6 @@ export default class Home extends React.Component {
     this.store = new Store();
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { navigation: { state } } = nextProps;
-    if (state.params && state.params.reset) {
-      // this resets the search + search results
-      // this.clearSearch()
-    }
-  }
-
   render() {
     StatusBar.setBarStyle("light-content", true);
 

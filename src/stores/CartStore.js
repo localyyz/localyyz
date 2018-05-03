@@ -239,6 +239,10 @@ export default class CartStore {
         runInAction("[ACTION] add cart item", () => {
           this.cart.items.push(response.data);
         });
+
+        return response.data;
+      } else {
+        return response;
       }
     }
   };
@@ -267,7 +271,7 @@ export default class CartStore {
   */
 
   @action
-  destroy = async ({ cartId }) => {
+  destroy = async ({ cartId } = {}) => {
     return await this._api.delete(`/carts/${cartId || DEFAULT_CART}`);
   };
 
@@ -355,7 +359,7 @@ export default class CartStore {
       // check if cart returned error
       this.replace(response.data);
       if (response.data.hasError) {
-        assistantStore.get(message).cancel();
+        assistantStore.cancel(message);
         return await Promise.reject({
           alertTitle: "invalid",
           alertMessage: response.data.error
@@ -375,11 +379,11 @@ export default class CartStore {
         );
       }
 
-      assistantStore.get(message).cancel();
+      assistantStore.cancel(message);
       return;
     }
 
-    assistantStore.get(message).cancel();
+    assistantStore.cancel(message);
     return await Promise.reject({
       alertTitle: response.error,
       alertMessage: "please try again"
@@ -424,10 +428,10 @@ export default class CartStore {
 
   // apple pay/express checkout
   @action
-  launchExpressPayment = async () => {
+  _launchExpressPayment = async () => {
     let express = new ApplePayExpressPayment(
       "example",
-      this.cart.items.map(item => ({
+      this.cart.items.slice().map(item => ({
         amount: `${item.price}`,
 
         // TODO: sanitize and limit
@@ -690,7 +694,7 @@ export default class CartStore {
   // - update with billing address
   // - update any other fields (email, phone)
   @action
-  onUserAcceptPayment = async response => {
+  _onUserAcceptPayment = async response => {
     const addressResponse = await this._api.put(
       "/carts/express/shipping/address",
       this.selectedAddress
@@ -735,7 +739,7 @@ export default class CartStore {
 
   // apple pay completion
   @action
-  payExpressCheckout = async response => {
+  _payExpressCheckout = async response => {
     // NOTE: billing address is processed here because until the user
     // accepts payment, we don't receive the full address
     let billingAddress = response.billingContact;
@@ -803,6 +807,110 @@ export default class CartStore {
         _wasFailed: true,
         _error: payResponse.error
       });
+    }
+  };
+
+  _onExpressCheckoutFailure = (response = {}, message) => {
+    response && console.log(response);
+    assistantStore.cancel(message);
+    this.fetch();
+
+    // only close if user aborted failure
+    if (
+      response
+      && response._paymentResponse
+      && response._error.message !== "AbortError"
+    ) {
+      response._paymentResponse._paymentRequest.abort();
+    }
+
+    // present failure
+    return {
+      wasSuccessful: false,
+      wasAborted:
+        (response
+          && response._error
+          && response._error.message === "AbortError")
+        || false,
+      title: response._failureTitle || "Payment Failed",
+      message:
+        response._failureMessage
+        || "We couldn't complete your purchase at this time",
+      buttons: [{ text: "OK" }]
+    };
+  };
+
+  onExpressCheckout = async ({ productId, color, size }) => {
+    let response;
+
+    // logging
+    Facebook.logEvent("fb_mobile_express_pay", {
+      fb_content_type: "apple_pay",
+      fb_content: true
+    });
+
+    // block user progress until express is ready
+    let message = "Hold on, I'm preparing your express checkout..";
+    assistantStore.write(message, 10000, true);
+
+    try {
+      // clear the previous express cart,
+      // then add to the express cart
+      await this.destroy({ cartId: "express" });
+      response = await this.addItem({
+        productId: productId,
+        color: color,
+        size: size,
+        cartId: "express"
+      });
+
+      // TODO: assuming all add to cart errors are OOS
+      if (response.error) {
+        return this._onExpressCheckoutFailure(
+          {
+            _failureTitle: "Out of stock",
+            _failureMessage: "This product is currently out of stock"
+          },
+          message
+        );
+      }
+
+      // update cart before presenting apple pay sheet
+      await this.fetch({ cartId: "express" });
+      response = await this._launchExpressPayment();
+
+      // sheet ready, so reveal and close assistant
+      assistantStore.cancel(message);
+
+      // wait for user to complete sheet
+      response = await this._onUserAcceptPayment(response);
+      response = await this._payExpressCheckout(response);
+      if (!response._wasFailed) {
+        response._paymentResponse.complete("success");
+        await this.replace(response);
+        let completionSummary = {
+          wasSuccessful: true,
+          cart: this.cart,
+          customerName: this.customerName,
+          shippingDetails: this.shippingDetails,
+          shippingExpectation: this.shippingExpectation,
+          amountSubtotal: this.amountSubtotal,
+          amountTaxes: this.amountTaxes,
+          amountDiscount: this.amountDiscount,
+          amountTotal: this.amountTotal,
+          amountShipping: this.amountShipping
+        };
+
+        // revert the cart
+        await this.fetch();
+
+        // and finally pass out completion summary object for caller to present
+        return completionSummary;
+      } else {
+        return this._onExpressCheckoutFailure(response, message);
+      }
+    } catch (evt) {
+      return this._onExpressCheckoutFailure(evt, message);
     }
   };
 

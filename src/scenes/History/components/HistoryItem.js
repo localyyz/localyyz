@@ -4,12 +4,12 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // third party
-import getSymbolFromCurrency from "currency-symbol-map";
 import { withNavigation } from "react-navigation";
 import Moment from "moment";
 
 // custom
 import { Product } from "localyyz/models";
+import { toPriceString } from "localyyz/helpers";
 import { LiquidImage, DiscountBadge, Badge } from "localyyz/components";
 
 @withNavigation
@@ -42,8 +42,8 @@ export default class HistoryItem extends React.Component {
   }
 
   onPress() {
-    this.product.price > 0 &&
-      this.props.navigation.navigate("Product", {
+    this.product.price > 0
+      && this.props.navigation.navigate("Product", {
         product: this.product
       });
   }
@@ -59,8 +59,7 @@ export default class HistoryItem extends React.Component {
               crop="bottom"
               resizeMode="cover"
               style={styles.photo}
-              source={{ uri: this.product.imageUrl }}
-            />
+              source={{ uri: this.product.imageUrl }}/>
           ) : (
             <View style={styles.photo} />
           )}
@@ -80,8 +79,7 @@ export default class HistoryItem extends React.Component {
                   styles.pricing,
                   !!this.product.previousPrice && styles.salePricing
                 ]}>
-                {`${getSymbolFromCurrency(this.product.place.currency) ||
-                  "$"}${this.product.price.toFixed(2)}`}
+                {toPriceString(this.product.price, this.product.place.currency)}
               </Text>
               {!!this.product.previousPrice && (
                 <Text
@@ -93,7 +91,9 @@ export default class HistoryItem extends React.Component {
             </View>
             <View style={styles.badges}>
               {this.product.discount > 0 ? (
-                <DiscountBadge style={styles.badge} product={this.product} />
+                <DiscountBadge
+                  style={styles.badge}
+                  discount={this.product.discount}/>
               ) : null}
               {this.props.lastPrice > this.product.price ? (
                 <Badge style={styles.badge} icon="bolt">

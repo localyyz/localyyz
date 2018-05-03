@@ -11,30 +11,54 @@ import PropTypes from "prop-types";
 
 // custom
 import { applePayButton } from "localyyz/assets";
-import { onlyIfLoggedIn } from "localyyz/helpers";
+import { onlyIfLoggedIn, toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { UppercasedText, ExplodingButton } from "localyyz/components";
-import { facebook as Facebook } from "localyyz/effects";
 
 // third party
 import { inject, observer } from "mobx-react/native";
-import getSymbolFromCurrency from "currency-symbol-map";
+import { withNavigation } from "react-navigation";
 
+@withNavigation
 @inject(stores => ({
   hasSession: stores.userStore.model.hasSession,
-  isExpressSupported: stores.deviceStore.applePaySupported
+  isExpressSupported: stores.deviceStore.applePaySupported,
+  product: stores.productStore.product,
+  selectedVariant: stores.productStore.selectedVariant,
+
+  // regular checkout (add)
+  onAdd: (productId, color, size) =>
+    stores.cartStore.addItem({
+      productId: productId,
+      color: color,
+      size: size
+    }),
+
+  // express checkout
+  onExpressCheckout: (productId, color, size) =>
+    stores.cartStore.onExpressCheckout({
+      productId: productId,
+      color: color,
+      size: size
+    }),
+
+  // added summary mobx exploder
+  isExploded: stores.productStore.isAddedSummaryVisible,
+  explode: async () => stores.productStore.toggleAddedSummary(true)
 }))
 @observer
 class ProductBuy extends React.Component {
   static propTypes = {
-    variant: PropTypes.object,
-    onExpressCheckout: PropTypes.func,
-    onAddtoCart: PropTypes.func,
+    selectedVariant: PropTypes.object,
     product: PropTypes.object,
 
     // mobx injected store props
     hasSession: PropTypes.bool,
-    isExpressSupported: PropTypes.bool
+    isExpressSupported: PropTypes.bool,
+
+    // checkout from mobx
+    onAdd: PropTypes.func.isRequired,
+    onExpressCheckout: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -44,15 +68,11 @@ class ProductBuy extends React.Component {
 
   constructor(props) {
     super(props);
-    this.reset = this.reset.bind(this);
-  }
 
-  reset() {
-    // called from the parent component and passed down to ExplodingButton
-    //
-    // TODO: move this to a state -> props update. you shouldnt have refs being
-    // referred to from parent down to grand children... please refactor
-    this.refs.exploder && this.refs.exploder.reset();
+    // bindings
+    this.onOutOfStock = this.onOutOfStock.bind(this);
+    this._onAdd = this._onAdd.bind(this);
+    this._onExpressCheckout = this._onExpressCheckout.bind(this);
   }
 
   onOutOfStock() {
@@ -62,22 +82,43 @@ class ProductBuy extends React.Component {
     );
   }
 
-  _onExpressCheckout = () => {
-    Facebook.logEvent("fb_mobile_express_pay", {
-      fb_content_type: "apple_pay",
-      fb_content: true
-    });
-    this.props.onExpressCheckout && this.props.onExpressCheckout();
-  };
+  _onAdd() {
+    this.props.product
+      && this.props.selectedVariant
+      && this.props.onAdd(
+        this.props.product.id,
+        this.props.selectedVariant.etc.color,
+        this.props.selectedVariant.etc.size
+      );
+  }
+
+  _onExpressCheckout() {
+    this.props.product
+      && this.props.selectedVariant
+      && this.props
+        .onExpressCheckout(
+          this.props.product.id,
+          this.props.selectedVariant.etc.color,
+          this.props.selectedVariant.etc.size
+        )
+        .then(response => {
+          // handle response with ui presentation
+          if (response && response.wasSuccessful) {
+            this.props.navigation.navigate("CartSummary", response);
+          } else if (response && !response.wasAborted) {
+            Alert.alert(response.title, response.message, response.buttons);
+          }
+        });
+  }
 
   render() {
-    const { variant, hasSession, onAddtoCart, navigation } = this.props;
+    const { selectedVariant, hasSession, navigation } = this.props;
 
-    const isStockAvailable = variant && variant.limits > 0;
+    const isStockAvailable = selectedVariant && selectedVariant.limits > 0;
     const shouldExplode = hasSession && isStockAvailable;
 
     // if one of them wasn't found, check with only one of them
-    let { price, prevPrice } = variant || {};
+    let { price, prevPrice } = selectedVariant || {};
     price = price || 0;
     prevPrice = prevPrice || 0;
 
@@ -92,10 +133,7 @@ class ProductBuy extends React.Component {
                 </Text>
               )}
             <Text style={styles.price}>
-              {`${getSymbolFromCurrency(this.props.product.place.currency)
-                || "$"}${price.toFixed(2)} ${
-                this.props.product ? this.props.product.place.currency : "USD"
-              }`}
+              {toPriceString(price, this.props.product.place.currency)}
             </Text>
           </View>
         </View>
@@ -115,14 +153,14 @@ class ProductBuy extends React.Component {
               </View>
             </TouchableOpacity>
             <ExplodingButton
-              ref="exploder"
+              isExploded={this.props.isExploded}
+              explode={async () =>
+                onlyIfLoggedIn({ hasSession }, this.props.explode, navigation)
+              }
               shouldExplode={shouldExplode}
               color={Colours.PositiveButton}
-              navigation={navigation}
               onPress={() =>
-                isStockAvailable
-                  ? onlyIfLoggedIn({ hasSession }, onAddtoCart, navigation)
-                  : this.onOutOfStock()
+                isStockAvailable ? this._onAdd() : this.onOutOfStock()
               }>
               <Text style={styles.addButtonWithExpressLabel}>
                 .. or add to cart
@@ -131,14 +169,14 @@ class ProductBuy extends React.Component {
           </View>
         ) : (
           <ExplodingButton
-            ref="exploder"
+            isExploded={this.props.isExploded}
+            explode={async () =>
+              onlyIfLoggedIn({ hasSession }, this.props.explode, navigation)
+            }
             shouldExplode={shouldExplode}
             color={Colours.PositiveButton}
-            navigation={navigation}
             onPress={() =>
-              isStockAvailable
-                ? onlyIfLoggedIn({ hasSession }, onAddtoCart, navigation)
-                : this.onOutOfStock()
+              isStockAvailable ? this._onAdd() : this.onOutOfStock()
             }>
             <View style={Styles.RoundedButton}>
               <UppercasedText style={styles.addButtonLabel}>

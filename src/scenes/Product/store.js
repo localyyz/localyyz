@@ -8,17 +8,30 @@ import { ApiInstance } from "localyyz/global";
 
 class ProductUIStore {
   @box product = {};
+  @observable isAddedSummaryVisible = false;
   @observable relatedProducts = [];
   @observable selectedVariant;
 
+  // deep linking
   isDeepLinked = false;
 
   constructor({ product }, historyStore) {
     if (product) {
       this.product = product;
     }
+
     this.api = ApiInstance;
     this.history = historyStore;
+
+    // bindings
+    this.toggleAddedSummary = this.toggleAddedSummary.bind(this);
+  }
+
+  // added summary
+  @action
+  toggleAddedSummary(visible) {
+    this.isAddedSummaryVisible
+      = visible != null ? visible : !this.isAddedSummaryVisible;
   }
 
   // select variant syncs selected variant across components
