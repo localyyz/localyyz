@@ -28,6 +28,11 @@ export default class Search extends React.Component {
     onPress: PropTypes.func
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { blurviewRef: null };
+  }
+
   render() {
     const { searchActive, headerHeight, onPress } = this.props;
 

@@ -32,7 +32,7 @@ const GENDERS = {
   login: (type, payload) => stores.loginStore.login(type, payload),
   signup: payload => stores.loginStore.signup(payload),
   write: message => stores.assistantStore.write(message, null, true),
-  getWrite: message => stores.assistantStore.get(message)
+  cancel: message => stores.assistantStore.cancel(message)
 }))
 @observer
 export default class Login extends React.Component {
@@ -43,7 +43,7 @@ export default class Login extends React.Component {
     login: PropTypes.func.isRequired,
     signup: PropTypes.func.isRequired,
     write: PropTypes.func.isRequired,
-    getWrite: PropTypes.func.isRequired
+    cancel: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -296,7 +296,7 @@ export default class Login extends React.Component {
     const wasSuccessful = await this.props.login(type, payload);
 
     // dismiss assistant
-    this.props.getWrite(BUSY_MESSAGE).cancel();
+    this.props.cancel(BUSY_MESSAGE);
     if (wasSuccessful) {
       this.state.appContext
         ? this.props.navigation.goBack()
@@ -323,7 +323,7 @@ export default class Login extends React.Component {
     });
 
     // dismiss assistant
-    this.props.getWrite(BUSY_REGISTER_MESSAGE).cancel();
+    this.props.cancel(BUSY_REGISTER_MESSAGE);
     if (wasSuccessful) {
       this.state.appContext
         ? this.props.navigation.goBack()

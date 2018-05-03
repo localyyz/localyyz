@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   bar: {
     ...Styles.EqualColumns,
     alignItems: "center",
-    paddingHorizontal: Sizes.OuterFrame * 2,
+    paddingHorizontal: Sizes.Width / 10,
     backgroundColor: Colours.Foreground,
     paddingTop: Sizes.InnerFrame,
     paddingBottom: Sizes.InnerFrame,

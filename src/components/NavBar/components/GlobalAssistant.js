@@ -21,7 +21,9 @@ export default class GlobalAssistant extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      blurviewRef: null
+    };
     this.startWorker();
 
     this._keyboardHeight = 0;
@@ -104,6 +106,7 @@ export default class GlobalAssistant extends React.Component {
         style={[styles.container, { bottom: this._keyboardHeight }]}>
         {this.state.message.blockProgress ? (
           <BlurView
+            viewRef={this.state.blurviewRef}
             blurType="light"
             blurAmount={5}
             style={styles.blur}

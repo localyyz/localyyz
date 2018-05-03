@@ -190,7 +190,7 @@ export default class Pullup extends React.Component {
               duration={400}
               delay={100}
               style={styles.overlay}>
-              <TouchableWithoutFeedback>
+              <TouchableWithoutFeedback pointerEvents="box-none">
                 <Animatable.View
                   ref="pullup"
                   animation="slideInUp"
@@ -211,7 +211,14 @@ export default class Pullup extends React.Component {
                         {}
                       )
                   ]}>
-                  <View {...this._pr.panHandlers} pointerEvents="auto">
+                  <View
+                    {...this._pr.panHandlers}
+                    style={{
+                      // NOTE: without a background the panhandler does not
+                      // propagate to entire view
+                      backgroundColor: Colours.Transparent
+                    }}
+                    pointerEvents="auto">
                     <View
                       pointerEvents="auto"
                       style={[
