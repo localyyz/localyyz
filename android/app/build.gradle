@@ -118,7 +118,7 @@ android {
         applicationId "com.localyyz"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 5
+        versionCode 7
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -153,7 +153,7 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField 'String', 'API_URL', '"http://10.0.2.2:5331"'
+            buildConfigField 'String', 'API_URL', '"http://localhost:5331"'
             buildConfigField 'String', "CODEPUSH_KEY", '"1wHIV0RpWjDe5IScju9u22i7jZGkSkbqxNkRPz"'
             resValue 'string', 'facebook_app_id', '1571913849596059'
             resValue 'string', 'fb_login_protocol_scheme', 'fb1571913849596059'
