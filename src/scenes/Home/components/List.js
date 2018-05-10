@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { StaggeredList, MoreTile, ProductTile } from "localyyz/components";
+import { StaggeredList, ProductTile } from "localyyz/components";
 
 // third party
 import { observer } from "mobx-react";
@@ -13,6 +13,7 @@ import { PropTypes as mobxPropTypes } from "mobx-react";
 
 // local
 import ListHeader from "./ListHeader";
+import MoreFooter from "./MoreFooter";
 
 @observer
 class List extends React.Component {
@@ -24,7 +25,11 @@ class List extends React.Component {
     listData: mobxPropTypes.objectOrObservableObject,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
-    withMargin: PropTypes.bool
+    withMargin: PropTypes.bool,
+
+    // more button
+    fetchPath: PropTypes.string.isRequired,
+    numProducts: PropTypes.number
   };
 
   static defaultProps = {
@@ -36,6 +41,22 @@ class List extends React.Component {
   // TODO: do something here? search suggestions?
   get renderLoading() {
     return <View />;
+  }
+
+  get renderMoreButton() {
+    return (
+      <MoreFooter
+        title={this.props.title}
+        description={this.props.description}
+        fetchPath={this.props.fetchPath}
+        basePath={this.props.basePath}
+        categories={this.props.categories}
+        numProducts={this.props.numProducts}/>
+    );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.numProducts !== this.props.numProducts;
   }
 
   render() {
@@ -66,16 +87,7 @@ class List extends React.Component {
               ))}
           </StaggeredList>
         </View>
-        <View style={styles.listFooter}>
-          <MoreTile
-            onPress={() =>
-              navigation.navigate("ProductList", {
-                fetchPath: this.props.fetchPath,
-                title: this.props.title,
-                subtitle: this.props.description
-              })
-            }/>
-        </View>
+        {this.renderMoreButton}
       </View>
     );
   }
@@ -83,21 +95,12 @@ class List extends React.Component {
 
 const styles = StyleSheet.create({
   listWrapper: {
-    marginVertical: Sizes.InnerFrame,
     paddingVertical: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
   },
 
   splitList: {
-    paddingHorizontal: Sizes.InnerFrame,
-    paddingVertical: Sizes.InnerFrame / 2
-  },
-
-  listFooter: {
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-    marginHorizontal: Sizes.InnerFrame,
-    marginVertical: Sizes.InnerFrame / 2
+    paddingHorizontal: Sizes.InnerFrame
   }
 });
 

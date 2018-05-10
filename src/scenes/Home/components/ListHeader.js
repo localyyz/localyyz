@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 // custom
-import { Sizes, Styles } from "localyyz/constants";
+import { Sizes, Colours, Styles } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
@@ -13,27 +13,33 @@ class ListHeader extends React.Component {
     description: PropTypes.string
   };
 
-  static defaultProps = {
-    title: "",
-    description: ""
-  };
-
   render() {
     const { title, description } = this.props;
 
-    return (
-      <View style={styles.listHeader}>
-        <Text style={styles.sectionHeader}>{title}</Text>
-        <Text style={styles.sectionHeaderDescription}>{description}</Text>
+    return title || description ? (
+      <View
+        style={[
+          styles.listHeader,
+          !!description && styles.listHeaderWithDescription
+        ]}>
+        {title ? <Text style={styles.sectionHeader}>{title}</Text> : null}
+        {description ? (
+          <Text style={styles.sectionHeaderDescription}>{description}</Text>
+        ) : null}
       </View>
-    );
+    ) : null;
   }
 }
 
 const styles = StyleSheet.create({
   listHeader: {
-    marginVertical: Sizes.OuterFrame,
-    paddingTop: Sizes.OuterFrame
+    paddingTop: Sizes.OuterFrame,
+    backgroundColor: Colours.Foreground
+  },
+
+  listHeaderWithDescription: {
+    paddingBottom: Sizes.OuterFrame,
+    backgroundColor: Colours.Transparent
   },
 
   sectionHeader: {

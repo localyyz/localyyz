@@ -13,6 +13,34 @@ import { observer } from "mobx-react/native";
 // local
 import Store from "./store";
 
+class Content extends React.Component {
+  static propTypes = {
+    headerHeight: PropTypes.number
+  };
+
+  static defaultProps = {
+    headerHeight: 0
+  };
+
+  shouldComponentUpdate(nextProps) {
+    // wrapper component that stops ProductList
+    // rerendering if header height has not been updated
+    return (
+      nextProps.headerHeight !== this.props.headerHeight
+      || nextProps.products.length !== this.props.products.length
+    );
+  }
+
+  render() {
+    return (
+      <ProductList
+        {...this.props}
+        backgroundColor={Colours.Foreground}
+        style={styles.content}/>
+    );
+  }
+}
+
 @withNavigation
 @observer
 export default class ProductListScene extends React.Component {
@@ -43,7 +71,9 @@ export default class ProductListScene extends React.Component {
           background={
             <View
               onLayout={e =>
-                this.setState({ headerHeight: e.nativeEvent.layout.height })
+                this.setState({
+                  headerHeight: Math.round(e.nativeEvent.layout.height)
+                })
               }>
               <View style={styles.header}>
                 {this.props.navigation.state.params.title ? (
@@ -59,13 +89,13 @@ export default class ProductListScene extends React.Component {
               </View>
             </View>
           }>
-          <ProductList
-            products={this.store.listData.slice()}
-            onEndReached={() => this.store.fetchNextPage()}
-            scrollEventThrottle={16}
+          <Content
             onScroll={e => this.refs.container.onScroll(e)}
-            backgroundColor={Colours.Foreground}
-            style={[styles.content, { marginTop: this.state.headerHeight }]}/>
+            headerHeight={this.state.headerHeight}
+            fetchPath={this.store.fetchPath}
+            categories={this.store.categories && this.store.categories.slice()}
+            products={this.store.listData.slice()}
+            onEndReached={() => this.store.fetchNextPage()}/>
         </ContentCoverSlider>
       </View>
     );

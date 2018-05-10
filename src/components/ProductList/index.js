@@ -4,12 +4,15 @@ import {
   View,
   StyleSheet,
   Keyboard,
-  FlatList
+  FlatList,
+  Text,
+  TouchableOpacity
 } from "react-native";
-import { Sizes } from "localyyz/constants";
+import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
 import { ProductTile } from "localyyz/components";
+import { capitalize } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
@@ -49,20 +52,61 @@ export default class ProductList extends React.Component {
     this.renderItem = this.renderItem.bind(this);
     this.onScroll = this.onScroll.bind(this);
 
+    // categories
+    this.renderCategory = this.renderCategory.bind(this);
+    this.onCategoryPress = this.onCategoryPress.bind(this);
+
     // scrolling
     this.position = 0;
     this.change = 0;
     this.thresholdReached = false;
   }
 
-  fetchMore() {
-    this.setState({ isLoading: true });
-    this.timer = setTimeout(() => this.setState({ isLoading: false }), 1500);
-    this.props.onEndReached && this.props.onEndReached();
+  fetchMore({ distanceFromEnd }) {
+    // NOTE: distanceFromEnd is returned by FlatList as a calculated value
+    // as the current layout's distance to the end of scroll. However when
+    // the next page is fetched, distance can be a negative value, which
+    // we need to handle
+    if (distanceFromEnd > 0) {
+      this.setState({ isLoading: true });
+      this.timer = setTimeout(() => this.setState({ isLoading: false }), 1500);
+      this.props.onEndReached && this.props.onEndReached();
+    }
   }
 
   componentWillUnmount() {
     clearTimeout(this.timer);
+  }
+
+  get renderCategories() {
+    return (
+      <View style={categoryStyles.container}>
+        {this.props.categories && this.props.categories.length > 0
+          ? this.props.categories.map((category, i) =>
+              this.renderCategory(category, i)
+            )
+          : null}
+      </View>
+    );
+  }
+
+  onCategoryPress(category) {
+    this.props.navigation.navigate("ProductList", {
+      fetchPath: `${this.props.fetchPath}?v=${category}`,
+      title: capitalize(category)
+    });
+  }
+
+  renderCategory(category, i) {
+    return (
+      <TouchableOpacity
+        key={`category-${i}`}
+        onPress={() => this.onCategoryPress(category)}>
+        <View style={categoryStyles.category}>
+          <Text style={categoryStyles.label}>{category}</Text>
+        </View>
+      </TouchableOpacity>
+    );
   }
 
   renderItem({ item: product }) {
@@ -118,11 +162,12 @@ export default class ProductList extends React.Component {
         <FlatList
           keyboardShouldPersistTaps="always"
           data={this.props.products}
-          extraData={this.state}
           numColumns={2}
           keyExtractor={e => e.id}
           onEndReached={this.fetchMore}
           onEndReachedThreshold={1}
+          onScroll={this.onScroll}
+          ListHeaderComponent={this.renderCategories}
           ListFooterComponent={
             this.props.onEndReached && (
               <ActivityIndicator
@@ -135,13 +180,13 @@ export default class ProductList extends React.Component {
             this.props.style,
             this.props.backgroundColor && {
               backgroundColor: this.props.backgroundColor
-            }
+            },
+            { marginTop: this.props.headerHeight }
           ]}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           renderItem={this.renderItem}
           scrollEventThrottle={16}
-          onScroll={this.onScroll}
           columnWrapperStyle={styles.column}/>
       </View>
     );
@@ -154,11 +199,36 @@ const styles = StyleSheet.create({
   },
 
   list: {
-    paddingHorizontal: Sizes.InnerFrame / 2
+    paddingHorizontal: Sizes.InnerFrame
   },
 
   tile: {
     flex: 1,
     paddingHorizontal: Sizes.InnerFrame / 2
+  }
+});
+
+const categoryStyles = StyleSheet.create({
+  container: {
+    ...Styles.Horizontal,
+    margin: Sizes.InnerFrame / 2,
+    marginBottom: Sizes.OuterFrame,
+    flexWrap: "wrap"
+  },
+
+  category: {
+    marginRight: Sizes.InnerFrame / 2,
+    marginBottom: Sizes.InnerFrame / 2,
+    paddingHorizontal: Sizes.InnerFrame / 2,
+    paddingVertical: Sizes.InnerFrame / 4,
+    backgroundColor: Colours.Secondary,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
+  label: {
+    ...Styles.Text,
+    ...Styles.Terminal,
+    ...Styles.Alternate
   }
 });
