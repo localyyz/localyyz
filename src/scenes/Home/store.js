@@ -130,6 +130,7 @@ export default class HomeStore {
     // },
     {
       type: "productList",
+      id: "today-finds",
       title: "Today's finds",
       description:
         "Hand selected daily for you by our team of fashionistas based on what you've viewed before",
@@ -138,6 +139,7 @@ export default class HomeStore {
     },
     {
       type: "brand",
+      id: "brands",
       brandType: "designers",
       title: "Brands",
       description:
@@ -151,6 +153,7 @@ export default class HomeStore {
     // },
     {
       type: "productList",
+      id: "on-sales",
       title: "Limited time offers",
       description:
         "Watch this space for the hottest promotions and sales posted the minute they're live on Localyyz",
@@ -159,6 +162,7 @@ export default class HomeStore {
     },
     {
       type: "brand",
+      id: "merchants",
       brandType: "places",
       shouldShowName: true,
       title: "Merchants on Localyyz",
@@ -176,6 +180,7 @@ export default class HomeStore {
         let categoryBlocks = response.data.map(category => ({
           type: "productList",
           categories: category.values,
+          id: category.type,
 
           // used to differentiate from locally specified
           _fetched: true,

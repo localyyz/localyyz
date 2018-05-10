@@ -65,7 +65,7 @@ export default class Main extends React.Component {
       <FlatList
         ref="blocks"
         data={this.props.blocks}
-        keyExtractor={(block, i) => `block-${i}`}
+        keyExtractor={block => `block-${block.id}`}
         contentContainerStyle={styles.content}
         renderItem={this.renderBlock}
         showsVerticalScrollIndicator={false}
