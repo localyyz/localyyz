@@ -32,12 +32,7 @@ export default class Banner extends React.Component {
         <ParallaxPhoto
           id={this.props.id}
           source={{ uri: this.props.imageUri }}
-          constrainWidth={Sizes.Width}>
-          <View style={styles.container}>
-            <Text style={styles.title}>{this.props.title}</Text>
-            <Text style={styles.subtitle}>{this.props.description}</Text>
-          </View>
-        </ParallaxPhoto>
+          constrainWidth={Sizes.Width}/>
       </TouchableOpacity>
     );
   }

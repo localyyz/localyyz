@@ -46,7 +46,7 @@ export default class Collection extends React.Component {
           this.numProducts
             = (response
               && response.headers
-              && response.headers["x-item-total"])
+              && parseInt(response.headers["x-item-total"]))
             || 0;
 
           return sink(
@@ -69,7 +69,6 @@ export default class Collection extends React.Component {
 
   reactLogin = reaction(
     () => {
-      console.log("reacting to login");
       return {
         success: this.props.loginStore._wasLoginSuccessful,
         skipped: this.props.loginStore._wasLoginSkipped
@@ -88,7 +87,7 @@ export default class Collection extends React.Component {
         {...this.props}
         listData={this.products}
         imageUrl={this.props.imageUrl}
-        numProducts={parseInt(this.numProducts)}
+        numProducts={this.numProducts}
         backgroundColor={
           this.props.withMargin ? Colours.Foreground : Colours.Background
         }/>

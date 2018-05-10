@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { StaggeredList, MoreTile, ProductTile } from "localyyz/components";
+import { StaggeredList, ProductTile } from "localyyz/components";
 
 // third party
 import { observer } from "mobx-react";
@@ -53,6 +53,10 @@ class List extends React.Component {
         categories={this.props.categories}
         numProducts={this.props.numProducts}/>
     );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.numProducts !== this.props.numProducts;
   }
 
   render() {
