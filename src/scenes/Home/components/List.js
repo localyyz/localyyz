@@ -101,6 +101,7 @@ class List extends React.Component {
 const styles = StyleSheet.create({
   listWrapper: {
     paddingVertical: Sizes.InnerFrame,
+    paddingHorizontal: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
   },
 
