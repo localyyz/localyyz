@@ -100,6 +100,9 @@ class AppContainer extends React.Component {
     this.state = {
       hasMinVersion: this.isMinVersion
     };
+
+    // initialize api instance with API_URL from User defined vars
+    ApiInstance.initialize(props.API_URL);
   }
 
   get isMinVersion() {
@@ -144,9 +147,6 @@ class AppContainer extends React.Component {
       installMode: codePush.InstallMode.IMMEDIATE,
       updateDialog: true
     });
-
-    // initialize api instance with API_URL from User defined vars
-    ApiInstance.initialize(this.props.API_URL);
 
     //NOTE: this has to be syncronous because home will render products
     //before we pull user data out of storage. in that case, backend
