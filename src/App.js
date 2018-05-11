@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { AppState, Alert, Platform, Linking, View } from "react-native";
 import {
   addNavigationHelpers,
   StackNavigator,
@@ -16,6 +16,7 @@ import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 // third party
 import { observer, Provider } from "mobx-react";
 import codePush from "react-native-code-push";
+import DeviceInfo from "react-native-device-info";
 
 //scenes
 import {
@@ -96,16 +97,56 @@ const RootNavigator = StackNavigator(
 class AppContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      hasMinVersion: this.isMinVersion
+    };
+
+    // initialize api instance with API_URL from User defined vars
+    ApiInstance.initialize(props.API_URL);
+  }
+
+  get isMinVersion() {
+    return (
+      Platform.OS !== "ios"
+      || (Platform.OS === "ios" && DeviceInfo.getBuildNumber() > 221)
+    );
+  }
+
+  _verifyMinAppVersion = nextAppState => {
+    if (this.state.hasMinVersion) {
+      return;
+    }
+
+    if (!this.isMinVersion) {
+      if (nextAppState === "active") {
+        Alert.alert(
+          "A newer version of the app is available",
+          "Please download it via the app store",
+          [
+            {
+              text: "OK",
+              onPress: () => Linking.openURL("https://appstore.com/localyyz")
+            }
+          ],
+          { cancelable: false }
+        );
+      }
+    } else {
+      this.setState({ hasMinVersion: true });
+    }
+  };
+
+  componentWillMount() {
+    this._verifyMinAppVersion("active");
   }
 
   componentDidMount() {
+    AppState.addEventListener("change", this._verifyMinAppVersion);
+
     codePush.sync({
       installMode: codePush.InstallMode.IMMEDIATE,
       updateDialog: true
     });
-
-    // initialize api instance with API_URL from User defined vars
-    ApiInstance.initialize(this.props.API_URL);
 
     //NOTE: this has to be syncronous because home will render products
     //before we pull user data out of storage. in that case, backend
@@ -116,6 +157,10 @@ class AppContainer extends React.Component {
   }
 
   render() {
+    if (!this.state.hasMinVersion) {
+      return null;
+    }
+
     return (
       <Provider {...stores} suppressChangedStoreWarning>
         <View style={{ flex: 1 }}>

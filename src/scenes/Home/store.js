@@ -130,6 +130,7 @@ export default class HomeStore {
     // },
     {
       type: "productList",
+      id: "today-finds",
       title: "Today's finds",
       description:
         "Hand selected daily for you by our team of fashionistas based on what you've viewed before",
@@ -138,6 +139,7 @@ export default class HomeStore {
     },
     {
       type: "brand",
+      id: "brands",
       brandType: "designers",
       title: "Brands",
       description:
@@ -151,6 +153,7 @@ export default class HomeStore {
     // },
     {
       type: "productList",
+      id: "on-sales",
       title: "Limited time offers",
       description:
         "Watch this space for the hottest promotions and sales posted the minute they're live on Localyyz",
@@ -159,6 +162,7 @@ export default class HomeStore {
     },
     {
       type: "brand",
+      id: "merchants",
       brandType: "places",
       shouldShowName: true,
       title: "Merchants on Localyyz",
@@ -169,30 +173,40 @@ export default class HomeStore {
   ];
   @observable currentBlock;
 
+  hasFetchedCategory = false;
+
   @action
   fetchCategoryBlocks() {
-    this.api.get("categories").then(response => {
-      if (response.status < 400 && response.data && response.data.length > 0) {
-        let categoryBlocks = response.data.map(category => ({
-          type: "productList",
-          categories: category.values,
+    if (!this.hasFetchedCategory) {
+      this.hasFetchedCategory = true;
+      this.api.get("categories").then(response => {
+        if (
+          response.status < 400
+          && response.data
+          && response.data.length > 0
+        ) {
+          let categoryBlocks = response.data.map(category => ({
+            type: "productList",
+            categories: category.values,
+            id: category.type,
 
-          // used to differentiate from locally specified
-          _fetched: true,
-          title: capitalize(category.type),
-          basePath: `categories/${category.type}`,
-          path: `categories/${category.type}/products`,
-          limit: 4
-        }));
+            // used to differentiate from locally specified
+            _fetched: true,
+            title: capitalize(category.type),
+            basePath: `categories/${category.type}`,
+            path: `categories/${category.type}/products`,
+            limit: 4
+          }));
 
-        runInAction("[ACTION] appending category blocks to layout", () => {
-          this.blocks = [
-            ...this.filterBlocks(this.blocks, "productList"),
-            ...categoryBlocks
-          ];
-        });
-      }
-    });
+          runInAction("[ACTION] appending category blocks to layout", () => {
+            this.blocks = [
+              ...this.filterBlocks(this.blocks, "productList"),
+              ...categoryBlocks
+            ];
+          });
+        }
+      });
+    }
   }
 
   filterBlocks(blocks, type) {

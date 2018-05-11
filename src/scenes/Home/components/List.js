@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
@@ -59,10 +59,25 @@ class List extends React.Component {
     return nextProps.numProducts !== this.props.numProducts;
   }
 
+  renderItem = ({ item: product }) => {
+    return (
+      <View style={styles.tile}>
+        <ProductTile
+          backgroundColor={this.props.backgroundColor}
+          onPress={() =>
+            this.props.navigation.navigate("Product", {
+              product: product
+            })
+          }
+          product={product}/>
+      </View>
+    );
+  };
+
   render() {
     // TODO: _position animation
     // TODO: _motion animation
-    const { listData, withMargin, navigation, ...rest } = this.props;
+    const { listData, withMargin, ...rest } = this.props;
 
     return !listData || listData.current() === undefined ? (
       this.renderLoading
@@ -70,22 +85,12 @@ class List extends React.Component {
       <View>
         <ListHeader {...rest} />
         <View style={withMargin ? styles.listWrapper : {}}>
-          <StaggeredList style={styles.splitList} offset={0}>
-            {listData
-              .current()
-              .slice()
-              .map(product => (
-                <ProductTile
-                  key={`productTile-${product.id}`}
-                  backgroundColor={this.props.backgroundColor}
-                  onPress={() =>
-                    navigation.navigate("Product", {
-                      product: product
-                    })
-                  }
-                  product={product}/>
-              ))}
-          </StaggeredList>
+          <FlatList
+            keyExtractor={item => `product-${item.id}`}
+            renderItem={this.renderItem}
+            data={listData.current().slice()}
+            numColumns={2}
+            contentContainerStyle={styles.splitList}/>
         </View>
         {this.renderMoreButton}
       </View>
@@ -96,7 +101,13 @@ class List extends React.Component {
 const styles = StyleSheet.create({
   listWrapper: {
     paddingVertical: Sizes.InnerFrame,
+    paddingHorizontal: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
+  },
+
+  tile: {
+    flex: 1,
+    paddingHorizontal: Sizes.InnerFrame / 2
   },
 
   splitList: {
