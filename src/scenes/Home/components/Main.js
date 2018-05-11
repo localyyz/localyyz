@@ -69,10 +69,7 @@ export default class Main extends React.Component {
         renderItem={this.renderBlock}
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={1}
-        onEndReached={({ distanceFromEnd }) => {
-          console.log(distanceFromEnd);
-          this.props.fetchCategoryBlocks();
-        }}
+        onEndReached={this.props.fetchCategoryBlocks}
         scrollEventThrottle={16}
         onScroll={Animated.event([
           {
