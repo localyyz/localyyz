@@ -65,7 +65,12 @@ export default class ConstrainedAspectImage extends React.Component {
           uri: this.state.aspectImageUrl
         }}
         resizeMode="contain"
-        onError={({ nativeEvent }) => console.log(nativeEvent)}
+        onError={({ nativeEvent: { error } }) => {
+          error
+            && console.log(
+              `image ${this.state.aspectImageUrl} failed to load with ${error}`
+            );
+        }}
         style={[
           ...(this.props.style || []),
           this.props.constrainWidth
