@@ -8,7 +8,7 @@ import { ConstrainedAspectImage } from "localyyz/components";
 // third party
 import getSymbolFromCurrency from "currency-symbol-map";
 
-export default class ProductTile extends React.Component {
+export default class ProductTile extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};

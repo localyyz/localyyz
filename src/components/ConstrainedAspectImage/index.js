@@ -22,105 +22,71 @@ export default class ConstrainedAspectImage extends React.Component {
   constructor(props) {
     super(props);
 
-    // NOTE: opted for native states because there's no way
-    // to sanely do shouldComponentUpdate with mobx observables
-    //
-    // this means we'll have to set a flag on componentWillUnmount
-    // to cancel any callback setstates
-    //
-    // TODO: is the best way to do this wrap getImage onSuccess/onError
-    // in one more layer of Promise?
     this.state = {
-      width: null,
-      height: null,
-      failed: false
+      aspectImageUrl: null
     };
+    if (props.constrainWidth) {
+      this.state = {
+        aspectImageUrl: imgURL(
+          props.source.uri,
+          `${Math.round(this.props.constrainWidth) * 2}x`
+        )
+      };
+    }
+  }
+
+  get baseComponent() {
+    return this.props.children ? ImageBackground : Image;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      Math.round(nextProps.constrainWidth)
+      !== Math.round(this.props.constrainWidth)
+    ) {
+      this.setState({
+        aspectImageUrl: imgURL(
+          nextProps.source.uri,
+          `${Math.round(nextProps.constrainWidth) * 2}x`
+        )
+      });
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextState.width !== null || nextState.failed;
-  }
-
-  componentWillUnmount() {
-    // onSuccess and onError that goes no where
-    this._hasUnmounted = true;
-  }
-
-  componentDidMount() {
-    if (this.props.constrainWidth || this.props.constrainHeight) {
-      this.fetchImageSizeOnce();
-    }
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.source
-      && nextProps.source.uri
-      && (!!nextProps.constrainWidth || !!nextProps.constrainHeight)
-    ) {
-      this.fetchImageSizeOnce();
-    }
-  }
-
-  fetchImageSizeOnce = () => {
-    if (!this._hasFetched) {
-      Image.getSize(this.props.source.uri, this.onSuccess, this.onError);
-      this._hasFetched = true;
-    }
-  };
-
-  onSuccess = (width, height) => {
-    if (!this._hasUnmounted) {
-      const { constrainHeight, constrainWidth } = this.props;
-
-      let ratio;
-      // first, width constrain respecting aspect
-      if (constrainWidth && width > constrainWidth) {
-        ratio = height / width;
-        width = constrainWidth;
-        height = width * ratio;
-      }
-
-      // then, height constrain with new adjustments from above
-      if (constrainHeight && height > constrainHeight) {
-        ratio = width / height;
-        height = constrainHeight;
-        width = height * ratio;
-      }
-
-      this.setState({ width, height });
-    }
-  };
-
-  onError = err => {
-    if (!this._hasUnmounted) {
-      this.setState({ failed: true });
-      console.log(
-        `Image failed to load: ${this.props.source && this.props.source.uri} (${
-          err.message
-        })`
-      );
-    }
-  };
-
-  get baseComponent() {
-    return this.props.children ? ImageBackground : Animated.Image;
+    return nextState !== this.state;
   }
 
   render() {
-    return !this.state.failed && !!this.state.width ? (
+    return this.state.aspectImageUrl ? (
       <this.baseComponent
         {...this.props}
+        source={{
+          uri: this.state.aspectImageUrl
+        }}
         resizeMode="contain"
         style={[
           ...(this.props.style || []),
-          this.state.width && this.state.height
+          this.props.constrainWidth
             ? {
-                width: this.state.width,
-                height: this.state.height
+                width: this.props.constrainWidth,
+                height: this.props.constrainHeight
               }
             : {}
         ]}/>
     ) : null;
   }
+}
+
+// via: https://gist.github.com/DanWebb/cce6ab34dd521fcac6ba
+function imgURL(src, size) {
+  // remove any current image size then add the new image size
+  return src
+    .replace(
+      /_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g,
+      "."
+    )
+    .replace(/\.jpg|\.png|\.gif|\.jpeg/g, function(match) {
+      return "_" + size + match;
+    });
 }
