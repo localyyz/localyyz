@@ -108,7 +108,7 @@ class AppContainer extends React.Component {
   get isMinVersion() {
     return (
       Platform.OS !== "ios"
-      || (Platform.OS === "ios" && DeviceInfo.getBuildNumber() > 200)
+      || (Platform.OS === "ios" && DeviceInfo.getBuildNumber() > 221)
     );
   }
 
