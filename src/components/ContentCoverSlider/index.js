@@ -34,14 +34,6 @@ export default class ContentCoverSlider extends React.Component {
   onScroll(event) {
     const y = event.nativeEvent.contentOffset.y - SCROLL_OFFSET;
 
-    // toggle the statusbar style based on current opacity
-    StatusBar.setBarStyle(
-      y / (this.props.fadeHeight || FADE_HEIGHT) >= 0.25
-        ? "light-content"
-        : this.props.idleStatusBarStatus || "dark-content",
-      true
-    );
-
     // allow going back on swipe down
     y > -(this.props.popHeight || POP_HEIGHT)
       ? this.setState({ y: y })
@@ -72,6 +64,12 @@ export default class ContentCoverSlider extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+          barStyle={
+            this.state.y / (this.props.fadeHeight || FADE_HEIGHT) >= 0.25
+              ? "light-content"
+              : this.props.idleStatusBarStatus || "dark-content"
+          }/>
         <View
           style={[
             styles.statusBar,
@@ -82,10 +80,9 @@ export default class ContentCoverSlider extends React.Component {
           <View style={styles.statusBarContent}>
             <View style={styles.statusBarTitle}>
               <UppercasedText
+                numberOfLines={1}
                 style={[
-                  Styles.Text,
-                  Styles.Terminal,
-                  Styles.Alternate,
+                  styles.statusBarTitleLabel,
                   {
                     opacity:
                       this.state.y / (this.props.fadeHeight || FADE_HEIGHT)
@@ -121,6 +118,7 @@ export default class ContentCoverSlider extends React.Component {
           <Animatable.View animation="bounceIn" delay={200} style={styles.back}>
             <Icon
               name={this.props.iconType || "arrow-back"}
+              size={Sizes.H3}
               color={
                 this.state.y / (this.props.fadeHeight || FADE_HEIGHT) >= 0.25
                   ? Colours.AlternateText
@@ -165,14 +163,21 @@ const styles = StyleSheet.create({
 
   statusBarContent: {
     flexDirection: "row",
-    marginTop: Sizes.OuterFrame * 2,
-    marginBottom: Sizes.InnerFrame * 2,
+    marginTop: Sizes.InnerFrame * 3,
+    marginBottom: Sizes.InnerFrame,
     alignItems: "center",
     justifyContent: "center"
   },
 
   statusBarTitle: {
-    alignItems: "center"
+    alignItems: "center",
+    paddingHorizontal: Sizes.OuterFrame * 2
+  },
+
+  statusBarTitleLabel: {
+    ...Styles.Text,
+    ...Styles.Terminal,
+    ...Styles.Alternate
   },
 
   background: {
@@ -194,7 +199,7 @@ const styles = StyleSheet.create({
 
   back: {
     position: "absolute",
-    top: Sizes.InnerFrame * 3,
+    top: Sizes.InnerFrame * 2.9,
     left: Sizes.InnerFrame,
     zIndex: 3
   }

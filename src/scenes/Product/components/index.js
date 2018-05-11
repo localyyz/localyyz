@@ -7,3 +7,4 @@ export { default as ProductHeader } from "./ProductHeader";
 export { default as ExpandableSection } from "./ExpandableSection";
 export { default as ProductDetails } from "./ProductDetails";
 export { default as MerchantDetails } from "./MerchantDetails";
+export { default as Photos } from "./Photos";

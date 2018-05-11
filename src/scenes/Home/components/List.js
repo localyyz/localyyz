@@ -79,7 +79,9 @@ class List extends React.Component {
     // TODO: _motion animation
     const { listData, withMargin, ...rest } = this.props;
 
-    return !listData || listData.current() === undefined ? (
+    return !listData
+      || listData.current() === undefined
+      || listData.current().length < 1 ? (
       this.renderLoading
     ) : (
       <View>

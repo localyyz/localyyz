@@ -1,29 +1,44 @@
 import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableWithoutFeedback
+} from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
+import { ReactiveSpacer } from "localyyz/components";
 import { NAVBAR_HEIGHT } from "../../components/NavBar";
 
 // third party
 import PropTypes from "prop-types";
 import LinearGradient from "react-native-linear-gradient";
+import { inject, observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 // local component
 import {
-  ImageCarousel,
   ProductBuy,
   ProductVariantSelector,
   RelatedProducts,
   ProductDetails,
-  MerchantDetails
+  MerchantDetails,
+  Photos
 } from "./components";
 
+@withNavigation
+@inject(stores => ({
+  coverImage:
+    stores.productStore.product && stores.productStore.product.imageUrl,
+  backgroundPosition: stores.uiStore.backgroundPosition,
+  product: stores.productStore.product
+}))
+@observer
 export default class Content extends React.Component {
   static propTypes = {
     backgroundPosition: PropTypes.number,
     product: PropTypes.object.isRequired,
-    onSelectVariant: PropTypes.func.isRequired,
     onScroll: PropTypes.func.isRequired,
     onPressImage: PropTypes.func.isRequired
   };
@@ -73,25 +88,34 @@ export default class Content extends React.Component {
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         onScroll={this.props.onScroll}>
-        <LinearGradient
-          colors={[Colours.Transparent, Colours.Background]}
-          style={[
-            styles.optionsContainer,
-            {
-              marginTop: this.props.backgroundPosition
-            }
-          ]}>
-          <ProductVariantSelector
-            product={this.props.product}
-            onSelect={this.props.onSelectVariant}/>
-          <ProductBuy />
-        </LinearGradient>
-        <View style={styles.carousel}>
-          <ImageCarousel onPress={this.props.onPressImage} />
-        </View>
-        <View style={styles.card}>
+        <TouchableWithoutFeedback
+          onPress={() => this.props.onPressImage(this.props.coverImage)}>
+          <View>
+            <ReactiveSpacer
+              store={this.props}
+              heightProp="backgroundPosition"/>
+            <LinearGradient
+              colors={[Colours.Transparent, Colours.Background]}
+              style={styles.optionsContainer}>
+              <LinearGradient
+                colors={[
+                  Colours.Transparent,
+                  Colours.Transparent,
+                  Colours.Background
+                ]}
+                style={styles.optionsGradient}
+                start={{ y: 0, x: 1 }}
+                end={{ y: 1, x: 0 }}>
+                <ProductBuy />
+                <ProductVariantSelector />
+              </LinearGradient>
+            </LinearGradient>
+          </View>
+        </TouchableWithoutFeedback>
+        <View style={[styles.card, styles.firstCard]}>
           <ProductDetails />
         </View>
+        <Photos onPress={this.props.onPressImage} />
         <View style={styles.card}>
           <MerchantDetails />
         </View>
@@ -106,21 +130,19 @@ const styles = StyleSheet.create({
     paddingBottom: NAVBAR_HEIGHT + Sizes.OuterFrame
   },
 
-  carousel: {
-    marginBottom: Sizes.OuterFrame
-  },
-
   // content area
   card: {
     ...Styles.Card,
     marginVertical: Sizes.InnerFrame / 8
   },
 
+  firstCard: {
+    marginVertical: null,
+    marginBottom: Sizes.InnerFrame / 8
+  },
+
   // options
-  optionsContainer: {
-    ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    paddingVertical: Sizes.InnerFrame,
-    paddingHorizontal: Sizes.OuterFrame
+  optionsGradient: {
+    paddingTop: Sizes.OuterFrame
   }
 });

@@ -109,8 +109,10 @@ export function onlyIfLoggedIn({ hasSession }, action, navigation) {
   }
 }
 
-export function toPriceString(price, currency) {
-  return `${getSymbolFromCurrency(currency) || "$"}${price.toFixed(
-    2
-  )} ${currency || "USD"}`;
+export function toPriceString(price, currency = "USD", avoidFree = false) {
+  return price != null && (price > 0 || !avoidFree)
+    ? price > 0
+      ? `${getSymbolFromCurrency(currency) || "$"}${price.toFixed(2)}`
+      : "Free"
+    : "";
 }

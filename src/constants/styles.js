@@ -67,6 +67,11 @@ export const Styles = {
     fontSize: Sizes.TinyText
   },
 
+  TabBarText: {
+    fontSize: Sizes.TabBarText,
+    fontWeight: Sizes.Normal
+  },
+
   Alternate: {
     backgroundColor: Colours.Transparent,
     color: Colours.AlternateText,

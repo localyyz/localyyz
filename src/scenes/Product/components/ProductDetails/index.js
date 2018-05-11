@@ -1,6 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { Styles, Sizes } from "localyyz/constants";
+import { View, StyleSheet } from "react-native";
 
 // local
 import ExpandableSection from "../ExpandableSection";
@@ -13,6 +12,7 @@ import { observer, inject, Provider } from "mobx-react";
 
 @withNavigation
 @inject(stores => ({
+  title: stores.productStore.product && stores.productStore.product.title,
   description:
     stores.productStore.product
     && stores.productStore.product.truncatedDescription,
@@ -53,11 +53,9 @@ export default class ProductDetails extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={Styles.Title}>Details</Text>
-        </View>
+        <ExpandableSection title="Product" content={this.props.title} />
         <ExpandableSection
-          title="Product"
+          title="Details"
           content={this.props.description}
           onExpand={() =>
             this.props.navigation.navigate("Information", {
@@ -84,9 +82,5 @@ export default class ProductDetails extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {},
-
-  header: {
-    marginVertical: Sizes.InnerFrame / 2
-  }
+  container: {}
 });

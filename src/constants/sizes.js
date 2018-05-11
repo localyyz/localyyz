@@ -1,5 +1,6 @@
 import { Dimensions, Platform } from "react-native";
 import ExtraDimensions from "react-native-extra-dimensions-android";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 // platform specific to accomodate soft buttons on android
 const WIDTH
@@ -17,6 +18,10 @@ const HEIGHT
 export const Sizes = {
   Width: WIDTH,
   Height: HEIGHT,
+
+  // device specific
+  ScreenTop: isIphoneX() ? 44 : 20,
+  ScreenBottom: isIphoneX() ? 34 : 0,
 
   // margins
   OuterFrame: 25,
@@ -48,7 +53,11 @@ export const Sizes = {
   // buttons
   SquareButton: 75,
   IconButton: 25,
-  Avatar: 40
+  Avatar: 40,
+
+  // apple specific
+  TabBarButton: 23,
+  TabBarText: 10
 };
 
 export default Sizes;
