@@ -43,7 +43,6 @@ export default class Main extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchCategoryBlocks();
     this.props.fetchCollectionBlocks();
   }
 
@@ -69,9 +68,12 @@ export default class Main extends React.Component {
         contentContainerStyle={styles.content}
         renderItem={this.renderBlock}
         showsVerticalScrollIndicator={false}
+        onEndReachedThreshold={1}
+        onEndReached={({ distanceFromEnd }) => {
+          console.log(distanceFromEnd);
+          this.props.fetchCategoryBlocks();
+        }}
         scrollEventThrottle={16}
-        onViewableItemsChanged={this.onViewableBlockChange}
-        viewabilityConfig={VIEWABLITY_CONFIG}
         onScroll={Animated.event([
           {
             nativeEvent: {

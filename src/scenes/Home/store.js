@@ -173,31 +173,40 @@ export default class HomeStore {
   ];
   @observable currentBlock;
 
+  hasFetchedCategory = false;
+
   @action
   fetchCategoryBlocks() {
-    this.api.get("categories").then(response => {
-      if (response.status < 400 && response.data && response.data.length > 0) {
-        let categoryBlocks = response.data.map(category => ({
-          type: "productList",
-          categories: category.values,
-          id: category.type,
+    if (!this.hasFetchedCategory) {
+      this.hasFetchedCategory = true;
+      this.api.get("categories").then(response => {
+        if (
+          response.status < 400
+          && response.data
+          && response.data.length > 0
+        ) {
+          let categoryBlocks = response.data.map(category => ({
+            type: "productList",
+            categories: category.values,
+            id: category.type,
 
-          // used to differentiate from locally specified
-          _fetched: true,
-          title: capitalize(category.type),
-          basePath: `categories/${category.type}`,
-          path: `categories/${category.type}/products`,
-          limit: 4
-        }));
+            // used to differentiate from locally specified
+            _fetched: true,
+            title: capitalize(category.type),
+            basePath: `categories/${category.type}`,
+            path: `categories/${category.type}/products`,
+            limit: 4
+          }));
 
-        runInAction("[ACTION] appending category blocks to layout", () => {
-          this.blocks = [
-            ...this.filterBlocks(this.blocks, "productList"),
-            ...categoryBlocks
-          ];
-        });
-      }
-    });
+          runInAction("[ACTION] appending category blocks to layout", () => {
+            this.blocks = [
+              ...this.filterBlocks(this.blocks, "productList"),
+              ...categoryBlocks
+            ];
+          });
+        }
+      });
+    }
   }
 
   filterBlocks(blocks, type) {
