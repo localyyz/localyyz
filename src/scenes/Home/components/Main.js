@@ -71,6 +71,8 @@ export default class Main extends React.Component {
         onEndReachedThreshold={1}
         onEndReached={this.props.fetchCategoryBlocks}
         scrollEventThrottle={16}
+        onViewableItemsChanged={this.onViewableBlockChange}
+        viewabilityConfig={VIEWABLITY_CONFIG}
         onScroll={Animated.event([
           {
             nativeEvent: {
