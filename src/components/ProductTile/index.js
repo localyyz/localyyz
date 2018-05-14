@@ -7,6 +7,7 @@ import { ConstrainedAspectImage } from "localyyz/components";
 
 // third party
 import getSymbolFromCurrency from "currency-symbol-map";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 export default class ProductTile extends React.PureComponent {
   constructor(props) {
@@ -47,21 +48,37 @@ export default class ProductTile extends React.PureComponent {
   }
 
   render() {
+    // console.log(this.props.product.brand, this.props.product.imageUrl);
     return this.props.product ? (
       <TouchableOpacity onPress={this.props.onPress} onLayout={this.onLayout}>
         <View style={styles.container}>
-          <View style={styles.photoContainer}>
-            <ConstrainedAspectImage
-              source={{ uri: this.props.product.imageUrl }}
-              constrainWidth={this.state.photoSize}
-              constrainHeight={Sizes.Height / 4}/>
+          <View
+            style={[
+              styles.photoContainer,
+              {
+                backgroundColor: this.state.photoSize
+                  ? Colours.Transparent
+                  : Colours.Background
+              }
+            ]}>
+            {this.state.photoSize ? (
+              <ConstrainedAspectImage
+                source={{ uri: this.props.product.imageUrl }}
+                constrainWidth={this.state.photoSize}
+                constrainHeight={Sizes.Height / 4}/>
+            ) : null}
           </View>
           <View style={styles.content}>
             <View style={styles.price}>
-              {this.isOnSale ? <View style={styles.priceOnSale} /> : null}
               <Text style={styles.priceLabel}>
                 {this.toPriceString(this.props.product.price)}
               </Text>
+              {this.isOnSale ? (
+                <MaterialIcon
+                  name="arrow-downward"
+                  size={Sizes.TinyText}
+                  color={Colours.Fail}/>
+              ) : null}
             </View>
             <View style={styles.details}>
               <Text numberOfLines={1} style={styles.label}>
@@ -90,7 +107,6 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 1,
     paddingVertical: Sizes.InnerFrame / 2
-    // backgroundColor: Colours.Accented
   },
 
   photoContainer: {
@@ -114,15 +130,8 @@ const styles = StyleSheet.create({
   priceLabel: {
     ...Styles.Text,
     ...Styles.Emphasized,
-    fontSize: Sizes.H3
-  },
-
-  priceOnSale: {
-    height: Sizes.TinyText / 2,
-    width: Sizes.TinyText / 2,
-    borderRadius: Sizes.TinyText / 4,
-    marginRight: Sizes.InnerFrame / 2,
-    backgroundColor: Colours.OnSale
+    fontSize: Sizes.H3,
+    marginRight: Sizes.InnerFrame / 4
   },
 
   label: {

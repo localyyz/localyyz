@@ -14,7 +14,7 @@ export default class Card extends React.Component {
   };
 
   static defaultProps = {
-    headerColor: Colours.Accented
+    headerColor: Colours.MenuBackground
   };
 
   render() {
