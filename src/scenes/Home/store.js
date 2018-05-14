@@ -97,8 +97,7 @@ export default class HomeStore {
 
           // NOTE: because search returns "estimated" number of pages, can't
           // rely on the provided next pages as indicator if there is next page
-          this._hasNextPage
-            = response.data && response.data.length === PAGE_LIMIT;
+          this._hasNextPage = response.data && response.data.length > 0;
           this._processing = false;
         })
         .catch(console.log);
@@ -128,15 +127,15 @@ export default class HomeStore {
     //     "http://swaysuniverse.com/wp-content/uploads/2017/01/bape-2017-spring-summer-collection-1.jpeg",
     //   offset: -200
     // },
-    {
-      type: "productList",
-      id: "today-finds",
-      title: "Today's finds",
-      description:
-        "Hand selected daily for you by our team of fashionistas based on what you've viewed before",
-      path: "products/curated",
-      limit: 6
-    },
+    //{
+    //type: "productList",
+    //id: "today-finds",
+    //title: "Today's finds",
+    //description:
+    //"Hand selected daily for you by our team of fashionistas based on what you've viewed before",
+    //path: "products/curated",
+    //limit: 6
+    //},
     {
       type: "brand",
       id: "brands",

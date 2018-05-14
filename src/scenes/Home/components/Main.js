@@ -109,12 +109,21 @@ export default class Main extends React.Component {
         break;
       case "collection":
         component = (
-          <Banner
-            id={i}
-            imageUri={block.imageUrl}
-            title={block.title}
-            description={block.description}
-            path={block.path}/>
+          <View id={i}>
+            <Banner
+              id={i}
+              imageUri={block.imageUrl}
+              title={block.title}
+              description={block.description}
+              path={block.path}/>
+            <Collection
+              withMargin
+              hideHeader
+              title={block.title}
+              description={block.description}
+              fetchFrom={block.path}
+              limit={4}/>
+          </View>
         );
         break;
       case "brand":

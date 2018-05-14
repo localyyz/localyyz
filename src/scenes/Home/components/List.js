@@ -24,6 +24,7 @@ class List extends React.Component {
     // and https://github.com/mobxjs/mobx-utils#lazyobservable
     listData: mobxPropTypes.objectOrObservableObject,
     title: PropTypes.string.isRequired,
+    hideHeader: PropTypes.bool,
     description: PropTypes.string,
     withMargin: PropTypes.bool,
 
@@ -34,6 +35,7 @@ class List extends React.Component {
 
   static defaultProps = {
     title: "",
+    hideHeader: false,
     description: "",
     withMargin: false
   };
@@ -85,7 +87,7 @@ class List extends React.Component {
       this.renderLoading
     ) : (
       <View>
-        <ListHeader {...rest} />
+        {!this.props.hideHeader ? <ListHeader {...rest} /> : null}
         <View style={withMargin ? styles.listWrapper : {}}>
           <FlatList
             keyExtractor={item => `product-${item.id}`}

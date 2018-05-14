@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
 
   statusBarContent: {
     flexDirection: "row",
-    marginTop: Sizes.InnerFrame * 3,
+    marginTop: Sizes.ScreenTop,
     marginBottom: Sizes.InnerFrame,
     alignItems: "center",
     justifyContent: "center"
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
 
   back: {
     position: "absolute",
-    top: Sizes.InnerFrame * 2.9,
+    top: Sizes.ScreenTop - 0.1,
     left: Sizes.InnerFrame,
     zIndex: 3
   }
