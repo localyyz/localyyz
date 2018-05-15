@@ -20,7 +20,7 @@ export const Sizes = {
   Height: HEIGHT,
 
   // device specific
-  ScreenTop: isIphoneX() ? 44 : 20,
+  ScreenTop: isIphoneX() ? 44 : 30,
   ScreenBottom: isIphoneX() ? 34 : 0,
 
   // margins

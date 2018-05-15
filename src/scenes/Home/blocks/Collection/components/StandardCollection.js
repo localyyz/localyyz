@@ -15,7 +15,7 @@ import { List } from "../../../components";
 export default class StandardCollection extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View style={this.props.noMargin ? null : styles.container}>
         {this.props.imageUrl ? (
           <ConstrainedAspectImage
             source={{ uri: this.props.imageUrl }}

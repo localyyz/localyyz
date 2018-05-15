@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    ...Styles.Text
+    ...Styles.Text,
+    ...Styles.SmallText
   },
 
   selectedLabel: {
