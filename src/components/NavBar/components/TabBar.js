@@ -10,7 +10,6 @@ import { changeTab, onlyIfLoggedIn } from "localyyz/helpers";
 import { withNavigation } from "react-navigation";
 import { inject, observer } from "mobx-react";
 import * as Animatable from "react-native-animatable";
-import { ifIphoneX } from "react-native-iphone-x-helper";
 
 @inject(stores => ({
   hasSession: stores.userStore.model.hasSession,
@@ -61,45 +60,47 @@ export default class TabBar extends React.Component {
           duration={200}
           delay={400}
           style={styles.bar}>
-          <Button
-            icon="hanger"
-            label="Shop"
-            isActive={this.props.activeButton !== "cart"}
-            onPress={() =>
-              this.props.onPress("home", () => {
-                this.props.navigation.dispatch(
-                  changeTab("Root", { reset: true })
-                );
-              })
-            }/>
-          <Button
-            icon="history"
-            label="History"
-            isActive={this.props.activeButton !== "cart"}
-            onPress={() =>
-              this.props.onPress("history", () => {
-                this.props.navigation.dispatch(changeTab("History"));
-              })
-            }/>
-          <Button
-            isActive
-            entypo
-            icon="shopping-basket"
-            label="Cart"
-            badge={this.props.numItems > 0 ? `${this.props.numItems}` : null}
-            onPress={() =>
-              onlyIfLoggedIn(
-                { hasSession: this.props.hasSession },
-                () =>
-                  this.props.onPress(
-                    "cart",
-                    this.props.togglePullup,
-                    false,
-                    true
-                  ),
-                this.props.navigation
-              )
-            }/>
+          <View style={styles.buttons}>
+            <Button
+              icon="hanger"
+              label="Shop"
+              isActive={this.props.activeButton !== "cart"}
+              onPress={() =>
+                this.props.onPress("home", () => {
+                  this.props.navigation.dispatch(
+                    changeTab("Root", { reset: true })
+                  );
+                })
+              }/>
+            <Button
+              icon="history"
+              label="History"
+              isActive={this.props.activeButton !== "cart"}
+              onPress={() =>
+                this.props.onPress("history", () => {
+                  this.props.navigation.dispatch(changeTab("History"));
+                })
+              }/>
+            <Button
+              isActive
+              entypo
+              icon="shopping-basket"
+              label="Cart"
+              badge={this.props.numItems > 0 ? `${this.props.numItems}` : null}
+              onPress={() =>
+                onlyIfLoggedIn(
+                  { hasSession: this.props.hasSession },
+                  () =>
+                    this.props.onPress(
+                      "cart",
+                      this.props.togglePullup,
+                      false,
+                      true
+                    ),
+                  this.props.navigation
+                )
+              }/>
+          </View>
         </Animatable.View>
       </View>
     );
@@ -115,14 +116,13 @@ const styles = StyleSheet.create({
   },
 
   bar: {
+    paddingBottom: Sizes.ScreenBottom,
+    backgroundColor: Colours.Foreground
+  },
+
+  buttons: {
     ...Styles.EqualColumns,
     alignItems: "center",
-    paddingHorizontal: Sizes.Width / 10,
-    backgroundColor: Colours.Foreground,
-    paddingTop: Sizes.InnerFrame,
-    paddingBottom: Sizes.InnerFrame,
-    ...ifIphoneX({
-      paddingBottom: Sizes.InnerFrame * 2
-    })
+    paddingHorizontal: Sizes.Width / 10
   }
 });

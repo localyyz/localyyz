@@ -1,19 +1,18 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { Styles, Colours, Sizes } from "localyyz/constants";
+import { View, StyleSheet } from "react-native";
+import { Sizes } from "localyyz/constants";
 
 // custom
-import { DiscountBadge, VerifiedBadge } from "localyyz/components";
+import { ConstrainedAspectImage } from "localyyz/components";
 
 // third party
 import { inject, observer } from "mobx-react";
 import PropTypes from "prop-types";
 
-// consts
-const BADGE_MIN_DISCOUNT = 0.1;
-import { MAX_TITLE_WORD_LENGTH } from "../../../models/Product";
-
 @inject(stores => ({
+  product: stores.productStore.product,
+  coverPhoto:
+    stores.productStore.product && stores.productStore.product.imageUrl,
   discount: stores.productStore.product && stores.productStore.product.discount,
   placeRank:
     stores.productStore.product
@@ -49,30 +48,9 @@ export default class ProductHeader extends React.Component {
   render() {
     return (
       <View {...this.props} style={styles.container}>
-        <View style={styles.badges}>
-          {this.props.discount >= BADGE_MIN_DISCOUNT ? (
-            <View style={styles.badge}>
-              <DiscountBadge discount={this.props.discount} />
-            </View>
-          ) : null}
-          {this.props.placeRank > 5 && (
-            <View style={styles.badge}>
-              <VerifiedBadge />
-            </View>
-          )}
-        </View>
-        <Text
-          style={[
-            styles.title,
-            this.props.numTitleWords > MAX_TITLE_WORD_LENGTH
-              ? Styles.Title
-              : Styles.Oversized
-          ]}>
-          {this.props.title}
-        </Text>
-        {this.props.placeName ? (
-          <Text style={styles.subtitle}>{this.props.placeName}</Text>
-        ) : null}
+        <ConstrainedAspectImage
+          source={{ uri: this.props.coverPhoto }}
+          constrainWidth={Sizes.Width}/>
       </View>
     );
   }
@@ -80,29 +58,7 @@ export default class ProductHeader extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Sizes.Height / 8,
-    marginHorizontal: Sizes.OuterFrame,
-    paddingVertical: Sizes.InnerFrame,
-    backgroundColor: Colours.Transparent
-  },
-
-  title: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    ...Styles.BottomHalfSpacing
-  },
-
-  subtitle: {
-    ...Styles.Text
-  },
-
-  badges: {
-    ...Styles.Horizontal,
-    alignItems: "center",
-    marginVertical: Sizes.InnerFrame / 2
-  },
-
-  badge: {
-    marginRight: Sizes.InnerFrame / 4
+    minHeight: Sizes.OuterFrame * 3,
+    alignItems: "center"
   }
 });

@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Sizes, Colours } from "localyyz/constants";
+import { StyleSheet } from "react-native";
+import { Sizes } from "localyyz/constants";
 import { withNavigation } from "react-navigation";
 
 // custom
@@ -13,16 +13,11 @@ import { onlyIfLoggedIn } from "localyyz/helpers";
 // third party
 import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
-import { isIphoneX } from "react-native-iphone-x-helper";
 import { inject, observer, Provider } from "mobx-react";
 
 // offset tabbar
 export const NAVBAR_HEIGHT
-  = Sizes.InnerFrame // bar padding
-  + Sizes.IconButton
-  + Sizes.InnerFrame / 6 // button label (tiny text may not be representative)
-  + Sizes.InnerFrame
-  + (isIphoneX() ? Sizes.InnerFrame : 0);
+  = Sizes.ScreenBottom + Sizes.TabBarButton + Sizes.TabBarText - 1;
 
 @inject(stores => ({
   userStore: stores.userStore,

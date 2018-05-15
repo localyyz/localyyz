@@ -31,6 +31,9 @@ import {
   Brands
 } from "localyyz/scenes";
 
+// debug
+console.disableYellowBox = true;
+
 const AppNavigator = StackNavigator(
   {
     Home: { screen: Home },

@@ -13,14 +13,22 @@ import PropTypes from "prop-types";
 import { applePayButton } from "localyyz/assets";
 import { onlyIfLoggedIn, toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { UppercasedText, ExplodingButton } from "localyyz/components";
+import { ExplodingButton } from "localyyz/components";
 
 // third party
 import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 @withNavigation
 @inject(stores => ({
+  isOnSale:
+    stores.productStore.product
+    && stores.productStore.product.previousPrice > 0,
+  price:
+    (stores.productStore.product && stores.productStore.product.price) || 0,
+  previousPrice:
+    stores.productStore.product && stores.productStore.product.previousPrice,
   hasSession: stores.userStore.model.hasSession,
   isExpressSupported: stores.deviceStore.applePaySupported,
   product: stores.productStore.product,
@@ -111,39 +119,47 @@ class ProductBuy extends React.Component {
         });
   }
 
+  get isInStock() {
+    return this.props.selectedVariant && this.props.selectedVariant.limits > 0;
+  }
+
   render() {
-    const { selectedVariant, hasSession, navigation } = this.props;
-
-    const isStockAvailable = selectedVariant && selectedVariant.limits > 0;
-    const shouldExplode = hasSession && isStockAvailable;
-
-    // if one of them wasn't found, check with only one of them
-    let { price, prevPrice } = selectedVariant || {};
-    price = price || 0;
-    prevPrice = prevPrice || 0;
-
+    const { hasSession } = this.props;
     return (
-      <View style={styles.addGroup}>
-        <View style={styles.priceContainer}>
-          <View style={Styles.Horizontal}>
-            {!!prevPrice
-              && prevPrice > 0 && (
-                <Text style={[styles.price, styles.prevPrice]}>
-                  {`${prevPrice.toFixed(2)}`}
-                </Text>
-              )}
-            <Text style={styles.price}>
-              {toPriceString(price, this.props.product.place.currency)}
-            </Text>
-          </View>
+      <View style={styles.container}>
+        <View style={styles.price}>
+          <Text style={styles.priceLabel}>
+            {toPriceString(this.props.price, this.props.product.place.currency)}
+          </Text>
+          {this.props.isOnSale ? (
+            <MaterialIcon
+              name="arrow-downward"
+              size={Sizes.TinyText}
+              color={Colours.Fail}/>
+          ) : null}
         </View>
+        <Text numberOfLines={1} style={styles.subtitle}>
+          {this.props.isOnSale ? (
+            <Text>
+              <Text style={styles.previousPrice}>
+                {toPriceString(
+                  this.props.previousPrice,
+                  this.props.product.place.currency
+                )}
+              </Text>
+
+              <Text> · </Text>
+            </Text>
+          ) : null}
+          <Text style={styles.brand}>
+            {this.props.product.brand || this.props.product.place.name}
+          </Text>
+        </Text>
         {this.props.isExpressSupported ? (
-          <View>
+          <View style={styles.buttons}>
             <TouchableOpacity
               onPress={() =>
-                isStockAvailable
-                  ? this._onExpressCheckout()
-                  : this.onOutOfStock()
+                this.isInStock ? this._onExpressCheckout() : this.onOutOfStock()
               }>
               <View style={styles.expressButton}>
                 <Image
@@ -155,35 +171,50 @@ class ProductBuy extends React.Component {
             <ExplodingButton
               isExploded={this.props.isExploded}
               explode={async () =>
-                onlyIfLoggedIn({ hasSession }, this.props.explode, navigation)
+                onlyIfLoggedIn(
+                  { hasSession },
+                  this.props.explode,
+                  this.props.navigation
+                )
               }
-              shouldExplode={shouldExplode}
-              color={Colours.PositiveButton}
+              shouldExplode={this.props.hasSession && this.isInStock}
+              color={Colours.Foreground}
               onPress={() =>
-                isStockAvailable ? this._onAdd() : this.onOutOfStock()
+                this.isInStock ? this._onAdd() : this._onOutOfStock()
               }>
-              <Text style={styles.addButtonWithExpressLabel}>
-                .. or add to cart
-              </Text>
+              <View style={styles.button}>
+                <MaterialIcon
+                  name="add-shopping-cart"
+                  color={Colours.Text}
+                  size={Sizes.H3}/>
+              </View>
             </ExplodingButton>
           </View>
         ) : (
-          <ExplodingButton
-            isExploded={this.props.isExploded}
-            explode={async () =>
-              onlyIfLoggedIn({ hasSession }, this.props.explode, navigation)
-            }
-            shouldExplode={shouldExplode}
-            color={Colours.PositiveButton}
-            onPress={() =>
-              isStockAvailable ? this._onAdd() : this.onOutOfStock()
-            }>
-            <View style={Styles.RoundedButton}>
-              <UppercasedText style={styles.addButtonLabel}>
-                add to cart
-              </UppercasedText>
-            </View>
-          </ExplodingButton>
+          <View style={styles.buttons}>
+            <ExplodingButton
+              isExploded={this.props.isExploded}
+              explode={async () =>
+                onlyIfLoggedIn(
+                  { hasSession },
+                  this.props.explode,
+                  this.props.navigation
+                )
+              }
+              shouldExplode={this.props.hasSession && this.isInStock}
+              color={Colours.MenuBackground}
+              onPress={() =>
+                this.isInStock ? this._onAdd() : this._onOutOfStock()
+              }>
+              <View style={styles.expressButton}>
+                <MaterialIcon
+                  name="add-shopping-cart"
+                  color={Colours.AlternateText}
+                  size={Sizes.H3}/>
+                <Text style={styles.addButtonLabel}>Add to cart</Text>
+              </View>
+            </ExplodingButton>
+          </View>
         )}
       </View>
     );
@@ -191,26 +222,37 @@ class ProductBuy extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  addButtonLabel: {
-    ...Styles.Text,
-    ...Styles.SmallText,
-    ...Styles.Emphasized,
-    ...Styles.Alternate
+  container: {
+    alignItems: "flex-start",
+    paddingHorizontal: Sizes.OuterFrame
   },
 
-  addGroup: {
-    alignItems: "center"
+  price: {
+    ...Styles.Horizontal
   },
 
-  addButtonWithExpressLabel: {
+  priceLabel: {
     ...Styles.Text,
-    ...Styles.Terminal,
-    ...Styles.Underlined,
-    paddingVertical: Sizes.InnerFrame / 2
+    ...Styles.Title,
+    marginRight: Sizes.InnerFrame / 4
+  },
+
+  subtitle: {
+    ...Styles.Text,
+    ...Styles.SmallText
+  },
+
+  previousPrice: {
+    textDecorationLine: "line-through"
+  },
+
+  buttons: {
+    ...Styles.Horizontal,
+    marginVertical: Sizes.InnerFrame
   },
 
   expressButton: {
-    marginVertical: Sizes.InnerFrame / 2,
+    ...Styles.Horizontal,
     height: Sizes.InnerFrame * 2,
     width: Sizes.InnerFrame * 10,
     borderRadius: Sizes.InnerFrame * 2 / 3,
@@ -225,21 +267,22 @@ const styles = StyleSheet.create({
     tintColor: Colours.AlternateText
   },
 
-  priceContainer: {
-    alignItems: "flex-end"
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: Sizes.InnerFrame * 2,
+    marginHorizontal: Sizes.InnerFrame / 2,
+    paddingHorizontal: Sizes.InnerFrame,
+    borderRadius: Sizes.InnerFrame * 2 / 3,
+    backgroundColor: Colours.Foreground
   },
 
-  price: {
+  addButtonLabel: {
     ...Styles.Text,
-    ...Styles.Terminal,
-    ...Styles.Emphasized
-  },
-
-  prevPrice: {
-    ...Styles.Subdued,
-    fontWeight: "100",
-    textDecorationLine: "line-through",
-    marginRight: Sizes.InnerFrame / 2
+    ...Styles.SmallText,
+    ...Styles.Emphasized,
+    ...Styles.Alternate,
+    marginLeft: Sizes.InnerFrame / 2
   }
 });
 

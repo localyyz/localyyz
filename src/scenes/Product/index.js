@@ -1,11 +1,12 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, StatusBar } from "react-native";
 
 // custom
 import Store from "./store";
-import { Colours } from "localyyz/constants";
+import { Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
 import { Product } from "localyyz/models";
 import { ContentCoverSlider, PhotoDetails } from "localyyz/components";
+import { box } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
@@ -14,6 +15,9 @@ import { inject, observer, Provider } from "mobx-react/native";
 // local component
 import { AddedSummary, ProductHeader } from "./components";
 import Content from "./content";
+
+// constants
+const CTA_HEIGHT = 175.5;
 
 @inject(stores => ({
   setAppContext: context => stores.navStore.setAppContext(context),
@@ -24,6 +28,8 @@ import Content from "./content";
 }))
 @observer
 class ProductScene extends React.Component {
+  @box backgroundPosition = 0;
+
   static propTypes = {
     navigation: PropTypes.object.isRequired,
 
@@ -46,9 +52,6 @@ class ProductScene extends React.Component {
   constructor(props) {
     super(props);
     this.store = new Store(props.navigation.state.params);
-    this.state = {
-      backgroundPosition: 0
-    };
 
     // product creation if not provided
     if (
@@ -67,6 +70,9 @@ class ProductScene extends React.Component {
     // bindings
     this.fetchDeepLinkedProduct = this.fetchDeepLinkedProduct.bind(this);
     this.onVariantChange = this.onVariantChange.bind(this);
+    this.onPressImage = this.onPressImage.bind(this);
+    this.onScroll = this.onScroll.bind(this);
+    this.onBack = this.onBack.bind(this);
   }
 
   componentDidMount() {
@@ -102,15 +108,32 @@ class ProductScene extends React.Component {
     this.store.onSelectVariant(variant);
   }
 
+  get shouldCrop() {
+    return this.store.product
+      ? this.store.product.category
+          && this.store.product.category.type === "shoes"
+      : false;
+  }
+
   get productHeader() {
     return (
       <ProductHeader
-        onLayout={evt =>
-          this.setState({
-            backgroundPosition:
-              evt.nativeEvent.layout.y + evt.nativeEvent.layout.height
-          })
-        }/>
+        onLayout={evt => {
+          let position
+            = evt.nativeEvent.layout.y + evt.nativeEvent.layout.height;
+          let maxPosition = Sizes.Height - CTA_HEIGHT - NAVBAR_HEIGHT;
+
+          // shoes look funny when overlayed, so prevent it
+          let overlayedPosition = position - (this.shouldCrop ? 0 : CTA_HEIGHT);
+
+          // either we use position if short, or overlayed if it exceeds maxPosition
+          this.backgroundPosition = Math.min(
+            position > maxPosition ? overlayedPosition : position,
+
+            // capped
+            maxPosition
+          );
+        }}/>
     );
   }
 
@@ -120,40 +143,42 @@ class ProductScene extends React.Component {
       : this.props.navigation.state.params.productId;
   }
 
+  onPressImage(imageUrl) {
+    return (
+      this.photoDetailsRef
+      && this.photoDetailsRef.current
+      && this.photoDetailsRef.current.wrappedInstance
+      && this.photoDetailsRef.current.wrappedInstance.toggle
+      && this.photoDetailsRef.current.wrappedInstance.toggle(true, imageUrl)
+    );
+  }
+
+  onScroll(evt) {
+    return this.containerRef && this.containerRef.current.onScroll(evt);
+  }
+
+  onBack() {
+    this.props.navigation.goBack();
+    this.props.navigation.state.params.onBack
+      && this.props.navigation.state.params.onBack();
+  }
+
   render() {
     return this.store.product ? (
-      <Provider productStore={this.store}>
+      <Provider productStore={this.store} uiStore={this}>
         <View style={styles.productView}>
+          <StatusBar hidden />
           <ContentCoverSlider
             ref={this.containerRef}
             title={this.store.product.truncatedTitle}
             backActionThrottle
-            backAction={() => {
-              this.props.navigation.goBack();
-              this.props.navigation.state.params.onBack
-                && this.props.navigation.state.params.onBack();
-            }}
-            fadeHeight={this.state.backgroundPosition / 3}
+            backAction={this.onBack}
+            fadeHeight={this.backgroundPosition / 3}
             background={this.productHeader}
             backColor={Colours.Text}>
             <Content
-              backgroundPosition={this.state.backgroundPosition}
-              navigation={this.props.navigation}
-              product={this.store.product}
-              onSelectVariant={this.store.onSelectVariant}
-              onPressImage={imageUrl => {
-                this.photoDetailsRef
-                  && this.photoDetailsRef.current
-                  && this.photoDetailsRef.current.wrappedInstance
-                  && this.photoDetailsRef.current.wrappedInstance.toggle
-                  && this.photoDetailsRef.current.wrappedInstance.toggle(
-                    true,
-                    imageUrl
-                  );
-              }}
-              onScroll={evt => {
-                this.containerRef.current.onScroll(evt);
-              }}/>
+              onPressImage={this.onPressImage}
+              onScroll={this.onScroll}/>
           </ContentCoverSlider>
           <AddedSummary />
           <PhotoDetails

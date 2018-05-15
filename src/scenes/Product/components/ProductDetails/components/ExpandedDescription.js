@@ -39,7 +39,8 @@ export default class ExpandedDescription extends React.Component {
 
                   h1, h2, h3, h4, h5, h6, #content, strong, p, li {
                     font-family: "system font" !important;
-                    font-size: ${Sizes.SmallText} !important;
+                    font-size: ${Sizes.TinyText} !important;
+                    line-height: 1.5;
                     font-weight: ${Sizes.Normal};
                   }
 

@@ -4,7 +4,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import PropTypes from "prop-types";
 
 // custom
-import { SloppyView, UppercasedText } from "localyyz/components";
+import { SloppyView } from "localyyz/components";
 
 // third party
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -45,9 +45,7 @@ export default class Button extends React.Component {
               size={Sizes.IconButton}
               color={this.buttonColor}/>
           )}
-          <UppercasedText style={styles.buttonLabel}>
-            {this.props.label}
-          </UppercasedText>
+          <Text style={styles.buttonLabel}>{this.props.label}</Text>
           {this.props.badge ? (
             <View style={styles.badge}>
               <Text style={styles.badgeLabel}>{this.props.badge}</Text>
@@ -63,13 +61,13 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: Sizes.InnerFrame
+    paddingHorizontal: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame / 6
   },
 
   buttonLabel: {
     ...Styles.Text,
-    ...Styles.TinyText,
-    marginTop: Sizes.InnerFrame / 6
+    ...Styles.TabBarText
   },
 
   badge: {
