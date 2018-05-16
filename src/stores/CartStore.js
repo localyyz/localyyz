@@ -361,7 +361,7 @@ export default class CartStore {
       if (response.data.hasError) {
         assistantStore.cancel(message);
         return await Promise.reject({
-          alertTitle: "invalid",
+          alertTitle: "There was a problem",
           alertMessage: response.data.error
         });
       }
@@ -386,7 +386,7 @@ export default class CartStore {
     assistantStore.cancel(message);
     return await Promise.reject({
       alertTitle: response.error,
-      alertMessage: "please try again"
+      alertMessage: "Please try again later"
     });
   };
 
