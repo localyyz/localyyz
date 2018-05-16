@@ -811,7 +811,7 @@ export default class CartStore {
   };
 
   _onExpressCheckoutFailure = (response = {}, message) => {
-    response && console.log(response);
+    //response && console.log(response);
     assistantStore.cancel(message);
     this.fetch();
 

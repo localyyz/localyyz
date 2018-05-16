@@ -253,7 +253,10 @@ export default class HomeStore {
     let currentlyVisibleBlock = viewableItems[viewableItems.length - 1];
 
     // only update if changing
-    if (currentlyVisibleBlock.index !== this.currentBlock) {
+    if (
+      currentlyVisibleBlock
+      && currentlyVisibleBlock.index !== this.currentBlock
+    ) {
       this.currentBlock = currentlyVisibleBlock.index;
 
       // update internal block height for all visible blocks
