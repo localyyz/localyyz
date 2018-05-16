@@ -41,7 +41,9 @@ export default class Photos extends React.Component {
         <View style={styles.photo}>
           <ConstrainedAspectImage
             source={{ uri: photo.imageUrl }}
-            constrainWidth={Sizes.Width}/>
+            constrainWidth={Sizes.Width}
+            sourceWidth={photo.width}
+            sourceHeight={photo.height}/>
         </View>
       </TouchableOpacity>
     );

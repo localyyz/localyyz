@@ -17,7 +17,9 @@ export default class ConstrainedAspectImage extends React.Component {
   static propTypes = {
     ...Image.PropTypes,
     constrainWidth: PropTypes.number,
-    constrainHeight: PropTypes.number
+    constrainHeight: PropTypes.number,
+    sourceWidth: PropTypes.number,
+    sourceHeight: PropTypes.number
   };
 
   static defaultProps = {
@@ -33,6 +35,9 @@ export default class ConstrainedAspectImage extends React.Component {
       _isLoading: false,
       didFail: false
     };
+
+    // bindings
+    this.scale = this.scale.bind(this);
   }
 
   get aspectImageUrl() {
@@ -91,6 +96,77 @@ export default class ConstrainedAspectImage extends React.Component {
     this.componentDidUpdate();
   }
 
+  get shouldUseResizeFilter() {
+    return (
+      this.props.source.uri.includes(SHOPIFY_LIQUID)
+      && (!this.props.sourceWidth || !this.props.sourceHeight)
+    );
+  }
+
+  scale(width, height) {
+    let scaledWidth;
+    let scaledHeight;
+
+    // convert back to layout sizing
+    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+      && console.log("SIZE FETCH RESOLVED", width, height);
+
+    // don't handle pixel ratio conversion since image fetched has not
+    // been adjusted by shopify filters
+    scaledWidth = this.shouldUseResizeFilter
+      ? PixelRatio.roundToNearestPixel(width / PixelRatio.get())
+      : width;
+    scaledHeight = this.shouldUseResizeFilter
+      ? PixelRatio.roundToNearestPixel(height / PixelRatio.get())
+      : height;
+
+    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+      && console.log(
+        "SCALED DOWN TO",
+        scaledWidth,
+        scaledHeight,
+        "WITH RATIO",
+        PixelRatio.get()
+      );
+
+    // handle returned image being smaller than needed scaled constraint
+    if (
+      scaledWidth < this.width
+      || scaledHeight < this.height
+      || !this.shouldUseResizeFilter
+    ) {
+      let ratio;
+
+      // first, width constrain respecting aspect
+      if (this.width && width > this.width) {
+        ratio = height / width;
+        scaledWidth = this.width;
+        scaledHeight = scaledWidth * ratio;
+      }
+
+      // then, height constrain with new adjustments from above
+      if (this.height && height > this.height) {
+        ratio = width / height;
+        scaledHeight = this.height;
+        scaledWidth = scaledHeight * ratio;
+      }
+
+      (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+        && console.log(
+          "SCALED DOWN IS TOO LOW RES, CONVERTED TO",
+          scaledWidth,
+          scaledHeight
+        );
+    }
+
+    // TODO: handle unmounted component
+    this.setState({
+      _width: scaledWidth,
+      _height: scaledHeight,
+      _isLoading: false
+    });
+  }
+
   componentDidUpdate() {
     (DEBUG || this.props.source.uri === DEBUG_IMAGE)
       && console.log(
@@ -101,73 +177,23 @@ export default class ConstrainedAspectImage extends React.Component {
         !this.isReady && !this.state._isLoading
       );
 
-    !this.isReady
-      && !this.state._isLoading
-      && this.setState({ _isLoading: true }, () =>
-        Image.getSize(this.aspectImageUrl, (width, height) => {
-          let scaledWidth;
-          let scaledHeight;
-
-          // convert back to layout sizing
-          (DEBUG || this.props.source.uri === DEBUG_IMAGE)
-            && console.log("SIZE FETCH RESOLVED", width, height);
-
-          // don't handle pixel ratio conversion since image fetched has not
-          // been adjusted by shopify filters
-          scaledWidth = this.props.source.uri.includes(SHOPIFY_LIQUID)
-            ? PixelRatio.roundToNearestPixel(width / PixelRatio.get())
-            : width;
-          scaledHeight = this.props.source.uri.includes(SHOPIFY_LIQUID)
-            ? PixelRatio.roundToNearestPixel(height / PixelRatio.get())
-            : height;
-
+    if (!this.isReady && !this.state._isLoading) {
+      this.setState({ _isLoading: true }, () => {
+        // if source original width provided, skip image size fetching
+        if (!this.props.sourceWidth || !this.props.sourceHeight) {
+          Image.getSize(this.aspectImageUrl, this.scale);
+        } else {
           (DEBUG || this.props.source.uri === DEBUG_IMAGE)
             && console.log(
-              "SCALED DOWN TO",
-              scaledWidth,
-              scaledHeight,
-              "WITH RATIO",
-              PixelRatio.get()
+              "SIZE ALREADY KNOWN AS",
+              this.props.sourceWidth,
+              " x ",
+              this.props.sourceHeight
             );
-
-          // handle returned image being smaller than needed scaled constraint
-          if (
-            scaledWidth < this.width
-            || scaledHeight < this.height
-            || !this.props.source.uri.includes(SHOPIFY_LIQUID)
-          ) {
-            let ratio;
-
-            // first, width constrain respecting aspect
-            if (this.width && width > this.width) {
-              ratio = height / width;
-              scaledWidth = this.width;
-              scaledHeight = scaledWidth * ratio;
-            }
-
-            // then, height constrain with new adjustments from above
-            if (this.height && height > this.height) {
-              ratio = width / height;
-              scaledHeight = this.height;
-              scaledWidth = scaledHeight * ratio;
-            }
-
-            (DEBUG || this.props.source.uri === DEBUG_IMAGE)
-              && console.log(
-                "SCALED DOWN IS TOO LOW RES, CONVERTED TO",
-                scaledWidth,
-                scaledHeight
-              );
-          }
-
-          // TODO: handle unmounted component
-          this.setState({
-            _width: scaledWidth,
-            _height: scaledHeight,
-            _isLoading: false
-          });
-        })
-      );
+          this.scale(this.props.sourceWidth, this.props.sourceHeight);
+        }
+      });
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
