@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
@@ -13,7 +13,13 @@ import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({
   product: stores.productStore.product,
-  onSelectVariant: stores.productStore.onSelectVariant
+  onSelectVariant: stores.productStore.onSelectVariant,
+  isVisible: stores.productStore.isVariantSelectorVisible,
+  toggle: forceShow =>
+    (stores.productStore.isVariantSelectorVisible
+      = forceShow != null
+        ? forceShow
+        : !stores.productStore.isVariantSelectorVisible)
 }))
 class ProductVariantSelector extends React.Component {
   static propTypes = {
@@ -27,7 +33,6 @@ class ProductVariantSelector extends React.Component {
     // TODO: verify product has variants
     const { product } = props;
     this.state = {
-      isVisible: false,
       color:
         product && product.colors && product.colors.length > 0
           ? product.colors[0]
@@ -41,21 +46,14 @@ class ProductVariantSelector extends React.Component {
     // bindings
     this.findVariantWithSelection = this.findVariantWithSelection.bind(this);
     this.renderSize = this.renderSize.bind(this);
-    this.toggle = this.toggle.bind(this);
     this.onSizeSelect = this.onSizeSelect.bind(this);
-  }
-
-  toggle(forceShow) {
-    this.setState({
-      isVisible: forceShow != null ? forceShow : !this.state.isVisible
-    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return !!(
       nextState.size !== this.state.size
       || nextState.color !== this.state.color
-      || nextState.isVisible !== this.state.isVisible
+      || nextProps.isVisible !== this.props.isVisible
     );
   }
 
@@ -95,24 +93,48 @@ class ProductVariantSelector extends React.Component {
   onSizeSelect(size) {
     this.setState(
       {
-        size: size,
-        isVisible: false
+        size: size
       },
-      () =>
+      () => {
         this.props.onSelectVariant(
           this.findVariantWithSelection(size, this.state.color)
-        )
+        );
+        this.props.toggle(false);
+      }
+    );
+  }
+
+  alertOos() {
+    Alert.alert(
+      "Size out of stock",
+      "Please try again later or try a different size"
     );
   }
 
   renderSize(size) {
+    let variant = this.findVariantWithSelection(size, this.state.color);
     return (
       <TouchableOpacity
         key={`size-${size}`}
-        onPress={() => this.onSizeSelect(size)}>
+        onPress={() =>
+          variant.limits > 0 ? this.onSizeSelect(size) : this.alertOos()
+        }>
         <SloppyView>
           <View style={styles.size}>
-            <Text style={styles.sizeLabel}>{size}</Text>
+            <Text
+              style={[
+                styles.sizeLabel,
+                variant.limits <= 0 && styles.oosLabel
+              ]}>
+              {size}
+            </Text>
+            {variant.limits <= 0 ? (
+              <MaterialIcon
+                name="block"
+                color={Colours.SubduedText}
+                size={Sizes.TinyText}
+                style={styles.oosIcon}/>
+            ) : null}
           </View>
         </SloppyView>
       </TouchableOpacity>
@@ -136,7 +158,7 @@ class ProductVariantSelector extends React.Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => this.hasSelectableOptions && this.toggle()}>
+          onPress={() => this.hasSelectableOptions && this.props.toggle()}>
           <SloppyView>
             <View style={styles.selected}>
               <Text numberOfLines={1} style={styles.selectedLabel}>
@@ -156,7 +178,7 @@ class ProductVariantSelector extends React.Component {
             </View>
           </SloppyView>
         </TouchableOpacity>
-        {this.state.isVisible ? (
+        {this.props.isVisible ? (
           <Animatable.View
             animation="fadeInUp"
             duration={200}
@@ -195,15 +217,18 @@ const styles = StyleSheet.create({
   dropdown: {
     ...Styles.Horizontal,
     flexWrap: "wrap",
-    paddingTop: Sizes.InnerFrame + Sizes.InnerFrame / 4,
+    paddingTop: Sizes.InnerFrame + Sizes.InnerFrame / 2,
     paddingBottom: Sizes.InnerFrame,
     paddingHorizontal: Sizes.OuterFrame,
     backgroundColor: Colours.Foreground
   },
 
   size: {
+    ...Styles.Horizontal,
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: Sizes.InnerFrame / 2,
-    marginBottom: Sizes.InnerFrame / 4,
+    marginBottom: Sizes.InnerFrame / 2,
     paddingVertical: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame,
     borderRadius: Sizes.InnerFrame,
@@ -214,6 +239,14 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Emphasized,
     ...Styles.SmallText
+  },
+
+  oosLabel: {
+    ...Styles.Subdued
+  },
+
+  oosIcon: {
+    marginLeft: Sizes.InnerFrame / 4
   },
 
   placeholder: {

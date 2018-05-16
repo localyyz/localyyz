@@ -8,6 +8,7 @@ import { ApiInstance } from "localyyz/global";
 
 class ProductUIStore {
   @box product = {};
+  @box isVariantSelectorVisible = false;
   @observable isAddedSummaryVisible = false;
   @observable relatedProducts = [];
   @observable selectedVariant;
