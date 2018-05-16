@@ -1,9 +1,9 @@
 import React from "react";
-import { View, StyleSheet, StatusBar } from "react-native";
+import { View, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // components
-import { UppercasedText } from "localyyz/components";
+import { UppercasedText, SloppyView } from "localyyz/components";
 import * as Animatable from "react-native-animatable";
 import { Icon } from "react-native-elements";
 
@@ -116,14 +116,7 @@ export default class ContentCoverSlider extends React.Component {
 
         {this.props.backAction != false && (
           <Animatable.View animation="bounceIn" delay={200} style={styles.back}>
-            <Icon
-              name={this.props.iconType || "arrow-back"}
-              size={Sizes.H3}
-              color={
-                this.state.y / (this.props.fadeHeight || FADE_HEIGHT) >= 0.25
-                  ? Colours.AlternateText
-                  : this.props.backColor || Colours.AlternateText
-              }
+            <TouchableOpacity
               onPress={() => {
                 // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
                 // for clarification on why this is needed
@@ -132,14 +125,29 @@ export default class ContentCoverSlider extends React.Component {
                       this.props.backAction();
                     }, RECOMMENDED_BROWSING_SPEED)
                   : this.props.backAction();
-              }}
-              underlayColor={Colours.Transparent}
-              hitSlop={{
-                top: Sizes.InnerFrame,
-                bottom: Sizes.InnerFrame,
-                left: Sizes.InnerFrame,
-                right: Sizes.InnerFrame
-              }}/>
+              }}>
+              <SloppyView>
+                <Icon
+                  name={this.props.iconType || "arrow-back"}
+                  size={Sizes.H3}
+                  color={
+                    this.state.y / (this.props.fadeHeight || FADE_HEIGHT)
+                    >= 0.25
+                      ? Colours.AlternateText
+                      : this.props.backColor || Colours.AlternateText
+                  }
+                  onPress={() => {
+                    // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
+                    // for clarification on why this is needed
+                    this.props.backActionThrottle
+                      ? setTimeout(() => {
+                          this.props.backAction();
+                        }, RECOMMENDED_BROWSING_SPEED)
+                      : this.props.backAction();
+                  }}
+                  underlayColor={Colours.Transparent}/>
+              </SloppyView>
+            </TouchableOpacity>
           </Animatable.View>
         )}
       </View>

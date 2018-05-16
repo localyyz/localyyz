@@ -48,7 +48,6 @@ export default class ProductTile extends React.PureComponent {
   }
 
   render() {
-    // console.log(this.props.product.brand, this.props.product.imageUrl);
     return this.props.product ? (
       <TouchableOpacity onPress={this.props.onPress} onLayout={this.onLayout}>
         <View style={styles.container}>
@@ -64,6 +63,8 @@ export default class ProductTile extends React.PureComponent {
             {this.state.photoSize ? (
               <ConstrainedAspectImage
                 source={{ uri: this.props.product.imageUrl }}
+                sourceWidth={this.props.product.images[0].width}
+                sourceHeight={this.props.product.images[0].height}
                 constrainWidth={this.state.photoSize}
                 constrainHeight={Sizes.Height / 4}/>
             ) : null}

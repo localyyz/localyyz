@@ -13,6 +13,16 @@ import PropTypes from "prop-types";
   product: stores.productStore.product,
   coverPhoto:
     stores.productStore.product && stores.productStore.product.imageUrl,
+  coverPhotoWidth:
+    stores.productStore.product
+    && stores.productStore.product.images
+    && stores.productStore.product.images.length > 0
+    && stores.productStore.product.images[0].width,
+  coverPhotoHeight:
+    stores.productStore.product
+    && stores.productStore.product.images
+    && stores.productStore.product.images.length > 0
+    && stores.productStore.product.images[0].height,
   discount: stores.productStore.product && stores.productStore.product.discount,
   placeRank:
     stores.productStore.product
@@ -50,6 +60,8 @@ export default class ProductHeader extends React.Component {
       <View {...this.props} style={styles.container}>
         <ConstrainedAspectImage
           source={{ uri: this.props.coverPhoto }}
+          sourceWidth={this.props.coverPhotoWidth}
+          sourceHeight={this.props.coverPhotoHeight}
           constrainWidth={Sizes.Width}/>
       </View>
     );
