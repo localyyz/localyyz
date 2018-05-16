@@ -37,6 +37,11 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
     stores.productStore.product && stores.productStore.product.place.name,
   placeId: stores.productStore.product && stores.productStore.product.place.id,
   selectedVariant: stores.productStore.selectedVariant,
+  toggleVariantSelector: forceShow =>
+    (stores.productStore.isVariantSelectorVisible
+      = forceShow != null
+        ? forceShow
+        : !stores.productStore.isVariantSelectorVisible),
 
   // regular checkout (add)
   onAdd: (productId, color, size) =>
@@ -90,7 +95,8 @@ class ProductBuy extends React.Component {
   onOutOfStock() {
     Alert.alert(
       "Out of stock",
-      "The product with your selected options is currently not in stock"
+      "The product with your selected options is currently not in stock",
+      [{ text: "OK", onPress: () => this.props.toggleVariantSelector(true) }]
     );
   }
 
