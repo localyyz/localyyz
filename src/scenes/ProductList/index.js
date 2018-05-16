@@ -92,6 +92,7 @@ export default class ProductListScene extends React.Component {
           <Content
             onScroll={e => this.refs.container.onScroll(e)}
             headerHeight={this.state.headerHeight}
+            paddingBottom={this.state.headerHeight + NavBar.HEIGHT}
             fetchPath={this.store.fetchPath}
             categories={this.store.categories && this.store.categories.slice()}
             products={this.store.listData.slice()}

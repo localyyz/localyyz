@@ -100,12 +100,10 @@ export default class HistoryScene extends React.Component {
             renderItem={this.renderItem}
             renderSectionHeader={this.renderSectionHeader}
             keyExtractor={(item, i) => `item-${i}`}
-            ListHeaderComponent={
-              <View
-                style={{
-                  marginTop: this.state.headerHeight
-                }}/>
-            }
+            contentContainerStyle={{
+              paddingBottom: NavBar.HEIGHT + this.state.headerHeight,
+              marginTop: this.state.headerHeight
+            }}
             ListEmptyComponent={this.renderEmptyComponent}
             ListFooterComponent={<View style={styles.footer} />}/>
         </ContentCoverSlider>

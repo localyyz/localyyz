@@ -31,7 +31,8 @@ export default class ProductList extends React.Component {
     onScrollUp: PropTypes.func,
     onScrollDown: PropTypes.func,
     onScroll: PropTypes.func,
-    onEndReached: PropTypes.func
+    onEndReached: PropTypes.func,
+    paddingBottom: PropTypes.number
   };
 
   static defaultProps = {
@@ -181,7 +182,10 @@ export default class ProductList extends React.Component {
             this.props.backgroundColor && {
               backgroundColor: this.props.backgroundColor
             },
-            { marginTop: this.props.headerHeight }
+            {
+              marginTop: this.props.headerHeight,
+              paddingBottom: this.props.paddingBottom
+            }
           ]}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
