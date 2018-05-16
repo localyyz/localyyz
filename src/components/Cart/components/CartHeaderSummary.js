@@ -1,5 +1,12 @@
 import React from "react";
-import { Alert, View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  Alert,
+  View,
+  StyleSheet,
+  Text,
+  Platform,
+  TouchableOpacity
+} from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // custom
@@ -78,6 +85,7 @@ export default class CartHeaderSummary extends React.Component {
     }
   };
 
+  // TODO: hitSlop on android is NOT working as intended.
   render() {
     return (
       <View
@@ -90,7 +98,30 @@ export default class CartHeaderSummary extends React.Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.onCheckout}>
-          <SloppyView>
+          {Platform.OS === "ios" ? (
+            <SloppyView>
+              <Animatable.View
+                animation="checkoutSlide"
+                duration={500}
+                delay={700}
+                style={[
+                  styles.cartButton,
+                  {
+                    backgroundColor: Colours.PositiveButton
+                  }
+                ]}>
+                <UppercasedText
+                  style={[
+                    Styles.Text,
+                    Styles.Emphasized,
+                    Styles.Alternate,
+                    styles.cartButtonLabel
+                  ]}>
+                  Checkout
+                </UppercasedText>
+              </Animatable.View>
+            </SloppyView>
+          ) : (
             <Animatable.View
               animation="checkoutSlide"
               duration={500}
@@ -111,7 +142,7 @@ export default class CartHeaderSummary extends React.Component {
                 Checkout
               </UppercasedText>
             </Animatable.View>
-          </SloppyView>
+          )}
         </TouchableOpacity>
       </View>
     );
