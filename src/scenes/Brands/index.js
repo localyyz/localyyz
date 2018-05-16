@@ -87,7 +87,7 @@ export default class BrandsScene extends React.Component {
               scrollEventThrottle={16}
               onScroll={e => this.refs.container.onScroll(e)}
               contentContainerStyle={{
-                paddingBottom: NavBar.HEIGHT * 2,
+                paddingBottom: NavBar.HEIGHT + this.state.headerHeight,
                 marginTop: this.state.headerHeight
                   ? this.state.headerHeight - Sizes.InnerFrame
                   : 0

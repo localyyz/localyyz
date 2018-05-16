@@ -8,7 +8,7 @@ import { Colours } from "localyyz/constants";
 const DEBUG = false;
 
 // set a specific image url to listen to
-const DEBUG_IMAGE = "http://kenma.ca/localyyz/1.jpg";
+const DEBUG_IMAGE = "";
 
 // this allows ConstrainedAspectImage to be used on non-shopify hosted images
 const SHOPIFY_LIQUID = "cdn.shopify.com";
@@ -254,10 +254,10 @@ function imgUrl(src, size) {
   return src.includes(SHOPIFY_LIQUID)
     ? src
         .replace(
-          /_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g,
+          /_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./gi,
           "."
         )
-        .replace(/\.jpg|\.png|\.gif|\.jpeg/g, function(match) {
+        .replace(/\.jpg|\.png|\.gif|\.jpeg/gi, function(match) {
           return "_" + size + match;
         })
     : src;
