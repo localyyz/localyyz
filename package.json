@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "appcenter-cli": "^1.0.16",
     "babel-eslint": "^8.2.2",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "code-push-cli": "^2.1.8",
