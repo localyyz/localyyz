@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TextInput } from "react-native";
-import { Styles, Sizes } from "localyyz/constants";
+import { Styles, Sizes, Colours } from "localyyz/constants";
 
 // third party
 import { inject, observer } from "mobx-react";
@@ -51,6 +51,7 @@ export default class SearchInputBox extends React.Component {
           value={this.props.searchQuery}
           onChangeText={this.props.onChangeText}
           onSubmitEditing={this.onSubmitEditing}
+          underlineColorAndroid={Colours.Transparent}
           style={styles.input}/>
       </View>
     );
