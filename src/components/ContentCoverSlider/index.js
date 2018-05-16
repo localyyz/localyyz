@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  View,
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity
+} from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // components
@@ -129,7 +135,7 @@ export default class ContentCoverSlider extends React.Component {
               <SloppyView>
                 <Icon
                   name={this.props.iconType || "arrow-back"}
-                  size={Sizes.H3}
+                  size={Sizes.NavLeft}
                   color={
                     this.state.y / (this.props.fadeHeight || FADE_HEIGHT)
                     >= 0.25

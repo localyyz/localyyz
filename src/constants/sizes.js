@@ -54,6 +54,7 @@ export const Sizes = {
   SquareButton: 75,
   IconButton: 25,
   Avatar: 40,
+  NavLeft: Platform.OS == "ios" ? 18 : 36,
 
   // apple specific
   TabBarButton: 23,

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
+import {
+  Platform,
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Alert
+} from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // custom
@@ -141,7 +148,11 @@ export default class CartItem extends React.Component {
                   <SloppyView>
                     <EntypoIcon
                       name="trash"
-                      size={Sizes.IconButton / 2}
+                      size={
+                        Platform.OS === "ios"
+                          ? Sizes.IconButton / 2
+                          : Sizes.IconButton
+                      }
                       color={Colours.Text}
                       style={styles.removeItem}/>
                   </SloppyView>

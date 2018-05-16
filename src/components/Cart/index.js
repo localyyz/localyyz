@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // custom
+import CartAction from "./components/CartAction";
 import CartItems from "./components/CartItems";
 import CartSummary from "./components/CartSummary";
 import CartHeader from "./components/CartHeader";
@@ -70,6 +71,7 @@ export default class Cart extends React.Component {
               </Text>
             </View>
             <CartSummary />
+            <CartAction />
           </View>
         </View>
       </TouchableWithoutFeedback>
