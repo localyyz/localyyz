@@ -1,9 +1,16 @@
 import React from "react";
-import { View, StyleSheet, Text, Linking } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Linking,
+  TouchableOpacity
+} from "react-native";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
-import { ConstrainedAspectImage } from "localyyz/components";
+import { ConstrainedAspectImage, SloppyView } from "localyyz/components";
+import { capitalize } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
@@ -17,13 +24,10 @@ import ExpandableSection from "./ExpandableSection";
 @withNavigation
 @inject(stores => ({
   placeName:
-    stores.productStore.product
-    && stores.productStore.product.place
-    && stores.productStore.product.place.name,
+    stores.productStore.product && stores.productStore.product.place.name,
+  placeId: stores.productStore.product && stores.productStore.product.place.id,
   placeLogo:
-    stores.productStore.product
-    && stores.productStore.product.place
-    && stores.productStore.product.place.imageUrl,
+    stores.productStore.product && stores.productStore.product.place.imageUrl,
   returnPolicy:
     stores.productStore.product && stores.productStore.product.returnPolicy,
   shippingPolicy:
@@ -31,11 +35,9 @@ import ExpandableSection from "./ExpandableSection";
   isSocial: stores.productStore.product && stores.productStore.product.isSocial,
   facebookUrl:
     stores.productStore.product
-    && stores.productStore.product.place
     && stores.productStore.product.place.facebookUrl,
   instagramUrl:
     stores.productStore.product
-    && stores.productStore.product.place
     && stores.productStore.product.place.instagramUrl
 }))
 @observer
@@ -113,14 +115,36 @@ export default class MerchantDetails extends React.Component {
         </View>
         <View style={styles.banner}>
           <View style={styles.bannerHeader}>
-            <Text style={styles.bannerHeaderTitle}>{this.props.placeName}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("ProductList", {
+                  fetchPath: `places/${this.props.placeId}/products`,
+                  title: capitalize(this.props.placeName)
+                })
+              }>
+              <SloppyView>
+                <Text style={styles.bannerHeaderTitle}>
+                  {this.props.placeName}
+                </Text>
+              </SloppyView>
+            </TouchableOpacity>
             {this.renderSocial}
           </View>
           {this.props.placeLogo ? (
-            <ConstrainedAspectImage
-              constrainHeight={Sizes.Width / 8}
-              constrainWidth={Sizes.Width / 3}
-              source={{ uri: this.props.placeLogo }}/>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("ProductList", {
+                  fetchPath: `places/${this.props.placeId}/products`,
+                  title: capitalize(this.props.placeName)
+                })
+              }>
+              <SloppyView>
+                <ConstrainedAspectImage
+                  constrainHeight={Sizes.Width / 8}
+                  constrainWidth={Sizes.Width / 3}
+                  source={{ uri: this.props.placeLogo }}/>
+              </SloppyView>
+            </TouchableOpacity>
           ) : null}
         </View>
         {this.renderShippingPolicy}

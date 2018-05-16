@@ -13,7 +13,8 @@ import PropTypes from "prop-types";
 import { applePayButton } from "localyyz/assets";
 import { onlyIfLoggedIn, toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { ExplodingButton } from "localyyz/components";
+import { ExplodingButton, SloppyView } from "localyyz/components";
+import { capitalize } from "localyyz/helpers";
 
 // third party
 import { inject, observer } from "mobx-react/native";
@@ -32,6 +33,9 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   hasSession: stores.userStore.model.hasSession,
   isExpressSupported: stores.deviceStore.applePaySupported,
   product: stores.productStore.product,
+  placeName:
+    stores.productStore.product && stores.productStore.product.place.name,
+  placeId: stores.productStore.product && stores.productStore.product.place.id,
   selectedVariant: stores.productStore.selectedVariant,
 
   // regular checkout (add)
@@ -123,6 +127,18 @@ class ProductBuy extends React.Component {
     return this.props.selectedVariant && this.props.selectedVariant.limits > 0;
   }
 
+  get productListParams() {
+    return this.props.product.brand
+      ? {
+          fetchPath: `designers/${this.props.product.brand.toLowerCase()}/products`,
+          title: capitalize(this.props.product.brand)
+        }
+      : {
+          fetchPath: `places/${this.props.placeId}/products`,
+          title: capitalize(this.props.placeName)
+        };
+  }
+
   render() {
     const { hasSession } = this.props;
     return (
@@ -138,23 +154,33 @@ class ProductBuy extends React.Component {
               color={Colours.Fail}/>
           ) : null}
         </View>
-        <Text numberOfLines={1} style={styles.subtitle}>
-          {this.props.isOnSale ? (
-            <Text>
-              <Text style={styles.previousPrice}>
-                {toPriceString(
-                  this.props.previousPrice,
-                  this.props.product.place.currency
-                )}
-              </Text>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate(
+              "ProductList",
+              this.productListParams
+            )
+          }>
+          <SloppyView>
+            <Text numberOfLines={1} style={styles.subtitle}>
+              {this.props.isOnSale ? (
+                <Text>
+                  <Text style={styles.previousPrice}>
+                    {toPriceString(
+                      this.props.previousPrice,
+                      this.props.product.place.currency
+                    )}
+                  </Text>
+                  <Text> · </Text>
+                </Text>
+              ) : null}
 
-              <Text> · </Text>
+              <Text style={styles.brand}>
+                {this.props.product.brand || this.props.placeName}
+              </Text>
             </Text>
-          ) : null}
-          <Text style={styles.brand}>
-            {this.props.product.brand || this.props.product.place.name}
-          </Text>
-        </Text>
+          </SloppyView>
+        </TouchableOpacity>
         {this.props.isExpressSupported ? (
           <View style={styles.buttons}>
             <TouchableOpacity

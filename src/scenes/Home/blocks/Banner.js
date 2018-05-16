@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Styles, Colours, Sizes } from "localyyz/constants";
+import { TouchableOpacity } from "react-native";
+import { Sizes } from "localyyz/constants";
 
 // custom
 import ParallaxPhoto from "./ParallaxPhoto";
@@ -32,28 +32,9 @@ export default class Banner extends React.Component {
         <ParallaxPhoto
           id={this.props.id}
           source={{ uri: this.props.imageUri }}
-          constrainWidth={Sizes.Width}/>
+          constrainWidth={Sizes.Width}
+          startFrom={this.props.id > 1 ? Sizes.Height / 8 : -Sizes.Height / 8}/>
       </TouchableOpacity>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignSelf: "flex-end",
-    padding: Sizes.OuterFrame,
-    marginLeft: Sizes.Width / 3,
-    backgroundColor: Colours.Foreground
-  },
-
-  title: {
-    ...Styles.Text,
-    ...Styles.Title
-  },
-
-  subtitle: {
-    ...Styles.Text,
-    ...Styles.Subtitle,
-    marginTop: Sizes.InnerFrame / 2
-  }
-});

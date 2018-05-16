@@ -111,18 +111,31 @@ export default class ConstrainedAspectImage extends React.Component {
           // convert back to layout sizing
           (DEBUG || this.props.source.uri === DEBUG_IMAGE)
             && console.log("SIZE FETCH RESOLVED", width, height);
-          scaledWidth = PixelRatio.roundToNearestPixel(
-            width / PixelRatio.get()
-          );
-          scaledHeight = PixelRatio.roundToNearestPixel(
-            height / PixelRatio.get()
-          );
+
+          // don't handle pixel ratio conversion since image fetched has not
+          // been adjusted by shopify filters
+          scaledWidth = this.props.source.uri.includes(SHOPIFY_LIQUID)
+            ? PixelRatio.roundToNearestPixel(width / PixelRatio.get())
+            : width;
+          scaledHeight = this.props.source.uri.includes(SHOPIFY_LIQUID)
+            ? PixelRatio.roundToNearestPixel(height / PixelRatio.get())
+            : height;
 
           (DEBUG || this.props.source.uri === DEBUG_IMAGE)
-            && console.log("SCALED DOWN TO", scaledWidth, scaledHeight);
+            && console.log(
+              "SCALED DOWN TO",
+              scaledWidth,
+              scaledHeight,
+              "WITH RATIO",
+              PixelRatio.get()
+            );
 
           // handle returned image being smaller than needed scaled constraint
-          if (scaledWidth < this.width || scaledHeight < this.height) {
+          if (
+            scaledWidth < this.width
+            || scaledHeight < this.height
+            || !this.props.source.uri.includes(SHOPIFY_LIQUID)
+          ) {
             let ratio;
 
             // first, width constrain respecting aspect
@@ -241,10 +254,10 @@ function imgUrl(src, size) {
   return src.includes(SHOPIFY_LIQUID)
     ? src
         .replace(
-          /_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./g,
+          /_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./gi,
           "."
         )
-        .replace(/\.jpg|\.png|\.gif|\.jpeg/g, function(match) {
+        .replace(/\.jpg|\.png|\.gif|\.jpeg/gi, function(match) {
           return "_" + size + match;
         })
     : src;

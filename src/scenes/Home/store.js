@@ -3,7 +3,12 @@ import { Product } from "localyyz/models";
 import { ApiInstance } from "localyyz/global";
 import { assistantStore } from "localyyz/stores";
 import { box, capitalize, randInt } from "localyyz/helpers";
-import { Sizes } from "localyyz/constants";
+import {
+  Sizes,
+  SEARCH_SUGGESTIONS_FEMALE,
+  SEARCH_SUGGESTIONS_MALE,
+  DEFAULT_BLOCKS
+} from "localyyz/constants";
 
 // third party
 import { observable, action, runInAction, reaction, computed } from "mobx";
@@ -11,11 +16,14 @@ import { Animated, Easing } from "react-native";
 
 const PAGE_LIMIT = 8;
 const PAGE_ONE = 1;
-const SEARCH_DELAY = 1500;
+const SEARCH_DELAY = 2000;
 
 export default class HomeStore {
   constructor() {
     this.api = ApiInstance;
+
+    // bindings
+    this.changeGenderSuggestions = this.changeGenderSuggestions.bind(this);
   }
 
   _listProducts = listData => {
@@ -33,6 +41,16 @@ export default class HomeStore {
           })
       );
   };
+
+  /////////////////////////////////// search suggestion observables
+  @box currentSuggestion = 0;
+  @observable searchSuggestions = SEARCH_SUGGESTIONS_FEMALE;
+
+  @action
+  changeGenderSuggestions(gender) {
+    this.searchSuggestions
+      = gender === "male" ? SEARCH_SUGGESTIONS_MALE : SEARCH_SUGGESTIONS_FEMALE;
+  }
 
   /////////////////////////////////// search observables
 
@@ -118,58 +136,7 @@ export default class HomeStore {
 
   // blocks horizontal scroller and blocks registry
   // all blocks have the following min props: type
-  @observable
-  blocks = [
-    { type: "header" },
-    // {
-    //   type: "photo",
-    //   uri:
-    //     "http://swaysuniverse.com/wp-content/uploads/2017/01/bape-2017-spring-summer-collection-1.jpeg",
-    //   offset: -200
-    // },
-    //{
-    //type: "productList",
-    //id: "today-finds",
-    //title: "Today's finds",
-    //description:
-    //"Hand selected daily for you by our team of fashionistas based on what you've viewed before",
-    //path: "products/curated",
-    //limit: 6
-    //},
-    {
-      type: "brand",
-      id: "brands",
-      brandType: "designers",
-      title: "Brands",
-      description:
-        "Browse the thousands of brands available on the Localyyz app",
-      numBrands: 10000
-    },
-    // {
-    //   type: "photo",
-    //   uri:
-    //     "http://swaysuniverse.com/wp-content/uploads/2017/01/bape-2017-spring-summer-collection-1.jpeg"
-    // },
-    {
-      type: "productList",
-      id: "on-sales",
-      title: "Limited time offers",
-      description:
-        "Watch this space for the hottest promotions and sales posted the minute they're live on Localyyz",
-      path: "products/onsale",
-      limit: 10
-    },
-    {
-      type: "brand",
-      id: "merchants",
-      brandType: "places",
-      shouldShowName: true,
-      title: "Merchants on Localyyz",
-      description:
-        "Browse the hundreds of merchants available on the Localyyz app",
-      numBrands: 100
-    }
-  ];
+  @observable blocks = DEFAULT_BLOCKS;
   @observable currentBlock;
 
   hasFetchedCategory = false;
@@ -217,7 +184,7 @@ export default class HomeStore {
     this.api.get("collections").then(response => {
       if (response.status < 400 && response.data && response.data.length > 0) {
         // first one is always at the top
-        let insertBlockIndex = 1;
+        let insertBlockIndex = 0;
         let blocks = this.filterBlocks(this.blocks.slice(), "collection");
 
         // insert the remaining ones randomly across the block layout
@@ -233,7 +200,9 @@ export default class HomeStore {
           // and immediately after first
           //
           // TODO: don't allow two collections beside each other
-          insertBlockIndex = randInt(blocks.length - 3) + 3;
+          insertBlockIndex
+            = randInt(blocks.length - (insertBlockIndex + 2))
+            + (insertBlockIndex + 2);
         }
 
         // update blocks layout with inserted collections scattered randomly
@@ -324,7 +293,7 @@ export default class HomeStore {
           {
             toValue: Sizes.Height
           },
-          { duration: 500, easing: Easing.in(Easing.ease) }
+          { duration: 500, easing: Easing.out(Easing.ease) }
         ).start();
       } else {
         // header is maximizing --->

@@ -7,6 +7,9 @@ import {
 } from "react-native";
 import { Styles, Sizes, Colours } from "localyyz/constants";
 
+// custom
+import { SloppyView } from "localyyz/components";
+
 // third party
 import { observer, inject } from "mobx-react";
 import * as Animatable from "react-native-animatable";
@@ -135,7 +138,7 @@ export default class BlockSlider extends React.Component {
             <View style={styles.overlayContainer}>
               <TouchableWithoutFeedback
                 onPress={() => this.props.scrollTo(this.prevActualBlock)}>
-                <View style={styles.leftEndcap}>
+                <SloppyView style={styles.leftEndcap}>
                   <LinearGradient
                     colors={[
                       BLOCK_SLIDER_COLOR,
@@ -145,11 +148,11 @@ export default class BlockSlider extends React.Component {
                     start={{ x: 0, y: 1 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.endcaps}/>
-                </View>
+                </SloppyView>
               </TouchableWithoutFeedback>
               <TouchableWithoutFeedback
                 onPress={() => this.props.scrollTo(this.nextActualBlock)}>
-                <View style={styles.rightEndcap}>
+                <SloppyView style={styles.rightEndcap}>
                   <LinearGradient
                     colors={[
                       BLOCK_SLIDER_COLOR,
@@ -159,7 +162,7 @@ export default class BlockSlider extends React.Component {
                     start={{ x: 1, y: 1 }}
                     end={{ x: 0, y: 1 }}
                     style={styles.endcaps}/>
-                </View>
+                </SloppyView>
               </TouchableWithoutFeedback>
             </View>
           </View>
@@ -176,7 +179,7 @@ const styles = StyleSheet.create({
 
   container: {
     marginBottom: Sizes.InnerFrame * 0.7,
-    paddingVertical: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame / 2,
     backgroundColor: BLOCK_SLIDER_COLOR
   },
 

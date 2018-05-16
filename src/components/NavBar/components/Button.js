@@ -47,8 +47,10 @@ export default class Button extends React.Component {
           )}
           <Text style={styles.buttonLabel}>{this.props.label}</Text>
           {this.props.badge ? (
-            <View style={styles.badge}>
-              <Text style={styles.badgeLabel}>{this.props.badge}</Text>
+            <View style={styles.badgeContainer}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeLabel}>{this.props.badge}</Text>
+              </View>
             </View>
           ) : null}
         </SloppyView>
@@ -70,20 +72,25 @@ const styles = StyleSheet.create({
     ...Styles.TabBarText
   },
 
+  badgeContainer: {
+    position: "absolute",
+    left: 0,
+    right: Sizes.InnerFrame / 2,
+    bottom: Sizes.InnerFrame * 2 / 3,
+    alignItems: "flex-end"
+  },
+
   badge: {
     backgroundColor: Colours.Secondary,
     borderRadius: Sizes.InnerFrame,
     paddingVertical: Sizes.InnerFrame / 6,
-    paddingHorizontal: Sizes.InnerFrame / 2,
-    position: "absolute",
-    right: 0,
-    bottom: Sizes.InnerFrame * 2 / 3
+    paddingHorizontal: Sizes.InnerFrame / 3
   },
 
   badgeLabel: {
     ...Styles.Text,
+    ...Styles.TabBarText,
     ...Styles.Emphasized,
-    ...Styles.SmallText,
     ...Styles.Alternate
   }
 });

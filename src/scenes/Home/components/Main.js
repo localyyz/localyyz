@@ -111,7 +111,8 @@ export default class Main extends React.Component {
         break;
       case "collection":
         component = (
-          <View id={i}>
+          <View
+            style={i > 0 ? styles.blockContainer : styles.firstBlockContainer}>
             <Banner
               id={i}
               imageUri={block.imageUrl}
@@ -120,6 +121,7 @@ export default class Main extends React.Component {
               path={block.path}/>
             <Collection
               withMargin
+              noMargin
               hideHeader
               title={block.title}
               description={block.description}
@@ -178,5 +180,13 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: Colours.Background,
     paddingBottom: NAVBAR_HEIGHT
+  },
+
+  blockContainer: {
+    marginVertical: Sizes.InnerFrame / 2
+  },
+
+  firstBlockContainer: {
+    marginBottom: Sizes.InnerFrame / 2
   }
 });
