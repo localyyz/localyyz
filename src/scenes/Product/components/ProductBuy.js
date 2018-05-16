@@ -197,7 +197,8 @@ class ProductBuy extends React.Component {
             <ExplodingButton
               isExploded={this.props.isExploded}
               explode={async () =>
-                onlyIfLoggedIn(
+                this.isInStock
+                && onlyIfLoggedIn(
                   { hasSession },
                   this.props.explode,
                   this.props.navigation
@@ -206,7 +207,7 @@ class ProductBuy extends React.Component {
               shouldExplode={this.props.hasSession && this.isInStock}
               color={Colours.Foreground}
               onPress={() =>
-                this.isInStock ? this._onAdd() : this._onOutOfStock()
+                this.isInStock ? this._onAdd() : this.onOutOfStock()
               }>
               <View style={styles.button}>
                 <MaterialIcon
@@ -221,7 +222,8 @@ class ProductBuy extends React.Component {
             <ExplodingButton
               isExploded={this.props.isExploded}
               explode={async () =>
-                onlyIfLoggedIn(
+                this.isInStock
+                && onlyIfLoggedIn(
                   { hasSession },
                   this.props.explode,
                   this.props.navigation
@@ -230,7 +232,7 @@ class ProductBuy extends React.Component {
               shouldExplode={this.props.hasSession && this.isInStock}
               color={Colours.MenuBackground}
               onPress={() =>
-                this.isInStock ? this._onAdd() : this._onOutOfStock()
+                this.isInStock ? this._onAdd() : this.onOutOfStock()
               }>
               <View style={styles.expressButton}>
                 <MaterialIcon
