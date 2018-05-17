@@ -440,7 +440,7 @@ export default class CartSummaryScene extends React.Component {
               </Text>
               <ExplodingButton
                 ref={this.exploderRef}
-                isExploded={this.isProcessing}
+                isExploded={this.state.isProcessing}
                 shouldToggleNavbar={false}
                 navigation={this.props.navigation}
                 color={Colours.PositiveButton}
