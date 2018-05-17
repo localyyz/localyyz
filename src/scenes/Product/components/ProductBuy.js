@@ -201,6 +201,7 @@ class ProductBuy extends React.Component {
               </View>
             </TouchableOpacity>
             <ExplodingButton
+              navigation={this.props.navigation}
               isExploded={this.props.isExploded}
               explode={async () =>
                 this.isInStock
@@ -226,6 +227,7 @@ class ProductBuy extends React.Component {
         ) : (
           <View style={styles.buttons}>
             <ExplodingButton
+              navigation={this.props.navigation}
               isExploded={this.props.isExploded}
               explode={async () =>
                 this.isInStock

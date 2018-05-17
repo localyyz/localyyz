@@ -37,6 +37,22 @@ class ContentChild extends React.Component {
     backgroundPosition: 0
   };
 
+  constructor(props) {
+    super(props);
+
+    // refs
+    this.scrollRef = React.createRef();
+
+    // bindings
+    this.scrollTo = this.scrollTo.bind(this);
+  }
+
+  scrollTo(y) {
+    this.scrollRef.current
+      && this.scrollRef.current.scrollTo
+      && this.scrollRef.current.scrollTo({ y: y });
+  }
+
   shouldComponentUpdate(nextProps) {
     if (nextProps.backgroundPosition !== this.props.backgroundPosition) {
       return true;
@@ -47,7 +63,7 @@ class ContentChild extends React.Component {
   render() {
     return (
       <ScrollView
-        ref="content"
+        ref={this.scrollRef}
         contentContainerStyle={styles.itemsContainer}
         scrollEventThrottle={16}
         onScroll={this.props.onScroll}>
@@ -99,6 +115,10 @@ export default class CartSummaryScene extends React.Component {
       wasSuccessful: props.navigation.state.params.wasSuccessful
     };
 
+    // refs
+    this.exploderRef = React.createRef();
+    this.contentRef = React.createRef();
+
     // bindings
     this.onBack = this.onBack.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
@@ -145,9 +165,7 @@ export default class CartSummaryScene extends React.Component {
               isProcessing: false
             },
             () => {
-              this.refs.exploder && this.refs.exploder.reset();
-              // TODO
-              //this.refs.content.scrollTo({ y: 0 });
+              this.contentRef.current.scrollTo(0);
             }
           ),
         1000
@@ -421,9 +439,11 @@ export default class CartSummaryScene extends React.Component {
                 }`}
               </Text>
               <ExplodingButton
-                ref="exploder"
-                color={Colours.PositiveButton}
+                ref={this.exploderRef}
+                isExploded={this.isProcessing}
+                shouldToggleNavbar={false}
                 navigation={this.props.navigation}
+                color={Colours.PositiveButton}
                 onPress={() =>
                   this.setState(
                     {
@@ -544,6 +564,7 @@ export default class CartSummaryScene extends React.Component {
             </View>
           }>
           <ContentChild
+            ref={this.contentRef}
             onScroll={event => this.refs.container.onScroll(event)}
             backgroundPosition={this.state.backgroundPosition}>
             {this.renderDetails}
