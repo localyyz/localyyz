@@ -14,6 +14,14 @@ import { observable, action, computed, runInAction } from "mobx";
 // consts
 const DEFAULT_CART = "default";
 
+// constants
+const DEBUG = false;
+const DEBUG_CARD = "4242 4242 4242 4242";
+const DEBUG_CVC = "222";
+const DEBUG_EXPIRY_MONTH = "11";
+const DEBUG_EXPIRY_YEAR = "22";
+const DEBUG_CARDHOLDER = "Johnny Appleseed";
+
 export default class CartStore {
   @observable cart;
   @observable paymentDetails;
@@ -26,7 +34,25 @@ export default class CartStore {
 
   constructor() {
     this._api = ApiInstance;
-    this.paymentDetails = {};
+    this.paymentDetails = DEBUG
+      ? {
+          number: DEBUG_CARD,
+          cvc: DEBUG_CVC,
+          expiry: `${DEBUG_EXPIRY_MONTH}/${DEBUG_EXPIRY_YEAR}`,
+          expiryMonth: DEBUG_EXPIRY_MONTH,
+          expiryYear: DEBUG_EXPIRY_YEAR,
+          name: DEBUG_CARDHOLDER,
+
+          // validity checks
+          nameValid: true,
+          cvcValid: true,
+          expiryValid: true,
+          numberValid: true,
+
+          // aggregated check
+          ready: true
+        }
+      : {};
     this.cart = new Cart({
       id: "default",
       items: []

@@ -1,14 +1,15 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import { Colours, Sizes } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
 import { inject } from "mobx-react";
-import { withNavigation } from "react-navigation";
 import * as Animatable from "react-native-animatable";
 
-@withNavigation
+// constants
+const DEBUG = false;
+
 @inject(stores => ({
   showNavbar: () => stores.navbarStore.show(),
   hideNavbar: () => stores.navbarStore.hide()
@@ -20,6 +21,7 @@ export default class ExplodingButton extends React.Component {
     shouldExplode: PropTypes.bool,
     onPress: PropTypes.func,
     color: PropTypes.string,
+    shouldToggleNavbar: PropTypes.bool,
 
     // state handled by parent
     isExploded: PropTypes.bool,
@@ -32,11 +34,19 @@ export default class ExplodingButton extends React.Component {
 
   static defaultProps = {
     onPress: () => {},
-    isExploded: false
+    shouldExplode: true,
+    shouldToggleNavbar: true
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (!prevState || nextProps.isExploded != prevState.isExploded) {
+    if (
+      nextProps
+      && prevState
+      && nextProps.isExploded != null
+      && nextProps.isExploded != prevState.isExploded
+    ) {
+      DEBUG
+        && console.log("PROPS TRIGGER STATE DERIVATION", nextProps.isExploded);
       return {
         isExploded: nextProps.isExploded
       };
@@ -68,7 +78,7 @@ export default class ExplodingButton extends React.Component {
       && prevState.isExploded != this.state.isExploded
       && !this.state.isExploded
     ) {
-      this.props.showNavbar();
+      this.props.shouldToggleNavbar && this.props.showNavbar();
       this.props.navigation.setParams({ gesturesEnabled: true });
       this.button.fadeIn();
     }
@@ -83,12 +93,16 @@ export default class ExplodingButton extends React.Component {
   }
 
   get exploder() {
-    return this.exploderRef.current || { transitionTo: () => {} };
+    return (
+      this.exploderRef.current || {
+        transitionTo: () => console.log("CAN'T TRANSITION EXPLODER")
+      }
+    );
   }
 
   explode() {
     (this.props.explode || this._explode)()
-      .then(shouldExplode => shouldExplode && this._onPostExplosion())
+      .then(() => this.props.shouldExplode && this._onPostExplosion())
       .then(() => this.props.onPress());
   }
 
@@ -98,13 +112,14 @@ export default class ExplodingButton extends React.Component {
         {
           isExploded: true
         },
-        () => resolve(this.state)
+        () => resolve()
       );
     });
   }
 
   _onPostExplosion() {
-    this.props.hideNavbar();
+    DEBUG && console.log("EXPLODING");
+    this.props.shouldToggleNavbar && this.props.hideNavbar();
     this.props.navigation.setParams({ gesturesEnabled: false });
     this.button.fadeOut(100);
     this.exploder.transitionTo({
@@ -118,6 +133,7 @@ export default class ExplodingButton extends React.Component {
 
   // if state internally managed, then expose reset method
   reset() {
+    DEBUG && console.log("RESETTING INTERNALLY");
     this.setState({ isExploded: false });
   }
 
@@ -132,7 +148,9 @@ export default class ExplodingButton extends React.Component {
               this.props.color && {
                 backgroundColor: this.props.color
               }
-            ]}/>
+            ]}>
+            <StatusBar hidden />
+          </Animatable.View>
         ) : null}
         <Animatable.View ref={this.buttonRef}>
           <TouchableOpacity onPress={() => this.explode()}>
