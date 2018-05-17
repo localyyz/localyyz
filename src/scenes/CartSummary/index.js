@@ -165,10 +165,6 @@ export default class CartSummaryScene extends React.Component {
               isProcessing: false
             },
             () => {
-              this.exploderRef.current
-                && this.exploderRef.current.wrappedInstance
-                && this.exploderRef.current.wrappedInstance.reset();
-
               this.contentRef.current.scrollTo(0);
             }
           ),
@@ -443,18 +439,16 @@ export default class CartSummaryScene extends React.Component {
                 }`}
               </Text>
               <ExplodingButton
-                ref={this.exploderRef}
                 shouldToggleNavbar={false}
                 navigation={this.props.navigation}
                 color={Colours.PositiveButton}
-                onPress={() =>
-                  this.setState(
-                    {
-                      isProcessing: true
-                    },
-                    this.onConfirm
-                  )
-                }>
+                isExploded={this.state.isProcessing}
+                explode={async () =>
+                  this.setState({
+                    isProcessing: true
+                  })
+                }
+                onPress={this.onConfirm}>
                 <View style={[Styles.RoundedButton, styles.paymentButton]}>
                   <UppercasedText style={styles.paymentButtonLabel}>
                     Confirm Payment
