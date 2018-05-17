@@ -4,7 +4,6 @@ import { View, StyleSheet, Animated } from "react-native";
 // custom
 import { Colours, Sizes } from "localyyz/constants";
 import { NavBar, ProductList } from "localyyz/components";
-//import { SearchTagsWrapper } from "./SearchTags";
 
 // third party
 import { observer, inject } from "mobx-react/native";
@@ -46,14 +45,10 @@ export default class SearchResult extends React.Component {
         ) : (
           <Animatable.View animation="fadeIn" style={styles.results}>
             <ProductList
-              style={{
-                paddingBottom: this.state.tagsHeight
-              }}
               onEndReached={this.props.fetchNextPage}
               products={this.props.searchResults.slice()}/>
           </Animatable.View>
         )}
-        {/* TODO: <SearchTagsWrapper /> */}
       </View>
     );
   }

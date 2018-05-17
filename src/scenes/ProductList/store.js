@@ -1,5 +1,4 @@
 import { observable, action, runInAction } from "mobx";
-
 import { Product } from "localyyz/models";
 import { box } from "localyyz/helpers";
 import { ApiInstance } from "localyyz/global";
@@ -12,10 +11,34 @@ class Store {
     this.fetchPath = props.fetchPath;
     this.categories = props.categories;
     this.defaultParams = props.params;
+
+    // unset
+    this.isLoading;
+    this.next;
+    this.self;
+    this.listData;
+
+    // bindings
+    this.reset = this.reset.bind(this);
+    this.fetchNextPage = this.fetchNextPage.bind(this);
+  }
+
+  reset(mergeParams) {
+    this.isLoading = null;
+    this.next = null;
+    this.self = null;
+
+    // merge with old params
+    if (mergeParams) {
+      this.defaultParams = { ...this.defaultParams, ...mergeParams };
+    }
+
+    // and finally refetch
+    this.fetchNextPage();
   }
 
   @action
-  fetchNextPage = async (params = {}) => {
+  async fetchNextPage(params = {}) {
     if (this.isLoading || (this.self && !this.next)) {
       console.log("skip page fetch already loading or reached end");
       return;
@@ -23,7 +46,7 @@ class Store {
     this.isLoading = true;
     const response = await ApiInstance.get(
       (this.next && this.next.url) || `${this.fetchPath}`,
-      { ...params, limit: 8 }
+      { ...this.defaultParams, ...params, limit: 8 }
     );
     runInAction("[ACTION] fetch products", () => {
       if (response && response.data) {
@@ -39,7 +62,7 @@ class Store {
       }
     });
     this.isLoading = false;
-  };
+  }
 }
 
 export default Store;

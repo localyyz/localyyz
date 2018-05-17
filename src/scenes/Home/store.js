@@ -68,29 +68,29 @@ export default class HomeStore {
   _hasNextPage = true;
   @box _processing = false;
 
-  reactSearch = reaction(
-    () => this.searchQuery,
-    searchQuery => {
-      if (searchQuery.length > 0) {
-        // on new search, reset internal values and search result
-        this._next = 1;
-        this._hasNextPage = true;
-        this._processing = false;
-        this.searchResults.clear();
+  reactSearch = reaction(() => this.searchQuery, () => this.reset(), {
+    delay: SEARCH_DELAY
+  });
 
-        // fetch new result
-        this.fetchNextPage();
-      }
-    },
-    { delay: SEARCH_DELAY }
-  );
+  reset = params => {
+    if (this.searchQuery.length > 0) {
+      // on new search, reset internal values and search result
+      this._next = 1;
+      this._hasNextPage = true;
+      this._processing = false;
+      this.searchResults.clear();
+
+      // fetch new result
+      this.fetchNextPage(params);
+    }
+  };
 
   @computed
   get isProcessingQuery() {
     return !!this._processing && this._next === 1;
   }
 
-  fetchNextPage = () => {
+  fetchNextPage = params => {
     if (this._hasNextPage && !this._processing) {
       this._processing = true;
 
@@ -98,7 +98,7 @@ export default class HomeStore {
         .post(
           "search",
           { query: this.searchQuery },
-          { page: this._next, limit: PAGE_LIMIT }
+          { ...params, page: this._next, limit: PAGE_LIMIT }
         )
         .then(response => {
           if (response && response.status < 400 && response.data.length > 0) {

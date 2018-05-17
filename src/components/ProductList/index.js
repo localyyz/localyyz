@@ -17,11 +17,15 @@ import { capitalize } from "localyyz/helpers";
 // third party
 import PropTypes from "prop-types";
 import { withNavigation } from "react-navigation";
+import { inject } from "mobx-react";
 
 // constants
 const SCROLL_THRESHOLD = 100;
 
 @withNavigation
+@inject(stores => ({
+  isFilterSupported: !!stores.filterStore
+}))
 export default class ProductList extends React.Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
@@ -36,6 +40,7 @@ export default class ProductList extends React.Component {
   };
 
   static defaultProps = {
+    paddingBottom: 0,
     products: [],
     onScrollUp: () => {},
     onScrollDown: () => {},
@@ -184,7 +189,9 @@ export default class ProductList extends React.Component {
             },
             {
               marginTop: this.props.headerHeight,
-              paddingBottom: this.props.paddingBottom
+              paddingBottom:
+                this.props.paddingBottom
+                + (this.props.isFilterSupported ? Sizes.OuterFrame : 0)
             }
           ]}
           showsHorizontalScrollIndicator={false}
