@@ -165,6 +165,10 @@ export default class CartSummaryScene extends React.Component {
               isProcessing: false
             },
             () => {
+              this.exploderRef.current
+                && this.exploderRef.current.wrappedInstance
+                && this.exploderRef.current.wrappedInstance.reset();
+
               this.contentRef.current.scrollTo(0);
             }
           ),
@@ -440,7 +444,6 @@ export default class CartSummaryScene extends React.Component {
               </Text>
               <ExplodingButton
                 ref={this.exploderRef}
-                isExploded={this.state.isProcessing}
                 shouldToggleNavbar={false}
                 navigation={this.props.navigation}
                 color={Colours.PositiveButton}
