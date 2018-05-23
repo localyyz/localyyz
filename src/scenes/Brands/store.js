@@ -1,6 +1,8 @@
 // custom
 import { ApiInstance } from "localyyz/global";
 
+import { Product } from "localyyz/models";
+
 // third party
 import { observable, runInAction, computed } from "mobx";
 
@@ -18,6 +20,11 @@ export default class BrandsStore {
     this.isLoading = false;
   }
 
+  // TODO: make brand a MODEL
+  newBrand = brand => {
+    return { ...brand, products: brand.products.map(p => new Product(p)) };
+  };
+
   fetchNextPage() {
     if ((!this.isLoading && this.next) || !this.self) {
       this.isLoading = true;
@@ -29,7 +36,9 @@ export default class BrandsStore {
 
             // data
             runInAction("[ACTION] fetching brands", () => {
-              response.data.forEach(brand => this._brands.push(brand));
+              response.data.forEach(brand => {
+                return this._brands.push(this.newBrand(brand));
+              });
             });
           }
 
@@ -45,7 +54,9 @@ export default class BrandsStore {
       response
         && response.data
         && runInAction("[ACTION] fetching featured", () => {
-          response.data.forEach(brand => this.featured.push(brand));
+          response.data.forEach(brand => {
+            return this._brands.push(this.newBrand(brand));
+          });
         });
     });
   }
