@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+               BuildableName = "localyyz.app"
+               BlueprintName = "localyyz"
+               ReferencedContainer = "container:localyyz.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
                BuildableName = "libReact.a"
                BlueprintName = "React"
@@ -28,10 +42,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "localyyz.app"
-               BlueprintName = "localyyz"
-               ReferencedContainer = "container:localyyz.xcodeproj">
+               BlueprintIdentifier = "58B511DA1A9E6C8500147676"
+               BuildableName = "libReactNativePayments.a"
+               BlueprintName = "ReactNativePayments"
+               ReferencedContainer = "container:../node_modules/react-native-payments/lib/ios/ReactNativePayments.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
