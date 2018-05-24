@@ -18,39 +18,28 @@ default_platform(:ios)
 platform :ios do
   desc "Build and upload staging for testing"
   lane :staging do
-    #get_certificates(
-      #development: false,
-      #username: ENV["APPLE_USERNAME"]
-    #)
-
-    #get_provisioning_profile(
-      #adhoc: true,
-      #username: ENV["APPLE_USERNAME"],
-      #filename: "Staging.mobileprovision",
-      #app_identifier: "org.localyyz.staging"
-    #)
-
     build_ios_app(
       workspace: "./ios/localyyz.xcworkspace",
       scheme: "staging",
-      configuration: "staging",
+      configuration: "Staging",
       silent: true,
       clean: true,
       output_directory: "./ios/build/staging",
       output_name: "localyyz.ipa",
       export_method: "ad-hoc",
-      #skip_profile_detection: true,
-      #export_options: {
-        #method: "ad-hoc",
-        #signingStyle: "manual",
-        #provisioningProfiles: { 
-          #"org.localyyz.dev" => "Development",
-          #"org.localyyz.toronto" => "XC iOS: org.localyyz.toronto",
-          #"org.localyyz.staging" => "Staging"
-        #}
-      #}
-      export_xcargs: "-allowProvisioningUpdates"
-
+      include_bitcode: false,
+      export_options: {
+        method: "ad-hoc",
+        signingStyle: "manual",
+        provisioningProfiles: { 
+          "org.localyyz.dev" => "Development",
+          "org.localyyz.toronto" => "XC iOS: org.localyyz.toronto",
+          "org.localyyz.staging" => "Staging"
+        },
+        uploadBitcode: false,
+        uploadSymbols: true,
+        compileBitcode: false
+      }
     )
 
     appcenter_upload(
@@ -60,7 +49,6 @@ platform :ios do
       ipa: "./ios/build/staging/localyyz.ipa",
       group: "Collaborators",
     )
-    
   end
 
   lane :build do |options|
