@@ -1,0 +1,39 @@
+# Localyyz App
+---
+version: 0.5
+
+env:
+  NAME: localyyz
+
+networks:
+  local:
+    env:
+      ENV: localhost
+    hosts:
+      - localhost
+  staging:
+    env:
+      ENV: staging
+    hosts:
+      - localhost
+
+commands:
+  codepush-ios:
+    desc: release ios via codepush
+    local: >
+      appcenter codepush release-react -d Production --app Localyyz/Localyyz-iOS
+  
+  codepush-android:
+    desc: release android via codepush
+    local: >
+      appcenter codepush release-react -d Production --app Localyyz/Localyyz-Android
+  
+  release:
+    desc: release build to environment
+    local: >
+      bundle exec fastlane $SUP_NETWORK
+
+targets:
+  deploy-ios:
+    - codepush-ios
+    - codepush-android
