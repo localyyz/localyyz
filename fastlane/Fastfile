@@ -16,8 +16,17 @@
 default_platform(:ios)
 
 platform :ios do
+  before_all do
+    skip_docs
+  end
+
   desc "Build and upload staging for testing"
   lane :staging do
+    ensure_git_branch(
+      branch: "staging"
+    )
+    ensure_git_status_clean()
+  
     build_ios_app(
       workspace: "./ios/localyyz.xcworkspace",
       scheme: "staging",
@@ -48,6 +57,7 @@ platform :ios do
       app_name: "Localyyz-iOS",
       ipa: "./ios/build/staging/localyyz.ipa",
       group: "Collaborators",
+      release_notes: sh("cat ./staging_CHANGELOG.md"),
     )
   end
 
