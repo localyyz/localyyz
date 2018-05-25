@@ -13,7 +13,7 @@ import { UppercasedText, SloppyView } from "localyyz/components";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 
 import * as Animatable from "react-native-animatable";

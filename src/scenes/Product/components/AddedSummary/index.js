@@ -15,7 +15,7 @@ import { RelatedItem } from "./components";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import * as Animatable from "react-native-animatable";
 import LinearGradient from "react-native-linear-gradient";

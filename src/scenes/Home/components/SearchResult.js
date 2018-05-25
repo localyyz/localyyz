@@ -7,7 +7,7 @@ import { NavBar, ProductList } from "localyyz/components";
 //import { SearchTagsWrapper } from "./SearchTags";
 
 // third party
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({

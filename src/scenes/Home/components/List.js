@@ -6,10 +6,10 @@ import { Colours, Sizes } from "localyyz/constants";
 import { StaggeredList, ProductTile } from "localyyz/components";
 
 // third party
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
-import { PropTypes as mobxPropTypes } from "mobx-react";
+import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
 // local
 import ListHeader from "./ListHeader";

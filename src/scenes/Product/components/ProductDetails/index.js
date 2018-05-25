@@ -8,7 +8,7 @@ import { ExpandedDescription, SizeChart, UsedIndicator } from "./components";
 // third party
 import PropTypes from "prop-types";
 import { withNavigation } from "react-navigation";
-import { observer, inject, Provider } from "mobx-react";
+import { observer, inject, Provider } from "mobx-react/native";
 
 @withNavigation
 @inject(stores => ({

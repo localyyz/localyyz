@@ -4,7 +4,7 @@ import { Colours, Sizes } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 import PhotoView from "react-native-photo-view";
 import LinearGradient from "react-native-linear-gradient";

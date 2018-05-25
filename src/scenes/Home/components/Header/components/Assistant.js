@@ -8,7 +8,7 @@ import { Assistant } from "localyyz/components";
 
 // third party
 import { action, observable, computed, reaction } from "mobx";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 const AssistantHeaderGreeting = name => `Welcome back, ${name}!`;
 const AssistantHeaderHelp = "I'm here to help you find something cool today ✨";

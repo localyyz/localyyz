@@ -6,7 +6,7 @@ import { NAVBAR_HEIGHT, Colours, Sizes } from "localyyz/constants";
 import { ReactiveSpacer } from "localyyz/components";
 
 // third party
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 // local
 import { Banner, Collection, Brands } from "../blocks";

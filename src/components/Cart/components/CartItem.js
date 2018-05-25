@@ -18,7 +18,7 @@ import { LiquidImage, UppercasedText, SloppyView } from "localyyz/components";
 import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
 import { withNavigation } from "react-navigation";
-import { inject } from "mobx-react";
+import { inject } from "mobx-react/native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
 // cart photo sizes

@@ -6,7 +6,7 @@ import { Sizes } from "localyyz/constants";
 import { ConstrainedAspectImage } from "localyyz/components";
 
 // third party
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 
 // local
 import { List } from "../../../components";

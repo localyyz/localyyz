@@ -3,7 +3,7 @@ import { View, StyleSheet, TextInput } from "react-native";
 import { Styles, Sizes, Colours } from "localyyz/constants";
 
 // third party
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 
 @inject(stores => ({
   searchQuery: stores.homeStore.searchQuery,

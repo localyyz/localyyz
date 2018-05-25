@@ -14,7 +14,7 @@ import { capitalize } from "localyyz/helpers";
 
 // third party
 import { withNavigation } from "react-navigation";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 @withNavigation
 @inject(stores => ({

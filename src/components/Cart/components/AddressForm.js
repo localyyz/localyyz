@@ -23,7 +23,7 @@ import CartField from "./CartField";
 import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { inject } from "mobx-react";
+import { inject } from "mobx-react/native";
 
 // constants
 const PLACEHOLDER_US = {

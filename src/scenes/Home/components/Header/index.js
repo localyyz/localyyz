@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 // third party
-import { inject } from "mobx-react";
+import { inject } from "mobx-react/native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import * as Animatable from "react-native-animatable";
 

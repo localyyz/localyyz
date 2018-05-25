@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
 import LinearGradient from "react-native-linear-gradient";
 import { ifIphoneX } from "react-native-iphone-x-helper";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 // pullup snappers (all numbers from the top)
 export const PULLUP_FULL_SPAN = Sizes.InnerFrame * 6;

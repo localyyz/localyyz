@@ -5,7 +5,7 @@ import { View, StyleSheet, StatusBar } from "react-native";
 import { NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
-import { observer, Provider } from "mobx-react";
+import { observer, Provider } from "mobx-react/native";
 
 // local
 import { Main, Header, Search } from "./components";

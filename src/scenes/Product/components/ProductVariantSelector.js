@@ -7,7 +7,7 @@ import { SloppyView } from "localyyz/components";
 
 // third party
 import PropTypes from "prop-types";
-import { inject } from "mobx-react";
+import { inject } from "mobx-react/native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 

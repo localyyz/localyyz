@@ -14,7 +14,7 @@ import { ApiInstance } from "localyyz/global";
 import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 
 // third party
-import { observer, Provider } from "mobx-react";
+import { observer, Provider } from "mobx-react/native";
 import codePush from "react-native-code-push";
 import DeviceInfo from "react-native-device-info";
 

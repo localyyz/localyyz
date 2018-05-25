@@ -8,7 +8,7 @@ import { Colours, Sizes } from "localyyz/constants";
 // third party
 import { withNavigation } from "react-navigation";
 import { observable } from "mobx";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 import { lazyObservable } from "mobx-utils";
 
 // local

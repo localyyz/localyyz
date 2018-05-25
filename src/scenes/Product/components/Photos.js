@@ -12,7 +12,7 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 import { ConstrainedAspectImage } from "localyyz/components";
 
 // third party
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 // constants

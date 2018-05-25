@@ -13,7 +13,7 @@ import { onlyIfLoggedIn } from "localyyz/helpers";
 // third party
 import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
-import { inject, observer, Provider } from "mobx-react";
+import { inject, observer, Provider } from "mobx-react/native";
 
 // offset tabbar
 export const NAVBAR_HEIGHT

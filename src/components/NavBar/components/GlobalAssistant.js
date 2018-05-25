@@ -7,7 +7,11 @@ import { Colours, Sizes } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer, PropTypes as mobxPropTypes } from "mobx-react";
+import {
+  inject,
+  observer,
+  PropTypes as mobxPropTypes
+} from "mobx-react/native";
 import { queueProcessor } from "mobx-utils";
 import { BlurView } from "react-native-blur";
 import * as Animatable from "react-native-animatable";

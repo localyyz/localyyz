@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // third party
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
 @inject(stores => ({

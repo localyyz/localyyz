@@ -7,7 +7,7 @@ import { ProductList, MoreTile } from "localyyz/components";
 
 // third party
 import { withNavigation } from "react-navigation";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
 @withNavigation

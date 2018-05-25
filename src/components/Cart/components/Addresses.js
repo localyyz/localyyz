@@ -11,7 +11,11 @@ import CartHeader from "./CartHeader";
 // third party
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { inject, observer, PropTypes as mobxPropTypes } from "mobx-react";
+import {
+  inject,
+  observer,
+  PropTypes as mobxPropTypes
+} from "mobx-react/native";
 
 @inject(stores => ({
   addresses: stores.addressStore.addresses,

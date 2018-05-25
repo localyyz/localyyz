@@ -4,7 +4,7 @@ import { TouchableWithoutFeedback, StyleSheet } from "react-native";
 // third party
 import { BlurView } from "localyyz/components";
 import * as Animatable from "react-native-animatable";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
 // local

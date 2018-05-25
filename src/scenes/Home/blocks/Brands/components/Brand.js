@@ -8,7 +8,7 @@ import { capitalize } from "localyyz/helpers";
 
 // third party
 import { withNavigation } from "react-navigation";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 
 @withNavigation
 @observer

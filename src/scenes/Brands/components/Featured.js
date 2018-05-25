@@ -6,7 +6,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import Brand from "../../Home/blocks/Brands/components/Brand";
 
 // third party
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 @inject(stores => ({
   fetchFeatured: () => stores.brandsStore.fetchFeatured(),
