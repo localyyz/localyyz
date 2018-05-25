@@ -5,6 +5,7 @@
   "devDependencies": {
     "appcenter-cli": "^1.0.16",
     "babel-eslint": "^8.2.2",
+    "babel-jest": "^23.0.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "code-push-cli": "^2.1.8",
     "eslint": "^4.19.1",
@@ -27,11 +28,25 @@
   },
   "xcodeSchemes": {
     "Debug": [],
-    "Release": ["Staging"],
+    "Release": [
+      "Staging"
+    ],
     "projectDirectory": "iOS"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "collectCoverage": true,
+    "coverageDirectory": "__coverage__",
+    "transform": {
+      "^.+\\.js?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|react-navigation)/"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "setupFiles": ["./src/jestsetup.js"]
   },
   "dependencies": {
     "axios": "^0.18.0",

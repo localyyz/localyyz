@@ -1,0 +1,2889 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1527205882781" clover="3.2.0">
+  <project timestamp="1527205882781" name="All files">
+    <metrics statements="2273" coveredstatements="451" conditionals="2077" coveredconditionals="84" methods="1029" coveredmethods="120" elements="5379" coveredelements="655" complexity="0" loc="2273" ncloc="2273" packages="64" files="139" classes="139">
+      <package name="src">
+        <metrics statements="49" coveredstatements="36" conditionals="19" coveredconditionals="8" methods="20" coveredmethods="18"/>
+        <file name="App.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/App.js">
+          <metrics statements="40" coveredstatements="27" conditionals="19" coveredconditionals="8" methods="14" coveredmethods="12"/>
+          <line num="35" count="1" type="stmt"/>
+          <line num="37" count="1" type="stmt"/>
+          <line num="48" count="3" type="stmt"/>
+          <line num="55" count="1" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="71" count="1" type="stmt"/>
+          <line num="83" count="1" type="stmt"/>
+          <line num="92" count="8" type="stmt"/>
+          <line num="102" count="1" type="stmt"/>
+          <line num="103" count="1" type="stmt"/>
+          <line num="108" count="1" type="stmt"/>
+          <line num="112" count="1" type="stmt"/>
+          <line num="119" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="120" count="1" type="stmt"/>
+          <line num="123" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="124" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="125" count="0" type="stmt"/>
+          <line num="131" count="0" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="143" count="1" type="stmt"/>
+          <line num="147" count="1" type="stmt"/>
+          <line num="149" count="1" type="stmt"/>
+          <line num="159" count="1" type="stmt"/>
+          <line num="163" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="164" count="0" type="stmt"/>
+          <line num="167" count="2" type="stmt"/>
+          <line num="173" count="2" type="stmt"/>
+          <line num="191" count="4" type="stmt"/>
+          <line num="192" count="4" type="stmt"/>
+          <line num="195" count="4" type="cond" truecount="1" falsecount="1"/>
+          <line num="196" count="4" type="stmt"/>
+          <line num="205" count="4" type="stmt"/>
+          <line num="207" count="4" type="cond" truecount="1" falsecount="1"/>
+          <line num="208" count="4" type="stmt"/>
+          <line num="211" count="0" type="stmt"/>
+          <line num="212" count="0" type="stmt"/>
+          <line num="214" count="0" type="stmt"/>
+          <line num="219" count="0" type="stmt"/>
+          <line num="220" count="0" type="stmt"/>
+          <line num="225" count="0" type="stmt"/>
+        </file>
+        <file name="jestsetup.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/jestsetup.js">
+          <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+          <line num="1" count="2" type="stmt"/>
+          <line num="2" count="1" type="stmt"/>
+          <line num="3" count="1" type="stmt"/>
+          <line num="21" count="1" type="stmt"/>
+          <line num="24" count="2" type="stmt"/>
+          <line num="25" count="2" type="stmt"/>
+          <line num="26" count="1" type="stmt"/>
+          <line num="31" count="2" type="stmt"/>
+          <line num="32" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.assets">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/assets/index.js">
+          <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="7" count="1" type="stmt"/>
+          <line num="8" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="10" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.assets.appIcon">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="logo.png" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/assets/appIcon/logo.png">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="1" count="1" type="stmt"/>
+        </file>
+        <file name="navLogo.png" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/assets/appIcon/navLogo.png">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="1" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.assets.icons">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="apple-pay.png" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/assets/icons/apple-pay.png">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="1" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.assets.images">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="monogram.jpg" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/assets/images/monogram.jpg">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="1" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.components.Assistant">
+        <metrics statements="62" coveredstatements="3" conditionals="48" coveredconditionals="0" methods="26" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Assistant/index.js">
+          <metrics statements="62" coveredstatements="3" conditionals="48" coveredconditionals="0" methods="26" coveredmethods="0"/>
+          <line num="13" count="2" type="stmt"/>
+          <line num="14" count="2" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="44" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="59" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="73" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="75" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="89" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="92" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="97" count="0" type="stmt"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="101" count="0" type="stmt"/>
+          <line num="106" count="0" type="stmt"/>
+          <line num="111" count="0" type="stmt"/>
+          <line num="117" count="0" type="stmt"/>
+          <line num="118" count="0" type="stmt"/>
+          <line num="119" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="125" count="0" type="stmt"/>
+          <line num="126" count="0" type="stmt"/>
+          <line num="127" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="128" count="0" type="stmt"/>
+          <line num="132" count="0" type="stmt"/>
+          <line num="133" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="134" count="0" type="stmt"/>
+          <line num="137" count="0" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="142" count="0" type="stmt"/>
+          <line num="143" count="0" type="stmt"/>
+          <line num="145" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="146" count="0" type="stmt"/>
+          <line num="149" count="0" type="stmt"/>
+          <line num="153" count="0" type="stmt"/>
+          <line num="155" count="0" type="stmt"/>
+          <line num="159" count="0" type="stmt"/>
+          <line num="164" count="0" type="stmt"/>
+          <line num="166" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="172" count="0" type="stmt"/>
+          <line num="175" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="177" count="0" type="stmt"/>
+          <line num="180" count="0" type="stmt"/>
+          <line num="207" count="0" type="cond" truecount="0" falsecount="6"/>
+          <line num="210" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.Assistant.components">
+        <metrics statements="26" coveredstatements="4" conditionals="32" coveredconditionals="0" methods="14" coveredmethods="0"/>
+        <file name="Dots.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Assistant/components/Dots.js">
+          <metrics statements="12" coveredstatements="2" conditionals="4" coveredconditionals="0" methods="7" coveredmethods="0"/>
+          <line num="5" count="2" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="67" count="2" type="stmt"/>
+        </file>
+        <file name="Message.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Assistant/components/Message.js">
+          <metrics statements="14" coveredstatements="2" conditionals="28" coveredconditionals="0" methods="7" coveredmethods="0"/>
+          <line num="12" count="2" type="stmt"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="49" count="0" type="stmt"/>
+          <line num="53" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="56" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="90" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.Badge">
+        <metrics statements="2" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Badge/index.js">
+          <metrics statements="2" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="10" count="0" type="stmt"/>
+          <line num="43" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.Badge.variants">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <file name="DiscountBadge.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Badge/variants/DiscountBadge.js">
+          <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="9" count="0" type="stmt"/>
+        </file>
+        <file name="VerifiedBadge.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Badge/variants/VerifiedBadge.js">
+          <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="9" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.BlurView">
+        <metrics statements="2" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/BlurView/index.js">
+          <metrics statements="2" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="18" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.Cart">
+        <metrics statements="7" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/index.js">
+          <metrics statements="7" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="55" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="88" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.Cart.components">
+        <metrics statements="246" coveredstatements="19" conditionals="265" coveredconditionals="0" methods="111" coveredmethods="0"/>
+        <file name="Address.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/Address.js">
+          <metrics statements="5" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="59" count="2" type="stmt"/>
+        </file>
+        <file name="AddressForm.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/AddressForm.js">
+          <metrics statements="90" coveredstatements="6" conditionals="88" coveredconditionals="0" methods="28" coveredmethods="0"/>
+          <line num="29" count="2" type="stmt"/>
+          <line num="36" count="2" type="stmt"/>
+          <line num="44" count="2" type="stmt"/>
+          <line num="45" count="2" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="49" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="84" count="0" type="stmt"/>
+          <line num="85" count="0" type="stmt"/>
+          <line num="90" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="95" count="0" type="stmt"/>
+          <line num="106" count="0" type="stmt"/>
+          <line num="117" count="0" type="stmt"/>
+          <line num="118" count="0" type="stmt"/>
+          <line num="119" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="120" count="0" type="cond" truecount="0" falsecount="7"/>
+          <line num="122" count="0" type="stmt"/>
+          <line num="125" count="0" type="stmt"/>
+          <line num="126" count="0" type="stmt"/>
+          <line num="128" count="0" type="stmt"/>
+          <line num="131" count="0" type="stmt"/>
+          <line num="134" count="0" type="stmt"/>
+          <line num="135" count="0" type="stmt"/>
+          <line num="137" count="0" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="141" count="0" type="stmt"/>
+          <line num="142" count="0" type="stmt"/>
+          <line num="144" count="0" type="stmt"/>
+          <line num="145" count="0" type="stmt"/>
+          <line num="153" count="0" type="stmt"/>
+          <line num="154" count="0" type="stmt"/>
+          <line num="157" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="161" count="0" type="stmt"/>
+          <line num="162" count="0" type="stmt"/>
+          <line num="170" count="0" type="stmt"/>
+          <line num="174" count="0" type="stmt"/>
+          <line num="175" count="0" type="stmt"/>
+          <line num="179" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="181" count="0" type="stmt"/>
+          <line num="191" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="192" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="195" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="196" count="0" type="stmt"/>
+          <line num="197" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="198" count="0" type="stmt"/>
+          <line num="199" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="200" count="0" type="stmt"/>
+          <line num="201" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="202" count="0" type="stmt"/>
+          <line num="208" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="209" count="0" type="stmt"/>
+          <line num="216" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="218" count="0" type="stmt"/>
+          <line num="220" count="0" type="stmt"/>
+          <line num="224" count="0" type="stmt"/>
+          <line num="228" count="0" type="stmt"/>
+          <line num="235" count="0" type="stmt"/>
+          <line num="239" count="0" type="stmt"/>
+          <line num="244" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="246" count="0" type="stmt"/>
+          <line num="248" count="0" type="stmt"/>
+          <line num="250" count="0" type="stmt"/>
+          <line num="255" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="257" count="0" type="stmt"/>
+          <line num="259" count="0" type="stmt"/>
+          <line num="261" count="0" type="stmt"/>
+          <line num="266" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="268" count="0" type="stmt"/>
+          <line num="270" count="0" type="stmt"/>
+          <line num="272" count="0" type="stmt"/>
+          <line num="277" count="0" type="stmt"/>
+          <line num="329" count="0" type="stmt"/>
+          <line num="354" count="0" type="stmt"/>
+          <line num="365" count="0" type="stmt"/>
+          <line num="377" count="0" type="stmt"/>
+          <line num="390" count="0" type="stmt"/>
+          <line num="413" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="414" count="0" type="stmt"/>
+          <line num="415" count="0" type="stmt"/>
+          <line num="416" count="0" type="stmt"/>
+          <line num="417" count="0" type="stmt"/>
+          <line num="422" count="0" type="stmt"/>
+          <line num="426" count="2" type="stmt"/>
+          <line num="445" count="2" type="stmt"/>
+        </file>
+        <file name="Addresses.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/Addresses.js">
+          <metrics statements="28" coveredstatements="1" conditionals="25" coveredconditionals="0" methods="22" coveredmethods="0"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="72" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="98" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="114" count="0" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="128" count="0" type="stmt"/>
+          <line num="135" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="139" count="0" type="stmt"/>
+          <line num="157" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="161" count="0" type="stmt"/>
+          <line num="179" count="0" type="stmt"/>
+          <line num="182" count="0" type="stmt"/>
+          <line num="187" count="0" type="stmt"/>
+          <line num="192" count="0" type="stmt"/>
+          <line num="198" count="0" type="stmt"/>
+          <line num="214" count="0" type="stmt"/>
+          <line num="216" count="0" type="stmt"/>
+          <line num="244" count="2" type="stmt"/>
+        </file>
+        <file name="CartAction.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/CartAction.js">
+          <metrics statements="13" coveredstatements="2" conditionals="7" coveredconditionals="0" methods="6" coveredmethods="0"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="49" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="62" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="63" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="124" count="2" type="stmt"/>
+        </file>
+        <file name="CartField.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/CartField.js">
+          <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="62" count="2" type="stmt"/>
+        </file>
+        <file name="CartHeader.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/CartHeader.js">
+          <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="32" count="2" type="stmt"/>
+        </file>
+        <file name="CartHeaderSummary.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/CartHeaderSummary.js">
+          <metrics statements="5" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+          <line num="9" count="0" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="50" count="2" type="stmt"/>
+        </file>
+        <file name="CartItem.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/CartItem.js">
+          <metrics statements="23" coveredstatements="3" conditionals="18" coveredconditionals="0" methods="14" coveredmethods="0"/>
+          <line num="25" count="2" type="stmt"/>
+          <line num="26" count="2" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="179" count="2" type="stmt"/>
+        </file>
+        <file name="CartItems.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/CartItems.js">
+          <metrics statements="6" coveredstatements="1" conditionals="9" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="10" count="0" type="stmt"/>
+          <line num="25" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="55" count="2" type="stmt"/>
+        </file>
+        <file name="CartSummary.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/CartSummary.js">
+          <metrics statements="3" coveredstatements="1" conditionals="24" coveredconditionals="0" methods="2" coveredmethods="0"/>
+          <line num="9" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="152" count="2" type="stmt"/>
+        </file>
+        <file name="PaymentMethods.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/Cart/components/PaymentMethods.js">
+          <metrics statements="69" coveredstatements="1" conditionals="92" coveredconditionals="0" methods="25" coveredmethods="0"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="94" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="98" count="0" type="stmt"/>
+          <line num="99" count="0" type="stmt"/>
+          <line num="112" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="116" count="0" type="stmt"/>
+          <line num="127" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="131" count="0" type="stmt"/>
+          <line num="144" count="0" type="stmt"/>
+          <line num="150" count="0" type="stmt"/>
+          <line num="151" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="152" count="0" type="stmt"/>
+          <line num="155" count="0" type="stmt"/>
+          <line num="156" count="0" type="stmt"/>
+          <line num="164" count="0" type="stmt"/>
+          <line num="166" count="0" type="stmt"/>
+          <line num="205" count="0" type="stmt"/>
+          <line num="227" count="0" type="stmt"/>
+          <line num="250" count="0" type="stmt"/>
+          <line num="273" count="0" type="stmt"/>
+          <line num="314" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="315" count="0" type="stmt"/>
+          <line num="316" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="317" count="0" type="stmt"/>
+          <line num="318" count="0" type="stmt"/>
+          <line num="319" count="0" type="stmt"/>
+          <line num="320" count="0" type="stmt"/>
+          <line num="322" count="0" type="stmt"/>
+          <line num="323" count="0" type="stmt"/>
+          <line num="324" count="0" type="stmt"/>
+          <line num="326" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="327" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="330" count="0" type="stmt"/>
+          <line num="331" count="0" type="stmt"/>
+          <line num="334" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="337" count="0" type="stmt"/>
+          <line num="341" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="342" count="0" type="stmt"/>
+          <line num="352" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="356" count="0" type="stmt"/>
+          <line num="360" count="0" type="stmt"/>
+          <line num="365" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="366" count="0" type="stmt"/>
+          <line num="375" count="2" type="stmt"/>
+          <line num="428" count="0" type="stmt"/>
+          <line num="429" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="430" count="0" type="stmt"/>
+          <line num="435" count="0" type="stmt"/>
+          <line num="436" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="437" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.ConstrainedAspectImage">
+        <metrics statements="51" coveredstatements="3" conditionals="101" coveredconditionals="0" methods="17" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/ConstrainedAspectImage/index.js">
+          <metrics statements="51" coveredstatements="3" conditionals="101" coveredconditionals="0" methods="17" coveredmethods="0"/>
+          <line num="8" count="2" type="stmt"/>
+          <line num="11" count="2" type="stmt"/>
+          <line num="14" count="2" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="44" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="47" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="60" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="68" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="72" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="85" count="0" type="stmt"/>
+          <line num="89" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="96" count="0" type="stmt"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="111" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="116" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="119" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="123" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="133" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="141" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="142" count="0" type="stmt"/>
+          <line num="143" count="0" type="stmt"/>
+          <line num="144" count="0" type="stmt"/>
+          <line num="148" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="149" count="0" type="stmt"/>
+          <line num="150" count="0" type="stmt"/>
+          <line num="151" count="0" type="stmt"/>
+          <line num="154" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="163" count="0" type="stmt"/>
+          <line num="171" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="180" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="181" count="0" type="stmt"/>
+          <line num="183" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="184" count="0" type="stmt"/>
+          <line num="186" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="193" count="0" type="stmt"/>
+          <line num="202" count="0" type="cond" truecount="0" falsecount="9"/>
+          <line num="216" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="225" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="227" count="0" type="stmt"/>
+          <line num="231" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="240" count="0" type="stmt"/>
+          <line num="259" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="260" count="0" type="stmt"/>
+          <line num="261" count="0" type="stmt"/>
+          <line num="280" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="287" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.ContentCoverSlider">
+        <metrics statements="18" coveredstatements="5" conditionals="44" coveredconditionals="0" methods="9" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/ContentCoverSlider/index.js">
+          <metrics statements="18" coveredstatements="5" conditionals="44" coveredconditionals="0" methods="9" coveredmethods="0"/>
+          <line num="17" count="2" type="stmt"/>
+          <line num="18" count="2" type="stmt"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="26" count="2" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="44" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="50" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="129" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="131" count="0" type="stmt"/>
+          <line num="148" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="150" count="0" type="stmt"/>
+          <line num="164" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.ExplodingButton">
+        <metrics statements="40" coveredstatements="2" conditionals="33" coveredconditionals="0" methods="23" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/ExplodingButton/index.js">
+          <metrics statements="40" coveredstatements="2" conditionals="33" coveredconditionals="0" methods="23" coveredmethods="0"/>
+          <line num="11" count="2" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="48" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="76" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="81" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="92" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="96" count="0" type="stmt"/>
+          <line num="98" count="0" type="stmt"/>
+          <line num="104" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="105" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="106" count="0" type="stmt"/>
+          <line num="110" count="0" type="stmt"/>
+          <line num="111" count="0" type="stmt"/>
+          <line num="115" count="0" type="stmt"/>
+          <line num="121" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="122" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="124" count="0" type="stmt"/>
+          <line num="125" count="0" type="stmt"/>
+          <line num="136" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="137" count="0" type="stmt"/>
+          <line num="141" count="0" type="stmt"/>
+          <line num="156" count="0" type="stmt"/>
+          <line num="165" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.InputField">
+        <metrics statements="9" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/InputField/index.js">
+          <metrics statements="9" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="10" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="52" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.LiquidImage">
+        <metrics statements="26" coveredstatements="1" conditionals="42" coveredconditionals="0" methods="11" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/LiquidImage/index.js">
+          <metrics statements="26" coveredstatements="1" conditionals="42" coveredconditionals="0" methods="11" coveredmethods="0"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="63" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="84" count="0" type="stmt"/>
+          <line num="86" count="0" type="stmt"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="94" count="0" type="cond" truecount="0" falsecount="7"/>
+          <line num="120" count="2" type="stmt"/>
+          <line num="125" count="0" type="stmt"/>
+          <line num="126" count="0" type="stmt"/>
+          <line num="128" count="0" type="stmt"/>
+          <line num="132" count="0" type="stmt"/>
+          <line num="139" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.MoreTile">
+        <metrics statements="2" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/MoreTile/index.js">
+          <metrics statements="2" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="30" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.NavBar">
+        <metrics statements="63" coveredstatements="25" conditionals="47" coveredconditionals="3" methods="22" coveredmethods="6"/>
+        <file name="cartUiStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/NavBar/cartUiStore.js">
+          <metrics statements="44" coveredstatements="15" conditionals="30" coveredconditionals="0" methods="12" coveredmethods="2"/>
+          <line num="13" count="2" type="stmt"/>
+          <line num="14" count="2" type="stmt"/>
+          <line num="15" count="2" type="stmt"/>
+          <line num="16" count="2" type="stmt"/>
+          <line num="34" count="1" type="stmt"/>
+          <line num="35" count="1" type="stmt"/>
+          <line num="36" count="1" type="stmt"/>
+          <line num="37" count="1" type="stmt"/>
+          <line num="38" count="1" type="stmt"/>
+          <line num="39" count="1" type="stmt"/>
+          <line num="40" count="1" type="stmt"/>
+          <line num="41" count="1" type="stmt"/>
+          <line num="42" count="1" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="58" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="59" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="65" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="86" count="1" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="98" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="106" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="107" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="111" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="112" count="0" type="stmt"/>
+          <line num="113" count="0" type="stmt"/>
+          <line num="114" count="0" type="stmt"/>
+          <line num="117" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="118" count="0" type="stmt"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="122" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="124" count="0" type="stmt"/>
+          <line num="131" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="132" count="0" type="stmt"/>
+          <line num="141" count="0" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/NavBar/index.js">
+          <metrics statements="19" coveredstatements="10" conditionals="17" coveredconditionals="3" methods="10" coveredmethods="4"/>
+          <line num="20" count="2" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="47" count="1" type="stmt"/>
+          <line num="48" count="1" type="stmt"/>
+          <line num="54" count="1" type="stmt"/>
+          <line num="55" count="1" type="stmt"/>
+          <line num="58" count="1" type="stmt"/>
+          <line num="62" count="1" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="75" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="81" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="85" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="86" count="0" type="stmt"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="94" count="1" type="stmt"/>
+          <line num="120" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.NavBar.components">
+        <metrics statements="104" coveredstatements="40" conditionals="85" coveredconditionals="11" methods="53" coveredmethods="17"/>
+        <file name="Button.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/NavBar/components/Button.js">
+          <metrics statements="3" coveredstatements="3" conditionals="6" coveredconditionals="4" methods="2" coveredmethods="2"/>
+          <line num="30" count="3" type="cond" truecount="1" falsecount="1"/>
+          <line num="34" count="3" type="stmt"/>
+          <line num="62" count="2" type="stmt"/>
+        </file>
+        <file name="GlobalAssistant.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/NavBar/components/GlobalAssistant.js">
+          <metrics statements="29" coveredstatements="12" conditionals="32" coveredconditionals="2" methods="12" coveredmethods="5"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="26" count="1" type="stmt"/>
+          <line num="28" count="1" type="stmt"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+          <line num="44" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="45" count="1" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="56" count="1" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="60" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="73" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="78" count="1" type="stmt"/>
+          <line num="80" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="85" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="86" count="0" type="stmt"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="104" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="147" count="1" type="stmt"/>
+          <line num="149" count="0" type="cond" truecount="0" falsecount="6"/>
+          <line num="152" count="1" type="stmt"/>
+        </file>
+        <file name="Pullup.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/NavBar/components/Pullup.js">
+          <metrics statements="53" coveredstatements="17" conditionals="41" coveredconditionals="1" methods="24" coveredmethods="5"/>
+          <line num="20" count="2" type="stmt"/>
+          <line num="21" count="2" type="stmt"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="23" count="2" type="stmt"/>
+          <line num="28" count="2" type="stmt"/>
+          <line num="29" count="6" type="stmt"/>
+          <line num="33" count="1" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="68" count="1" type="stmt"/>
+          <line num="69" count="1" type="stmt"/>
+          <line num="78" count="1" type="stmt"/>
+          <line num="79" count="1" type="stmt"/>
+          <line num="80" count="1" type="stmt"/>
+          <line num="85" count="1" type="stmt"/>
+          <line num="89" count="1" type="stmt"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="94" count="1" type="stmt"/>
+          <line num="95" count="0" type="stmt"/>
+          <line num="96" count="0" type="stmt"/>
+          <line num="100" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="111" count="0" type="stmt"/>
+          <line num="112" count="0" type="stmt"/>
+          <line num="117" count="0" type="stmt"/>
+          <line num="122" count="0" type="stmt"/>
+          <line num="125" count="0" type="stmt"/>
+          <line num="130" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="137" count="0" type="stmt"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="147" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="148" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="154" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="155" count="0" type="stmt"/>
+          <line num="164" count="0" type="stmt"/>
+          <line num="169" count="0" type="stmt"/>
+          <line num="173" count="0" type="stmt"/>
+          <line num="174" count="0" type="stmt"/>
+          <line num="175" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="180" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="184" count="1" type="stmt"/>
+          <line num="261" count="0" type="stmt"/>
+          <line num="266" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="273" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="277" count="0" type="stmt"/>
+          <line num="282" count="0" type="stmt"/>
+          <line num="284" count="0" type="stmt"/>
+          <line num="285" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="286" count="0" type="stmt"/>
+          <line num="287" count="0" type="stmt"/>
+          <line num="291" count="0" type="stmt"/>
+          <line num="294" count="2" type="stmt"/>
+        </file>
+        <file name="TabBar.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/NavBar/components/TabBar.js">
+          <metrics statements="19" coveredstatements="8" conditionals="6" coveredconditionals="4" methods="15" coveredmethods="5"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="25" count="1" type="stmt"/>
+          <line num="32" count="1" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="39" count="1" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="52" count="1" type="cond" truecount="2" falsecount="0"/>
+          <line num="56" count="1" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="110" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.OptionsBar">
+        <metrics statements="9" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/OptionsBar/index.js">
+          <metrics statements="9" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="0"/>
+          <line num="11" count="0" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="27" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="44" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.PhotoDetails">
+        <metrics statements="14" coveredstatements="1" conditionals="13" coveredconditionals="0" methods="7" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/PhotoDetails/index.js">
+          <metrics statements="14" coveredstatements="1" conditionals="13" coveredconditionals="0" methods="7" coveredmethods="0"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="39" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="48" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="51" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="91" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.PickerField">
+        <metrics statements="6" coveredstatements="2" conditionals="6" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/PickerField/index.js">
+          <metrics statements="2" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="27" count="2" type="stmt"/>
+        </file>
+        <file name="modal.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/PickerField/modal.js">
+          <metrics statements="4" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
+          <line num="10" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="48" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.ProductList">
+        <metrics statements="40" coveredstatements="3" conditionals="26" coveredconditionals="0" methods="17" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/ProductList/index.js">
+          <metrics statements="40" coveredstatements="3" conditionals="26" coveredconditionals="0" methods="17" coveredmethods="0"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="95" count="0" type="stmt"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="105" count="0" type="stmt"/>
+          <line num="114" count="0" type="stmt"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="131" count="0" type="stmt"/>
+          <line num="133" count="0" type="stmt"/>
+          <line num="134" count="0" type="stmt"/>
+          <line num="139" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="143" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="144" count="0" type="stmt"/>
+          <line num="146" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="147" count="0" type="stmt"/>
+          <line num="149" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="150" count="0" type="stmt"/>
+          <line num="152" count="0" type="stmt"/>
+          <line num="157" count="0" type="stmt"/>
+          <line num="161" count="0" type="stmt"/>
+          <line num="167" count="0" type="stmt"/>
+          <line num="200" count="2" type="stmt"/>
+          <line num="215" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.ProductTile">
+        <metrics statements="11" coveredstatements="1" conditionals="33" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/ProductTile/index.js">
+          <metrics statements="11" coveredstatements="1" conditionals="33" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="18" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="27" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="35" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="51" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="107" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.ReactiveSpacer">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/ReactiveSpacer/index.js">
+          <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.SearchTag">
+        <metrics statements="2" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/SearchTag/index.js">
+          <metrics statements="2" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="32" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.SloppyView">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/SloppyView/index.js">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+          <line num="7" count="7" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.StaggeredList">
+        <metrics statements="24" coveredstatements="1" conditionals="33" coveredconditionals="0" methods="9" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/StaggeredList/index.js">
+          <metrics statements="24" coveredstatements="1" conditionals="33" coveredconditionals="0" methods="9" coveredmethods="0"/>
+          <line num="9" count="0" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="60" count="2" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="84" count="0" type="stmt"/>
+          <line num="87" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="89" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="97" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="98" count="0" type="stmt"/>
+          <line num="99" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="107" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.components.UppercasedText">
+        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/components/UppercasedText/index.js">
+          <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="8" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.constants">
+        <metrics statements="44" coveredstatements="44" conditionals="12" coveredconditionals="6" methods="0" coveredmethods="0"/>
+        <file name="colours.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/constants/colours.js">
+          <metrics statements="29" coveredstatements="29" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="2" count="2" type="stmt"/>
+          <line num="3" count="2" type="stmt"/>
+          <line num="4" count="2" type="stmt"/>
+          <line num="5" count="2" type="stmt"/>
+          <line num="6" count="2" type="stmt"/>
+          <line num="7" count="2" type="stmt"/>
+          <line num="8" count="2" type="stmt"/>
+          <line num="9" count="2" type="stmt"/>
+          <line num="10" count="2" type="stmt"/>
+          <line num="11" count="2" type="stmt"/>
+          <line num="12" count="2" type="stmt"/>
+          <line num="13" count="2" type="stmt"/>
+          <line num="14" count="2" type="stmt"/>
+          <line num="15" count="2" type="stmt"/>
+          <line num="16" count="2" type="stmt"/>
+          <line num="17" count="2" type="stmt"/>
+          <line num="19" count="2" type="stmt"/>
+          <line num="20" count="2" type="stmt"/>
+          <line num="23" count="2" type="stmt"/>
+          <line num="24" count="2" type="stmt"/>
+          <line num="25" count="2" type="stmt"/>
+          <line num="26" count="2" type="stmt"/>
+          <line num="27" count="2" type="stmt"/>
+          <line num="28" count="2" type="stmt"/>
+          <line num="29" count="2" type="stmt"/>
+          <line num="30" count="2" type="stmt"/>
+          <line num="33" count="2" type="stmt"/>
+          <line num="34" count="2" type="stmt"/>
+          <line num="36" count="2" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/constants/index.js">
+          <metrics statements="11" coveredstatements="11" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+          <line num="12" count="2" type="stmt"/>
+          <line num="13" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="16" count="2" type="stmt"/>
+          <line num="18" count="2" type="stmt"/>
+          <line num="19" count="2" type="stmt"/>
+          <line num="20" count="2" type="stmt"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="23" count="2" type="stmt"/>
+          <line num="25" count="2" type="stmt"/>
+          <line num="32" count="2" type="stmt"/>
+          <line num="42" count="2" type="stmt"/>
+        </file>
+        <file name="postMessage.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/constants/postMessage.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+        <file name="sizes.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/constants/sizes.js">
+          <metrics statements="3" coveredstatements="3" conditionals="10" coveredconditionals="5" methods="0" coveredmethods="0"/>
+          <line num="7" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="11" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="18" count="2" type="stmt"/>
+        </file>
+        <file name="styles.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/constants/styles.js">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="4" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.effects">
+        <metrics statements="29" coveredstatements="2" conditionals="14" coveredconditionals="0" methods="9" coveredmethods="0"/>
+        <file name="facebook.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/effects/facebook.js">
+          <metrics statements="26" coveredstatements="1" conditionals="14" coveredconditionals="0" methods="7" coveredmethods="0"/>
+          <line num="9" count="2" type="stmt"/>
+          <line num="11" count="0" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="16" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="52" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="59" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="61" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="63" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/effects/index.js">
+          <metrics statements="3" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+          <line num="11" count="2" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.effects.io">
+        <metrics statements="10" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="2"/>
+        <file name="storage.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/effects/io/storage.js">
+          <metrics statements="10" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="2"/>
+          <line num="4" count="2" type="stmt"/>
+          <line num="5" count="1" type="stmt"/>
+          <line num="9" count="1" type="stmt"/>
+          <line num="12" count="2" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.effects.payments">
+        <metrics statements="21" coveredstatements="5" conditionals="16" coveredconditionals="3" methods="9" coveredmethods="3"/>
+        <file name="applePay.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/effects/payments/applePay.js">
+          <metrics statements="15" coveredstatements="2" conditionals="16" coveredconditionals="3" methods="4" coveredmethods="1"/>
+          <line num="16" count="2" type="stmt"/>
+          <line num="17" count="2" type="cond" truecount="2" falsecount="0"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="29" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="93" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="98" count="0" type="stmt"/>
+          <line num="104" count="0" type="stmt"/>
+        </file>
+        <file name="express.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/effects/payments/express.js">
+          <metrics statements="6" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="2"/>
+          <line num="23" count="2" type="stmt"/>
+          <line num="24" count="2" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="79" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.global">
+        <metrics statements="29" coveredstatements="5" conditionals="8" coveredconditionals="1" methods="10" coveredmethods="2"/>
+        <file name="Api.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/global/Api.js">
+          <metrics statements="28" coveredstatements="4" conditionals="8" coveredconditionals="1" methods="10" coveredmethods="2"/>
+          <line num="10" count="1" type="stmt"/>
+          <line num="21" count="1" type="stmt"/>
+          <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="29" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="47" count="4" type="stmt"/>
+          <line num="48" count="4" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="56" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="90" count="0" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/global/index.js">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="8" count="2" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.helpers">
+        <metrics statements="54" coveredstatements="16" conditionals="29" coveredconditionals="2" methods="18" coveredmethods="3"/>
+        <file name="csscolor.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/helpers/csscolor.js">
+          <metrics statements="3" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="1" count="2" type="stmt"/>
+          <line num="149" count="2" type="stmt"/>
+          <line num="150" count="0" type="cond" truecount="0" falsecount="2"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/helpers/index.js">
+          <metrics statements="29" coveredstatements="13" conditionals="21" coveredconditionals="2" methods="11" coveredmethods="3"/>
+          <line num="18" count="2" type="stmt"/>
+          <line num="19" count="15" type="stmt"/>
+          <line num="20" count="15" type="stmt"/>
+          <line num="21" count="15" type="stmt"/>
+          <line num="23" count="5" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="31" count="2" type="stmt"/>
+          <line num="32" count="1" type="stmt"/>
+          <line num="42" count="1" type="stmt"/>
+          <line num="45" count="2" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="53" count="2" type="cond" truecount="0" falsecount="1"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="63" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="69" count="2" type="cond" truecount="0" falsecount="1"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="87" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="88" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="91" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="101" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="113" count="0" type="cond" truecount="0" falsecount="5"/>
+        </file>
+        <file name="linkparser.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/helpers/linkparser.js">
+          <metrics statements="22" coveredstatements="1" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
+          <line num="5" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="10" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="46" count="2" type="stmt"/>
+          <line num="47" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="49" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.models">
+        <metrics statements="91" coveredstatements="13" conditionals="77" coveredconditionals="10" methods="40" coveredmethods="4"/>
+        <file name="Cart.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/models/Cart.js">
+          <metrics statements="11" coveredstatements="8" conditionals="13" coveredconditionals="9" methods="5" coveredmethods="2"/>
+          <line num="32" count="2" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="42" count="2" type="stmt"/>
+          <line num="43" count="4" type="cond" truecount="3" falsecount="1"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="45" count="4" type="cond" truecount="2" falsecount="0"/>
+          <line num="46" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="48" count="2" type="stmt"/>
+          <line num="52" count="2" type="cond" truecount="2" falsecount="0"/>
+          <line num="53" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="57" count="0" type="stmt"/>
+        </file>
+        <file name="CartItem.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/models/CartItem.js">
+          <metrics statements="2" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
+        </file>
+        <file name="Place.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/models/Place.js">
+          <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="26" count="0" type="stmt"/>
+        </file>
+        <file name="Product.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/models/Product.js">
+          <metrics statements="43" coveredstatements="3" conditionals="40" coveredconditionals="0" methods="17" coveredmethods="0"/>
+          <line num="4" count="2" type="stmt"/>
+          <line num="5" count="2" type="stmt"/>
+          <line num="6" count="2" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="77" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="96" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="102" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="109" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="117" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="121" count="0" type="stmt"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="128" count="0" type="stmt"/>
+          <line num="138" count="0" type="stmt"/>
+          <line num="139" count="0" type="stmt"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="141" count="0" type="stmt"/>
+          <line num="142" count="0" type="stmt"/>
+          <line num="143" count="0" type="stmt"/>
+          <line num="144" count="0" type="stmt"/>
+          <line num="145" count="0" type="stmt"/>
+          <line num="146" count="0" type="stmt"/>
+          <line num="147" count="0" type="stmt"/>
+          <line num="148" count="0" type="stmt"/>
+          <line num="149" count="0" type="stmt"/>
+          <line num="150" count="0" type="stmt"/>
+          <line num="152" count="0" type="stmt"/>
+          <line num="153" count="0" type="stmt"/>
+          <line num="154" count="0" type="stmt"/>
+          <line num="159" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="160" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="161" count="0" type="cond" truecount="0" falsecount="2"/>
+        </file>
+        <file name="User.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/models/User.js">
+          <metrics statements="19" coveredstatements="2" conditionals="8" coveredconditionals="1" methods="7" coveredmethods="2"/>
+          <line num="22" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="34" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="46" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="56" count="0" type="stmt"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+        </file>
+        <file name="UserAddress.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/models/UserAddress.js">
+          <metrics statements="12" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="8" coveredmethods="0"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/models/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes.Brands">
+        <metrics statements="39" coveredstatements="1" conditionals="20" coveredconditionals="0" methods="19" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Brands/index.js">
+          <metrics statements="18" coveredstatements="1" conditionals="6" coveredconditionals="0" methods="7" coveredmethods="0"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="49" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="84" count="0" type="stmt"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="102" count="1" type="stmt"/>
+        </file>
+        <file name="store.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Brands/store.js">
+          <metrics statements="21" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="12" coveredmethods="0"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="29" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="33" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="54" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Brands.components">
+        <metrics statements="32" coveredstatements="3" conditionals="10" coveredconditionals="0" methods="23" coveredmethods="0"/>
+        <file name="Featured.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Brands/components/Featured.js">
+          <metrics statements="10" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="8" coveredmethods="0"/>
+          <line num="11" count="0" type="stmt"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="52" count="1" type="stmt"/>
+        </file>
+        <file name="Listing.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Brands/components/Listing.js">
+          <metrics statements="22" coveredstatements="2" conditionals="8" coveredconditionals="0" methods="15" coveredmethods="0"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="96" count="0" type="stmt"/>
+          <line num="103" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="109" count="0" type="stmt"/>
+          <line num="115" count="1" type="stmt"/>
+          <line num="160" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Brands/components/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes.CartSummary">
+        <metrics statements="50" coveredstatements="1" conditionals="74" coveredconditionals="0" methods="34" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/CartSummary/index.js">
+          <metrics statements="50" coveredstatements="1" conditionals="74" coveredconditionals="0" methods="34" coveredmethods="0"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="51" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="57" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="103" count="0" type="stmt"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="111" count="0" type="stmt"/>
+          <line num="112" count="0" type="stmt"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="124" count="0" type="stmt"/>
+          <line num="128" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="133" count="0" type="stmt"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="144" count="0" type="stmt"/>
+          <line num="148" count="0" type="stmt"/>
+          <line num="151" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="152" count="0" type="stmt"/>
+          <line num="158" count="0" type="stmt"/>
+          <line num="159" count="0" type="stmt"/>
+          <line num="161" count="0" type="stmt"/>
+          <line num="168" count="0" type="stmt"/>
+          <line num="177" count="0" type="stmt"/>
+          <line num="187" count="0" type="stmt"/>
+          <line num="188" count="0" type="stmt"/>
+          <line num="249" count="0" type="stmt"/>
+          <line num="373" count="0" type="stmt"/>
+          <line num="375" count="0" type="stmt"/>
+          <line num="403" count="0" type="stmt"/>
+          <line num="447" count="0" type="stmt"/>
+          <line num="466" count="0" type="stmt"/>
+          <line num="490" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="496" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="499" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="503" count="0" type="stmt"/>
+          <line num="510" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="516" count="0" type="stmt"/>
+          <line num="565" count="0" type="stmt"/>
+          <line num="583" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Deeplink">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Deeplink/index.js">
+          <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+          <line num="11" count="1" type="stmt"/>
+          <line num="33" count="1" type="stmt"/>
+          <line num="34" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.History">
+        <metrics statements="18" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="14" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/History/index.js">
+          <metrics statements="18" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="14" coveredmethods="0"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="86" count="0" type="stmt"/>
+          <line num="99" count="0" type="stmt"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="115" count="1" type="stmt"/>
+          <line num="178" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.History.components">
+        <metrics statements="6" coveredstatements="1" conditionals="14" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <file name="HistoryItem.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/History/components/HistoryItem.js">
+          <metrics statements="6" coveredstatements="1" conditionals="14" coveredconditionals="0" methods="4" coveredmethods="0"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="111" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home">
+        <metrics statements="74" coveredstatements="17" conditionals="45" coveredconditionals="2" methods="37" coveredmethods="10"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/index.js">
+          <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="18" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="36" count="1" type="stmt"/>
+        </file>
+        <file name="store.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/store.js">
+          <metrics statements="69" coveredstatements="12" conditionals="45" coveredconditionals="2" methods="35" coveredmethods="8"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="18" count="1" type="stmt"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="26" count="1" type="stmt"/>
+          <line num="30" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="72" count="1" type="stmt"/>
+          <line num="74" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="89" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="99" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="101" count="0" type="stmt"/>
+          <line num="106" count="0" type="stmt"/>
+          <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="109" count="0" type="stmt"/>
+          <line num="118" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="146" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="147" count="0" type="stmt"/>
+          <line num="148" count="0" type="stmt"/>
+          <line num="149" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="154" count="0" type="stmt"/>
+          <line num="167" count="0" type="stmt"/>
+          <line num="168" count="0" type="stmt"/>
+          <line num="179" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="184" count="1" type="stmt"/>
+          <line num="185" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="187" count="0" type="stmt"/>
+          <line num="188" count="0" type="stmt"/>
+          <line num="191" count="0" type="stmt"/>
+          <line num="192" count="0" type="stmt"/>
+          <line num="203" count="0" type="stmt"/>
+          <line num="210" count="0" type="stmt"/>
+          <line num="213" count="0" type="stmt"/>
+          <line num="222" count="1" type="stmt"/>
+          <line num="223" count="3" type="stmt"/>
+          <line num="224" count="3" type="stmt"/>
+          <line num="229" count="1" type="stmt"/>
+          <line num="230" count="0" type="cond" truecount="2" falsecount="0"/>
+          <line num="236" count="0" type="stmt"/>
+          <line num="240" count="0" type="stmt"/>
+          <line num="242" count="0" type="stmt"/>
+          <line num="243" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="244" count="0" type="stmt"/>
+          <line num="248" count="0" type="stmt"/>
+          <line num="253" count="0" type="stmt"/>
+          <line num="256" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="260" count="0" type="stmt"/>
+          <line num="263" count="0" type="stmt"/>
+          <line num="264" count="0" type="stmt"/>
+          <line num="269" count="0" type="stmt"/>
+          <line num="272" count="0" type="stmt"/>
+          <line num="273" count="0" type="stmt"/>
+          <line num="286" count="1" type="stmt"/>
+          <line num="288" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="291" count="0" type="stmt"/>
+          <line num="294" count="0" type="stmt"/>
+          <line num="304" count="0" type="stmt"/>
+          <line num="307" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home.blocks">
+        <metrics statements="24" coveredstatements="3" conditionals="11" coveredconditionals="0" methods="11" coveredmethods="0"/>
+        <file name="Banner.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/Banner.js">
+          <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+        </file>
+        <file name="Card.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/Card.js">
+          <metrics statements="2" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="47" count="1" type="stmt"/>
+        </file>
+        <file name="ParallaxPhoto.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/ParallaxPhoto.js">
+          <metrics statements="18" coveredstatements="2" conditionals="5" coveredconditionals="0" methods="7" coveredmethods="0"/>
+          <line num="12" count="1" type="stmt"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="49" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="60" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="126" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home.blocks.Brands">
+        <metrics statements="14" coveredstatements="10" conditionals="12" coveredconditionals="4" methods="9" coveredmethods="4"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/Brands/index.js">
+          <metrics statements="14" coveredstatements="10" conditionals="12" coveredconditionals="4" methods="9" coveredmethods="4"/>
+          <line num="25" count="2" type="stmt"/>
+          <line num="28" count="2" type="stmt"/>
+          <line num="29" count="2" type="stmt"/>
+          <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="35" count="2" type="stmt"/>
+          <line num="36" count="2" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="54" count="2" type="cond" truecount="2" falsecount="0"/>
+          <line num="55" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="59" count="2" type="stmt"/>
+          <line num="61" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="83" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home.blocks.Brands.components">
+        <metrics statements="5" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <file name="Brand.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/Brands/components/Brand.js">
+          <metrics statements="5" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="54" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home.blocks.Collection">
+        <metrics statements="11" coveredstatements="5" conditionals="16" coveredconditionals="1" methods="8" coveredmethods="4"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/Collection/index.js">
+          <metrics statements="11" coveredstatements="5" conditionals="16" coveredconditionals="1" methods="8" coveredmethods="4"/>
+          <line num="40" count="1" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="44" count="1" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="54" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="72" count="1" type="stmt"/>
+          <line num="78" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="79" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="85" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home.blocks.Collection.components">
+        <metrics statements="2" coveredstatements="2" conditionals="4" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <file name="StandardCollection.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/Collection/components/StandardCollection.js">
+          <metrics statements="2" coveredstatements="2" conditionals="4" coveredconditionals="2" methods="1" coveredmethods="1"/>
+          <line num="17" count="1" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/blocks/Collection/components/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home.components">
+        <metrics statements="105" coveredstatements="53" conditionals="68" coveredconditionals="14" methods="55" coveredmethods="21"/>
+        <file name="BlockSlider.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/BlockSlider.js">
+          <metrics statements="38" coveredstatements="19" conditionals="21" coveredconditionals="2" methods="17" coveredmethods="6"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="25" count="1" type="stmt"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="38" count="1" type="stmt"/>
+          <line num="39" count="1" type="stmt"/>
+          <line num="44" count="1" type="stmt"/>
+          <line num="45" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+          <line num="47" count="1" type="stmt"/>
+          <line num="48" count="1" type="stmt"/>
+          <line num="52" count="3" type="stmt"/>
+          <line num="56" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="66" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="79" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="80" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="84" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="96" count="0" type="stmt"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="105" count="0" type="stmt"/>
+          <line num="108" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="109" count="0" type="stmt"/>
+          <line num="113" count="0" type="stmt"/>
+          <line num="117" count="1" type="stmt"/>
+          <line num="118" count="1" type="stmt"/>
+          <line num="120" count="1" type="stmt"/>
+          <line num="133" count="3" type="stmt"/>
+          <line num="140" count="0" type="stmt"/>
+          <line num="154" count="0" type="stmt"/>
+          <line num="175" count="1" type="stmt"/>
+        </file>
+        <file name="BlockSliderButton.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/BlockSliderButton.js">
+          <metrics statements="3" coveredstatements="3" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
+          <line num="9" count="8" type="stmt"/>
+          <line num="21" count="8" type="stmt"/>
+          <line num="33" count="2" type="stmt"/>
+        </file>
+        <file name="List.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/List.js">
+          <metrics statements="9" coveredstatements="4" conditionals="9" coveredconditionals="3" methods="7" coveredmethods="2"/>
+          <line num="45" count="1" type="stmt"/>
+          <line num="49" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="82" count="1" type="stmt"/>
+          <line num="84" count="1" type="cond" truecount="3" falsecount="2"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="105" count="1" type="stmt"/>
+        </file>
+        <file name="ListHeader.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/ListHeader.js">
+          <metrics statements="3" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="19" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="34" count="1" type="stmt"/>
+        </file>
+        <file name="Main.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/Main.js">
+          <metrics statements="28" coveredstatements="18" conditionals="8" coveredconditionals="2" methods="14" coveredmethods="8"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="20" count="1" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="1" type="stmt"/>
+          <line num="37" count="1" type="stmt"/>
+          <line num="40" count="1" type="stmt"/>
+          <line num="41" count="1" type="stmt"/>
+          <line num="42" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="54" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="63" count="1" type="stmt"/>
+          <line num="67" count="3" type="stmt"/>
+          <line num="90" count="3" type="cond" truecount="2" falsecount="2"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="98" count="0" type="stmt"/>
+          <line num="100" count="1" type="stmt"/>
+          <line num="111" count="1" type="stmt"/>
+          <line num="113" count="0" type="stmt"/>
+          <line num="132" count="0" type="stmt"/>
+          <line num="134" count="2" type="stmt"/>
+          <line num="144" count="2" type="stmt"/>
+          <line num="147" count="3" type="stmt"/>
+          <line num="148" count="0" type="stmt"/>
+          <line num="155" count="1" type="stmt"/>
+          <line num="166" count="1" type="stmt"/>
+        </file>
+        <file name="MoreFooter.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/MoreFooter.js">
+          <metrics statements="6" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="4" coveredmethods="0"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="33" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="51" count="1" type="stmt"/>
+        </file>
+        <file name="Search.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/Search.js">
+          <metrics statements="9" coveredstatements="6" conditionals="4" coveredconditionals="1" methods="4" coveredmethods="3"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="32" count="1" type="stmt"/>
+          <line num="33" count="1" type="stmt"/>
+          <line num="37" count="1" type="stmt"/>
+          <line num="39" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="57" count="1" type="stmt"/>
+        </file>
+        <file name="SearchResult.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/SearchResult.js">
+          <metrics statements="9" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="0"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="53" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home.components.Header">
+        <metrics statements="21" coveredstatements="12" conditionals="7" coveredconditionals="1" methods="10" coveredmethods="4"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/Header/index.js">
+          <metrics statements="21" coveredstatements="12" conditionals="7" coveredconditionals="1" methods="10" coveredmethods="4"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="25" count="1" type="stmt"/>
+          <line num="31" count="1" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="47" count="1" type="stmt"/>
+          <line num="50" count="1" type="stmt"/>
+          <line num="53" count="1" type="stmt"/>
+          <line num="54" count="1" type="stmt"/>
+          <line num="55" count="1" type="stmt"/>
+          <line num="59" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="62" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="92" count="1" type="stmt"/>
+          <line num="116" count="1" type="stmt"/>
+          <line num="130" count="0" type="stmt"/>
+          <line num="150" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Home.components.Header.components">
+        <metrics statements="32" coveredstatements="6" conditionals="16" coveredconditionals="0" methods="16" coveredmethods="0"/>
+        <file name="SearchInputBox.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/Header/components/SearchInputBox.js">
+          <metrics statements="12" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="6" coveredmethods="0"/>
+          <line num="8" count="0" type="stmt"/>
+          <line num="10" count="0" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="40" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="61" count="1" type="stmt"/>
+        </file>
+        <file name="SearchSuggestions.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Home/components/Header/components/SearchSuggestions.js">
+          <metrics statements="20" coveredstatements="5" conditionals="12" coveredconditionals="0" methods="10" coveredmethods="0"/>
+          <line num="11" count="1" type="stmt"/>
+          <line num="12" count="1" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="54" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="68" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="73" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="77" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="101" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Information">
+        <metrics statements="8" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Information/index.js">
+          <metrics statements="8" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="10" count="0" type="stmt"/>
+          <line num="11" count="0" type="stmt"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="54" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Login">
+        <metrics statements="72" coveredstatements="4" conditionals="37" coveredconditionals="0" methods="34" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Login/index.js">
+          <metrics statements="72" coveredstatements="4" conditionals="37" coveredconditionals="0" methods="34" coveredmethods="0"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="24" count="1" type="stmt"/>
+          <line num="25" count="1" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="86" count="0" type="stmt"/>
+          <line num="101" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="115" count="0" type="stmt"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="121" count="0" type="stmt"/>
+          <line num="130" count="0" type="stmt"/>
+          <line num="134" count="0" type="stmt"/>
+          <line num="139" count="0" type="stmt"/>
+          <line num="151" count="0" type="stmt"/>
+          <line num="155" count="0" type="stmt"/>
+          <line num="167" count="0" type="stmt"/>
+          <line num="181" count="0" type="stmt"/>
+          <line num="220" count="0" type="stmt"/>
+          <line num="235" count="0" type="stmt"/>
+          <line num="243" count="0" type="stmt"/>
+          <line num="247" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="248" count="0" type="stmt"/>
+          <line num="252" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="253" count="0" type="stmt"/>
+          <line num="258" count="0" type="stmt"/>
+          <line num="259" count="0" type="stmt"/>
+          <line num="267" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="268" count="0" type="stmt"/>
+          <line num="272" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="273" count="0" type="stmt"/>
+          <line num="278" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="279" count="0" type="stmt"/>
+          <line num="285" count="0" type="stmt"/>
+          <line num="286" count="0" type="stmt"/>
+          <line num="296" count="0" type="stmt"/>
+          <line num="299" count="0" type="stmt"/>
+          <line num="300" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="301" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="305" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="317" count="0" type="stmt"/>
+          <line num="326" count="0" type="stmt"/>
+          <line num="327" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="328" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="332" count="0" type="stmt"/>
+          <line num="340" count="0" type="stmt"/>
+          <line num="347" count="0" type="stmt"/>
+          <line num="357" count="0" type="stmt"/>
+          <line num="370" count="0" type="stmt"/>
+          <line num="377" count="0" type="stmt"/>
+          <line num="387" count="0" type="stmt"/>
+          <line num="409" count="0" type="stmt"/>
+          <line num="416" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Product">
+        <metrics statements="79" coveredstatements="3" conditionals="66" coveredconditionals="0" methods="38" coveredmethods="0"/>
+        <file name="content.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/content.js">
+          <metrics statements="13" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="9" coveredmethods="0"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="61" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="78" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="84" count="0" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="128" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/index.js">
+          <metrics statements="43" coveredstatements="2" conditionals="37" coveredconditionals="0" methods="21" coveredmethods="0"/>
+          <line num="20" count="1" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="57" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="80" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="96" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="98" count="0" type="stmt"/>
+          <line num="99" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="103" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="112" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="124" count="0" type="stmt"/>
+          <line num="127" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="130" count="0" type="stmt"/>
+          <line num="141" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="147" count="0" type="stmt"/>
+          <line num="157" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="161" count="0" type="stmt"/>
+          <line num="162" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="167" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="193" count="1" type="stmt"/>
+        </file>
+        <file name="store.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/store.js">
+          <metrics statements="23" coveredstatements="0" conditionals="21" coveredconditionals="0" methods="8" coveredmethods="0"/>
+          <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="54" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="56" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="78" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Product.components">
+        <metrics statements="123" coveredstatements="9" conditionals="199" coveredconditionals="0" methods="79" coveredmethods="0"/>
+        <file name="ExpandableSection.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ExpandableSection.js">
+          <metrics statements="2" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="38" count="1" type="stmt"/>
+        </file>
+        <file name="ImageCarousel.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ImageCarousel.js">
+          <metrics statements="23" coveredstatements="1" conditionals="23" coveredconditionals="0" methods="12" coveredmethods="0"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="42" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="47" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="55" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="65" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="96" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="120" count="1" type="stmt"/>
+        </file>
+        <file name="MerchantDetails.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/MerchantDetails.js">
+          <metrics statements="12" coveredstatements="1" conditionals="32" coveredconditionals="0" methods="11" coveredmethods="0"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="62" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="85" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="98" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="111" count="0" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="136" count="0" type="stmt"/>
+          <line num="157" count="1" type="stmt"/>
+        </file>
+        <file name="Photos.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/Photos.js">
+          <metrics statements="14" coveredstatements="2" conditionals="6" coveredconditionals="0" methods="9" coveredmethods="0"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="40" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="69" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="93" count="1" type="stmt"/>
+        </file>
+        <file name="ProductBuy.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ProductBuy.js">
+          <metrics statements="28" coveredstatements="1" conditionals="53" coveredconditionals="0" methods="20" coveredmethods="0"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="56" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="96" count="0" type="stmt"/>
+          <line num="99" count="0" type="stmt"/>
+          <line num="104" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="114" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="124" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="125" count="0" type="stmt"/>
+          <line num="126" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="127" count="0" type="stmt"/>
+          <line num="133" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="137" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="149" count="0" type="stmt"/>
+          <line num="150" count="0" type="stmt"/>
+          <line num="165" count="0" type="stmt"/>
+          <line num="194" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="207" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="217" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="233" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="243" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="260" count="1" type="stmt"/>
+        </file>
+        <file name="ProductHeader.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ProductHeader.js">
+          <metrics statements="3" coveredstatements="1" conditionals="22" coveredconditionals="0" methods="2" coveredmethods="0"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="59" count="0" type="stmt"/>
+          <line num="71" count="1" type="stmt"/>
+        </file>
+        <file name="ProductVariantSelector.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ProductVariantSelector.js">
+          <metrics statements="35" coveredstatements="1" conditionals="47" coveredconditionals="0" methods="19" coveredmethods="0"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="19" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="49" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="77" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="78" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="81" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="83" count="0" type="stmt"/>
+          <line num="85" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="86" count="0" type="stmt"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="99" count="0" type="stmt"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="115" count="0" type="stmt"/>
+          <line num="116" count="0" type="stmt"/>
+          <line num="120" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="145" count="0" type="stmt"/>
+          <line num="153" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="158" count="0" type="stmt"/>
+          <line num="161" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="186" count="0" type="stmt"/>
+          <line num="196" count="1" type="stmt"/>
+        </file>
+        <file name="RelatedProducts.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/RelatedProducts.js">
+          <metrics statements="6" coveredstatements="1" conditionals="14" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="50" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="59" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="72" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes.Product.components.AddedSummary">
+        <metrics statements="15" coveredstatements="1" conditionals="30" coveredconditionals="0" methods="11" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/AddedSummary/index.js">
+          <metrics statements="15" coveredstatements="1" conditionals="30" coveredconditionals="0" methods="11" coveredmethods="0"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="86" count="0" type="stmt"/>
+          <line num="89" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="96" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="100" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="151" count="0" type="stmt"/>
+          <line num="152" count="0" type="stmt"/>
+          <line num="165" count="0" type="stmt"/>
+          <line num="176" count="0" type="stmt"/>
+          <line num="184" count="0" type="stmt"/>
+          <line num="198" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Product.components.AddedSummary.components">
+        <metrics statements="6" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <file name="RelatedItem.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/AddedSummary/components/RelatedItem.js">
+          <metrics statements="6" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="4" coveredmethods="0"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="29" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="80" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/AddedSummary/components/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes.Product.components.ProductDetails">
+        <metrics statements="6" coveredstatements="1" conditionals="11" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ProductDetails/index.js">
+          <metrics statements="6" coveredstatements="1" conditionals="11" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="84" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.scenes.Product.components.ProductDetails.components">
+        <metrics statements="14" coveredstatements="3" conditionals="16" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <file name="ExpandedDescription.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ProductDetails/components/ExpandedDescription.js">
+          <metrics statements="3" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+          <line num="9" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="72" count="1" type="stmt"/>
+        </file>
+        <file name="SizeChart.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ProductDetails/components/SizeChart.js">
+          <metrics statements="8" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="4" coveredmethods="0"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="17" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="33" count="0" type="cond" truecount="0" falsecount="10"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="99" count="1" type="stmt"/>
+        </file>
+        <file name="UsedIndicator.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ProductDetails/components/UsedIndicator.js">
+          <metrics statements="3" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+          <line num="9" count="0" type="stmt"/>
+          <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="44" count="1" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/Product/components/ProductDetails/components/index.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        </file>
+      </package>
+      <package name="src.scenes.ProductList">
+        <metrics statements="29" coveredstatements="1" conditionals="25" coveredconditionals="0" methods="14" coveredmethods="0"/>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/ProductList/index.js">
+          <metrics statements="12" coveredstatements="1" conditionals="8" coveredconditionals="0" methods="9" coveredmethods="0"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="53" count="0" type="stmt"/>
+          <line num="54" count="0" type="stmt"/>
+          <line num="60" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="69" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="99" count="0" type="stmt"/>
+          <line num="106" count="1" type="stmt"/>
+        </file>
+        <file name="store.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/scenes/ProductList/store.js">
+          <metrics statements="17" coveredstatements="0" conditionals="17" coveredconditionals="0" methods="5" coveredmethods="0"/>
+          <line num="12" count="0" type="stmt"/>
+          <line num="13" count="0" type="stmt"/>
+          <line num="14" count="0" type="stmt"/>
+          <line num="19" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="20" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="28" count="0" type="stmt"/>
+          <line num="29" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+        </file>
+      </package>
+      <package name="src.stores">
+        <metrics statements="379" coveredstatements="54" conditionals="357" coveredconditionals="16" methods="121" coveredmethods="16"/>
+        <file name="AddressStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/AddressStore.js">
+          <metrics statements="18" coveredstatements="1" conditionals="17" coveredconditionals="0" methods="7" coveredmethods="1"/>
+          <line num="9" count="2" type="stmt"/>
+          <line num="15" count="0" type="stmt"/>
+          <line num="16" count="0" type="stmt"/>
+          <line num="21" count="0" type="stmt"/>
+          <line num="22" count="0" type="stmt"/>
+          <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="27" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="36" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="48" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="49" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="56" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="57" count="0" type="stmt"/>
+        </file>
+        <file name="AssistantStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/AssistantStore.js">
+          <metrics statements="6" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="0"/>
+          <line num="9" count="0" type="stmt"/>
+          <line num="18" count="0" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="30" count="0" type="stmt"/>
+          <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="32" count="0" type="stmt"/>
+        </file>
+        <file name="CartStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/CartStore.js">
+          <metrics statements="187" coveredstatements="11" conditionals="248" coveredconditionals="4" methods="54" coveredmethods="2"/>
+          <line num="15" count="2" type="stmt"/>
+          <line num="18" count="2" type="stmt"/>
+          <line num="19" count="2" type="stmt"/>
+          <line num="20" count="2" type="stmt"/>
+          <line num="21" count="2" type="stmt"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="23" count="2" type="stmt"/>
+          <line num="36" count="2" type="stmt"/>
+          <line num="37" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="56" count="2" type="stmt"/>
+          <line num="70" count="1" type="cond" truecount="3" falsecount="1"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="76" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="82" count="0" type="stmt"/>
+          <line num="87" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="95" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="102" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="107" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="114" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="130" count="0" type="stmt"/>
+          <line num="135" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="141" count="0" type="stmt"/>
+          <line num="151" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="158" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="170" count="0" type="stmt"/>
+          <line num="184" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="188" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="193" count="0" type="stmt"/>
+          <line num="205" count="0" type="stmt"/>
+          <line num="218" count="0" type="stmt"/>
+          <line num="219" count="0" type="stmt"/>
+          <line num="224" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="227" count="0" type="cond" truecount="0" falsecount="3"/>
+          <line num="244" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="245" count="0" type="stmt"/>
+          <line num="257" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="259" count="0" type="stmt"/>
+          <line num="265" count="0" type="stmt"/>
+          <line num="266" count="0" type="stmt"/>
+          <line num="269" count="0" type="stmt"/>
+          <line num="271" count="0" type="stmt"/>
+          <line num="278" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="279" count="0" type="stmt"/>
+          <line num="285" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="287" count="0" type="stmt"/>
+          <line num="288" count="0" type="stmt"/>
+          <line num="301" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="307" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="308" count="0" type="stmt"/>
+          <line num="313" count="0" type="stmt"/>
+          <line num="314" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="315" count="0" type="stmt"/>
+          <line num="325" count="0" type="stmt"/>
+          <line num="335" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="336" count="0" type="stmt"/>
+          <line num="341" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="346" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="347" count="0" type="stmt"/>
+          <line num="359" count="0" type="stmt"/>
+          <line num="360" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="361" count="0" type="stmt"/>
+          <line num="373" count="0" type="stmt"/>
+          <line num="374" count="0" type="stmt"/>
+          <line num="377" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="379" count="0" type="stmt"/>
+          <line num="380" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="383" count="0" type="stmt"/>
+          <line num="386" count="0" type="stmt"/>
+          <line num="387" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="388" count="0" type="stmt"/>
+          <line num="389" count="0" type="stmt"/>
+          <line num="395" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="397" count="0" type="stmt"/>
+          <line num="408" count="0" type="stmt"/>
+          <line num="409" count="0" type="stmt"/>
+          <line num="412" count="0" type="stmt"/>
+          <line num="413" count="0" type="stmt"/>
+          <line num="421" count="0" type="stmt"/>
+          <line num="426" count="0" type="stmt"/>
+          <line num="432" count="0" type="stmt"/>
+          <line num="441" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="442" count="0" type="stmt"/>
+          <line num="448" count="0" type="stmt"/>
+          <line num="452" count="0" type="stmt"/>
+          <line num="458" count="0" type="stmt"/>
+          <line num="460" count="0" type="stmt"/>
+          <line num="480" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="481" count="0" type="stmt"/>
+          <line num="484" count="0" type="stmt"/>
+          <line num="491" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="492" count="0" type="stmt"/>
+          <line num="493" count="0" type="stmt"/>
+          <line num="494" count="0" type="stmt"/>
+          <line num="497" count="0" type="stmt"/>
+          <line num="506" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="507" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="508" count="0" type="stmt"/>
+          <line num="530" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="531" count="0" type="stmt"/>
+          <line num="532" count="0" type="stmt"/>
+          <line num="534" count="0" type="stmt"/>
+          <line num="549" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="551" count="0" type="stmt"/>
+          <line num="555" count="0" type="stmt"/>
+          <line num="559" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="560" count="0" type="stmt"/>
+          <line num="562" count="0" type="stmt"/>
+          <line num="563" count="0" type="stmt"/>
+          <line num="569" count="0" type="stmt"/>
+          <line num="578" count="0" type="stmt"/>
+          <line num="583" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="584" count="0" type="stmt"/>
+          <line num="585" count="0" type="stmt"/>
+          <line num="586" count="0" type="stmt"/>
+          <line num="602" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="620" count="0" type="stmt"/>
+          <line num="621" count="0" type="stmt"/>
+          <line num="622" count="0" type="stmt"/>
+          <line num="627" count="0" type="stmt"/>
+          <line num="636" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="646" count="0" type="stmt"/>
+          <line num="673" count="0" type="stmt"/>
+          <line num="683" count="0" type="stmt"/>
+          <line num="689" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="696" count="0" type="stmt"/>
+          <line num="701" count="0" type="stmt"/>
+          <line num="702" count="0" type="stmt"/>
+          <line num="706" count="0" type="stmt"/>
+          <line num="724" count="0" type="stmt"/>
+          <line num="728" count="0" type="stmt"/>
+          <line num="735" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="736" count="0" type="stmt"/>
+          <line num="745" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="746" count="0" type="stmt"/>
+          <line num="757" count="0" type="stmt"/>
+          <line num="763" count="0" type="stmt"/>
+          <line num="771" count="0" type="stmt"/>
+          <line num="772" count="0" type="stmt"/>
+          <line num="773" count="0" type="stmt"/>
+          <line num="774" count="0" type="stmt"/>
+          <line num="799" count="0" type="stmt"/>
+          <line num="805" count="0" type="stmt"/>
+          <line num="812" count="0" type="cond" truecount="0" falsecount="5"/>
+          <line num="813" count="0" type="stmt"/>
+          <line num="815" count="0" type="stmt"/>
+          <line num="822" count="0" type="stmt"/>
+          <line num="828" count="0" type="stmt"/>
+          <line num="841" count="0" type="stmt"/>
+          <line num="842" count="0" type="stmt"/>
+          <line num="845" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="850" count="0" type="stmt"/>
+          <line num="854" count="0" type="stmt"/>
+          <line num="873" count="0" type="stmt"/>
+          <line num="879" count="0" type="stmt"/>
+          <line num="880" count="0" type="stmt"/>
+          <line num="882" count="0" type="stmt"/>
+          <line num="885" count="0" type="stmt"/>
+          <line num="886" count="0" type="stmt"/>
+          <line num="894" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="895" count="0" type="stmt"/>
+          <line num="905" count="0" type="stmt"/>
+          <line num="906" count="0" type="stmt"/>
+          <line num="909" count="0" type="stmt"/>
+          <line num="912" count="0" type="stmt"/>
+          <line num="913" count="0" type="stmt"/>
+          <line num="914" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="915" count="0" type="stmt"/>
+          <line num="916" count="0" type="stmt"/>
+          <line num="917" count="0" type="stmt"/>
+          <line num="931" count="0" type="stmt"/>
+          <line num="934" count="0" type="stmt"/>
+          <line num="936" count="0" type="stmt"/>
+          <line num="939" count="0" type="stmt"/>
+          <line num="944" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="951" count="0" type="stmt"/>
+          <line num="956" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="957" count="0" type="stmt"/>
+          <line num="958" count="0" type="stmt"/>
+          <line num="959" count="0" type="stmt"/>
+          <line num="960" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="961" count="0" type="stmt"/>
+          <line num="962" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="963" count="0" type="stmt"/>
+          <line num="967" count="0" type="stmt"/>
+          <line num="970" count="0" type="stmt"/>
+        </file>
+        <file name="DeviceStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/DeviceStore.js">
+          <metrics statements="6" coveredstatements="4" conditionals="2" coveredconditionals="1" methods="4" coveredmethods="2"/>
+          <line num="13" count="2" type="cond" truecount="1" falsecount="1"/>
+          <line num="14" count="2" type="stmt"/>
+          <line num="26" count="2" type="stmt"/>
+          <line num="39" count="2" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+        </file>
+        <file name="HistoryStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/HistoryStore.js">
+          <metrics statements="51" coveredstatements="5" conditionals="22" coveredconditionals="0" methods="18" coveredmethods="1"/>
+          <line num="10" count="2" type="stmt"/>
+          <line num="11" count="2" type="stmt"/>
+          <line num="12" count="2" type="stmt"/>
+          <line num="14" count="2" type="stmt"/>
+          <line num="29" count="2" type="stmt"/>
+          <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="39" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="47" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="52" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="68" count="0" type="stmt"/>
+          <line num="74" count="0" type="stmt"/>
+          <line num="77" count="0" type="stmt"/>
+          <line num="80" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="89" count="0" type="stmt"/>
+          <line num="90" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="91" count="0" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="99" count="0" type="stmt"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="107" count="0" type="stmt"/>
+          <line num="109" count="0" type="stmt"/>
+          <line num="110" count="0" type="stmt"/>
+          <line num="111" count="0" type="stmt"/>
+          <line num="114" count="0" type="cond" truecount="0" falsecount="6"/>
+          <line num="116" count="0" type="stmt"/>
+          <line num="117" count="0" type="stmt"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="120" count="0" type="stmt"/>
+          <line num="122" count="0" type="stmt"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="125" count="0" type="stmt"/>
+          <line num="126" count="0" type="stmt"/>
+          <line num="128" count="0" type="stmt"/>
+          <line num="129" count="0" type="stmt"/>
+          <line num="131" count="0" type="stmt"/>
+          <line num="132" count="0" type="stmt"/>
+          <line num="137" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="139" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="141" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="144" count="0" type="stmt"/>
+        </file>
+        <file name="LoginStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/LoginStore.js">
+          <metrics statements="67" coveredstatements="9" conditionals="29" coveredconditionals="4" methods="16" coveredmethods="5"/>
+          <line num="12" count="2" type="stmt"/>
+          <line num="13" count="2" type="stmt"/>
+          <line num="16" count="2" type="stmt"/>
+          <line num="21" count="1" type="stmt"/>
+          <line num="26" count="1" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="35" count="0" type="stmt"/>
+          <line num="36" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="46" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="56" count="0" type="stmt"/>
+          <line num="57" count="0" type="stmt"/>
+          <line num="61" count="0" type="stmt"/>
+          <line num="62" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="66" count="0" type="stmt"/>
+          <line num="67" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
+          <line num="73" count="0" type="stmt"/>
+          <line num="74" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="76" count="0" type="stmt"/>
+          <line num="79" count="0" type="stmt"/>
+          <line num="81" count="0" type="stmt"/>
+          <line num="88" count="0" type="stmt"/>
+          <line num="89" count="0" type="stmt"/>
+          <line num="92" count="0" type="stmt"/>
+          <line num="97" count="0" type="stmt"/>
+          <line num="98" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="99" count="0" type="stmt"/>
+          <line num="100" count="0" type="stmt"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="105" count="0" type="stmt"/>
+          <line num="108" count="0" type="stmt"/>
+          <line num="115" count="0" type="stmt"/>
+          <line num="116" count="0" type="stmt"/>
+          <line num="119" count="0" type="stmt"/>
+          <line num="123" count="0" type="stmt"/>
+          <line num="129" count="1" type="stmt"/>
+          <line num="131" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="133" count="0" type="stmt"/>
+          <line num="134" count="0" type="stmt"/>
+          <line num="137" count="0" type="stmt"/>
+          <line num="140" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="142" count="0" type="stmt"/>
+          <line num="143" count="0" type="stmt"/>
+          <line num="147" count="0" type="stmt"/>
+          <line num="152" count="0" type="stmt"/>
+          <line num="156" count="0" type="stmt"/>
+          <line num="157" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="158" count="0" type="stmt"/>
+          <line num="159" count="0" type="stmt"/>
+          <line num="167" count="1" type="cond" truecount="2" falsecount="0"/>
+          <line num="169" count="1" type="cond" truecount="1" falsecount="2"/>
+          <line num="171" count="0" type="stmt"/>
+          <line num="172" count="0" type="stmt"/>
+          <line num="174" count="0" type="stmt"/>
+          <line num="175" count="0" type="stmt"/>
+          <line num="177" count="1" type="stmt"/>
+          <line num="178" count="0" type="stmt"/>
+          <line num="181" count="0" type="stmt"/>
+          <line num="185" count="0" type="stmt"/>
+        </file>
+        <file name="NavbarStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/NavbarStore.js">
+          <metrics statements="12" coveredstatements="6" conditionals="6" coveredconditionals="0" methods="7" coveredmethods="3"/>
+          <line num="18" count="2" type="stmt"/>
+          <line num="19" count="2" type="stmt"/>
+          <line num="20" count="2" type="stmt"/>
+          <line num="21" count="2" type="stmt"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="31" count="0" type="stmt"/>
+          <line num="32" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="43" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="44" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="49" count="1" type="stmt"/>
+          <line num="54" count="1" type="stmt"/>
+        </file>
+        <file name="NavigationStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/NavigationStore.js">
+          <metrics statements="22" coveredstatements="8" conditionals="31" coveredconditionals="7" methods="9" coveredmethods="2"/>
+          <line num="19" count="2" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="25" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="26" count="0" type="stmt"/>
+          <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="43" count="0" type="stmt"/>
+          <line num="48" count="0" type="stmt"/>
+          <line num="55" count="2" type="cond" truecount="2" falsecount="0"/>
+          <line num="57" count="1" type="stmt"/>
+          <line num="60" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="63" count="1" type="cond" truecount="2" falsecount="2"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="99" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="100" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="101" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="104" count="0" type="cond" truecount="0" falsecount="2"/>
+          <line num="107" count="0" type="stmt"/>
+          <line num="140" count="1" type="stmt"/>
+          <line num="143" count="1" type="stmt"/>
+        </file>
+        <file name="UserStore.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/UserStore.js">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="6" count="2" type="stmt"/>
+        </file>
+        <file name="index.js" path="/Users/pxue/go/src/bitbucket.org/moodie-app/localyyz/src/stores/index.js">
+          <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="21" count="2" type="stmt"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="23" count="2" type="stmt"/>
+          <line num="24" count="2" type="stmt"/>
+          <line num="25" count="2" type="stmt"/>
+          <line num="26" count="2" type="stmt"/>
+          <line num="27" count="2" type="stmt"/>
+          <line num="28" count="2" type="stmt"/>
+          <line num="32" count="2" type="stmt"/>
+        </file>
+      </package>
+    </metrics>
+  </project>
+</coverage>
