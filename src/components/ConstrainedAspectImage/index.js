@@ -3,12 +3,15 @@ import { View, Image, ImageBackground, PixelRatio } from "react-native";
 import PropTypes from "prop-types";
 import { Colours } from "localyyz/constants";
 
+// third party
+import Placeholder from "rn-placeholder";
+
 // constants
 // turn this on to log all photos (lots of noise)
 const DEBUG = false;
 
 // set a specific image url to listen to
-const DEBUG_IMAGE = "";
+const DEBUG_IMAGE = null;
 
 // this allows ConstrainedAspectImage to be used on non-shopify hosted images
 const SHOPIFY_LIQUID = "cdn.shopify.com";
@@ -19,11 +22,15 @@ export default class ConstrainedAspectImage extends React.Component {
     constrainWidth: PropTypes.number,
     constrainHeight: PropTypes.number,
     sourceWidth: PropTypes.number,
-    sourceHeight: PropTypes.number
+    sourceHeight: PropTypes.number,
+    shouldPinWidth: PropTypes.bool,
+    shouldPinHeight: PropTypes.bool
   };
 
   static defaultProps = {
-    ...Image.defaultProps
+    ...Image.defaultProps,
+    shouldPinWidth: false,
+    shouldPinHeight: false
   };
 
   constructor(props) {
@@ -35,9 +42,28 @@ export default class ConstrainedAspectImage extends React.Component {
       _isLoading: false,
       didFail: false
     };
+    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+      && console.log(
+        "CONSTRUCT",
+        this.state,
+        "CONSTRAINED TO",
+        this.state._width,
+        this.state._height
+      );
 
     // bindings
     this.scale = this.scale.bind(this);
+
+    // and first load, scale if source dimensions known
+    if (this.props.sourceWidth && this.props.sourceHeight) {
+      (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+        && console.log("SOURCE KNOWN ON FIRST LOAD");
+
+      this.state = Object.assign(
+        this.state,
+        this.scale(this.props.sourceWidth, this.props.sourceHeight)
+      );
+    }
   }
 
   get aspectImageUrl() {
@@ -65,7 +91,12 @@ export default class ConstrainedAspectImage extends React.Component {
   }
 
   get isReady() {
-    return !!this.width && !!this.height;
+    return (
+      !!this.width
+      && !!this.height
+      && !this.state._isLoading
+      && !this.state.didFail
+    );
   }
 
   get baseComponent() {
@@ -138,33 +169,59 @@ export default class ConstrainedAspectImage extends React.Component {
       let ratio;
 
       // first, width constrain respecting aspect
-      if (this.width && width > this.width) {
-        ratio = height / width;
+      if (
+        (this.width && scaledWidth > this.width)
+        || this.props.shouldPinWidth
+      ) {
+        ratio = scaledHeight / scaledWidth;
         scaledWidth = this.width;
         scaledHeight = scaledWidth * ratio;
+
+        (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+          && console.log(
+            "CONSTRAINING WIDTH FROM",
+            scaledWidth,
+            "TO",
+            this.width,
+            "WITH ADJUSTMENT TO HEIGHT",
+            scaledHeight
+          );
       }
 
       // then, height constrain with new adjustments from above
-      if (this.height && height > this.height) {
-        ratio = width / height;
+      if (
+        (this.height && scaledHeight > this.height)
+        || this.props.shouldPinHeight
+      ) {
+        ratio = scaledWidth / scaledHeight;
         scaledHeight = this.height;
         scaledWidth = scaledHeight * ratio;
+
+        (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+          && console.log(
+            "CONSTRAINING HEIGHT FROM",
+            scaledHeight,
+            "TO",
+            this.height,
+            "WITH ADJUSTMENT TO WIDTH",
+            scaledWidth
+          );
       }
 
       (DEBUG || this.props.source.uri === DEBUG_IMAGE)
         && console.log(
-          "SCALED DOWN IS TOO LOW RES, CONVERTED TO",
+          "SCALED DOWN IS TOO LOW RES OR NEEDS RESIZING, CONVERTED TO",
           scaledWidth,
           scaledHeight
         );
     }
 
     // TODO: handle unmounted component
-    this.setState({
+    return {
       _width: scaledWidth,
       _height: scaledHeight,
       _isLoading: false
-    });
+    };
   }
 
   componentDidUpdate() {
@@ -181,7 +238,9 @@ export default class ConstrainedAspectImage extends React.Component {
       this.setState({ _isLoading: true }, () => {
         // if source original width provided, skip image size fetching
         if (!this.props.sourceWidth || !this.props.sourceHeight) {
-          Image.getSize(this.aspectImageUrl, this.scale);
+          Image.getSize(this.aspectImageUrl, (width, height) =>
+            this.setState(this.scale(width, height))
+          );
         } else {
           (DEBUG || this.props.source.uri === DEBUG_IMAGE)
             && console.log(
@@ -190,7 +249,9 @@ export default class ConstrainedAspectImage extends React.Component {
               " x ",
               this.props.sourceHeight
             );
-          this.scale(this.props.sourceWidth, this.props.sourceHeight);
+          this.setState(
+            this.scale(this.props.sourceWidth, this.props.sourceHeight)
+          );
         }
       });
     }
@@ -234,16 +295,18 @@ export default class ConstrainedAspectImage extends React.Component {
         this.isReady,
         "WITH SIZES",
         this.width,
-        this.height
+        this.height,
+        "AND SOURCE SIZES",
+        this.props.sourceWidth,
+        this.props.sourceHeight
       );
 
     return (
       <View
         style={{
-          backgroundColor:
-            this.state._isLoading || this.state.didFail
-              ? Colours.Background
-              : Colours.Transparent,
+          backgroundColor: this.isReady
+            ? Colours.Transparent
+            : Colours.Foreground,
           width: this.width,
           height: this.height,
           overflow: "hidden"
@@ -268,7 +331,14 @@ export default class ConstrainedAspectImage extends React.Component {
                 height: this.height
               }
             ]}/>
-        ) : null}
+        ) : (
+          <View style={this.props.style}>
+            <Placeholder.Box
+              width={this.width}
+              height={this.height}
+              animate="fade"/>
+          </View>
+        )}
       </View>
     );
   }

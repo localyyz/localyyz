@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Animated } from "react-native";
 
 // custom
-import { Colours } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 import { NavBar, ProductList } from "localyyz/components";
 //import { SearchTagsWrapper } from "./SearchTags";
 
@@ -10,11 +10,15 @@ import { NavBar, ProductList } from "localyyz/components";
 import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
+// local
+import ListPlaceholder from "./ListPlaceholder";
+
 @inject(stores => ({
   searchResults: stores.homeStore.searchResults,
   fetchNextPage: stores.homeStore.fetchNextPage,
   onScrollUp: () => (stores.homeStore.searchTagsVisible = true),
-  onScrollDown: () => (stores.homeStore.searchTagsVisible = false)
+  onScrollDown: () => (stores.homeStore.searchTagsVisible = false),
+  isProcessingQuery: stores.homeStore.isProcessingQuery
 }))
 @observer
 export default class SearchResult extends React.Component {
@@ -26,7 +30,12 @@ export default class SearchResult extends React.Component {
 
   // TODO: do something here? search suggestions?
   get renderEmpty() {
-    return <View />;
+    return this.props.isProcessingQuery ? (
+      <Animatable.View animation="fadeIn" style={styles.placeholder}>
+        <ListPlaceholder />
+        <ListPlaceholder />
+      </Animatable.View>
+    ) : null;
   }
 
   render() {
@@ -58,6 +67,12 @@ const styles = StyleSheet.create({
   results: {
     flex: 1,
     marginBottom: NavBar.HEIGHT,
+    backgroundColor: Colours.Foreground
+  },
+
+  placeholder: {
+    padding: Sizes.InnerFrame / 2,
+    paddingVertical: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
   }
 });

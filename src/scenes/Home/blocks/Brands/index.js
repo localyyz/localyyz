@@ -15,6 +15,7 @@ import { lazyObservable } from "mobx-utils";
 import Brand from "./components/Brand";
 import Card from "../Card";
 import MoreFooter from "../../components/MoreFooter";
+import BrandsPlaceholder from "./BrandsPlaceholder";
 
 @withNavigation
 @observer
@@ -67,6 +68,9 @@ export default class Brands extends React.Component {
               numColumns={3}
               renderItem={this.renderItem}
               data={brands}
+              ListEmptyComponent={
+                <BrandsPlaceholder limit={this.props.limit} />
+              }
               keyExtractor={(e, i) => `brand-${i}`}/>
           </View>
         </Card>

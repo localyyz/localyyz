@@ -99,7 +99,10 @@ export default class ParallaxPhoto extends React.Component {
             })
           }}>
           <ConstrainedAspectImage
+            shouldPinWidth
             constrainWidth={this.props.constrainWidth * (1 + ZOOM_AMOUNT)}
+            sourceWidth={this.props.sourceWidth}
+            sourceHeight={this.props.sourceHeight}
             source={this.props.source}
             onLayout={this.increasePhotoHeight}/>
         </Animated.View>
