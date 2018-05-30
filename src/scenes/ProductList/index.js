@@ -101,14 +101,13 @@ export default class ProductListScene extends React.Component {
               headerHeight={this.state.headerHeight}
               paddingBottom={this.state.headerHeight + NavBar.HEIGHT}
               fetchPath={this.store.fetchPath}
-              categories={
-                this.store.categories && this.store.categories.slice()
-              }
               products={this.store.listData.slice()}
               onEndReached={() => this.store.fetchNextPage()}/>
           </ContentCoverSlider>
           <View style={Styles.Overlay} pointerEvents="box-none">
-            <FilterPopup />
+            <FilterPopup
+              categories={this.store.categoryPaths}
+              minWhitespace={Sizes.OuterFrame * 3}/>
           </View>
         </View>
       </Provider>

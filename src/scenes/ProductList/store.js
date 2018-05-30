@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from "mobx";
 import { Product } from "localyyz/models";
-import { box } from "localyyz/helpers";
+import { box, capitalize } from "localyyz/helpers";
 import { ApiInstance } from "localyyz/global";
 
 class Store {
@@ -21,6 +21,13 @@ class Store {
     // bindings
     this.reset = this.reset.bind(this);
     this.fetchNextPage = this.fetchNextPage.bind(this);
+  }
+
+  get categoryPaths() {
+    return (this.categories ? this.categories.slice() : []).map(category => ({
+      title: capitalize(category),
+      fetchPath: `${this.fetchPath}?v=${category}`
+    }));
   }
 
   reset(mergeParams) {

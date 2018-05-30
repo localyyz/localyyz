@@ -76,7 +76,7 @@ export default class FilterPopup extends React.Component {
     return Math.min(
       Sizes.Height - NAVBAR_HEIGHT - this.props.screenOffset,
       Math.max(
-        0,
+        this.props.minWhitespace || Sizes.OuterFrame,
         Sizes.Height
           - NAVBAR_HEIGHT
           - this.props.screenOffset
@@ -130,7 +130,7 @@ export default class FilterPopup extends React.Component {
             <ScrollView
               showsVerticalScrollIndicator={false}
               scrollEnabled={this.props.scrollEnabled}>
-              <StatusBar barStyle="light-content" />
+              <StatusBar hidden />
               <TouchableWithoutFeedback onPress={() => this.toggle(false)}>
                 <View style={[styles.cover, { height: this.dismissPadding }]} />
               </TouchableWithoutFeedback>
@@ -149,7 +149,7 @@ export default class FilterPopup extends React.Component {
                   </View>
                 </TouchableOpacity>
                 <View style={styles.filter}>
-                  <Filter />
+                  <Filter categories={this.props.categories} />
                 </View>
               </Animatable.View>
             </ScrollView>
