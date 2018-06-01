@@ -35,8 +35,12 @@ export default class Product {
   @observable sizes;
   @observable colors;
 
-  constructor(product) {
-    this.setProduct(product);
+  // not part of api product object, but to create separate virtual products
+  // based on different colors
+  @observable selectedColor;
+
+  constructor(product, selectedColor) {
+    this.setProduct(product, selectedColor);
 
     // bindings
     this.changeDescriptionWordsLength = this.changeDescriptionWordsLength.bind(
@@ -77,19 +81,26 @@ export default class Product {
     return this.title ? this.title.split(" ").length : 0;
   }
 
+  // not actually selected variant, but used for a virtual instance to get
+  // prices, etc for the current color product variant
+  get selectedVariant() {
+    return this.variants && this.variants.length > 0
+      ? this.variants.find(
+          variant => variant.etc && variant.etc.color === this.selectedColor
+
+          // can't find a color match, so fallback to the first variant
+        ) || this.variants[0]
+      : {};
+
+    // no variants, no idea what to do here
+  }
+
   get price() {
-    return (
-      (this.variants && this.variants.length > 0 && this.variants[0].price) || 0
-    );
+    return this.selectedVariant.price || 0;
   }
 
   get previousPrice() {
-    return (
-      (this.variants
-        && this.variants.length > 0
-        && this.variants[0].prevPrice)
-      || 0
-    );
+    return this.selectedVariant.prevPrice || 0;
   }
 
   get discount() {
@@ -133,8 +144,53 @@ export default class Product {
     );
   }
 
+  get associatedPhotos() {
+    let photoGroups = this.photoGroups;
+
+    // proposed, group if exists else common
+    return photoGroups[this.selectedColor]
+      && photoGroups[this.selectedColor].length > 0
+      ? photoGroups[this.selectedColor]
+      : photoGroups._common;
+
+    // alternative: merge common with group
+    // return [...(photoGroups[this.selectedColor] || []), ...photoGroups._common];
+  }
+
+  get photoGroups() {
+    let currentGroup = "_common";
+    let groups = { [currentGroup]: [] };
+
+    // build keys of imageId's to colours
+    let keys = {};
+    for (let variant of this.variants) {
+      if (variant.imageId) {
+        keys[variant.imageId] = variant.etc.color;
+
+        // init the group array
+        groups[variant.etc.color] = [];
+      }
+    }
+
+    // cycle through photos until we hit one thats a "key photo" for a known
+    // variant, at which we swap the currentGroup
+
+    // assuming images are grouped by colour, and the first group is
+    // common to all
+    for (let photo of this.images.slice()) {
+      // key has changed, so switch new photos into that group
+      if (keys[photo.id]) {
+        currentGroup = keys[photo.id];
+      }
+
+      groups[currentGroup].push(photo);
+    }
+
+    return groups;
+  }
+
   @action
-  setProduct = product => {
+  setProduct = (product, selectedColor) => {
     this.id = product.id;
     this.description = product.description;
     this.title = product.title;
@@ -152,6 +208,11 @@ export default class Product {
     this.htmlDescription = product.htmlDescription;
     this.noTagDescription = product.noTagDescription;
     this.thumbUrl = product.thumbUrl;
+
+    // set first color if not specified
+    this.selectedColor
+      = selectedColor
+      || (this.colors && this.colors.length > 0 ? this.colors[0] : "");
   };
 }
 

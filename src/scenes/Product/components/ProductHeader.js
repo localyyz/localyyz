@@ -12,17 +12,17 @@ import PropTypes from "prop-types";
 @inject(stores => ({
   product: stores.productStore.product,
   coverPhoto:
-    stores.productStore.product && stores.productStore.product.imageUrl,
+    stores.productStore.product
+    && stores.productStore.product.associatedPhotos[0]
+    && stores.productStore.product.associatedPhotos[0].imageUrl,
   coverPhotoWidth:
     stores.productStore.product
-    && stores.productStore.product.images
-    && stores.productStore.product.images.length > 0
-    && stores.productStore.product.images[0].width,
+    && stores.productStore.product.associatedPhotos[0]
+    && stores.productStore.product.associatedPhotos[0].width,
   coverPhotoHeight:
     stores.productStore.product
-    && stores.productStore.product.images
-    && stores.productStore.product.images.length > 0
-    && stores.productStore.product.images[0].height,
+    && stores.productStore.product.associatedPhotos[0]
+    && stores.productStore.product.associatedPhotos[0].height,
   discount: stores.productStore.product && stores.productStore.product.discount,
   placeRank:
     stores.productStore.product

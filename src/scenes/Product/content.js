@@ -24,7 +24,8 @@ import {
   RelatedProducts,
   ProductDetails,
   MerchantDetails,
-  Photos
+  Photos,
+  ColourVariants
 } from "./components";
 
 @withNavigation
@@ -116,6 +117,7 @@ export default class Content extends React.Component {
           <ProductDetails />
         </View>
         <Photos onPress={this.props.onPressImage} />
+        <ColourVariants />
         <View style={styles.card}>
           <MerchantDetails />
         </View>

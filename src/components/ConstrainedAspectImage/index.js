@@ -36,13 +36,13 @@ export default class ConstrainedAspectImage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      _uri: this.props.source.uri,
+      _uri: (this.props.source && this.props.source.uri) || "",
       _width: this.props.constrainWidth,
       _height: this.props.constrainHeight,
       _isLoading: false,
       didFail: false
     };
-    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+    (DEBUG || this.state._uri === DEBUG_IMAGE)
       && console.log(
         "CONSTRUCT",
         this.state,
@@ -56,7 +56,7 @@ export default class ConstrainedAspectImage extends React.Component {
 
     // and first load, scale if source dimensions known
     if (this.props.sourceWidth && this.props.sourceHeight) {
-      (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+      (DEBUG || this.state._uri === DEBUG_IMAGE)
         && console.log("SOURCE KNOWN ON FIRST LOAD");
 
       this.state = Object.assign(
@@ -75,7 +75,7 @@ export default class ConstrainedAspectImage extends React.Component {
       : null;
 
     return imgUrl(
-      this.props.source.uri,
+      this.state._uri,
       `${constrainWidth ? constrainWidth * PixelRatio.get() : ""}x${
         constrainHeight ? constrainHeight * PixelRatio.get() : ""
       }`
@@ -92,7 +92,8 @@ export default class ConstrainedAspectImage extends React.Component {
 
   get isReady() {
     return (
-      !!this.width
+      !!this.state._uri
+      && !!this.width
       && !!this.height
       && !this.state._isLoading
       && !this.state.didFail
@@ -107,7 +108,7 @@ export default class ConstrainedAspectImage extends React.Component {
     let newState = {
       _uri:
         nextProps.source.uri !== prevState._uri
-          ? nextProps.source.uri
+          ? nextProps.source.uri || ""
           : prevState._uri,
       _width: nextProps.source.uri !== prevState._uri ? null : prevState._width,
       _height:
@@ -117,7 +118,7 @@ export default class ConstrainedAspectImage extends React.Component {
   }
 
   componentDidMount() {
-    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+    (DEBUG || this.state._uri === DEBUG_IMAGE)
       && console.log(
         "CONSTRAINTS",
         this.props.constrainWidth,
@@ -129,7 +130,7 @@ export default class ConstrainedAspectImage extends React.Component {
 
   get shouldUseResizeFilter() {
     return (
-      this.props.source.uri.includes(SHOPIFY_LIQUID)
+      this.state._uri.includes(SHOPIFY_LIQUID)
       && (!this.props.sourceWidth || !this.props.sourceHeight)
     );
   }
@@ -139,7 +140,7 @@ export default class ConstrainedAspectImage extends React.Component {
     let scaledHeight;
 
     // convert back to layout sizing
-    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+    (DEBUG || this.state._uri === DEBUG_IMAGE)
       && console.log("SIZE FETCH RESOLVED", width, height);
 
     // don't handle pixel ratio conversion since image fetched has not
@@ -151,7 +152,7 @@ export default class ConstrainedAspectImage extends React.Component {
       ? PixelRatio.roundToNearestPixel(height / PixelRatio.get())
       : height;
 
-    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+    (DEBUG || this.state._uri === DEBUG_IMAGE)
       && console.log(
         "SCALED DOWN TO",
         scaledWidth,
@@ -177,7 +178,7 @@ export default class ConstrainedAspectImage extends React.Component {
         scaledWidth = this.width;
         scaledHeight = scaledWidth * ratio;
 
-        (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+        (DEBUG || this.state._uri === DEBUG_IMAGE)
           && console.log(
             "CONSTRAINING WIDTH FROM",
             scaledWidth,
@@ -197,7 +198,7 @@ export default class ConstrainedAspectImage extends React.Component {
         scaledHeight = this.height;
         scaledWidth = scaledHeight * ratio;
 
-        (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+        (DEBUG || this.state._uri === DEBUG_IMAGE)
           && console.log(
             "CONSTRAINING HEIGHT FROM",
             scaledHeight,
@@ -208,7 +209,7 @@ export default class ConstrainedAspectImage extends React.Component {
           );
       }
 
-      (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+      (DEBUG || this.state._uri === DEBUG_IMAGE)
         && console.log(
           "SCALED DOWN IS TOO LOW RES OR NEEDS RESIZING, CONVERTED TO",
           scaledWidth,
@@ -225,9 +226,9 @@ export default class ConstrainedAspectImage extends React.Component {
   }
 
   componentDidUpdate() {
-    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+    (DEBUG || this.state._uri === DEBUG_IMAGE)
       && console.log(
-        this.props.source.uri,
+        this.state._uri,
         "RESOLVED AS",
         this.aspectImageUrl,
         "DID UPDATE, WILL FETCH SIZES",
@@ -242,7 +243,7 @@ export default class ConstrainedAspectImage extends React.Component {
             this.setState(this.scale(width, height))
           );
         } else {
-          (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+          (DEBUG || this.state._uri === DEBUG_IMAGE)
             && console.log(
               "SIZE ALREADY KNOWN AS",
               this.props.sourceWidth,
@@ -283,13 +284,13 @@ export default class ConstrainedAspectImage extends React.Component {
           nextProps.constrainWidth
         ));
 
-    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+    (DEBUG || this.state._uri === DEBUG_IMAGE)
       && console.log("SHOULD UPDATE", shouldUpdate);
     return shouldUpdate;
   }
 
   render() {
-    (DEBUG || this.props.source.uri === DEBUG_IMAGE)
+    (DEBUG || this.state._uri === DEBUG_IMAGE)
       && console.log(
         "RENDER, ACTUALLY SHOWING",
         this.isReady,
@@ -347,7 +348,7 @@ export default class ConstrainedAspectImage extends React.Component {
 // via: https://gist.github.com/DanWebb/cce6ab34dd521fcac6ba
 function imgUrl(src, size) {
   // remove any current image size then add the new image size
-  return src.includes(SHOPIFY_LIQUID)
+  return src && src.includes(SHOPIFY_LIQUID)
     ? src
         .replace(
           /_(pico|icon|thumb|small|compact|medium|large|grande|original|1024x1024|2048x2048|master)+\./gi,
