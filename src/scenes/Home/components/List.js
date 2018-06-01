@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { StaggeredList, ProductTile } from "localyyz/components";
+import { ProductTile } from "localyyz/components";
 
 // third party
 import { observer } from "mobx-react/native";
@@ -13,6 +13,7 @@ import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
 // local
 import ListHeader from "./ListHeader";
+import ListPlaceholder from "./ListPlaceholder";
 import MoreFooter from "./MoreFooter";
 
 @observer
@@ -94,6 +95,7 @@ class List extends React.Component {
             renderItem={this.renderItem}
             data={listData.current().slice()}
             numColumns={2}
+            ListEmptyComponent={ListPlaceholder}
             contentContainerStyle={styles.splitList}/>
         </View>
         {this.renderMoreButton}

@@ -46,7 +46,9 @@
     "testPathIgnorePatterns": [
       "/node_modules/"
     ],
-    "setupFiles": ["./src/jestsetup.js"]
+    "setupFiles": [
+      "./src/jestsetup.js"
+    ]
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -78,6 +80,7 @@
     "react-native-tear-lines": "^1.0.3",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^1.5.11",
+    "rn-placeholder": "^1.2.0",
     "url": "^0.11.0"
   },
   "rnpm": {

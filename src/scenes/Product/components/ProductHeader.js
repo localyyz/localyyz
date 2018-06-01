@@ -59,10 +59,11 @@ export default class ProductHeader extends React.Component {
     return (
       <View {...this.props} style={styles.container}>
         <ConstrainedAspectImage
+          shouldPinWidth
+          constrainWidth={Sizes.Width}
           source={{ uri: this.props.coverPhoto }}
           sourceWidth={this.props.coverPhotoWidth}
-          sourceHeight={this.props.coverPhotoHeight}
-          constrainWidth={Sizes.Width}/>
+          sourceHeight={this.props.coverPhotoHeight}/>
       </View>
     );
   }

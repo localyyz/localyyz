@@ -33,6 +33,8 @@ export default class Banner extends React.Component {
           id={this.props.id}
           source={{ uri: this.props.imageUri }}
           constrainWidth={Sizes.Width}
+          sourceWidth={this.props.imageWidth}
+          sourceHeight={this.props.imageHeight}
           startFrom={this.props.id > 1 ? Sizes.Height / 8 : -Sizes.Height / 8}/>
       </TouchableOpacity>
     );

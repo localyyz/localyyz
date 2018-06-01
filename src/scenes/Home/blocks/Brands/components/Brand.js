@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Styles, Colours, Sizes } from "localyyz/constants";
+import { Styles, Sizes } from "localyyz/constants";
 
 // custom
 import { ConstrainedAspectImage } from "localyyz/components";
