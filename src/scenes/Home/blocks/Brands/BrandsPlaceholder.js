@@ -14,7 +14,9 @@ export default class BrandsPlaceholder extends React.Component {
       <View style={[styles.container, this.props.style]}>
         {new Array(this.props.limit || NUM_BRANDS)
           .fill()
-          .map((node, i) => <BrandPlaceholder key={i} />)}
+          .map((node, i) => (
+            <BrandPlaceholder noTitle={this.props.noTitles} key={i} />
+          ))}
       </View>
     );
   }
@@ -29,8 +31,14 @@ class BrandPlaceholder extends React.Component {
             animate="fade"
             width={Sizes.Width / 4}
             height={Sizes.OuterFrame * 2}/>
-          <View style={styles.tileSpacer} />
-          <Placeholder.Line animate="shine" textSize={Sizes.Text} width="60%" />
+          {!this.props.noTitle && (
+            <View style={styles.tileSpacer}>
+              <Placeholder.Line
+                animate="shine"
+                textSize={Sizes.Text}
+                width="60%"/>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -46,11 +54,12 @@ const styles = StyleSheet.create({
 
   tile: {
     width: (Sizes.Width - Sizes.InnerFrame) / 3,
-    marginVertical: Sizes.InnerFrame,
+    marginVertical: Sizes.InnerFrame * 0.9,
     alignItems: "center"
   },
 
   tileSpacer: {
-    height: Sizes.OuterFrame / 3
+    marginTop: Sizes.OuterFrame / 3,
+    marginBottom: Sizes.InnerFrame / 3 * 1.1
   }
 });
