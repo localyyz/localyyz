@@ -17,6 +17,9 @@ import Card from "../Card";
 import MoreFooter from "../../components/MoreFooter";
 import BrandsPlaceholder from "./BrandsPlaceholder";
 
+// constants
+const HIDE_TITLES_TYPE = "designers";
+
 @withNavigation
 @observer
 export default class Brands extends React.Component {
@@ -59,7 +62,7 @@ export default class Brands extends React.Component {
   render() {
     let brands = this.brandsWithLogos;
 
-    return brands.length > 0 ? (
+    return (
       <View style={styles.container}>
         <Card title={this.props.title}>
           <View style={styles.content}>
@@ -69,7 +72,9 @@ export default class Brands extends React.Component {
               renderItem={this.renderItem}
               data={brands}
               ListEmptyComponent={
-                <BrandsPlaceholder limit={this.props.limit} />
+                <BrandsPlaceholder
+                  noTitles={this.props.type == HIDE_TITLES_TYPE}
+                  limit={this.props.limit}/>
               }
               keyExtractor={(e, i) => `brand-${i}`}/>
           </View>
@@ -80,7 +85,7 @@ export default class Brands extends React.Component {
           onPress={this.onPressShowMore}
           numProducts={this.props.numBrands}/>
       </View>
-    ) : null;
+    );
   }
 }
 

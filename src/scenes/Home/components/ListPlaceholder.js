@@ -1,18 +1,20 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Sizes, Colours } from "localyyz/constants";
+import { Sizes } from "localyyz/constants";
 
 // third party
 import Placeholder from "rn-placeholder";
+
+// constants
+const NUM_TILES = 4;
 
 export default class ListPlaceholder extends React.Component {
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
-        <ListTilePlaceholder />
-        <ListTilePlaceholder />
-        <ListTilePlaceholder />
-        <ListTilePlaceholder />
+        {new Array(this.props.limit || NUM_TILES)
+          .fill()
+          .map((node, i) => <ListTilePlaceholder key={i} />)}
       </View>
     );
   }
@@ -48,12 +50,12 @@ const styles = StyleSheet.create({
   },
 
   tile: {
-    width: (Sizes.Width - Sizes.InnerFrame * 3) / 2,
+    width: (Sizes.Width - Sizes.InnerFrame * 4) / 2,
     margin: Sizes.InnerFrame / 2,
     alignItems: "center"
   },
 
   tileSpacer: {
-    height: Sizes.OuterFrame / 2
+    height: Sizes.OuterFrame / 2 * 1.7
   }
 });
