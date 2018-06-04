@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { ConstrainedAspectImage } from "localyyz/components";
+import { capitalize } from "localyyz/helpers";
 
 // third party
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -62,9 +63,19 @@ export default class ProductTile extends React.PureComponent {
             ]}>
             {this.state.photoSize ? (
               <ConstrainedAspectImage
-                source={{ uri: this.props.product.imageUrl }}
-                sourceWidth={this.props.product.images[0].width}
-                sourceHeight={this.props.product.images[0].height}
+                source={{
+                  uri:
+                    this.props.product.associatedPhotos[0]
+                    && this.props.product.associatedPhotos[0].imageUrl
+                }}
+                sourceWidth={
+                  this.props.product.associatedPhotos[0]
+                  && this.props.product.associatedPhotos[0].width
+                }
+                sourceHeight={
+                  this.props.product.associatedPhotos[0]
+                  && this.props.product.associatedPhotos[0].height
+                }
                 constrainWidth={this.state.photoSize}
                 constrainHeight={Sizes.Height / 4}/>
             ) : null}
@@ -92,8 +103,10 @@ export default class ProductTile extends React.PureComponent {
                   <Text> · </Text>
                 ) : null}
                 <Text style={styles.name}>
-                  {this.props.product.brand
-                    || this.props.product.truncatedTitle}
+                  {this.props.isVariant && this.props.product.selectedColor
+                    ? capitalize(this.props.product.selectedColor)
+                    : this.props.product.brand
+                      || this.props.product.truncatedTitle}
                 </Text>
               </Text>
             </View>

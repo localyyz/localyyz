@@ -20,7 +20,7 @@ const PAGE_SIZE = 3;
 
 @inject(stores => ({
   // skip the first one since it's already in the cover
-  photos: stores.productStore.product.images.slice(1)
+  photos: stores.productStore.product.associatedPhotos.slice(1)
 }))
 @observer
 export default class Photos extends React.Component {
