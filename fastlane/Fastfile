@@ -57,7 +57,8 @@ platform :ios do
       app_name: "Localyyz-iOS",
       ipa: "./ios/build/staging/localyyz.ipa",
       group: "Collaborators",
-      release_notes: sh("cat ./../staging_CHANGELOG.md"),
+      release_notes: sh("cat ./../scripts/staging_CHANGELOG.md"),
+      should_clip: false,
     )
   end
 

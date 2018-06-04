@@ -41,6 +41,7 @@ project.xcworkspace
 .env.test.local
 .env.production.local
 
+report.xml
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
