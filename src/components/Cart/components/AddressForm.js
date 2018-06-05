@@ -53,6 +53,8 @@ export default class AddressForm extends React.Component {
   static propTypes = {
     address: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
+    isShipping: PropTypes.bool,
+    isBilling: PropTypes.bool,
 
     // mobx injected
     add: PropTypes.func.isRequired,
@@ -69,9 +71,7 @@ export default class AddressForm extends React.Component {
     this.state = {
       address: new UserAddress({
         ..._splitName(this.props.defaultName),
-        isShipping: true,
-        isBilling: true,
-
+        ...this.addressTypes,
         ...props.address
       }),
       name: props.address.fullName || this.props.defaultName
@@ -89,6 +89,19 @@ export default class AddressForm extends React.Component {
     // defaultName changes updates state
     next.defaultName !== this.props.defaultName
       && this.onNameUpdate(next.defaultName);
+  }
+
+  get addressTypes() {
+    return {
+      isShipping:
+        this.props.address && this.props.address.isShipping != null
+          ? this.props.address.isShipping
+          : this.props.isShipping != null ? this.props.isShipping : true,
+      isBilling:
+        this.props.address && this.props.address.isBilling != null
+          ? this.props.address.isBilling
+          : this.props.isBilling != null ? this.props.isBilling : true
+    };
   }
 
   get isComplete() {
