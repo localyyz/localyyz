@@ -36,7 +36,8 @@ export default class FilterStore {
 
   @action
   setDiscountFilter(min) {
-    this.discountMin = min;
+    var multiplier = Math.pow(10, 2);
+    this.discountMin = Math.round(min * multiplier) / multiplier;
   }
 
   @action
@@ -66,17 +67,15 @@ export default class FilterStore {
   get fetchParams() {
     return {
       ...(this.sortBy && {
-        sort: { type: this.sortBy }
+        sort: this.sortBy
       }),
       ...(this.priceMin || this.priceMax || this.discountMin
         ? {
-            filters: [
+            filter: [
               ...(this.priceMin || this.priceMax
-                ? [{ type: "price", min: this.priceMin, max: this.priceMax }]
+                ? [`price,min=${this.priceMin},max=${this.priceMax}`]
                 : []),
-              ...(this.discountMin
-                ? [{ type: "discount", min: this.discountMin }]
-                : [])
+              ...(this.discountMin ? [`discount,min=${this.discountMin}`] : [])
             ]
           }
         : null)

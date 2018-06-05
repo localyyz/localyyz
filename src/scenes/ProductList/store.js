@@ -30,18 +30,19 @@ class Store {
     }));
   }
 
-  reset(mergeParams) {
+  reset(mergeParams = {}) {
     this.isLoading = null;
     this.next = null;
     this.self = null;
 
     // merge with old params
+    let params = {};
     if (mergeParams) {
-      this.defaultParams = { ...this.defaultParams, ...mergeParams };
+      params = { ...this.defaultParams, ...mergeParams };
     }
 
     // and finally refetch
-    this.fetchNextPage();
+    this.fetchNextPage(params);
   }
 
   @action

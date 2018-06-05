@@ -16,7 +16,11 @@ import * as Animatable from "react-native-animatable";
 export default class SortBy extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
-    value: PropTypes.string
+    value: PropTypes.string,
+
+    // injected by mobx
+    sortBy: PropTypes.string,
+    setSortBy: PropTypes.func.isRequired
   };
 
   constructor(props) {

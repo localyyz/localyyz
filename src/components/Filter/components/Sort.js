@@ -7,10 +7,10 @@ import SortBy from "./SortBy";
 // constants
 const SORT_BY = [
   { label: "Recommended" },
-  { label: "What's new", value: "new" },
-  { label: "Price (Ascending)", value: "price_asc" },
-  { label: "Price (Descending)", value: "price_desc" },
-  { label: "Discount", value: "discount" }
+  { label: "What's new", value: "-created_at" },
+  { label: "Price (Ascending)", value: "price" },
+  { label: "Price (Descending)", value: "-price" },
+  { label: "Discount", value: "-discount" }
 ];
 
 export default class Sort extends React.Component {
