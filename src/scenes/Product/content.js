@@ -14,7 +14,7 @@ import { NAVBAR_HEIGHT } from "../../components/NavBar";
 // third party
 import PropTypes from "prop-types";
 import LinearGradient from "react-native-linear-gradient";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 
 // local component
@@ -24,7 +24,8 @@ import {
   RelatedProducts,
   ProductDetails,
   MerchantDetails,
-  Photos
+  Photos,
+  ColourVariants
 } from "./components";
 
 @withNavigation
@@ -116,6 +117,7 @@ export default class Content extends React.Component {
           <ProductDetails />
         </View>
         <Photos onPress={this.props.onPressImage} />
+        <ColourVariants />
         <View style={styles.card}>
           <MerchantDetails />
         </View>

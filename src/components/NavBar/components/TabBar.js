@@ -8,7 +8,7 @@ import { changeTab, onlyIfLoggedIn } from "localyyz/helpers";
 
 // third party
 import { withNavigation } from "react-navigation";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({

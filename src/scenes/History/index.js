@@ -4,7 +4,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 // custom
 import { ContentCoverSlider, NavBar } from "localyyz/components";

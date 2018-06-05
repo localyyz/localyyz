@@ -7,7 +7,7 @@ import { SloppyView } from "localyyz/components";
 
 // third party
 import PropTypes from "prop-types";
-import { inject } from "mobx-react";
+import { inject } from "mobx-react/native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 
@@ -33,10 +33,7 @@ class ProductVariantSelector extends React.Component {
     // TODO: verify product has variants
     const { product } = props;
     this.state = {
-      color:
-        product && product.colors && product.colors.length > 0
-          ? product.colors[0]
-          : null,
+      color: product && product.selectedColor,
       size:
         product && product.sizes && product.sizes.length > 0
           ? product.sizes[0]
@@ -153,7 +150,7 @@ class ProductVariantSelector extends React.Component {
     let variant = this.findVariantWithSelection(
       this.state.size,
       this.state.color
-    ) || { description: "one size" };
+    ) || { etc: { size: "one size" } };
 
     return (
       <View style={styles.container}>
@@ -165,7 +162,7 @@ class ProductVariantSelector extends React.Component {
                 <Text style={styles.selectedLabelHeader}>Size:</Text>
                 <Text>{"  "}</Text>
                 <Text style={styles.selectedLabelContent}>
-                  {variant.description}
+                  {variant.etc.size || "one size"}
                 </Text>
                 <Text>{"  "}</Text>
               </Text>

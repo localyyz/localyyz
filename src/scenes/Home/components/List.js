@@ -3,16 +3,17 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { StaggeredList, ProductTile } from "localyyz/components";
+import { ProductTile } from "localyyz/components";
 
 // third party
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
-import { PropTypes as mobxPropTypes } from "mobx-react";
+import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
 // local
 import ListHeader from "./ListHeader";
+import ListPlaceholder from "./ListPlaceholder";
 import MoreFooter from "./MoreFooter";
 
 @observer
@@ -27,6 +28,7 @@ class List extends React.Component {
     hideHeader: PropTypes.bool,
     description: PropTypes.string,
     withMargin: PropTypes.bool,
+    limit: PropTypes.number,
 
     // more button
     fetchPath: PropTypes.string.isRequired,
@@ -39,11 +41,6 @@ class List extends React.Component {
     description: "",
     withMargin: false
   };
-
-  // TODO: do something here? search suggestions?
-  get renderLoading() {
-    return <View />;
-  }
 
   get renderMoreButton() {
     return (
@@ -81,19 +78,20 @@ class List extends React.Component {
     // TODO: _motion animation
     const { listData, withMargin, ...rest } = this.props;
 
-    return !listData
-      || listData.current() === undefined
-      || listData.current().length < 1 ? (
-      this.renderLoading
-    ) : (
+    return (
       <View>
         {!this.props.hideHeader ? <ListHeader {...rest} /> : null}
         <View style={withMargin ? styles.listWrapper : {}}>
           <FlatList
             keyExtractor={item => `product-${item.id}`}
             renderItem={this.renderItem}
-            data={listData.current().slice()}
+            data={
+              listData && listData.current() && listData.current().length > 0
+                ? listData.current().slice()
+                : []
+            }
             numColumns={2}
+            ListEmptyComponent={<ListPlaceholder limit={this.props.limit} />}
             contentContainerStyle={styles.splitList}/>
         </View>
         {this.renderMoreButton}

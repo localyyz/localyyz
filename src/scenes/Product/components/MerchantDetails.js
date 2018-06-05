@@ -15,7 +15,7 @@ import { capitalize } from "localyyz/helpers";
 // third party
 import PropTypes from "prop-types";
 import { withNavigation } from "react-navigation";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
 // local

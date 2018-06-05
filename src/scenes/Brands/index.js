@@ -6,7 +6,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import { ContentCoverSlider, NavBar } from "localyyz/components";
 
 // third party
-import { Provider } from "mobx-react";
+import { Provider } from "mobx-react/native";
 
 // local
 import { Featured, Listing } from "./components";

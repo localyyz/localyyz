@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Localyyz</string>
+    <string>$(APP_DISPLAY_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -37,7 +37,7 @@
 	<key>CFBundleVersion</key>
 	<string>223</string>
 	<key>CodePushDeploymentKey</key>
-	<string>38fHcLE-rpHeE1YO-3cDtw19RTcVry-u2nyeG</string>
+	<string>$(CODE_PUSH_KEY)</string>
 	<key>FacebookAppID</key>
 	<string>$(FACEBOOK_APP_ID)</string>
 	<key>FacebookDisplayName</key>

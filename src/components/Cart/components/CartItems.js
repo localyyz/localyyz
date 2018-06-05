@@ -5,7 +5,7 @@ import CartItem from "./CartItem";
 
 // third party
 import PropTypes from "prop-types";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 @inject(stores => ({
   isVisible: stores.cartUiStore.isItemsVisible,

@@ -6,7 +6,7 @@ import { ConstrainedAspectImage } from "localyyz/components";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 
 // constants
 const ZOOM_AMOUNT = 0.2;
@@ -99,7 +99,10 @@ export default class ParallaxPhoto extends React.Component {
             })
           }}>
           <ConstrainedAspectImage
+            shouldPinWidth
             constrainWidth={this.props.constrainWidth * (1 + ZOOM_AMOUNT)}
+            sourceWidth={this.props.sourceWidth}
+            sourceHeight={this.props.sourceHeight}
             source={this.props.source}
             onLayout={this.increasePhotoHeight}/>
         </Animated.View>

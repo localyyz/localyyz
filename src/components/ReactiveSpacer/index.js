@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 
 @observer
 export default class ReactiveSpacer extends React.Component {

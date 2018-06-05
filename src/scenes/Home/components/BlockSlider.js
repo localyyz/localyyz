@@ -11,7 +11,7 @@ import { Styles, Sizes, Colours } from "localyyz/constants";
 import { SloppyView } from "localyyz/components";
 
 // third party
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 import LinearGradient from "react-native-linear-gradient";
 

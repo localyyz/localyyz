@@ -3,7 +3,7 @@ import React from "react";
 import { resetHome } from "localyyz/helpers";
 
 //import branch from "react-native-branch";
-import { inject } from "mobx-react";
+import { inject } from "mobx-react/native";
 
 @inject("loginStore", "navStore")
 class Deeplink extends React.Component {

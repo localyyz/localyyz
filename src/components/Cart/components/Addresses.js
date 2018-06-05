@@ -11,7 +11,11 @@ import CartHeader from "./CartHeader";
 // third party
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { inject, observer, PropTypes as mobxPropTypes } from "mobx-react";
+import {
+  inject,
+  observer,
+  PropTypes as mobxPropTypes
+} from "mobx-react/native";
 
 @inject(stores => ({
   addresses: stores.addressStore.addresses,
@@ -30,6 +34,8 @@ export default class Addresses extends React.Component {
   static propTypes = {
     address: PropTypes.object.isRequired,
     title: PropTypes.string,
+    isShipping: PropTypes.bool,
+    isBilling: PropTypes.bool,
 
     // mobx injected
     addresses: mobxPropTypes.arrayOrObservableArray.isRequired,
@@ -59,8 +65,7 @@ export default class Addresses extends React.Component {
         props.address && props.address.address && !props.address.hasError,
       // isShipping and isBilling defines type of address this component is
       // editing
-      isShipping: props.address.isShipping,
-      isBilling: props.address.isBilling
+      ...this.addressTypes
     };
   }
 
@@ -89,6 +94,19 @@ export default class Addresses extends React.Component {
     this.props.fetch();
   }
 
+  get addressTypes() {
+    return {
+      isShipping:
+        this.props.address && this.props.address.isShipping != null
+          ? this.props.address.isShipping
+          : this.props.isShipping != null ? this.props.isShipping : true,
+      isBilling:
+        this.props.address && this.props.address.isBilling != null
+          ? this.props.address.isBilling
+          : this.props.isBilling != null ? this.props.isBilling : true
+    };
+  }
+
   toggleSelect = selecting => {
     // determine if selecting
     const isSelecting = selecting != null ? selecting : !this.state.isSelecting;
@@ -103,8 +121,7 @@ export default class Addresses extends React.Component {
   onAddressUpdate = address => {
     this.props.update({
       ...address,
-      isShipping: this.state.isShipping,
-      isBilling: this.state.isBilling
+      ...this.addressTypes
     });
 
     this.setState({
@@ -174,6 +191,8 @@ export default class Addresses extends React.Component {
   get renderAddressForm() {
     return (
       <AddressForm
+        isBillng={this.props.isBilling}
+        isShipping={this.props.isShipping}
         address={this.state.currentAddress}
         onSubmit={address => this.onAddressUpdate(address)}/>
     );

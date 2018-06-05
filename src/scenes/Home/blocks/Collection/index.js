@@ -9,7 +9,7 @@ import { box } from "localyyz/helpers";
 // third party
 import PropTypes from "prop-types";
 import { observable, reaction } from "mobx";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 import { lazyObservable } from "mobx-utils";
 
 // local

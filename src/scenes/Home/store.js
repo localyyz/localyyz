@@ -64,9 +64,9 @@ export default class HomeStore {
   // processing: onEndReached would be incorrectly triggered as list items
   //  starts to load, need to switch to a loading state to not over load
 
-  _next = 1;
+  @box _next = 1;
   _hasNextPage = true;
-  _processing = false;
+  @box _processing = false;
 
   reactSearch = reaction(
     () => this.searchQuery,
@@ -84,6 +84,11 @@ export default class HomeStore {
     },
     { delay: SEARCH_DELAY }
   );
+
+  @computed
+  get isProcessingQuery() {
+    return !!this._processing && this._next === 1;
+  }
 
   fetchNextPage = () => {
     if (this._hasNextPage && !this._processing) {
@@ -142,36 +147,34 @@ export default class HomeStore {
   hasFetchedCategory = false;
 
   @action
-  fetchCategoryBlocks() {
+  async fetchCategoryBlocks() {
     if (!this.hasFetchedCategory) {
       this.hasFetchedCategory = true;
-      this.api.get("categories").then(response => {
-        if (
-          response.status < 400
-          && response.data
-          && response.data.length > 0
-        ) {
-          let categoryBlocks = response.data.map(category => ({
-            type: "productList",
-            categories: category.values,
-            id: category.type,
+      let response = await this.api.get("categories");
+      if (response.status < 400 && response.data && response.data.length > 0) {
+        let categoryBlocks = response.data.map(category => ({
+          type: "productList",
+          categories: category.values,
+          id: category.type,
 
-            // used to differentiate from locally specified
-            _fetched: true,
-            title: capitalize(category.type),
-            basePath: `categories/${category.type}`,
-            path: `categories/${category.type}/products`,
-            limit: 4
-          }));
+          // used to differentiate from locally specified
+          _fetched: true,
+          title: capitalize(category.type),
+          basePath: `categories/${category.type}`,
+          path: `categories/${category.type}/products`,
+          limit: 4
+        }));
 
-          runInAction("[ACTION] appending category blocks to layout", () => {
+        return await runInAction(
+          "[ACTION] appending category blocks to layout",
+          () => {
             this.blocks = [
               ...this.filterBlocks(this.blocks, "productList"),
               ...categoryBlocks
             ];
-          });
-        }
-      });
+          }
+        );
+      }
     }
   }
 
@@ -180,41 +183,40 @@ export default class HomeStore {
   }
 
   @action
-  fetchCollectionBlocks() {
-    this.api.get("collections").then(response => {
-      if (response.status < 400 && response.data && response.data.length > 0) {
-        // first one is always at the top
-        let insertBlockIndex = 0;
-        let blocks = this.filterBlocks(this.blocks.slice(), "collection");
+  async fetchCollectionBlocks() {
+    let response = await this.api.get("collections");
+    if (response.status < 400 && response.data && response.data.length > 0) {
+      // first one is always at the top
+      let insertBlockIndex = 0;
+      let blocks = this.filterBlocks(this.blocks.slice(), "collection");
 
-        // insert the remaining ones randomly across the block layout
-        for (let collection of response.data) {
-          blocks.splice(insertBlockIndex, 0, {
-            ...collection,
-            type: "collection",
-            path: `collections/${collection.id}/products`,
-            title: collection.name
-          });
+      // insert the remaining ones randomly across the block layout
+      for (let collection of response.data) {
+        blocks.splice(insertBlockIndex, 0, {
+          ...collection,
+          type: "collection",
+          path: `collections/${collection.id}/products`,
+          title: collection.name
+        });
 
-          // starting at second item, since don't want before first and spacer,
-          // and immediately after first
-          //
-          // TODO: don't allow two collections beside each other
-          insertBlockIndex
-            = randInt(blocks.length - (insertBlockIndex + 2))
-            + (insertBlockIndex + 2);
-        }
-
-        // update blocks layout with inserted collections scattered randomly
-        // and header
-        runInAction(
-          "[ACTION] appending category blocks randomly to layout",
-          () => {
-            this.blocks = blocks;
-          }
-        );
+        // starting at second item, since don't want before first and spacer,
+        // and immediately after first
+        //
+        // TODO: don't allow two collections beside each other
+        insertBlockIndex
+          = randInt(blocks.length - (insertBlockIndex + 2))
+          + (insertBlockIndex + 2);
       }
-    });
+
+      // update blocks layout with inserted collections scattered randomly
+      // and header
+      return await runInAction(
+        "[ACTION] appending category blocks randomly to layout",
+        () => {
+          this.blocks = blocks;
+        }
+      );
+    }
   }
 
   @computed

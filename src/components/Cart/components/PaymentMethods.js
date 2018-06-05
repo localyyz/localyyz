@@ -15,7 +15,7 @@ import CartField from "./CartField";
 
 // third party
 import PropTypes from "prop-types";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 

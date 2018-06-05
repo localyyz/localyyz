@@ -6,7 +6,11 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import { LiquidImage } from "localyyz/components";
 
 // third party
-import { inject, observer, PropTypes as mobxPropTypes } from "mobx-react";
+import {
+  inject,
+  observer,
+  PropTypes as mobxPropTypes
+} from "mobx-react/native";
 import PropTypes from "prop-types";
 import Carousel from "react-native-snap-carousel";
 

@@ -12,7 +12,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // third party
 import EntypoIcon from "react-native-vector-icons/Entypo";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 @inject(stores => {
   const { homeStore: store } = stores;

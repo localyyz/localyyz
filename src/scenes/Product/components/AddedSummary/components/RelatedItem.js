@@ -8,7 +8,7 @@ import { randInt, toPriceString } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
-import { inject } from "mobx-react";
+import { inject } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import * as Animatable from "react-native-animatable";
 

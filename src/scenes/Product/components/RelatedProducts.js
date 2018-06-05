@@ -7,7 +7,7 @@ import { ProductList, MoreTile } from "localyyz/components";
 
 // third party
 import { withNavigation } from "react-navigation";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
 @withNavigation
@@ -50,7 +50,7 @@ export default class RelatedProducts extends React.Component {
     return this.props.relatedProducts.length > 0 ? (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerLabel}>Related products</Text>
+          <Text style={styles.headerLabel}>Others also viewed</Text>
         </View>
         <ProductList products={this.props.relatedProducts} />
         <View style={styles.footer}>
@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
 
   header: {
     marginVertical: Sizes.InnerFrame,
-    paddingTop: Sizes.InnerFrame,
     backgroundColor: Colours.Transparent
   },
 
   headerLabel: {
-    ...Styles.Title,
+    ...Styles.Text,
+    ...Styles.Emphasized,
     marginHorizontal: Sizes.InnerFrame
   },
 

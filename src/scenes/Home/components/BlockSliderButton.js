@@ -3,13 +3,20 @@ import { View, StyleSheet, Text } from "react-native";
 import { Styles, Sizes } from "localyyz/constants";
 
 // third party
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
+import PropTypes from "prop-types";
 
-@inject(stores => ({
-  currentBlock: stores.homeStore.currentTrackedBlock
+@inject((stores, props) => ({
+  currentBlock: (stores.homeStore || props.homeStore).currentTrackedBlock
 }))
 @observer
 export default class BlockSliderButton extends React.Component {
+  static propTypes = {
+    id: PropTypes.any,
+    currentBlock: PropTypes.any,
+    block: PropTypes.object
+  };
+
   render() {
     return (
       <View style={styles.container}>

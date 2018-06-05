@@ -1,0 +1,78 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    skip_docs
+  end
+
+  desc "Build and upload staging for testing"
+  lane :staging do
+    ensure_git_branch(
+      branch: "staging"
+    )
+    ensure_git_status_clean()
+  
+    build_ios_app(
+      workspace: "./ios/localyyz.xcworkspace",
+      scheme: "staging",
+      configuration: "Staging",
+      silent: true,
+      clean: true,
+      output_directory: "./ios/build/staging",
+      output_name: "localyyz.ipa",
+      export_method: "ad-hoc",
+      include_bitcode: false,
+      export_options: {
+        method: "ad-hoc",
+        signingStyle: "manual",
+        provisioningProfiles: { 
+          "org.localyyz.dev" => "Development",
+          "org.localyyz.toronto" => "XC iOS: org.localyyz.toronto",
+          "org.localyyz.staging" => "Staging"
+        },
+        uploadBitcode: false,
+        uploadSymbols: true,
+        compileBitcode: false
+      }
+    )
+
+    appcenter_upload(
+      api_token: ENV["CODE_PUSH_API_KEY"],
+      owner_name: ENV["CODE_PUSH_OWNER_NAME"],
+      app_name: "Localyyz-iOS",
+      ipa: "./ios/build/staging/localyyz.ipa",
+      group: "Collaborators",
+      release_notes: sh("cat ./../scripts/staging_CHANGELOG.md"),
+      should_clip: false,
+    )
+  end
+
+  lane :build do |options|
+    scheme = (options[:release] ? "release" : "staging")
+    build_ios_app(
+      workspace: "./ios/localyyz.xcworkspace",
+      scheme: scheme,
+      configuration: scheme,
+      silent: true,
+      clean: true,
+      output_directory: "./ios/build/#{scheme}",
+      output_name: "localyyz.ipa"
+    )
+  end
+
+end

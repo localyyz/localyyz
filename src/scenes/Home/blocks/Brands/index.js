@@ -8,13 +8,17 @@ import { Colours, Sizes } from "localyyz/constants";
 // third party
 import { withNavigation } from "react-navigation";
 import { observable } from "mobx";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 import { lazyObservable } from "mobx-utils";
 
 // local
 import Brand from "./components/Brand";
 import Card from "../Card";
 import MoreFooter from "../../components/MoreFooter";
+import BrandsPlaceholder from "./BrandsPlaceholder";
+
+// constants
+const HIDE_TITLES_TYPE = "designers";
 
 @withNavigation
 @observer
@@ -58,7 +62,7 @@ export default class Brands extends React.Component {
   render() {
     let brands = this.brandsWithLogos;
 
-    return brands.length > 0 ? (
+    return (
       <View style={styles.container}>
         <Card title={this.props.title}>
           <View style={styles.content}>
@@ -67,6 +71,11 @@ export default class Brands extends React.Component {
               numColumns={3}
               renderItem={this.renderItem}
               data={brands}
+              ListEmptyComponent={
+                <BrandsPlaceholder
+                  noTitles={this.props.type == HIDE_TITLES_TYPE}
+                  limit={this.props.limit}/>
+              }
               keyExtractor={(e, i) => `brand-${i}`}/>
           </View>
         </Card>
@@ -76,7 +85,7 @@ export default class Brands extends React.Component {
           onPress={this.onPressShowMore}
           numProducts={this.props.numBrands}/>
       </View>
-    ) : null;
+    );
   }
 }
 

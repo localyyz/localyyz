@@ -7,7 +7,7 @@ import AssistantMessage from "./components/Message.js";
 
 // third party
 import { computed } from "mobx";
-import { inject } from "mobx-react";
+import { inject } from "mobx-react/native";
 
 // constants
 const DEFAULT_TYPE_TIME = 120;

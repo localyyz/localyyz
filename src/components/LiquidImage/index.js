@@ -3,7 +3,7 @@ import { StyleSheet, Animated, Easing, Image } from "react-native";
 
 // third party
 import { observable, computed, runInAction } from "mobx";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
 @observer

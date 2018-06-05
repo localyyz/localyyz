@@ -6,11 +6,12 @@ import { NAVBAR_HEIGHT, Colours, Sizes } from "localyyz/constants";
 import { ReactiveSpacer } from "localyyz/components";
 
 // third party
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 
 // local
 import { Banner, Collection, Brands } from "../blocks";
 import BlockSlider from "./BlockSlider";
+import MainPlaceholder from "./MainPlaceholder";
 
 // constants
 const VIEWABLITY_CONFIG = {
@@ -35,15 +36,27 @@ const VIEWABLITY_CONFIG = {
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isLayoutReady: false
+    };
 
     // bindings
     this.scrollTo = this.scrollTo.bind(this);
     this.renderBlock = this.renderBlock.bind(this);
     this.onViewableBlockChange = this.onViewableBlockChange.bind(this);
+    this.load = this.load.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchCollectionBlocks();
+    this.load();
+  }
+
+  async load() {
+    await this.props.fetchCategoryBlocks();
+    await this.props.fetchCollectionBlocks();
+
+    // and finally allow render
+    this.setState({ isLayoutReady: true });
   }
 
   onViewableBlockChange(changes) {
@@ -68,8 +81,6 @@ export default class Main extends React.Component {
         contentContainerStyle={styles.content}
         renderItem={this.renderBlock}
         showsVerticalScrollIndicator={false}
-        onEndReachedThreshold={1}
-        onEndReached={this.props.fetchCategoryBlocks}
         scrollEventThrottle={16}
         onViewableItemsChanged={this.onViewableBlockChange}
         viewabilityConfig={VIEWABLITY_CONFIG}
@@ -99,33 +110,25 @@ export default class Main extends React.Component {
       case "productList":
         component = (
           <Collection
+            {...block}
             withMargin
             id={i}
-            title={block.title}
-            description={block.description}
             fetchFrom={block.path}
-            basePath={block.basePath}
-            categories={block.categories}
-            limit={block.limit}/>
+            basePath={block.path}/>
         );
         break;
       case "collection":
         component = (
           <View
             style={i > 0 ? styles.blockContainer : styles.firstBlockContainer}>
-            <Banner
-              id={i}
-              imageUri={block.imageUrl}
-              title={block.title}
-              description={block.description}
-              path={block.path}/>
+            <Banner {...block} id={i} imageUri={block.imageUrl} />
             <Collection
+              {...block}
               withMargin
               noMargin
               hideHeader
-              title={block.title}
-              description={block.description}
               fetchFrom={block.path}
+              imageUrl={null}
               limit={4}/>
           </View>
         );
@@ -133,12 +136,10 @@ export default class Main extends React.Component {
       case "brand":
         component = (
           <Brands
+            {...block}
             id={i}
             limit={12}
-            title={block.title}
-            description={block.description}
             type={block.brandType}
-            numBrands={block.numBrands}
             shouldShowName={!!block.shouldShowName}/>
         );
         break;
@@ -152,13 +153,15 @@ export default class Main extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.isLayoutReady ? (
       <View style={styles.container}>
         <View style={styles.contentContainer}>{this.renderBlocks}</View>
         <View style={styles.slider}>
           <BlockSlider scrollTo={this.scrollTo} />
         </View>
       </View>
+    ) : (
+      <MainPlaceholder />
     );
   }
 }

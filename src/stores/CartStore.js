@@ -10,6 +10,7 @@ import { assistantStore, addressStore } from "localyyz/stores";
 import Moment from "moment";
 import isEmpty from "lodash/isEmpty";
 import { observable, action, computed, runInAction } from "mobx";
+import padStart from "lodash.padstart";
 
 // consts
 const DEFAULT_CART = "default";
@@ -202,11 +203,16 @@ export default class CartStore {
   // converts to server spec, legacy from rn-cc-input
   @computed
   get payment() {
+    let expiryMonth = `${this.paymentDetails.expiryMonth || ""}`;
+    let expiryYear = `${this.paymentDetails.expiryYear || ""}`;
+
     return {
       number: this.paymentDetails.number,
-      expiry: `${(this.paymentDetails.expiryMonth || "").padStart(2, "0")}/${(
-        this.paymentDetails.expiryYear || ""
-      ).padStart(2, "0")}`,
+      expiry: `${padStart(expiryMonth, 2, "0")}/${padStart(
+        expiryYear,
+        2,
+        "0"
+      )}`,
       cvc: this.paymentDetails.cvc,
       name: this.paymentDetails.name
     };

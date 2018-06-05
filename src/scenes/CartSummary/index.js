@@ -122,6 +122,7 @@ export default class CartSummaryScene extends React.Component {
     // bindings
     this.onBack = this.onBack.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+    this.clearExploder = this.clearExploder.bind(this);
   }
 
   componentWillReceiveProps(next) {
@@ -152,29 +153,30 @@ export default class CartSummaryScene extends React.Component {
     this.props.navigation.goBack();
   }
 
+  clearExploder(wasSuccessful) {
+    this.setState(
+      {
+        // change to true to demo success page
+        wasSuccessful: wasSuccessful,
+        isProcessing: false
+      },
+      () => {
+        this.contentRef.current.scrollTo(0);
+      }
+    );
+  }
+
   onConfirm() {
     // timeout to allow animations show through even
     // if payment takes less time
-    setTimeout(() =>
-      this.props.finalize().then(
-        wasSuccessful =>
-          this.setState(
-            {
-              // change to true to demo success page
-              wasSuccessful: wasSuccessful,
-              isProcessing: false
-            },
-            () => {
-              this.exploderRef.current
-                && this.exploderRef.current.wrappedInstance
-                && this.exploderRef.current.wrappedInstance.reset();
-
-              this.contentRef.current.scrollTo(0);
-            }
-          ),
-        1000
+    this.props
+      .finalize()
+      .then(wasSuccessful =>
+        setTimeout(() => this.clearExploder(!!wasSuccessful), 1000)
       )
-    );
+      .catch(err => {
+        this.clearExploder(false);
+      });
   }
 
   get renderDetails() {
@@ -443,18 +445,16 @@ export default class CartSummaryScene extends React.Component {
                 }`}
               </Text>
               <ExplodingButton
-                ref={this.exploderRef}
                 shouldToggleNavbar={false}
                 navigation={this.props.navigation}
                 color={Colours.PositiveButton}
-                onPress={() =>
-                  this.setState(
-                    {
-                      isProcessing: true
-                    },
-                    this.onConfirm
-                  )
-                }>
+                isExploded={this.state.isProcessing}
+                explode={async () =>
+                  this.setState({
+                    isProcessing: true
+                  })
+                }
+                onPress={this.onConfirm}>
                 <View style={[Styles.RoundedButton, styles.paymentButton]}>
                   <UppercasedText style={styles.paymentButtonLabel}>
                     Confirm Payment
@@ -738,7 +738,7 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Colours.Transparent
+    backgroundColor: Colours.Primary
   },
 
   overlayText: {

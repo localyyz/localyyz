@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Styles, Colours, Sizes } from "localyyz/constants";
+import { Styles, Sizes } from "localyyz/constants";
 
 // custom
 import { ConstrainedAspectImage } from "localyyz/components";
@@ -8,7 +8,7 @@ import { capitalize } from "localyyz/helpers";
 
 // third party
 import { withNavigation } from "react-navigation";
-import { observer } from "mobx-react";
+import { observer } from "mobx-react/native";
 
 @withNavigation
 @observer

@@ -4,7 +4,7 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // third party
 import { reaction } from "mobx";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 // constants

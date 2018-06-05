@@ -9,7 +9,7 @@ import { ApiInstance } from "localyyz/global";
 // third party
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import LinearGradient from "react-native-linear-gradient";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({
