@@ -25,6 +25,7 @@ const DEBUG_CARDHOLDER = "Johnny Appleseed";
 export default class CartStore {
   @observable cart;
   @observable paymentDetails;
+  @observable email;
 
   // transition states
   @observable isCheckingOut = false;
@@ -213,6 +214,11 @@ export default class CartStore {
   }
 
   // cart actions
+  @action 
+  updateEmail = (email) => {
+    this.email = email
+  }
+
   @action
   replace = cart => {
     this.cart.update(cart);
@@ -376,7 +382,7 @@ export default class CartStore {
     // TODO: default should be this.cart.id not "default", backend design issue
     const route = `/carts/${cartId || DEFAULT_CART}/checkout`;
 
-    const response = await this._api.post(route, null);
+    const response = await this._api.post(route, {email: this.email});
     if (response && response.status < 400 && response.data) {
       // NOTE: shouldLog is set when cart status is transitioned
       // from inProgress => checkout

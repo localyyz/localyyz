@@ -18,6 +18,7 @@ export const STRIPE_DEF_MERCHANT_ID = "merchant.com.localyyz.toronto";
 export const DEFAULT_ADDRESS = "1 Infinite Loop, Cupertino, CA 95014, US";
 export const DEFAULT_ADDRESS_OPT = "Suite 100";
 export const DEFAULT_NAME = "Johnny Appleseed";
+export const DEFAULT_EMAIL = "johny.appleseed@random.com"
 
 export const CART_STATUS_INPROGRESS = "inprogress";
 export const CART_STATUS_PAYMENT_SUCCESS = "payment_success";

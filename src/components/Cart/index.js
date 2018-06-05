@@ -9,6 +9,8 @@ import CartSummary from "./components/CartSummary";
 import CartHeader from "./components/CartHeader";
 import Addresses from "./components/Addresses";
 import PaymentMethods from "./components/PaymentMethods";
+import Email from "./components/Email";
+
 import { Assistant } from "localyyz/components";
 
 // third party
@@ -56,6 +58,7 @@ export default class Cart extends React.Component {
       <TouchableWithoutFeedback>
         <View>
           <CartItems />
+          <Email/>
           <Addresses title="Shipping to" address={this.props.shippingDetails} />
           <PaymentMethods />
           <Addresses
