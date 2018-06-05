@@ -1,8 +1,21 @@
 # Deploying Android
 
+bump:
+    versionCode
+    versionName
+
 ./gradlew assembleRelease
 
 ../android/app/build/outputs/apk/release
+
+# Running on Android
+
+react-native run-android (--variant=release)
+
+
+adb devices
+
+adb reverse tcp:8081 tcp:8081
 
 
 # codepush

@@ -9,3 +9,10 @@ Placeholders on Home, Blocks, ConstrainedAspectPhoto, and Search to smoothen loa
 Product Variant side swipe list
 
 - Completed: Virtual Products based on Color Variants, with other colors displayed on Product page if available
+
+Fixes:
+
+- Issue with first time selecting cart address on android
+- Issue on android with a builtin string pad function doesn't work. Causing
+  issue on payment.
+- Issue with cart item not showing correct pricing
