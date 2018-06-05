@@ -1,5 +1,7 @@
 import { observable } from "mobx";
 
+import Product from "./Product";
+
 export default class CartItem {
   @observable id;
 
@@ -14,7 +16,11 @@ export default class CartItem {
   constructor(props) {
     for (let k in props) {
       // NOTE: set if passed in, if not use default
-      this[k] = props[k] || this[k];
+      if (k === "product") {
+        this[k] = new Product(props[k]);
+      } else {
+        this[k] = props[k] || this[k];
+      }
     }
   }
 }
