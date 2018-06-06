@@ -218,12 +218,12 @@ export default class CartStore {
       name: this.paymentDetails.name
     };
   }
- 
+
   // cart actions
-  @action 
+  @action
   updateEmail = email => {
-    this.email = email
-  }
+    this.email = email;
+  };
 
   @action
   replace = cart => {
@@ -388,7 +388,7 @@ export default class CartStore {
     // TODO: default should be this.cart.id not "default", backend design issue
     const route = `/carts/${cartId || DEFAULT_CART}/checkout`;
 
-    const response = await this._api.post(route, {email: this.email});
+    const response = await this._api.post(route, { email: this.email });
     if (response && response.status < 400 && response.data) {
       // NOTE: shouldLog is set when cart status is transitioned
       // from inProgress => checkout
@@ -681,6 +681,16 @@ export default class CartStore {
               }
             }
           };
+
+          if (this.amountDiscount > 0) {
+            details.displayItems.push({
+              label: "DISCOUNT CODE",
+              amount: {
+                value: -this.amountDiscount,
+                currency: "USD"
+              }
+            });
+          }
 
           details["shipping"] = {
             label: this.selectedShipping
