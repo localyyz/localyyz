@@ -95,13 +95,22 @@ export default class Email extends React.Component {
               style={Styles.Input}/>
           </CartField>
         </Animatable.View>
+        <TouchableOpacity
+          style={styles.addAddress}
+          onPress={() => this.onEmailUpdate(this.state.emailNew)}>
+          <View style={Styles.RoundedButton}>
+            <UppercasedText style={styles.addButtonLabel}>
+              use this email
+            </UppercasedText>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TouchableOpacity onPress={() => this.toggleSelect()}>
           <CartHeader
             title="Email"
@@ -129,8 +138,21 @@ export default class Email extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: Sizes.InnerFrame
+  },
   formContainer: {
     paddingVertical: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
+  },
+  addAddress: {
+    marginHorizontal: Sizes.InnerFrame,
+    marginVertical: Sizes.InnerFrame,
+    alignItems: "flex-start"
+  },
+  addButtonLabel: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
+    ...Styles.Alternate
   }
 });
