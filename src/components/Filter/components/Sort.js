@@ -8,9 +8,9 @@ import SortBy from "./SortBy";
 const SORT_BY = [
   { label: "Recommended" },
   { label: "What's new", value: "-created_at" },
-  { label: "Price (Ascending)", value: "price" },
-  { label: "Price (Descending)", value: "-price" },
-  { label: "Discount", value: "-discount" }
+  { label: "Price (Low to high)", value: "price" },
+  { label: "Price (High to low)", value: "-price" },
+  { label: "Discount (High to low, % off)", value: "-discount" }
 ];
 
 export default class Sort extends React.Component {
