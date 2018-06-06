@@ -1,7 +1,7 @@
 // defined colors
 let Foreground = "#FFFFFF";
 let Black = "#000000";
-let Grey = "#F5F5F5";
+let Grey = "rgb(200, 200, 200)";
 let NearBlack = "rgb(30, 30, 30)";
 let Red = "#FF0000";
 let Pink = "#C73B6F";
@@ -79,7 +79,11 @@ export const Colours = {
   Accented: CokeBottleGreen,
 
   // brand transparencies
-  PrimaryTransparent: PurpleRainTransparent
+  PrimaryTransparent: PurpleRainTransparent,
+
+  // selectors
+  Selected: NearBlack,
+  Unselected: Grey
 };
 
 export default Colours;

@@ -148,6 +148,14 @@ export const Styles = {
     right: 0,
     height: 0.5,
     backgroundColor: Colours.Text
+  },
+
+  Overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
   }
 };
 

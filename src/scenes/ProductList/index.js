@@ -4,11 +4,16 @@ import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
 
 // custom
-import { ContentCoverSlider, ProductList, NavBar } from "localyyz/components";
+import {
+  ContentCoverSlider,
+  ProductList,
+  NavBar,
+  FilterPopup
+} from "localyyz/components";
 import { Styles, Sizes, Colours } from "localyyz/constants";
 
 // third party
-import { observer } from "mobx-react/native";
+import { Provider, observer } from "mobx-react";
 
 // local
 import Store from "./store";
@@ -51,6 +56,7 @@ export default class ProductListScene extends React.Component {
   constructor(props) {
     super(props);
     this.store = new Store(props.navigation.state.params);
+    this.filterStore = FilterPopup.getNewStore(this.store);
     this.state = {
       headerHeight: 0
     };
@@ -62,43 +68,49 @@ export default class ProductListScene extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ContentCoverSlider
-          ref="container"
-          title={this.props.navigation.state.params.title}
-          backAction={() => this.props.navigation.goBack()}
-          backColor={Colours.Text}
-          background={
-            <View
-              onLayout={e =>
-                this.setState({
-                  headerHeight: Math.round(e.nativeEvent.layout.height)
-                })
-              }>
-              <View style={styles.header}>
-                {this.props.navigation.state.params.title ? (
-                  <Text style={styles.headerLabel}>
-                    {this.props.navigation.state.params.title}
-                  </Text>
-                ) : null}
-                {this.props.navigation.state.params.subtitle ? (
-                  <Text style={styles.headerSublabel}>
-                    {this.props.navigation.state.params.subtitle}
-                  </Text>
-                ) : null}
+      <Provider filterStore={this.filterStore}>
+        <View style={styles.container}>
+          <ContentCoverSlider
+            ref="container"
+            title={this.props.navigation.state.params.title}
+            backAction={() => this.props.navigation.goBack()}
+            backColor={Colours.Text}
+            background={
+              <View
+                onLayout={e =>
+                  this.setState({
+                    headerHeight: Math.round(e.nativeEvent.layout.height)
+                  })
+                }>
+                <View style={styles.header}>
+                  {this.props.navigation.state.params.title ? (
+                    <Text style={styles.headerLabel}>
+                      {this.props.navigation.state.params.title}
+                    </Text>
+                  ) : null}
+                  {this.props.navigation.state.params.subtitle ? (
+                    <Text style={styles.headerSublabel}>
+                      {this.props.navigation.state.params.subtitle}
+                    </Text>
+                  ) : null}
+                </View>
               </View>
-            </View>
-          }>
-          <Content
-            onScroll={e => this.refs.container.onScroll(e)}
-            headerHeight={this.state.headerHeight}
-            paddingBottom={this.state.headerHeight + NavBar.HEIGHT}
-            fetchPath={this.store.fetchPath}
-            categories={this.store.categories && this.store.categories.slice()}
-            products={this.store.listData.slice()}
-            onEndReached={() => this.store.fetchNextPage()}/>
-        </ContentCoverSlider>
-      </View>
+            }>
+            <Content
+              onScroll={e => this.refs.container.onScroll(e)}
+              headerHeight={this.state.headerHeight}
+              paddingBottom={this.state.headerHeight + NavBar.HEIGHT}
+              fetchPath={this.store.fetchPath}
+              products={this.store.listData.slice()}
+              onEndReached={() => this.store.fetchNextPage()}/>
+          </ContentCoverSlider>
+          <View style={Styles.Overlay} pointerEvents="box-none">
+            <FilterPopup
+              categories={this.store.categoryPaths}
+              minWhitespace={Sizes.OuterFrame * 3}/>
+          </View>
+        </View>
+      </Provider>
     );
   }
 }

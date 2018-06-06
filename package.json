@@ -51,6 +51,7 @@
     ]
   },
   "dependencies": {
+    "@ptomasroos/react-native-multi-slider": "^0.0.14",
     "axios": "^0.18.0",
     "currency-symbol-map": "^4.0.4",
     "lodash.isempty": "^4.4.0",
