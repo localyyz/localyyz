@@ -23,7 +23,7 @@ import { UppercasedText } from "localyyz/components";
 export default class Email extends React.Component {
   static propTypes = {
     user: mobxPropTypes.observableObject.isRequired,
-    cart: PropTypes.func.isRequired
+    updateEmail: PropTypes.func.isRequired
   };
 
   constructor(props) {
