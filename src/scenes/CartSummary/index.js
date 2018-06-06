@@ -103,7 +103,7 @@ export default class CartSummaryScene extends React.Component {
     const { params } = state;
     return {
       ...navigationOptions,
-      gesturesEnabled: params && !!params.gesturesEnabled
+      gesturesEnabled: params ? !!params.gesturesEnabled : false
     };
   };
 
@@ -445,8 +445,6 @@ export default class CartSummaryScene extends React.Component {
                 }`}
               </Text>
               <ExplodingButton
-                shouldToggleNavbar={false}
-                navigation={this.props.navigation}
                 color={Colours.PositiveButton}
                 isExploded={this.state.isProcessing}
                 explode={async () =>
