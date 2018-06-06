@@ -212,10 +212,10 @@ export default class CartStore {
       name: this.paymentDetails.name
     };
   }
-
+ 
   // cart actions
   @action 
-  updateEmail = (email) => {
+  updateEmail = email => {
     this.email = email
   }
 
