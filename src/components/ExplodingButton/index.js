@@ -4,38 +4,30 @@ import { Colours, Sizes } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
-import { inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 // constants
 const DEBUG = false;
 
-@inject(stores => ({
-  showNavbar: () => stores.navbarStore.show(),
-  hideNavbar: () => stores.navbarStore.hide()
-}))
 export default class ExplodingButton extends React.Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired,
     children: PropTypes.node,
     shouldExplode: PropTypes.bool,
-    onPress: PropTypes.func,
     color: PropTypes.string,
-    shouldToggleNavbar: PropTypes.bool,
+
+    // callbacks
+    onPress: PropTypes.func,
+    onExplosion: PropTypes.func,
+    onExplosionCleared: PropTypes.func,
 
     // state handled by parent
     isExploded: PropTypes.bool,
-    explode: PropTypes.func,
-
-    // mobx injected
-    showNavbar: PropTypes.func.isRequired,
-    hideNavbar: PropTypes.func.isRequired
+    explode: PropTypes.func
   };
 
   static defaultProps = {
     onPress: () => {},
-    shouldExplode: true,
-    shouldToggleNavbar: true
+    shouldExplode: true
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -78,8 +70,7 @@ export default class ExplodingButton extends React.Component {
       && prevState.isExploded != this.state.isExploded
       && !this.state.isExploded
     ) {
-      this.props.shouldToggleNavbar && this.props.showNavbar();
-      this.props.navigation.setParams({ gesturesEnabled: true });
+      this.props.onExplosionCleared && this.props.onExplosionCleared();
       this.button.fadeIn();
     }
   }
@@ -119,8 +110,7 @@ export default class ExplodingButton extends React.Component {
 
   _onPostExplosion() {
     DEBUG && console.log("EXPLODING");
-    this.props.shouldToggleNavbar && this.props.hideNavbar();
-    this.props.navigation.setParams({ gesturesEnabled: false });
+    this.props.onExplosion && this.props.onExplosion();
     this.button.fadeOut(100);
     this.exploder.transitionTo({
       width: Sizes.Height * 2.2,

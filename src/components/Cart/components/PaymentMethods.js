@@ -19,12 +19,12 @@ import { observer, inject } from "mobx-react/native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
-@inject(stores => ({
-  paymentDetails: stores.cartStore.paymentDetails,
-  isVisible: stores.cartUiStore.isPaymentVisible,
-  toggle: visible => stores.cartUiStore.togglePayment(visible),
-  onReady: card => stores.cartStore.usePaymentMethod({ card: card }),
-  getCheckoutSummary: () => stores.cartUiStore.getCheckoutSummary()
+@inject((stores, props) => ({
+  paymentDetails: (stores.cartStore || props.cartStore).paymentDetails,
+  isVisible: (stores.cartUiStore || props.cartUiStore).isPaymentVisible,
+  toggle: visible => (stores.cartUiStore || props.cartUiStore).togglePayment(visible),
+  onReady: card => (stores.cartStore || props.cartStore).usePaymentMethod({card: card}),
+  getCheckoutSummary: () => (stores.cartUiStore || props.cartUiStore).getCheckoutSummary()
 }))
 @observer
 export default class PaymentMethods extends React.Component {
@@ -165,6 +165,7 @@ export default class PaymentMethods extends React.Component {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => this.props.toggle()}>
           <CartHeader
+            ref="paymentIcon"
             title="Payment"
             icon={
               !this.isReady() ? (

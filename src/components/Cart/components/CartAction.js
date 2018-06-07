@@ -30,14 +30,15 @@ Animatable.initializeRegistryWithDefinitions({
   }
 });
 
-@withNavigation
-@inject(stores => ({
-  checkoutWithReject: () => stores.cartStore.checkoutWithReject(),
-  validate: () => stores.cartUiStore.validate(),
-  getCheckoutSummary: () => stores.cartUiStore.getCheckoutSummary()
+@inject((stores, props) => ({
+  checkoutWithReject: () =>
+    (props.cartStore || stores.cartStore).checkoutWithReject(),
+  validate: () => (props.cartUiStore || stores.cartUiStore).validate(),
+  getCheckoutSummary: () =>
+    (props.cartUiStore || stores.cartUiStore).getCheckoutSummary()
 }))
 @observer
-export default class CartAction extends React.Component {
+export class CartAction extends React.Component {
   static propTypes = {
     // mobx injected
     checkoutWithReject: PropTypes.func.isRequired,
@@ -49,10 +50,10 @@ export default class CartAction extends React.Component {
     try {
       // client side checkout validation, throws error if needed
       this.props.validate();
+
       // server side checkout initiation throws response error
       //  will throw error if server returns validation errors
       await this.props.checkoutWithReject();
-
       // success
       this.props.navigation.navigate(
         "CartSummary",
@@ -120,6 +121,8 @@ export default class CartAction extends React.Component {
     );
   }
 }
+
+export default withNavigation(CartAction);
 
 const styles = StyleSheet.create({
   cartButton: {

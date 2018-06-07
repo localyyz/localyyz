@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartHeader CartHeader: should render properly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+      "marginHorizontal": 15,
+      "marginVertical": 15,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "#000000",
+        "fontSize": 16,
+        "fontWeight": "600",
+      }
+    }
+  >
+    
+  </Text>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "marginHorizontal": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "rgb(30, 30, 30)",
+          "fontSize": 16,
+          "fontWeight": "300",
+        }
+      }
+    />
+  </View>
+</View>
+`;

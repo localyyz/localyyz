@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartSummary Cart Summary: should render correctly 1`] = `
+<View
+  style={Object {}}
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginHorizontal": 25,
+        "paddingVertical": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      Item Total
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontFamily": "Menlo-Regular",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      $25.23
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginHorizontal": 25,
+        "paddingVertical": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      Discounts
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontFamily": "Menlo-Regular",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          Object {
+            "color": "#000000",
+            "fontWeight": "600",
+          },
+          undefined,
+        ]
+      }
+    >
+      ($5.22)
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginHorizontal": 25,
+        "paddingVertical": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      Shipping
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontFamily": "Menlo-Regular",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      $3.23
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginHorizontal": 25,
+        "paddingVertical": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      Taxes
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontFamily": "Menlo-Regular",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      $6.00
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginHorizontal": 25,
+        "paddingVertical": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          Object {
+            "color": "#000000",
+            "fontWeight": "600",
+          },
+          undefined,
+        ]
+      }
+    >
+      Grand Total
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontFamily": "Menlo-Regular",
+            "fontSize": 16,
+            "fontWeight": "300",
+          },
+          Object {
+            "color": "#000000",
+            "fontWeight": "600",
+          },
+          undefined,
+        ]
+      }
+    >
+      $28.21
+    </Text>
+  </View>
+</View>
+`;

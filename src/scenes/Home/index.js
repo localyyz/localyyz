@@ -13,6 +13,10 @@ import Store from "./store";
 
 @observer
 export default class Home extends React.Component {
+  static navigationOptions = {
+    swipeEnabled: false
+  };
+
   constructor(props) {
     super(props);
     this.store = new Store();

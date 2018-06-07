@@ -16,3 +16,4 @@ Fixes:
 - Issue on android with a builtin string pad function doesn't work. Causing
   issue on payment.
 - Issue with cart item not showing correct pricing
+- Issue with side swiping on exploding button

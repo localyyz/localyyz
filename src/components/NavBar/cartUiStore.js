@@ -103,6 +103,14 @@ export default class CartUIStore {
   validate = () => {
     this.setFullscreenPullup();
 
+    if (!this.cart.email){
+      throw {
+        alertButtons: [{ text: "OK" }],
+        alertTitle: "Invalid Email",
+        alertMessage: "Please add a email address"
+      };
+    }
+
     if (!(this.cart.shippingDetails && this.cart.shippingDetails.address)) {
       this.toggleItems(false);
       throw {};
