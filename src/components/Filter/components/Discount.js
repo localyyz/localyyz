@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { Styles, Sizes, Colours } from "localyyz/constants";
 
 // third party
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import * as Animatable from "react-native-animatable";
 

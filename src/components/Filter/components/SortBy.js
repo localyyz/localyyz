@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // third party
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 

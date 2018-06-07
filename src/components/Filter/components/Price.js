@@ -4,7 +4,7 @@ import { Styles, Sizes, Colours } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import * as Animatable from "react-native-animatable";
 

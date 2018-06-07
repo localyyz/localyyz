@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 
 @inject(stores => ({
   scrollEnabled: stores.filterStore.scrollEnabled

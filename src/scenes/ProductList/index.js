@@ -13,7 +13,7 @@ import {
 import { Styles, Sizes, Colours } from "localyyz/constants";
 
 // third party
-import { Provider, observer } from "mobx-react";
+import { Provider, observer } from "mobx-react/native";
 
 // local
 import Store from "./store";
