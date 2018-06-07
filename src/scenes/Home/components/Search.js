@@ -15,6 +15,7 @@ import SearchResult from "./SearchResult";
   searchStore: stores.homeStore,
   searchActive: stores.homeStore.searchActive,
   headerHeight: stores.homeStore.headerHeight,
+  numProducts: stores.homeStore.numProducts,
   onPress: () => {
     if (stores.homeStore.searchResults.length === 0) {
       stores.homeStore.searchActive = false;

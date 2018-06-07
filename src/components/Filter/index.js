@@ -3,7 +3,14 @@ import { View, StyleSheet, Text } from "react-native";
 import { Styles, Sizes } from "localyyz/constants";
 
 // local
-import { Price, Discount, Sort, Categories, Gender } from "./components";
+import {
+  Price,
+  Discount,
+  Sort,
+  Categories,
+  Gender,
+  ProductCount
+} from "./components";
 import FilterStore from "./store";
 
 export default class Filter extends React.Component {
@@ -14,6 +21,7 @@ export default class Filter extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <ProductCount />
         <Text style={styles.header}>Sort</Text>
         <Sort />
         <View style={styles.spacer} />

@@ -66,6 +66,7 @@ export default class HomeStore {
 
   @box searchQuery = "";
   @box searchResults = [];
+  @box numProducts = 0;
   // internal values
   // next: marks the next page value
   // hasNextPage: for search, the backend link value isn't reliable,
@@ -113,6 +114,15 @@ export default class HomeStore {
         .then(response => {
           if (response && response.status < 400 && response.data.length > 0) {
             runInAction("[ACTION] post search", () => {
+              // product count
+              if (
+                response.headers
+                && response.headers["x-item-total"] != null
+              ) {
+                this.numProducts
+                  = parseInt(response.headers["x-item-total"]) || 0;
+              }
+
               this.searchResults = [
                 ...this.searchResults.slice(),
                 ...this._listProducts(response.data)

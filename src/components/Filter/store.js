@@ -19,7 +19,7 @@ export default class FilterStore {
   @observable scrollEnabled;
 
   constructor(searchStore) {
-    // requires .reset(params)
+    // requires .reset(params) and .categories and .numProducts
     this.searchStore = searchStore;
 
     // bindings
@@ -56,6 +56,11 @@ export default class FilterStore {
       }
     }
     return [];
+  }
+
+  @computed
+  get numProducts() {
+    return (this.searchStore && this.searchStore.numProducts) || 0;
   }
 
   @action

@@ -12,7 +12,12 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import PropTypes from "prop-types";
 import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
+// local
+import { ProductTilePlaceholder } from "./components";
+
 export default class ProductTile extends React.PureComponent {
+  static Placeholder = ProductTilePlaceholder;
+
   static propTypes = {
     product: mobxPropTypes.observableObject.isRequired,
     onPress: PropTypes.func.isRequired

@@ -1,32 +1,30 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  View,
-  StyleSheet,
-  Keyboard,
-  FlatList,
-  Text,
-  TouchableOpacity
-} from "react-native";
-import { Styles, Colours, Sizes } from "localyyz/constants";
+import { View, StyleSheet, Keyboard, FlatList, Text } from "react-native";
+import { Sizes, Styles } from "localyyz/constants";
 
 // custom
 import { ProductTile } from "localyyz/components";
-import { capitalize } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
 import { withNavigation } from "react-navigation";
-import { inject } from "mobx-react/native";
+import { inject, observer } from "mobx-react/native";
+
+// local
+import { ProductListPlaceholder } from "./components";
 
 // constants
 const SCROLL_THRESHOLD = 100;
 
 @withNavigation
 @inject(stores => ({
-  isFilterSupported: !!stores.filterStore
+  isFilterSupported: !!stores.filterStore,
+  isLoading: stores.productListStore && stores.productListStore.isLoading
 }))
+@observer
 export default class ProductList extends React.Component {
+  static Placeholder = ProductListPlaceholder;
+
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     products: PropTypes.array,
@@ -36,7 +34,11 @@ export default class ProductList extends React.Component {
     onScrollDown: PropTypes.func,
     onScroll: PropTypes.func,
     onEndReached: PropTypes.func,
-    paddingBottom: PropTypes.number
+    paddingBottom: PropTypes.number,
+
+    // mobx injected
+    isFilterSupported: PropTypes.bool,
+    isLoading: PropTypes.bool
   };
 
   static defaultProps = {
@@ -44,18 +46,20 @@ export default class ProductList extends React.Component {
     products: [],
     onScrollUp: () => {},
     onScrollDown: () => {},
-    onScroll: () => {}
+    onScroll: () => {},
+
+    // mobx
+    isFilterSupported: false,
+    isLoading: false
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: true
-    };
 
     // bindings
     this.fetchMore = this.fetchMore.bind(this);
     this.renderItem = this.renderItem.bind(this);
+    this.renderEmptyList = this.renderEmptyList.bind(this);
     this.onScroll = this.onScroll.bind(this);
 
     // scrolling
@@ -70,8 +74,6 @@ export default class ProductList extends React.Component {
     // the next page is fetched, distance can be a negative value, which
     // we need to handle
     if (distanceFromEnd > 0) {
-      this.setState({ isLoading: true });
-      this.timer = setTimeout(() => this.setState({ isLoading: false }), 1500);
       this.props.onEndReached && this.props.onEndReached();
     }
   }
@@ -84,7 +86,7 @@ export default class ProductList extends React.Component {
     return (
       <View style={styles.tile}>
         <ProductTile
-          style={{ minHeight: 250 }}
+          style={styles.tileComponent}
           onPress={() =>
             this.props.navigation.navigate("Product", {
               product: product
@@ -127,6 +129,16 @@ export default class ProductList extends React.Component {
     this.props.onScroll(e);
   }
 
+  renderEmptyList() {
+    return !this.props.isLoading ? (
+      <View style={styles.emptyList}>
+        <Text style={styles.emptyLabel}>
+          {"There are no products matching your search criteria"}
+        </Text>
+      </View>
+    ) : null;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -139,12 +151,10 @@ export default class ProductList extends React.Component {
           onEndReachedThreshold={1}
           onScroll={this.onScroll}
           ListFooterComponent={
-            this.props.onEndReached && (
-              <ActivityIndicator
-                size="large"
-                animating={this.state.isLoading}/>
-            )
+            this.props.onEndReached
+            && this.props.isLoading && <ProductListPlaceholder />
           }
+          ListEmptyComponent={this.renderEmptyList}
           contentContainerStyle={[
             styles.list,
             this.props.style,
@@ -180,5 +190,15 @@ const styles = StyleSheet.create({
   tile: {
     flex: 1,
     paddingHorizontal: Sizes.InnerFrame / 2
+  },
+
+  emptyList: {
+    flex: 1,
+    paddingLeft: Sizes.InnerFrame / 2,
+    paddingRight: Sizes.Width / 4
+  },
+
+  emptyLabel: {
+    ...Styles.Text
   }
 });

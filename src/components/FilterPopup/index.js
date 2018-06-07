@@ -59,11 +59,14 @@ export class FilterPopupButton extends React.Component {
 }
 
 @inject(stores => ({
-  scrollEnabled: stores.filterStore.scrollEnabled
+  scrollEnabled: stores.filterStore.scrollEnabled,
+  filterStore: stores.filterStore
 }))
 @observer
 export default class FilterPopup extends React.Component {
   static propTypes = {
+    filterStore: PropTypes.object.isRequired,
+
     // if the parent view isn't the entire device height (minus navbar, include
     // the offset)
     screenOffset: PropTypes.number,
