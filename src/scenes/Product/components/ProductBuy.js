@@ -61,7 +61,9 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
   // added summary mobx exploder
   isExploded: stores.productStore.isAddedSummaryVisible,
-  explode: async () => stores.productStore.toggleAddedSummary(true)
+  explode: async () => stores.productStore.toggleAddedSummary(true),
+  showNavbar: () => stores.navbarStore.show(),
+  hideNavbar: () => stores.navbarStore.hide()
 }))
 @observer
 class ProductBuy extends React.Component {
@@ -72,6 +74,8 @@ class ProductBuy extends React.Component {
     // mobx injected store props
     hasSession: PropTypes.bool,
     isExpressSupported: PropTypes.bool,
+    hideNavbar: PropTypes.func.isRequired,
+    showNavbar: PropTypes.func.isRequired,
 
     // checkout from mobx
     onAdd: PropTypes.func.isRequired,
@@ -201,7 +205,6 @@ class ProductBuy extends React.Component {
               </View>
             </TouchableOpacity>
             <ExplodingButton
-              navigation={this.props.navigation}
               isExploded={this.props.isExploded}
               explode={async () =>
                 this.isInStock
@@ -215,7 +218,15 @@ class ProductBuy extends React.Component {
               color={Colours.Foreground}
               onPress={() =>
                 this.isInStock ? this._onAdd() : this.onOutOfStock()
-              }>
+              }
+              onExplosion={() => {
+                this.props.navigation.setParams({ gesturesEnabled: false });
+                this.props.hideNavbar();
+              }}
+              onExplosionCleared={() => {
+                this.props.navigation.setParams({ gesturesEnabled: true });
+                this.props.showNavbar();
+              }}>
               <View style={styles.button}>
                 <MaterialIcon
                   name="add-shopping-cart"
