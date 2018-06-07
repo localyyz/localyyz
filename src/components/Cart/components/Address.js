@@ -29,7 +29,7 @@ export default class Address extends React.Component {
       <TouchableOpacity onPress={() => this.props.onPress(address)}>
         <View style={styles.container}>
           {this.props.children || (
-            <View style={styles.address}>
+            <View style={styles.address} ref="address">
               <Text style={styles.addressLine}>{address.shortAddress}</Text>
               <Text style={styles.addressDetails}>
                 {address.extendedAddress}
@@ -44,6 +44,7 @@ export default class Address extends React.Component {
               end={{ x: 0, y: 0 }}
               style={styles.iconContainer}>
               <EntypoIcon
+                ref="addressIcon"
                 name={this.props.buttonIcon}
                 size={Sizes.IconButton / 2}
                 color={this.props.buttonColor}

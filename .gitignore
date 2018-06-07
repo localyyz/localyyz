@@ -103,3 +103,6 @@ release/
 
 # Gem vendor
 vendor/
+
+# Jest coverage
+__coverage__/
