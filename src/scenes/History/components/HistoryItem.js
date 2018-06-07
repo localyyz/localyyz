@@ -12,8 +12,7 @@ import { Product } from "localyyz/models";
 import { toPriceString } from "localyyz/helpers";
 import { LiquidImage, DiscountBadge, Badge } from "localyyz/components";
 
-@withNavigation
-export default class HistoryItem extends React.Component {
+export class HistoryItem extends React.Component {
   static propTypes = {
     product: PropTypes.instanceOf(Product).isRequired,
     lastPrice: PropTypes.number
@@ -54,6 +53,7 @@ export default class HistoryItem extends React.Component {
         <View style={styles.container}>
           {this.product.imageUrl ? (
             <LiquidImage
+              ref="product_image"
               square
               w={Sizes.SquareButton}
               crop="bottom"
@@ -107,6 +107,8 @@ export default class HistoryItem extends React.Component {
     );
   }
 }
+
+export default withNavigation(HistoryItem);
 
 const styles = StyleSheet.create({
   container: {
