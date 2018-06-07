@@ -6,12 +6,12 @@ import { Sizes, Styles } from "localyyz/constants";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
 
-@inject(stores => ({
-  amountSubtotal: stores.cartStore.amountSubtotal,
-  amountDiscount: stores.cartStore.amountDiscount,
-  amountShipping: stores.cartStore.amountShipping,
-  amountTaxes: stores.cartStore.amountTaxes,
-  amountTotal: stores.cartStore.amountTotal
+@inject((stores, props) => ({
+  amountSubtotal: (stores.cartStore || props.cartStore).amountSubtotal,
+  amountDiscount: (stores.cartStore || props.cartStore).amountDiscount,
+  amountShipping: (stores.cartStore || props.cartStore).amountShipping,
+  amountTaxes: (stores.cartStore || props.cartStore).amountTaxes,
+  amountTotal: (stores.cartStore || props.cartStore).amountTotal
 }))
 @observer
 export default class CartSummary extends React.Component {
@@ -48,6 +48,7 @@ export default class CartSummary extends React.Component {
             Item Total
           </Text>
           <Text
+            ref="subTotal"
             style={[
               styles.summaryLinePrice,
               this.props.color && {
@@ -69,6 +70,7 @@ export default class CartSummary extends React.Component {
               Discounts
             </Text>
             <Text
+              ref="discount"
               style={[
                 styles.summaryLinePrice,
                 styles.summaryTotal,
@@ -91,6 +93,7 @@ export default class CartSummary extends React.Component {
             Shipping
           </Text>
           <Text
+            ref="shipping"
             style={[
               styles.summaryLinePrice,
               this.props.color && {
@@ -98,7 +101,7 @@ export default class CartSummary extends React.Component {
               }
             ]}>
             {this.props.amountShipping > 0
-              ? `${this.props.amountShipping.toFixed(2)}`
+              ? `$${this.props.amountShipping.toFixed(2)}`
               : "Free"}
           </Text>
         </View>
@@ -113,6 +116,7 @@ export default class CartSummary extends React.Component {
             Taxes
           </Text>
           <Text
+            ref="tax"
             style={[
               styles.summaryLinePrice,
               this.props.color && {
@@ -134,6 +138,7 @@ export default class CartSummary extends React.Component {
             Grand Total
           </Text>
           <Text
+            ref="grandTotal"
             style={[
               styles.summaryLinePrice,
               styles.summaryTotal,

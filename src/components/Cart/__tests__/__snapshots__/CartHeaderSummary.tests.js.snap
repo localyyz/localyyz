@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartHeaderSummary CartHeaderSummary: should render properly 1`] = `
+<View
+  pointerEvents="auto"
+  style={
+    Array [
+      Object {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      },
+      Object {
+        "alignItems": "center",
+        "padding": 15,
+      },
+    ]
+  }
+>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 22,
+            "fontWeight": "700",
+          }
+        }
+      >
+        Cart
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+            "fontWeight": "300",
+            "marginTop": 7.5,
+          }
+        }
+      >
+        5 items — total $55.23
+      </Text>
+    </View>
+  </View>
+</View>
+`;

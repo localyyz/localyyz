@@ -17,15 +17,13 @@ import {
   PropTypes as mobxPropTypes
 } from "mobx-react/native";
 
-@inject(stores => ({
-  addresses: stores.addressStore.addresses,
-  fetch: () => stores.addressStore.fetch(),
-  remove: address =>
-    stores.cartStore.removeAddress({
+@inject((props, stores) => ({
+  addresses: (props.addressStore || stores.addressStore).addresses,
+  fetch: () => (props.addressStore || stores.addressStore ).fetch(),
+  remove: address => (props.cartStore || stores.cartStore).removeAddress({
       address: address
     }),
-  update: address =>
-    stores.cartStore.updateAddress({
+  update: address => (props.cartStore || stores.cartStore).updateAddress({
       address: address
     })
 }))
@@ -215,6 +213,7 @@ export default class Addresses extends React.Component {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => this.toggleSelect()}>
           <CartHeader
+            ref="header"
             title={this.props.title}
             icon={
               this.state.isComplete ? (

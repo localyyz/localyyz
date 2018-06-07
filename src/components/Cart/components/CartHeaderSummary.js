@@ -6,10 +6,10 @@ import { Sizes, Styles } from "localyyz/constants";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
 
-@inject(stores => ({
-  numItems: stores.cartStore.numItems,
-  amountTotal: stores.cartStore.amountTotal,
-  toggleItems: () => stores.cartUiStore.toggleItems()
+@inject((stores, props) => ({
+  numItems: (stores.cartStore || props.cartStore).numItems,
+  amountTotal: (stores.cartStore || props.cartStore).amountTotal,
+  toggleItems: () => (stores.cartUiStore || props.cartUiStore).toggleItems()
 }))
 @observer
 export default class CartHeaderSummary extends React.Component {
@@ -37,7 +37,7 @@ export default class CartHeaderSummary extends React.Component {
         pointerEvents="auto"
         style={[Styles.EqualColumns, styles.cartHeader]}>
         <TouchableOpacity onPress={this.props.toggleItems}>
-          <View style={styles.cartSummary}>
+          <View style={styles.cartSummary} ref="cart">
             <Text style={styles.title}>Cart</Text>
             {this.renderCartSummary}
           </View>

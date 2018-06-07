@@ -30,14 +30,13 @@ Animatable.initializeRegistryWithDefinitions({
   }
 });
 
-@withNavigation
-@inject(stores => ({
-  checkoutWithReject: () => stores.cartStore.checkoutWithReject(),
-  validate: () => stores.cartUiStore.validate(),
-  getCheckoutSummary: () => stores.cartUiStore.getCheckoutSummary()
+@inject((stores, props) => ({
+  checkoutWithReject: () => (props.cartStore || stores.cartStore).checkoutWithReject(),
+  validate: () => (props.cartUiStore || stores.cartUiStore).validate(),
+  getCheckoutSummary: () => (props.cartUiStore || stores.cartUiStore).getCheckoutSummary()
 }))
 @observer
-export default class CartAction extends React.Component {
+export class CartAction extends React.Component {
   static propTypes = {
     // mobx injected
     checkoutWithReject: PropTypes.func.isRequired,
@@ -45,19 +44,24 @@ export default class CartAction extends React.Component {
     getCheckoutSummary: PropTypes.func.isRequired
   };
 
-  onCheckout = async () => {
+  onCheckout = async (serverCallback) => {
     try {
       // client side checkout validation, throws error if needed
       this.props.validate();
+
+      if (!serverCallback) {
+        await this.props.checkoutWithReject();
+        // success
+        this.props.navigation.navigate(
+          "CartSummary",
+          this.props.getCheckoutSummary()
+        );
+      } else {
+        serverCallback()
+      }
       // server side checkout initiation throws response error
       //  will throw error if server returns validation errors
-      await this.props.checkoutWithReject();
-
-      // success
-      this.props.navigation.navigate(
-        "CartSummary",
-        this.props.getCheckoutSummary()
-      );
+      
     } catch (err) {
       const alertButtons = err.alertButtons || [{ text: "OK" }];
       err.alertTitle
@@ -120,6 +124,8 @@ export default class CartAction extends React.Component {
     );
   }
 }
+
+export default withNavigation(CartAction);
 
 const styles = StyleSheet.create({
   cartButton: {

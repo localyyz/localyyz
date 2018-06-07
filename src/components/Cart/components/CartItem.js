@@ -25,19 +25,18 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 const MAX_PHOTO = Sizes.Width / 5;
 const MIN_PHOTO = MAX_PHOTO / 3;
 
-@withNavigation
-@inject(stores => ({
-  setFullscreenPullup: () => stores.cartUiStore.setFullscreenPullup(),
-  setLargeItemType: () => stores.cartUiStore.setItemSizeType(2),
-  closeCart: () => stores.navbarStore.togglePullup(false),
-  remove: product => stores.cartStore.removeItem(product),
-  sync: () => stores.cartStore.checkoutWithReject(),
-  write: message => stores.assistantStore.write(message, null, true),
-  getWrite: message => stores.assistantStore.get(message)
+@inject((stores, props) => ({
+  setFullscreenPullup: () => (stores.cartUiStore || props.cartUiStore).setFullscreenPullup(),
+  setLargeItemType: () => (stores.cartUiStore || props.cartUiStore).setItemSizeType(2),
+  closeCart: () => (stores.navbarStore || props.cartUiStore).togglePullup(false),
+  remove: product => (stores.cartStore || props.cartStore).removeItem(product),
+  sync: () => (stores.cartStore || props.cartStore).checkoutWithReject(),
+  write: message => (stores.assistantStore || props.assistantStore).write(message, null, true),
+  getWrite: message => (stores.assistantStore || props.assistantStore).get(message)
 }))
-export default class CartItem extends React.Component {
+export class CartItem extends React.Component {
   static propTypes = {
-    navigation: PropTypes.any.isRequired,
+    //navigation: PropTypes.any.isRequired,
     item: PropTypes.object.isRequired,
     isTiny: PropTypes.bool,
     isSmall: PropTypes.bool,
@@ -110,12 +109,14 @@ export default class CartItem extends React.Component {
             style={styles.photoContainer}
             onPress={this.props.setFullscreenPullup}>
             <LiquidImage
+              ref="image"
               square
               w={this.props.isTiny ? MIN_PHOTO : MAX_PHOTO}
               style={styles.photo}
               source={{ uri: this.props.item.product.imageUrl }}/>
             {this.props.isSmall ? (
               <Text
+                ref="price"
                 style={[
                   Styles.Text,
                   Styles.Emphasized,
@@ -130,7 +131,7 @@ export default class CartItem extends React.Component {
             <View style={styles.detailsContainer}>
               <View
                 style={[Styles.Horizontal, Styles.EqualColumns, styles.header]}>
-                <View>
+                <View ref="variant">
                   <UppercasedText style={styles.optionsLabel}>
                     {`${this.props.item.variant.etc.size}${
                       /* spacer in between if both are given*/
@@ -140,7 +141,7 @@ export default class CartItem extends React.Component {
                         : ""
                     }${this.props.item.variant.etc.color}`}
                   </UppercasedText>
-                  <Text style={styles.titleLabel}>
+                  <Text ref="truncatedTitle" style={styles.titleLabel}>
                     {this.product.truncatedTitle}
                   </Text>
                 </View>
@@ -158,7 +159,7 @@ export default class CartItem extends React.Component {
                   </SloppyView>
                 </TouchableOpacity>
               </View>
-              <Text style={styles.priceLabel}>
+              <Text ref="price" style={styles.priceLabel}>
                 {`$${this.props.item.price.toFixed(2)}`}
               </Text>
               {this.props.item.hasError && (
@@ -175,6 +176,8 @@ export default class CartItem extends React.Component {
     );
   }
 }
+
+export default withNavigation(CartItem)
 
 const styles = StyleSheet.create({
   container: {
