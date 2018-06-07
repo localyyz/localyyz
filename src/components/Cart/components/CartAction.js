@@ -31,9 +31,11 @@ Animatable.initializeRegistryWithDefinitions({
 });
 
 @inject((stores, props) => ({
-  checkoutWithReject: () => (props.cartStore || stores.cartStore).checkoutWithReject(),
+  checkoutWithReject: () =>
+    (props.cartStore || stores.cartStore).checkoutWithReject(),
   validate: () => (props.cartUiStore || stores.cartUiStore).validate(),
-  getCheckoutSummary: () => (props.cartUiStore || stores.cartUiStore).getCheckoutSummary()
+  getCheckoutSummary: () =>
+    (props.cartUiStore || stores.cartUiStore).getCheckoutSummary()
 }))
 @observer
 export class CartAction extends React.Component {
@@ -44,24 +46,19 @@ export class CartAction extends React.Component {
     getCheckoutSummary: PropTypes.func.isRequired
   };
 
-  onCheckout = async (serverCallback) => {
+  onCheckout = async () => {
     try {
       // client side checkout validation, throws error if needed
       this.props.validate();
 
-      if (!serverCallback) {
-        await this.props.checkoutWithReject();
-        // success
-        this.props.navigation.navigate(
-          "CartSummary",
-          this.props.getCheckoutSummary()
-        );
-      } else {
-        serverCallback()
-      }
       // server side checkout initiation throws response error
       //  will throw error if server returns validation errors
-      
+      await this.props.checkoutWithReject();
+      // success
+      this.props.navigation.navigate(
+        "CartSummary",
+        this.props.getCheckoutSummary()
+      );
     } catch (err) {
       const alertButtons = err.alertButtons || [{ text: "OK" }];
       err.alertTitle
