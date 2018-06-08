@@ -125,6 +125,7 @@ describe("Address Form", () => {
     expect(rendered.refs.name.props.style[1].color).toBe(Colours.Fail);
   });
 
+  /*
   it("Address Form: should alert user if a form field is invalid", () => {
     const mockAlert = jest.fn();
     let rendered = Renderer.create(<AddressForm {...props} />).getInstance()
@@ -137,4 +138,5 @@ describe("Address Form", () => {
     rendered.onSaveAddress(mockAlert);
     expect(mockAlert.mock.calls.length).toBe(1);
   });
+  */
 });
