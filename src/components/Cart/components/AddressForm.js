@@ -188,46 +188,36 @@ export default class AddressForm extends React.Component {
     this.setState({ address: this.state.address });
   }
 
-  alertFunction(){
-    Alert.alert(
-      "Invalid address",
-      "There's an issue with the entered shipping address",
-      [
-        {
-          text: "OK",
-          onPress: () => {
-            // focus on incomplete field
-            // NOTE: this on callback so we don't
-            // lose text input focus on OK
-            if (!this.state.address.address) {
-              this.refs.address
-                ? this.refs.address.triggerFocus()
-                : this.refs.manualAddress.focus();
-            } else if (!this.state.address.city) {
-              this.refs.manualCity.focus();
-            } else if (!this.state.address.province) {
-              this.refs.manualProvince.focus();
-            } else if (!this.state.address.country) {
-              this.refs.manualCountry.focus();
-            } else if (!this.state.address.zip) {
-              this.refs.manualPostal.focus();
-            }
-          }
-        }
-      ]
-    );
-  }
-  
-  onSaveAddress(alertCallBack) {
+  onSaveAddress() {
     if (!this.state.address.address || !this.isComplete) {
       // error out and focus to field
-      if (!alertCallBack) {
-        this.alertFunction()
-      } else{
-        alertCallBack()
-      }
-      
-      
+      Alert.alert(
+        "Invalid address",
+        "There's an issue with the entered shipping address",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              // focus on incomplete field
+              // NOTE: this on callback so we don't
+              // lose text input focus on OK
+              if (!this.state.address.address) {
+                this.refs.address
+                  ? this.refs.address.triggerFocus()
+                  : this.refs.manualAddress.focus();
+              } else if (!this.state.address.city) {
+                this.refs.manualCity.focus();
+              } else if (!this.state.address.province) {
+                this.refs.manualProvince.focus();
+              } else if (!this.state.address.country) {
+                this.refs.manualCountry.focus();
+              } else if (!this.state.address.zip) {
+                this.refs.manualPostal.focus();
+              }
+            }
+          }
+        ]
+      );
     } else if (!this.isNameReady) {
       this.setState(
         {
@@ -253,7 +243,7 @@ export default class AddressForm extends React.Component {
       }
     }
   }
-
+  
   get isNameReady() {
     return (
       !!this.state.name
