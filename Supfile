@@ -6,34 +6,34 @@ env:
   NAME: localyyz
 
 networks:
-  local:
-    env:
-      ENV: localhost
-    hosts:
-      - localhost
   staging:
     env:
       ENV: staging
     hosts:
       - localhost
+  production:
+    env:
+      ENV: production
+    hosts:
+      - localhost
 
 commands:
-  codepush-ios:
+  push-ios:
     desc: release ios via codepush
     local: >
       appcenter codepush release-react -d Production --app Localyyz/Localyyz-iOS
   
-  codepush-android:
+  push-android:
     desc: release android via codepush
     local: >
       appcenter codepush release-react -d Production --app Localyyz/Localyyz-Android
   
-  release:
+  deploy-ios:
     desc: release build to environment
     local: >
       bundle exec fastlane $SUP_NETWORK
 
 targets:
-  deploy-ios:
+  codepush:
     - codepush-ios
     - codepush-android

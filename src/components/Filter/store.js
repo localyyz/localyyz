@@ -11,6 +11,9 @@ export default class FilterStore {
   // discount filter
   @observable discountMin;
 
+  // gender filter
+  @observable gender = "woman";
+
   // ui
   @observable scrollEnabled;
 
@@ -27,6 +30,11 @@ export default class FilterStore {
     // initial
     this.scrollEnabled = true;
   }
+
+  @action
+  setGenderFilter = val => {
+    this.gender = val;
+  };
 
   @action
   setPriceFilter(min, max) {
@@ -69,13 +77,14 @@ export default class FilterStore {
       ...(this.sortBy && {
         sort: this.sortBy
       }),
-      ...(this.priceMin || this.priceMax || this.discountMin
+      ...(this.priceMin || this.priceMax || this.discountMin || this.gender
         ? {
             filter: [
               ...(this.priceMin || this.priceMax
                 ? [`price,min=${this.priceMin},max=${this.priceMax}`]
                 : []),
-              ...(this.discountMin ? [`discount,min=${this.discountMin}`] : [])
+              ...(this.discountMin ? [`discount,min=${this.discountMin}`] : []),
+              ...(this.gender ? [`gender,val=${this.gender}`] : [])
             ]
           }
         : null)

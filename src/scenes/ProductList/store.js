@@ -24,10 +24,20 @@ class Store {
   }
 
   get categoryPaths() {
-    return (this.categories ? this.categories.slice() : []).map(category => ({
-      title: capitalize(category),
-      fetchPath: `${this.fetchPath}?v=${category}`
-    }));
+    return (this.categories ? this.categories.slice() : []).map(category => {
+      if (typeof category == "string") {
+        return {
+          title: capitalize(category),
+          fetchPath: `${this.fetchPath}?v=${category}`
+        };
+      } else if (typeof category == "object") {
+        return {
+          title: capitalize(category.type),
+          fetchPath: `${category.fetchPath}/${category.type}/products`
+        };
+      }
+      return {};
+    });
   }
 
   reset(mergeParams = {}) {
@@ -48,7 +58,11 @@ class Store {
   @action
   async fetchNextPage(params = {}) {
     if (this.isLoading || (this.self && !this.next)) {
-      console.log("skip page fetch already loading or reached end");
+      console.log(
+        `skip page fetch already loading or reached end. l:${
+          this.isLoading
+        } n:${this.next}`
+      );
       return;
     }
     this.isLoading = true;
