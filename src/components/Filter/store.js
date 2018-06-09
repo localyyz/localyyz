@@ -41,23 +41,26 @@ export default class FilterStore {
   @computed
   get categoryFilter() {
     // TODO: clean this up...
-    if (isObservableArray(this.searchStore.categories)) {
-      return this.searchStore.categories.slice().map(category => ({
-        title: capitalize(category.type),
-        fetchPath: `${category.fetchPath}/${category.type}`
-      }));
-    } else {
-      let categories
-        = this.searchStore.categories.current()
-        && this.searchStore.categories.current().data;
+    if (this.searchStore.categories) {
+      if (isObservableArray(this.searchStore.categories)) {
+        return this.searchStore.categories.slice().map(category => ({
+          title: capitalize(category.type),
+          fetchPath: `${category.fetchPath}/${category.type}`
+        }));
+      } else {
+        let categories
+          = this.searchStore.categories.current()
+          && this.searchStore.categories.current().data;
 
-      return categories
-        ? categories.values.map(value => ({
-            title: capitalize(value),
-            fetchPath: `/categories/${categories.type}/${value}`
-          }))
-        : [];
+        return categories
+          ? categories.values.map(value => ({
+              title: capitalize(value),
+              fetchPath: `/categories/${categories.type}/${value}`
+            }))
+          : [];
+      }
     }
+    return [];
   }
 
   @action
