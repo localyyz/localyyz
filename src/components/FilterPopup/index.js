@@ -149,7 +149,7 @@ export default class FilterPopup extends React.Component {
                   </View>
                 </TouchableOpacity>
                 <View style={styles.filter}>
-                  <Filter categories={this.props.categories} />
+                  <Filter />
                 </View>
               </Animatable.View>
             </ScrollView>

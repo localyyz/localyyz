@@ -24,12 +24,7 @@ export default class Filter extends React.Component {
         <Price />
         <Text style={styles.label}>By minimum discount %</Text>
         <Discount />
-        {this.props.categories && this.props.categories.length > 0 ? (
-          <View>
-            <Text style={styles.label}>By type</Text>
-            <Categories categories={this.props.categories} />
-          </View>
-        ) : null}
+        <Categories />
       </View>
     );
   }

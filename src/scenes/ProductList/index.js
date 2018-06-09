@@ -55,6 +55,7 @@ export default class ProductListScene extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log(props.navigation.state.params);
     this.store = new Store(props.navigation.state.params);
     this.filterStore = FilterPopup.getNewStore(this.store);
     this.state = {
@@ -105,9 +106,7 @@ export default class ProductListScene extends React.Component {
               onEndReached={() => this.store.fetchNextPage()}/>
           </ContentCoverSlider>
           <View style={Styles.Overlay} pointerEvents="box-none">
-            <FilterPopup
-              categories={this.store.categoryPaths}
-              minWhitespace={Sizes.OuterFrame * 3}/>
+            <FilterPopup minWhitespace={Sizes.OuterFrame * 3} />
           </View>
         </View>
       </Provider>

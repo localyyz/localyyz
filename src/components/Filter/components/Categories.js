@@ -1,10 +1,16 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
+
 import { Sizes } from "localyyz/constants";
+import { inject, observer } from "mobx-react/native";
 
 // local
 import Category from "./Category";
 
+@inject(stores => ({
+  categoryFilter: stores.filterStore.categoryFilter
+}))
+@observer
 export default class Categories extends React.Component {
   constructor(props) {
     super(props);
@@ -18,14 +24,17 @@ export default class Categories extends React.Component {
   }
 
   render() {
-    return (
-      <FlatList
-        scrollEnabled={false}
-        data={this.props.categories}
-        keyExtractor={item => item.title}
-        renderItem={this.renderItem}
-        contentContainerStyle={styles.container}/>
-    );
+    return this.props.categoryFilter && this.props.categoryFilter.length > 0 ? (
+      <View>
+        <Text>By type</Text>
+        <FlatList
+          scrollEnabled={false}
+          data={this.props.categoryFilter}
+          keyExtractor={item => item.title}
+          renderItem={this.renderItem}
+          contentContainerStyle={styles.container}/>
+      </View>
+    ) : null;
   }
 }
 

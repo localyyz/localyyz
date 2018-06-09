@@ -1,4 +1,11 @@
-import { action, observable, computed, reaction } from "mobx";
+import {
+  action,
+  observable,
+  computed,
+  reaction,
+  isObservableArray
+} from "mobx";
+import { capitalize } from "localyyz/helpers";
 
 export default class FilterStore {
   // sorting
@@ -29,6 +36,28 @@ export default class FilterStore {
 
     // initial
     this.scrollEnabled = true;
+  }
+
+  @computed
+  get categoryFilter() {
+    // TODO: clean this up...
+    if (isObservableArray(this.searchStore.categories)) {
+      return this.searchStore.categories.slice().map(category => ({
+        title: capitalize(category.type),
+        fetchPath: `${category.fetchPath}/${category.type}`
+      }));
+    } else {
+      let categories
+        = this.searchStore.categories.current()
+        && this.searchStore.categories.current().data;
+
+      return categories
+        ? categories.values.map(value => ({
+            title: capitalize(value),
+            fetchPath: `/categories/${categories.type}/${value}`
+          }))
+        : [];
+    }
   }
 
   @action

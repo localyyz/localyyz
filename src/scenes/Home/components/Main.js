@@ -29,7 +29,6 @@ const VIEWABLITY_CONFIG = {
   updateBlockHeight: (i, evt) => stores.homeStore.updateBlockHeight(i, evt),
 
   // block fetching
-  //fetchCategoryBlocks: () => stores.homeStore.fetchCategoryBlocks(),
   fetchCollectionBlocks: () => stores.homeStore.fetchCollectionBlocks()
 }))
 @observer
@@ -52,7 +51,6 @@ export default class Main extends React.Component {
   }
 
   async load() {
-    //await this.props.fetchCategoryBlocks();
     await this.props.fetchCollectionBlocks();
 
     // and finally allow render

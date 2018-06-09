@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from "mobx";
 import { Product } from "localyyz/models";
-import { box, capitalize } from "localyyz/helpers";
+import { box } from "localyyz/helpers";
 import { ApiInstance } from "localyyz/global";
 
 class Store {
@@ -12,6 +12,9 @@ class Store {
     this.categories = props.categories;
     this.defaultParams = props.params;
 
+    // TODO is this best way?
+    this.categories.current && this.categories.current();
+
     // unset
     this.isLoading;
     this.next;
@@ -21,23 +24,6 @@ class Store {
     // bindings
     this.reset = this.reset.bind(this);
     this.fetchNextPage = this.fetchNextPage.bind(this);
-  }
-
-  get categoryPaths() {
-    return (this.categories ? this.categories.slice() : []).map(category => {
-      if (typeof category == "string") {
-        return {
-          title: capitalize(category),
-          fetchPath: `${this.fetchPath}?v=${category}`
-        };
-      } else if (typeof category == "object") {
-        return {
-          title: capitalize(category.type),
-          fetchPath: `${category.fetchPath}/${category.type}/products`
-        };
-      }
-      return {};
-    });
   }
 
   reset(mergeParams = {}) {
