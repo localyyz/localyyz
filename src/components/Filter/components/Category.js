@@ -13,12 +13,11 @@ import { lazyObservable } from "mobx-utils";
 export class Category extends React.Component {
   static propTypes = {
     title: PropTypes.string,
-    fetchPath: PropTypes.string
+    fetchPath: PropTypes.string.isRequired
   };
 
   static defaultProps = {
-    title: "",
-    fetchPath: ""
+    title: ""
   };
 
   constructor(props) {
