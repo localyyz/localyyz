@@ -31,4 +31,4 @@ export { default as ReactiveSpacer } from "./ReactiveSpacer";
 export { default as SloppyView } from "./SloppyView";
 export { default as BlurView } from "./BlurView";
 export { default as Filter } from "./Filter";
-export { default as FilterPopup } from "./FilterPopup";
+export { default as FilterPopup, FilterPopupButton } from "./FilterPopup";

@@ -1,10 +1,4 @@
-import {
-  action,
-  observable,
-  computed,
-  reaction,
-  isObservableArray
-} from "mobx";
+import { action, observable, computed, reaction } from "mobx";
 import { capitalize } from "localyyz/helpers";
 
 export default class FilterStore {
@@ -42,12 +36,8 @@ export default class FilterStore {
   get categoryFilter() {
     // TODO: clean this up...
     if (this.searchStore.categories) {
-      if (isObservableArray(this.searchStore.categories)) {
-        return this.searchStore.categories.slice().map(category => ({
-          title: capitalize(category.type),
-          fetchPath: `${category.fetchPath}/${category.type}`
-        }));
-      } else {
+      if (this.searchStore.categories.current) {
+        // it's an lazyObservable
         let categories
           = this.searchStore.categories.current()
           && this.searchStore.categories.current().data;
@@ -58,6 +48,11 @@ export default class FilterStore {
               fetchPath: `/categories/${categories.type}/${value}`
             }))
           : [];
+      } else {
+        return this.searchStore.categories.slice().map(category => ({
+          title: capitalize(category.type),
+          fetchPath: `${category.fetchPath}/${category.type}`
+        }));
       }
     }
     return [];

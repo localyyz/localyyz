@@ -55,11 +55,14 @@ export default class ProductListScene extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props.navigation.state.params);
     this.store = new Store(props.navigation.state.params);
     this.filterStore = FilterPopup.getNewStore(this.store);
     this.state = {
-      headerHeight: 0
+      headerHeight: 0,
+      // when navigating to productList, is the filter popup visible?
+      isFilterVisible:
+        props.navigation.state.params
+        && props.navigation.state.params.isFilterVisible
     };
   }
 
@@ -106,7 +109,9 @@ export default class ProductListScene extends React.Component {
               onEndReached={() => this.store.fetchNextPage()}/>
           </ContentCoverSlider>
           <View style={Styles.Overlay} pointerEvents="box-none">
-            <FilterPopup minWhitespace={Sizes.OuterFrame * 3} />
+            <FilterPopup
+              isVisible={this.state.isFilterVisible}
+              minWhitespace={Sizes.OuterFrame * 3}/>
           </View>
         </View>
       </Provider>

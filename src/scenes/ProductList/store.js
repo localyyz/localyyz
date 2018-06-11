@@ -13,7 +13,7 @@ class Store {
     this.defaultParams = props.params;
 
     // TODO is this best way?
-    this.categories.current && this.categories.current();
+    this.categories && this.categories.current && this.categories.current();
 
     // unset
     this.isLoading;
