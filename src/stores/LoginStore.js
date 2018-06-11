@@ -135,7 +135,7 @@ export default class LoginStore {
 
       //check with server if we need to bust cache
       await this.api
-        .get("/users/me/ping", { lu: session.cachedAt || 0 })
+        .get("/users/me/ping", { lu: session.cachedAt || 0 }, true)
         .then(async ping => {
           if (ping && ping.status === 205) {
             //cache bust the storage

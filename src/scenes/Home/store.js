@@ -150,7 +150,7 @@ export default class HomeStore {
   async fetchCategoryBlocks() {
     if (!this.hasFetchedCategory) {
       this.hasFetchedCategory = true;
-      let response = await this.api.get("categories");
+      let response = await this.api.get("categories", null, true);
       if (response.status < 400 && response.data && response.data.length > 0) {
         let categoryBlocks = response.data.map(category => ({
           type: "productList",
