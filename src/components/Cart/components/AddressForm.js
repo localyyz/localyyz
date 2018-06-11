@@ -83,6 +83,7 @@ export default class AddressForm extends React.Component {
     this.onAddressComponentUpdate = this.onAddressComponentUpdate.bind(this);
     this.onNameUpdate = this.onNameUpdate.bind(this);
     this.onSaveAddress = this.onSaveAddress.bind(this);
+    this.isComplete = this.isComplete.bind(this);
   }
 
   componentWillReceiveProps(next) {
@@ -104,7 +105,7 @@ export default class AddressForm extends React.Component {
     };
   }
 
-  get isComplete() {
+  isComplete() {
     return (
       this.state.address
       && !!this.state.address.address
@@ -189,7 +190,7 @@ export default class AddressForm extends React.Component {
   }
 
   onSaveAddress() {
-    if (!this.state.address.address || !this.isComplete) {
+    if (!this.state.address.address || !this.isComplete()) {
       // error out and focus to field
       Alert.alert(
         "Invalid address",
