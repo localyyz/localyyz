@@ -23,7 +23,7 @@ export default class Gender extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.props.setGenderFilter("woman")}>
+        <TouchableOpacity onPress={() => this.onPress("woman")}>
           <View>
             <Text
               style={
@@ -36,7 +36,7 @@ export default class Gender extends React.Component {
           </View>
         </TouchableOpacity>
         <Text>/</Text>
-        <TouchableOpacity onPress={() => this.props.setGenderFilter("man")}>
+        <TouchableOpacity onPress={() => this.onPress("man")}>
           <View>
             <Text
               style={
