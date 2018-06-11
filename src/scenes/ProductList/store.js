@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from "mobx";
 import { Product } from "localyyz/models";
-import { box, capitalize } from "localyyz/helpers";
+import { box } from "localyyz/helpers";
 import { ApiInstance } from "localyyz/global";
 
 class Store {
@@ -12,6 +12,9 @@ class Store {
     this.categories = props.categories;
     this.defaultParams = props.params;
 
+    // TODO is this best way?
+    this.categories && this.categories.current && this.categories.current();
+
     // unset
     this.isLoading;
     this.next;
@@ -21,13 +24,6 @@ class Store {
     // bindings
     this.reset = this.reset.bind(this);
     this.fetchNextPage = this.fetchNextPage.bind(this);
-  }
-
-  get categoryPaths() {
-    return (this.categories ? this.categories.slice() : []).map(category => ({
-      title: capitalize(category),
-      fetchPath: `${this.fetchPath}?v=${category}`
-    }));
   }
 
   reset(mergeParams = {}) {
@@ -48,7 +44,11 @@ class Store {
   @action
   async fetchNextPage(params = {}) {
     if (this.isLoading || (this.self && !this.next)) {
-      console.log("skip page fetch already loading or reached end");
+      console.log(
+        `skip page fetch already loading or reached end. l:${
+          this.isLoading
+        } n:${this.next}`
+      );
       return;
     }
     this.isLoading = true;

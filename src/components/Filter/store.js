@@ -1,4 +1,5 @@
 import { action, observable, computed, reaction } from "mobx";
+import { capitalize } from "localyyz/helpers";
 
 export default class FilterStore {
   // sorting
@@ -10,6 +11,9 @@ export default class FilterStore {
 
   // discount filter
   @observable discountMin;
+
+  // gender filter
+  @observable gender = "woman";
 
   // ui
   @observable scrollEnabled;
@@ -27,6 +31,37 @@ export default class FilterStore {
     // initial
     this.scrollEnabled = true;
   }
+
+  @computed
+  get categoryFilter() {
+    // TODO: clean this up...
+    if (this.searchStore.categories) {
+      if (this.searchStore.categories.current) {
+        // it's an lazyObservable
+        let categories
+          = this.searchStore.categories.current()
+          && this.searchStore.categories.current().data;
+
+        return categories
+          ? categories.values.map(value => ({
+              title: capitalize(value),
+              fetchPath: `/categories/${categories.type}/${value}`
+            }))
+          : [];
+      } else {
+        return this.searchStore.categories.slice().map(category => ({
+          title: capitalize(category.type),
+          fetchPath: `${category.fetchPath}/${category.type}`
+        }));
+      }
+    }
+    return [];
+  }
+
+  @action
+  setGenderFilter = val => {
+    this.gender = val;
+  };
 
   @action
   setPriceFilter(min, max) {
@@ -69,13 +104,14 @@ export default class FilterStore {
       ...(this.sortBy && {
         sort: this.sortBy
       }),
-      ...(this.priceMin || this.priceMax || this.discountMin
+      ...(this.priceMin || this.priceMax || this.discountMin || this.gender
         ? {
             filter: [
               ...(this.priceMin || this.priceMax
                 ? [`price,min=${this.priceMin},max=${this.priceMax}`]
                 : []),
-              ...(this.discountMin ? [`discount,min=${this.discountMin}`] : [])
+              ...(this.discountMin ? [`discount,min=${this.discountMin}`] : []),
+              ...(this.gender ? [`gender,val=${this.gender}`] : [])
             ]
           }
         : null)

@@ -1,12 +1,25 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+
+// localyyz
 import { Styles, Sizes } from "localyyz/constants";
+import { ApiInstance } from "localyyz/global";
 
 // third party
 import { withNavigation } from "react-navigation";
+import PropTypes from "prop-types";
+import { lazyObservable } from "mobx-utils";
 
-@withNavigation
-export default class Category extends React.Component {
+export class Category extends React.Component {
+  static propTypes = {
+    title: PropTypes.string,
+    fetchPath: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    title: ""
+  };
+
   constructor(props) {
     super(props);
 
@@ -14,8 +27,18 @@ export default class Category extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
+  lazyCategories = () => {
+    return lazyObservable(sink =>
+      ApiInstance.get(this.props.fetchPath).then(resp => sink(resp))
+    );
+  };
+
   onPress() {
-    this.props.navigation.navigate("ProductList", this.props);
+    this.props.navigation.navigate("ProductList", {
+      ...this.props,
+      fetchPath: `${this.props.fetchPath}/products`,
+      categories: this.lazyCategories()
+    });
   }
 
   render() {
@@ -28,6 +51,8 @@ export default class Category extends React.Component {
     );
   }
 }
+
+export default withNavigation(Category);
 
 const styles = StyleSheet.create({
   container: {

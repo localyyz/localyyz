@@ -3,9 +3,10 @@ import { Animated, View, StyleSheet, FlatList } from "react-native";
 
 // custom
 import { NAVBAR_HEIGHT, Colours, Sizes } from "localyyz/constants";
-import { ReactiveSpacer } from "localyyz/components";
+import { ReactiveSpacer, FilterPopupButton } from "localyyz/components";
 
 // third party
+import { withNavigation } from "react-navigation";
 import { observer, inject } from "mobx-react/native";
 
 // local
@@ -33,7 +34,7 @@ const VIEWABLITY_CONFIG = {
   fetchCollectionBlocks: () => stores.homeStore.fetchCollectionBlocks()
 }))
 @observer
-export default class Main extends React.Component {
+export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -152,6 +153,17 @@ export default class Main extends React.Component {
     );
   }
 
+  // navigate to a "product list" with top level categories
+  onFilterPress = () => {
+    // navigates to a category/products filter
+    this.props.navigation.navigate("ProductList", {
+      fetchPath: "/products",
+      categories: this.props.homeStore.categoryFilters,
+      // launch with filter popup visible
+      isFilterVisible: true
+    });
+  };
+
   render() {
     return this.state.isLayoutReady ? (
       <View style={styles.container}>
@@ -159,12 +171,15 @@ export default class Main extends React.Component {
         <View style={styles.slider}>
           <BlockSlider scrollTo={this.scrollTo} />
         </View>
+        <FilterPopupButton text={"Filter"} onPress={this.onFilterPress} />
       </View>
     ) : (
       <MainPlaceholder />
     );
   }
 }
+
+export default withNavigation(Main);
 
 const styles = StyleSheet.create({
   container: {
