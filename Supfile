@@ -18,12 +18,12 @@ networks:
       - localhost
 
 commands:
-  push-ios:
+  codepush-ios:
     desc: release ios via codepush
     local: >
       appcenter codepush release-react -d Production --app Localyyz/Localyyz-iOS
   
-  push-android:
+  codepush-android:
     desc: release android via codepush
     local: >
       appcenter codepush release-react -d Production --app Localyyz/Localyyz-Android
