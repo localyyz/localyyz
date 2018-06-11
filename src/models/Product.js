@@ -177,15 +177,17 @@ export default class Product {
 
     // assuming images are grouped by colour, and the first group is
     // common to all
-    for (let photo of this.images.slice()) {
-      // key has changed, so switch new photos into that group
-      if (keys[photo.id]) {
-        currentGroup = keys[photo.id];
+    if (this.images != null){
+      for (let photo of this.images.slice()) {
+        // key has changed, so switch new photos into that group
+        if (keys[photo.id]) {
+          currentGroup = keys[photo.id];
+        }
+  
+        groups[currentGroup].push(photo);
       }
-
-      groups[currentGroup].push(photo);
     }
-
+  
     return groups;
   }
 
