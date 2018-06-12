@@ -143,8 +143,8 @@ export default class Product {
   get isSocial() {
     return (
       (this.place
-        && (this.place.facebookUrl.length > 0
-          || this.place.instagramUrl.length > 0))
+        && ((this.place.facebookUrl && this.place.facebookUrl.length > 0)
+          || (this.place.instagramUrl && this.place.instagramUrl.length > 0)))
       || null
     );
   }
