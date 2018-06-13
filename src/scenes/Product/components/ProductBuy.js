@@ -10,7 +10,7 @@ import {
 import PropTypes from "prop-types";
 
 // custom
-import { applePayButton } from "localyyz/assets";
+//import { applePayButton } from "localyyz/assets";
 import { onlyIfLoggedIn, toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { ExplodingButton, SloppyView } from "localyyz/components";
@@ -18,6 +18,7 @@ import { capitalize } from "localyyz/helpers";
 import { GA } from "localyyz/global";
 
 // third party
+import { ApplePayButton } from "react-native-payments";
 import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
@@ -136,7 +137,6 @@ class ProductBuy extends React.Component {
           this.props.selectedVariant.etc.size
         )
         .then(response => {
-          // handle response with ui presentation
           if (response && response.wasSuccessful) {
             this.props.navigation.navigate("CartSummary", response);
           } else if (response && !response.wasAborted) {
@@ -204,17 +204,16 @@ class ProductBuy extends React.Component {
         </TouchableOpacity>
         {this.props.isExpressSupported ? (
           <View style={styles.buttons}>
-            <TouchableOpacity
-              onPress={() =>
-                this.isInStock ? this._onExpressCheckout() : this.onOutOfStock()
-              }>
-              <View style={styles.expressButton}>
-                <Image
-                  resizeMode="contain"
-                  style={styles.expressButtonLogo}
-                  source={applePayButton}/>
-              </View>
-            </TouchableOpacity>
+            <ApplePayButton
+              width={Sizes.InnerFrame * 10}
+              height={Sizes.InnerFrame * 2}
+              onPress={() => {
+                this.isInStock
+                  ? this._onExpressCheckout()
+                  : this.onOutOfStock();
+              }}
+              style="black"
+              type="buy"/>
             <ExplodingButton
               isExploded={this.props.isExploded}
               explode={async () =>
