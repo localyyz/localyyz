@@ -1,5 +1,7 @@
 import { observable, action } from "mobx";
 
+import Place from "./Place";
+
 // consts
 const MAX_DESCRIPTION_WORD_LENGTH = 20;
 export const MAX_TITLE_WORD_LENGTH = 4;
@@ -22,22 +24,25 @@ export default class Product {
   @observable imageUrl = "";
   @observable place = null;
   @observable shopUrl = "";
-  @observable category;
+  @observable category = {};
   @observable variants = [];
-  @observable etc;
+  @observable etc = {};
   @observable images = [];
   @observable brand = "";
 
-  @observable thumbUrl;
-  @observable htmlDescription;
-  @observable noTagDescription;
+  @observable thumbUrl = "";
+  @observable htmlDescription = "";
+  @observable noTagDescription = "";
 
-  @observable sizes;
-  @observable colors;
+  @observable sizes = [];
+  @observable colors = [];
 
   // not part of api product object, but to create separate virtual products
   // based on different colors
   @observable selectedColor;
+
+  // extra non observables
+  place = {};
 
   constructor(product, selectedColor) {
     this.setProduct(product, selectedColor);
@@ -138,8 +143,8 @@ export default class Product {
   get isSocial() {
     return (
       (this.place
-        && (this.place.facebookUrl.length > 0
-          || this.place.instagramUrl.length > 0))
+        && ((this.place.facebookUrl && this.place.facebookUrl.length > 0)
+          || (this.place.instagramUrl && this.place.instagramUrl.length > 0)))
       || null
     );
   }
@@ -177,39 +182,31 @@ export default class Product {
 
     // assuming images are grouped by colour, and the first group is
     // common to all
-    if (this.images != null){
-      for (let photo of this.images.slice()) {
-        // key has changed, so switch new photos into that group
-        if (keys[photo.id]) {
-          currentGroup = keys[photo.id];
-        }
-  
-        groups[currentGroup].push(photo);
+    for (let photo of this.images.slice()) {
+      // key has changed, so switch new photos into that group
+      if (keys[photo.id]) {
+        currentGroup = keys[photo.id];
       }
+
+      groups[currentGroup].push(photo);
     }
-  
+
     return groups;
   }
 
   @action
   setProduct = (product, selectedColor) => {
-    this.id = product.id;
-    this.description = product.description;
-    this.title = product.title;
-    this.imageUrl = product.imageUrl;
-    this.shopUrl = product.shopUrl;
-    this.variants = product.variants;
-    this.etc = product.etc;
-    this.place = product.place;
-    this.sizes = product.sizes;
-    this.colors = product.colors;
-    this.category = product.category;
-    this.images = product.images;
-    this.brand = product.brand;
+    // set or use default value
+    for (let k in product) {
+      if (product[k]) {
+        this[k] = product[k];
+      }
+    }
 
-    this.htmlDescription = product.htmlDescription;
-    this.noTagDescription = product.noTagDescription;
-    this.thumbUrl = product.thumbUrl;
+    if (product.place) {
+      // set up model
+      this.place = new Place(product.place);
+    }
 
     // set first color if not specified
     this.selectedColor
