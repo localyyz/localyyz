@@ -19,6 +19,7 @@ export const DEFAULT_ADDRESS = "required";
 export const DEFAULT_ADDRESS_OPT = "optional";
 export const DEFAULT_NAME = "required";
 export const DEFAULT_EMAIL = "required";
+export const DEFAULT_DISCOUNT_CODE = "optional";
 
 export const CART_STATUS_INPROGRESS = "inprogress";
 export const CART_STATUS_PAYMENT_SUCCESS = "payment_success";

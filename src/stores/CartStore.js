@@ -375,6 +375,23 @@ export default class CartStore {
     }
   };
 
+  @action
+  applyDiscountCode = async ({ discountCode, cartId }) => {
+    // TODO: simplified version at the time, future improvements include adding
+    // discount code per merchant
+    const route = `/carts/${cartId || DEFAULT_CART}`;
+    const payload = {
+      discountCode: discountCode,
+      shippingAddress: this.cart.shippingAddress,
+      billingAddress: this.cart.billingAddress
+    };
+
+    const response = await this._api.put(route, payload);
+    if (response && response.status < 400 && response.data) {
+      return this.replace(response.data);
+    }
+  };
+
   /*
   * Cart Checkout
   *
