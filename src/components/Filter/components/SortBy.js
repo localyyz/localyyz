@@ -4,15 +4,9 @@ import PropTypes from "prop-types";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // third party
-import { inject, observer } from "mobx-react/native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 
-@inject(stores => ({
-  sortBy: stores.filterStore.sortBy,
-  setSortBy: stores.filterStore.setSortBy
-}))
-@observer
 export default class SortBy extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,

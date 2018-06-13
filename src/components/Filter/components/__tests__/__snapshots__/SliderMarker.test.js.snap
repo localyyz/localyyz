@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filter slider marker Filter slider marker: should render to snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "height": 50,
+      "width": 75,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "height": 15,
+        "justifyContent": "center",
+        "overflow": "hidden",
+        "width": 75,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        numberOfLines={1}
+        style={
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "#000000",
+            "fontSize": 14,
+            "fontWeight": "600",
+          }
+        }
+      >
+        
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "height": 15,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgb(30, 30, 30)",
+        "borderRadius": 1.875,
+        "height": 3.75,
+        "width": 3.75,
+      }
+    }
+  />
+</View>
+`;

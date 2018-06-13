@@ -1,8 +1,12 @@
 import React from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
 
-import { Sizes } from "localyyz/constants";
+// third party
 import { inject, observer } from "mobx-react/native";
+import PropTypes from "prop-types";
+
+// custom
+import { Sizes } from "localyyz/constants";
 
 // local
 import Category from "./Category";
@@ -12,6 +16,14 @@ import Category from "./Category";
 }))
 @observer
 export default class Categories extends React.Component {
+  static propTypes = {
+    categoryFilter: PropTypes.array
+  };
+
+  static defaultProps = {
+    categoryFilter: []
+  };
+
   constructor(props) {
     super(props);
 
@@ -24,7 +36,7 @@ export default class Categories extends React.Component {
   }
 
   render() {
-    return this.props.categoryFilter && this.props.categoryFilter.length > 0 ? (
+    return this.props.categoryFilter.length > 0 ? (
       <View>
         <Text>By type</Text>
         <FlatList

@@ -6,6 +6,7 @@ import { Styles, Sizes, Colours } from "localyyz/constants";
 import { inject, observer } from "mobx-react/native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import * as Animatable from "react-native-animatable";
+import PropTypes from "prop-types";
 
 // local
 import SliderMarker from "./SliderMarker";
@@ -20,6 +21,14 @@ const SLIDER_PERCENTAGE_OF_PARENT_WIDTH = 0.8;
 }))
 @observer
 export default class Discount extends React.Component {
+  static SLIDER_PERCENTAGE_OF_PARENT_WIDTH = SLIDER_PERCENTAGE_OF_PARENT_WIDTH;
+  static STEP_SIZE = STEP_SIZE;
+
+  static propTypes = {
+    setDiscountFilter: PropTypes.func.isRequired,
+    discountMin: PropTypes.number
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -87,6 +96,7 @@ export default class Discount extends React.Component {
           </Animatable.View>
         </View>
         <MultiSlider
+          ref="slider"
           min={0}
           max={1}
           sliderLength={this.state.width * SLIDER_PERCENTAGE_OF_PARENT_WIDTH}
