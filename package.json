@@ -82,7 +82,7 @@
     "react-native-iphone-x-helper": "^1.0.2",
     "react-native-keyboard-aware-scroll-view": "^0.5.0",
     "react-native-linear-gradient": "^2.4.0",
-    "react-native-payments": "git://github.com/localyyz/react-native-payments.git#b9230f5228d780caa521b6e41871c6d43222ba31",
+    "react-native-payments": "https://github.com/localyyz/react-native-payments#b9230f5228d780caa521b6e41871c6d43222ba31",
     "react-native-photo-view": "^1.5.2",
     "react-native-snap-carousel": "^3.7.0",
     "react-native-tear-lines": "^1.0.3",
