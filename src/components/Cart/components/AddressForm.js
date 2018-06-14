@@ -53,6 +53,7 @@ export default class AddressForm extends React.Component {
   static propTypes = {
     address: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     isShipping: PropTypes.bool,
     isBilling: PropTypes.bool,
 
@@ -244,7 +245,7 @@ export default class AddressForm extends React.Component {
       }
     }
   }
-  
+
   get isNameReady() {
     return (
       !!this.state.name
@@ -417,6 +418,13 @@ export default class AddressForm extends React.Component {
               </UppercasedText>
             </View>
           </TouchableOpacity>
+          <TouchableOpacity onPress={this.props.onCancel}>
+            <View style={Styles.RoundedSubButton}>
+              <UppercasedText style={styles.addButtonLabel}>
+                Cancel
+              </UppercasedText>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -446,7 +454,8 @@ const styles = StyleSheet.create({
   addAddress: {
     marginHorizontal: Sizes.InnerFrame,
     marginVertical: Sizes.InnerFrame,
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    flexDirection: "row"
   },
 
   addButtonLabel: {
