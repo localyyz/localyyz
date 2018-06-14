@@ -66,7 +66,9 @@ export default class Api {
     return {
       hasError: true,
       error: _error,
-      ...(_error.status === 401 ? { isCritical: true } : {})
+      ...(_error.status >= 400 && _error.status <= 499
+        ? { isCritical: true }
+        : {})
     };
   }
 
@@ -105,7 +107,7 @@ export default class Api {
         && console.log("Critical network failure: retries aborted");
 
       // don't attempt again if over limit or always if required to succeed
-      // only if not critical failure
+      // + only if not critical failure
       if (!err.isCritical && (attempts.length < RETRY_LIMIT || mandatory)) {
         await asyncTimeout(RETRY_TIMEOUT);
 
