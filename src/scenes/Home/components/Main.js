@@ -172,9 +172,11 @@ export class Main extends React.Component {
         <View pointerEvents="box-none" style={styles.filter}>
           <FilterPopupButton text={"Filter"} onPress={this.onFilterPress} />
         </View>
+        {/*
         <View pointerEvents="box-none" style={styles.slider}>
           <BlockSlider scrollTo={this.scrollTo} />
         </View>
+        */}
       </View>
     ) : (
       <MainPlaceholder />
