@@ -3,7 +3,7 @@ import DiscountCode from "../components/DiscountCode";
 import Renderer from "react-test-renderer";
 
 const props = {
-  applyDiscountCode: discountCode => {
+  applyDiscountCode: ({ discountCode }) => {
     if (discountCode == "SAMPLEDISCOUNT") {
       return true;
     } else {

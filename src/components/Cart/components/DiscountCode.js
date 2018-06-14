@@ -16,8 +16,7 @@ import CartHeader from "./CartHeader";
 import CartField from "./CartField";
 
 @inject(stores => ({
-  applyDiscountCode: discountCode =>
-    stores.cartStore.applyDiscountCode(discountCode)
+  applyDiscountCode: stores.cartStore.applyDiscountCode
 }))
 @observer
 export default class DiscountCode extends React.Component {
@@ -47,13 +46,18 @@ export default class DiscountCode extends React.Component {
     this.setState({ newDiscountCode: discountCode });
   };
 
-  verifyDiscountCode = discountCode => {
-    if (discountCode.length > 0 && this.props.applyDiscountCode(discountCode)) {
+  verifyDiscountCode = () => {
+    console.log(this.state.newDiscountCode);
+    if (
+      this.state.newDiscountCode.length > 0
+      && this.props.applyDiscountCode({
+        discountCode: this.state.newDiscountCode
+      })
+    ) {
       this.setState({
         isVerified: true,
         isOpen: false,
-        discountCode: discountCode,
-        newDiscountCode: discountCode
+        discountCode: this.state.newDiscountCode
       });
     } else {
       this.setState({
@@ -84,14 +88,12 @@ export default class DiscountCode extends React.Component {
               style={Styles.Input}
               value={this.state.discountCode}
               onChangeText={discount => this.updateDiscountCode(discount)}
-              onEndEditing={() =>
-                this.verifyDiscountCode(this.state.newDiscountCode)
-              }/>
+              onEndEditing={this.verifyDiscountCode}/>
           </CartField>
         </Animatable.View>
         <TouchableOpacity
           style={style.addDiscount}
-          onPress={() => this.verifyDiscountCode(this.state.newDiscountCode)}>
+          onPress={this.verifyDiscountCode}>
           <View style={Styles.RoundedButton}>
             <UppercasedText style={style.addButtonLabel}>
               apply code
