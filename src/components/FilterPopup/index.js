@@ -157,7 +157,7 @@ export default class FilterPopup extends React.Component {
               ]}/>
             <ScrollView
               showsVerticalScrollIndicator={false}
-              bounce={false}
+              bounces={false}
               scrollEnabled={this.props.scrollEnabled}>
               <StatusBar hidden />
               <TouchableWithoutFeedback onPress={() => this.toggle(false)}>
