@@ -16,12 +16,16 @@ import CartHeader from "./CartHeader";
 import CartField from "./CartField";
 
 @inject(stores => ({
-  applyDiscountCode: stores.cartStore.applyDiscountCode
+  applyDiscountCode: stores.cartStore.applyDiscountCode,
+  updateDiscountCodeInStore: discountCode => {
+    stores.cartStore.updateDiscountCodeStore(discountCode);
+  }
 }))
 @observer
 export default class DiscountCode extends React.Component {
   static propTypes = {
-    applyDiscountCode: PropTypes.func.isRequired
+    applyDiscountCode: PropTypes.func.isRequired,
+    updateDiscountCodeInStore: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -47,16 +51,12 @@ export default class DiscountCode extends React.Component {
   };
 
   verifyDiscountCode = () => {
-    console.log(this.state.newDiscountCode);
     if (
-      this.state.newDiscountCode.length > 0
-      && this.props.applyDiscountCode({
-        discountCode: this.state.newDiscountCode
-      })
+      this.props.applyDiscountCode({ discountCode: this.state.newDiscountCode })
     ) {
       this.setState({
-        isVerified: true,
-        isOpen: false,
+        isVerified: this.state.newDiscountCode.length > 0 ? true : false,
+        isOpen: this.state.newDiscountCode.length > 0 ? false : true,
         discountCode: this.state.newDiscountCode
       });
     } else {
@@ -66,6 +66,8 @@ export default class DiscountCode extends React.Component {
         discountCode: ""
       });
     }
+
+    this.props.updateDiscountCodeInStore(this.state.newDiscountCode); //so when we update address we dont blow it away
   };
 
   get renderDiscountForm() {

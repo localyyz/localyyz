@@ -27,6 +27,7 @@ export default class CartStore {
   @observable cart;
   @observable paymentDetails;
   @observable email;
+  @observable discountCode;
 
   // transition states
   @observable isCheckingOut = false;
@@ -226,6 +227,11 @@ export default class CartStore {
   };
 
   @action
+  updateDiscountCodeStore = discountCode => {
+    this.discountCode = discountCode;
+  };
+
+  @action
   replace = cart => {
     this.cart.update(cart);
     return this.cart;
@@ -319,7 +325,8 @@ export default class CartStore {
     const route = `/carts/${cartId || DEFAULT_CART}`;
     const payload = {
       shippingAddress: address.isShipping ? address : this.cart.shippingAddress,
-      billingAddress: address.isBilling ? address : this.cart.billingAddress
+      billingAddress: address.isBilling ? address : this.cart.billingAddress,
+      discountCode: this.discountCode
     };
 
     const response = await this._api.put(route, payload);
@@ -365,7 +372,8 @@ export default class CartStore {
         billingAddress:
           address.id === this.billingDetails.id
             ? null
-            : this.cart.billingAddress
+            : this.cart.billingAddress,
+        discountCode: this.discountCode
       };
 
       const response = await this._api.put(route, payload);

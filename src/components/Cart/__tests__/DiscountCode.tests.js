@@ -9,7 +9,8 @@ const props = {
     } else {
       return false;
     }
-  }
+  },
+  updateDiscountCodeInStore: jest.fn()
 };
 describe("DiscountCode", () => {
   it("DiscountCode: should be able to enter valid discount code", () => {
@@ -21,27 +22,13 @@ describe("DiscountCode", () => {
     expect(rendered.state.newDiscountCode).toBe("SAMPLEDISCOUNT");
     expect(rendered.state.isVerified).toBe(false);
     expect(rendered.state.isOpen).toBe(true);
-    rendered.verifyDiscountCode("SAMPLEDISCOUNT");
+    rendered.verifyDiscountCode();
     expect(rendered.state.discountCode).toBe("SAMPLEDISCOUNT");
     expect(rendered.state.isVerified).toBe(true);
     expect(rendered.state.isOpen).toBe(false);
+    expect(props.updateDiscountCodeInStore).toHaveBeenCalledTimes(1);
     expect(rendered.refs.verifyDiscountIcon.props.icon.props.name).toBe(
       "check-circle"
-    );
-  });
-
-  it("DiscountCode: should not be able enter discount codes of length 0", () => {
-    let rendered = Renderer.create(
-      <DiscountCode.wrappedComponent {...props} />
-    ).getInstance();
-    rendered.toggleDiscountForm();
-    rendered.updateDiscountCode("");
-    rendered.verifyDiscountCode(rendered.state.newDiscountCode);
-    expect(rendered.state.discountCode).toBe("");
-    expect(rendered.state.isVerified).toBe(false);
-    expect(rendered.state.isOpen).toBe(true);
-    expect(rendered.refs.verifyDiscountIcon.props.icon.props.name).toBe(
-      "dot-single"
     );
   });
 
@@ -51,7 +38,7 @@ describe("DiscountCode", () => {
     ).getInstance();
     rendered.toggleDiscountForm();
     rendered.updateDiscountCode("BADDISCOUNT");
-    rendered.verifyDiscountCode(rendered.state.newDiscountCode);
+    rendered.verifyDiscountCode();
     expect(rendered.state.discountCode).toBe("");
     expect(rendered.state.isVerified).toBe(false);
     expect(rendered.state.isOpen).toBe(true);
@@ -60,7 +47,7 @@ describe("DiscountCode", () => {
     );
   });
 
-  it("DiscountCode: should not be able enter an invalid discount code after entering a valid one", () => {
+  it("DiscountCode: should be able to clear discount code", () => {
     let rendered = Renderer.create(
       <DiscountCode.wrappedComponent {...props} />
     ).getInstance();
@@ -69,7 +56,7 @@ describe("DiscountCode", () => {
     expect(rendered.state.newDiscountCode).toBe("SAMPLEDISCOUNT");
     expect(rendered.state.isVerified).toBe(false);
     expect(rendered.state.isOpen).toBe(true);
-    rendered.verifyDiscountCode("SAMPLEDISCOUNT");
+    rendered.verifyDiscountCode();
     expect(rendered.state.discountCode).toBe("SAMPLEDISCOUNT");
     expect(rendered.state.isVerified).toBe(true);
     expect(rendered.state.isOpen).toBe(false);
@@ -78,12 +65,19 @@ describe("DiscountCode", () => {
     );
     rendered.toggleDiscountForm();
     rendered.updateDiscountCode("");
-    rendered.verifyDiscountCode(rendered.state.newDiscountCode);
+    rendered.verifyDiscountCode();
     expect(rendered.state.discountCode).toBe("");
     expect(rendered.state.isVerified).toBe(false);
     expect(rendered.state.isOpen).toBe(true);
     expect(rendered.refs.verifyDiscountIcon.props.icon.props.name).toBe(
       "dot-single"
     );
+  });
+
+  it("Discount Code: snapshot regression test", () => {
+    let rendered = Renderer.create(
+      <DiscountCode.wrappedComponent {...props} />
+    ).toJSON();
+    expect(rendered).toMatchSnapshot();
   });
 });
