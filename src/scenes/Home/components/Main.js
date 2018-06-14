@@ -159,6 +159,7 @@ export class Main extends React.Component {
     this.props.navigation.navigate("ProductList", {
       fetchPath: "/products",
       categories: this.props.homeStore.categoryFilters,
+
       // launch with filter popup visible
       isFilterVisible: true
     });
@@ -168,10 +169,12 @@ export class Main extends React.Component {
     return this.state.isLayoutReady ? (
       <View style={styles.container}>
         <View style={styles.contentContainer}>{this.renderBlocks}</View>
-        <View style={styles.slider}>
+        <View pointerEvents="box-none" style={styles.filter}>
+          <FilterPopupButton text={"Filter"} onPress={this.onFilterPress} />
+        </View>
+        <View pointerEvents="box-none" style={styles.slider}>
           <BlockSlider scrollTo={this.scrollTo} />
         </View>
-        <FilterPopupButton text={"Filter"} onPress={this.onFilterPress} />
       </View>
     ) : (
       <MainPlaceholder />
@@ -188,6 +191,13 @@ const styles = StyleSheet.create({
 
   contentContainer: {
     flex: 1
+  },
+
+  filter: {
+    position: "absolute",
+    bottom: Sizes.ScreenBottom + Sizes.InnerFrame - 2,
+    left: 0,
+    right: 0
   },
 
   slider: {

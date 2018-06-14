@@ -22,7 +22,10 @@ export default class BrandsStore {
 
   // TODO: make brand a MODEL
   newBrand = brand => {
-    return { ...brand, products: brand.products.map(p => new Product(p)) };
+    return {
+      ...brand,
+      products: brand.products.map(p => new Product(p))
+    };
   };
 
   fetchNextPage() {
@@ -55,7 +58,8 @@ export default class BrandsStore {
         && response.data
         && runInAction("[ACTION] fetching featured", () => {
           response.data.forEach(brand => {
-            return this._brands.push(this.newBrand(brand));
+            brand = this.newBrand(brand);
+            this.featured.push(brand);
           });
         });
     });

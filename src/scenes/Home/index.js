@@ -5,13 +5,12 @@ import { View, StyleSheet, StatusBar } from "react-native";
 import { NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
-import { observer, Provider } from "mobx-react/native";
+import { Provider } from "mobx-react/native";
 
 // local
 import { Main, Header, Search } from "./components";
 import Store from "./store";
 
-@observer
 export default class Home extends React.Component {
   static navigationOptions = {
     swipeEnabled: false
@@ -23,11 +22,10 @@ export default class Home extends React.Component {
   }
 
   render() {
-    StatusBar.setBarStyle("light-content", true);
-
     return (
       <Provider homeStore={this.store}>
         <View style={styles.container}>
+          <StatusBar barStyle="light-content" />
           <Main />
           <Search />
           <Header />

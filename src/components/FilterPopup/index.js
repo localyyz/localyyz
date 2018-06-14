@@ -66,6 +66,7 @@ export class FilterPopupButton extends React.Component {
 export default class FilterPopup extends React.Component {
   static propTypes = {
     filterStore: PropTypes.object.isRequired,
+    minWhitespace: PropTypes.number,
 
     // if the parent view isn't the entire device height (minus navbar, include
     // the offset)
@@ -74,6 +75,7 @@ export default class FilterPopup extends React.Component {
   };
 
   static defaultProps = {
+    minWhitespace: Sizes.Height / 3,
     screenOffset: 0,
     isVisible: false
   };
@@ -185,8 +187,7 @@ export default class FilterPopup extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colours.DarkTransparent,
-    marginBottom: Sizes.InnerFrame + Sizes.OuterFrame + Sizes.ScreenBottom
+    backgroundColor: Colours.DarkTransparent
   },
 
   cover: {
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
 
   toggle: {
     position: "absolute",
-    bottom: Sizes.InnerFrame + Sizes.OuterFrame + Sizes.ScreenBottom,
+    bottom: 0,
     left: 0,
     right: 0
   },

@@ -51,15 +51,6 @@ exports[`Filter Filter: should render to snapshot 1`] = `
     ellipsizeMode="tail"
     style={Object {}}
   >
-    By gender
-  </Text>
-  <inject-Gender />
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={Object {}}
-  >
     By price
   </Text>
   <inject-Price />
@@ -72,6 +63,15 @@ exports[`Filter Filter: should render to snapshot 1`] = `
     By minimum discount %
   </Text>
   <inject-Discount />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={Object {}}
+  >
+    By gender
+  </Text>
+  <inject-Gender />
   <inject-Categories />
 </Component>
 `;

@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 
 // custom
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 import Brand from "../../Home/blocks/Brands/components/Brand";
 
 // third party
