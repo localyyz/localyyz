@@ -1,10 +1,6 @@
 import React from "react";
-import { inject, observer } from "mobx-react/native";
 import { View, TouchableOpacity, StyleSheet, TextInput } from "react-native";
-import EntypoIcon from "react-native-vector-icons/Entypo";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import * as Animatable from "react-native-animatable";
-import PropTypes from "prop-types";
+
 import {
   Colours,
   Sizes,
@@ -14,6 +10,12 @@ import {
 import { UppercasedText } from "localyyz/components";
 import CartHeader from "./CartHeader";
 import CartField from "./CartField";
+
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react/native";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import EntypoIcon from "react-native-vector-icons/Entypo";
+import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({
   applyDiscountCode: stores.cartStore.applyDiscountCode,
@@ -67,7 +69,8 @@ export default class DiscountCode extends React.Component {
       });
     }
 
-    this.props.updateDiscountCodeInStore(this.state.newDiscountCode); //so when we update address we dont blow it away
+    //so when we update address we dont blow it away
+    this.props.updateDiscountCodeInStore(this.state.newDiscountCode);
   };
 
   get renderDiscountForm() {
