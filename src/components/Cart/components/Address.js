@@ -14,13 +14,11 @@ export default class Address extends React.Component {
     onEdit: PropTypes.func,
     onRemove: PropTypes.func,
 
-    buttonIcon: PropTypes.string,
     buttonColor: PropTypes.string,
     children: PropTypes.any
   };
 
   static defaultProps = {
-    buttonIcon: "edit",
     buttonColor: Colours.Text
   };
 
@@ -46,7 +44,7 @@ export default class Address extends React.Component {
               end={{ x: 0, y: 0 }}
               style={styles.iconContainer}>
               <EntypoIcon
-                ref="addressIcon"
+                ref="addressEditIcon"
                 name={"edit"}
                 size={Sizes.IconButton / 2}
                 color={this.props.buttonColor}
@@ -61,7 +59,7 @@ export default class Address extends React.Component {
               end={{ x: 0, y: 0 }}
               style={styles.iconContainer}>
               <EntypoIcon
-                ref="addressIcon"
+                ref="addressRemoveIcon"
                 name={"trash"}
                 size={Sizes.IconButton / 2}
                 color={this.props.buttonColor}

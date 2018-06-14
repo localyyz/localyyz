@@ -38,7 +38,6 @@ exports[`AddressSelect should match snapshot when selecting addresses 1`] = `
         }
       }
       buttonColor="rgb(30, 30, 30)"
-      buttonIcon="edit"
       onEdit={[MockFunction]}
       onPress={[Function]}
       onRemove={[Function]}
@@ -65,7 +64,6 @@ exports[`AddressSelect should match snapshot when selecting addresses 1`] = `
         }
       }
       buttonColor="rgb(30, 30, 30)"
-      buttonIcon="edit"
       onEdit={[MockFunction]}
       onPress={[Function]}
       onRemove={[Function]}
