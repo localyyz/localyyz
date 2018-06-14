@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
 
   container: {
     marginBottom: Sizes.InnerFrame * 0.7,
-    paddingVertical: Sizes.InnerFrame / 2,
+    paddingVertical: Sizes.InnerFrame,
     backgroundColor: BLOCK_SLIDER_COLOR
   },
 

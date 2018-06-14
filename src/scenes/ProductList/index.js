@@ -10,7 +10,7 @@ import {
   NavBar,
   FilterPopup
 } from "localyyz/components";
-import { Styles, Sizes, Colours } from "localyyz/constants";
+import { Styles, Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
 import { Provider, observer, inject } from "mobx-react/native";
@@ -75,6 +75,7 @@ export default class ProductListScene extends React.Component {
     this.filterStore = FilterPopup.getNewStore(this.store);
     this.state = {
       headerHeight: 0,
+
       // when navigating to productList, is the filter popup visible?
       isFilterVisible:
         props.navigation.state.params
@@ -123,7 +124,7 @@ export default class ProductListScene extends React.Component {
               fetchPath={this.store.fetchPath}
               onEndReached={() => this.store.fetchNextPage()}/>
           </ContentCoverSlider>
-          <View style={Styles.Overlay} pointerEvents="box-none">
+          <View style={styles.filter} pointerEvents="box-none">
             <FilterPopup
               isVisible={this.state.isFilterVisible}
               minWhitespace={Sizes.OuterFrame * 3}/>
@@ -161,5 +162,10 @@ const styles = StyleSheet.create({
   content: {
     paddingVertical: Sizes.InnerFrame,
     paddingBottom: NavBar.HEIGHT * 5
+  },
+
+  filter: {
+    ...Styles.Overlay,
+    bottom: NAVBAR_HEIGHT + Sizes.ScreenBottom + Sizes.InnerFrame - 2
   }
 });

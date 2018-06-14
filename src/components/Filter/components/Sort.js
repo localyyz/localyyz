@@ -41,6 +41,7 @@ export default class Sort extends React.Component {
   render() {
     return (
       <FlatList
+        extraData={this.props.sortBy}
         scrollEnabled={false}
         data={SORT_BY}
         keyExtractor={item => item.value || "default"}

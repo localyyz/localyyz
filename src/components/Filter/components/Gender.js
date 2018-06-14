@@ -1,10 +1,15 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Styles, Sizes } from "localyyz/constants";
+import { View, StyleSheet } from "react-native";
+
+// custom
+import { Sizes } from "localyyz/constants";
 
 // third party
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
+
+// local
+import SortBy from "./SortBy";
 
 @inject(stores => ({
   gender: stores.filterStore.gender,
@@ -13,7 +18,8 @@ import { inject, observer } from "mobx-react/native";
 @observer
 export default class Gender extends React.Component {
   static propTypes = {
-    val: PropTypes.string
+    setGenderFilter: PropTypes.func.isRequired,
+    gender: PropTypes.string
   };
 
   onPress(val) {
@@ -23,31 +29,16 @@ export default class Gender extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.onPress("woman")}>
-          <View>
-            <Text
-              style={
-                this.props.gender === "woman"
-                  ? styles.selected
-                  : styles.unselected
-              }>
-              woman
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <Text>/</Text>
-        <TouchableOpacity onPress={() => this.onPress("man")}>
-          <View>
-            <Text
-              style={
-                this.props.gender === "man"
-                  ? styles.selected
-                  : styles.unselected
-              }>
-              man
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <SortBy
+          label="Women"
+          value="woman"
+          sortBy={this.props.gender}
+          setSortBy={() => this.onPress("woman")}/>
+        <SortBy
+          label="Men"
+          value="man"
+          sortBy={this.props.gender}
+          setSortBy={() => this.onPress("man")}/>
       </View>
     );
   }
@@ -55,12 +46,7 @@ export default class Gender extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: Sizes.InnerFrame / 2,
-    flexDirection: "row"
-  },
-
-  unselected: {
-    ...Styles.Text,
-    ...Styles.SmallText
+    marginVertical: Sizes.InnerFrame,
+    marginBottom: Sizes.OuterFrame
   }
 });

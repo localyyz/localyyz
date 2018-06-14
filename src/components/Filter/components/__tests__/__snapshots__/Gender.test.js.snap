@@ -4,8 +4,8 @@ exports[`Gender filter Gender filter: should render to snapshot 1`] = `
 <View
   style={
     Object {
-      "flexDirection": "row",
-      "marginVertical": 7.5,
+      "marginBottom": 25,
+      "marginVertical": 15,
     }
   }
 >
@@ -24,7 +24,46 @@ exports[`Gender filter Gender filter: should render to snapshot 1`] = `
       }
     }
   >
-    <View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+          "paddingVertical": 2.5,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "minWidth": 25,
+            "opacity": 1,
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={false}
+          ellipsizeMode="tail"
+          style={
+            Array [
+              Object {
+                "color": "rgb(30, 30, 30)",
+                "fontSize": 16,
+              },
+              undefined,
+              Object {
+                "fontFamily": "Material Icons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
       <Text
         accessible={true}
         allowFontScaling={true}
@@ -38,17 +77,10 @@ exports[`Gender filter Gender filter: should render to snapshot 1`] = `
           }
         }
       >
-        woman
+        Women
       </Text>
     </View>
   </View>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-  >
-    /
-  </Text>
   <View
     accessible={true}
     isTVSelectable={true}
@@ -64,13 +96,57 @@ exports[`Gender filter Gender filter: should render to snapshot 1`] = `
       }
     }
   >
-    <View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+          "paddingVertical": 2.5,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "minWidth": 25,
+            "opacity": 0,
+            "transform": Array [
+              Object {
+                "translateX": -100,
+              },
+            ],
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={false}
+          ellipsizeMode="tail"
+          style={
+            Array [
+              Object {
+                "color": "rgb(30, 30, 30)",
+                "fontSize": 16,
+              },
+              undefined,
+              Object {
+                "fontFamily": "Material Icons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
       <Text
         accessible={true}
         allowFontScaling={true}
         ellipsizeMode="tail"
       >
-        man
+        Men
       </Text>
     </View>
   </View>
