@@ -9,9 +9,6 @@ import { NavBar, ProductList } from "localyyz/components";
 import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
-// local
-import ListPlaceholder from "./ListPlaceholder";
-
 @inject(stores => ({
   searchResults: stores.homeStore.searchResults,
   fetchNextPage: stores.homeStore.fetchNextPage,
@@ -31,8 +28,8 @@ export default class SearchResult extends React.Component {
   get renderEmpty() {
     return this.props.isProcessingQuery ? (
       <Animatable.View animation="fadeIn" style={styles.placeholder}>
-        <ListPlaceholder />
-        <ListPlaceholder />
+        <ProductList.Placeholder />
+        <ProductList.Placeholder />
       </Animatable.View>
     ) : null;
   }

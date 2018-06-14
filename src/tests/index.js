@@ -3,4 +3,4 @@
  * @providesModule localyyz/tests
  */
 
-export { renderWithLayout } from "./renderWithLayout";
+export { renderWithLayout, DEFAULT_TEST_LAYOUT } from "./renderWithLayout";

@@ -5,12 +5,13 @@ import { ApiInstance } from "localyyz/global";
 
 class Store {
   @observable listData = [];
+  @box numProducts = 0;
   @box isLoading = false;
 
   constructor(props) {
     this.fetchPath = props.fetchPath;
     this.categories = props.categories;
-    this.defaultParams = props.params;
+    this.defaultParams = props.params || {};
 
     // TODO is this best way?
     this.categories && this.categories.current && this.categories.current();
@@ -56,8 +57,14 @@ class Store {
       (this.next && this.next.url) || `${this.fetchPath}`,
       { ...this.defaultParams, ...params, limit: 8 }
     );
-    runInAction("[ACTION] fetch products", () => {
-      if (response && response.data) {
+
+    if (response && response.data) {
+      runInAction("[ACTION] fetch products", () => {
+        // product count
+        if (response.headers && response.headers["x-item-total"] != null) {
+          this.numProducts = parseInt(response.headers["x-item-total"]) || 0;
+        }
+
         this.next = response.link.next;
         this.self = response.link.self;
         if (this.self && this.self.page == 1) {
@@ -67,8 +74,11 @@ class Store {
             this.listData.push(new Product(p));
           });
         }
-      }
-    });
+      });
+    } else {
+      console.log(`ProductList (${this.fetchPath}): Failed to fetch next page`);
+    }
+
     this.isLoading = false;
   }
 }

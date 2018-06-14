@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
+
+// custom
 import { Sizes, Colours } from "localyyz/constants";
+import { ProductList } from "localyyz/components";
 
 // third party
 import Placeholder from "rn-placeholder";
-
-// local
-import ListPlaceholder from "./ListPlaceholder";
 
 export default class MainPlaceholder extends React.Component {
   render() {
@@ -18,7 +18,7 @@ export default class MainPlaceholder extends React.Component {
           height={Sizes.Height / 2}
           animate="fade"/>
         <View style={styles.products}>
-          <ListPlaceholder />
+          <ProductList.Placeholder />
         </View>
       </View>
     );
