@@ -12,27 +12,8 @@ exports[`FilterPopupButton FilterPopupButton: should render to snapshot 1`] = `
     }
   }
 >
-  <BVLinearGradient
-    colors={
-      Array [
-        4294967295,
-        16777215,
-      ]
-    }
-    endPoint={
-      Object {
-        "x": 0,
-        "y": 0,
-      }
-    }
-    locations={null}
+  <View
     pointerEvents="box-none"
-    startPoint={
-      Object {
-        "x": 0,
-        "y": 1,
-      }
-    }
     style={
       Object {
         "alignItems": "center",
@@ -107,8 +88,8 @@ exports[`FilterPopupButton FilterPopupButton: should render to snapshot 1`] = `
             Object {
               "backgroundColor": "rgba(255, 255, 255, 0)",
               "color": "rgb(30, 30, 30)",
-              "fontSize": 12,
-              "fontWeight": "300",
+              "fontSize": 16,
+              "fontWeight": "500",
               "marginLeft": 7.5,
             }
           }
@@ -117,6 +98,6 @@ exports[`FilterPopupButton FilterPopupButton: should render to snapshot 1`] = `
         </Text>
       </View>
     </View>
-  </BVLinearGradient>
+  </View>
 </View>
 `;

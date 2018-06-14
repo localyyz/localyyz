@@ -13,119 +13,112 @@ exports[`FilterPopup FilterPopup: should render to snapshot 1`] = `
     pointerEvents="box-none"
     style={
       Object {
-        "bottom": 0,
+        "bottom": 13,
         "left": 0,
         "position": "absolute",
         "right": 0,
       }
     }
   >
-    <BVLinearGradient
-      colors={
-        Array [
-          4294967295,
-          16777215,
-        ]
-      }
-      endPoint={
-        Object {
-          "x": 0,
-          "y": 0,
-        }
-      }
-      locations={null}
+    <View
       pointerEvents="box-none"
-      startPoint={
-        Object {
-          "x": 0,
-          "y": 1,
-        }
-      }
       style={
         Object {
-          "alignItems": "center",
-          "height": 222.33333333333334,
-          "justifyContent": "flex-end",
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
         }
       }
     >
       <View
-        accessible={true}
-        isTVSelectable={true}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+        pointerEvents="box-none"
         style={
           Object {
-            "opacity": 1,
+            "alignItems": "center",
+            "height": 222.33333333333334,
+            "justifyContent": "flex-end",
           }
         }
       >
         <View
+          accessible={true}
+          isTVSelectable={true}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "alignItems": "center",
-              "backgroundColor": "rgba(255, 255, 255, 0.9)",
-              "borderRadius": 15,
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "margin": 15,
-              "opacity": 0,
-              "paddingHorizontal": 15,
-              "paddingVertical": 7.5,
-              "shadowColor": "rgba(0, 0, 0, 0.8)",
-              "shadowOffset": Object {
-                "height": 0,
-                "width": 0,
-              },
-              "shadowOpacity": 0.1,
-              "shadowRadius": 5,
+              "opacity": 1,
             }
           }
         >
-          <Text
-            accessible={true}
-            allowFontScaling={false}
-            ellipsizeMode="tail"
-            style={
-              Array [
-                Object {
-                  "color": "rgb(30, 30, 30)",
-                  "fontSize": 12,
-                },
-                undefined,
-                Object {
-                  "fontFamily": "Material Icons",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                },
-              ]
-            }
-          >
-            
-          </Text>
-          <Text
-            accessible={true}
-            allowFontScaling={true}
-            ellipsizeMode="tail"
+          <View
             style={
               Object {
-                "backgroundColor": "rgba(255, 255, 255, 0)",
-                "color": "rgb(30, 30, 30)",
-                "fontSize": 12,
-                "fontWeight": "300",
-                "marginLeft": 7.5,
+                "alignItems": "center",
+                "backgroundColor": "rgba(255, 255, 255, 0.9)",
+                "borderRadius": 15,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "margin": 15,
+                "opacity": 0,
+                "paddingHorizontal": 15,
+                "paddingVertical": 7.5,
+                "shadowColor": "rgba(0, 0, 0, 0.8)",
+                "shadowOffset": Object {
+                  "height": 0,
+                  "width": 0,
+                },
+                "shadowOpacity": 0.1,
+                "shadowRadius": 5,
               }
             }
           >
-            FILTER / SORT
-          </Text>
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": "rgb(30, 30, 30)",
+                    "fontSize": 12,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "Material Icons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "fontSize": 16,
+                  "fontWeight": "500",
+                  "marginLeft": 7.5,
+                }
+              }
+            >
+              FILTER / SORT
+            </Text>
+          </View>
         </View>
       </View>
-    </BVLinearGradient>
+    </View>
   </View>
 </View>
 `;
