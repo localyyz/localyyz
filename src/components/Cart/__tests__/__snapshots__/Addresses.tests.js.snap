@@ -1,0 +1,267 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddressSelect should match snapshot when editing 1`] = `
+<Component>
+  <inject-AddressForm
+    address={Object {}}
+    isBillng={false}
+    isShipping={false}
+    onCancel={[MockFunction]}
+    onSubmit={[MockFunction]}
+    testID="addressForm"
+  />
+</Component>
+`;
+
+exports[`AddressSelect should match snapshot when selecting addresses 1`] = `
+<Component>
+  <Component>
+    <Address
+      address={
+        UserAddress {
+          "address": "123 Toronto street",
+          "addressOpt": "",
+          "city": "toronto",
+          "country": "canada",
+          "countryCode": undefined,
+          "error": undefined,
+          "firstName": "paul",
+          "hasError": false,
+          "id": 1,
+          "isBilling": undefined,
+          "isPartial": undefined,
+          "isShipping": undefined,
+          "lastName": "localyyz",
+          "province": "ontario",
+          "provinceCode": undefined,
+          "zip": "abc 789",
+        }
+      }
+      buttonColor="rgb(30, 30, 30)"
+      buttonIcon="edit"
+      onEdit={[MockFunction]}
+      onPress={[Function]}
+      onRemove={[Function]}
+    />
+    <Address
+      address={
+        UserAddress {
+          "address": "180 john street",
+          "addressOpt": "",
+          "city": "toronto",
+          "country": "canada",
+          "countryCode": undefined,
+          "error": undefined,
+          "firstName": "paul2",
+          "hasError": false,
+          "id": 2,
+          "isBilling": undefined,
+          "isPartial": undefined,
+          "isShipping": undefined,
+          "lastName": "localyyz",
+          "province": "ontario",
+          "provinceCode": undefined,
+          "zip": "xyz 123",
+        }
+      }
+      buttonColor="rgb(30, 30, 30)"
+      buttonIcon="edit"
+      onEdit={[MockFunction]}
+      onPress={[Function]}
+      onRemove={[Function]}
+    />
+    <AddressNew
+      enabled={true}
+      onPress={[MockFunction]}
+      testID="addressNew"
+    />
+  </Component>
+</Component>
+`;
+
+exports[`Addresses should match snapshot when complete 1`] = `
+<Component
+  style={Object {}}
+>
+  <CartHeader
+    icon={
+      <Icon
+        allowFontScaling={false}
+        color="#9013FE"
+        name="check-circle"
+        size={12.5}
+        style={
+          Object {
+            "marginRight": 6,
+          }
+        }
+      />
+    }
+    title="Sample Address"
+  >
+    123 Toronto street
+  </CartHeader>
+  <AddressSelect
+    addresses={
+      Array [
+        UserAddress {
+          "address": "123 Toronto street",
+          "addressOpt": "",
+          "city": "toronto",
+          "country": "canada",
+          "countryCode": undefined,
+          "error": undefined,
+          "firstName": "paul",
+          "hasError": false,
+          "id": 1,
+          "isBilling": undefined,
+          "isPartial": undefined,
+          "isShipping": undefined,
+          "lastName": "localyyz",
+          "province": "ontario",
+          "provinceCode": undefined,
+          "zip": "abc 789",
+        },
+        UserAddress {
+          "address": "180 john street",
+          "addressOpt": "",
+          "city": "toronto",
+          "country": "canada",
+          "countryCode": undefined,
+          "error": undefined,
+          "firstName": "paul2",
+          "hasError": false,
+          "id": 2,
+          "isBilling": undefined,
+          "isPartial": undefined,
+          "isShipping": undefined,
+          "lastName": "localyyz",
+          "province": "ontario",
+          "provinceCode": undefined,
+          "zip": "xyz 123",
+        },
+      ]
+    }
+    isBilling={false}
+    isEditing={false}
+    isShipping={false}
+    onCancel={[Function]}
+    onCreate={[Function]}
+    onEdit={[Function]}
+    onRemove={[Function]}
+    onSelect={[Function]}
+    selectedAddress={
+      UserAddress {
+        "address": "123 Toronto street",
+        "addressOpt": "",
+        "city": "toronto",
+        "country": "canada",
+        "countryCode": undefined,
+        "error": undefined,
+        "firstName": "paul",
+        "hasError": false,
+        "id": 1,
+        "isBilling": undefined,
+        "isPartial": undefined,
+        "isShipping": undefined,
+        "lastName": "localyyz",
+        "province": "ontario",
+        "provinceCode": undefined,
+        "zip": "abc 789",
+      }
+    }
+    testID="addressSelect"
+  />
+</Component>
+`;
+
+exports[`Addresses should match snapshot when incomplete 1`] = `
+<Component
+  style={Object {}}
+>
+  <CartHeader
+    icon={
+      <Icon
+        allowFontScaling={false}
+        color="#FF0000"
+        name="dot-single"
+        size={25}
+      />
+    }
+    title="Sample Address"
+  >
+    no address selected
+  </CartHeader>
+  <AddressSelect
+    addresses={
+      Array [
+        UserAddress {
+          "address": "123 Toronto street",
+          "addressOpt": "",
+          "city": "toronto",
+          "country": "canada",
+          "countryCode": undefined,
+          "error": undefined,
+          "firstName": "paul",
+          "hasError": false,
+          "id": 1,
+          "isBilling": undefined,
+          "isPartial": undefined,
+          "isShipping": undefined,
+          "lastName": "localyyz",
+          "province": "ontario",
+          "provinceCode": undefined,
+          "zip": "abc 789",
+        },
+        UserAddress {
+          "address": "180 john street",
+          "addressOpt": "",
+          "city": "toronto",
+          "country": "canada",
+          "countryCode": undefined,
+          "error": undefined,
+          "firstName": "paul2",
+          "hasError": false,
+          "id": 2,
+          "isBilling": undefined,
+          "isPartial": undefined,
+          "isShipping": undefined,
+          "lastName": "localyyz",
+          "province": "ontario",
+          "provinceCode": undefined,
+          "zip": "xyz 123",
+        },
+      ]
+    }
+    isBilling={false}
+    isEditing={true}
+    isShipping={false}
+    onCancel={[Function]}
+    onCreate={[Function]}
+    onEdit={[Function]}
+    onRemove={[Function]}
+    onSelect={[Function]}
+    selectedAddress={
+      Object {
+        "address": "123 Toronto street",
+        "addressOpt": "",
+        "city": "toronto",
+        "country": "canada",
+        "countryCode": undefined,
+        "error": undefined,
+        "firstName": "paul",
+        "hasError": true,
+        "id": 1,
+        "isBilling": undefined,
+        "isPartial": undefined,
+        "isShipping": undefined,
+        "lastName": "localyyz",
+        "province": "ontario",
+        "provinceCode": undefined,
+        "zip": "abc 789",
+      }
+    }
+    testID="addressSelect"
+  />
+</Component>
+`;

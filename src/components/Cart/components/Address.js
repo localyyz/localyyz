@@ -11,7 +11,9 @@ export default class Address extends React.Component {
   static propTypes = {
     address: PropTypes.object.isRequired,
 
-    onActionPress: PropTypes.func,
+    onEdit: PropTypes.func,
+    onRemove: PropTypes.func,
+
     buttonIcon: PropTypes.string,
     buttonColor: PropTypes.string,
     children: PropTypes.any
@@ -36,7 +38,7 @@ export default class Address extends React.Component {
               </Text>
             </View>
           )}
-          <TouchableOpacity onPress={() => this.props.onActionPress(address)}>
+          <TouchableOpacity onPress={() => this.props.onEdit(address)}>
             <LinearGradient
               colors={[Colours.Foreground, Colours.Transparent]}
               locations={[0.8, 1]}
@@ -45,7 +47,22 @@ export default class Address extends React.Component {
               style={styles.iconContainer}>
               <EntypoIcon
                 ref="addressIcon"
-                name={this.props.buttonIcon}
+                name={"edit"}
+                size={Sizes.IconButton / 2}
+                color={this.props.buttonColor}
+                style={Styles.IconOffset}/>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.onRemove(address)}>
+            <LinearGradient
+              colors={[Colours.Foreground, Colours.Transparent]}
+              locations={[0.8, 1]}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 0, y: 0 }}
+              style={styles.iconContainer}>
+              <EntypoIcon
+                ref="addressIcon"
+                name={"trash"}
                 size={Sizes.IconButton / 2}
                 color={this.props.buttonColor}
                 style={Styles.IconOffset}/>

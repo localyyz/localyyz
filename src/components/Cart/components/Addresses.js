@@ -17,23 +17,130 @@ import {
   PropTypes as mobxPropTypes
 } from "mobx-react/native";
 
-@inject((props, stores) => ({
-  addresses: (props.addressStore || stores.addressStore).addresses,
-  fetch: () => (props.addressStore || stores.addressStore ).fetch(),
-  remove: address => (props.cartStore || stores.cartStore).removeAddress({
+class AddressNew extends React.Component {
+  static propTypes = {
+    enabled: PropTypes.bool,
+    onPress: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    enabled: false
+  };
+
+  render() {
+    return this.props.enabled ? (
+      <View style={styles.addAddress}>
+        <TouchableOpacity onPress={this.props.onPress}>
+          <Text
+            style={[
+              Styles.Text,
+              Styles.Terminal,
+              Styles.Emphasized,
+              Styles.Underlined,
+              styles.addAddressLabel
+            ]}>
+            add a new address
+          </Text>
+        </TouchableOpacity>
+      </View>
+    ) : null;
+  }
+}
+
+export class AddressSelect extends React.Component {
+  static propTypes = {
+    isEditing: PropTypes.bool,
+    addresses: PropTypes.array,
+    onSelect: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+
+    isBilling: PropTypes.bool,
+    isShipping: PropTypes.bool,
+    selectedAddress: PropTypes.object
+  };
+
+  static defaultProps = {
+    isEditing: false,
+    isBilling: false,
+    isShipping: false,
+    selectedAddress: {},
+    addresses: []
+  };
+
+  onRemove = address => {
+    Alert.alert("Remove this address?", null, [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      {
+        text: "Remove",
+        onPress: () => {
+          this.props.onRemove(address);
+        }
+      }
+    ]);
+  };
+
+  render() {
+    const allowNew = this.props.addresses.length > 0;
+
+    return (
+      <View style={styles.addresses}>
+        {this.props.isEditing ? (
+          <AddressForm
+            testID="addressForm"
+            isBillng={this.props.isBilling}
+            isShipping={this.props.isShipping}
+            address={this.props.selectedAddress}
+            onCancel={this.props.onCancel}
+            onSubmit={this.props.onSelect}/>
+        ) : (
+          <View>
+            {this.props.addresses.map(address => (
+              <Address
+                key={`address-${address.id}`}
+                address={address}
+                onEdit={this.props.onEdit}
+                onRemove={() => {
+                  this.onRemove(address);
+                }}
+                onPress={() => {
+                  this.props.onSelect(address);
+                }}/>
+            ))}
+            <AddressNew
+              testID="addressNew"
+              enabled={allowNew}
+              onPress={this.props.onCreate}/>
+          </View>
+        )}
+      </View>
+    );
+  }
+}
+
+@inject(stores => ({
+  addresses: stores.addressStore.addresses,
+  fetch: () => stores.addressStore.fetch(),
+  remove: address =>
+    stores.cartStore.removeAddress({
       address: address
     }),
-  update: address => (props.cartStore || stores.cartStore).updateAddress({
+  update: address =>
+    stores.cartStore.updateAddress({
       address: address
     })
 }))
 @observer
 export default class Addresses extends React.Component {
   static propTypes = {
+    // always at least an object of '{ isShipping: true/false }'
     address: PropTypes.object.isRequired,
     title: PropTypes.string,
-    isShipping: PropTypes.bool,
-    isBilling: PropTypes.bool,
 
     // mobx injected
     addresses: mobxPropTypes.arrayOrObservableArray.isRequired,
@@ -43,8 +150,7 @@ export default class Addresses extends React.Component {
   };
 
   static defaultProps = {
-    title: "",
-    address: {}
+    title: ""
   };
 
   constructor(props) {
@@ -54,8 +160,6 @@ export default class Addresses extends React.Component {
     this.state = {
       // current address from prop
       currentAddress: props.address,
-      // isSelecting opens address(es) selection list
-      isSelecting: props.address.address,
       // isEditing opens editable address form
       isEditing: props.address.hasError || this.props.addresses.length === 0,
       // isComplete shows completed status
@@ -68,17 +172,15 @@ export default class Addresses extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.address.hasError) {
       this.setState({
-        isSelecting: true,
         isEditing: true,
         isComplete: false
       });
     } else {
       this.setState({
         currentAddress: nextProps.address,
-        // isSelecting opens address(es) selection list
-        isSelecting: nextProps.address.address,
         // isEditing opens editable address form
         isEditing:
           nextProps.address.hasError || nextProps.addresses.length === 0,
@@ -105,17 +207,6 @@ export default class Addresses extends React.Component {
     };
   }
 
-  toggleSelect = selecting => {
-    // determine if selecting
-    const isSelecting = selecting != null ? selecting : !this.state.isSelecting;
-
-    this.setState({
-      isSelecting: isSelecting,
-      // empty addresses automatically toggle isEditing
-      isEditing: isSelecting && this.props.addresses.length === 0
-    });
-  };
-
   onAddressUpdate = address => {
     this.props.update({
       ...address,
@@ -127,129 +218,58 @@ export default class Addresses extends React.Component {
     });
   };
 
-  onAddressRemove = address => {
-    Alert.alert("Remove this address?", null, [
-      {
-        text: "Cancel",
-        style: "cancel"
-      },
-      {
-        text: "Remove",
-        onPress: () => {
-          this.props.remove(address);
-        }
-      }
-    ]);
-  };
-
-  get renderEditAddress() {
-    return this.state.currentAddress.id ? (
-      <View style={styles.addAddress}>
-        <TouchableOpacity
-          onPress={() => {
-            this.setState({ isEditing: true });
-          }}>
-          <Text
-            style={[
-              Styles.Text,
-              Styles.Terminal,
-              Styles.Emphasized,
-              Styles.Underlined,
-              styles.addAddressLabel
-            ]}>
-            edit current address
-          </Text>
-        </TouchableOpacity>
-      </View>
-    ) : null;
-  }
-
-  get renderCreateAddress() {
-    return this.props.addresses.length > 0 ? (
-      <View style={styles.addAddress}>
-        <TouchableOpacity
-          onPress={() => {
-            this.setState({ isEditing: true });
-          }}>
-          <Text
-            style={[
-              Styles.Text,
-              Styles.Terminal,
-              Styles.Emphasized,
-              Styles.Underlined,
-              styles.addAddressLabel
-            ]}>
-            add a new address
-          </Text>
-        </TouchableOpacity>
-      </View>
-    ) : null;
-  }
-
-  get renderAddressForm() {
-    return (
-      <AddressForm
-        isBillng={this.props.isBilling}
-        isShipping={this.props.isShipping}
-        address={this.state.currentAddress}
-        onSubmit={address => this.onAddressUpdate(address)}/>
-    );
-  }
-
-  get renderAddresses() {
-    return (
-      <View style={styles.addresses}>
-        {!this.state.isEditing ? (
-          <View>
-            {this.props.addresses.slice().map(address => (
-              <Address
-                key={`address-${address.id}`}
-                address={address}
-                buttonIcon="trash"
-                onActionPress={this.onAddressRemove}
-                onPress={() => {
-                  this.setState({
-                    currentAddress: address,
-                    isEditing: true
-                  });
-                }}/>
-            ))}
-            {this.renderCreateAddress}
-          </View>
-        ) : (
-          this.renderAddressForm
-        )}
-      </View>
-    );
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.toggleSelect()}>
-          <CartHeader
-            ref="header"
-            title={this.props.title}
-            icon={
-              this.state.isComplete ? (
-                <FontAwesomeIcon
-                  name="check-circle"
-                  size={Sizes.IconButton / 2}
-                  color={Colours.PositiveButton}
-                  style={Styles.IconOffset}/>
-              ) : (
-                <EntypoIcon
-                  name="dot-single"
-                  size={Sizes.IconButton}
-                  color={Colours.NegativeButton}/>
-              )
-            }>
-            {this.state.isComplete
-              ? this.state.currentAddress.shortAddress
-              : "no address selected"}
-          </CartHeader>
-        </TouchableOpacity>
-        {this.state.isSelecting ? this.renderAddresses : null}
+        <CartHeader
+          ref="header"
+          title={this.props.title}
+          icon={
+            this.state.isComplete ? (
+              <FontAwesomeIcon
+                name="check-circle"
+                size={Sizes.IconButton / 2}
+                color={Colours.PositiveButton}
+                style={Styles.IconOffset}/>
+            ) : (
+              <EntypoIcon
+                name="dot-single"
+                size={Sizes.IconButton}
+                color={Colours.NegativeButton}/>
+            )
+          }>
+          {this.state.isComplete
+            ? this.state.currentAddress.shortAddress
+            : "no address selected"}
+        </CartHeader>
+
+        <AddressSelect
+          testID="addressSelect"
+          isEditing={this.state.isEditing}
+          addresses={this.props.addresses.slice()}
+          selectedAddress={this.state.currentAddress}
+          onEdit={address => {
+            this.setState({
+              currentAddress: address,
+              lastAddress: address,
+              isEditing: true
+            });
+          }}
+          onRemove={this.props.remove}
+          onCreate={() => {
+            this.setState({
+              isEditing: true,
+              lastAddress: this.state.currentAddress || {},
+              currentAddress: {}
+            });
+          }}
+          onCancel={() => {
+            this.setState({
+              isEditing: false,
+              currentAddress: this.state.lastAddress || {}
+            });
+          }}
+          onSelect={address => this.onAddressUpdate(address)}/>
       </View>
     );
   }
