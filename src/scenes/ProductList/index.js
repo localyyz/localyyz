@@ -166,6 +166,6 @@ const styles = StyleSheet.create({
 
   filter: {
     ...Styles.Overlay,
-    bottom: NAVBAR_HEIGHT + Sizes.ScreenBottom + Sizes.InnerFrame - 2
+    bottom: NAVBAR_HEIGHT + Sizes.InnerFrame - 2
   }
 });

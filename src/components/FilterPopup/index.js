@@ -31,12 +31,7 @@ export class FilterPopupButton extends React.Component {
   render() {
     return (
       <View style={styles.toggle} pointerEvents="box-none">
-        <LinearGradient
-          start={{ x: 0, y: 1 }}
-          end={{ x: 0, y: 0 }}
-          colors={[Colours.Foreground, Colours.Transparent]}
-          style={styles.gradient}
-          pointerEvents="box-none">
+        <View style={styles.gradient} pointerEvents="box-none">
           <TouchableOpacity onPress={this.props.onPress}>
             <Animatable.View
               animation="fadeIn"
@@ -52,7 +47,7 @@ export class FilterPopupButton extends React.Component {
               </UppercasedText>
             </Animatable.View>
           </TouchableOpacity>
-        </LinearGradient>
+        </View>
       </View>
     );
   }
@@ -135,7 +130,16 @@ export default class FilterPopup extends React.Component {
   render() {
     return (
       <View style={styles.cover} pointerEvents="box-none">
-        <FilterPopupButton onPress={() => this.toggle(true)} />
+        <View
+          pointerEvents="box-none"
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: Sizes.ScreenBottom + Sizes.InnerFrame - 2
+          }}>
+          <FilterPopupButton onPress={() => this.toggle(true)} />
+        </View>
         {this.state.isVisible ? (
           <Animatable.View
             animation="fadeIn"
@@ -153,6 +157,7 @@ export default class FilterPopup extends React.Component {
               ]}/>
             <ScrollView
               showsVerticalScrollIndicator={false}
+              bounce={false}
               scrollEnabled={this.props.scrollEnabled}>
               <StatusBar hidden />
               <TouchableWithoutFeedback onPress={() => this.toggle(false)}>
@@ -229,7 +234,7 @@ const styles = StyleSheet.create({
 
   toggleLabel: {
     ...Styles.Text,
-    ...Styles.TinyText,
+    ...Styles.Medium,
     marginLeft: Sizes.InnerFrame / 2
   },
 

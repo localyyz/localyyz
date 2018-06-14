@@ -28,7 +28,7 @@ export default class Featured extends React.Component {
   renderItem({ item }) {
     return (
       <Brand
-        title={item.name}
+        title={item.name || item.id}
         numProducts={item.productCount}
         imageUri={item.imageUrl}
         fetchPath={`${this.props.path}/${item.id || item.name}/products`}
