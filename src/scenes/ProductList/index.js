@@ -10,21 +10,30 @@ import {
   NavBar,
   FilterPopup
 } from "localyyz/components";
-import { Styles, Sizes, Colours } from "localyyz/constants";
+import { Styles, Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
-import { Provider, observer } from "mobx-react/native";
+import { Provider, observer, inject } from "mobx-react/native";
 
 // local
 import Store from "./store";
 
+@inject(stores => ({
+  products:
+    stores.productListStore && stores.productListStore.listData
+      ? stores.productListStore.listData.slice()
+      : []
+}))
+@observer
 class Content extends React.Component {
   static propTypes = {
-    headerHeight: PropTypes.number
+    headerHeight: PropTypes.number,
+    products: PropTypes.array
   };
 
   static defaultProps = {
-    headerHeight: 0
+    headerHeight: 0,
+    products: []
   };
 
   shouldComponentUpdate(nextProps) {
@@ -33,6 +42,13 @@ class Content extends React.Component {
     return (
       nextProps.headerHeight !== this.props.headerHeight
       || nextProps.products.length !== this.props.products.length
+      // order has changed, based on id's concat'ed (for order string)
+      || (nextProps.products
+        && this.props.products
+        && nextProps.products.length > 0
+        && this.props.products.length > 0
+        && nextProps.products.map(product => product.id).join(",")
+          !== this.props.products.map(product => product.id).join(","))
     );
   }
 
@@ -40,6 +56,7 @@ class Content extends React.Component {
     return (
       <ProductList
         {...this.props}
+        products={this.props.products}
         backgroundColor={Colours.Foreground}
         style={styles.content}/>
     );
@@ -47,7 +64,6 @@ class Content extends React.Component {
 }
 
 @withNavigation
-@observer
 export default class ProductListScene extends React.Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired
@@ -58,7 +74,12 @@ export default class ProductListScene extends React.Component {
     this.store = new Store(props.navigation.state.params);
     this.filterStore = FilterPopup.getNewStore(this.store);
     this.state = {
-      headerHeight: 0
+      headerHeight: 0,
+
+      // when navigating to productList, is the filter popup visible?
+      isFilterVisible:
+        props.navigation.state.params
+        && props.navigation.state.params.isFilterVisible
     };
   }
 
@@ -68,7 +89,7 @@ export default class ProductListScene extends React.Component {
 
   render() {
     return (
-      <Provider filterStore={this.filterStore}>
+      <Provider filterStore={this.filterStore} productListStore={this.store}>
         <View style={styles.container}>
           <ContentCoverSlider
             ref="container"
@@ -101,12 +122,11 @@ export default class ProductListScene extends React.Component {
               headerHeight={this.state.headerHeight}
               paddingBottom={this.state.headerHeight + NavBar.HEIGHT}
               fetchPath={this.store.fetchPath}
-              products={this.store.listData.slice()}
               onEndReached={() => this.store.fetchNextPage()}/>
           </ContentCoverSlider>
-          <View style={Styles.Overlay} pointerEvents="box-none">
+          <View style={styles.filter} pointerEvents="box-none">
             <FilterPopup
-              categories={this.store.categoryPaths}
+              isVisible={this.state.isFilterVisible}
               minWhitespace={Sizes.OuterFrame * 3}/>
           </View>
         </View>
@@ -142,5 +162,10 @@ const styles = StyleSheet.create({
   content: {
     paddingVertical: Sizes.InnerFrame,
     paddingBottom: NavBar.HEIGHT * 5
+  },
+
+  filter: {
+    ...Styles.Overlay,
+    bottom: NAVBAR_HEIGHT + Sizes.InnerFrame - 2
   }
 });

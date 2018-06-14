@@ -10,6 +10,7 @@ import CartHeader from "./components/CartHeader";
 import Addresses from "./components/Addresses";
 import PaymentMethods from "./components/PaymentMethods";
 import Email from "./components/Email";
+import DiscountCode from "./components/DiscountCode";
 
 import { Assistant } from "localyyz/components";
 
@@ -58,12 +59,13 @@ export default class Cart extends React.Component {
       <TouchableWithoutFeedback>
         <View>
           <CartItems />
-          <Email/>
+          <Email />
           <Addresses title="Shipping to" address={this.props.shippingDetails} />
           <PaymentMethods />
           <Addresses
             title="Billing address"
             address={this.props.billingDetails}/>
+          <DiscountCode />
           <CartHeader title="Order Summary" />
           <View style={[styles.content, styles.end]}>
             <View style={styles.alert}>

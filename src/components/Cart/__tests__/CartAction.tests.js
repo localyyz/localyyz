@@ -4,20 +4,24 @@ import Renderer from "react-test-renderer"
 
 const props = {
     cartStore: {
-        checkoutWithReject: () => {}
+        checkoutWithReject: jest.fn()
     },
     cartUiStore: {
-        validate: () => {},
-        getCheckoutSummary: () => {}
+        validate: jest.fn(),
+        getCheckoutSummary: jest.fn()
     },
-    navigation: {}
+    navigation: {
+        navigate: jest.fn()
+    }
 }
 
 describe("Cart Action", () => {
-    it("Cart Action: checkout button should be clickable", () => {
-        const mockFunction = jest.fn()
+    it("Cart Action: checkout button should finish onCheckout with errors", async () => {
         let rendered = Renderer.create(<CartAction {...props}/>).getInstance().wrappedInstance
-        rendered.onCheckout(mockFunction)
-        expect(mockFunction).toHaveBeenCalledTimes(1)
+        rendered.onCheckout()
+        expect(props.cartUiStore.validate).toHaveBeenCalledTimes(1);
+        await expect(props.cartStore.checkoutWithReject).toHaveBeenCalledTimes(1);
+        expect(props.navigation.navigate).toHaveBeenCalledTimes(1);
+        expect(props.cartUiStore.getCheckoutSummary).toHaveBeenCalledTimes(1);
     })
 })

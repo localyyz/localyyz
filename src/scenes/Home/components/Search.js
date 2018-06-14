@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableWithoutFeedback, StyleSheet } from "react-native";
-import { Styles } from "localyyz/constants";
+import { Styles, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
 import { BlurView, FilterPopup } from "localyyz/components";
@@ -15,6 +15,7 @@ import SearchResult from "./SearchResult";
   searchStore: stores.homeStore,
   searchActive: stores.homeStore.searchActive,
   headerHeight: stores.homeStore.headerHeight,
+  numProducts: stores.homeStore.numProducts,
   onPress: () => {
     if (stores.homeStore.searchResults.length === 0) {
       stores.homeStore.searchActive = false;
@@ -53,7 +54,7 @@ export default class Search extends React.Component {
               <SearchResult />
             </BlurView>
           </TouchableWithoutFeedback>
-          <View style={Styles.Overlay} pointerEvents="box-none">
+          <View style={styles.filter} pointerEvents="box-none">
             <FilterPopup />
           </View>
         </Animatable.View>
@@ -73,5 +74,10 @@ const styles = StyleSheet.create({
 
   searchOverlayBlur: {
     flex: 1
+  },
+
+  filter: {
+    ...Styles.Overlay,
+    bottom: NAVBAR_HEIGHT + Sizes.InnerFrame - 2
   }
 });

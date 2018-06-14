@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { ProductTile } from "localyyz/components";
+import { ProductTile, ProductList } from "localyyz/components";
 
 // third party
 import { observer } from "mobx-react/native";
@@ -13,7 +13,6 @@ import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
 // local
 import ListHeader from "./ListHeader";
-import ListPlaceholder from "./ListPlaceholder";
 import MoreFooter from "./MoreFooter";
 
 @observer
@@ -91,7 +90,9 @@ class List extends React.Component {
                 : []
             }
             numColumns={2}
-            ListEmptyComponent={<ListPlaceholder limit={this.props.limit} />}
+            ListEmptyComponent={
+              <ProductList.Placeholder limit={this.props.limit} />
+            }
             contentContainerStyle={styles.splitList}/>
         </View>
         {this.renderMoreButton}

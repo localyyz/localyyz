@@ -141,7 +141,78 @@ exports[`Address Address: should render properly(snapshot) 1`] = `
             ]
           }
         >
-          
+          
+        </Text>
+      </BVLinearGradient>
+    </View>
+    <View
+      accessible={true}
+      isTVSelectable={true}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <BVLinearGradient
+        colors={
+          Array [
+            4294967295,
+            16777215,
+          ]
+        }
+        endPoint={
+          Object {
+            "x": 0,
+            "y": 0,
+          }
+        }
+        locations={
+          Array [
+            0.8,
+            1,
+          ]
+        }
+        startPoint={
+          Object {
+            "x": 1,
+            "y": 0,
+          }
+        }
+        style={
+          Object {
+            "marginHorizontal": 7.5,
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={false}
+          ellipsizeMode="tail"
+          style={
+            Array [
+              Object {
+                "color": "#000000",
+                "fontSize": 12.5,
+              },
+              Object {
+                "marginRight": 6,
+              },
+              Object {
+                "fontFamily": "Entypo",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+            ]
+          }
+        >
+          
         </Text>
       </BVLinearGradient>
     </View>

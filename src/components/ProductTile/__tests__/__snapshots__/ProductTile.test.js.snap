@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductTile ProductTile: should render properly(snapshot) 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onLayout={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "marginVertical": 1,
+        "paddingVertical": 7.5,
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#FFFFFF",
+            "height": 333.5,
+            "justifyContent": "center",
+          },
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "height": 333.5,
+            "overflow": "hidden",
+            "width": 768,
+          }
+        }
+      >
+        <View>
+          <View
+            style={
+              Object {
+                "opacity": 0.5,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#efefef",
+                  "borderRadius": 0,
+                  "height": 333.5,
+                  "width": 768,
+                }
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "height": 60,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+            "marginBottom": 7.5,
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "#000000",
+              "fontSize": 18,
+              "fontWeight": "600",
+              "marginRight": 3.75,
+            }
+          }
+        >
+          $10.00
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={false}
+          ellipsizeMode="tail"
+          style={
+            Array [
+              Object {
+                "color": "#FF0000",
+                "fontSize": 12,
+              },
+              undefined,
+              Object {
+                "fontFamily": "Material Icons",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+      <View>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "#999999",
+              "fontSize": 12,
+              "fontWeight": "300",
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "textDecorationLine": "line-through",
+              }
+            }
+          >
+            $20.00
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+          >
+            
+          </Text>
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

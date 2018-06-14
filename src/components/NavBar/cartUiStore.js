@@ -1,5 +1,6 @@
 // custom
 import { navbarStore, cartStore } from "localyyz/stores";
+import { Alert } from "react-native";
 import {
   PULLUP_LOW_SPAN,
   PULLUP_FULL_SPAN,
@@ -32,7 +33,7 @@ export default class CartUIStore {
 
   constructor() {
     this.navbar = navbarStore;
-    this.cart = cartStore;
+    this.cartStore = cartStore;
     this.toggleItems = this.toggleItems.bind(this);
     this.togglePayment = this.togglePayment.bind(this);
     this.setItemSizeType = this.setItemSizeType.bind(this);
@@ -103,7 +104,7 @@ export default class CartUIStore {
   validate = () => {
     this.setFullscreenPullup();
 
-    if (!this.cart.email){
+    if (!this.cartStore.email) {
       throw {
         alertButtons: [{ text: "OK" }],
         alertTitle: "Invalid Email",
@@ -111,23 +112,31 @@ export default class CartUIStore {
       };
     }
 
-    if (!(this.cart.shippingDetails && this.cart.shippingDetails.address)) {
-      this.toggleItems(false);
+    if (
+      !(
+        this.cartStore.shippingDetails && this.cartStore.shippingDetails.address
+      )
+    ) {
+      Alert.alert("Checkout failed", "missing shipping address");
       throw {};
     }
 
-    if (!(this.cart.paymentDetails && this.cart.paymentDetails.ready)) {
+    if (
+      !(this.cartStore.paymentDetails && this.cartStore.paymentDetails.ready)
+    ) {
       this.togglePayment(true);
       this.toggleItems(false);
       throw {};
     }
 
-    if (!(this.cart.billingDetails && this.cart.billingDetails.address)) {
-      this.toggleItems(false);
+    if (
+      !(this.cartStore.billingDetails && this.cartStore.billingDetails.address)
+    ) {
+      Alert.alert("Checkout failed", "missing billing address");
       throw {};
     }
 
-    if (this.cart.hasItemError) {
+    if (this.cartStore.hasItemError) {
       this.setItemSizeType(ITEM_SIZE_FULL);
       throw {
         alertButtons: [{ text: "OK" }],
@@ -136,7 +145,7 @@ export default class CartUIStore {
       };
     }
 
-    if (this.cart.isEmpty) {
+    if (this.cartStore.isEmpty) {
       throw {
         alertButtons: [{ text: "OK" }],
         alertTitle: "Your cart is empty",
@@ -149,18 +158,18 @@ export default class CartUIStore {
     return {
       // static vars for when summary is completed, so when store
       // cart resets, display remains on props
-      cart: this.cart.cart,
-      customerName: this.cart.customerName,
-      shippingDetails: this.cart.shippingDetails,
-      billingDetails: this.cart.billingDetails,
-      shippingExpectation: this.cart.shippingExpectation,
-      amountSubtotal: this.cart.amountSubtotal,
-      amountTaxes: this.cart.amountTaxes,
-      amountDiscount: this.cart.amountDiscount,
-      amountTotal: this.cart.amountTotal,
-      amountShipping: this.cart.amountShipping,
-      paymentType: this.cart.paymentType,
-      paymentLastFour: this.cart.paymentLastFour
+      cart: this.cartStore.cart,
+      customerName: this.cartStore.customerName,
+      shippingDetails: this.cartStore.shippingDetails,
+      billingDetails: this.cartStore.billingDetails,
+      shippingExpectation: this.cartStore.shippingExpectation,
+      amountSubtotal: this.cartStore.amountSubtotal,
+      amountTaxes: this.cartStore.amountTaxes,
+      amountDiscount: this.cartStore.amountDiscount,
+      amountTotal: this.cartStore.amountTotal,
+      amountShipping: this.cartStore.amountShipping,
+      paymentType: this.cartStore.paymentType,
+      paymentLastFour: this.cartStore.paymentLastFour
     };
   }
 }

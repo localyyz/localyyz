@@ -141,6 +141,16 @@ export const Styles = {
     backgroundColor: Colours.PositiveButton
   },
 
+  RoundedSubButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame / 2,
+    borderRadius: Sizes.InnerFrame,
+    backgroundColor: Colours.DisabledButton
+  },
+
   Divider: {
     marginVertical: Sizes.InnerFrame * 2,
     marginRight: Sizes.Width / 2,

@@ -6,8 +6,7 @@ import { box, capitalize, randInt } from "localyyz/helpers";
 import {
   Sizes,
   SEARCH_SUGGESTIONS_FEMALE,
-  SEARCH_SUGGESTIONS_MALE,
-  DEFAULT_BLOCKS
+  SEARCH_SUGGESTIONS_MALE
 } from "localyyz/constants";
 
 // third party
@@ -17,6 +16,17 @@ import { Animated, Easing } from "react-native";
 const PAGE_LIMIT = 8;
 const PAGE_ONE = 1;
 const SEARCH_DELAY = 2000;
+
+export const DEFAULT_BLOCKS = [
+  {
+    type: "brand",
+    id: "brands",
+    brandType: "designers",
+    title: "Brands",
+    description: "Browse the thousands of brands available on the Localyyz app",
+    numBrands: 10000
+  }
+];
 
 export default class HomeStore {
   constructor() {
@@ -56,6 +66,7 @@ export default class HomeStore {
 
   @box searchQuery = "";
   @box searchResults = [];
+  @box numProducts = 0;
   // internal values
   // next: marks the next page value
   // hasNextPage: for search, the backend link value isn't reliable,
@@ -103,6 +114,15 @@ export default class HomeStore {
         .then(response => {
           if (response && response.status < 400 && response.data.length > 0) {
             runInAction("[ACTION] post search", () => {
+              // product count
+              if (
+                response.headers
+                && response.headers["x-item-total"] != null
+              ) {
+                this.numProducts
+                  = parseInt(response.headers["x-item-total"]) || 0;
+              }
+
               this.searchResults = [
                 ...this.searchResults.slice(),
                 ...this._listProducts(response.data)
@@ -143,6 +163,7 @@ export default class HomeStore {
   // all blocks have the following min props: type
   @observable blocks = DEFAULT_BLOCKS;
   @observable currentBlock;
+  @observable categoryFilters = [];
 
   hasFetchedCategory = false;
 
@@ -150,11 +171,14 @@ export default class HomeStore {
   async fetchCategoryBlocks() {
     if (!this.hasFetchedCategory) {
       this.hasFetchedCategory = true;
-      let response = await this.api.get("categories");
+      let response = await this.api.get("categories", null, true);
       if (response.status < 400 && response.data && response.data.length > 0) {
         let categoryBlocks = response.data.map(category => ({
           type: "productList",
-          categories: category.values,
+          categories: category.values.map(v => ({
+            type: v,
+            fetchPath: `categories/${category.type}`
+          })),
           id: category.type,
 
           // used to differentiate from locally specified
@@ -163,6 +187,11 @@ export default class HomeStore {
           basePath: `categories/${category.type}`,
           path: `categories/${category.type}/products`,
           limit: 4
+        }));
+
+        this.categoryFilters = response.data.map(category => ({
+          type: category.type,
+          fetchPath: "/categories"
         }));
 
         return await runInAction(

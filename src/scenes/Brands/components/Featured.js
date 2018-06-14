@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 
 // custom
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 import Brand from "../../Home/blocks/Brands/components/Brand";
 
 // third party
@@ -28,7 +28,7 @@ export default class Featured extends React.Component {
   renderItem({ item }) {
     return (
       <Brand
-        title={item.name}
+        title={item.name || item.id}
         numProducts={item.productCount}
         imageUri={item.imageUrl}
         fetchPath={`${this.props.path}/${item.id || item.name}/products`}

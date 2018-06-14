@@ -18,19 +18,61 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
 import { inject, observer } from "mobx-react/native";
 
+export class FilterPopupButton extends React.Component {
+  static propTypes = {
+    text: PropTypes.string,
+    onPress: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    text: "Filter / Sort"
+  };
+
+  render() {
+    return (
+      <View style={styles.toggle} pointerEvents="box-none">
+        <View style={styles.gradient} pointerEvents="box-none">
+          <TouchableOpacity onPress={this.props.onPress}>
+            <Animatable.View
+              animation="fadeIn"
+              duration={500}
+              delay={1000}
+              style={styles.toggleContainer}>
+              <MaterialIcon
+                name="sort"
+                size={Sizes.TinyText}
+                color={Colours.Text}/>
+              <UppercasedText style={styles.toggleLabel}>
+                {this.props.text}
+              </UppercasedText>
+            </Animatable.View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+}
+
 @inject(stores => ({
-  scrollEnabled: stores.filterStore.scrollEnabled
+  scrollEnabled: stores.filterStore.scrollEnabled,
+  filterStore: stores.filterStore
 }))
 @observer
 export default class FilterPopup extends React.Component {
   static propTypes = {
+    filterStore: PropTypes.object.isRequired,
+    minWhitespace: PropTypes.number,
+
     // if the parent view isn't the entire device height (minus navbar, include
     // the offset)
-    screenOffset: PropTypes.number
+    screenOffset: PropTypes.number,
+    isVisible: PropTypes.bool
   };
 
   static defaultProps = {
-    screenOffset: 0
+    minWhitespace: Sizes.Height / 3,
+    screenOffset: 0,
+    isVisible: false
   };
 
   static getNewStore(searchStore) {
@@ -40,7 +82,6 @@ export default class FilterPopup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVisible: false,
       height: 0
     };
 
@@ -51,6 +92,7 @@ export default class FilterPopup extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     return nextProps.isVisible != null
+      && prevState != null
       && nextProps.isVisible !== prevState.isVisible
       ? {
           isVisible: nextProps.isVisible
@@ -88,29 +130,15 @@ export default class FilterPopup extends React.Component {
   render() {
     return (
       <View style={styles.cover} pointerEvents="box-none">
-        <View style={styles.toggle} pointerEvents="box-none">
-          <LinearGradient
-            start={{ x: 0, y: 1 }}
-            end={{ x: 0, y: 0 }}
-            colors={[Colours.Foreground, Colours.Transparent]}
-            style={styles.gradient}
-            pointerEvents="box-none">
-            <TouchableOpacity onPress={() => this.toggle(true)}>
-              <Animatable.View
-                animation="fadeIn"
-                duration={500}
-                delay={1000}
-                style={styles.toggleContainer}>
-                <MaterialIcon
-                  name="sort"
-                  size={Sizes.TinyText}
-                  color={Colours.Text}/>
-                <UppercasedText style={styles.toggleLabel}>
-                  Filter / Sort
-                </UppercasedText>
-              </Animatable.View>
-            </TouchableOpacity>
-          </LinearGradient>
+        <View
+          pointerEvents="box-none"
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: Sizes.ScreenBottom + Sizes.InnerFrame - 2
+          }}>
+          <FilterPopupButton onPress={() => this.toggle(true)} />
         </View>
         {this.state.isVisible ? (
           <Animatable.View
@@ -129,6 +157,7 @@ export default class FilterPopup extends React.Component {
               ]}/>
             <ScrollView
               showsVerticalScrollIndicator={false}
+              bounces={false}
               scrollEnabled={this.props.scrollEnabled}>
               <StatusBar hidden />
               <TouchableWithoutFeedback onPress={() => this.toggle(false)}>
@@ -149,7 +178,7 @@ export default class FilterPopup extends React.Component {
                   </View>
                 </TouchableOpacity>
                 <View style={styles.filter}>
-                  <Filter categories={this.props.categories} />
+                  <Filter />
                 </View>
               </Animatable.View>
             </ScrollView>
@@ -163,8 +192,7 @@ export default class FilterPopup extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colours.DarkTransparent,
-    marginBottom: Sizes.InnerFrame + Sizes.OuterFrame + Sizes.ScreenBottom
+    backgroundColor: Colours.DarkTransparent
   },
 
   cover: {
@@ -178,7 +206,7 @@ const styles = StyleSheet.create({
 
   toggle: {
     position: "absolute",
-    bottom: Sizes.InnerFrame + Sizes.OuterFrame + Sizes.ScreenBottom,
+    bottom: 0,
     left: 0,
     right: 0
   },
@@ -206,7 +234,7 @@ const styles = StyleSheet.create({
 
   toggleLabel: {
     ...Styles.Text,
-    ...Styles.TinyText,
+    ...Styles.Medium,
     marginLeft: Sizes.InnerFrame / 2
   },
 

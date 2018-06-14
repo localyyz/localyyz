@@ -1,12 +1,10 @@
 {
   "env": {
     "es6": true,
-    "jest": true
+    "jest": true,
+    "browser": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react-native/all"
-  ],
+  "extends": ["eslint:recommended", "plugin:react-native/all"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
@@ -15,27 +13,15 @@
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "react-native"
-  ],
+  "plugins": ["react", "react-native"],
   "globals": {
     "console": false
   },
   "rules": {
     "no-debugger": "off",
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "operator-linebreak": [
-      "error",
-      "before"
-    ],
-    "quotes": [
-      "error",
-      "double"
-    ],
+    "linebreak-style": ["error", "unix"],
+    "operator-linebreak": ["error", "before"],
+    "quotes": ["error", "double"],
     "no-console": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",

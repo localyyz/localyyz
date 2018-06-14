@@ -5,25 +5,10 @@ import { Sizes } from "localyyz/constants";
 // third party
 import Placeholder from "rn-placeholder";
 
-// constants
-const NUM_TILES = 4;
-
-export default class ListPlaceholder extends React.Component {
+export default class ProductTilePlaceholder extends React.Component {
   render() {
     return (
-      <View style={[styles.container, this.props.style]}>
-        {new Array(this.props.limit || NUM_TILES)
-          .fill()
-          .map((node, i) => <ListTilePlaceholder key={i} />)}
-      </View>
-    );
-  }
-}
-
-class ListTilePlaceholder extends React.Component {
-  render() {
-    return (
-      <View style={styles.tile}>
+      <View style={styles.container}>
         <View style={styles.tileContent}>
           <Placeholder.Box
             animate="fade"
@@ -45,11 +30,6 @@ class ListTilePlaceholder extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    flexWrap: "wrap"
-  },
-
-  tile: {
     width: (Sizes.Width - Sizes.InnerFrame * 4) / 2,
     margin: Sizes.InnerFrame / 2,
     alignItems: "center"

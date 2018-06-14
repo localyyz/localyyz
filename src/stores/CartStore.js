@@ -27,6 +27,7 @@ export default class CartStore {
   @observable cart;
   @observable paymentDetails;
   @observable email;
+  @observable discountCode;
 
   // transition states
   @observable isCheckingOut = false;
@@ -59,6 +60,38 @@ export default class CartStore {
       id: "default",
       items: []
     });
+  }
+
+  //helps to get the payload when updating address and discount code
+  //backend needs all three despite being PUT
+  getPayload(action, address, discountCode) {
+    if (action == "update") {
+      return {
+        shippingAddress: address.isShipping
+          ? address
+          : this.cart.shippingAddress,
+        billingAddress: address.isBilling ? address : this.cart.billingAddress,
+        discountCode: discountCode
+      };
+    } else if (action == "remove") {
+      return {
+        shippingAddress:
+          address.id === this.shippingDetails.id
+            ? null
+            : this.cart.shippingAddress,
+        billingAddress:
+          address.id === this.billingDetails.id
+            ? null
+            : this.cart.billingAddress,
+        discountCode: discountCode
+      };
+    } else if (action == "discount") {
+      return {
+        discountCode: discountCode,
+        shippingAddress: this.cart.shippingAddress,
+        billingAddress: this.cart.billingAddress
+      };
+    }
   }
 
   /*
@@ -226,6 +259,11 @@ export default class CartStore {
   };
 
   @action
+  updateDiscountCodeStore = discountCode => {
+    this.discountCode = discountCode;
+  };
+
+  @action
   replace = cart => {
     this.cart.update(cart);
     return this.cart;
@@ -317,11 +355,7 @@ export default class CartStore {
   updateAddress = async ({ address, cartId }) => {
     // TODO: default should be this.cart.id not "default", backend design issue
     const route = `/carts/${cartId || DEFAULT_CART}`;
-    const payload = {
-      shippingAddress: address.isShipping ? address : this.cart.shippingAddress,
-      billingAddress: address.isBilling ? address : this.cart.billingAddress
-    };
-
+    const payload = this.getPayload("update", address, this.discountCode);
     const response = await this._api.put(route, payload);
     if (response && response.status < 400 && response.data) {
       Facebook.logEvent(
@@ -356,22 +390,23 @@ export default class CartStore {
     ) {
       // TODO: default should be this.cart.id not "default", backend design issue
       const route = `/carts/${cartId || DEFAULT_CART}`;
-      const payload = {
-        // if the address is passed in..set it to null
-        shippingAddress:
-          address.id === this.shippingDetails.id
-            ? null
-            : this.cart.shippingAddress,
-        billingAddress:
-          address.id === this.billingDetails.id
-            ? null
-            : this.cart.billingAddress
-      };
+      const payload = this.getPayload("remove", address, this.discountCode);
 
       const response = await this._api.put(route, payload);
       if (response && response.status < 400 && response.data) {
         return this.replace(response.data);
       }
+    }
+  };
+
+  applyDiscountCode = async ({ discountCode, cartId }) => {
+    // TODO: simplified version at the time, future improvements include adding
+    // discount code per merchant
+    const route = `/carts/${cartId || DEFAULT_CART}`;
+    const payload = this.getPayload("discount", null, discountCode);
+    const response = await this._api.put(route, payload);
+    if (response && response.status < 400 && response.data) {
+      return this.replace(response.data);
     }
   };
 

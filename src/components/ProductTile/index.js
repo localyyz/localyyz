@@ -9,8 +9,20 @@ import { capitalize } from "localyyz/helpers";
 // third party
 import getSymbolFromCurrency from "currency-symbol-map";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import PropTypes from "prop-types";
+import { PropTypes as mobxPropTypes } from "mobx-react/native";
+
+// local
+import { ProductTilePlaceholder } from "./components";
 
 export default class ProductTile extends React.PureComponent {
+  static Placeholder = ProductTilePlaceholder;
+
+  static propTypes = {
+    product: mobxPropTypes.observableObject.isRequired,
+    onPress: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -50,7 +62,10 @@ export default class ProductTile extends React.PureComponent {
 
   render() {
     return this.props.product ? (
-      <TouchableOpacity onPress={this.props.onPress} onLayout={this.onLayout}>
+      <TouchableOpacity
+        ref="productTileTouchable"
+        onPress={this.props.onPress}
+        onLayout={this.onLayout}>
         <View style={styles.container}>
           <View
             style={[
@@ -63,6 +78,7 @@ export default class ProductTile extends React.PureComponent {
             ]}>
             {this.state.photoSize ? (
               <ConstrainedAspectImage
+                ref="productTileImage"
                 source={{
                   uri:
                     this.props.product.associatedPhotos[0]
@@ -82,11 +98,12 @@ export default class ProductTile extends React.PureComponent {
           </View>
           <View style={styles.content}>
             <View style={styles.price}>
-              <Text style={styles.priceLabel}>
+              <Text ref="productTilePrice" style={styles.priceLabel}>
                 {this.toPriceString(this.props.product.price)}
               </Text>
               {this.isOnSale ? (
                 <MaterialIcon
+                  ref="productTileSaleArrow"
                   name="arrow-downward"
                   size={Sizes.TinyText}
                   color={Colours.Fail}/>
@@ -94,7 +111,7 @@ export default class ProductTile extends React.PureComponent {
             </View>
             <View style={styles.details}>
               <Text numberOfLines={1} style={styles.label}>
-                <Text style={styles.prevPrice}>
+                <Text ref="productTilePrevPrice" style={styles.prevPrice}>
                   {this.toPriceString(this.props.product.previousPrice, true)}
                 </Text>
                 {this.props.product.previousPrice
