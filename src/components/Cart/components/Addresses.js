@@ -172,7 +172,6 @@ export default class Addresses extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.address.hasError) {
       this.setState({
         isEditing: true,

@@ -56,7 +56,6 @@ export default class AddressForm extends React.Component {
     onCancel: PropTypes.func.isRequired,
     isShipping: PropTypes.bool,
     isBilling: PropTypes.bool,
-    enabled: PropTypes.bool,
 
     // mobx injected
     add: PropTypes.func.isRequired,
@@ -65,7 +64,6 @@ export default class AddressForm extends React.Component {
   };
 
   static defaultProps = {
-    enabled: false,
     address: {}
   };
 
