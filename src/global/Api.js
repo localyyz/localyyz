@@ -63,7 +63,13 @@ export default class Api {
         tracking.message || ""
       );
 
-    return { hasError: true, _error };
+    return {
+      hasError: true,
+      error: _error,
+      ...(_error.status >= 400 && _error.status <= 499
+        ? { isCritical: true }
+        : {})
+    };
   }
 
   /* register a push notification token */
@@ -96,9 +102,13 @@ export default class Api {
       };
     } catch (err) {
       let err = this.handleErr(err, { message: `(GET ${path})` });
+      DEBUG
+        && !!err.isCritical
+        && console.log("Critical network failure: retries aborted");
 
       // don't attempt again if over limit or always if required to succeed
-      if (attempts.length < RETRY_LIMIT || mandatory) {
+      // + only if not critical failure
+      if (!err.isCritical && (attempts.length < RETRY_LIMIT || mandatory)) {
         await asyncTimeout(RETRY_TIMEOUT);
 
         // if over limit, but mandatory, just alert the user before continuing
