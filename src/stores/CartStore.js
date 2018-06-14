@@ -71,7 +71,7 @@ export default class CartStore {
           ? address
           : this.cart.shippingAddress,
         billingAddress: address.isBilling ? address : this.cart.billingAddress,
-        discountCode: this.discountCode
+        discountCode: discountCode
       };
     } else if (action == "remove") {
       return {
@@ -83,7 +83,7 @@ export default class CartStore {
           address.id === this.billingDetails.id
             ? null
             : this.cart.billingAddress,
-        discountCode: this.discountCode
+        discountCode: discountCode
       };
     } else if (action == "discount") {
       return {
@@ -355,7 +355,7 @@ export default class CartStore {
   updateAddress = async ({ address, cartId }) => {
     // TODO: default should be this.cart.id not "default", backend design issue
     const route = `/carts/${cartId || DEFAULT_CART}`;
-    const payload = this.getPayload("update", address, null);
+    const payload = this.getPayload("update", address, this.discountCode);
     const response = await this._api.put(route, payload);
     if (response && response.status < 400 && response.data) {
       Facebook.logEvent(
@@ -390,7 +390,7 @@ export default class CartStore {
     ) {
       // TODO: default should be this.cart.id not "default", backend design issue
       const route = `/carts/${cartId || DEFAULT_CART}`;
-      const payload = this.getPayload("remove", address, null);
+      const payload = this.getPayload("remove", address, this.discountCode);
 
       const response = await this._api.put(route, payload);
       if (response && response.status < 400 && response.data) {
