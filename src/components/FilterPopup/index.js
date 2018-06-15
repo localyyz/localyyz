@@ -75,8 +75,8 @@ export default class FilterPopup extends React.Component {
     isVisible: false
   };
 
-  static getNewStore(searchStore) {
-    return Filter.getNewStore(searchStore);
+  static getNewStore(searchStore, initParams = {}) {
+    return Filter.getNewStore(searchStore, initParams);
   }
 
   constructor(props) {

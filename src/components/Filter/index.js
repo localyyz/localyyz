@@ -14,8 +14,8 @@ import {
 import FilterStore from "./store";
 
 export default class Filter extends React.Component {
-  static getNewStore(searchStore) {
-    return new FilterStore(searchStore);
+  static getNewStore(searchStore, initParams = {}) {
+    return new FilterStore(searchStore, initParams);
   }
 
   render() {

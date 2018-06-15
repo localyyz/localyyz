@@ -24,14 +24,13 @@ const PROPS = {
 
 describe(NAME, () => {
   it(`${NAME}: should render properly`, () => {
-    let c = renderWithLayout(<Component {...PROPS} />).getInstance();
-
-    expect(c).not.toBeUndefined();
+    const result = renderWithLayout(<Component {...PROPS} />, null, true);
+    expect(result.props.children).toBeDefined();
   });
 
   it(`${NAME}: should render to snapshot`, () => {
     expect(
-      renderWithLayout(<Component {...PROPS} />).toJSON()
+      renderWithLayout(<Component {...PROPS} />, null, true)
     ).toMatchSnapshot();
   });
 });
