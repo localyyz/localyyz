@@ -26,7 +26,6 @@ const DEBUG_CARDHOLDER = "Johnny Appleseed";
 export default class CartStore {
   @observable cart;
   @observable paymentDetails;
-  @observable email;
   @observable discountCode;
 
   // transition states
