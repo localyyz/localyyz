@@ -72,7 +72,8 @@ export default class ProductListScene extends React.Component {
   constructor(props) {
     super(props);
     this.store = new Store(props.navigation.state.params);
-    this.filterStore = FilterPopup.getNewStore(this.store);
+    const { filterParams } = props.navigation.state.params;
+    this.filterStore = FilterPopup.getNewStore(this.store, filterParams);
     this.state = {
       headerHeight: 0,
 

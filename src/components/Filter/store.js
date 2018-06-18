@@ -18,7 +18,7 @@ export default class FilterStore {
   // ui
   @observable scrollEnabled;
 
-  constructor(searchStore) {
+  constructor(searchStore, initParams = {}) {
     // requires .reset(params) and .categories and .numProducts
     this.searchStore = searchStore;
 
@@ -30,6 +30,17 @@ export default class FilterStore {
 
     // initial
     this.scrollEnabled = true;
+    this.loadInit(initParams);
+  }
+
+  @action
+  loadInit(params = {}) {
+    // if initial params are available, set them
+    for (let key in params) {
+      if (params[key]) {
+        this[key] = params[key];
+      }
+    }
   }
 
   @computed
@@ -102,6 +113,17 @@ export default class FilterStore {
       }
     }
   );
+
+  @computed
+  get params() {
+    return {
+      sortBy: this.sortBy,
+      priceMin: this.priceMin,
+      priceMax: this.priceMax,
+      discountMin: this.discountMin,
+      gender: this.gender
+    };
+  }
 
   @computed
   get fetchParams() {

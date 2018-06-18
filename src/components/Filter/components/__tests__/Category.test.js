@@ -4,7 +4,7 @@ import React from "react";
 import { renderWithLayout } from "localyyz/tests";
 
 // local
-import { default as Component } from "../Category";
+import { Category } from "../Category";
 
 // constants
 const NAME = "Single category filter";
@@ -12,6 +12,7 @@ const PROPS = {
   title: "Category",
   fetchPath: "test"
 };
+const Component = Category.wrappedComponent;
 
 describe(NAME, () => {
   it(`${NAME}: should render properly`, () => {

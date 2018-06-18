@@ -9,15 +9,22 @@ import { ApiInstance } from "localyyz/global";
 import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
 import { lazyObservable } from "mobx-utils";
+import { inject, observer } from "mobx-react/native";
 
+@inject(stores => ({
+  filterParams: stores.filterStore.params
+}))
+@observer
 export class Category extends React.Component {
   static propTypes = {
     title: PropTypes.string,
-    fetchPath: PropTypes.string.isRequired
+    fetchPath: PropTypes.string.isRequired,
+    filterParams: PropTypes.object
   };
 
   static defaultProps = {
-    title: ""
+    title: "",
+    filterParams: {}
   };
 
   constructor(props) {
