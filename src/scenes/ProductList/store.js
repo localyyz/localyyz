@@ -37,6 +37,7 @@ class Store {
     if (mergeParams) {
       params = { ...this.defaultParams, ...mergeParams };
     }
+    this.listData.clear();
 
     // and finally refetch
     this.fetchNextPage(params);
@@ -53,6 +54,7 @@ class Store {
       return;
     }
     this.isLoading = true;
+
     const response = await ApiInstance.get(
       (this.next && this.next.url) || `${this.fetchPath}`,
       { ...this.defaultParams, ...params, limit: 8 }
