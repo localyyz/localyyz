@@ -106,3 +106,6 @@ vendor/
 
 # Jest coverage
 __coverage__/
+
+# Other
+*_CHANGELOG*

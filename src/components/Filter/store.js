@@ -18,7 +18,7 @@ export default class FilterStore {
   // ui
   @observable scrollEnabled;
 
-  constructor(searchStore) {
+  constructor(searchStore, initParams = {}) {
     // requires .reset(params) and .categories and .numProducts
     this.searchStore = searchStore;
 
@@ -30,6 +30,17 @@ export default class FilterStore {
 
     // initial
     this.scrollEnabled = true;
+    this.loadInit(initParams);
+  }
+
+  @action
+  loadInit(params = {}) {
+    // if initial params are available, set them
+    for (let key in params) {
+      if (params[key] !== undefined) {
+        this[key] = params[key];
+      }
+    }
   }
 
   @computed
@@ -104,6 +115,17 @@ export default class FilterStore {
   );
 
   @computed
+  get params() {
+    return {
+      sortBy: this.sortBy,
+      priceMin: this.priceMin,
+      priceMax: this.priceMax,
+      discountMin: this.discountMin,
+      gender: this.gender
+    };
+  }
+
+  @computed
   get fetchParams() {
     return {
       ...(this.sortBy && {
@@ -112,11 +134,18 @@ export default class FilterStore {
       ...(this.priceMin || this.priceMax || this.discountMin || this.gender
         ? {
             filter: [
-              ...(this.priceMin || this.priceMax
-                ? [`price,min=${this.priceMin},max=${this.priceMax}`]
+              ...(this.priceMin !== undefined
+                ? [`price,min=${this.priceMin}`]
                 : []),
-              ...(this.discountMin ? [`discount,min=${this.discountMin}`] : []),
-              ...(this.gender ? [`gender,val=${this.gender}`] : [])
+              ...(this.priceMax !== undefined
+                ? [`price,max=${this.priceMax}`]
+                : []),
+              ...(this.discountMin !== undefined
+                ? [`discount,min=${this.discountMin}`]
+                : []),
+              ...(this.gender !== undefined
+                ? [`gender,val=${this.gender}`]
+                : [])
             ]
           }
         : null)

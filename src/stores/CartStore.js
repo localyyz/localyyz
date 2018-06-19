@@ -26,7 +26,6 @@ const DEBUG_CARDHOLDER = "Johnny Appleseed";
 export default class CartStore {
   @observable cart;
   @observable paymentDetails;
-  @observable email;
   @observable discountCode;
 
   // transition states
@@ -170,6 +169,11 @@ export default class CartStore {
     return this.cart.shippingMethods || [];
   }
 
+  @computed
+  get email() {
+    return this.cart.email || "";
+  }
+
   // TODO: remove this, gets the first placeId
   @computed
   get placeId() {
@@ -254,8 +258,17 @@ export default class CartStore {
 
   // cart actions
   @action
-  updateEmail = email => {
-    this.email = email;
+  updateEmail = async email => {
+    // TODO: default should be this.cart.id not "default", backend design issue
+    const route = `/carts/${DEFAULT_CART}`;
+    const payload = {
+      email: email
+    };
+
+    const response = await this._api.put(route, payload);
+    if (response && response.status < 400 && response.data) {
+      return this.replace(response.data);
+    }
   };
 
   @action
@@ -423,18 +436,19 @@ export default class CartStore {
     // TODO: default should be this.cart.id not "default", backend design issue
     const route = `/carts/${cartId || DEFAULT_CART}/checkout`;
 
-    const response = await this._api.post(route, { email: this.email });
-    if (response && response.status < 400 && response.data) {
+    const response = await this._api.post(route);
+
+    // IF success / else reject by error
+    if (response && response.data) {
       // NOTE: shouldLog is set when cart status is transitioned
       // from inProgress => checkout
       const shouldLog = this.cart.status === CART_STATUS_INPROGRESS;
 
-      // check if cart returned error
       this.replace(response.data);
       if (response.data.hasError) {
         assistantStore.cancel(message);
         return await Promise.reject({
-          alertTitle: "There was a problem",
+          alertTitle: "Sorry we couldn't checkout your cart",
           alertMessage: response.data.error
         });
       }
@@ -454,13 +468,13 @@ export default class CartStore {
 
       assistantStore.cancel(message);
       return;
+    } else {
+      assistantStore.cancel(message);
+      return await Promise.reject({
+        alertTitle: "Sorry we couldn't checkout your cart",
+        alertMessage: "Please contact support at support@localyyz.com"
+      });
     }
-
-    assistantStore.cancel(message);
-    return await Promise.reject({
-      alertTitle: response.error,
-      alertMessage: "Please try again later"
-    });
   };
 
   @action
@@ -671,7 +685,7 @@ export default class CartStore {
             });
           }
 
-          return this.cart.shippingMethods.map(rate => ({
+          return this.shippingMethods.map(rate => ({
             // conversion back to apple pay shipping spec
             ...rate,
             label: rate.title,
@@ -697,14 +711,7 @@ export default class CartStore {
             subtotal: {
               label: "SUBTOTAL",
               amount: {
-                value: `${(this.amountSubtotal || 0).toFixed(2)}`,
-                currency: this.cart.currency
-              }
-            },
-            tax: {
-              label: "TAX",
-              amount: {
-                value: `${(this.amountTaxes || 0).toFixed(2)}`,
+                value: `${this.amountSubtotal.toFixed(2)}`,
                 currency: this.cart.currency
               }
             },
@@ -727,15 +734,27 @@ export default class CartStore {
             });
           }
 
-          details["shipping"] = {
-            label: this.selectedShipping
-              ? `SHIPPING - ${this.selectedShipping.title}`
-              : "SHIPPING",
-            amount: {
-              value: `${this.amountShipping.toFixed(2)}`,
-              currency: this.cart.currency
-            }
-          };
+          if (this.amountTaxes > 0) {
+            details.tax = {
+              label: "TAX",
+              amount: {
+                value: `${this.amountTaxes.toFixed(2)}`,
+                currency: this.cart.currency
+              }
+            };
+          }
+
+          if (this.amountShipping > 0) {
+            details["shipping"] = {
+              label: this.selectedShipping
+                ? `SHIPPING - ${this.selectedShipping.title}`
+                : "SHIPPING",
+              amount: {
+                value: `${this.amountShipping.toFixed(2)}`,
+                currency: this.cart.currency
+              }
+            };
+          }
 
           return details;
         }
@@ -894,7 +913,6 @@ export default class CartStore {
   };
 
   _onExpressCheckoutFailure = (response = {}, message) => {
-    //response && console.log(response);
     assistantStore.cancel(message);
     this.fetch();
 
@@ -905,6 +923,8 @@ export default class CartStore {
       && response._error.message !== "AbortError"
     ) {
       response._paymentResponse._paymentRequest.abort();
+      // if debug, console error for easy debugging
+      DEBUG && console.error(response);
     }
 
     // present failure
@@ -970,13 +990,14 @@ export default class CartStore {
       response = await this._payExpressCheckout(response);
       if (!response._wasFailed) {
         response._paymentResponse.complete("success");
-        await this.replace(response);
+        await this.replace(response.cart);
         let completionSummary = {
           wasSuccessful: true,
           cart: this.cart,
           customerName: this.customerName,
           shippingDetails: this.shippingDetails,
           shippingExpectation: this.shippingExpectation,
+          billingDetails: this.billingDetails,
           amountSubtotal: this.amountSubtotal,
           amountTaxes: this.amountTaxes,
           amountDiscount: this.amountDiscount,
@@ -985,7 +1006,8 @@ export default class CartStore {
         };
 
         // revert the cart
-        await this.fetch();
+        // TODO: clean this code up
+        this.cart.clear();
 
         // and finally pass out completion summary object for caller to present
         return completionSummary;

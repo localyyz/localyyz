@@ -22,6 +22,7 @@ export default class Cart {
   @observable currency = "USD";
 
   @observable stripeAccountId = "";
+  @observable email = "";
 
   // errors
   @observable hasError = false;
@@ -52,6 +53,13 @@ export default class Cart {
     const { shippingMethods: methods } = data.etc || {};
     this.shippingMethods = methods ? methods : null;
   }
+
+  @action
+  clear = () => {
+    for (let k in this) {
+      this[k] = undefined;
+    }
+  };
 
   toJS() {
     return toJS(this);

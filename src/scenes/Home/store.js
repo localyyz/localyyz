@@ -75,9 +75,10 @@ export default class HomeStore {
   // processing: onEndReached would be incorrectly triggered as list items
   //  starts to load, need to switch to a loading state to not over load
 
-  @box _next = 1;
-  _hasNextPage = true;
   @box _processing = false;
+
+  _nextSearch;
+  _selfSearch;
 
   reactSearch = reaction(() => this.searchQuery, () => this.reset(), {
     delay: SEARCH_DELAY
@@ -86,8 +87,8 @@ export default class HomeStore {
   reset = params => {
     if (this.searchQuery.length > 0) {
       // on new search, reset internal values and search result
-      this._next = 1;
-      this._hasNextPage = true;
+      this._nextSearch = null;
+      this._selfSearch = null;
       this._processing = false;
       this.searchResults.clear();
 
@@ -98,53 +99,59 @@ export default class HomeStore {
 
   @computed
   get isProcessingQuery() {
-    return !!this._processing && this._next === 1;
+    return (
+      !!this._processing && (this.selfSearch && this.selfSearch.page === 1)
+    );
   }
 
   fetchNextPage = params => {
-    if (this._hasNextPage && !this._processing) {
-      this._processing = true;
-
-      this.api
-        .post(
-          "search",
-          { query: this.searchQuery },
-          { ...params, page: this._next, limit: PAGE_LIMIT }
-        )
-        .then(response => {
-          if (response && response.status < 400 && response.data.length > 0) {
-            runInAction("[ACTION] post search", () => {
-              // product count
-              if (
-                response.headers
-                && response.headers["x-item-total"] != null
-              ) {
-                this.numProducts
-                  = parseInt(response.headers["x-item-total"]) || 0;
-              }
-
-              this.searchResults = [
-                ...this.searchResults.slice(),
-                ...this._listProducts(response.data)
-              ];
-            });
-            this._next++;
-          } else {
-            if (this._next === PAGE_ONE) {
-              assistantStore.write(
-                `Sorry! I couldn't find any product for "${this.searchQuery}"`,
-                5000
-              );
-            }
-          }
-
-          // NOTE: because search returns "estimated" number of pages, can't
-          // rely on the provided next pages as indicator if there is next page
-          this._hasNextPage = response.data && response.data.length > 0;
-          this._processing = false;
-        })
-        .catch(console.log);
+    if (this._processing || (this._selfSearch && !this._nextSearch)) {
+      console.log(
+        `skip page fetch already loading or reached end. l:${
+          this._processing
+        } n:${this._nextSearch}`
+      );
+      return;
     }
+
+    this._processing = true;
+
+    this.api
+      .post(
+        (this._nextSearch && this._nextSearch.url) || "search",
+        { query: this.searchQuery },
+        { ...params, limit: PAGE_LIMIT }
+      )
+      .then(response => {
+        if (response && response.status < 400 && response.data.length > 0) {
+          runInAction("[ACTION] post search", () => {
+            // product count
+            if (response.headers && response.headers["x-item-total"] != null) {
+              this.numProducts
+                = parseInt(response.headers["x-item-total"]) || 0;
+            }
+
+            this.searchResults = [
+              ...this.searchResults.slice(),
+              ...this._listProducts(response.data)
+            ];
+          });
+
+          this._nextSearch = response.link.next;
+          this._selfSearch = response.link.self;
+        } else {
+          // TODO: backend should sendback a http status hinting no results
+          if (this._selfSearch.page === PAGE_ONE) {
+            assistantStore.write(
+              `Sorry! I couldn't find any product for "${this.searchQuery}"`,
+              5000
+            );
+          }
+        }
+
+        this._processing = false;
+      })
+      .catch(console.log);
   };
 
   /////////////////////////////////// shared UI states below
