@@ -437,17 +437,18 @@ export default class CartStore {
     const route = `/carts/${cartId || DEFAULT_CART}/checkout`;
 
     const response = await this._api.post(route);
-    if (response && response.status < 400 && response.data) {
+
+    // IF success / else reject by error
+    if (response && response.data) {
       // NOTE: shouldLog is set when cart status is transitioned
       // from inProgress => checkout
       const shouldLog = this.cart.status === CART_STATUS_INPROGRESS;
 
-      // check if cart returned error
       this.replace(response.data);
       if (response.data.hasError) {
         assistantStore.cancel(message);
         return await Promise.reject({
-          alertTitle: "There was a problem",
+          alertTitle: "Sorry we couldn't checkout your cart",
           alertMessage: response.data.error
         });
       }
@@ -467,13 +468,13 @@ export default class CartStore {
 
       assistantStore.cancel(message);
       return;
+    } else {
+      assistantStore.cancel(message);
+      return await Promise.reject({
+        alertTitle: "Sorry we couldn't checkout your cart",
+        alertMessage: "Please contact support at support@localyyz.com"
+      });
     }
-
-    assistantStore.cancel(message);
-    return await Promise.reject({
-      alertTitle: response.error,
-      alertMessage: "Please try again later"
-    });
   };
 
   @action

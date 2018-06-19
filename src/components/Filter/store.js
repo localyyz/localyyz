@@ -37,7 +37,7 @@ export default class FilterStore {
   loadInit(params = {}) {
     // if initial params are available, set them
     for (let key in params) {
-      if (params[key]) {
+      if (params[key] !== undefined) {
         this[key] = params[key];
       }
     }
