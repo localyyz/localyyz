@@ -138,12 +138,11 @@ export class AddressSelect extends React.Component {
 @observer
 export default class Addresses extends React.Component {
   static propTypes = {
-    // always at least an object of '{ isShipping: true/false }'
-    address: PropTypes.object.isRequired,
+    address: PropTypes.object,
     title: PropTypes.string,
 
     // mobx injected
-    addresses: mobxPropTypes.arrayOrObservableArray.isRequired,
+    addresses: mobxPropTypes.arrayOrObservableArray,
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired
@@ -161,7 +160,9 @@ export default class Addresses extends React.Component {
       // current address from prop
       currentAddress: props.address,
       // isEditing opens editable address form
-      isEditing: props.address.hasError || this.props.addresses.length === 0,
+      isEditing:
+        (props.address && props.address.hasError)
+        || (this.props.addresses && this.props.addresses.length === 0),
       // isComplete shows completed status
       isComplete:
         props.address && props.address.address && !props.address.hasError,
