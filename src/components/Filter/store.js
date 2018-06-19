@@ -134,11 +134,18 @@ export default class FilterStore {
       ...(this.priceMin || this.priceMax || this.discountMin || this.gender
         ? {
             filter: [
-              ...(this.priceMin || this.priceMax
-                ? [`price,min=${this.priceMin},max=${this.priceMax}`]
+              ...(this.priceMin !== undefined
+                ? [`price,min=${this.priceMin}`]
                 : []),
-              ...(this.discountMin ? [`discount,min=${this.discountMin}`] : []),
-              ...(this.gender ? [`gender,val=${this.gender}`] : [])
+              ...(this.priceMax !== undefined
+                ? [`price,max=${this.priceMax}`]
+                : []),
+              ...(this.discountMin !== undefined
+                ? [`discount,min=${this.discountMin}`]
+                : []),
+              ...(this.gender !== undefined
+                ? [`gender,val=${this.gender}`]
+                : [])
             ]
           }
         : null)
