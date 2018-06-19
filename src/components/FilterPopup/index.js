@@ -2,7 +2,7 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  TouchableWithoutFeedback,
+  Text,
   TouchableOpacity,
   StatusBar,
   ScrollView
@@ -13,9 +13,11 @@ import UppercasedText from "../UppercasedText";
 import PropTypes from "prop-types";
 
 // third party
-import * as Animatable from "react-native-animatable";
+import {
+  View as AnimatableView,
+  createAnimatableComponent
+} from "react-native-animatable";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import LinearGradient from "react-native-linear-gradient";
 import { inject, observer } from "mobx-react/native";
 
 export class FilterPopupButton extends React.Component {
@@ -33,7 +35,7 @@ export class FilterPopupButton extends React.Component {
       <View style={styles.toggle} pointerEvents="box-none">
         <View style={styles.gradient} pointerEvents="box-none">
           <TouchableOpacity onPress={this.props.onPress}>
-            <Animatable.View
+            <AnimatableView
               animation="fadeIn"
               duration={500}
               delay={1000}
@@ -45,13 +47,34 @@ export class FilterPopupButton extends React.Component {
               <UppercasedText style={styles.toggleLabel}>
                 {this.props.text}
               </UppercasedText>
-            </Animatable.View>
+            </AnimatableView>
           </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
+
+class FilterContent extends React.Component {
+  render() {
+    return (
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={[
+          {
+            paddingBottom: Sizes.InnerFrame * 3
+          }
+        ]}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        scrollEnabled={true}>
+        <Filter />
+      </ScrollView>
+    );
+  }
+}
+
+const Content = createAnimatableComponent(FilterContent);
 
 @inject(stores => ({
   scrollEnabled: stores.filterStore.scrollEnabled,
@@ -87,7 +110,6 @@ export default class FilterPopup extends React.Component {
 
     // bindings
     this.toggle = this.toggle.bind(this);
-    this.onLayout = this.onLayout.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -107,13 +129,6 @@ export default class FilterPopup extends React.Component {
       });
   }
 
-  onLayout({ nativeEvent: { layout: { height } } }) {
-    height > this.state.height
-      && this.setState({
-        height: height
-      });
-  }
-
   get dismissPadding() {
     return Math.min(
       Sizes.Height - NAVBAR_HEIGHT - this.props.screenOffset,
@@ -130,6 +145,7 @@ export default class FilterPopup extends React.Component {
   render() {
     return (
       <View style={styles.cover} pointerEvents="box-none">
+        <StatusBar hidden={this.state.isVisible} />
         <View
           pointerEvents="box-none"
           style={{
@@ -140,49 +156,29 @@ export default class FilterPopup extends React.Component {
           }}>
           <FilterPopupButton onPress={() => this.toggle(true)} />
         </View>
+
+        <Content
+          useNativeDriver
+          animation={{
+            from: this.state.isVisible
+              ? { opacity: 0, translateY: Sizes.Height }
+              : { opacity: 1, translateY: 0 },
+            to: this.state.isVisible
+              ? { opacity: 1, translateY: 0 }
+              : { opacity: 0, translateY: Sizes.Height }
+          }}
+          duration={1000}
+          delay={0}/>
+
         {this.state.isVisible ? (
-          <Animatable.View
-            animation="fadeIn"
-            duration={500}
-            style={styles.container}>
-            <Animatable.View
-              animation="fadeIn"
-              duration={1}
-              delay={1000}
-              style={[
-                styles.bottomSheetHack,
-                {
-                  height: this.state.height / 2
-                }
-              ]}/>
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              bounces={false}
-              scrollEnabled={this.props.scrollEnabled}>
-              <StatusBar hidden />
-              <TouchableWithoutFeedback onPress={() => this.toggle(false)}>
-                <View style={[styles.cover, { height: this.dismissPadding }]} />
-              </TouchableWithoutFeedback>
-              <Animatable.View
-                animation="fadeInUp"
-                duration={300}
-                delay={700}
-                style={styles.content}
-                onLayout={this.onLayout}>
-                <TouchableOpacity onPress={() => this.toggle(false)}>
-                  <View style={styles.dismissButton}>
-                    <MaterialIcon
-                      name="close"
-                      size={Sizes.H2}
-                      color={Colours.Text}/>
-                  </View>
-                </TouchableOpacity>
-                <View style={styles.filter}>
-                  <Filter />
-                </View>
-              </Animatable.View>
-            </ScrollView>
-          </Animatable.View>
+          <TouchableOpacity
+            onPress={() => this.toggle(false)}
+            style={[styles.content]}>
+            <AnimatableView
+              animation={this.state.isVisible ? "fadeIn" : "fadeOut"}>
+              <Text>DONE</Text>
+            </AnimatableView>
+          </TouchableOpacity>
         ) : null}
       </View>
     );
@@ -236,10 +232,6 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Medium,
     marginLeft: Sizes.InnerFrame / 2
-  },
-
-  dismissButton: {
-    marginBottom: Sizes.InnerFrame
   },
 
   filter: {

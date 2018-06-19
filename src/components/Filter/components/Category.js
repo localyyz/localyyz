@@ -63,11 +63,11 @@ export default withNavigation(Category);
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: Sizes.InnerFrame / 6
+    marginVertical: Sizes.InnerFrame / 3
   },
 
   label: {
     ...Styles.Text,
-    ...Styles.SmallText
+    ...Styles.EmphasizedText
   }
 });
