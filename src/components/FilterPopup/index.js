@@ -7,7 +7,7 @@ import {
   StatusBar,
   ScrollView
 } from "react-native";
-import { Styles, Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
+import { Styles, Colours, Sizes } from "localyyz/constants";
 import Filter from "../Filter";
 import UppercasedText from "../UppercasedText";
 import PropTypes from "prop-types";
@@ -58,18 +58,33 @@ export class FilterPopupButton extends React.Component {
 class FilterContent extends React.Component {
   render() {
     return (
-      <ScrollView
-        style={styles.content}
-        contentContainerStyle={[
-          {
-            paddingBottom: Sizes.InnerFrame * 3
-          }
-        ]}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-        scrollEnabled={true}>
-        <Filter />
-      </ScrollView>
+      <View>
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={[
+            this.props.contentStyle,
+            {
+              paddingBottom: Sizes.InnerFrame * 4
+            }
+          ]}
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          scrollEnabled={true}>
+          <Filter />
+        </ScrollView>
+
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={this.props.onClose}
+          style={[
+            { backgroundColor: Colours.Foreground, padding: Sizes.InnerFrame },
+            styles.toggle
+          ]}>
+          <AnimatableView animation={"fadeIn"} delay={100}>
+            <Text>DONE</Text>
+          </AnimatableView>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -84,18 +99,15 @@ const Content = createAnimatableComponent(FilterContent);
 export default class FilterPopup extends React.Component {
   static propTypes = {
     filterStore: PropTypes.object.isRequired,
-    minWhitespace: PropTypes.number,
+    isVisible: PropTypes.bool,
 
-    // if the parent view isn't the entire device height (minus navbar, include
-    // the offset)
-    screenOffset: PropTypes.number,
-    isVisible: PropTypes.bool
+    // TODO: parent should pass in contentStyle
+    contentStyle: PropTypes.any
   };
 
   static defaultProps = {
-    minWhitespace: Sizes.Height / 3,
-    screenOffset: 0,
-    isVisible: false
+    isVisible: false,
+    contentStyle: {}
   };
 
   static getNewStore(searchStore, initParams = {}) {
@@ -104,9 +116,7 @@ export default class FilterPopup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      height: 0
-    };
+    this.state = {};
 
     // bindings
     this.toggle = this.toggle.bind(this);
@@ -129,19 +139,6 @@ export default class FilterPopup extends React.Component {
       });
   }
 
-  get dismissPadding() {
-    return Math.min(
-      Sizes.Height - NAVBAR_HEIGHT - this.props.screenOffset,
-      Math.max(
-        this.props.minWhitespace || Sizes.OuterFrame,
-        Sizes.Height
-          - NAVBAR_HEIGHT
-          - this.props.screenOffset
-          - this.state.height
-      )
-    );
-  }
-
   render() {
     return (
       <View style={styles.cover} pointerEvents="box-none">
@@ -157,6 +154,9 @@ export default class FilterPopup extends React.Component {
           <FilterPopupButton onPress={() => this.toggle(true)} />
         </View>
 
+        {/* TODO:
+            skip animating on mount: https://github.com/oblador/react-native-animatable/pull/194 */}
+
         {this.state.isVisible ? (
           <Content
             useNativeDriver
@@ -169,19 +169,9 @@ export default class FilterPopup extends React.Component {
                 : { opacity: 0, translateY: Sizes.Height }
             }}
             duration={1000}
-            delay={0}/>
-        ) : null}
-
-        {this.state.isVisible ? (
-          <TouchableOpacity
-            onPress={() => this.toggle(false)}
-            style={styles.content}>
-            <AnimatableView
-              animation={this.state.isVisible ? "fadeIn" : "fadeOut"}
-              delay={100}>
-              <Text>DONE</Text>
-            </AnimatableView>
-          </TouchableOpacity>
+            delay={0}
+            contentStyle={this.props.contentStyle}
+            onClose={() => this.toggle(false)}/>
         ) : null}
       </View>
     );
@@ -189,11 +179,6 @@ export default class FilterPopup extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colours.DarkTransparent
-  },
-
   cover: {
     flex: 1
   },
@@ -235,17 +220,5 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Medium,
     marginLeft: Sizes.InnerFrame / 2
-  },
-
-  filter: {
-    marginLeft: 3
-  },
-
-  bottomSheetHack: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: Colours.Foreground
   }
 });
