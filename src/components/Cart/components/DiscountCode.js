@@ -122,12 +122,7 @@ export default class DiscountCode extends React.Component {
                   size={Sizes.IconButton / 2}
                   color={Colours.PositiveButton}
                   style={Styles.IconOffset}/>
-              ) : (
-                <EntypoIcon
-                  name="dot-single"
-                  size={Sizes.IconButton}
-                  color={Colours.NegativeButton}/>
-              )
+              ) : null
             }>
             {this.state.isVerified
               ? this.state.discountCode

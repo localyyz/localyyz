@@ -71,27 +71,6 @@ exports[`DiscountCode Discount Code: snapshot regression test 1`] = `
           no discount code applied
         </Text>
       </View>
-      <Text
-        accessible={true}
-        allowFontScaling={false}
-        ellipsizeMode="tail"
-        style={
-          Array [
-            Object {
-              "color": "#FF0000",
-              "fontSize": 25,
-            },
-            undefined,
-            Object {
-              "fontFamily": "Entypo",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            },
-          ]
-        }
-      >
-        
-      </Text>
     </View>
   </View>
 </View>

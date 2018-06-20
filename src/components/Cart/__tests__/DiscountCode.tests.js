@@ -42,9 +42,6 @@ describe("DiscountCode", () => {
     expect(rendered.state.discountCode).toBe("");
     expect(rendered.state.isVerified).toBe(false);
     expect(rendered.state.isOpen).toBe(true);
-    expect(rendered.refs.verifyDiscountIcon.props.icon.props.name).toBe(
-      "dot-single"
-    );
   });
 
   it("DiscountCode: should be able to clear discount code", () => {
@@ -69,9 +66,6 @@ describe("DiscountCode", () => {
     expect(rendered.state.discountCode).toBe("");
     expect(rendered.state.isVerified).toBe(false);
     expect(rendered.state.isOpen).toBe(true);
-    expect(rendered.refs.verifyDiscountIcon.props.icon.props.name).toBe(
-      "dot-single"
-    );
   });
 
   it("Discount Code: snapshot regression test", () => {
