@@ -53,7 +53,6 @@ class Deeplink extends React.Component {
   }
   */
   onBranchDeepLink = async ({ error, params }) => {
-    console.log(params);
     if (error) {
       console.error("Error: failed to deep link", error);
     } else if (params) {
