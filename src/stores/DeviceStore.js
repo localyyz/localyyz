@@ -1,6 +1,8 @@
 import { observable, runInAction } from "mobx";
 import { Platform } from "react-native";
 
+import { ApiInstance } from "localyyz/global";
+
 // custom
 import { ApplePayExpressPayment } from "localyyz/effects";
 
@@ -13,6 +15,7 @@ export default class DeviceStore {
     if (Platform.OS == "ios") {
       this.checkApplePay();
     }
+    this.api = ApiInstance;
   }
 
   // TODO: check android pay if android device
@@ -44,5 +47,18 @@ export default class DeviceStore {
         });
       })
       .catch(console.log);
+  };
+
+  sendDeviceData = deviceData => {
+    const route = "/ping/";
+    let payload = {
+      installReferer: deviceData.installReferer,
+      buildNumber: deviceData.buildNumber,
+      brand: deviceData.brand,
+      systemName: deviceData.systemName,
+      deviceID: deviceData.deviceID
+    };
+
+    return this.api.post(route, payload);
   };
 }
