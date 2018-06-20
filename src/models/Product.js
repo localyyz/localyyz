@@ -163,6 +163,11 @@ export default class Product {
   }
 
   get photoGroups() {
+    // edge case, if only 1 color, no need to group
+    if (this.colors.length == 1) {
+      return { [this.colors[0]]: this.images.slice() };
+    }
+
     let currentGroup = "_common";
     let groups = { [currentGroup]: [] };
 
