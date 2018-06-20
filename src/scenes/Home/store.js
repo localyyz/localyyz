@@ -248,6 +248,13 @@ export default class HomeStore {
     }
   }
 
+  async fetchPlaceTitle(placeID) {
+    let response = await this.api.get("/places/" + placeID + "/");
+    if (response.status < 400 && response.data) {
+      return response.data.name;
+    }
+  }
+
   @computed
   get trackedBlocks() {
     return this.blocks
