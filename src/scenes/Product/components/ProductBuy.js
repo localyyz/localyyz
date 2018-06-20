@@ -30,6 +30,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
     (stores.productStore.product && stores.productStore.product.price) || 0,
   previousPrice:
     stores.productStore.product && stores.productStore.product.previousPrice,
+  discount: stores.productStore.product && stores.productStore.product.discount,
   hasSession: stores.userStore.model.hasSession,
   isExpressSupported: stores.deviceStore.applePaySupported,
   product: stores.productStore.product,
@@ -158,10 +159,9 @@ class ProductBuy extends React.Component {
             {toPriceString(this.props.price, this.props.product.place.currency)}
           </Text>
           {this.props.isOnSale ? (
-            <MaterialIcon
-              name="arrow-downward"
-              size={Sizes.TinyText}
-              color={Colours.Fail}/>
+            <Text style={{ color: Colours.Fail, fontSize: Sizes.TinyText }}>
+              {Math.round(this.props.discount * 100.0, 0)}% OFF
+            </Text>
           ) : null}
         </View>
         <TouchableOpacity

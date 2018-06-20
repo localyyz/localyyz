@@ -8,7 +8,6 @@ import { capitalize } from "localyyz/helpers";
 
 // third party
 import getSymbolFromCurrency from "currency-symbol-map";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import PropTypes from "prop-types";
 import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
@@ -102,11 +101,11 @@ export default class ProductTile extends React.PureComponent {
                 {this.toPriceString(this.props.product.price)}
               </Text>
               {this.isOnSale ? (
-                <MaterialIcon
-                  ref="productTileSaleArrow"
-                  name="arrow-downward"
-                  size={Sizes.TinyText}
-                  color={Colours.Fail}/>
+                <Text
+                  ref="productTileDiscount"
+                  style={{ color: Colours.Fail, fontSize: Sizes.TinyText }}>
+                  {Math.round(this.props.product.discount * 100.0, 0)}% OFF
+                </Text>
               ) : null}
             </View>
             <View style={styles.details}>
