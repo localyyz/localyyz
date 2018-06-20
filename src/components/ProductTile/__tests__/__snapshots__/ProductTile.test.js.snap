@@ -109,24 +109,17 @@ exports[`ProductTile ProductTile: should render properly(snapshot) 1`] = `
         </Text>
         <Text
           accessible={true}
-          allowFontScaling={false}
+          allowFontScaling={true}
           ellipsizeMode="tail"
           style={
-            Array [
-              Object {
-                "color": "#FF0000",
-                "fontSize": 12,
-              },
-              undefined,
-              Object {
-                "fontFamily": "Material Icons",
-                "fontStyle": "normal",
-                "fontWeight": "normal",
-              },
-            ]
+            Object {
+              "color": "#FF0000",
+              "fontSize": 12,
+            }
           }
         >
-          
+          50
+          % OFF
         </Text>
       </View>
       <View>
