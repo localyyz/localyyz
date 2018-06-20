@@ -19,7 +19,7 @@ exports[`Single category filter Single category filter: should render to snapsho
   <View
     style={
       Object {
-        "marginVertical": 2.5,
+        "marginVertical": 5,
       }
     }
   >
@@ -31,7 +31,7 @@ exports[`Single category filter Single category filter: should render to snapsho
         Object {
           "backgroundColor": "rgba(255, 255, 255, 0)",
           "color": "rgb(30, 30, 30)",
-          "fontSize": 14,
+          "fontSize": 16,
           "fontWeight": "300",
         }
       }

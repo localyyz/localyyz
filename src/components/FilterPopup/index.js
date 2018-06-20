@@ -55,7 +55,7 @@ export class FilterPopupButton extends React.Component {
   }
 }
 
-class FilterContent extends React.Component {
+export class FilterContent extends React.Component {
   render() {
     return (
       <View>
@@ -69,7 +69,7 @@ class FilterContent extends React.Component {
           ]}
           showsVerticalScrollIndicator={false}
           bounces={false}
-          scrollEnabled={true}>
+          scrollEnabled={this.props.scrollEnabled}>
           <Filter />
         </ScrollView>
 
@@ -92,14 +92,18 @@ class FilterContent extends React.Component {
 const Content = createAnimatableComponent(FilterContent);
 
 @inject(stores => ({
-  scrollEnabled: stores.filterStore.scrollEnabled,
-  filterStore: stores.filterStore
+  scrollEnabled: stores.filterStore.scrollEnabled
 }))
 @observer
 export default class FilterPopup extends React.Component {
   static propTypes = {
-    filterStore: PropTypes.object.isRequired,
     isVisible: PropTypes.bool,
+
+    // mobx
+    // NOTE: some component else where may lock up
+    // the filter scroll.
+    // for example: Price range scroll filter
+    scrollEnabled: PropTypes.bool,
 
     // TODO: parent should pass in contentStyle
     contentStyle: PropTypes.any
@@ -107,6 +111,7 @@ export default class FilterPopup extends React.Component {
 
   static defaultProps = {
     isVisible: false,
+    scrollEnabled: true,
     contentStyle: {}
   };
 
@@ -171,6 +176,7 @@ export default class FilterPopup extends React.Component {
             duration={1000}
             delay={0}
             contentStyle={this.props.contentStyle}
+            scrollEnabled={this.props.scrollEnabled}
             onClose={() => this.toggle(false)}/>
         ) : null}
       </View>
