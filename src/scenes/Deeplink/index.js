@@ -18,8 +18,6 @@ class Deeplink extends React.Component {
   constructor(props) {
     super(props);
     this.getDeeplinkProduct = this.getDeeplinkProduct.bind(this);
-    this.getDeeplinkCollection = this.getDeeplinkCollection.bind(this);
-    this.getDeeplinkPlace = this.getDeeplinkPlace.bind(this);
   }
 
   componentDidMount() {
@@ -41,27 +39,8 @@ class Deeplink extends React.Component {
 
   getDeeplinkProduct = async productID => {
     let store = new ProductStore({}, this.props.historyStore);
-    await store.fetchProduct(productID, true);
+    await store.fetchProduct(productID);
     return store.product;
-  };
-
-  getDeeplinkCollection = async collectionID => {
-    let store = new HomeStore();
-    await store.fetchCollectionBlocks();
-    let blockToReturn = null;
-    for (let block of store.blocks) {
-      if (block.id == collectionID) {
-        blockToReturn = block;
-        break;
-      }
-    }
-    return blockToReturn;
-  };
-
-  getDeeplinkPlace = async placeID => {
-    let store = new HomeStore();
-    let placeName = await store.fetchPlaceTitle(placeID);
-    return placeName;
   };
 
   /*
@@ -69,6 +48,8 @@ class Deeplink extends React.Component {
   params = {
     destination: "product/place/collection" - indicating where to navigate to
     destination_id : the id of the product/place/collection
+    title: title to display - only for place and collection
+    description: the description of the object  - only for collection
   }
   */
   onBranchDeepLink = async ({ error, params }) => {
@@ -82,19 +63,15 @@ class Deeplink extends React.Component {
           product: product
         });
       } else if (params.destination === "collection") {
-        let collectionBlock = await this.getDeeplinkCollection(
-          params.destination_id
-        );
         this.props.navigation.navigate("ProductList", {
           fetchPath: "collections/" + params.destination_id + "/products",
-          title: collectionBlock.title,
-          subtitle: collectionBlock.description
+          title: params.title,
+          subtitle: params.description
         });
       } else if (params.destination === "place") {
-        let placeName = await this.getDeeplinkPlace(params.destination_id);
         this.props.navigation.navigate("ProductList", {
           fetchPath: "places/" + params.destination_id + "/products",
-          title: placeName
+          title: params.title
         });
       }
     }

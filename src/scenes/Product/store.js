@@ -49,23 +49,16 @@ class ProductUIStore {
   };
 
   @action
-  fetchProduct = async (productId, forceNew = false) => {
-    // for now, don't do anything
-    if (!this.product || forceNew) {
-      const response = await this.api.get(`/products/${productId}`);
-      if (response && response.data) {
-        runInAction("fetch product", () => {
-          this.product = new Product(response.data);
-          this.product.changeDescriptionWordsLength(40);
-          this.history.log(this.product);
-        });
-      }
-      return;
+  fetchProduct = async productId => {
+    const response = await this.api.get(`/products/${productId}`);
+    if (response && response.data) {
+      runInAction("fetch product", () => {
+        this.product = new Product(response.data);
+        this.product.changeDescriptionWordsLength(40);
+        this.history.log(this.product);
+      });
     }
-
-    // product already exists, making a call here for
-    // stats tracking
-    this.api.get(`/products/${this.product.id}`);
+    return;
   };
 
   @action
