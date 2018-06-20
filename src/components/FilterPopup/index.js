@@ -157,25 +157,28 @@ export default class FilterPopup extends React.Component {
           <FilterPopupButton onPress={() => this.toggle(true)} />
         </View>
 
-        <Content
-          useNativeDriver
-          animation={{
-            from: this.state.isVisible
-              ? { opacity: 0, translateY: Sizes.Height }
-              : { opacity: 1, translateY: 0 },
-            to: this.state.isVisible
-              ? { opacity: 1, translateY: 0 }
-              : { opacity: 0, translateY: Sizes.Height }
-          }}
-          duration={1000}
-          delay={0}/>
+        {this.state.isVisible ? (
+          <Content
+            useNativeDriver
+            animation={{
+              from: this.state.isVisible
+                ? { opacity: 0, translateY: Sizes.Height }
+                : { opacity: 1, translateY: 0 },
+              to: this.state.isVisible
+                ? { opacity: 1, translateY: 0 }
+                : { opacity: 0, translateY: Sizes.Height }
+            }}
+            duration={1000}
+            delay={0}/>
+        ) : null}
 
         {this.state.isVisible ? (
           <TouchableOpacity
             onPress={() => this.toggle(false)}
-            style={[styles.content]}>
+            style={styles.content}>
             <AnimatableView
-              animation={this.state.isVisible ? "fadeIn" : "fadeOut"}>
+              animation={this.state.isVisible ? "fadeIn" : "fadeOut"}
+              delay={100}>
               <Text>DONE</Text>
             </AnimatableView>
           </TouchableOpacity>

@@ -43,6 +43,8 @@ export class Category extends React.Component {
   onPress() {
     this.props.navigation.navigate("ProductList", {
       ...this.props,
+      filterParams: this.props.filterParams,
+      isFilterVisible: true, // always reopen filter from categories
       fetchPath: `${this.props.fetchPath}/products`,
       categories: this.lazyCategories()
     });
