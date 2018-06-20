@@ -68,7 +68,6 @@ class ProductScene extends React.Component {
     this.photoDetailsRef = React.createRef();
 
     // bindings
-    this.fetchDeepLinkedProduct = this.fetchDeepLinkedProduct.bind(this);
     this.onVariantChange = this.onVariantChange.bind(this);
     this.onPressImage = this.onPressImage.bind(this);
     this.onScroll = this.onScroll.bind(this);
@@ -76,9 +75,6 @@ class ProductScene extends React.Component {
   }
 
   componentDidMount() {
-    // deep link initialization
-    !this.store.product && this.fetchDeepLinkedProduct();
-
     // set app context
     this.props.setAppContext("product");
 
@@ -90,18 +86,6 @@ class ProductScene extends React.Component {
     // set app context to help app resume the correct state
     // please see "Deeplink" for comments and why this is needed
     this.props.setAppContext();
-  }
-
-  fetchDeepLinkedProduct(next) {
-    const { navigation: { state } } = next || this.props;
-
-    this.store.isDeepLinked = true;
-    state.params
-      && this.store
-        .fetchProduct(state.params.productId, true)
-        .then(
-          () => !this.store.relatedProducts && this.store.fetchRelatedProduct()
-        );
   }
 
   onVariantChange(variant) {
