@@ -55,7 +55,8 @@ export default class Search extends React.Component {
             </BlurView>
           </TouchableWithoutFeedback>
           <View style={styles.filter} pointerEvents="box-none">
-            <FilterPopup />
+            <FilterPopup
+              contentStyle={{ paddingTop: this.props.headerHeight }}/>
           </View>
         </Animatable.View>
       </Provider>
