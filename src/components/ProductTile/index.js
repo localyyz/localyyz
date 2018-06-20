@@ -101,9 +101,7 @@ export default class ProductTile extends React.PureComponent {
                 {this.toPriceString(this.props.product.price)}
               </Text>
               {this.isOnSale ? (
-                <Text
-                  ref="productTileDiscount"
-                  style={{ color: Colours.Fail, fontSize: Sizes.TinyText }}>
+                <Text ref="productTileDiscount" style={styles.discountText}>
                   {Math.round(this.props.product.discount * 100.0, 0)}% OFF
                 </Text>
               ) : null}
@@ -172,5 +170,10 @@ const styles = StyleSheet.create({
 
   prevPrice: {
     textDecorationLine: "line-through"
+  },
+
+  discountText: {
+    color: Colours.Fail,
+    fontSize: Sizes.TinyText
   }
 });

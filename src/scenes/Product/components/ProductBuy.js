@@ -159,7 +159,7 @@ class ProductBuy extends React.Component {
             {toPriceString(this.props.price, this.props.product.place.currency)}
           </Text>
           {this.props.isOnSale ? (
-            <Text style={{ color: Colours.Fail, fontSize: Sizes.TinyText }}>
+            <Text style={styles.discountText}>
               {Math.round(this.props.discount * 100.0, 0)}% OFF
             </Text>
           ) : null}
@@ -291,6 +291,11 @@ const styles = StyleSheet.create({
 
   previousPrice: {
     textDecorationLine: "line-through"
+  },
+
+  discountText: {
+    color: Colours.Fail,
+    fontSize: Sizes.TinyText
   },
 
   buttons: {
