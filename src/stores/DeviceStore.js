@@ -3,6 +3,7 @@ import { Platform } from "react-native";
 
 import { ApiInstance } from "localyyz/global";
 import DeviceInfo from "react-native-device-info";
+import codePush from "react-native-code-push";
 
 // custom
 import { ApplePayExpressPayment } from "localyyz/effects";
@@ -17,9 +18,6 @@ export default class DeviceStore {
     if (Platform.OS == "ios") {
       this.checkApplePay();
     }
-
-    this.getDeviceData = this.getDeviceData.bind(this);
-    this.sendDeviceData = this.sendDeviceData.bind(this);
   }
 
   // TODO: check android pay if android device
@@ -76,8 +74,10 @@ export default class DeviceStore {
 
   sendDeviceData = () => {
     const route = "/ping/";
-    let payload = this.getDeviceData();
-
-    return this.api.post(route, payload);
+    codePush.getUpdateMetadata().then(metadata => {
+      let payload = this.getDeviceData();
+      payload.codePushVersion = metadata.appVersion;
+      return this.api.post(route, payload);
+    });
   };
 }

@@ -157,9 +157,7 @@ class AppContainer extends React.Component {
           || codePushStatus === codePush.SyncStatus.UNKNOWN_ERROR
           || codePushStatus === codePush.SyncStatus.UP_TO_DATE
         ) {
-          if (!stores.deviceStore.sendDeviceData()){
-            console.log("Failed to log device data")
-          }
+          stores.deviceStore.sendDeviceData();
         }
       }
     );
