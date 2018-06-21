@@ -47,7 +47,7 @@ export default class BaseScene extends React.Component {
     return (
       <View style={styles.container}>
         <ContentCoverSlider
-          ref={this.sliderRef}
+          ref={ref => (this.sliderRef = ref)}
           title={this.props.title}
           backColor={Colours.Text}
           backAction={this.onBack()}

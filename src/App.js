@@ -30,8 +30,8 @@ import {
   History,
   Brands,
   Modal,
-  // Checkout,
-  // SettingsTab,
+  Checkout,
+  SettingsTab,
 
   // forms
   Forms
@@ -45,7 +45,7 @@ const AppNavigator = StackNavigator(
     Home: { screen: Home },
     Product: { screen: Product },
     ProductList: { screen: ProductList },
-    // Checkout: { screen: Checkout },
+    Checkout: { screen: Checkout },
     CartSummary: { screen: CartSummary },
     Information: { screen: Information },
     Brands: { screen: Brands },
@@ -81,8 +81,8 @@ const HistoryTab = StackNavigator(
 const TabBarNavigator = TabNavigator(
   {
     Root: { screen: AppNavigator },
-    History: { screen: HistoryTab }
-    // Settings: { screen: SettingsTab }
+    History: { screen: HistoryTab },
+    Settings: { screen: SettingsTab }
   },
   {
     tabBarComponent: NavBar,

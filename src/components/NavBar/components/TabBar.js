@@ -100,6 +100,15 @@ export default class TabBar extends React.Component {
                   this.props.navigation
                 )
               }/>
+            <Button
+              icon="settings"
+              label="Settings"
+              isActive={this.props.activeButton !== "cart"}
+              onPress={() =>
+                this.props.onPress("settings", () => {
+                  this.props.navigation.dispatch(changeTab("Settings"));
+                })
+              }/>
           </View>
         </Animatable.View>
       </View>
