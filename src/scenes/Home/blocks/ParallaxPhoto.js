@@ -46,7 +46,6 @@ export default class ParallaxPhoto extends React.Component {
   }
 
   increasePhotoHeight({ nativeEvent: { layout: { height: photoHeight } } }) {
-    console.log("fuck fuck", photoHeight);
     photoHeight > this.state.photoHeight
       && this._isMounted
       && this.setState({ photoHeight: photoHeight });

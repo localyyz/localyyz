@@ -54,7 +54,7 @@ export const Colours = {
   // buttons
   PositiveButton: UltraViolet,
   NegativeButton: Red,
-  DisabledButton: IntoTheGrey,
+  DisabledButton: LightShadow,
 
   // text
   Text: Text,

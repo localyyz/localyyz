@@ -15,6 +15,11 @@ export const STRIPE_PUB_KEY = __DEV__
   : "pk_live_hWOrjVkLRkwWH866iWpqhZen";
 export const STRIPE_DEF_MERCHANT_ID = "merchant.com.localyyz.toronto";
 
+export const PRIVACY_POLICY_URI
+  = "https://localyyz.com/business/privacy-policy-businesses.html";
+export const TERMS_AND_CONDITIONS_URI
+  = "https://localyyz.com/business/terms-and-conditions-businesses.html";
+
 export const DEFAULT_ADDRESS = "required";
 export const DEFAULT_ADDRESS_OPT = "optional";
 export const DEFAULT_NAME = "required";

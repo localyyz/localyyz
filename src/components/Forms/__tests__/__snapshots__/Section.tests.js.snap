@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Section Test - Form Section Test - Form: should render to snapshot: hasMargin=false 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "paddingVertical": 7.5,
+      },
+      Object {},
+      false,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "paddingHorizontal": 25,
+        "paddingVertical": 15,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "#000000",
+          "fontSize": 14,
+          "fontWeight": "600",
+        }
+      }
+    >
+      Sample Label
+    </Text>
+  </View>
+  <View
+    style={Object {}}
+  />
+</View>
+`;
+
+exports[`Section Test - Form Section Test - Form: should render to snapshot: hasMargin=true 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "paddingVertical": 7.5,
+      },
+      Object {},
+      Object {
+        "marginBottom": 7.5,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "paddingHorizontal": 25,
+        "paddingVertical": 15,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "#000000",
+          "fontSize": 14,
+          "fontWeight": "600",
+        }
+      }
+    >
+      Sample Label
+    </Text>
+  </View>
+  <View
+    style={Object {}}
+  />
+</View>
+`;

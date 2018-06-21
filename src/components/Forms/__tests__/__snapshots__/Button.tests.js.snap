@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button test - form Button test - form: should render to snapshot: isDisabled() => false 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "marginTop": 15,
+    }
+  }
+>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#9013FE",
+            "borderRadius": 15,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingHorizontal": 30,
+            "paddingVertical": 7.5,
+          },
+          false,
+          Object {
+            "backgroundColor": "green",
+          },
+        ]
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "borderBottomColor": "#FFFFFF",
+              "color": "#FFFFFF",
+              "fontSize": 16,
+              "fontWeight": "600",
+            },
+            false,
+            Object {
+              "color": "red",
+            },
+          ]
+        }
+      >
+        sample children
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Button test - form Button test - form: should render to snapshot: isDisabled() => true 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "marginTop": 15,
+    }
+  }
+>
+  <View
+    accessible={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#9013FE",
+          "borderRadius": 15,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "paddingHorizontal": 30,
+          "paddingVertical": 7.5,
+        },
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0.5)",
+        },
+        Object {
+          "backgroundColor": "green",
+        },
+      ]
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "borderBottomColor": "#FFFFFF",
+            "color": "#FFFFFF",
+            "fontSize": 16,
+            "fontWeight": "600",
+          },
+          Object {
+            "color": "#999999",
+          },
+          Object {
+            "color": "red",
+          },
+        ]
+      }
+    >
+      sample children
+    </Text>
+  </View>
+</View>
+`;

@@ -33,8 +33,7 @@ export default class PickerFieldModal extends React.Component {
                     <Picker.Item
                       key={`option-${option.value}`}
                       label={option.label || option.value}
-                      value={option.value}
-                    />
+                      value={option.value}/>
                   ))}
               </Picker>
             </Animatable.View>

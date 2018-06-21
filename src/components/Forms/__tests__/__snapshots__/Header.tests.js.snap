@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Test - Form Header Test - Form: should render to snapshot 1`] = `
+<View
+  style={Object {}}
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "rgb(30, 30, 30)",
+          "fontSize": 14,
+          "fontWeight": "300",
+        },
+        Object {
+          "color": "green",
+        },
+      ]
+    }
+  >
+    sample children
+  </Text>
+</View>
+`;
