@@ -99,4 +99,23 @@ describe("Photo Groups", () => {
       yellow: [images[2]]
     });
   });
+
+  it("should group single color with no images and fallback to _common", () => {
+    const variants = [{ id: 1, etc: { color: "white", size: "small" } }];
+    const images = [];
+
+    const product = new Product({
+      colors: ["white"],
+      variants: variants,
+      images: images
+    });
+    expect(product).toBeDefined();
+
+    expect(product.photoGroups).toMatchObject({
+      white: images,
+      _common: images
+    });
+
+    expect(product.associatedPhotos).toEqual(images);
+  });
 });
