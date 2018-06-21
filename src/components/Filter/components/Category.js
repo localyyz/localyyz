@@ -43,6 +43,8 @@ export class Category extends React.Component {
   onPress() {
     this.props.navigation.navigate("ProductList", {
       ...this.props,
+      filterParams: this.props.filterParams,
+      isFilterVisible: true, // always reopen filter from categories
       fetchPath: `${this.props.fetchPath}/products`,
       categories: this.lazyCategories()
     });
@@ -63,11 +65,11 @@ export default withNavigation(Category);
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: Sizes.InnerFrame / 6
+    marginVertical: Sizes.InnerFrame / 3
   },
 
   label: {
     ...Styles.Text,
-    ...Styles.SmallText
+    ...Styles.EmphasizedText
   }
 });

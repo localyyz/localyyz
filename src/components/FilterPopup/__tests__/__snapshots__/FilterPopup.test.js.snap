@@ -1,7 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FilterPopup FilterPopup: should render to snapshot 1`] = `
-<View
+exports[`Filter Content should render to snapshot 1`] = `
+<Component>
+  <ScrollView
+    bounces={false}
+    contentContainerStyle={
+      Array [
+        undefined,
+        Object {
+          "paddingBottom": 60,
+        },
+      ]
+    }
+    showsVerticalScrollIndicator={false}
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "padding": 25,
+      }
+    }
+  >
+    <Filter />
+  </ScrollView>
+  <TouchableOpacity
+    activeOpacity={1}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "padding": 15,
+        },
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+        },
+      ]
+    }
+  >
+    <withAnimatable(Component)
+      animation="fadeIn"
+      delay={100}
+      direction="normal"
+      iterationCount={1}
+      onAnimationBegin={[Function]}
+      onAnimationEnd={[Function]}
+      useNativeDriver={false}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+      >
+        DONE
+      </Text>
+    </withAnimatable(Component)>
+  </TouchableOpacity>
+</Component>
+`;
+
+exports[`FilterPopup FilterPopup: should hide to snapshot 1`] = `
+<Component
   pointerEvents="box-none"
   style={
     Object {
@@ -9,7 +69,12 @@ exports[`FilterPopup FilterPopup: should render to snapshot 1`] = `
     }
   }
 >
-  <View
+  <StatusBar
+    animated={false}
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <Component
     pointerEvents="box-none"
     style={
       Object {
@@ -20,105 +85,71 @@ exports[`FilterPopup FilterPopup: should render to snapshot 1`] = `
       }
     }
   >
-    <View
-      pointerEvents="box-none"
-      style={
-        Object {
-          "bottom": 0,
-          "left": 0,
-          "position": "absolute",
-          "right": 0,
-        }
+    <FilterPopupButton
+      onPress={[Function]}
+      text="Filter / Sort"
+    />
+  </Component>
+</Component>
+`;
+
+exports[`FilterPopup FilterPopup: should render to snapshot 1`] = `
+<Component
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <StatusBar
+    animated={false}
+    hidden={true}
+    showHideTransition="fade"
+  />
+  <Component
+    pointerEvents="box-none"
+    style={
+      Object {
+        "bottom": 13,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
       }
-    >
-      <View
-        pointerEvents="box-none"
-        style={
-          Object {
-            "alignItems": "center",
-            "height": 222.33333333333334,
-            "justifyContent": "flex-end",
-          }
-        }
-      >
-        <View
-          accessible={true}
-          isTVSelectable={true}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "opacity": 1,
-            }
-          }
-        >
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "rgba(255, 255, 255, 0.9)",
-                "borderRadius": 15,
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "margin": 15,
-                "opacity": 0,
-                "paddingHorizontal": 15,
-                "paddingVertical": 7.5,
-                "shadowColor": "rgba(0, 0, 0, 0.8)",
-                "shadowOffset": Object {
-                  "height": 0,
-                  "width": 0,
-                },
-                "shadowOpacity": 0.1,
-                "shadowRadius": 5,
-              }
-            }
-          >
-            <Text
-              accessible={true}
-              allowFontScaling={false}
-              ellipsizeMode="tail"
-              style={
-                Array [
-                  Object {
-                    "color": "rgb(30, 30, 30)",
-                    "fontSize": 12,
-                  },
-                  undefined,
-                  Object {
-                    "fontFamily": "Material Icons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                ]
-              }
-            >
-              
-            </Text>
-            <Text
-              accessible={true}
-              allowFontScaling={true}
-              ellipsizeMode="tail"
-              style={
-                Object {
-                  "backgroundColor": "rgba(255, 255, 255, 0)",
-                  "color": "rgb(30, 30, 30)",
-                  "fontSize": 16,
-                  "fontWeight": "500",
-                  "marginLeft": 7.5,
-                }
-              }
-            >
-              FILTER / SORT
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  </View>
-</View>
+    }
+  >
+    <FilterPopupButton
+      onPress={[Function]}
+      text="Filter / Sort"
+    />
+  </Component>
+  <withAnimatable(FilterContent)
+    animation={
+      Object {
+        "from": Object {
+          "opacity": 0,
+          "translateY": 1334,
+        },
+        "to": Object {
+          "opacity": 1,
+          "translateY": 0,
+        },
+      }
+    }
+    contentStyle={
+      Object {
+        "paddingTop": 100,
+      }
+    }
+    delay={0}
+    direction="normal"
+    duration={1000}
+    iterationCount={1}
+    onAnimationBegin={[Function]}
+    onAnimationEnd={[Function]}
+    onClose={[Function]}
+    scrollEnabled={true}
+    useNativeDriver={true}
+  />
+</Component>
 `;

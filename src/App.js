@@ -146,10 +146,21 @@ class AppContainer extends React.Component {
   componentDidMount() {
     AppState.addEventListener("change", this._verifyMinAppVersion);
 
-    codePush.sync({
-      installMode: codePush.InstallMode.IMMEDIATE,
-      updateDialog: true
-    });
+    codePush.sync(
+      {
+        installMode: codePush.InstallMode.IMMEDIATE,
+        updateDialog: true
+      },
+      codePushStatus => {
+        if (
+          codePushStatus === codePush.SyncStatus.UPDATE_INSTALLED
+          || codePushStatus === codePush.SyncStatus.UNKNOWN_ERROR
+          || codePushStatus === codePush.SyncStatus.UP_TO_DATE
+        ) {
+          stores.deviceStore.sendDeviceData();
+        }
+      }
+    );
 
     //NOTE: this has to be syncronous because home will render products
     //before we pull user data out of storage. in that case, backend

@@ -71,6 +71,82 @@ exports[`DiscountCode Discount Code: snapshot regression test 1`] = `
           no discount code applied
         </Text>
       </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`DiscountCode DiscountCode: should be able to enter valid discount code 1`] = `
+<View>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+          "marginHorizontal": 15,
+          "marginVertical": 15,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "#000000",
+            "fontSize": 16,
+            "fontWeight": "600",
+          }
+        }
+      >
+        Discount code
+      </Text>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+            "marginHorizontal": 7.5,
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "rgb(30, 30, 30)",
+              "fontSize": 16,
+              "fontWeight": "300",
+            }
+          }
+        >
+          SAMPLEDISCOUNT
+        </Text>
+      </View>
       <Text
         accessible={true}
         allowFontScaling={false}
@@ -78,19 +154,21 @@ exports[`DiscountCode Discount Code: snapshot regression test 1`] = `
         style={
           Array [
             Object {
-              "color": "#FF0000",
-              "fontSize": 25,
+              "color": "#9013FE",
+              "fontSize": 12.5,
             },
-            undefined,
             Object {
-              "fontFamily": "Entypo",
+              "marginRight": 6,
+            },
+            Object {
+              "fontFamily": "FontAwesome",
               "fontStyle": "normal",
               "fontWeight": "normal",
             },
           ]
         }
       >
-        
+        
       </Text>
     </View>
   </View>

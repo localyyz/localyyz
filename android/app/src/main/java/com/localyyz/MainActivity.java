@@ -28,6 +28,12 @@ public class MainActivity extends ReactActivity {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        RNBranchModule.initSession(getIntent().getData(), this);
+    }
+
+    @Override
     public void onNewIntent(Intent intent) {
         setIntent(intent);
     }
