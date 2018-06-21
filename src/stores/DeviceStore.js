@@ -57,6 +57,7 @@ export default class DeviceStore {
     let brand = DeviceInfo.getBrand();
     let systemName = DeviceInfo.getSystemName();
     let deviceID = DeviceInfo.getDeviceId();
+    let uniqueID = DeviceInfo.getUniqueID();
 
     //on android the build number is a number(on ios its a string) but the backend is expecting a string
     if (Platform.OS !== "ios") {
@@ -68,7 +69,8 @@ export default class DeviceStore {
       buildNumber: buildNumber != null ? buildNumber : "",
       brand: brand != null ? brand : "",
       systemName: systemName != null ? systemName : "",
-      deviceID: deviceID != null ? deviceID : ""
+      deviceID: deviceID != null ? deviceID : "",
+      uniqueID: uniqueID != null ? uniqueID : ""
     };
   };
 
