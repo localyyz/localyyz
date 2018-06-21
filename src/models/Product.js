@@ -163,13 +163,13 @@ export default class Product {
   }
 
   get photoGroups() {
-    // edge case, if only 1 color, no need to group
-    if (this.colors.length == 1) {
-      return { [this.colors[0]]: this.images.slice() };
-    }
-
     let currentGroup = "_common";
     let groups = { [currentGroup]: [] };
+
+    // edge case, if only 1 color, no need to group
+    if (this.colors.length == 1) {
+      return { ...groups, [this.colors[0]]: this.images.slice() };
+    }
 
     // build keys of imageId's to colours
     let keys = {};
