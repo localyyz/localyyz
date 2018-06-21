@@ -74,9 +74,11 @@ export default class DeviceStore {
 
   sendDeviceData = () => {
     const route = "/ping/";
-    codePush.getUpdateMetadata().then(metadata => {
+    codePush.getUpdateMetadata(codePush.UpdateState.LATEST).then(metadata => {
       let payload = this.getDeviceData();
-      payload.codePushVersion = metadata.label;
+      if (metadata) {
+        payload.codePushVersion = metadata.label;
+      }
       return this.api.post(route, payload);
     });
   };
