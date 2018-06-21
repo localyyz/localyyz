@@ -146,15 +146,24 @@ class AppContainer extends React.Component {
   componentDidMount() {
     AppState.addEventListener("change", this._verifyMinAppVersion);
 
-    codePush.sync({
-      installMode: codePush.InstallMode.IMMEDIATE,
-      updateDialog: true
-    });
+    codePush.sync(
+      {
+        installMode: codePush.InstallMode.IMMEDIATE,
+        updateDialog: true
+      },
+      codePushStatus => {
+        if (
+          codePushStatus === codePush.SyncStatus.UPDATE_INSTALLED
+          || codePushStatus === codePush.SyncStatus.UNKNOWN_ERROR
+          || codePushStatus === codePush.SyncStatus.UP_TO_DATE
+        ) {
+          if (!stores.deviceStore.sendDeviceData()){
+            console.log("Failed to log device data")
+          }
+        }
+      }
+    );
 
-    let deviceData = getDeviceData();
-    if (!stores.deviceStore.sendDeviceData(deviceData)) {
-      console.log("Failed to log device data");
-    }
     //NOTE: this has to be syncronous because home will render products
     //before we pull user data out of storage. in that case, backend
     //won't have user data and return un-personalized results.
@@ -188,26 +197,6 @@ class AppContainer extends React.Component {
   }
 }
 
-function getDeviceData() {
-  let referer = DeviceInfo.getInstallReferrer();
-  let buildNumber = DeviceInfo.getBuildNumber();
-  let brand = DeviceInfo.getBrand();
-  let systemName = DeviceInfo.getSystemName();
-  let deviceID = DeviceInfo.getDeviceId();
-
-  //on android the build number is a number(on ios its a string) but the backend is expecting a string
-  if (Platform.OS !== "ios") {
-    buildNumber = buildNumber.toString();
-  }
-
-  return {
-    referer: referer != null ? referer : "",
-    buildNumber: buildNumber != null ? buildNumber : "",
-    brand: brand != null ? brand : "",
-    systemName: systemName != null ? systemName : "",
-    deviceID: deviceID != null ? deviceID : ""
-  };
-}
 /**
  * Render the initial style when the initial layout isn't measured yet.
  */

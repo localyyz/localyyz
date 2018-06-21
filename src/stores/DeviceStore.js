@@ -2,6 +2,7 @@ import { observable, runInAction } from "mobx";
 import { Platform } from "react-native";
 
 import { ApiInstance } from "localyyz/global";
+import DeviceInfo from "react-native-device-info";
 
 // custom
 import { ApplePayExpressPayment } from "localyyz/effects";
@@ -10,12 +11,15 @@ export default class DeviceStore {
   @observable applePaySupported = false;
 
   constructor() {
-    // check if apple pay is supported on the current device
+    this.api = ApiInstance;
 
+    // check if apple pay is supported on the current device
     if (Platform.OS == "ios") {
       this.checkApplePay();
     }
-    this.api = ApiInstance;
+
+    this.getDeviceData = this.getDeviceData.bind(this);
+    this.sendDeviceData = this.sendDeviceData.bind(this);
   }
 
   // TODO: check android pay if android device
@@ -49,15 +53,30 @@ export default class DeviceStore {
       .catch(console.log);
   };
 
-  sendDeviceData = deviceData => {
-    const route = "/ping/";
-    let payload = {
-      installReferer: deviceData.installReferer,
-      buildNumber: deviceData.buildNumber,
-      brand: deviceData.brand,
-      systemName: deviceData.systemName,
-      deviceID: deviceData.deviceID
+  getDeviceData = () => {
+    let referer = DeviceInfo.getInstallReferrer();
+    let buildNumber = DeviceInfo.getBuildNumber();
+    let brand = DeviceInfo.getBrand();
+    let systemName = DeviceInfo.getSystemName();
+    let deviceID = DeviceInfo.getDeviceId();
+
+    //on android the build number is a number(on ios its a string) but the backend is expecting a string
+    if (Platform.OS !== "ios") {
+      buildNumber = buildNumber.toString();
+    }
+
+    return {
+      referer: referer != null ? referer : "",
+      buildNumber: buildNumber != null ? buildNumber : "",
+      brand: brand != null ? brand : "",
+      systemName: systemName != null ? systemName : "",
+      deviceID: deviceID != null ? deviceID : ""
     };
+  };
+
+  sendDeviceData = () => {
+    const route = "/ping/";
+    let payload = this.getDeviceData();
 
     return this.api.post(route, payload);
   };
