@@ -10,11 +10,7 @@ class Store {
 
   constructor(props) {
     this.fetchPath = props.fetchPath;
-    this.categories = props.categories;
     this.defaultParams = props.params || {};
-
-    // TODO is this best way?
-    this.categories && this.categories.current && this.categories.current();
 
     // unset
     this.isLoading;

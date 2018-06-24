@@ -170,8 +170,8 @@ export default class HomeStore {
   // all blocks have the following min props: type
   @observable blocks = DEFAULT_BLOCKS;
   @observable currentBlock;
-  @observable categoryFilters = [];
 
+  // NOTE/TODO: what is this for???
   hasFetchedCategory = false;
 
   @action
@@ -194,11 +194,6 @@ export default class HomeStore {
           basePath: `categories/${category.type}`,
           path: `categories/${category.type}/products`,
           limit: 4
-        }));
-
-        this.categoryFilters = response.data.map(category => ({
-          type: category.type,
-          fetchPath: "/categories"
         }));
 
         return await runInAction(

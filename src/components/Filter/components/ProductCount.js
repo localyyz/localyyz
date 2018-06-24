@@ -12,15 +12,16 @@ import { observer, inject } from "mobx-react/native";
 @observer
 export default class ProductCount extends React.Component {
   static propTypes = {
-    count: PropTypes.number
+    count: PropTypes.number,
+
+    labelStyle: PropTypes.any
   };
 
   render() {
     return this.props.count != null ? (
       <View style={styles.container}>
-        <Text style={styles.label}>
-          Showing <Text style={Styles.Emphasized}>{this.props.count}</Text>{" "}
-          products
+        <Text style={[styles.label, this.props.labelStyle]}>
+          Show {this.props.count} products
         </Text>
       </View>
     ) : null;
@@ -34,6 +35,6 @@ const styles = StyleSheet.create({
 
   label: {
     ...Styles.Text,
-    ...Styles.SmallText
+    ...Styles.Emphasized
   }
 });

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
 
   spacer: {
-    height: Sizes.InnerFrame
+    height: Sizes.InnerFrame / 2
   },
 
   labelAnimation: {
@@ -76,9 +76,9 @@ const styles = StyleSheet.create({
   },
 
   marker: {
-    height: Sizes.InnerFrame / 4,
-    width: Sizes.InnerFrame / 4,
-    borderRadius: Sizes.InnerFrame / 8,
+    height: Sizes.InnerFrame,
+    width: Sizes.InnerFrame,
+    borderRadius: Sizes.InnerFrame,
     backgroundColor: Colours.Selected
   }
 });

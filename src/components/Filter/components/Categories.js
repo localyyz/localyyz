@@ -1,57 +1,83 @@
 import React from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList
+} from "react-native";
 
 // third party
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { inject, observer } from "mobx-react/native";
-import PropTypes from "prop-types";
 
 // custom
-import { Sizes } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 
 // local
 import Category from "./Category";
 
 @inject(stores => ({
-  categoryFilter: stores.filterStore.categoryFilter
+  fetchCategories: stores.filterStore.fetchCategories,
+  clearFilter: stores.filterStore.clearCategoryFilter,
+  categories: stores.filterStore.categories,
+  selected: stores.filterStore.subcategory || stores.filterStore.category
 }))
 @observer
 export default class Categories extends React.Component {
-  static propTypes = {
-    categoryFilter: PropTypes.array
-  };
-
-  static defaultProps = {
-    categoryFilter: []
-  };
-
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.renderItem = this.renderItem.bind(this);
+  componentDidMount() {
+    this.props.fetchCategories();
   }
 
-  renderItem({ item: category }) {
+  renderItem = ({ item: category }) => {
     return <Category {...category} />;
-  }
+  };
 
   render() {
-    return this.props.categoryFilter.length > 0 ? (
+    return (
       <View>
         <Text>By type</Text>
+        {this.props.selected ? (
+          <View style={styles.row}>
+            <Text>selected: {this.props.selected}</Text>
+            <TouchableOpacity onPress={this.props.clearFilter}>
+              <MaterialIcon
+                name="close"
+                size={Sizes.Text}
+                color={Colours.Text}/>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         <FlatList
           scrollEnabled={false}
-          data={this.props.categoryFilter}
+          data={this.props.categories.slice()}
           keyExtractor={item => item.title}
           renderItem={this.renderItem}
+          ListFooterComponent={
+            <ActivityIndicator
+              style={styles.footer}
+              size="small"
+              hidesWhenStopped={true}
+              animating={!this.props.categories.length}/>
+          }
           contentContainerStyle={styles.container}/>
       </View>
-    ) : null;
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingVertical: Sizes.InnerFrame / 2
+  },
+
+  row: {
+    flexDirection: "row"
+  },
+
+  footer: {
+    paddingVertical: Sizes.InnerFrame / 3
   }
 });

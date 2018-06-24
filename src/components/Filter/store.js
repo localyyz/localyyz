@@ -1,4 +1,5 @@
-import { action, observable, computed, reaction } from "mobx";
+import { runInAction, action, observable, computed, reaction } from "mobx";
+import { ApiInstance as api } from "localyyz/global";
 import { capitalize } from "localyyz/helpers";
 
 export default class FilterStore {
@@ -15,11 +16,26 @@ export default class FilterStore {
   // gender filter
   @observable gender = "woman";
 
+  // category filters
+  @observable category;
+  @observable subcategory;
+
+  // other filters
+  @observable brand;
+  @observable size;
+  @observable color;
+
+  // lists
+  @observable categories = [];
+  @observable brands = [];
+  @observable colors = [];
+  @observable sizes = [];
+
   // ui
   @observable scrollEnabled;
 
-  constructor(searchStore, initParams = {}) {
-    // requires .reset(params) and .categories and .numProducts
+  constructor(searchStore) {
+    // requires .reset(params) and .numProducts
     this.searchStore = searchStore;
 
     // bindings
@@ -30,44 +46,99 @@ export default class FilterStore {
 
     // initial
     this.scrollEnabled = true;
-    this.loadInit(initParams);
   }
+
+  // filter reaction catches filter changes and refetches the
+  // parent store
+  filterReaction = reaction(
+    () => this.fetchParams,
+    params => {
+      if (this.isSearchSupported) {
+        // TODO: offload this to APPLY press. -> backend will have to passback
+        // # of products on filter calls
+        this.searchStore.reset(params);
+      }
+      // refetch filters based on the current filter params
+      // only if nothing is selected for that filter
+      //this.brand ? null : this.fetchBrands();
+      //this.color ? null : this.fetchColors();
+      //this.size ? null : this.fetchSizes();
+
+      this.fetchCategories();
+    }
+  );
+
+  // asyncFetch recursively fetches the available filters
+  // for example:
+  //
+  // it would render a request that looks like:
+  //
+  // /products/categories?filters=brand,val=gucci
+  //
+  asyncFetch = (filterBy = "") => {
+    const fetchPath = this.searchStore.fetchPath || "products";
+    console.log(fetchPath, filterBy, this.fetchParams);
+    return api.get(`${fetchPath}/${filterBy}`, this.fetchParams);
+  };
 
   @action
-  loadInit(params = {}) {
-    // if initial params are available, set them
-    for (let key in params) {
-      if (params[key] !== undefined) {
-        this[key] = params[key];
-      }
-    }
-  }
+  fetchColors = () => {
+    // if top level category is set, fetch subcategory
+    this.colors.clear();
+    this.asyncFetch("colors").then(response => {
+      runInAction("[ACTION] fetch colors", () => {
+        this.colors = (response && response.data) || [];
+      });
+    });
+  };
 
-  @computed
-  get categoryFilter() {
-    // TODO: clean this up...
-    if (this.searchStore.categories) {
-      if (this.searchStore.categories.current) {
-        // it's an lazyObservable
-        let categories
-          = this.searchStore.categories.current()
-          && this.searchStore.categories.current().data;
+  @action
+  fetchSizes = () => {
+    // if top level category is set, fetch subcategory
+    this.sizes.clear();
+    this.asyncFetch("sizes").then(response => {
+      runInAction("[ACTION] fetch sizes", () => {
+        this.sizes = (response && response.data) || [];
+      });
+    });
+  };
 
-        return categories
-          ? categories.values.map(value => ({
-              title: capitalize(value),
-              fetchPath: `/categories/${categories.type}/${value}`
-            }))
-          : [];
-      } else {
-        return this.searchStore.categories.slice().map(category => ({
-          title: capitalize(category.type),
-          fetchPath: `${category.fetchPath}/${category.type}`
+  @action
+  fetchCategories = () => {
+    // if top level category is set, fetch subcategory
+    this.categories.clear();
+    let fetchPath = this.category ? "subcategories" : "categories";
+    this.asyncFetch(fetchPath).then(response => {
+      runInAction("[ACTION] fetch categories", () => {
+        this.categories = response.data.map(value => ({
+          title: capitalize(value),
+          value: value
         }));
-      }
-    }
-    return [];
-  }
+      });
+    });
+  };
+
+  @action
+  fetchBrands = () => {
+    this.brands.clear();
+    this.asyncFetch("brands").then(response => {
+      runInAction("[ACTION] fetch brands", () => {
+        this.brands = (response && response.data) || [];
+      });
+    });
+  };
+
+  @action
+  setCategoryFilter = val => {
+    // TODO: this is pretty magical. clean it up
+    this.category ? (this.subcategory = val) : (this.category = val);
+  };
+
+  @action
+  clearCategoryFilter = () => {
+    this.subcategory = "";
+    this.category = "";
+  };
 
   @computed
   get numProducts() {
@@ -75,8 +146,24 @@ export default class FilterStore {
   }
 
   @action
+  setSizeFilter = val => {
+    this.size = val;
+  };
+
+  @action
+  setColorFilter = val => {
+    this.color = val;
+  };
+
+  @action
   setGenderFilter = val => {
     this.gender = val;
+  };
+
+  @action
+  setBrandFilter = val => {
+    this.brand = val;
+    this.brands.clear();
   };
 
   @action
@@ -104,15 +191,6 @@ export default class FilterStore {
   get isSearchSupported() {
     return !!this.searchStore && !!this.searchStore.reset;
   }
-
-  filterReaction = reaction(
-    () => this.fetchParams,
-    params => {
-      if (this.isSearchSupported) {
-        this.searchStore.reset(params);
-      }
-    }
-  );
 
   @computed
   get params() {
@@ -143,9 +221,14 @@ export default class FilterStore {
               ...(this.discountMin !== undefined
                 ? [`discount,min=${this.discountMin}`]
                 : []),
-              ...(this.gender !== undefined
-                ? [`gender,val=${this.gender}`]
-                : [])
+              ...(this.gender ? [`gender,val=${this.gender}`] : []),
+              ...(this.category ? [`categoryType,val=${this.category}`] : []),
+              ...(this.subcategory
+                ? [`categoryValue,val=${this.subcategory}`]
+                : []),
+              ...(this.brand ? [`brand,val=${this.brand}`] : []),
+              ...(this.color ? [`color,val=${this.color}`] : []),
+              ...(this.size ? [`size,val=${this.size}`] : [])
             ]
           }
         : null)

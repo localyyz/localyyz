@@ -9,19 +9,22 @@ import {
   Sort,
   Categories,
   Gender,
-  ProductCount
+  Brands,
+  Sizes as SizesFilter,
+  Colors
 } from "./components";
 import FilterStore from "./store";
 
+export { ProductCount } from "./components";
+
 export default class Filter extends React.Component {
-  static getNewStore(searchStore, initParams = {}) {
-    return new FilterStore(searchStore, initParams);
+  static getNewStore(searchStore) {
+    return new FilterStore(searchStore);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <ProductCount />
         <Text style={styles.header}>Sort</Text>
         <Sort />
         <View style={styles.spacer} />
@@ -32,7 +35,11 @@ export default class Filter extends React.Component {
         <Discount />
         <Text style={styles.label}>By gender</Text>
         <Gender />
+
         <Categories />
+        <Brands />
+        <Colors />
+        <SizesFilter />
       </View>
     );
   }

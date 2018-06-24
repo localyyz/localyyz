@@ -8,7 +8,7 @@ import {
   ScrollView
 } from "react-native";
 import { Styles, Colours, Sizes } from "localyyz/constants";
-import Filter from "../Filter";
+import Filter, { ProductCount } from "../Filter";
 import UppercasedText from "../UppercasedText";
 import PropTypes from "prop-types";
 
@@ -64,7 +64,7 @@ export class FilterContent extends React.Component {
           contentContainerStyle={[
             this.props.contentStyle,
             {
-              paddingBottom: Sizes.InnerFrame * 4
+              paddingBottom: Sizes.InnerFrame * 5
             }
           ]}
           showsVerticalScrollIndicator={false}
@@ -73,17 +73,14 @@ export class FilterContent extends React.Component {
           <Filter />
         </ScrollView>
 
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={this.props.onClose}
-          style={[
-            { backgroundColor: Colours.Foreground, padding: Sizes.InnerFrame },
-            styles.toggle
-          ]}>
-          <AnimatableView animation={"fadeIn"} delay={100}>
-            <Text>DONE</Text>
-          </AnimatableView>
-        </TouchableOpacity>
+        <AnimatableView
+          animation={"fadeIn"}
+          delay={300}
+          style={[styles.toggle, styles.toggleBottom]}>
+          <TouchableOpacity activeOpacity={1} onPress={this.props.onClose}>
+            <ProductCount labelStyle={{ color: "white" }} />
+          </TouchableOpacity>
+        </AnimatableView>
       </View>
     );
   }
@@ -92,56 +89,55 @@ export class FilterContent extends React.Component {
 const Content = createAnimatableComponent(FilterContent);
 
 @inject(stores => ({
-  scrollEnabled: stores.filterStore.scrollEnabled
+  scrollEnabled: stores.filterStore.scrollEnabled,
+  toggleNavBar: visible => {
+    visible ? stores.navbarStore.show() : stores.navbarStore.hide();
+  }
 }))
 @observer
 export default class FilterPopup extends React.Component {
   static propTypes = {
-    isVisible: PropTypes.bool,
-
     // mobx
     // NOTE: some component else where may lock up
     // the filter scroll.
-    // for example: Price range scroll filter
+    // for example: Price range will hijack the scroll
     scrollEnabled: PropTypes.bool,
 
-    // TODO: parent should pass in contentStyle
-    contentStyle: PropTypes.any
+    // parent specifies the content style
+    contentStyle: PropTypes.any,
+    // is filter popup initially visible
+    isVisible: PropTypes.bool
   };
 
   static defaultProps = {
     isVisible: false,
     scrollEnabled: true,
-    contentStyle: {}
+    contentStyle: {},
+    onFilter: () => {}
   };
 
-  static getNewStore(searchStore, initParams = {}) {
-    return Filter.getNewStore(searchStore, initParams);
+  // creates a new filter store inherited from parent store
+  // that can fetch products based on filter params
+  static getNewStore(parentStore) {
+    return Filter.getNewStore(parentStore);
   }
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isVisible: props.isVisible
+    };
 
     // bindings
     this.toggle = this.toggle.bind(this);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return nextProps.isVisible != null
-      && prevState != null
-      && nextProps.isVisible !== prevState.isVisible
-      ? {
-          isVisible: nextProps.isVisible
-        }
-      : null;
-  }
-
   toggle(show) {
-    show != this.state.isVisible
-      && this.setState({
-        isVisible: show != null ? show : !this.state.isVisible
-      });
+    show ? this.props.toggleNavBar(false) : this.props.toggleNavBar(true);
+
+    this.setState({
+      isVisible: show
+    });
   }
 
   render() {
@@ -160,7 +156,8 @@ export default class FilterPopup extends React.Component {
         </View>
 
         {/* TODO:
-            skip animating on mount: https://github.com/oblador/react-native-animatable/pull/194 */}
+            bug fix: skip animating on mount:
+            https://github.com/oblador/react-native-animatable/pull/194 */}
 
         {this.state.isVisible ? (
           <Content
@@ -173,7 +170,7 @@ export default class FilterPopup extends React.Component {
                 ? { opacity: 1, translateY: 0 }
                 : { opacity: 0, translateY: Sizes.Height }
             }}
-            duration={1000}
+            duration={300}
             delay={0}
             contentStyle={this.props.contentStyle}
             scrollEnabled={this.props.scrollEnabled}
@@ -199,6 +196,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0
+  },
+
+  toggleBottom: {
+    bottom: -Sizes.OuterFrame,
+    backgroundColor: Colours.Primary,
+    padding: Sizes.InnerFrame / 3
   },
 
   gradient: {

@@ -158,9 +158,6 @@ export class Main extends React.Component {
     // navigates to a category/products filter
     this.props.navigation.navigate("ProductList", {
       fetchPath: "/products",
-      categories: this.props.homeStore.categoryFilters,
-
-      // launch with filter popup visible
       isFilterVisible: true
     });
   };

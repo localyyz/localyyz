@@ -65,9 +65,7 @@ export default class Discount extends React.Component {
   }
 
   get discountMin() {
-    return this.props.discountMin != null
-      ? this.props.discountMin
-      : this.stepSize;
+    return this.props.discountMin != null ? this.props.discountMin : 0;
   }
 
   bound(price) {
