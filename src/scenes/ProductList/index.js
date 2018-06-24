@@ -9,7 +9,7 @@ import {
   ProductList,
   NavBar,
   Filter,
-  FilterPopup
+  FilterPopupButton
 } from "localyyz/components";
 import { Styles, Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 
@@ -82,6 +82,8 @@ export default class ProductListScene extends React.Component {
         props.navigation.state.params
         && props.navigation.state.params.isFilterVisible
     };
+
+    this.filterRef = React.createRef();
   }
 
   componentDidMount() {
@@ -90,7 +92,7 @@ export default class ProductListScene extends React.Component {
 
   render() {
     return (
-      <Provider filterStore={this.filterStore} productListStore={this.store}>
+      <Provider productListStore={this.store}>
         <View style={styles.container}>
           <ContentCoverSlider
             ref="container"
@@ -125,10 +127,11 @@ export default class ProductListScene extends React.Component {
               fetchPath={this.store.fetchPath}
               onEndReached={() => this.store.fetchNextPage()}/>
           </ContentCoverSlider>
+
           <View style={styles.filter} pointerEvents="box-none">
-            <FilterPopup
-              isVisible={this.state.isFilterVisible}
-              minWhitespace={Sizes.OuterFrame * 3}/>
+            <FilterPopupButton
+              store={this.filterStore}
+              isInitialVisible={this.state.isFilterVisible}/>
           </View>
         </View>
       </Provider>

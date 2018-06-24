@@ -2,14 +2,20 @@ import React from "react";
 import { View, StyleSheet, Animated } from "react-native";
 
 // custom
-import { Colours, Sizes } from "localyyz/constants";
-import { NavBar, ProductList } from "localyyz/components";
+import { Colours, Styles, Sizes } from "localyyz/constants";
+import {
+  NavBar,
+  Filter,
+  FilterPopupButton,
+  ProductList
+} from "localyyz/components";
 
 // third party
 import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({
+  searchStore: stores.homeStore,
   searchResults: stores.homeStore.searchResults,
   fetchNextPage: stores.homeStore.fetchNextPage,
   onScrollUp: () => (stores.homeStore.searchTagsVisible = true),
@@ -22,6 +28,8 @@ export default class SearchResult extends React.Component {
     super(props);
     this.state = {};
     this._motion = new Animated.Value(0);
+
+    this.filterStore = Filter.getNewStore(this.props.searchStore);
   }
 
   // TODO: do something here? search suggestions?
@@ -46,6 +54,10 @@ export default class SearchResult extends React.Component {
               products={this.props.searchResults.slice()}/>
           </Animatable.View>
         )}
+
+        <View pointerEvents="box-none" style={styles.filter}>
+          <FilterPopupButton store={this.filterStore} />
+        </View>
       </View>
     );
   }
@@ -54,6 +66,12 @@ export default class SearchResult extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+
+  filter: {
+    ...Styles.Overlay,
+    justifyContent: "flex-end",
+    bottom: NavBar.HEIGHT // TODO: fix this
   },
 
   results: {

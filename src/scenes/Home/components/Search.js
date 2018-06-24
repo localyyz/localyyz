@@ -1,18 +1,17 @@
 import React from "react";
-import { View, TouchableWithoutFeedback, StyleSheet } from "react-native";
-import { Styles, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
+import { TouchableWithoutFeedback, StyleSheet } from "react-native";
 
 // third party
-import { BlurView, FilterPopup } from "localyyz/components";
 import * as Animatable from "react-native-animatable";
-import { Provider, inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
+
+import { BlurView } from "localyyz/components";
 
 // local
 import SearchResult from "./SearchResult";
 
 @inject(stores => ({
-  searchStore: stores.homeStore,
   searchActive: stores.homeStore.searchActive,
   headerHeight: stores.homeStore.headerHeight,
   numProducts: stores.homeStore.numProducts,
@@ -34,32 +33,25 @@ export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = { blurviewRef: null };
-    this.filterStore = FilterPopup.getNewStore(this.props.searchStore);
   }
 
   render() {
     const { searchActive, headerHeight, onPress } = this.props;
 
     return searchActive ? (
-      <Provider filterStore={this.filterStore}>
-        <Animatable.View
-          animation="fadeIn"
-          duration={300}
-          style={[styles.searchOverlay, { paddingTop: headerHeight }]}>
-          <TouchableWithoutFeedback onPress={onPress}>
-            <BlurView
-              blurType="light"
-              blurAmount={10}
-              style={styles.searchOverlayBlur}>
-              <SearchResult />
-            </BlurView>
-          </TouchableWithoutFeedback>
-          <View style={styles.filter} pointerEvents="box-none">
-            <FilterPopup
-              contentStyle={{ paddingTop: this.props.headerHeight }}/>
-          </View>
-        </Animatable.View>
-      </Provider>
+      <Animatable.View
+        animation="fadeIn"
+        duration={300}
+        style={[styles.searchOverlay, { paddingTop: headerHeight }]}>
+        <TouchableWithoutFeedback onPress={onPress}>
+          <BlurView
+            blurType="light"
+            blurAmount={10}
+            style={styles.searchOverlayBlur}>
+            <SearchResult />
+          </BlurView>
+        </TouchableWithoutFeedback>
+      </Animatable.View>
     ) : null;
   }
 }
@@ -75,10 +67,5 @@ const styles = StyleSheet.create({
 
   searchOverlayBlur: {
     flex: 1
-  },
-
-  filter: {
-    ...Styles.Overlay,
-    bottom: NAVBAR_HEIGHT + Sizes.InnerFrame - 2
   }
 });

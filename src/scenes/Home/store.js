@@ -141,7 +141,7 @@ export default class HomeStore {
           this._selfSearch = response.link.self;
         } else {
           // TODO: backend should sendback a http status hinting no results
-          if (this._selfSearch.page === PAGE_ONE) {
+          if (!this._selfSearch || this._selfSearch.page === PAGE_ONE) {
             assistantStore.write(
               `Sorry! I couldn't find any product for "${this.searchQuery}"`,
               5000
