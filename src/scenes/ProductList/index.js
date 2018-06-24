@@ -82,8 +82,6 @@ export default class ProductListScene extends React.Component {
         props.navigation.state.params
         && props.navigation.state.params.isFilterVisible
     };
-
-    this.filterRef = React.createRef();
   }
 
   componentDidMount() {
