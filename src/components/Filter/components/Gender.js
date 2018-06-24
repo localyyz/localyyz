@@ -1,52 +1,42 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-
-// custom
-import { Sizes } from "localyyz/constants";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
 
-// local
-import SortBy from "./SortBy";
-
 @inject(stores => ({
   gender: stores.filterStore.gender,
-  setGenderFilter: stores.filterStore.setGenderFilter
+  setFilter: stores.filterStore.setGenderFilter
 }))
 @observer
 export default class Gender extends React.Component {
   static propTypes = {
-    setGenderFilter: PropTypes.func.isRequired,
+    label: PropTypes.string,
+    value: PropTypes.string,
+
+    // mobx
+    setFilter: PropTypes.func.isRequired,
     gender: PropTypes.string
   };
 
-  onPress(val) {
-    this.props.setGenderFilter(val);
-  }
+  onPress = () => {
+    this.props.setFilter(this.props.value);
+  };
 
   render() {
     return (
-      <View style={styles.container}>
-        <SortBy
-          label="Women"
-          value="woman"
-          sortBy={this.props.gender}
-          setSortBy={() => this.onPress("woman")}/>
-        <SortBy
-          label="Men"
-          value="man"
-          sortBy={this.props.gender}
-          setSortBy={() => this.onPress("man")}/>
-      </View>
+      <TouchableOpacity onPress={this.onPress}>
+        <View style={styles.container}>
+          <Text>{this.props.label} </Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: Sizes.InnerFrame,
-    marginBottom: Sizes.OuterFrame
+    flex: 1
   }
 });

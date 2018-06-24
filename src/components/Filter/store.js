@@ -136,8 +136,10 @@ export default class FilterStore {
 
   @action
   clearCategoryFilter = () => {
-    this.subcategory = "";
-    this.category = "";
+    // TODO: probably should separate this out..
+    //
+    // clear subcategory if it's set, else clear category
+    this.subcategory ? (this.subcategory = "") : (this.category = "");
   };
 
   @computed
