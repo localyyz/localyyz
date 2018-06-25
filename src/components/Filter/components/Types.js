@@ -15,7 +15,7 @@ import Common from "./Common";
 @observer
 export class Brands extends React.Component {
   render() {
-    return <Common title="By popular brands" {...this.props} />;
+    return <Common title="Brand" {...this.props} />;
   }
 }
 
@@ -29,7 +29,7 @@ export class Brands extends React.Component {
 @observer
 export class Colors extends React.Component {
   render() {
-    return <Common title="By popular colors" {...this.props} />;
+    return <Common title="Colors" {...this.props} />;
   }
 }
 
@@ -43,6 +43,6 @@ export class Colors extends React.Component {
 @observer
 export class Sizes extends React.Component {
   render() {
-    return <Common title="By popular sizes" {...this.props} />;
+    return <Common title="Size" {...this.props} />;
   }
 }

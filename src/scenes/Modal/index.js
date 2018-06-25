@@ -1,10 +1,11 @@
 import React from "react";
-import { StatusBar, StyleSheet, View, Text } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 
 // third party
 import { withNavigation } from "react-navigation";
 
-import { Styles, Sizes, Colours } from "localyyz/constants";
+// custom
+import { Colours } from "localyyz/constants";
 
 export class Modal extends React.Component {
   render() {

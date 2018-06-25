@@ -34,11 +34,11 @@ export default class Filter extends React.Component {
         <Text style={styles.label}>By minimum discount %</Text>
         <Discount />
 
-        <GenderCategories />
+        <Brands headerStyle={styles.label} />
+        <Colors headerStyle={styles.label} />
+        <SizesFilter headerStyle={styles.label} />
 
-        <Brands />
-        <Colors />
-        <SizesFilter />
+        <GenderCategories />
       </View>
     );
   }

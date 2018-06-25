@@ -9,12 +9,15 @@ import {
 } from "react-native";
 
 // third party
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import PropTypes from "prop-types";
 
 // custom
-import { Styles, Colours, Sizes } from "localyyz/constants";
+import { Styles, Sizes } from "localyyz/constants";
 import { capitalize } from "localyyz/helpers";
+
+// local
+import ExpandableHeader from "./ExpandableHeader";
+import SelectedFilter from "./SelectedFilter";
 
 export default class Common extends React.Component {
   static propTypes = {
@@ -67,38 +70,28 @@ export default class Common extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TouchableOpacity onPress={this.onToggle}>
-          <View>
-            <Text>by {this.props.title}</Text>
-          </View>
+          <ExpandableHeader isOpen={!this.state.collapsed}>
+            {this.props.title}
+          </ExpandableHeader>
         </TouchableOpacity>
-        {this.props.selected ? (
-          <View style={styles.row}>
-            <Text>selected: {this.props.selected}</Text>
-            <TouchableOpacity onPress={this.props.clearFilter}>
-              <MaterialIcon
-                name="close"
-                size={Sizes.Text}
-                color={Colours.Text}/>
-            </TouchableOpacity>
+        {!this.state.collapsed || this.props.selected ? (
+          <View style={styles.content}>
+            {this.props.selected ? (
+              <View style={styles.selected}>
+                <SelectedFilter onClear={this.props.clearFilter}>
+                  {this.props.selected}
+                </SelectedFilter>
+              </View>
+            ) : (
+              <FlatList
+                scrollEnabled={false}
+                data={this.props.data}
+                keyExtractor={item => item}
+                renderItem={this.renderItem}/>
+            )}
           </View>
-        ) : null}
-
-        {!this.state.collapsed ? (
-          <FlatList
-            scrollEnabled={false}
-            data={this.props.data}
-            keyExtractor={item => item}
-            renderItem={this.renderItem}
-            ListFooterComponent={
-              <ActivityIndicator
-                style={styles.footer}
-                size="small"
-                hidesWhenStopped={true}
-                animating={!this.props.data.length}/>
-            }
-            contentContainerStyle={styles.container}/>
         ) : null}
       </View>
     );
@@ -107,15 +100,20 @@ export default class Common extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: Sizes.InnerFrame / 2
+    marginVertical: Sizes.InnerFrame / 2
   },
 
-  row: {
-    flexDirection: "row"
+  content: {
+    paddingVertical: Sizes.InnerFrame / 2
   },
 
   label: {
     ...Styles.Text,
     ...Styles.EmphasizedText
+  },
+
+  selected: {
+    alignItems: "flex-start",
+    marginVertical: Sizes.InnerFrame / 2
   }
 });

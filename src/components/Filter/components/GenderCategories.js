@@ -1,25 +1,19 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList
-} from "react-native";
+import { ActivityIndicator, StyleSheet, View, FlatList } from "react-native";
 
 // third party
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { inject, observer } from "mobx-react/native";
 import Accordion from "react-native-collapsible/Accordion";
 
 // custom
-import { Colours, Sizes } from "localyyz/constants";
+import { Sizes, Styles } from "localyyz/constants";
 
 // local
 import Category from "./Category";
 import Gender from "./Gender";
+import SelectedFilter from "./SelectedFilter";
 
+// constants
 const GENDER_SECTION = [
   { label: "Women", value: "woman" },
   { label: "Men", value: "man" }
@@ -28,7 +22,7 @@ const GENDER_SECTION = [
 @inject(stores => ({
   fetchCategories: stores.filterStore.fetchCategories,
   clearFilter: stores.filterStore.clearCategoryFilter,
-  categories: stores.filterStore.categories,
+  categories: stores.filterStore.categories || [],
   selected: stores.filterStore.subcategory || stores.filterStore.category,
   gender: stores.filterStore.gender
 }))
@@ -37,6 +31,11 @@ export default class Categories extends React.Component {
   constructor(props) {
     super(props);
     this.state = { activeSection: 0 };
+
+    // bindings
+    this.renderItem = this.renderItem.bind(this);
+    this._renderHeader = this._renderHeader.bind(this);
+    this._renderContent = this._renderContent.bind(this);
   }
 
   componentDidMount() {
@@ -49,50 +48,50 @@ export default class Categories extends React.Component {
     }
   }
 
-  renderItem = ({ item: category }) => {
+  renderItem({ item: category }) {
     return <Category {...category} />;
-  };
+  }
 
-  _renderHeader = (content /*index, isActive, sections*/) => {
-    return <Gender label={content.label} value={content.value} />;
-  };
-
-  _renderContent = (/*content, index, isActive, sections*/) => {
+  _renderHeader(content /*index, isActive, sections*/) {
     return (
-      <FlatList
-        scrollEnabled={false}
-        data={this.props.categories.slice()}
-        keyExtractor={item => item.title}
-        renderItem={this.renderItem}
-        ListHeaderComponent={() => {
-          return this.props.selected ? (
-            <View style={styles.row}>
-              <Text>selected: {this.props.selected}</Text>
-              <TouchableOpacity onPress={this.props.clearFilter}>
-                <MaterialIcon
-                  name="close"
-                  size={Sizes.Text}
-                  color={Colours.Text}/>
-              </TouchableOpacity>
-            </View>
-          ) : null;
-        }}
-        ListFooterComponent={
-          <ActivityIndicator
-            style={styles.footer}
-            size="small"
-            hidesWhenStopped={true}
-            animating={!this.props.categories.length}/>
-        }
-        contentContainerStyle={styles.container}/>
+      <View style={styles.row}>
+        <Gender label={content.label} value={content.value} />
+      </View>
     );
-  };
+  }
+
+  // TODO: this should really respect the title and not just use the value name
+  // currently not possible since category lists are gone when drilling down
+
+  _renderContent(/*content, index, isActive, sections*/) {
+    return (
+      <View style={styles.content}>
+        {this.props.selected ? (
+          <View style={styles.selected}>
+            <SelectedFilter onClear={this.props.clearFilter}>
+              {this.props.selected}
+            </SelectedFilter>
+          </View>
+        ) : null}
+        <FlatList
+          scrollEnabled={false}
+          data={this.props.categories.slice()}
+          keyExtractor={item => item.title}
+          renderItem={this.renderItem}
+          ListFooterComponent={
+            <ActivityIndicator
+              style={styles.footer}
+              size="small"
+              hidesWhenStopped={true}
+              animating={!this.props.categories.length}/>
+          }/>
+      </View>
+    );
+  }
 
   render() {
     return (
-      <View>
-        <Text>By category</Text>
-
+      <View style={styles.container}>
         <Accordion
           activeSection={this.state.activeSection}
           sections={GENDER_SECTION}
@@ -106,8 +105,17 @@ export default class Categories extends React.Component {
 const styles = StyleSheet.create({
   container: {},
 
+  content: {
+    alignItems: "flex-start"
+  },
+
   row: {
-    flexDirection: "row"
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns
+  },
+
+  selected: {
+    marginVertical: Sizes.InnerFrame
   },
 
   footer: {

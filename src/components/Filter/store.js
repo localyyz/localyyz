@@ -77,7 +77,7 @@ export default class FilterStore {
   //
   asyncFetch = (filterBy = "") => {
     const fetchPath = this.searchStore.fetchPath || "products";
-    console.log(fetchPath, filterBy, this.fetchParams);
+    // console.log(fetchPath, filterBy, this.fetchParams);
     return api.get(`${fetchPath}/${filterBy}`, this.fetchParams);
   };
 
@@ -145,6 +145,11 @@ export default class FilterStore {
   @computed
   get numProducts() {
     return (this.searchStore && this.searchStore.numProducts) || 0;
+  }
+
+  @computed
+  get isLoading() {
+    return (this.searchStore && this.searchStore.isLoading) || false;
   }
 
   @action

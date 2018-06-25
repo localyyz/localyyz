@@ -1,11 +1,17 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+
+// custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
 import Filter, { ProductCount } from "../Filter";
-import PropTypes from "prop-types";
 
 // third party
+import PropTypes from "prop-types";
 import { observer, Provider } from "mobx-react/native";
+import LinearGradient from "react-native-linear-gradient";
+
+// constants
+const BOTTOM_MARGIN = Sizes.OuterFrame * 3;
 
 @observer
 export default class FilterPopup extends React.Component {
@@ -30,19 +36,31 @@ export default class FilterPopup extends React.Component {
             contentContainerStyle={[
               this.props.contentStyle,
               {
-                paddingBottom: Sizes.InnerFrame * 4
+                paddingBottom: BOTTOM_MARGIN * 2
               }
             ]}
             showsVerticalScrollIndicator={false}
             bounces={false}>
             <Filter />
           </ScrollView>
-
-          <View style={styles.toggleBottom}>
-            <TouchableOpacity activeOpacity={1} onPress={this.props.onClose}>
-              <ProductCount labelStyle={{ color: "white" }} />
-            </TouchableOpacity>
-          </View>
+          {this.props.store.numProducts > 0 ? (
+            <View pointerEvents="box-none" style={styles.footer}>
+              <LinearGradient
+                pointerEvents="box-none"
+                colors={[Colours.WhiteTransparent, Colours.Transparent]}
+                start={{ y: 1, x: 0 }}
+                end={{ y: 0, x: 0 }}
+                style={styles.gradient}>
+                <View style={styles.toggle}>
+                  <TouchableOpacity onPress={this.props.onClose}>
+                    <View style={styles.button}>
+                      <ProductCount labelStyle={styles.label} />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </LinearGradient>
+            </View>
+          ) : null}
         </View>
       </Provider>
     );
@@ -51,15 +69,40 @@ export default class FilterPopup extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-
-  content: {
-    padding: Sizes.OuterFrame,
+    flex: 1,
     backgroundColor: Colours.Foreground
   },
 
-  toggleBottom: {
-    backgroundColor: Colours.Primary
+  content: {
+    padding: Sizes.OuterFrame
+  },
+
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
+
+  gradient: {
+    paddingBottom: Sizes.ScreenBottom
+  },
+
+  toggle: {
+    alignItems: "center"
+  },
+
+  button: {
+    ...Styles.RoundedButton,
+    alignItems: "center",
+    margin: Sizes.InnerFrame,
+    paddingHorizontal: Sizes.OuterFrame * 2,
+    backgroundColor: Colours.PositiveButton
+  },
+
+  label: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
+    ...Styles.Alternate
   }
 });

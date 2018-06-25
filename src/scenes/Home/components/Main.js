@@ -11,7 +11,6 @@ import { observer, inject } from "mobx-react/native";
 
 // local
 import { Banner, Collection, Brands } from "../blocks";
-import BlockSlider from "./BlockSlider";
 import MainPlaceholder from "./MainPlaceholder";
 
 // constants
@@ -169,11 +168,6 @@ export class Main extends React.Component {
         <View pointerEvents="box-none" style={styles.filter}>
           <FilterPopupButton text={"Filter"} onPress={this.onFilterPress} />
         </View>
-        {/*
-        <View pointerEvents="box-none" style={styles.slider}>
-          <BlockSlider scrollTo={this.scrollTo} />
-        </View>
-        */}
       </View>
     ) : (
       <MainPlaceholder />
@@ -194,14 +188,9 @@ const styles = StyleSheet.create({
 
   filter: {
     position: "absolute",
-    bottom: Sizes.ScreenBottom + Sizes.InnerFrame - 2,
+    bottom: 0,
     left: 0,
     right: 0
-  },
-
-  slider: {
-    position: "absolute",
-    bottom: 0
   },
 
   content: {

@@ -1,9 +1,16 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
+
+// custom
+import { Sizes } from "localyyz/constants";
+import { SloppyView } from "localyyz/components";
+
+// local
+import ExpandableHeader from "./ExpandableHeader";
 
 @inject(stores => ({
   gender: stores.filterStore.gender,
@@ -26,10 +33,14 @@ export default class Gender extends React.Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={this.onPress}>
-        <View style={styles.container}>
-          <Text>{this.props.label} </Text>
-        </View>
+      <TouchableOpacity onPress={this.onPress} style={styles.container}>
+        <SloppyView>
+          <ExpandableHeader
+            hideCollapse
+            isOpen={this.props.gender === this.props.value}>
+            {this.props.label}
+          </ExpandableHeader>
+        </SloppyView>
       </TouchableOpacity>
     );
   }
@@ -37,6 +48,6 @@ export default class Gender extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    marginVertical: Sizes.InnerFrame / 2
   }
 });

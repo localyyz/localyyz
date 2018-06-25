@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import {
   ContentCoverSlider,
   ProductList,
-  NavBar,
   Filter,
   FilterPopupButton
 } from "localyyz/components";
@@ -121,11 +120,10 @@ export default class ProductListScene extends React.Component {
             <Content
               onScroll={e => this.refs.container.onScroll(e)}
               headerHeight={this.state.headerHeight}
-              paddingBottom={this.state.headerHeight + NavBar.HEIGHT}
+              paddingBottom={this.state.headerHeight + NAVBAR_HEIGHT}
               fetchPath={this.store.fetchPath}
               onEndReached={() => this.store.fetchNextPage()}/>
           </ContentCoverSlider>
-
           <View style={styles.filter} pointerEvents="box-none">
             <FilterPopupButton
               store={this.filterStore}
@@ -140,6 +138,7 @@ export default class ProductListScene extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginBottom: NAVBAR_HEIGHT,
     backgroundColor: Colours.Background
   },
 
@@ -163,11 +162,11 @@ const styles = StyleSheet.create({
 
   content: {
     paddingVertical: Sizes.InnerFrame,
-    paddingBottom: NavBar.HEIGHT * 5
+    paddingBottom: NAVBAR_HEIGHT
   },
 
   filter: {
     ...Styles.Overlay,
-    bottom: NAVBAR_HEIGHT + Sizes.InnerFrame - 2
+    justifyContent: "flex-end"
   }
 });

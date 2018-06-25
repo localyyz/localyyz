@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import { View as AnimatableView } from "react-native-animatable";
 import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import LinearGradient from "react-native-linear-gradient";
 
 import Popup from "./Popup";
 
@@ -40,7 +41,12 @@ export class Button extends React.Component {
   render() {
     return (
       <View style={styles.toggle} pointerEvents="box-none">
-        <View style={styles.gradient} pointerEvents="box-none">
+        <LinearGradient
+          colors={[Colours.WhiteTransparent, Colours.Transparent]}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          style={styles.gradient}
+          pointerEvents="box-none">
           <TouchableOpacity onPress={this.onPress}>
             <AnimatableView
               animation="fadeIn"
@@ -56,7 +62,7 @@ export class Button extends React.Component {
               </UppercasedText>
             </AnimatableView>
           </TouchableOpacity>
-        </View>
+        </LinearGradient>
       </View>
     );
   }
@@ -88,6 +94,7 @@ const styles = StyleSheet.create({
 
   toggleLabel: {
     ...Styles.Text,
+    ...Styles.SmallText,
     ...Styles.Medium,
     marginLeft: Sizes.InnerFrame / 2
   }
