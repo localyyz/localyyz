@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import PropTypes from "prop-types";
-import { Styles, Sizes } from "localyyz/constants";
+import { Styles } from "localyyz/constants";
 
 // third party
 import { observer, inject } from "mobx-react/native";
@@ -12,15 +12,15 @@ import { observer, inject } from "mobx-react/native";
 @observer
 export default class ProductCount extends React.Component {
   static propTypes = {
-    count: PropTypes.number
+    count: PropTypes.number,
+    labelStyle: PropTypes.any
   };
 
   render() {
     return this.props.count != null ? (
       <View style={styles.container}>
-        <Text style={styles.label}>
-          Showing <Text style={Styles.Emphasized}>{this.props.count}</Text>{" "}
-          products
+        <Text style={[styles.label, this.props.labelStyle]}>
+          Show {this.props.count < 2000 ? this.props.count : "2000+"} products
         </Text>
       </View>
     ) : null;
@@ -28,12 +28,10 @@ export default class ProductCount extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: Sizes.InnerFrame
-  },
+  container: {},
 
   label: {
     ...Styles.Text,
-    ...Styles.SmallText
+    ...Styles.Emphasized
   }
 });

@@ -28,7 +28,8 @@ import {
   Deeplink,
   Information,
   History,
-  Brands
+  Brands,
+  Modal
 } from "localyyz/scenes";
 
 // debug
@@ -84,6 +85,7 @@ const RootNavigator = StackNavigator(
   {
     Deeplink: { screen: Deeplink },
     Login: { screen: Login },
+    Modal: { screen: Modal },
     App: { screen: TabBarNavigator }
   },
   {

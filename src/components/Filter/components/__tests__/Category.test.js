@@ -9,19 +9,19 @@ import { Category } from "../Category";
 // constants
 const NAME = "Single category filter";
 const PROPS = {
-  title: "Category",
-  fetchPath: "test"
+  title: "Apparel",
+  value: "apparel",
+  setCategoryFilter: jest.fn()
 };
 const Component = Category.wrappedComponent;
 
 describe(NAME, () => {
-  it(`${NAME}: should render properly`, () => {
+  it("should render properly", () => {
     let c = renderWithLayout(<Component {...PROPS} />).getInstance();
-
-    expect(c).not.toBeUndefined();
+    expect(c).toBeDefined();
   });
 
-  it(`${NAME}: should render to snapshot`, () => {
+  it("should render to snapshot", () => {
     expect(
       renderWithLayout(<Component {...PROPS} />).toJSON()
     ).toMatchSnapshot();

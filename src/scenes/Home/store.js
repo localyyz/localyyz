@@ -141,7 +141,7 @@ export default class HomeStore {
           this._selfSearch = response.link.self;
         } else {
           // TODO: backend should sendback a http status hinting no results
-          if (this._selfSearch.page === PAGE_ONE) {
+          if (!this._selfSearch || this._selfSearch.page === PAGE_ONE) {
             assistantStore.write(
               `Sorry! I couldn't find any product for "${this.searchQuery}"`,
               5000
@@ -170,8 +170,8 @@ export default class HomeStore {
   // all blocks have the following min props: type
   @observable blocks = DEFAULT_BLOCKS;
   @observable currentBlock;
-  @observable categoryFilters = [];
 
+  // NOTE/TODO: what is this for???
   hasFetchedCategory = false;
 
   @action
@@ -194,11 +194,6 @@ export default class HomeStore {
           basePath: `categories/${category.type}`,
           path: `categories/${category.type}/products`,
           limit: 4
-        }));
-
-        this.categoryFilters = response.data.map(category => ({
-          type: category.type,
-          fetchPath: "/categories"
         }));
 
         return await runInAction(

@@ -1,10 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Filter Filter: should render to snapshot 1`] = `
+exports[`Filter should render to snapshot 1`] = `
 <Component
-  style={Object {}}
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
 >
-  <inject-ProductCount />
   <Text
     accessible={true}
     allowFontScaling={true}
@@ -63,15 +66,15 @@ exports[`Filter Filter: should render to snapshot 1`] = `
     By minimum discount %
   </Text>
   <inject-Discount />
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={Object {}}
-  >
-    By gender
-  </Text>
-  <inject-Gender />
+  <inject-Brands
+    headerStyle={Object {}}
+  />
+  <inject-Colors
+    headerStyle={Object {}}
+  />
+  <inject-Sizes
+    headerStyle={Object {}}
+  />
   <inject-Categories />
 </Component>
 `;

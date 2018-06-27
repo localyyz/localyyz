@@ -1,0 +1,218 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Category filter should render content properly 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "flex-start",
+    }
+  }
+>
+  <FlatList
+    ListFooterComponent={
+      <ActivityIndicator
+        animating={false}
+        color="#999999"
+        hidesWhenStopped={true}
+        size="small"
+        style={
+          Object {
+            "paddingVertical": 5,
+          }
+        }
+      />
+    }
+    data={
+      Array [
+        Object {
+          "title": "Apparel",
+          "value": "apparel",
+        },
+        Object {
+          "title": "Shoes",
+          "value": "shoes",
+        },
+      ]
+    }
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    renderItem={[Function]}
+    scrollEnabled={false}
+    scrollEventThrottle={50}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</Component>
+`;
+
+exports[`Category filter should render content properly 2`] = `
+<FlatList
+  ListFooterComponent={
+    <ActivityIndicator
+      animating={false}
+      color="#999999"
+      hidesWhenStopped={true}
+      size="small"
+      style={
+        Object {
+          "paddingVertical": 5,
+        }
+      }
+    />
+  }
+  data={
+    Array [
+      Object {
+        "title": "Apparel",
+        "value": "apparel",
+      },
+      Object {
+        "title": "Shoes",
+        "value": "shoes",
+      },
+    ]
+  }
+  disableVirtualization={false}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  numColumns={1}
+  onEndReachedThreshold={2}
+  renderItem={[Function]}
+  scrollEnabled={false}
+  scrollEventThrottle={50}
+  updateCellsBatchingPeriod={50}
+  windowSize={21}
+/>
+`;
+
+exports[`Category filter should render content with selected properly 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "flex-start",
+    }
+  }
+>
+  <Component
+    style={
+      Object {
+        "marginVertical": 15,
+      }
+    }
+  >
+    <SelectedFilter>
+      apparel
+    </SelectedFilter>
+  </Component>
+  <FlatList
+    ListFooterComponent={
+      <ActivityIndicator
+        animating={false}
+        color="#999999"
+        hidesWhenStopped={true}
+        size="small"
+        style={
+          Object {
+            "paddingVertical": 5,
+          }
+        }
+      />
+    }
+    data={
+      Array [
+        Object {
+          "title": "Apparel",
+          "value": "apparel",
+        },
+        Object {
+          "title": "Shoes",
+          "value": "shoes",
+        },
+      ]
+    }
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    renderItem={[Function]}
+    scrollEnabled={false}
+    scrollEventThrottle={50}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</Component>
+`;
+
+exports[`Category filter should render header properly 1`] = `
+<inject-Gender
+  label="Women"
+  value="woman"
+/>
+`;
+
+exports[`Category filter should render items properly 1`] = `
+<withNavigation(inject-Category)
+  title="Apparel"
+  value="apparel"
+/>
+`;
+
+exports[`Category filter should render properly 1`] = `
+<Accordion
+  activeSection={0}
+  disabled={false}
+  renderContent={[Function]}
+  renderHeader={[Function]}
+  sections={
+    Array [
+      Object {
+        "label": "Women",
+        "value": "woman",
+      },
+      Object {
+        "label": "Men",
+        "value": "man",
+      },
+    ]
+  }
+  touchableComponent={[Function]}
+  underlayColor="black"
+/>
+`;
+
+exports[`Category filter should render to snapshot 1`] = `
+<Component
+  style={Object {}}
+>
+  <Accordion
+    activeSection={0}
+    disabled={false}
+    renderContent={[Function]}
+    renderHeader={[Function]}
+    sections={
+      Array [
+        Object {
+          "label": "Women",
+          "value": "woman",
+        },
+        Object {
+          "label": "Men",
+          "value": "man",
+        },
+      ]
+    }
+    touchableComponent={[Function]}
+    underlayColor="black"
+  />
+</Component>
+`;

@@ -1,52 +1,53 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-
-// custom
-import { Sizes } from "localyyz/constants";
+import { TouchableOpacity, StyleSheet } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
 
+// custom
+import { Sizes } from "localyyz/constants";
+import { SloppyView } from "localyyz/components";
+
 // local
-import SortBy from "./SortBy";
+import ExpandableHeader from "./ExpandableHeader";
 
 @inject(stores => ({
   gender: stores.filterStore.gender,
-  setGenderFilter: stores.filterStore.setGenderFilter
+  setFilter: stores.filterStore.setGenderFilter
 }))
 @observer
 export default class Gender extends React.Component {
   static propTypes = {
-    setGenderFilter: PropTypes.func.isRequired,
+    label: PropTypes.string,
+    value: PropTypes.string,
+
+    // mobx
+    setFilter: PropTypes.func.isRequired,
     gender: PropTypes.string
   };
 
-  onPress(val) {
-    this.props.setGenderFilter(val);
-  }
+  onPress = () => {
+    this.props.setFilter(this.props.value);
+  };
 
   render() {
     return (
-      <View style={styles.container}>
-        <SortBy
-          label="Women"
-          value="woman"
-          sortBy={this.props.gender}
-          setSortBy={() => this.onPress("woman")}/>
-        <SortBy
-          label="Men"
-          value="man"
-          sortBy={this.props.gender}
-          setSortBy={() => this.onPress("man")}/>
-      </View>
+      <TouchableOpacity onPress={this.onPress} style={styles.container}>
+        <SloppyView>
+          <ExpandableHeader
+            hideCollapse
+            isOpen={this.props.gender === this.props.value}>
+            {this.props.label}
+          </ExpandableHeader>
+        </SloppyView>
+      </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: Sizes.InnerFrame,
-    marginBottom: Sizes.OuterFrame
+    marginVertical: Sizes.InnerFrame / 2
   }
 });

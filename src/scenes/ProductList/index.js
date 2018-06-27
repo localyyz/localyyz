@@ -7,8 +7,8 @@ import PropTypes from "prop-types";
 import {
   ContentCoverSlider,
   ProductList,
-  NavBar,
-  FilterPopup
+  Filter,
+  FilterPopupButton
 } from "localyyz/components";
 import { Styles, Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 
@@ -72,8 +72,7 @@ export default class ProductListScene extends React.Component {
   constructor(props) {
     super(props);
     this.store = new Store(props.navigation.state.params);
-    const { filterParams } = props.navigation.state.params;
-    this.filterStore = FilterPopup.getNewStore(this.store, filterParams);
+    this.filterStore = Filter.getNewStore(this.store);
     this.state = {
       headerHeight: 0,
 
@@ -90,7 +89,7 @@ export default class ProductListScene extends React.Component {
 
   render() {
     return (
-      <Provider filterStore={this.filterStore} productListStore={this.store}>
+      <Provider productListStore={this.store}>
         <View style={styles.container}>
           <ContentCoverSlider
             ref="container"
@@ -121,14 +120,14 @@ export default class ProductListScene extends React.Component {
             <Content
               onScroll={e => this.refs.container.onScroll(e)}
               headerHeight={this.state.headerHeight}
-              paddingBottom={this.state.headerHeight + NavBar.HEIGHT}
+              paddingBottom={this.state.headerHeight + NAVBAR_HEIGHT}
               fetchPath={this.store.fetchPath}
               onEndReached={() => this.store.fetchNextPage()}/>
           </ContentCoverSlider>
           <View style={styles.filter} pointerEvents="box-none">
-            <FilterPopup
-              isVisible={this.state.isFilterVisible}
-              minWhitespace={Sizes.OuterFrame * 3}/>
+            <FilterPopupButton
+              store={this.filterStore}
+              isInitialVisible={this.state.isFilterVisible}/>
           </View>
         </View>
       </Provider>
@@ -139,6 +138,7 @@ export default class ProductListScene extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginBottom: NAVBAR_HEIGHT,
     backgroundColor: Colours.Background
   },
 
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
 
   content: {
     paddingVertical: Sizes.InnerFrame,
-    paddingBottom: NavBar.HEIGHT * 5
+    paddingBottom: NAVBAR_HEIGHT
   },
 
   filter: {
     ...Styles.Overlay,
-    bottom: NAVBAR_HEIGHT + Sizes.InnerFrame - 2
+    justifyContent: "flex-end"
   }
 });

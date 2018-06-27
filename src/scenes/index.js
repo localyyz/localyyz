@@ -12,3 +12,4 @@ export { default as CartSummary } from "./CartSummary";
 export { default as History } from "./History";
 export { default as Deeplink } from "./Deeplink";
 export { default as Information } from "./Information";
+export { default as Modal } from "./Modal";

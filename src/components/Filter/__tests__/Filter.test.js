@@ -11,13 +11,12 @@ const NAME = "Filter";
 const PROPS = {};
 
 describe(NAME, () => {
-  it(`${NAME}: should render properly`, () => {
+  it("should render properly", () => {
     let c = renderWithLayout(<Component {...PROPS} />, null, true);
-
-    expect(c).not.toBeUndefined();
+    expect(c).toBeDefined();
   });
 
-  it(`${NAME}: should render to snapshot`, () => {
+  it("should render to snapshot", () => {
     expect(
       renderWithLayout(<Component {...PROPS} />, null, true)
     ).toMatchSnapshot();

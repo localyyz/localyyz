@@ -44,7 +44,9 @@ export default class SliderMarker extends React.Component {
           </Animatable.View>
         </View>
         <View style={styles.spacer} />
-        <View style={styles.marker} />
+        <View style={styles.markerContainer}>
+          <View style={styles.marker} />
+        </View>
       </View>
     );
   }
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   spacer: {
-    height: Sizes.InnerFrame
+    height: Sizes.InnerFrame / 2
   },
 
   labelAnimation: {
@@ -75,10 +77,18 @@ const styles = StyleSheet.create({
     ...Styles.Emphasized
   },
 
+  markerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: Sizes.InnerFrame,
+    width: Sizes.InnerFrame,
+    overflow: "hidden"
+  },
+
   marker: {
-    height: Sizes.InnerFrame / 4,
-    width: Sizes.InnerFrame / 4,
-    borderRadius: Sizes.InnerFrame / 8,
+    height: 4,
+    width: 4,
+    borderRadius: 2,
     backgroundColor: Colours.Selected
   }
 });
