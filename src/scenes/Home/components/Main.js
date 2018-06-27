@@ -52,7 +52,7 @@ export class Main extends React.Component {
   }
 
   async load() {
-    //await this.props.fetchCategoryBlocks();
+    await this.props.fetchCategoryBlocks();
     await this.props.fetchCollectionBlocks();
 
     // and finally allow render
