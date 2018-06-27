@@ -11,7 +11,6 @@ import { observer, inject } from "mobx-react/native";
 
 // local
 import { Banner, Collection, Brands } from "../blocks";
-import BlockSlider from "./BlockSlider";
 import MainPlaceholder from "./MainPlaceholder";
 
 // constants
@@ -21,7 +20,7 @@ const VIEWABLITY_CONFIG = {
 
 @inject(stores => ({
   homeStore: stores.homeStore,
-  scrollAnimate: stores.homeStore.scrollAnimate,
+  onScrollAnimate: stores.homeStore.onScrollAnimate,
 
   // blocks
   blocks: stores.homeStore.blocks,
@@ -85,15 +84,7 @@ export class Main extends React.Component {
         scrollEventThrottle={16}
         onViewableItemsChanged={this.onViewableBlockChange}
         viewabilityConfig={VIEWABLITY_CONFIG}
-        onScroll={Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: this.props.scrollAnimate
-              }
-            }
-          }
-        ])}/>
+        onScroll={this.props.onScrollAnimate}/>
     );
   }
 
@@ -158,9 +149,6 @@ export class Main extends React.Component {
     // navigates to a category/products filter
     this.props.navigation.navigate("ProductList", {
       fetchPath: "/products",
-      categories: this.props.homeStore.categoryFilters,
-
-      // launch with filter popup visible
       isFilterVisible: true
     });
   };
@@ -172,11 +160,6 @@ export class Main extends React.Component {
         <View pointerEvents="box-none" style={styles.filter}>
           <FilterPopupButton text={"Filter"} onPress={this.onFilterPress} />
         </View>
-        {/*
-        <View pointerEvents="box-none" style={styles.slider}>
-          <BlockSlider scrollTo={this.scrollTo} />
-        </View>
-        */}
       </View>
     ) : (
       <MainPlaceholder />
@@ -197,14 +180,9 @@ const styles = StyleSheet.create({
 
   filter: {
     position: "absolute",
-    bottom: Sizes.ScreenBottom + Sizes.InnerFrame - 2,
+    bottom: 0,
     left: 0,
     right: 0
-  },
-
-  slider: {
-    position: "absolute",
-    bottom: 0
   },
 
   content: {

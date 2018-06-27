@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Address test - form Address test - form: should interpret address properly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flexBasis": 150,
+      },
+      undefined,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "paddingHorizontal": 25,
+          "paddingVertical": 15,
+        },
+        false,
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginRight": 15,
+        }
+      }
+    >
+      <View
+        style={Object {}}
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "rgb(30, 30, 30)",
+                "fontSize": 14,
+                "fontWeight": "300",
+              },
+              undefined,
+            ]
+          }
+        >
+          Address
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+            },
+            Object {},
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#C9C9CE",
+                "borderBottomColor": "#b5b5b5",
+                "borderBottomWidth": 0.5,
+                "borderTopColor": "#7e7e7e",
+                "borderTopWidth": 0.5,
+                "flexDirection": "row",
+                "height": 44,
+              },
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderBottomWidth": 0,
+                "borderTopWidth": 0,
+                "height": null,
+              },
+            ]
+          }
+        >
+          <TextInput
+            allowFontScaling={true}
+            autoFocus={false}
+            clearButtonMode="while-editing"
+            onChangeText={[Function]}
+            onFocus={[Function]}
+            placeholder="required"
+            placeholderTextColor="#999999"
+            returnKeyType="search"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "#FFFFFF",
+                  "borderRadius": 5,
+                  "flex": 1,
+                  "fontSize": 15,
+                  "height": 28,
+                  "marginLeft": 8,
+                  "marginRight": 8,
+                  "marginTop": 7.5,
+                  "paddingBottom": 4.5,
+                  "paddingLeft": 10,
+                  "paddingRight": 10,
+                  "paddingTop": 4.5,
+                },
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "borderRadius": null,
+                  "color": "#000000",
+                  "flex": 1,
+                  "fontSize": 14,
+                  "height": null,
+                  "marginBottom": 0,
+                  "marginLeft": 0,
+                  "marginRight": 0,
+                  "marginTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "paddingTop": 0,
+                },
+              ]
+            }
+            underlineColorAndroid="transparent"
+            value=""
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

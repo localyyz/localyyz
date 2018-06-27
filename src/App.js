@@ -28,7 +28,13 @@ import {
   Deeplink,
   Information,
   History,
-  Brands
+  Brands,
+  Modal,
+  Checkout,
+  SettingsTab,
+
+  // forms
+  Forms
 } from "localyyz/scenes";
 
 // debug
@@ -39,9 +45,13 @@ const AppNavigator = StackNavigator(
     Home: { screen: Home },
     Product: { screen: Product },
     ProductList: { screen: ProductList },
+    Checkout: { screen: Checkout },
     CartSummary: { screen: CartSummary },
     Information: { screen: Information },
-    Brands: { screen: Brands }
+    Brands: { screen: Brands },
+
+    // forms
+    AddressForm: { screen: Forms.AddressForm }
   },
   {
     initialRouteName: "Home",
@@ -71,7 +81,8 @@ const HistoryTab = StackNavigator(
 const TabBarNavigator = TabNavigator(
   {
     Root: { screen: AppNavigator },
-    History: { screen: HistoryTab }
+    History: { screen: HistoryTab },
+    Settings: { screen: SettingsTab }
   },
   {
     tabBarComponent: NavBar,
@@ -84,6 +95,7 @@ const RootNavigator = StackNavigator(
   {
     Deeplink: { screen: Deeplink },
     Login: { screen: Login },
+    Modal: { screen: Modal },
     App: { screen: TabBarNavigator }
   },
   {

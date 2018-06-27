@@ -65,9 +65,7 @@ export default class Discount extends React.Component {
   }
 
   get discountMin() {
-    return this.props.discountMin != null
-      ? this.props.discountMin
-      : this.stepSize;
+    return this.props.discountMin != null ? this.props.discountMin : 0;
   }
 
   bound(price) {
@@ -114,7 +112,7 @@ export default class Discount extends React.Component {
           markerContainerStyle={styles.markerContainer}
           trackStyle={styles.track}
           markerOffsetX={-13}
-          markerOffsetY={-7.5}
+          markerOffsetY={-5.5}
           unselectedStyle={styles.sliderSelected}
           selectedStyle={styles.sliderUnselected}
           values={[this.discountMin]}

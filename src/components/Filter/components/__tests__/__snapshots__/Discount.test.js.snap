@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Discount filter Discount filter: should render to snapshot 1`] = `
+exports[`Discount filter should render to snapshot 1`] = `
 <View
   onLayout={[Function]}
   style={
@@ -44,7 +44,7 @@ exports[`Discount filter Discount filter: should render to snapshot 1`] = `
           }
         }
       >
-        10%
+        Regular price
       </Text>
     </View>
   </View>
@@ -91,7 +91,7 @@ exports[`Discount filter Discount filter: should render to snapshot 1`] = `
               "height": 1,
             },
             Object {
-              "width": 60,
+              "width": 0,
             },
           ]
         }
@@ -112,7 +112,7 @@ exports[`Discount filter Discount filter: should render to snapshot 1`] = `
               "height": 1,
             },
             Object {
-              "width": 540,
+              "width": 600,
             },
           ]
         }
@@ -129,8 +129,8 @@ exports[`Discount filter Discount filter: should render to snapshot 1`] = `
               "width": 48,
             },
             Object {
-              "left": 23,
-              "top": -31.5,
+              "left": -37,
+              "top": -29.5,
             },
             Object {
               "height": 50,
@@ -215,20 +215,32 @@ exports[`Discount filter Discount filter: should render to snapshot 1`] = `
             <View
               style={
                 Object {
-                  "height": 15,
+                  "height": 7.5,
                 }
               }
             />
             <View
               style={
                 Object {
-                  "backgroundColor": "rgb(30, 30, 30)",
-                  "borderRadius": 1.875,
-                  "height": 3.75,
-                  "width": 3.75,
+                  "alignItems": "center",
+                  "height": 15,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "width": 15,
                 }
               }
-            />
+            >
+              <View
+                style={
+                  Object {
+                    "backgroundColor": "rgb(30, 30, 30)",
+                    "borderRadius": 2,
+                    "height": 4,
+                    "width": 4,
+                  }
+                }
+              />
+            </View>
           </View>
         </View>
       </View>

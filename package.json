@@ -31,7 +31,9 @@
   },
   "xcodeSchemes": {
     "Debug": [],
-    "Release": ["Staging"],
+    "Release": [
+      "Staging"
+    ],
     "projectDirectory": "iOS"
   },
   "jest": {
@@ -45,8 +47,12 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation)/"
     ],
-    "testPathIgnorePatterns": ["/node_modules/"],
-    "setupFiles": ["./src/jestsetup.js"]
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "setupFiles": [
+      "./src/jestsetup.js"
+    ]
   },
   "dependencies": {
     "@ptomasroos/react-native-multi-slider": "^0.0.14",
@@ -75,26 +81,26 @@
     "react-native-iphone-x-helper": "^1.0.2",
     "react-native-keyboard-aware-scroll-view": "^0.5.0",
     "react-native-linear-gradient": "^2.4.0",
-    "react-native-payments":
-      "git://github.com/localyyz/react-native-payments.git#3d83bc37ed6c3a960fcc95f4b6379d14332f4514",
+    "react-native-payments": "git://github.com/localyyz/react-native-payments.git#3d83bc37ed6c3a960fcc95f4b6379d14332f4514",
     "react-native-photo-view": "^1.5.2",
     "react-native-snap-carousel": "^3.7.0",
     "react-native-tear-lines": "^1.0.3",
     "react-native-vector-icons": "^4.6.0",
+    "react-native-video": "^2.3.1",
     "react-navigation": "^1.5.11",
     "rn-placeholder": "^1.2.0",
     "url": "^0.11.0"
   },
   "rnpm": {
-    "assets": ["./assets/fonts"]
+    "assets": [
+      "./assets/fonts"
+    ]
   },
   "detox": {
     "configurations": {
       "ios.sim.debug": {
-        "binaryPath":
-          "ios/build/Build/Products/Debug-iphonesimulator/localyyz.dev.app",
-        "build":
-          "xcodebuild -workspace ios/localyyz.xcworkspace -scheme localyyz -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/localyyz.dev.app",
+        "build": "xcodebuild -workspace ios/localyyz.xcworkspace -scheme localyyz -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
         "type": "ios.simulator",
         "name": "iPhone 8"
       }

@@ -63,8 +63,9 @@ export default class Price extends React.Component {
       && this.setState(
         {
           isActive: active != null ? active : !this.state.isActive
-        },
-        () => this.props.setScrollEnabled(!this.state.isActive)
+        }
+        // TODO: this rerenders the whole scrollview on FilterPopup.
+        //() => this.props.setScrollEnabled(!this.state.isActive)
       );
   }
 
@@ -82,9 +83,7 @@ export default class Price extends React.Component {
   }
 
   get priceMin() {
-    return this.props.priceMin != null
-      ? this.props.priceMin
-      : this.props.min + this.stepSize;
+    return this.props.priceMin != null ? this.props.priceMin : this.props.min;
   }
 
   get priceMax() {
@@ -129,7 +128,7 @@ export default class Price extends React.Component {
           markerContainerStyle={styles.markerContainer}
           trackStyle={styles.track}
           markerOffsetX={-13}
-          markerOffsetY={-7.5}
+          markerOffsetY={-5.5}
           unselectedStyle={styles.sliderUnselected}
           selectedStyle={styles.sliderSelected}
           values={[this.priceMin, this.priceMax]}

@@ -33,10 +33,8 @@ export default class AddressStore {
   add = async address => {
     // send and update address list
     const response = await this.api.post("/users/me/address", address);
-    if (response && response.status < 400) {
-      await this.fetch();
-      return response.data;
-    }
+
+    return response && response.status < 400 ? await this.fetch() : response;
   };
 
   @action
@@ -45,16 +43,14 @@ export default class AddressStore {
       `/users/me/address/${address.id}`,
       address
     );
-    if (response && response.status < 400) {
-      return await this.fetch();
-    }
+
+    return response && response.status < 400 ? await this.fetch() : response;
   };
 
   @action
   remove = async addressId => {
     const response = await this.api.delete(`/users/me/address/${addressId}`);
-    if (response && response.status < 400) {
-      return await this.fetch();
-    }
+
+    return response && response.status < 400 ? await this.fetch() : response;
   };
 }

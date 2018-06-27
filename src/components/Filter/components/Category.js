@@ -3,52 +3,26 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // localyyz
 import { Styles, Sizes } from "localyyz/constants";
-import { ApiInstance } from "localyyz/global";
 
 // third party
 import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
-import { lazyObservable } from "mobx-utils";
 import { inject, observer } from "mobx-react/native";
 
 @inject(stores => ({
-  filterParams: stores.filterStore.params
+  setCategoryFilter: stores.filterStore.setCategoryFilter
 }))
 @observer
 export class Category extends React.Component {
   static propTypes = {
-    title: PropTypes.string,
-    fetchPath: PropTypes.string.isRequired,
-    filterParams: PropTypes.object
+    title: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    setCategoryFilter: PropTypes.func.isRequired
   };
 
-  static defaultProps = {
-    title: "",
-    filterParams: {}
+  onPress = () => {
+    this.props.setCategoryFilter(this.props.value);
   };
-
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.onPress = this.onPress.bind(this);
-  }
-
-  lazyCategories = () => {
-    return lazyObservable(sink =>
-      ApiInstance.get(this.props.fetchPath).then(resp => sink(resp))
-    );
-  };
-
-  onPress() {
-    this.props.navigation.navigate("ProductList", {
-      ...this.props,
-      filterParams: this.props.filterParams,
-      isFilterVisible: true, // always reopen filter from categories
-      fetchPath: `${this.props.fetchPath}/products`,
-      categories: this.lazyCategories()
-    });
-  }
 
   render() {
     return (

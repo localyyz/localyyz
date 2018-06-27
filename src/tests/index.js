@@ -50,3 +50,26 @@ export const findByKey = (tree, key) => {
     }
   }
 };
+
+export const findByRef = (tree, ref) => {
+  if (tree == null) {
+    return;
+  }
+
+  if (tree.ref === ref) {
+    return tree;
+  }
+
+  if (tree.props && typeof tree.props.children === "object") {
+    return findByRef(tree.props.children, ref);
+  }
+
+  if (Array.isArray(tree)) {
+    for (let i in tree) {
+      let item = findByRef(tree[i], ref);
+      if (typeof item !== "undefined") {
+        return item;
+      }
+    }
+  }
+};

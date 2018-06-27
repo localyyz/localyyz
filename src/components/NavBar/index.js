@@ -15,9 +15,9 @@ import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
 import { inject, observer, Provider } from "mobx-react/native";
 
-// offset tabbar
-export const NAVBAR_HEIGHT
-  = Sizes.ScreenBottom + Sizes.TabBarButton + Sizes.TabBarText - 1;
+// offset tabbar, manually calc'ed and synced via onLayout
+// by hand when layout changes
+export const NAVBAR_HEIGHT = 45.5 + Sizes.ScreenBottom;
 
 @inject(stores => ({
   userStore: stores.userStore,

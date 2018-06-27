@@ -20,6 +20,8 @@ target 'localyyz' do
 
   pod 'Stripe'
 
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
   target 'localyyzTests' do
     inherit! :search_paths
     # Pods for testing
