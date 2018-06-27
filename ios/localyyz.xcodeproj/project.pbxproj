@@ -891,7 +891,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 827TP59MXR;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 1;
@@ -1735,6 +1735,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.localyyz.staging;
 				PRODUCT_NAME = localyyz.staging;
+				PROVISIONING_PROFILE = "1626405a-a000-4e55-a5f9-b98447cb10c5";
 				PROVISIONING_PROFILE_SPECIFIER = Staging;
 				REACT_HEADER_PATH = "$(BUILD_DIR)/Release-$(PLATFORM_NAME)/include";
 				VERSIONING_SYSTEM = "apple-generic";
