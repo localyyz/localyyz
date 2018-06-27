@@ -184,6 +184,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-video')
     compile project(':react-native-extra-dimensions-android')
     compile project(':react-native-code-push')
     compile project(':react-native-branch')
