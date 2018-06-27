@@ -15,10 +15,12 @@
             <option value="$PROJECT_DIR$/../node_modules/react-native-device-info/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-extra-dimensions-android/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-fbsdk/android" />
+            <option value="$PROJECT_DIR$/../node_modules/react-native-google-analytics-bridge/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-linear-gradient/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-payments/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-photo-view/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android" />
+            <option value="$PROJECT_DIR$/../node_modules/react-native-video/android-exoplayer" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

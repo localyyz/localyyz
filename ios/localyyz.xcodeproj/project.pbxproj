@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -21,6 +22,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		16833DD620E3FB4000A17E83 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16833DB120E3FB0E00A17E83 /* libRCTGoogleAnalyticsBridge.a */; };
+		16833DD820E3FB4D00A17E83 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16833DD720E3FB4C00A17E83 /* CoreData.framework */; };
+		16833DDA20E3FB5700A17E83 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16833DD920E3FB5700A17E83 /* SystemConfiguration.framework */; };
+		16833DDC20E3FB6000A17E83 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16833DDB20E3FB6000A17E83 /* libz.tbd */; };
+		16833DDE20E3FB6900A17E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16833DDD20E3FB6900A17E83 /* libsqlite3.0.tbd */; };
 		2F9DE2FDE04D45D3BED80B8C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2938915CD66043F6ABCE8328 /* Ionicons.ttf */; };
 		34920DB3B06246799E939163 /* libRNPhotoView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE69FFA4B2A04BE791A79D76 /* libRNPhotoView.a */; };
 		367EA2BDA05245709048B927 /* libReactNativePayments.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 541000E9A0884EDB98879551 /* libReactNativePayments.a */; };
@@ -108,6 +114,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
+		};
+		16833DB020E3FB0E00A17E83 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16833DA120E3FB0E00A17E83 /* RCTGoogleAnalyticsBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A79185C61C30694E001236A6;
+			remoteInfo = RCTGoogleAnalyticsBridge;
 		};
 		2D16E6711FA4F8DC00B85C8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -433,6 +446,11 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		14D2F691A45C4853BFBBC21F /* ReactNativePayments.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePayments.xcodeproj; path = "../node_modules/react-native-payments/lib/ios/ReactNativePayments.xcodeproj"; sourceTree = "<group>"; };
 		15E3F26B29934EE3BCA9F096 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
+		16833DA120E3FB0E00A17E83 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
+		16833DD720E3FB4C00A17E83 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		16833DD920E3FB5700A17E83 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		16833DDB20E3FB6000A17E83 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		16833DDD20E3FB6900A17E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		1AF332C934954EAF8CEA4F8D /* SanFranciscoText-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SanFranciscoText-Semibold.otf"; path = "../assets/fonts/SanFranciscoText-Semibold.otf"; sourceTree = "<group>"; };
 		25C4FB8FE47E4BF48DBC8BC3 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		2938915CD66043F6ABCE8328 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -485,6 +503,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16833DDE20E3FB6900A17E83 /* libsqlite3.0.tbd in Frameworks */,
+				16833DDC20E3FB6000A17E83 /* libz.tbd in Frameworks */,
+				16833DDA20E3FB5700A17E83 /* SystemConfiguration.framework in Frameworks */,
+				16833DD820E3FB4D00A17E83 /* CoreData.framework in Frameworks */,
+				16833DD620E3FB4000A17E83 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				BF05EC1A2079076B00EF35B3 /* libBVLinearGradient.a in Frameworks */,
 				BF05EC10207822EE00EF35B3 /* libRNBlur.a in Frameworks */,
 				BF05EC062078224600EF35B3 /* libCodePush.a in Frameworks */,
@@ -635,9 +658,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		16833DA220E3FB0E00A17E83 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16833DB120E3FB0E00A17E83 /* libRCTGoogleAnalyticsBridge.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16833DDD20E3FB6900A17E83 /* libsqlite3.0.tbd */,
+				16833DDB20E3FB6000A17E83 /* libz.tbd */,
+				16833DD920E3FB5700A17E83 /* SystemConfiguration.framework */,
+				16833DD720E3FB4C00A17E83 /* CoreData.framework */,
 				BF5DC3902075327500CE540C /* Bolts.framework */,
 				BF5DC3922075327500CE540C /* FBNotifications.framework */,
 				BF5DC3912075327500CE540C /* FBSDKCoreKit.framework */,
@@ -670,6 +705,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				16833DA120E3FB0E00A17E83 /* RCTGoogleAnalyticsBridge.xcodeproj */,
 				BF05EC112079076600EF35B3 /* BVLinearGradient.xcodeproj */,
 				BF05EC07207822E800EF35B3 /* RNBlur.xcodeproj */,
 				BF05EBFD2078223C00EF35B3 /* CodePush.xcodeproj */,
@@ -890,7 +926,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 827TP59MXR;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 1;
@@ -944,6 +980,10 @@
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
+				},
+				{
+					ProductGroup = 16833DA220E3FB0E00A17E83 /* Products */;
+					ProjectRef = 16833DA120E3FB0E00A17E83 /* RCTGoogleAnalyticsBridge.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302BC1ABCB91800DB3ED1 /* Products */;
@@ -1060,6 +1100,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		16833DB120E3FB0E00A17E83 /* libRCTGoogleAnalyticsBridge.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTGoogleAnalyticsBridge.a;
+			remoteRef = 16833DB020E3FB0E00A17E83 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */ = {
@@ -1600,6 +1647,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GOOGLE_ANALYTICS_KEY = "UA-91832128-7";
 				GOOGLE_PLACES_KEY = AIzaSyCyDtar76vRMUbDlv6uvTai9b_8F7_UBWE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1643,6 +1691,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GOOGLE_ANALYTICS_KEY = "UA-91832128-2\n";
 				GOOGLE_PLACES_KEY = AIzaSyCyDtar76vRMUbDlv6uvTai9b_8F7_UBWE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1689,6 +1738,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GOOGLE_ANALYTICS_KEY = "UA-91832128-7";
 				GOOGLE_PLACES_KEY = AIzaSyCyDtar76vRMUbDlv6uvTai9b_8F7_UBWE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
