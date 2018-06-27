@@ -18,14 +18,14 @@ const PAGE_ONE = 1;
 const SEARCH_DELAY = 2000;
 
 export const DEFAULT_BLOCKS = [
-  {
-    type: "brand",
-    id: "brands",
-    brandType: "designers",
-    title: "Brands",
-    description: "Browse the thousands of brands available on the Localyyz app",
-    numBrands: 10000
-  }
+  //{
+  //type: "brand",
+  //id: "brands",
+  //brandType: "designers",
+  //title: "Brands",
+  //description: "Browse the thousands of brands available on the Localyyz app",
+  //numBrands: 10000
+  //}
 ];
 
 export default class HomeStore {
@@ -308,6 +308,17 @@ export default class HomeStore {
       );
     }
   };
+
+  @action
+  onScrollAnimate = Animated.event([
+    {
+      nativeEvent: {
+        contentOffset: {
+          y: this.scrollAnimate
+        }
+      }
+    }
+  ]);
 
   // react header scroll reacts to "searchActive" value changes
   // when true:

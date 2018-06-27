@@ -46,6 +46,7 @@ export default class ParallaxPhoto extends React.Component {
   }
 
   increasePhotoHeight({ nativeEvent: { layout: { height: photoHeight } } }) {
+    console.log("fuck fuck", photoHeight);
     photoHeight > this.state.photoHeight
       && this._isMounted
       && this.setState({ photoHeight: photoHeight });
@@ -77,6 +78,25 @@ export default class ParallaxPhoto extends React.Component {
     ];
     let outputRangeFade = [1, 0, 0];
 
+    let style = {
+      marginLeft: -this.props.constrainWidth * (ZOOM_AMOUNT / 2),
+      opacity: this.props.scrollPosition.interpolate({
+        inputRange: inputRange,
+        outputRange: outputRangeFade,
+        extrapolate: "clamp"
+      })
+    };
+    let parallaxStyle = {};
+    parallaxStyle.transform = [
+      {
+        translateY: this.props.scrollPosition.interpolate({
+          inputRange: inputRange,
+          outputRange: outputRangeParallax,
+          extrapolate: "clamp"
+        })
+      }
+    ];
+
     return (
       <View
         ref="photo"
@@ -84,20 +104,7 @@ export default class ParallaxPhoto extends React.Component {
           styles.container,
           { width: this.props.constrainWidth, height: containerHeight }
         ]}>
-        <Animated.View
-          style={{
-            marginLeft: -this.props.constrainWidth * (ZOOM_AMOUNT / 2),
-            marginTop: this.props.scrollPosition.interpolate({
-              inputRange: inputRange,
-              outputRange: outputRangeParallax,
-              extrapolate: "clamp"
-            }),
-            opacity: this.props.scrollPosition.interpolate({
-              inputRange: inputRange,
-              outputRange: outputRangeFade,
-              extrapolate: "clamp"
-            })
-          }}>
+        <Animated.View style={[style, parallaxStyle]}>
           <ConstrainedAspectImage
             shouldPinWidth
             constrainWidth={this.props.constrainWidth * (1 + ZOOM_AMOUNT)}

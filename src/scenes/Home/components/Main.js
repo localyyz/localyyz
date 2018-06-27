@@ -20,7 +20,7 @@ const VIEWABLITY_CONFIG = {
 
 @inject(stores => ({
   homeStore: stores.homeStore,
-  scrollAnimate: stores.homeStore.scrollAnimate,
+  onScrollAnimate: stores.homeStore.onScrollAnimate,
 
   // blocks
   blocks: stores.homeStore.blocks,
@@ -52,7 +52,7 @@ export class Main extends React.Component {
   }
 
   async load() {
-    await this.props.fetchCategoryBlocks();
+    //await this.props.fetchCategoryBlocks();
     await this.props.fetchCollectionBlocks();
 
     // and finally allow render
@@ -84,15 +84,7 @@ export class Main extends React.Component {
         scrollEventThrottle={16}
         onViewableItemsChanged={this.onViewableBlockChange}
         viewabilityConfig={VIEWABLITY_CONFIG}
-        onScroll={Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: this.props.scrollAnimate
-              }
-            }
-          }
-        ])}/>
+        onScroll={this.props.onScrollAnimate}/>
     );
   }
 
