@@ -17,7 +17,7 @@ import { inject, observer, Provider } from "mobx-react/native";
 
 // offset tabbar, manually calc'ed and synced via onLayout
 // by hand when layout changes
-export const NAVBAR_HEIGHT = 46 + Sizes.ScreenBottom;
+export const NAVBAR_HEIGHT = 45.5 + Sizes.ScreenBottom;
 
 @inject(stores => ({
   userStore: stores.userStore,

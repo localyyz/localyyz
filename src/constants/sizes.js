@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from "react-native";
+import { Dimensions, Platform, PixelRatio } from "react-native";
 import ExtraDimensions from "react-native-extra-dimensions-android";
 import { isIphoneX } from "react-native-iphone-x-helper";
 
@@ -58,7 +58,10 @@ export const Sizes = {
 
   // apple specific
   TabBarButton: 23,
-  TabBarText: 10
+  TabBarText: 10,
+
+  // spacer
+  Spacer: 1 / PixelRatio.get()
 };
 
 export default Sizes;

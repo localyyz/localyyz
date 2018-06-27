@@ -13,3 +13,6 @@ export { default as History } from "./History";
 export { default as Deeplink } from "./Deeplink";
 export { default as Information } from "./Information";
 export { default as Modal } from "./Modal";
+export { default as Checkout } from "./Checkout";
+export { default as Forms } from "./Forms";
+export { SettingsTab } from "./Settings";

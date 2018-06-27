@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error Test - Form Error Test - Form: should render to snapshot 1`] = `
+<View
+  style={Object {}}
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "#FF0000",
+        "fontSize": 14,
+        "fontWeight": "300",
+      }
+    }
+  >
+    sample chidren
+  </Text>
+</View>
+`;

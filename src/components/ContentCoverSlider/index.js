@@ -1,17 +1,14 @@
 import React from "react";
-import {
-  Platform,
-  View,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity
-} from "react-native";
+import { View, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // components
 import { UppercasedText, SloppyView } from "localyyz/components";
 import * as Animatable from "react-native-animatable";
 import { Icon } from "react-native-elements";
+
+// local
+import Store from "./store";
 
 // default fade height if not specified by prop on scroll
 const FADE_HEIGHT = 50;
@@ -26,6 +23,10 @@ const RECOMMENDED_BROWSING_SPEED = 0;
 const SCROLL_OFFSET = 1;
 
 export default class ContentCoverSlider extends React.Component {
+  static createStore() {
+    return new Store();
+  }
+
   constructor(props) {
     super(props);
     this.state = {

@@ -54,10 +54,7 @@ export default class TabBar extends React.Component {
 
   render() {
     return (
-      <View
-        style={styles.container}
-        onLayout={evt => console.log(evt.nativeEvent.layout.height)}
-        pointerEvents="auto">
+      <View style={styles.container} pointerEvents="auto">
         <Animatable.View
           animation={this.isVisible ? "slideInUp" : "slideOutDown"}
           duration={200}
@@ -102,6 +99,15 @@ export default class TabBar extends React.Component {
                     ),
                   this.props.navigation
                 )
+              }/>
+            <Button
+              icon="settings"
+              label="Settings"
+              isActive={this.props.activeButton !== "cart"}
+              onPress={() =>
+                this.props.onPress("settings", () => {
+                  this.props.navigation.dispatch(changeTab("Settings"));
+                })
               }/>
           </View>
         </Animatable.View>
