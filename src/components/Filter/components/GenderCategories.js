@@ -14,7 +14,7 @@ import Gender from "./Gender";
 import SelectedFilter from "./SelectedFilter";
 
 // constants
-const GENDER_SECTION = [
+export const GENDER_SECTION = [
   { label: "Women", value: "woman" },
   { label: "Men", value: "man" }
 ];
@@ -49,13 +49,16 @@ export default class Categories extends React.Component {
   }
 
   renderItem({ item: category }) {
-    return <Category {...category} />;
+    return <Category key={category.value} {...category} />;
   }
 
   _renderHeader(content /*index, isActive, sections*/) {
     return (
       <View style={styles.row}>
-        <Gender label={content.label} value={content.value} />
+        <Gender
+          key={content.value}
+          label={content.label}
+          value={content.value}/>
       </View>
     );
   }
@@ -65,7 +68,7 @@ export default class Categories extends React.Component {
 
   _renderContent(/*content, index, isActive, sections*/) {
     return (
-      <View style={styles.content}>
+      <View ref="genderCategoriesContent" style={styles.content}>
         {this.props.selected ? (
           <View style={styles.selected}>
             <SelectedFilter onClear={this.props.clearFilter}>
@@ -74,6 +77,7 @@ export default class Categories extends React.Component {
           </View>
         ) : null}
         <FlatList
+          ref="genderCategoriesList"
           scrollEnabled={false}
           data={this.props.categories.slice()}
           keyExtractor={item => item.title}
@@ -93,6 +97,7 @@ export default class Categories extends React.Component {
     return (
       <View style={styles.container}>
         <Accordion
+          ref="genderCategories"
           activeSection={this.state.activeSection}
           sections={GENDER_SECTION}
           renderHeader={this._renderHeader}

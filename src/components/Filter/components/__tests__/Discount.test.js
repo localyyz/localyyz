@@ -14,11 +14,11 @@ const PROPS = {
 };
 
 describe(NAME, () => {
-  it(`${NAME}: should render properly`, () => {
+  it("should render properly", () => {
     let rendered = renderWithLayout(<Component {...PROPS} />).getInstance();
 
-    expect(rendered).not.toBeUndefined();
-    expect(rendered.refs.slider).not.toBeUndefined();
+    expect(rendered).toBeDefined();
+    expect(rendered.refs.slider).toBeDefined();
 
     // length of slider
     expect(rendered.refs.slider.props.sliderLength).toBe(
@@ -26,14 +26,14 @@ describe(NAME, () => {
     );
   });
 
-  it(`${NAME}: should use step size values on init`, () => {
+  it("should be 0 on init", () => {
     let rendered = renderWithLayout(<Component {...PROPS} />).getInstance();
 
-    expect(rendered.discountMin).toBe(Component.STEP_SIZE);
-    expect(rendered.refs.slider.props.values).toEqual([Component.STEP_SIZE]);
+    expect(rendered.discountMin).toBe(0);
+    expect(rendered.refs.slider.props.values).toEqual([0]);
   });
 
-  it(`${NAME}: should use provided minDiscount values instead of step size`, () => {
+  it("should use provided minDiscount values instead of step size", () => {
     let expectedValue = 0.5;
     let rendered = renderWithLayout(
       <Component {...PROPS} discountMin={expectedValue} />
@@ -43,7 +43,7 @@ describe(NAME, () => {
     expect(rendered.refs.slider.props.values).toEqual([expectedValue]);
   });
 
-  it(`${NAME}: should render to snapshot`, () => {
+  it("should render to snapshot", () => {
     expect(
       renderWithLayout(<Component {...PROPS} />).toJSON()
     ).toMatchSnapshot();

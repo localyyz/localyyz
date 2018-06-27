@@ -14,12 +14,12 @@ describe(NAME, () => {
   it(`${NAME}: should render properly`, () => {
     let c = renderWithLayout(<Component {...PROPS} />, null, true);
 
-    expect(c).not.toBeUndefined();
+    expect(c).toBeDefined();
   });
 
-  it(`${NAME}: should render to snapshot`, () => {
-    expect(
-      renderWithLayout(<Component {...PROPS} />, null, true)
-    ).toMatchSnapshot();
-  });
+  //it(`${NAME}: should render to snapshot`, () => {
+  //expect(
+  //renderWithLayout(<Component {...PROPS} />, null, true)
+  //).toMatchSnapshot();
+  //});
 });

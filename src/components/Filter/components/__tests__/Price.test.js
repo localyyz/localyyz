@@ -19,11 +19,11 @@ const PROPS = {
 };
 
 describe(NAME, () => {
-  it(`${NAME}: should render properly`, () => {
+  it("should render properly", () => {
     let rendered = renderWithLayout(<Component {...PROPS} />).getInstance();
 
     expect(rendered).not.toBeUndefined();
-    expect(rendered.refs.slider).not.toBeUndefined();
+    expect(rendered.refs.slider).toBeDefined();
 
     // length of slider
     expect(rendered.refs.slider.props.sliderLength).toBe(
@@ -32,8 +32,7 @@ describe(NAME, () => {
   });
 
   it(`${NAME}: should use max and min values on init`, () => {
-    let expectedMinValue
-      = PROPS.min + Math.round((PROPS.max - PROPS.min) * Component.STEP_SIZE);
+    let expectedMinValue = 0;
     let expectedMaxValue = PROPS.max;
     let rendered = renderWithLayout(<Component {...PROPS} />).getInstance();
 

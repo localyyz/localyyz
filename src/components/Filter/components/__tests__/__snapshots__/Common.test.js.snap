@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Common should render expanded properly 1`] = `
+Array [
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <ExpandableHeader
+      isOpen={true}
+    >
+      filter1
+    </ExpandableHeader>
+  </TouchableOpacity>,
+  <Component
+    style={
+      Object {
+        "paddingVertical": 7.5,
+      }
+    }
+  >
+    <FlatList
+      data={
+        Object {
+          "addMatchers": [Function],
+          "advanceTimersByTime": [Function],
+          "autoMockOff": [Function],
+          "autoMockOn": [Function],
+          "clearAllMocks": [Function],
+          "clearAllTimers": [Function],
+          "deepUnmock": [Function],
+          "disableAutomock": [Function],
+          "doMock": [Function],
+          "dontMock": [Function],
+          "enableAutomock": [Function],
+          "fn": [Function],
+          "genMockFromModule": [Function],
+          "isMockFunction": [Function],
+          "mock": [Function],
+          "requireActual": [Function],
+          "requireMock": [Function],
+          "resetAllMocks": [Function],
+          "resetModuleRegistry": [Function],
+          "resetModules": [Function],
+          "restoreAllMocks": [Function],
+          "runAllImmediates": [Function],
+          "runAllTicks": [Function],
+          "runAllTimers": [Function],
+          "runOnlyPendingTimers": [Function],
+          "runTimersToTime": [Function],
+          "setMock": [Function],
+          "setTimeout": [Function],
+          "spyOn": [Function],
+          "unmock": [Function],
+          "useFakeTimers": [Function],
+          "useRealTimers": [Function],
+        }
+      }
+      disableVirtualization={false}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      renderItem={[Function]}
+      scrollEnabled={false}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </Component>,
+]
+`;
+
+exports[`Common should render item properly 1`] = `
+<TouchableOpacity
+  activeOpacity={0.2}
+  onPress={[Function]}
+>
+  <Component
+    style={
+      Object {
+        "marginVertical": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "rgb(30, 30, 30)",
+          "fontSize": 16,
+          "fontWeight": "300",
+        }
+      }
+    >
+      Some Filter
+    </Text>
+  </Component>
+</TouchableOpacity>
+`;
+
+exports[`Common should render to snapshot 1`] = `
+<View
+  style={
+    Object {
+      "marginVertical": 7.5,
+    }
+  }
+>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "marginRight": 7.5,
+          }
+        }
+      >
+        filter1
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": "rgb(30, 30, 30)",
+              "fontSize": 16,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Material Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </View>
+</View>
+`;

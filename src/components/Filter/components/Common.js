@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
   View,
@@ -80,7 +79,9 @@ export default class Common extends React.Component {
           <View style={styles.content}>
             {this.props.selected ? (
               <View style={styles.selected}>
-                <SelectedFilter onClear={this.props.clearFilter}>
+                <SelectedFilter
+                  ref={`${this.props.title}Filter`}
+                  onClear={this.props.clearFilter}>
                   {this.props.selected}
                 </SelectedFilter>
               </View>

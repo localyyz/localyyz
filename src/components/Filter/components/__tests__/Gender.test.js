@@ -4,24 +4,33 @@ import React from "react";
 import { renderWithLayout } from "localyyz/tests";
 
 // local
-import { Gender } from "../";
+import Gender from "../Gender";
 let Component = Gender.wrappedComponent;
 
 // constants
 const NAME = "Gender filter";
 const PROPS = {
-  gender: "man",
-  setGenderFilter: jest.fn()
+  value: "man",
+  label: "Man",
+  setFilter: jest.fn()
 };
 
 describe(NAME, () => {
-  it(`${NAME}: should render properly`, () => {
+  it("should render properly", () => {
     let c = renderWithLayout(<Component {...PROPS} />).getInstance();
 
-    expect(c).not.toBeUndefined();
+    expect(c).toBeDefined();
   });
 
-  it(`${NAME}: should render to snapshot`, () => {
+  it("should render isOpen properly", () => {
+    let c = renderWithLayout(
+      <Component {...PROPS} gender={PROPS.value} />
+    ).getInstance();
+
+    expect(c).toBeDefined();
+  });
+
+  it("should render to snapshot", () => {
     expect(
       renderWithLayout(<Component {...PROPS} />).toJSON()
     ).toMatchSnapshot();

@@ -1,155 +1,153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Filter Content should render to snapshot 1`] = `
-<Component>
-  <ScrollView
-    bounces={false}
-    contentContainerStyle={
-      Array [
-        undefined,
-        Object {
-          "paddingBottom": 60,
-        },
-      ]
+exports[`FilterPopup should render to snapshot 1`] = `
+<Provider
+  filterStore={
+    Object {
+      "addMatchers": [Function],
+      "advanceTimersByTime": [Function],
+      "autoMockOff": [Function],
+      "autoMockOn": [Function],
+      "clearAllMocks": [Function],
+      "clearAllTimers": [Function],
+      "deepUnmock": [Function],
+      "disableAutomock": [Function],
+      "doMock": [Function],
+      "dontMock": [Function],
+      "enableAutomock": [Function],
+      "fn": [Function],
+      "genMockFromModule": [Function],
+      "isMockFunction": [Function],
+      "mock": [Function],
+      "numProducts": 10,
+      "requireActual": [Function],
+      "requireMock": [Function],
+      "resetAllMocks": [Function],
+      "resetModuleRegistry": [Function],
+      "resetModules": [Function],
+      "restoreAllMocks": [Function],
+      "runAllImmediates": [Function],
+      "runAllTicks": [Function],
+      "runAllTimers": [Function],
+      "runOnlyPendingTimers": [Function],
+      "runTimersToTime": [Function],
+      "setMock": [Function],
+      "setTimeout": [Function],
+      "spyOn": [Function],
+      "unmock": [Function],
+      "useFakeTimers": [Function],
+      "useRealTimers": [Function],
     }
-    showsVerticalScrollIndicator={false}
+  }
+>
+  <Component
+    pointerEvents="box-none"
     style={
       Object {
         "backgroundColor": "#FFFFFF",
-        "padding": 25,
+        "flex": 1,
       }
     }
   >
-    <Filter />
-  </ScrollView>
-  <TouchableOpacity
-    activeOpacity={1}
-    style={
-      Array [
+    <ScrollView
+      bounces={false}
+      contentContainerStyle={
+        Array [
+          Object {
+            "paddingTop": 100,
+          },
+          Object {
+            "paddingBottom": 150,
+          },
+        ]
+      }
+      showsVerticalScrollIndicator={false}
+      style={
         Object {
-          "backgroundColor": "#FFFFFF",
-          "padding": 15,
-        },
+          "padding": 25,
+        }
+      }
+    >
+      <Filter />
+    </ScrollView>
+    <Component
+      pointerEvents="box-none"
+      style={
         Object {
           "bottom": 0,
           "left": 0,
           "position": "absolute",
           "right": 0,
-        },
-      ]
-    }
-  >
-    <withAnimatable(Component)
-      animation="fadeIn"
-      delay={100}
-      direction="normal"
-      iterationCount={1}
-      onAnimationBegin={[Function]}
-      onAnimationEnd={[Function]}
-      useNativeDriver={false}
+        }
+      }
     >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
+      <LinearGradient
+        colors={
+          Array [
+            "rgba(255, 255, 255, 0.9)",
+            "rgba(255, 255, 255, 0)",
+          ]
+        }
+        end={
+          Object {
+            "x": 0,
+            "y": 0,
+          }
+        }
+        pointerEvents="box-none"
+        start={
+          Object {
+            "x": 0,
+            "y": 1,
+          }
+        }
+        style={
+          Object {
+            "paddingBottom": 0,
+          }
+        }
       >
-        DONE
-      </Text>
-    </withAnimatable(Component)>
-  </TouchableOpacity>
-</Component>
-`;
-
-exports[`FilterPopup FilterPopup: should hide to snapshot 1`] = `
-<Component
-  pointerEvents="box-none"
-  style={
-    Object {
-      "flex": 1,
-    }
-  }
->
-  <StatusBar
-    animated={false}
-    hidden={false}
-    showHideTransition="fade"
-  />
-  <Component
-    pointerEvents="box-none"
-    style={
-      Object {
-        "bottom": 13,
-        "left": 0,
-        "position": "absolute",
-        "right": 0,
-      }
-    }
-  >
-    <FilterPopupButton
-      onPress={[Function]}
-      text="Filter / Sort"
-    />
+        <Component
+          style={
+            Object {
+              "alignItems": "center",
+            }
+          }
+        >
+          <TouchableOpacity
+            activeOpacity={0.2}
+            onPress={[MockFunction]}
+          >
+            <Component
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#9013FE",
+                  "borderRadius": 15,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "margin": 15,
+                  "paddingHorizontal": 50,
+                  "paddingVertical": 7.5,
+                }
+              }
+            >
+              <inject-ProductCount
+                labelStyle={
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "borderBottomColor": "#FFFFFF",
+                    "color": "#FFFFFF",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              />
+            </Component>
+          </TouchableOpacity>
+        </Component>
+      </LinearGradient>
+    </Component>
   </Component>
-</Component>
-`;
-
-exports[`FilterPopup FilterPopup: should render to snapshot 1`] = `
-<Component
-  pointerEvents="box-none"
-  style={
-    Object {
-      "flex": 1,
-    }
-  }
->
-  <StatusBar
-    animated={false}
-    hidden={true}
-    showHideTransition="fade"
-  />
-  <Component
-    pointerEvents="box-none"
-    style={
-      Object {
-        "bottom": 13,
-        "left": 0,
-        "position": "absolute",
-        "right": 0,
-      }
-    }
-  >
-    <FilterPopupButton
-      onPress={[Function]}
-      text="Filter / Sort"
-    />
-  </Component>
-  <withAnimatable(FilterContent)
-    animation={
-      Object {
-        "from": Object {
-          "opacity": 0,
-          "translateY": 1334,
-        },
-        "to": Object {
-          "opacity": 1,
-          "translateY": 0,
-        },
-      }
-    }
-    contentStyle={
-      Object {
-        "paddingTop": 100,
-      }
-    }
-    delay={0}
-    direction="normal"
-    duration={1000}
-    iterationCount={1}
-    onAnimationBegin={[Function]}
-    onAnimationEnd={[Function]}
-    onClose={[Function]}
-    scrollEnabled={true}
-    useNativeDriver={true}
-  />
-</Component>
+</Provider>
 `;

@@ -4,20 +4,32 @@ import React from "react";
 import { renderWithLayout } from "localyyz/tests";
 
 // local
-import { FilterPopupButton as Component } from "../";
+import { Button as Component } from "../Button";
 
 // constants
 const NAME = "FilterPopupButton";
-const PROPS = { text: "Filter", onPress: jest.fn() };
+const PROPS = {
+  text: "Filter",
+  onPress: jest.fn()
+};
 
 describe(NAME, () => {
-  it(`${NAME}: should render properly`, () => {
+  it("should render properly", () => {
     let c = renderWithLayout(<Component {...PROPS} />).getInstance();
-
-    expect(c).not.toBeUndefined();
+    expect(c).toBeDefined();
+    expect(PROPS.onPress).not.toBeCalled();
   });
 
-  it(`${NAME}: should render to snapshot`, () => {
+  it("should open modal if isInitialVisible", () => {
+    let fn = jest.fn();
+    let c = renderWithLayout(
+      <Component {...PROPS} isInitialVisible onPress={fn} />
+    ).getInstance();
+    expect(c).toBeDefined();
+    expect(fn).toBeCalled();
+  });
+
+  it("should render to snapshot", () => {
     expect(
       renderWithLayout(<Component {...PROPS} />).toJSON()
     ).toMatchSnapshot();

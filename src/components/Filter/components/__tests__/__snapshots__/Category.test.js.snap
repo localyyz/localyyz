@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Single category filter Single category filter: should render to snapshot 1`] = `
+exports[`Single category filter should render to snapshot 1`] = `
 <View
   accessible={true}
   isTVSelectable={true}
@@ -36,7 +36,7 @@ exports[`Single category filter Single category filter: should render to snapsho
         }
       }
     >
-      Category
+      Apparel
     </Text>
   </View>
 </View>

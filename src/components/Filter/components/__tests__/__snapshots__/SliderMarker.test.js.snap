@@ -49,19 +49,31 @@ exports[`Filter slider marker Filter slider marker: should render to snapshot 1`
   <View
     style={
       Object {
-        "height": 15,
+        "height": 7.5,
       }
     }
   />
   <View
     style={
       Object {
-        "backgroundColor": "rgb(30, 30, 30)",
-        "borderRadius": 1.875,
-        "height": 3.75,
-        "width": 3.75,
+        "alignItems": "center",
+        "height": 15,
+        "justifyContent": "center",
+        "overflow": "hidden",
+        "width": 15,
       }
     }
-  />
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgb(30, 30, 30)",
+          "borderRadius": 2,
+          "height": 4,
+          "width": 4,
+        }
+      }
+    />
+  </View>
 </View>
 `;

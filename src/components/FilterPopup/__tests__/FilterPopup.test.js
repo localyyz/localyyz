@@ -4,43 +4,27 @@ import React from "react";
 import { renderWithLayout } from "localyyz/tests";
 
 // local
-import { default as FilterPopup, FilterContent } from "../";
-let Component = FilterPopup.wrappedComponent;
+import { FilterPopup } from "../";
 
 // constants
 const NAME = "FilterPopup";
+const MOCK_STORE = jest.mock();
+MOCK_STORE.numProducts = 10;
 const PROPS = {
-  filterStore: {},
   contentStyle: { paddingTop: 100 },
-  isVisible: true
+  store: MOCK_STORE,
+  onClose: jest.fn()
 };
 
 describe(NAME, () => {
-  it(`${NAME}: should render properly`, () => {
-    let rendered = renderWithLayout(<Component {...PROPS} />, {}, true);
-    expect(rendered).toBeDefined();
-  });
-
-  it(`${NAME}: should hide to snapshot`, () => {
-    expect(
-      renderWithLayout(<Component {...PROPS} isVisible={false} />, {}, true)
-    ).toMatchSnapshot();
-  });
-
-  it(`${NAME}: should render to snapshot`, () => {
-    expect(
-      renderWithLayout(<Component {...PROPS} />, {}, true)
-    ).toMatchSnapshot();
-  });
-});
-
-describe("Filter Content", () => {
   it("should render properly", () => {
-    let rendered = renderWithLayout(<FilterContent />, {}, true);
+    let rendered = renderWithLayout(<FilterPopup {...PROPS} />, null, true);
     expect(rendered).toBeDefined();
   });
 
   it("should render to snapshot", () => {
-    expect(renderWithLayout(<FilterContent />, {}, true)).toMatchSnapshot();
+    expect(
+      renderWithLayout(<FilterPopup {...PROPS} />, null, true)
+    ).toMatchSnapshot();
   });
 });

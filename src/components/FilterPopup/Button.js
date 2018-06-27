@@ -14,8 +14,6 @@ import Popup from "./Popup";
 
 export class Button extends React.Component {
   static propTypes = {
-    store: PropTypes.object.isRequired,
-
     text: PropTypes.string,
     isInitialVisible: PropTypes.bool,
     onPress: PropTypes.func
