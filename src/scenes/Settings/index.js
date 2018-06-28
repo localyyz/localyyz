@@ -5,14 +5,17 @@ import { Forms } from "localyyz/scenes";
 import { StackNavigator } from "react-navigation";
 
 // local
-import { Menu, Addresses, Orders } from "./scenes";
+import { Menu, Addresses, Orders, History } from "./scenes";
+import ProductScene from "../Product";
 
 export const SettingsTab = StackNavigator(
   {
     Menu: { screen: Menu },
     Addresses: { screen: Addresses },
     AddressForm: { screen: Forms.AddressForm },
-    Orders: { screen: Orders }
+    Orders: { screen: Orders },
+    History: { screen: History },
+    Product: { screen: ProductScene }
   },
   {
     initialRouteName: "Menu",

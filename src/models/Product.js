@@ -1,5 +1,10 @@
+// third party
 import { observable, action } from "mobx";
 
+// custom
+import { randInt } from "localyyz/helpers";
+
+// local
 import Place from "./Place";
 
 // consts
@@ -40,6 +45,10 @@ export default class Product {
   // not part of api product object, but to create separate virtual products
   // based on different colors
   @observable selectedColor;
+
+  // TODO: polyfilled for deals until backend supports it
+  @observable viewing = 0;
+  @observable sold = 0;
 
   // extra non observables
   place = {};
@@ -227,6 +236,10 @@ export default class Product {
     this.selectedColor
       = selectedColor
       || (this.colors && this.colors.length > 0 ? this.colors[0] : "");
+
+    // TODO: polyfill deals data
+    this.viewing = randInt(10) + 50;
+    this.sold = randInt(10);
   };
 }
 

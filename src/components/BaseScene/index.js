@@ -23,10 +23,14 @@ export default class BaseScene extends React.Component {
 
   renderHeader() {
     return (
-      <View onLayout={this.contentCoverStore.onLayout} style={styles.header}>
-        {this.props.title ? (
+      <View
+        onLayout={this.contentCoverStore.onLayout}
+        style={!this.props.header && styles.header}>
+        {!this.props.header ? (
           <Text style={styles.title}>{this.props.title}</Text>
-        ) : null}
+        ) : (
+          this.props.header
+        )}
       </View>
     );
   }
@@ -45,15 +49,23 @@ export default class BaseScene extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          this.props.backgroundColor && {
+            backgroundColor: this.props.backgroundColor
+          }
+        ]}>
         <ContentCoverSlider
-          ref={ref => (this.sliderRef = ref)}
+          ref={this.sliderRef}
           title={this.props.title}
           backColor={Colours.Text}
           backAction={this.onBack()}
-          background={this.renderHeader()}>
+          background={this.renderHeader()}
+          idleStatusBarStatus={this.props.idleStatusBarStatus}>
           <View style={styles.container}>
             <ScrollView
+              showsVerticalScrollIndicator={false}
               scrollEventThrottle={16}
               onScroll={evt =>
                 this.sliderRef.current && this.sliderRef.current.onScroll(evt)

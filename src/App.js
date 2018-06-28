@@ -27,11 +27,11 @@ import {
   CartSummary,
   Deeplink,
   Information,
-  History,
   Brands,
   Modal,
   Checkout,
   SettingsTab,
+  Deals,
 
   // forms
   Forms
@@ -62,13 +62,15 @@ const AppNavigator = StackNavigator(
   }
 );
 
-const HistoryTab = StackNavigator(
+const DealsTab = StackNavigator(
   {
-    History: { screen: History },
-    Product: { screen: Product }
+    Deals: { screen: Deals },
+    Product: { screen: Product },
+    Information: { screen: Information },
+    ProductList: { screen: ProductList }
   },
   {
-    initialRouteName: "History",
+    initialRouteName: "Deals",
     navigationOptions: ({ navigation: { state } }) => ({
       header: null,
       gesturesEnabled: state.params && state.params.gesturesEnabled
@@ -81,7 +83,7 @@ const HistoryTab = StackNavigator(
 const TabBarNavigator = TabNavigator(
   {
     Root: { screen: AppNavigator },
-    History: { screen: HistoryTab },
+    Deals: { screen: DealsTab },
     Settings: { screen: SettingsTab }
   },
   {

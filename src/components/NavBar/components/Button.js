@@ -7,8 +7,10 @@ import PropTypes from "prop-types";
 import { SloppyView } from "localyyz/components";
 
 // third party
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 export default class Button extends React.Component {
   static propTypes = {
@@ -27,25 +29,35 @@ export default class Button extends React.Component {
   };
 
   get buttonColor() {
-    return this.props.isActive ? Colours.Text : Colours.SubduedText;
+    return (
+      this.props.color
+      || (this.props.isActive ? Colours.Text : Colours.SubduedText)
+    );
+  }
+
+  get icon() {
+    if (this.props.type === "entypo" || this.props.entypo) {
+      return EntypoIcon;
+    } else if (this.props.type === "fontAwesome" || this.props.fontAwesome) {
+      return FontAwesomeIcon;
+    } else if (this.props.type === "material" || this.props.material) {
+      return MaterialIcon;
+    } else {
+      return MaterialCommunityIcon;
+    }
   }
 
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
         <SloppyView style={styles.container}>
-          {this.props.entypo ? (
-            <EntypoIcon
-              name={this.props.icon}
-              size={Sizes.IconButton}
-              color={this.buttonColor}/>
-          ) : (
-            <MaterialCommunityIcon
-              name={this.props.icon}
-              size={Sizes.IconButton}
-              color={this.buttonColor}/>
-          )}
-          <Text style={styles.buttonLabel}>{this.props.label}</Text>
+          <this.icon
+            name={this.props.icon}
+            size={Sizes.IconButton}
+            color={this.buttonColor}/>
+          <Text style={[styles.buttonLabel, { color: this.buttonColor }]}>
+            {this.props.label}
+          </Text>
           {this.props.badge ? (
             <View style={styles.badgeContainer}>
               <View style={styles.badge}>

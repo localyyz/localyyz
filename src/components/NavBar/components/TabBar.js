@@ -5,6 +5,7 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 // custom
 import Button from "./Button";
 import { changeTab, onlyIfLoggedIn } from "localyyz/helpers";
+import { IS_DEALS_SUPPORTED } from "localyyz/constants";
 
 // third party
 import { withNavigation } from "react-navigation";
@@ -59,12 +60,20 @@ export default class TabBar extends React.Component {
           animation={this.isVisible ? "slideInUp" : "slideOutDown"}
           duration={200}
           delay={400}
-          style={styles.bar}>
+          style={[
+            styles.bar,
+            this.props.activeButton === "deals" && styles.deals
+          ]}>
           <View style={styles.buttons}>
             <Button
               icon="hanger"
               label="Shop"
               isActive={this.props.activeButton !== "cart"}
+              color={
+                this.props.activeButton === "deals"
+                  ? Colours.AlternateText
+                  : null
+              }
               onPress={() =>
                 this.props.onPress("home", () => {
                   this.props.navigation.dispatch(
@@ -72,21 +81,34 @@ export default class TabBar extends React.Component {
                   );
                 })
               }/>
-            <Button
-              icon="history"
-              label="History"
-              isActive={this.props.activeButton !== "cart"}
-              onPress={() =>
-                this.props.onPress("history", () => {
-                  this.props.navigation.dispatch(changeTab("History"));
-                })
-              }/>
+            {IS_DEALS_SUPPORTED ? (
+              <Button
+                fontAwesome
+                icon="bolt"
+                label="Today"
+                isActive={this.props.activeButton !== "cart"}
+                color={
+                  this.props.activeButton === "deals"
+                    ? Colours.AlternateText
+                    : null
+                }
+                onPress={() =>
+                  this.props.onPress("deals", () => {
+                    this.props.navigation.dispatch(changeTab("Deals"));
+                  })
+                }/>
+            ) : null}
             <Button
               isActive
               entypo
               icon="shopping-basket"
               label="Cart"
               badge={this.props.numItems > 0 ? `${this.props.numItems}` : null}
+              color={
+                this.props.activeButton === "deals"
+                  ? Colours.AlternateText
+                  : null
+              }
               onPress={() =>
                 onlyIfLoggedIn(
                   { hasSession: this.props.hasSession },
@@ -101,9 +123,15 @@ export default class TabBar extends React.Component {
                 )
               }/>
             <Button
-              icon="settings"
+              material
+              icon="more-horiz"
               label="Settings"
               isActive={this.props.activeButton !== "cart"}
+              color={
+                this.props.activeButton === "deals"
+                  ? Colours.AlternateText
+                  : null
+              }
               onPress={() =>
                 this.props.onPress("settings", () => {
                   this.props.navigation.dispatch(changeTab("Settings"));
@@ -129,9 +157,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colours.Foreground
   },
 
+  deals: {
+    backgroundColor: Colours.MenuBackground
+  },
+
   buttons: {
     ...Styles.EqualColumns,
     alignItems: "center",
-    paddingHorizontal: Sizes.Width / 10
+    paddingHorizontal: Sizes.Width / 14
   }
 });

@@ -47,10 +47,6 @@ export default class ContentCoverSlider extends React.Component {
       : this.props.backAction && this.props.backAction();
   }
 
-  componentDidMount() {
-    StatusBar.setBarStyle(this.props.idleStatusBarStatus || "dark-content");
-  }
-
   renderBackground() {
     return (
       this.props.background || (

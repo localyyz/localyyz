@@ -17,7 +17,9 @@ import { AddedSummary, ProductHeader } from "./components";
 import Content from "./content";
 
 // constants
-const CTA_HEIGHT = 175.5;
+// should be manually sync'ed whenever the CTA header changes in layout
+const CTA_HEIGHT = 180;
+const DEAL_HEIGHT = 109;
 
 @inject(stores => ({
   setAppContext: context => stores.navStore.setAppContext(context),
@@ -52,15 +54,11 @@ class ProductScene extends React.Component {
   constructor(props) {
     super(props);
     this.store = new Store(props.navigation.state.params);
+    this.settings = this.props.navigation.state.params;
 
     // product creation if not provided
-    if (
-      props.navigation.state.params.product
-      && !(props.navigation.state.params.product instanceof Product)
-    ) {
-      props.navigation.state.params.product = new Product(
-        props.navigation.state.params.product
-      );
+    if (this.settings.product && !(this.settings.product instanceof Product)) {
+      this.settings.product = new Product(this.settings.product);
     }
 
     // refs
@@ -105,7 +103,11 @@ class ProductScene extends React.Component {
         onLayout={evt => {
           let position
             = evt.nativeEvent.layout.y + evt.nativeEvent.layout.height;
-          let maxPosition = Sizes.Height - CTA_HEIGHT - NAVBAR_HEIGHT;
+          let maxPosition
+            = Sizes.Height
+            - CTA_HEIGHT
+            - (this.settings.dealStore ? DEAL_HEIGHT : 0)
+            - NAVBAR_HEIGHT;
 
           // shoes look funny when overlayed, so prevent it
           let overlayedPosition = position - (this.shouldCrop ? 0 : CTA_HEIGHT);
@@ -122,9 +124,7 @@ class ProductScene extends React.Component {
   }
 
   get productId() {
-    return this.store.product
-      ? this.store.product.id
-      : this.props.navigation.state.params.productId;
+    return this.store.product ? this.store.product.id : this.settings.productId;
   }
 
   onPressImage(imageUrl) {
@@ -143,13 +143,15 @@ class ProductScene extends React.Component {
 
   onBack() {
     this.props.navigation.goBack();
-    this.props.navigation.state.params.onBack
-      && this.props.navigation.state.params.onBack();
+    this.settings.onBack && this.settings.onBack();
   }
 
   render() {
     return this.store.product ? (
-      <Provider productStore={this.store} uiStore={this}>
+      <Provider
+        productStore={this.store}
+        uiStore={this}
+        dealStore={this.settings.dealStore}>
         <View style={styles.productView}>
           <StatusBar hidden />
           <ContentCoverSlider
@@ -161,6 +163,7 @@ class ProductScene extends React.Component {
             background={this.productHeader}
             backColor={Colours.Text}>
             <Content
+              settings={this.settings}
               onPressImage={this.onPressImage}
               onScroll={this.onScroll}/>
           </ContentCoverSlider>
