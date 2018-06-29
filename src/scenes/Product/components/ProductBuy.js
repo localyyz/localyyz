@@ -15,6 +15,7 @@ import { onlyIfLoggedIn, toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { ExplodingButton, SloppyView } from "localyyz/components";
 import { capitalize } from "localyyz/helpers";
+import { GA } from "localyyz/global";
 
 // third party
 import { inject, observer } from "mobx-react/native";
@@ -98,6 +99,11 @@ class ProductBuy extends React.Component {
   }
 
   onOutOfStock() {
+    GA.trackEvent(
+      "cart",
+      "add to cart - item out of stock",
+      String(this.props.product.id)
+    );
     Alert.alert(
       "Out of stock",
       "The product with your selected options is currently not in stock",
@@ -106,6 +112,11 @@ class ProductBuy extends React.Component {
   }
 
   _onAdd() {
+    GA.trackEvent(
+      "cart",
+      "add to cart - success",
+      String(this.props.product.id)
+    );
     this.props.product
       && this.props.selectedVariant
       && this.props.onAdd(

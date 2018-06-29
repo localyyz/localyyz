@@ -8,6 +8,7 @@ import {
   DEFAULT_DISCOUNT_CODE
 } from "localyyz/constants";
 import { UppercasedText } from "localyyz/components";
+import { GA } from "localyyz/global";
 import CartHeader from "./CartHeader";
 import CartField from "./CartField";
 
@@ -53,6 +54,7 @@ export default class DiscountCode extends React.Component {
   };
 
   verifyDiscountCode = () => {
+    GA.trackEvent("cart", "enter discount code");
     if (
       this.props.applyDiscountCode({ discountCode: this.state.newDiscountCode })
     ) {

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import { Colours, Sizes, Styles, DEFAULT_EMAIL } from "localyyz/constants";
+import { GA } from "localyyz/global";
 
 import CartHeader from "./CartHeader";
 import CartField from "./CartField";
@@ -53,6 +54,7 @@ export default class Email extends React.Component {
   };
 
   onEmailUpdate = email => {
+    GA.trackEvent("cart", "enter email");
     if (this.verifyEmail(email)) {
       this.setState({
         isComplete: true,
