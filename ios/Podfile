@@ -22,8 +22,6 @@ target 'localyyz' do
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
 
-  pod 'react-native-google-analytics-bridge', :path => '../node_modules/react-native-google-analytics-bridge'
-
   target 'localyyzTests' do
     inherit! :search_paths
     # Pods for testing
