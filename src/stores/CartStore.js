@@ -437,9 +437,7 @@ export default class CartStore {
     const route = `/carts/${cartId || DEFAULT_CART}/checkout`;
 
     const response = await this._api.post(route);
-
-    // IF success / else reject by error
-    if (response && response.data) {
+    if (response && response.status < 400 && response.data) {
       // NOTE: shouldLog is set when cart status is transitioned
       // from inProgress => checkout
       const shouldLog = this.cart.status === CART_STATUS_INPROGRESS;
@@ -685,7 +683,7 @@ export default class CartStore {
             });
           }
 
-          return this.shippingMethods.map(rate => ({
+          return (this.cart.shippingMethods || []).map(rate => ({
             // conversion back to apple pay shipping spec
             ...rate,
             label: rate.title,
@@ -989,7 +987,6 @@ export default class CartStore {
       response = await this._onUserAcceptPayment(response);
       response = await this._payExpressCheckout(response);
       if (!response._wasFailed) {
-        response._paymentResponse.complete("success");
         await this.replace(response.cart);
         let completionSummary = {
           wasSuccessful: true,
@@ -1005,8 +1002,10 @@ export default class CartStore {
           amountShipping: this.amountShipping
         };
 
-        // revert the cart
-        // TODO: clean this code up
+        response._paymentResponse.complete("success");
+
+        // revert the cart.
+        // TODO: this needs to be cleaned up
         this.cart.clear();
 
         // and finally pass out completion summary object for caller to present

@@ -6545,9 +6545,9 @@ react-native-linear-gradient@^2.4.0:
   dependencies:
     prop-types "^15.5.10"
 
-"react-native-payments@git://github.com/localyyz/react-native-payments.git#3d83bc37ed6c3a960fcc95f4b6379d14332f4514":
-  version "0.3.1"
-  resolved "git://github.com/localyyz/react-native-payments.git#3d83bc37ed6c3a960fcc95f4b6379d14332f4514"
+"react-native-payments@https://github.com/localyyz/react-native-payments#b9230f5228d780caa521b6e41871c6d43222ba31":
+  version "0.7.0"
+  resolved "https://github.com/localyyz/react-native-payments#b9230f5228d780caa521b6e41871c6d43222ba31"
   dependencies:
     es6-error "^4.0.2"
     uuid "^3.1.0"
