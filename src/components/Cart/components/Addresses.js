@@ -2,6 +2,7 @@ import React from "react";
 import { Alert, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import PropTypes from "prop-types";
+import { GA } from "localyyz/global";
 
 // custom
 import Address from "./Address";
@@ -208,6 +209,7 @@ export default class Addresses extends React.Component {
   }
 
   onAddressUpdate = address => {
+    GA.trackEvent("cart", "enter " + this.props.title + " address");
     this.props.update({
       ...address,
       ...this.addressTypes

@@ -10,7 +10,7 @@ import {
 import { Colours } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
-import { ApiInstance } from "localyyz/global";
+import { ApiInstance, GA } from "localyyz/global";
 import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 
 // third party
@@ -118,6 +118,7 @@ class AppContainer extends React.Component {
 
     // initialize api instance with API_URL from User defined vars
     ApiInstance.initialize(props.API_URL);
+    GA.initialize(props.GOOGLE_ANALYTICS_KEY);
   }
 
   get isMinVersion() {

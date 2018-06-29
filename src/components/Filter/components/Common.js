@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 // custom
 import { Styles, Sizes } from "localyyz/constants";
 import { capitalize } from "localyyz/helpers";
+import { GA } from "localyyz/global";
 
 // local
 import ExpandableHeader from "./ExpandableHeader";
@@ -40,10 +41,18 @@ export default class Common extends React.Component {
   }
 
   onToggle = () => {
+    GA.trackEvent("filter/sort", "filter by " + this.props.title);
     this.setState({ collapsed: !this.state.collapsed });
   };
 
   onSelect = item => {
+    this.props.title == "Brand"
+      ? GA.trackEvent(
+          "filter/sort",
+          "filter by " + this.props.title,
+          this.props.item
+        )
+      : "";
     this.setState({ collapsed: true });
     this.props.setFilter(item);
   };

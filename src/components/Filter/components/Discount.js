@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Styles, Sizes, Colours } from "localyyz/constants";
+import { GA } from "localyyz/global";
 
 // third party
 import { inject, observer } from "mobx-react/native";
@@ -56,6 +57,11 @@ export default class Discount extends React.Component {
   }
 
   onValuesChangeFinish(values) {
+    GA.trackEvent(
+      "filter/sort",
+      "sort by discount",
+      (Math.round(values[0] * 100) / 100).toString()
+    );
     this.props.setDiscountFilter(this.bound(values[0]));
     this.activate(false);
   }

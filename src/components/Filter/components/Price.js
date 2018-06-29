@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Styles, Sizes, Colours } from "localyyz/constants";
+import { GA } from "localyyz/global";
 
 // third party
 import PropTypes from "prop-types";
@@ -74,6 +75,11 @@ export default class Price extends React.Component {
   }
 
   onValuesChangeFinish(values) {
+    GA.trackEvent(
+      "filter/sort",
+      "sort by price",
+      values[0].toString() + "-" + values[1].toString()
+    );
     this.props.setPriceFilter(this.bound(values[0]), this.bound(values[1]));
     this.activate(false);
   }

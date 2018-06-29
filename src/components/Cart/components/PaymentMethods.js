@@ -7,6 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Colours, Sizes, Styles } from "localyyz/constants";
+import { GA } from "localyyz/global"
 
 // custom
 import { UppercasedText } from "localyyz/components";
@@ -147,6 +148,7 @@ export default class PaymentMethods extends React.Component {
   }
 
   onSubmit() {
+    GA.trackEvent("cart", "enter payment details")
     this.props.onReady(this.state);
     if (this.isReady(this.state)) {
       this.props.toggle(false);

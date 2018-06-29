@@ -10,6 +10,7 @@ import { Sizes, Colours, Styles } from "localyyz/constants";
 //
 // custom
 import { UppercasedText, SloppyView } from "localyyz/components";
+import { GA } from "localyyz/global";
 
 // third party
 import PropTypes from "prop-types";
@@ -47,6 +48,7 @@ export class CartAction extends React.Component {
   };
 
   onCheckout = async () => {
+    GA.trackEvent("cart", "attempt to checkout");
     try {
       // client side checkout validation, throws error if needed
       this.props.validate();
