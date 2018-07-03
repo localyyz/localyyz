@@ -196,6 +196,16 @@ export default class Product {
       groups[currentGroup].push(photo);
     }
 
+    // fail safe: if any color at this point doesn't have any images
+    // associated, and that _common is empty.
+    if (groups["_common"].length == 0) {
+      for (let color of this.colors.slice()) {
+        if (!groups[color]) {
+          groups[color] = this.images.slice();
+        }
+      }
+    }
+
     return groups;
   }
 
