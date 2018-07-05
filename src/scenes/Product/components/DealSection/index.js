@@ -9,13 +9,9 @@ import Moment from "moment";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { Timer, ProgressBar } from "localyyz/components";
 
-@inject((stores, props) => ({
+@inject(stores => ({
   now: stores.dealStore && stores.dealStore.now,
-  product: stores.productStore.product,
-  target:
-    stores.dealStore && props.settings && props.settings.dealId
-      ? stores.dealStore.deals.find(deal => deal.id === props.settings.dealId)
-      : null
+  product: stores.productStore.product
 }))
 @observer
 export default class DealSection extends React.Component {
@@ -25,7 +21,7 @@ export default class DealSection extends React.Component {
   }
 
   get isActive() {
-    return Moment(this.props.target.end).diff(this.props.now) > 0;
+    return Moment(this.store.deal.endAt).diff(this.props.now) > 0;
   }
 
   render() {
@@ -38,9 +34,9 @@ export default class DealSection extends React.Component {
             <View style={styles.stats}>
               <Text style={[styles.title, styles.subTitle]}>
                 <Text>ending in </Text>
-                {this.props.target ? (
+                {this.store.deal ? (
                   <Timer
-                    target={Moment(this.props.target.end).toArray()}
+                    target={Moment(this.store.deal.endAt).toArray()}
                     onComplete={() =>
                       this.props.navigation && this.props.navigation.goBack()
                     }/>
@@ -49,8 +45,8 @@ export default class DealSection extends React.Component {
                 )}
               </Text>
               <Text style={[styles.title, styles.subTitle]}>
-                {`${this.store.quantityAvailable} left (${Math.round(
-                  this.store.percentageClaimed * 100
+                {`${this.store.deal.quantityAvailable} left (${Math.round(
+                  this.store.deal.percentageClaimed * 100
                 )}% claimed)`}
               </Text>
             </View>

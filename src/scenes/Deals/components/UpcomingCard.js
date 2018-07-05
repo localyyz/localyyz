@@ -9,14 +9,14 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 
 export default class UpcomingCard extends React.Component {
   render() {
-    return (
+    return this.props.deal ? (
       <View style={[styles.cardContainer, styles.card]}>
         <Text style={styles.title}>
-          {Moment().to(Moment(this.props.start))}
+          {Moment().to(Moment(this.props.deal.startAt))}
         </Text>
-        <Text style={styles.text}>{this.props.name}</Text>
+        <Text style={styles.text}>{this.props.deal.name}</Text>
       </View>
-    );
+    ) : null;
   }
 }
 

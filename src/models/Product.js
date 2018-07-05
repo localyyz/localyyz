@@ -47,8 +47,9 @@ export default class Product {
   @observable selectedColor;
 
   // TODO: polyfilled for deals until backend supports it
-  @observable viewing = 0;
-  @observable sold = 0;
+  @observable liveViews = 0;
+  @observable views = 0;
+  @observable purchased = 0;
 
   // extra non observables
   place = {};
@@ -236,10 +237,6 @@ export default class Product {
     this.selectedColor
       = selectedColor
       || (this.colors && this.colors.length > 0 ? this.colors[0] : "");
-
-    // TODO: polyfill deals data
-    this.viewing = randInt(10) + 50;
-    this.sold = randInt(10);
   };
 }
 

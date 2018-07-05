@@ -5,47 +5,20 @@ import { observable, runInAction, computed } from "mobx";
 
 // custom
 import { ApiInstance } from "localyyz/global";
-import { Product } from "localyyz/models";
+import { Deal } from "localyyz/models";
 
 // constants
-const DEBUG = false;
+const DEBUG = true;
 const REFRESH_INTERVAL = 5000;
 
 export default class ActiveDealUIStore {
-  @observable products = [];
+  @observable deal;
 
   constructor(deal) {
-    // bindings
-    this.isDiff = this.isDiff.bind(this);
-
     // data
     this.deal = deal;
     this.progress = new Animated.Value(0);
     this.refresh();
-  }
-
-  @computed
-  get usersViewing() {
-    return this.products
-      .map(product => product.viewing || 0)
-      .reduce((a, b) => a + b, 0);
-  }
-
-  @computed
-  get itemsSold() {
-    return this.products
-      .map(product => product.sold || 0)
-      .reduce((a, b) => a + b, 0);
-  }
-
-  @computed
-  get quantityAvailable() {
-    return (this.deal.limit || 0) - this.itemsSold;
-  }
-
-  @computed
-  get percentageClaimed() {
-    return this.deal.limit ? this.itemsSold / this.deal.limit : 1;
   }
 
   refresh(interval = REFRESH_INTERVAL) {
@@ -57,43 +30,32 @@ export default class ActiveDealUIStore {
     });
   }
 
-  isDiff(newProducts) {
-    let signatureTest, viewCountTest, soldQuantityTest;
-    signatureTest = this.products.join(",") !== newProducts.join(",");
-    viewCountTest = this.products.some(
-      product =>
-        (newProducts.find(p => p.id === product.id) || {}).viewing
-        !== product.viewing
-    );
-    soldQuantityTest = this.products.some(
-      product =>
-        (newProducts.find(p => p.id === product.id) || {}).sold > product.sold
-    );
-
-    DEBUG
-      && console.log(
-        `[ActiveDeal] Diff: signature ${signatureTest}, view ${viewCountTest}, sold ${soldQuantityTest}`
-      );
-    return signatureTest || viewCountTest || soldQuantityTest;
-  }
-
   async fetch() {
-    let response = await ApiInstance.get(
-      `collections/${this.deal.id}/products`
-    );
+    let response = await ApiInstance.get(this.deal.origin);
     if (response && response.status < 400 && response.data) {
-      let isDiff = this.isDiff(response.data || []);
-      isDiff
-        && runInAction("[ACTION] Fetching products for Today's deal", () => {
-          this.products = [
-            ...response.data.map(product => new Product(product))
-          ];
+      // inject origin data from previous deal data
+      let deal = new Deal({ ...response.data, origin: this.deal.origin });
+      !this.deal.equals(deal)
+        && runInAction("[ACTION] Fetching Today's deal", () => {
+          this.deal = deal;
+          DEBUG
+            && console.log(
+              "[ActiveDeal] Deal updated:",
+              deal,
+              "from",
+              this.deal.origin
+            );
 
           // update progress
           Animated.timing(this.progress, {
-            toValue: this.percentageClaimed
+            toValue: this.deal.percentageClaimed
           }).start();
         });
     }
+  }
+
+  @computed
+  get products() {
+    return this.deal.products || [];
   }
 }

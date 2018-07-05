@@ -17,9 +17,12 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
   >
     <View
       style={
-        Object {
-          "flex": 1,
-        }
+        Array [
+          Object {
+            "flex": 1,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -156,6 +159,7 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
             <RCTScrollView
               onScroll={[Function]}
               scrollEventThrottle={16}
+              showsVerticalScrollIndicator={false}
             >
               <View>
                 <View
@@ -609,7 +613,7 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
                                   ]
                                 }
                               >
-                                Saved addresses
+                                Browsing history
                               </Text>
                             </View>
                           </View>
@@ -654,30 +658,21 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
                           </View>
                         </View>
                       </View>
-                      <View
-                        accessible={true}
-                        isTVSelectable={true}
-                        onResponderGrant={[Function]}
-                        onResponderMove={[Function]}
-                        onResponderRelease={[Function]}
-                        onResponderTerminate={[Function]}
-                        onResponderTerminationRequest={[Function]}
-                        onStartShouldSetResponder={[Function]}
-                        style={
-                          Object {
-                            "opacity": 1,
-                          }
-                        }
-                      >
+                      <View>
                         <View
+                          accessible={true}
+                          isTVSelectable={true}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
                           style={
-                            Array [
-                              Object {
-                                "flexBasis": 150,
-                              },
-                              undefined,
-                              undefined,
-                            ]
+                            Object {
+                              "flexBasis": 150,
+                              "opacity": 1,
+                            }
                           }
                         >
                           <View
@@ -712,15 +707,18 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
                                   ellipsizeMode="tail"
                                   numberOfLines={1}
                                   style={
-                                    Object {
-                                      "backgroundColor": "rgba(255, 255, 255, 0)",
-                                      "color": "#FF0000",
-                                      "fontSize": 14,
-                                      "fontWeight": "300",
-                                    }
+                                    Array [
+                                      Object {
+                                        "backgroundColor": "rgba(255, 255, 255, 0)",
+                                        "color": "rgb(30, 30, 30)",
+                                        "fontSize": 14,
+                                        "fontWeight": "300",
+                                      },
+                                      undefined,
+                                    ]
                                   }
                                 >
-                                  This field is required
+                                  Saved addresses
                                 </Text>
                               </View>
                             </View>
@@ -734,64 +732,176 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
                               <View
                                 style={
                                   Object {
+                                    "alignItems": "flex-end",
+                                    "flex": 1,
+                                    "justifyContent": "center",
+                                  }
+                                }
+                              >
+                                <Text
+                                  accessible={true}
+                                  allowFontScaling={false}
+                                  ellipsizeMode="tail"
+                                  style={
+                                    Array [
+                                      Object {
+                                        "color": "#999999",
+                                        "fontSize": 16,
+                                      },
+                                      undefined,
+                                      Object {
+                                        "fontFamily": "Material Icons",
+                                        "fontStyle": "normal",
+                                        "fontWeight": "normal",
+                                      },
+                                    ]
+                                  }
+                                >
+                                  
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                        <View
+                          accessible={true}
+                          isTVSelectable={true}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          style={
+                            Object {
+                              "opacity": 1,
+                            }
+                          }
+                        >
+                          <View
+                            style={
+                              Array [
+                                Object {
+                                  "flexBasis": 150,
+                                },
+                                undefined,
+                                undefined,
+                              ]
+                            }
+                          >
+                            <View
+                              style={
+                                Array [
+                                  Object {
+                                    "backgroundColor": "#FFFFFF",
+                                    "paddingHorizontal": 25,
+                                    "paddingVertical": 15,
+                                  },
+                                  Object {
                                     "alignItems": "center",
                                     "flexDirection": "row",
                                     "justifyContent": "space-between",
+                                  },
+                                ]
+                              }
+                            >
+                              <View
+                                style={
+                                  Object {
+                                    "marginRight": 15,
+                                  }
+                                }
+                              >
+                                <View
+                                  style={Object {}}
+                                >
+                                  <Text
+                                    accessible={true}
+                                    allowFontScaling={true}
+                                    ellipsizeMode="tail"
+                                    numberOfLines={1}
+                                    style={
+                                      Object {
+                                        "backgroundColor": "rgba(255, 255, 255, 0)",
+                                        "color": "#FF0000",
+                                        "fontSize": 14,
+                                        "fontWeight": "300",
+                                      }
+                                    }
+                                  >
+                                    This field is required
+                                  </Text>
+                                </View>
+                              </View>
+                              <View
+                                style={
+                                  Object {
+                                    "flex": 1,
                                   }
                                 }
                               >
                                 <View
                                   style={
                                     Object {
-                                      "alignItems": "flex-end",
-                                      "flex": 1,
+                                      "alignItems": "center",
+                                      "flexDirection": "row",
+                                      "justifyContent": "space-between",
                                     }
                                   }
                                 >
-                                  <Text
-                                    accessible={true}
-                                    allowFontScaling={true}
-                                    ellipsizeMode="tail"
+                                  <View
                                     style={
                                       Object {
-                                        "backgroundColor": "rgba(255, 255, 255, 0)",
-                                        "color": "#000000",
+                                        "alignItems": "flex-end",
                                         "flex": 1,
-                                        "fontSize": 14,
                                       }
                                     }
                                   >
-                                    Not selected
-                                  </Text>
-                                </View>
-                                <View
-                                  style={
-                                    Object {
-                                      "marginLeft": 7.5,
-                                    }
-                                  }
-                                >
-                                  <Text
-                                    accessible={true}
-                                    allowFontScaling={false}
-                                    ellipsizeMode="tail"
+                                    <Text
+                                      accessible={true}
+                                      allowFontScaling={true}
+                                      ellipsizeMode="tail"
+                                      style={
+                                        Object {
+                                          "backgroundColor": "rgba(255, 255, 255, 0)",
+                                          "color": "#000000",
+                                          "flex": 1,
+                                          "fontSize": 14,
+                                        }
+                                      }
+                                    >
+                                      Not selected
+                                    </Text>
+                                  </View>
+                                  <View
                                     style={
-                                      Array [
-                                        Object {
-                                          "color": "#999999",
-                                          "fontSize": 16,
-                                        },
-                                        undefined,
-                                        Object {
-                                          "fontFamily": "Material Icons",
-                                          "fontStyle": "normal",
-                                          "fontWeight": "normal",
-                                        },
-                                      ]
+                                      Object {
+                                        "marginLeft": 7.5,
+                                      }
                                     }
                                   >
-                                    
-                                  </Text>
+                                    <Text
+                                      accessible={true}
+                                      allowFontScaling={false}
+                                      ellipsizeMode="tail"
+                                      style={
+                                        Array [
+                                          Object {
+                                            "color": "#999999",
+                                            "fontSize": 16,
+                                          },
+                                          undefined,
+                                          Object {
+                                            "fontFamily": "Material Icons",
+                                            "fontStyle": "normal",
+                                            "fontWeight": "normal",
+                                          },
+                                        ]
+                                      }
+                                    >
+                                      
+                                    </Text>
+                                  </View>
                                 </View>
                               </View>
                             </View>
@@ -1210,9 +1320,12 @@ exports[`Settings Menu Settings Menu: should render properly when user is not lo
   >
     <View
       style={
-        Object {
-          "flex": 1,
-        }
+        Array [
+          Object {
+            "flex": 1,
+          },
+          undefined,
+        ]
       }
     >
       <View
@@ -1349,6 +1462,7 @@ exports[`Settings Menu Settings Menu: should render properly when user is not lo
             <RCTScrollView
               onScroll={[Function]}
               scrollEventThrottle={16}
+              showsVerticalScrollIndicator={false}
             >
               <View>
                 <View
@@ -1655,7 +1769,7 @@ exports[`Settings Menu Settings Menu: should render properly when user is not lo
                                   ]
                                 }
                               >
-                                Sign in
+                                Browsing history
                               </Text>
                             </View>
                           </View>
@@ -1696,6 +1810,112 @@ exports[`Settings Menu Settings Menu: should render properly when user is not lo
                               >
                                 
                               </Text>
+                            </View>
+                          </View>
+                        </View>
+                      </View>
+                      <View>
+                        <View
+                          accessible={true}
+                          isTVSelectable={true}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          style={
+                            Object {
+                              "flexBasis": 150,
+                              "opacity": 1,
+                            }
+                          }
+                        >
+                          <View
+                            style={
+                              Array [
+                                Object {
+                                  "backgroundColor": "#FFFFFF",
+                                  "paddingHorizontal": 25,
+                                  "paddingVertical": 15,
+                                },
+                                Object {
+                                  "alignItems": "center",
+                                  "flexDirection": "row",
+                                  "justifyContent": "space-between",
+                                },
+                              ]
+                            }
+                          >
+                            <View
+                              style={
+                                Object {
+                                  "marginRight": 15,
+                                }
+                              }
+                            >
+                              <View
+                                style={Object {}}
+                              >
+                                <Text
+                                  accessible={true}
+                                  allowFontScaling={true}
+                                  ellipsizeMode="tail"
+                                  numberOfLines={1}
+                                  style={
+                                    Array [
+                                      Object {
+                                        "backgroundColor": "rgba(255, 255, 255, 0)",
+                                        "color": "rgb(30, 30, 30)",
+                                        "fontSize": 14,
+                                        "fontWeight": "300",
+                                      },
+                                      undefined,
+                                    ]
+                                  }
+                                >
+                                  Sign in
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={
+                                Object {
+                                  "flex": 1,
+                                }
+                              }
+                            >
+                              <View
+                                style={
+                                  Object {
+                                    "alignItems": "flex-end",
+                                    "flex": 1,
+                                    "justifyContent": "center",
+                                  }
+                                }
+                              >
+                                <Text
+                                  accessible={true}
+                                  allowFontScaling={false}
+                                  ellipsizeMode="tail"
+                                  style={
+                                    Array [
+                                      Object {
+                                        "color": "#999999",
+                                        "fontSize": 16,
+                                      },
+                                      undefined,
+                                      Object {
+                                        "fontFamily": "Material Icons",
+                                        "fontStyle": "normal",
+                                        "fontWeight": "normal",
+                                      },
+                                    ]
+                                  }
+                                >
+                                  
+                                </Text>
+                              </View>
                             </View>
                           </View>
                         </View>

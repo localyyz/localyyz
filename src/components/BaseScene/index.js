@@ -9,9 +9,6 @@ export default class BaseScene extends React.Component {
   constructor(props) {
     super(props);
 
-    // refs
-    this.sliderRef = React.createRef();
-
     // stores
     this.contentCoverStore = ContentCoverSlider.createStore();
 
@@ -47,6 +44,10 @@ export default class BaseScene extends React.Component {
     return this.props.backAction || false;
   }
 
+  get sliderRef() {
+    return this.refs.slider;
+  }
+
   render() {
     return (
       <View
@@ -57,7 +58,7 @@ export default class BaseScene extends React.Component {
           }
         ]}>
         <ContentCoverSlider
-          ref={this.sliderRef}
+          ref="slider"
           title={this.props.title}
           backColor={Colours.Text}
           backAction={this.onBack()}
@@ -67,9 +68,7 @@ export default class BaseScene extends React.Component {
             <ScrollView
               showsVerticalScrollIndicator={false}
               scrollEventThrottle={16}
-              onScroll={evt =>
-                this.sliderRef.current && this.sliderRef.current.onScroll(evt)
-              }>
+              onScroll={evt => this.sliderRef && this.sliderRef.onScroll(evt)}>
               {this.renderSpacer()}
               <View style={styles.content}>{this.props.children}</View>
             </ScrollView>

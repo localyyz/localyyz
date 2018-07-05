@@ -4,28 +4,68 @@ import Moment from "moment";
 
 // custom
 import { ApiInstance } from "localyyz/global";
+import { Deal } from "localyyz/models";
 
 // constants
-const DEBUG = true;
-const DEBUG_DATE_COMPONENT = "s";
-const DEBUG_REMAINING = 5;
-const DEBUG_DURATION = 1000;
+const DEBUG = false;
+const ENDPOINT = "deals";
 const MIN_SYNC_INTERVAL = 1000;
-const MAX_SYNC_INTERVAL = 60000;
-
-// static constants
-let DEBUG_DEAL_START, DEBUG_DEAL_END;
-// DEBUG_DEAL_START = [2018, 6, 5, 12];
-// DEBUG_DEAL_END = [2018, 6, 5, 13];
+const MAX_SYNC_INTERVAL = 10000;
 
 export default class DealsUIStore {
-  @observable deals = [];
+  @observable active = [];
+  @observable upcoming = [];
   @observable now = Moment();
 
   constructor() {
     // bindings
     this.fetch = this.fetch.bind(this);
     this.refresh = this.refresh.bind(this);
+    this.equals = this.equals.bind(this);
+  }
+
+  async fetch() {
+    let activeOrigin = `${ENDPOINT}/active`;
+    let upcomingOrigin = `${ENDPOINT}/upcoming`;
+
+    // and fetch
+    let active = await ApiInstance.get(activeOrigin);
+    let upcoming = await ApiInstance.get(upcomingOrigin);
+
+    if (
+      active
+      && active.status < 400
+      && active.data
+      && (upcoming && upcoming.status && upcoming.data)
+    ) {
+      await runInAction("[ACTION] Fetching today's deals", () => {
+        let newActive, newUpcoming;
+
+        // inject origin data for fetching
+        newActive = active.data.map(
+          deal => new Deal({ ...deal, origin: `${activeOrigin}/${deal.id}` })
+        );
+
+        newUpcoming = upcoming.data.map(
+          deal => new Deal({ ...deal, origin: `${upcomingOrigin}/${deal.id}` })
+        );
+
+        // only trigger update if the lists have changed
+        if (!this.equals(this.active, newActive)) {
+          this.active = newActive;
+        }
+
+        if (!this.equals(this.upcoming, newUpcoming)) {
+          this.upcoming = newUpcoming;
+        }
+
+        // and out
+        return this.deals;
+      });
+    }
+
+    // force timer update
+    this.refresh(10);
   }
 
   refresh(interval = 0) {
@@ -33,25 +73,44 @@ export default class DealsUIStore {
     this._refreshTimeout = setTimeout(() => {
       runInAction("[ACTION] Syncing deals with current time", () => {
         this.now = Moment();
-        let newInterval = Math.min(
-          MAX_SYNC_INTERVAL,
-          Math.max(
-            Moment(this.currentTimerTargetArray).diff(this.now),
-            MIN_SYNC_INTERVAL
-          )
-        );
-        DEBUG && console.log(`[Deals] Next sync in ${newInterval / 1000}s`);
+        this.fetch().then(() => {
+          let newInterval = Math.min(
+            MAX_SYNC_INTERVAL,
+            Math.max(
+              Moment(this.currentTimerTargetArray).diff(this.now),
+              MIN_SYNC_INTERVAL
+            )
+          );
+          DEBUG && console.log(`[Deals] Next sync in ${newInterval / 1000}s`);
 
-        // start a new cycle based on next deal timer boundary
-        this.refresh(newInterval);
+          // start a new cycle based on next deal timer boundary
+          this.refresh(newInterval);
+        });
       });
     }, interval);
   }
 
+  // compares two lists of deals for equality
+  equals(first, second) {
+    let lengthTest, signatureTest;
+    lengthTest = first.length === second.length;
+    signatureTest
+      = lengthTest
+      && first.map(deal => deal.id).join(",")
+        === second.map(deal => deal.id).join(",");
+
+    DEBUG
+      && console.log(
+        `[Deals] Testing for changes: length ${lengthTest}, signature ${signatureTest}`
+      );
+    return lengthTest && signatureTest;
+  }
+
   @computed
   get currentDeal() {
+    // merge both active and upcoming
     let activeDeals = this.deals.filter(
-      deal => Moment(deal.end).diff(this.now) > 0
+      deal => Moment(deal.endAt).diff(this.now) > 0
     );
 
     // could be null (to indicate no deals active)
@@ -66,8 +125,8 @@ export default class DealsUIStore {
   get currentStatus() {
     let code = 0;
     let deal = this.currentDeal;
-    let start = deal ? Moment(deal.start) : null;
-    let end = deal ? Moment(deal.end) : null;
+    let start = deal ? Moment(deal.startAt) : null;
+    let end = deal ? Moment(deal.endAt) : null;
 
     // 0-3: [waiting, active, missed, expired]
     if (
@@ -97,10 +156,15 @@ export default class DealsUIStore {
   }
 
   @computed
+  get deals() {
+    return [...this.active, ...this.upcoming];
+  }
+
+  @computed
   get currentTimerTargetArray() {
     let deal = this.currentDeal;
-    let start = deal ? Moment(deal.start) : null;
-    let end = deal ? Moment(deal.end) : null;
+    let start = deal ? Moment(deal.startAt) : null;
+    let end = deal ? Moment(deal.endAt) : null;
     let tomorrowAtNoon = incrementComponent(
       setComponent(this.now.toArray(), 3, 12),
       "d"
@@ -117,45 +181,8 @@ export default class DealsUIStore {
     DEBUG && console.log(`[Deals] Current timer target is ${currentTimer}`);
     return currentTimer;
   }
-
-  async fetch() {
-    let response = await ApiInstance.get("collections");
-    if (response && response.status < 400 && response.data) {
-      let now = Moment();
-
-      runInAction("[ACTION] Fetching today's deals", () => {
-        this.deals
-          = response.data.map((deal, i) => ({
-            ...deal,
-
-            // TODO: polyfill start and end on debug (remove when backend supports it)
-            start: DEBUG
-              ? DEBUG_DEAL_START
-                || incrementComponent(
-                  now.toArray(),
-                  DEBUG_DATE_COMPONENT,
-                  DEBUG_REMAINING * (i + 1)
-                )
-              : deal.start,
-            end: DEBUG
-              ? DEBUG_DEAL_END
-                || incrementComponent(
-                  now.toArray(),
-                  DEBUG_DATE_COMPONENT,
-                  (DEBUG_REMAINING + DEBUG_DURATION) * (i + 1)
-                )
-              : deal.end,
-            limit: 100
-          })) || [];
-
-        // force timer update
-        this.refresh(10);
-      });
-    }
-  }
 }
 
-// for dev dummy data starting right soon
 function incrementComponent(date, component = "m", x = 1) {
   return Moment(date)
     .add(x, component)

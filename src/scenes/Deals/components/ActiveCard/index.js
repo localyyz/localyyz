@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // third party
+import { computed } from "mobx";
 import { Provider, observer, inject } from "mobx-react/native";
 
 // custom
@@ -18,20 +19,21 @@ import ActiveDealUIStore from "./store";
 export default class ActiveCard extends React.Component {
   constructor(props) {
     super(props);
-    this.store = new ActiveDealUIStore(this.props);
+    this.store = new ActiveDealUIStore(this.props.deal);
   }
 
+  @computed
   get product() {
-    return this.store.products[0] || {};
+    return this.store.products[0];
   }
 
   render() {
-    return this.store.products.length > 0 ? (
+    return this.product ? (
       <Provider activeDealStore={this.store}>
         <View style={styles.container}>
           <View style={styles.card}>
-            <Text style={styles.title}>{this.props.name}</Text>
-            <Text style={styles.text}>{this.props.description}</Text>
+            <Text style={styles.title}>{this.store.deal.name}</Text>
+            <Text style={styles.text}>{this.store.deal.description}</Text>
           </View>
           <View style={styles.activeContent}>
             <ConstrainedAspectImage
@@ -41,9 +43,12 @@ export default class ActiveCard extends React.Component {
               onPress={() =>
                 this.props.navigation.navigate("Product", {
                   product: this.product,
+
+                  // used for now timer sync
                   dealStore: this.props.dealStore,
-                  activeDealStore: this.store,
-                  dealId: this.props.id
+
+                  // deal data itself
+                  activeDealStore: this.store
                 })
               }>
               <View style={styles.button}>
@@ -55,10 +60,14 @@ export default class ActiveCard extends React.Component {
             <View style={styles.social}>
               <Text style={styles.socialLabel}>
                 {`${
-                  this.store.usersViewing
-                    ? `${this.store.usersViewing} currently viewing — `
+                  this.store.deal.usersViewing
+                    ? `${this.store.deal.usersViewing} currently viewing — `
                     : ""
-                }${this.store.quantityAvailable} available`}
+                }${
+                  this.store.deal.quantityAvailable
+                    ? `${this.store.deal.quantityAvailable} available`
+                    : "sold out"
+                }`}
               </Text>
               <ProgressBar progress={this.store.progress} />
             </View>

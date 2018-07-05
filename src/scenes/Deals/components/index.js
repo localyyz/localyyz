@@ -1,2 +1,3 @@
 export { default as Background } from "./Background";
-export { default as DealCard } from "./DealCard";
+export { default as ActiveCard } from "./ActiveCard";
+export { default as UpcomingCard } from "./UpcomingCard";

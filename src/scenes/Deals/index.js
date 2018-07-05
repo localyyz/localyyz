@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import { View, StyleSheet, Text, SectionList } from "react-native";
 
 // third party
 import LinearGradient from "react-native-linear-gradient";
@@ -10,7 +10,7 @@ import { BaseScene } from "localyyz/components";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // local
-import { Background, DealCard } from "./components";
+import { Background, UpcomingCard, ActiveCard } from "./components";
 import DealsUIStore from "./store";
 
 // constants
@@ -79,25 +79,40 @@ export default class DealsScene extends React.Component {
 }
 
 @inject(stores => ({
-  deals: stores.dealStore.deals
+  active: stores.dealStore.active,
+  upcoming: stores.dealStore.upcoming
 }))
 @observer
 class Deals extends React.Component {
   constructor(props) {
     super(props);
+
+    // bindings
     this.renderItem = this.renderItem.bind(this);
+    this.renderActiveItem = this.renderActiveItem.bind(this);
   }
 
   renderItem({ item: deal }) {
-    return <DealCard {...deal} navigation={this.props.navigation} />;
+    return <UpcomingCard deal={deal} navigation={this.props.navigation} />;
+  }
+
+  renderActiveItem({ item: deal }) {
+    return <ActiveCard deal={deal} navigation={this.props.navigation} />;
+  }
+
+  get sections() {
+    return [
+      { data: this.props.active, renderItem: this.renderActiveItem },
+      { data: this.props.upcoming }
+    ];
   }
 
   render() {
     return (
-      <FlatList
-        data={this.props.deals}
-        keyExtractor={product => `deal-${product.id}`}
-        renderItem={this.renderItem}/>
+      <SectionList
+        sections={this.sections}
+        renderItem={this.renderItem}
+        keyExtractor={(deal, i) => `deal-${deal.id}-${i}`}/>
     );
   }
 }
