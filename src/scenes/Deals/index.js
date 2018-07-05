@@ -80,7 +80,8 @@ export default class DealsScene extends React.Component {
 
 @inject(stores => ({
   active: stores.dealStore.active,
-  upcoming: stores.dealStore.upcoming
+  upcoming: stores.dealStore.upcoming,
+  now: stores.dealStore.now
 }))
 @observer
 class Deals extends React.Component {
@@ -93,11 +94,21 @@ class Deals extends React.Component {
   }
 
   renderItem({ item: deal }) {
-    return <UpcomingCard deal={deal} navigation={this.props.navigation} />;
+    return (
+      <UpcomingCard
+        now={this.props.now}
+        deal={deal}
+        navigation={this.props.navigation}/>
+    );
   }
 
   renderActiveItem({ item: deal }) {
-    return <ActiveCard deal={deal} navigation={this.props.navigation} />;
+    return (
+      <ActiveCard
+        now={this.props.now}
+        deal={deal}
+        navigation={this.props.navigation}/>
+    );
   }
 
   get sections() {

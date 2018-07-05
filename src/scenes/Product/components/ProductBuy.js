@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  TouchableWithoutFeedback
+} from "react-native";
 import PropTypes from "prop-types";
 
 // custom
@@ -200,16 +207,18 @@ class ProductBuy extends React.Component {
         </TouchableOpacity>
         {this.props.isExpressSupported ? (
           <View style={styles.buttons}>
-            <ApplePayButton
-              width={Sizes.InnerFrame * 10}
-              height={Sizes.InnerFrame * 2}
-              onPress={() => {
-                this.isInStock
-                  ? this._onExpressCheckout()
-                  : this.onOutOfStock();
-              }}
-              style="black"
-              type="buy"/>
+            <TouchableOpacity>
+              <ApplePayButton
+                width={Sizes.InnerFrame * 10}
+                height={Sizes.InnerFrame * 2}
+                onPress={() => {
+                  this.isInStock
+                    ? this._onExpressCheckout()
+                    : this.onOutOfStock();
+                }}
+                style="black"
+                type="buy"/>
+            </TouchableOpacity>
             {!this.props.isDeal ? (
               <ExplodingButton
                 isExploded={this.props.isExploded}

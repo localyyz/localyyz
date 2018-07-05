@@ -1,10 +1,14 @@
 import { action, observable, computed } from "mobx";
 
+// third party
+import Moment from "moment";
+
 // custom
 import { Product } from "localyyz/models";
 
 // constants
 const DEBUG = false;
+const DELAY = 2000;
 
 export default class Deal {
   @observable id = 0;
@@ -35,6 +39,17 @@ export default class Deal {
     // products
     if (data.products) {
       this.products = data.products.map(product => new Product(product));
+    }
+
+    // inject delay into the startAt and endAt times to allow for server to process
+    // status changes
+    if (DELAY) {
+      this.startAt = Moment(this.startAt)
+        .add(DELAY, "ms")
+        .toArray();
+      this.endAt = Moment(this.endAt)
+        .add(DELAY, "ms")
+        .toArray();
     }
   }
 

@@ -3,16 +3,23 @@ import { View, StyleSheet, Text } from "react-native";
 
 // third party
 import Moment from "moment";
+import { observer } from "mobx-react/native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
+@observer
 export default class UpcomingCard extends React.Component {
   render() {
     return this.props.deal ? (
       <View style={[styles.cardContainer, styles.card]}>
         <Text style={styles.title}>
-          {Moment().to(Moment(this.props.deal.startAt))}
+          {Moment(this.props.deal.startAt).calendar(this.props.now, {
+            sameDay: "[Today]",
+            nextDay: "[Tomorrow]",
+            nextWeek: "dddd",
+            sameElse: "DD/MM/YYYY"
+          })}
         </Text>
         <Text style={styles.text}>{this.props.deal.name}</Text>
       </View>
