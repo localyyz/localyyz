@@ -2,7 +2,6 @@ import React from "react";
 
 import { resetHome } from "localyyz/helpers";
 import ProductStore from "../Product/store";
-import HomeStore from "../Home/store";
 
 import branch from "react-native-branch";
 import { inject } from "mobx-react/native";

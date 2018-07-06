@@ -245,7 +245,9 @@ export default class Product {
     // set first in stock color if not specified
     let selectedVariant = this.selectedVariant;
     this.selectedColor
-      = selectedColor || (selectedVariant.etc ? selectedVariant.etc.color : "");
+      = selectedColor
+      || product.selectedColor
+      || (selectedVariant.etc ? selectedVariant.etc.color : "");
   };
 }
 
