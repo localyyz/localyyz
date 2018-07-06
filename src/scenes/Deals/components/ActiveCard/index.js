@@ -1,8 +1,13 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  FlatList
+} from "react-native";
 
 // third party
-import { computed } from "mobx";
 import { Provider, observer, inject } from "mobx-react/native";
 
 // custom
@@ -20,61 +25,74 @@ export default class ActiveCard extends React.Component {
   constructor(props) {
     super(props);
     this.store = new ActiveDealUIStore(this.props.deal);
+
+    // bindings
+    this.renderProduct = this.renderProduct.bind(this);
   }
 
-  @computed
-  get product() {
-    return this.store.products[0];
+  renderProduct({ item: product, index }) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.card}>
+          <Text style={styles.title}>
+            {index > 0 ? product.brand : this.store.deal.name}
+          </Text>
+          <Text style={styles.text}>
+            {index > 0 ? product.title : this.store.deal.description}
+          </Text>
+        </View>
+        <View style={styles.activeContent}>
+          {product.associatedPhotos.length ? (
+            <ConstrainedAspectImage
+              source={{ uri: product.associatedPhotos[0].imageUrl }}
+              constrainHeight={Sizes.Height / 4}/>
+          ) : null}
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Product", {
+                product: product,
+
+                // used for now timer sync
+                dealStore: this.props.dealStore,
+
+                // deal data itself
+                activeDealStore: this.store
+              })
+            }>
+            <View style={styles.button}>
+              <Text style={styles.buttonLabel}>
+                {`Buy now $${product.price}`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.social}>
+            <Text style={styles.socialLabel}>
+              {`${
+                this.store.deal.usersViewing
+                  ? `${this.store.deal.usersViewing} currently viewing — `
+                  : ""
+              }${
+                this.store.deal.quantityAvailable
+                  ? `${this.store.deal.quantityAvailable} available`
+                  : "sold out"
+              }`}
+            </Text>
+            <ProgressBar progress={this.store.progress} />
+          </View>
+        </View>
+      </View>
+    );
   }
 
   render() {
-    return this.product ? (
+    return (
       <Provider activeDealStore={this.store}>
-        <View style={styles.container}>
-          <View style={styles.card}>
-            <Text style={styles.title}>{this.store.deal.name}</Text>
-            <Text style={styles.text}>{this.store.deal.description}</Text>
-          </View>
-          <View style={styles.activeContent}>
-            <ConstrainedAspectImage
-              source={{ uri: this.product.imageUrl }}
-              constrainHeight={Sizes.Height / 4}/>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate("Product", {
-                  product: this.product,
-
-                  // used for now timer sync
-                  dealStore: this.props.dealStore,
-
-                  // deal data itself
-                  activeDealStore: this.store
-                })
-              }>
-              <View style={styles.button}>
-                <Text style={styles.buttonLabel}>
-                  {`Buy now $${this.product.price}`}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <View style={styles.social}>
-              <Text style={styles.socialLabel}>
-                {`${
-                  this.store.deal.usersViewing
-                    ? `${this.store.deal.usersViewing} currently viewing — `
-                    : ""
-                }${
-                  this.store.deal.quantityAvailable
-                    ? `${this.store.deal.quantityAvailable} available`
-                    : "sold out"
-                }`}
-              </Text>
-              <ProgressBar progress={this.store.progress} />
-            </View>
-          </View>
-        </View>
+        <FlatList
+          data={this.store.products && this.store.products.slice()}
+          renderItem={this.renderProduct}
+          keyExtractor={product => `dotd-${product.id}`}/>
       </Provider>
-    ) : null;
+    );
   }
 }
 

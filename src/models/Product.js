@@ -1,9 +1,6 @@
 // third party
 import { observable, action } from "mobx";
 
-// custom
-import { randInt } from "localyyz/helpers";
-
 // local
 import Place from "./Place";
 
@@ -104,6 +101,7 @@ export default class Product {
           variant => variant.etc && variant.etc.color === this.selectedColor
 
           // can't find a color match, so fallback to the first variant
+          // that's in stock
         ) || this.variants[0]
       : {};
 
