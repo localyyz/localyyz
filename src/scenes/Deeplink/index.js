@@ -1,6 +1,6 @@
 import React from "react";
 
-import { resetHome } from "localyyz/helpers";
+import { resetHome, changeTab } from "localyyz/helpers";
 import ProductStore from "../Product/store";
 
 import branch from "react-native-branch";
@@ -71,6 +71,8 @@ class Deeplink extends React.Component {
           fetchPath: "places/" + params.destination_id + "/products",
           title: params.title
         });
+      } else if (params.destination === "deals") {
+        this.props.navigation.dispatch(changeTab("Deals"));
       }
     }
     this.props.navStore.setLoaded();
