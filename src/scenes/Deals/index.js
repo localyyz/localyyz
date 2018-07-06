@@ -16,14 +16,14 @@ import DealsUIStore from "./store";
 // constants
 const FAQ = [
   {
-    title: "How do these sales work?",
+    title: "What's #DOTD?",
     description:
-      "Every single day at noon (EST), we'll choose and release a product to heavily discount to $30 (USD) on this page for a hour long until it sells out"
+      "It's the \"Deal of the Day\" on Localyyz. Everyday at 12PM (EST), we'll heavily discount a product to $30 (USD) for one hour until it sells out"
   },
   {
-    title: "Can I buy more than one?",
+    title: "Are there any restrictions?",
     description:
-      "Flash sales operate on a first-served and limited quantity basis"
+      "#DOTD purchases are capped at one per customer per day due to limited quantities and high demand"
   }
 ];
 

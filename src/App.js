@@ -67,7 +67,8 @@ const DealsTab = StackNavigator(
     Deals: { screen: Deals },
     Product: { screen: Product },
     Information: { screen: Information },
-    ProductList: { screen: ProductList }
+    ProductList: { screen: ProductList },
+    CartSummary: { screen: CartSummary }
   },
   {
     initialRouteName: "Deals",
