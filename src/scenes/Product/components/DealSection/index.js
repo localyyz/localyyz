@@ -24,7 +24,10 @@ export default class DealSection extends React.Component {
   render() {
     return this.props.deal ? (
       <View style={styles.container}>
-        <ProgressBar progress={this.props.progress} />
+        <ProgressBar
+          padding={Sizes.OuterFrame}
+          percentage={this.props.deal.percentageClaimed}
+          progress={this.props.progress}/>
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.title}>{"Today's deal"}</Text>
@@ -42,9 +45,7 @@ export default class DealSection extends React.Component {
                 )}
               </Text>
               <Text style={[styles.title, styles.subTitle]}>
-                {`${this.props.deal.quantityAvailable} left (${Math.round(
-                  this.props.deal.percentageClaimed * 100
-                )}% claimed)`}
+                {`${this.props.deal.quantityAvailable} left`}
               </Text>
             </View>
           </View>

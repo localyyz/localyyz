@@ -77,7 +77,9 @@ export default class ActiveCard extends React.Component {
                   : "sold out"
               }`}
             </Text>
-            <ProgressBar progress={this.store.progress} />
+            <ProgressBar
+              percentage={this.store.deal.percentageClaimed}
+              progress={this.store.progress}/>
           </View>
         </View>
       </View>

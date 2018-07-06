@@ -1,4 +1,4 @@
-import { Animated } from "react-native";
+import { Animated, Easing } from "react-native";
 
 // third party
 import { observable, runInAction, computed } from "mobx";
@@ -13,6 +13,7 @@ const REFRESH_INTERVAL = 5000;
 
 export default class ActiveDealUIStore {
   @observable deal;
+  @observable iteration = 0;
 
   constructor(deal) {
     // data
@@ -38,6 +39,7 @@ export default class ActiveDealUIStore {
       !this.deal.equals(deal)
         && runInAction("[ACTION] Fetching Today's deal", () => {
           this.deal = deal;
+          this.iteration = this.iteration + 1;
           DEBUG
             && console.log(
               "[ActiveDeal] Deal updated:",
@@ -48,7 +50,9 @@ export default class ActiveDealUIStore {
 
           // update progress
           Animated.timing(this.progress, {
-            toValue: this.deal.percentageClaimed
+            toValue: this.deal.percentageClaimed,
+            duration: REFRESH_INTERVAL / 5,
+            easing: Easing.out(Easing.ease)
           }).start();
         });
     }

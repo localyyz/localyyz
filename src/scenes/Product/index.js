@@ -19,7 +19,7 @@ import Content from "./content";
 // constants
 // should be manually sync'ed whenever the CTA header changes in layout
 const CTA_HEIGHT = 180;
-const DEAL_HEIGHT = 109;
+const DEAL_HEIGHT = 127;
 
 @inject(stores => ({
   setAppContext: context => stores.navStore.setAppContext(context),
@@ -53,13 +53,15 @@ class ProductScene extends React.Component {
 
   constructor(props) {
     super(props);
-    this.store = new Store(props.navigation.state.params);
     this.settings = this.props.navigation.state.params;
 
     // product creation if not provided
     if (this.settings.product && !(this.settings.product instanceof Product)) {
       this.settings.product = new Product(this.settings.product);
     }
+
+    // data
+    this.store = new Store(props.navigation.state.params);
 
     // refs
     this.containerRef = React.createRef();
