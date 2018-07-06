@@ -85,7 +85,7 @@ export default class TabBar extends React.Component {
               <Button
                 fontAwesome
                 icon="bolt"
-                label="Today"
+                label="#DOTD"
                 isActive={this.props.activeButton !== "cart"}
                 color={
                   this.props.activeButton === "deals"

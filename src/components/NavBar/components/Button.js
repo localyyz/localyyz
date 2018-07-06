@@ -73,23 +73,24 @@ export default class Button extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     paddingHorizontal: Sizes.InnerFrame,
     paddingVertical: Sizes.InnerFrame / 6
   },
 
   buttonLabel: {
     ...Styles.Text,
-    ...Styles.TabBarText
+    ...Styles.TabBarText,
+    height: Sizes.InnerFrame
   },
 
   badgeContainer: {
     position: "absolute",
     left: 0,
     right: Sizes.InnerFrame / 2,
-    bottom: Sizes.InnerFrame * 2 / 3,
-    alignItems: "flex-end"
+    bottom: Sizes.InnerFrame * 2 / 3
   },
 
   badge: {
