@@ -42,7 +42,7 @@ export default class ActiveCard extends React.Component {
           </Text>
         </View>
         <View style={styles.activeContent}>
-          {product.associatedPhotos.length ? (
+          {product.associatedPhotos && product.associatedPhotos.length ? (
             <ConstrainedAspectImage
               source={{ uri: product.associatedPhotos[0].imageUrl }}
               constrainHeight={Sizes.Height / 4}/>
@@ -88,7 +88,7 @@ export default class ActiveCard extends React.Component {
     return (
       <Provider activeDealStore={this.store}>
         <FlatList
-          data={this.store.products && this.store.products.slice()}
+          data={this.store.products ? this.store.products.slice() : []}
           renderItem={this.renderProduct}
           keyExtractor={product => `dotd-${product.id}`}/>
       </Provider>

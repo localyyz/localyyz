@@ -58,7 +58,7 @@ export default class DealsScene extends React.Component {
               <View style={styles.container}>
                 <Deals navigation={this.props.navigation} />
                 {FAQ.map((faq, i) => (
-                  <FAQItem id={`faq-${i}`} title={faq.title}>
+                  <FAQItem key={`faq-${i}`} title={faq.title}>
                     {faq.description}
                   </FAQItem>
                 ))}
@@ -113,8 +113,11 @@ class Deals extends React.Component {
 
   get sections() {
     return [
-      { data: this.props.active, renderItem: this.renderActiveItem },
-      { data: this.props.upcoming }
+      {
+        data: this.props.active && this.props.active.slice(),
+        renderItem: this.renderActiveItem
+      },
+      { data: this.props.active && this.props.upcoming.slice() }
     ];
   }
 

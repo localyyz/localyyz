@@ -101,8 +101,10 @@ export default class Product {
           variant => variant.etc && variant.etc.color === this.selectedColor
 
           // can't find a color match, so fallback to the first variant
-          // that's in stock
-        ) || this.variants[0]
+          // that's in stock, or just the first if all oos
+        )
+          || this.variants.find(variant => variant.limits > 0)
+          || this.variants[0]
       : {};
 
     // no variants, no idea what to do here
