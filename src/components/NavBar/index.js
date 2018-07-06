@@ -9,7 +9,6 @@ import Pullup from "./components/Pullup";
 import TabBar from "./components/TabBar";
 import CartUIStore from "./cartUiStore";
 import { onlyIfLoggedIn } from "localyyz/helpers";
-import { GA } from "localyyz/global";
 
 // third party
 import PropTypes from "prop-types";
@@ -95,7 +94,6 @@ export default class NavBar extends React.Component {
       this.props.togglePullup(false);
     }
 
-    GA.trackScreen("cart");
     // chaining
     return true;
   }
