@@ -242,10 +242,10 @@ export default class Product {
       this.place = new Place(product.place);
     }
 
-    // set first color if not specified
+    // set first in stock color if not specified
+    let selectedVariant = this.selectedVariant;
     this.selectedColor
-      = selectedColor
-      || (this.colors && this.colors.length > 0 ? this.colors[0] : "");
+      = selectedColor || (selectedVariant.etc ? selectedVariant.etc.color : "");
   };
 }
 
