@@ -114,9 +114,7 @@ export default class Content extends React.Component {
                 <ProductBuy />
                 <ProductVariantSelector />
                 {this.props.isDeal ? (
-                  <DealSection
-                    settings={this.props.settings}
-                    navigation={this.props.navigation}/>
+                  <DealSection navigation={this.props.navigation} />
                 ) : null}
               </LinearGradient>
             </LinearGradient>

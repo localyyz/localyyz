@@ -151,7 +151,8 @@ class ProductScene extends React.Component {
       <Provider
         productStore={this.store}
         uiStore={this}
-        dealStore={this.settings.dealStore}>
+        dealStore={this.settings.dealStore}
+        activeDealStore={this.settings.activeDealStore}>
         <View style={styles.productView}>
           <StatusBar hidden />
           <ContentCoverSlider

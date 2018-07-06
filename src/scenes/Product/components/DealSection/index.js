@@ -11,32 +11,29 @@ import { Timer, ProgressBar } from "localyyz/components";
 
 @inject(stores => ({
   now: stores.dealStore && stores.dealStore.now,
-  product: stores.productStore.product
+  product: stores.productStore.product,
+  progress: stores.activeDealStore && stores.activeDealStore.progress,
+  deal: stores.activeDealStore && stores.activeDealStore.deal
 }))
 @observer
 export default class DealSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.store = this.props.settings.activeDealStore;
-  }
-
   get isActive() {
-    return Moment(this.store.deal.endAt).diff(this.props.now) > 0;
+    return Moment(this.props.deal.endAt).diff(this.props.now) > 0;
   }
 
   render() {
-    return this.store ? (
+    return this.props.deal ? (
       <View style={styles.container}>
-        <ProgressBar progress={this.store.progress} />
+        <ProgressBar progress={this.props.progress} />
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.title}>{"Today's deal"}</Text>
             <View style={styles.stats}>
               <Text style={[styles.title, styles.subTitle]}>
                 <Text>ending in </Text>
-                {this.store.deal ? (
+                {this.props.deal.endAt ? (
                   <Timer
-                    target={Moment(this.store.deal.endAt).toArray()}
+                    target={Moment(this.props.deal.endAt).toArray()}
                     onComplete={() =>
                       this.props.navigation && this.props.navigation.goBack()
                     }/>
@@ -45,8 +42,8 @@ export default class DealSection extends React.Component {
                 )}
               </Text>
               <Text style={[styles.title, styles.subTitle]}>
-                {`${this.store.deal.quantityAvailable} left (${Math.round(
-                  this.store.deal.percentageClaimed * 100
+                {`${this.props.deal.quantityAvailable} left (${Math.round(
+                  this.props.deal.percentageClaimed * 100
                 )}% claimed)`}
               </Text>
             </View>
