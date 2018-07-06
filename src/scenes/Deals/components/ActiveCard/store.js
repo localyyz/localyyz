@@ -18,7 +18,7 @@ export default class ActiveDealUIStore {
   constructor(deal) {
     // data
     this.deal = deal;
-    this.progress = new Animated.Value(0);
+    this.progress = new Animated.Value(deal.percentageClaimed);
     this.refresh();
   }
 
