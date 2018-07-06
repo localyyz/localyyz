@@ -13,6 +13,7 @@ import { Provider, observer, inject } from "mobx-react/native";
 // custom
 import { ConstrainedAspectImage, ProgressBar } from "localyyz/components";
 import { Colours, Sizes, Styles } from "localyyz/constants";
+import { toPriceString } from "localyyz/helpers";
 
 // custom
 import ActiveDealUIStore from "./store";
@@ -43,9 +44,14 @@ export default class ActiveCard extends React.Component {
         </View>
         <View style={styles.activeContent}>
           {product.associatedPhotos && product.associatedPhotos.length ? (
-            <ConstrainedAspectImage
-              source={{ uri: product.associatedPhotos[0].imageUrl }}
-              constrainHeight={Sizes.Height / 4}/>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.onPressImage(product.associatedPhotos[0].imageUrl)
+              }>
+              <ConstrainedAspectImage
+                source={{ uri: product.associatedPhotos[0].imageUrl }}
+                constrainHeight={Sizes.Height / 4}/>
+            </TouchableOpacity>
           ) : null}
           <TouchableOpacity
             onPress={() =>
@@ -61,7 +67,10 @@ export default class ActiveCard extends React.Component {
             }>
             <View style={styles.button}>
               <Text style={styles.buttonLabel}>
-                {`Buy now $${product.price}`}
+                {`Buy — ${toPriceString(
+                  product.price,
+                  product.place.currency
+                )}`}
               </Text>
             </View>
           </TouchableOpacity>
@@ -128,6 +137,7 @@ const styles = StyleSheet.create({
 
   button: {
     ...Styles.RoundedButton,
+    paddingHorizontal: Sizes.InnerFrame,
     margin: Sizes.InnerFrame
   },
 

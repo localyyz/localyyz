@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { ConstrainedAspectImage } from "localyyz/components";
-import { capitalize } from "localyyz/helpers";
+import { capitalize, toPriceString } from "localyyz/helpers";
 
 // third party
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -31,7 +31,6 @@ export default class ProductTile extends React.PureComponent {
 
     // bindings
     this.onLayout = this.onLayout.bind(this);
-    this.toPriceString = this.toPriceString.bind(this);
   }
 
   onLayout(e) {
@@ -41,15 +40,6 @@ export default class ProductTile extends React.PureComponent {
         photoSize: Math.round(e.nativeEvent.layout.width)
       });
     }
-  }
-
-  toPriceString(price, avoidFree = false) {
-    return price != null && (price > 0 || !avoidFree)
-      ? price > 0
-        ? `${getSymbolFromCurrency(this.props.product.place.currency)
-            || "$"}${price.toFixed(2)}`
-        : "Free"
-      : "";
   }
 
   get isOnSale() {
@@ -103,7 +93,10 @@ export default class ProductTile extends React.PureComponent {
                   styles.priceLabel,
                   this.isOnSale && styles.discountText
                 ]}>
-                {this.toPriceString(this.props.product.price)}
+                {toPriceString(
+                  this.props.product.price,
+                  this.props.product.place.currency
+                )}
               </Text>
             </View>
             <View style={styles.details}>

@@ -6,7 +6,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { Provider, observer, inject } from "mobx-react/native";
 
 // custom
-import { BaseScene } from "localyyz/components";
+import { BaseScene, PhotoDetails } from "localyyz/components";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // local
@@ -48,12 +48,14 @@ const FAQ = [
 export default class DealsScene extends React.Component {
   constructor(props) {
     super(props);
+    this.photoDetailsRef = React.createRef();
 
     // store
     this.store = new DealsUIStore();
 
     // bindings
     this.renderHeader = this.renderHeader.bind(this);
+    this.onPressImage = this.onPressImage.bind(this);
   }
 
   componentDidMount() {
@@ -62,6 +64,16 @@ export default class DealsScene extends React.Component {
 
   renderHeader() {
     return <Background onComplete={this.store.fetch} />;
+  }
+
+  onPressImage(imageUrl) {
+    return (
+      this.photoDetailsRef
+      && this.photoDetailsRef.current
+      && this.photoDetailsRef.current.wrappedInstance
+      && this.photoDetailsRef.current.wrappedInstance.toggle
+      && this.photoDetailsRef.current.wrappedInstance.toggle(true, imageUrl)
+    );
   }
 
   render() {
@@ -74,7 +86,9 @@ export default class DealsScene extends React.Component {
               header={this.renderHeader()}
               idleStatusBarStatus="light-content">
               <View style={styles.container}>
-                <Deals navigation={this.props.navigation} />
+                <Deals
+                  onPressImage={this.onPressImage}
+                  navigation={this.props.navigation}/>
                 {FAQ.map((faq, i) => (
                   <FAQItem key={`faq-${i}`} title={faq.title}>
                     {faq.description}
@@ -90,6 +104,9 @@ export default class DealsScene extends React.Component {
               end={{ y: 0, x: 0 }}
               style={styles.gradient}/>
           </View>
+          <PhotoDetails
+            ref={this.photoDetailsRef}
+            navigation={this.props.navigation}/>
         </View>
       </Provider>
     );
@@ -125,7 +142,8 @@ class Deals extends React.Component {
       <ActiveCard
         now={this.props.now}
         deal={deal}
-        navigation={this.props.navigation}/>
+        navigation={this.props.navigation}
+        onPressImage={this.props.onPressImage}/>
     );
   }
 
