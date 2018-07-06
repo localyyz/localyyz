@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, SectionList } from "react-native";
+import { View, StyleSheet, Linking, Text, SectionList } from "react-native";
 
 // third party
 import LinearGradient from "react-native-linear-gradient";
@@ -24,6 +24,24 @@ const FAQ = [
     title: "Are there any restrictions?",
     description:
       "#DOTD purchases are capped at one per customer per day due to limited quantities and high demand"
+  },
+  {
+    title: "Have questions?",
+    description: (
+      <Text>
+        Send us an{" "}
+        <Text
+          onPress={() =>
+            Linking.openURL("mailto:support@localyyz.com?subject=#DOTD")
+          }>
+          email at support@localyyz.com
+        </Text>{" "}
+        or message us directly on{" "}
+        <Text onPress={() => Linking.openURL("https://m.me/localyyz")}>
+          Facebook Messenger
+        </Text>
+      </Text>
+    )
   }
 ];
 
