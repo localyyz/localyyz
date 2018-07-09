@@ -35,7 +35,7 @@ const FAQ = [
   },
   {
     title: "Shipping?",
-    description: "Free internationally."
+    description: "Free worldwide."
   },
   {
     title: "What's the return policy?",
