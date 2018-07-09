@@ -42,6 +42,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B44D174A9DF94480B7676077 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CBF16531CD1D4D899A30EAD3 /* Montserrat-ExtraBold.ttf */; };
 		B8DF307053A24E97962230DA /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E27858A1CE364A689F67E8DB /* Montserrat-Regular.ttf */; };
+		BE45F7A720E544C000E7293E /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE45F78D20E5441B00E7293E /* libRCTVideo.a */; };
 		BF05EBE3207820F900EF35B3 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF05EBDF207820B700EF35B3 /* libRNDeviceInfo.a */; };
 		BF05EBFC207821CF00EF35B3 /* libreact-native-branch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF05EBFB207821C300EF35B3 /* libreact-native-branch.a */; };
 		BF05EC062078224600EF35B3 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF05EC032078223C00EF35B3 /* libCodePush.a */; };
@@ -326,6 +327,20 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		BE45F78C20E5441B00E7293E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE45F78720E5441B00E7293E /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTVideo;
+		};
+		BE45F78E20E5441B00E7293E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE45F78720E5441B00E7293E /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 641E28441F0EEC8500443AF6;
+			remoteInfo = "RCTVideo-tvOS";
+		};
 		BF05EB9B20781DDE00EF35B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B93382A9627C4FAA9E9DB0A9 /* RNPhotoView.xcodeproj */;
@@ -469,12 +484,14 @@
 		7387CD61F13458CA1E3C8C53 /* Pods-localyyzTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-localyyzTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-localyyzTests/Pods-localyyzTests.debug.xcconfig"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		87D9CC8FC508EABCC6B24621 /* Pods-localyyz.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-localyyz.staging.xcconfig"; path = "Pods/Target Support Files/Pods-localyyz/Pods-localyyz.staging.xcconfig"; sourceTree = "<group>"; };
 		8D127AEA0D0F445540ACAE36 /* Pods-localyyz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-localyyz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-localyyz/Pods-localyyz.debug.xcconfig"; sourceTree = "<group>"; };
 		9A5C560E5DEB4DF78B093E0A /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		A0AF4678EB46DAF4B3988142 /* Pods-localyyzTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-localyyzTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-localyyzTests/Pods-localyyzTests.release.xcconfig"; sourceTree = "<group>"; };
 		A4780D2C6497DE9E21C9706E /* libPods-localyyzTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-localyyzTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B93382A9627C4FAA9E9DB0A9 /* RNPhotoView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPhotoView.xcodeproj; path = "../node_modules/react-native-photo-view/ios/RNPhotoView.xcodeproj"; sourceTree = "<group>"; };
+		BE45F78720E5441B00E7293E /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
 		BF05EBD9207820B700EF35B3 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		BF05EBE2207820CD00EF35B3 /* localyyz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = localyyz.entitlements; path = localyyz/localyyz.entitlements; sourceTree = "<group>"; };
 		BF05EBF6207821C300EF35B3 /* RNBranch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBranch.xcodeproj; path = "../node_modules/react-native-branch/ios/RNBranch.xcodeproj"; sourceTree = "<group>"; };
@@ -511,6 +528,7 @@
 				1614E70720E68D7D004C4708 /* SystemConfiguration.framework in Frameworks */,
 				1614E70520E68D74004C4708 /* CoreData.framework in Frameworks */,
 				1614E70320E68D68004C4708 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
+				BE45F7A720E544C000E7293E /* libRCTVideo.a in Frameworks */,
 				BF05EC1A2079076B00EF35B3 /* libBVLinearGradient.a in Frameworks */,
 				BF05EC10207822EE00EF35B3 /* libRNBlur.a in Frameworks */,
 				BF05EC062078224600EF35B3 /* libCodePush.a in Frameworks */,
@@ -710,6 +728,7 @@
 			isa = PBXGroup;
 			children = (
 				1614E6CE20E68D59004C4708 /* RCTGoogleAnalyticsBridge.xcodeproj */,
+				BE45F78720E5441B00E7293E /* RCTVideo.xcodeproj */,
 				BF05EC112079076600EF35B3 /* BVLinearGradient.xcodeproj */,
 				BF05EC07207822E800EF35B3 /* RNBlur.xcodeproj */,
 				BF05EBFD2078223C00EF35B3 /* CodePush.xcodeproj */,
@@ -804,6 +823,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BE45F78820E5441B00E7293E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BE45F78D20E5441B00E7293E /* libRCTVideo.a */,
+				BE45F78F20E5441B00E7293E /* libRCTVideo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BF05EB9820781DDE00EF35B3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -871,6 +899,7 @@
 				C4A5A9426F50DE7CE3A8046B /* Pods-localyyz.release.xcconfig */,
 				7387CD61F13458CA1E3C8C53 /* Pods-localyyzTests.debug.xcconfig */,
 				A0AF4678EB46DAF4B3988142 /* Pods-localyyzTests.release.xcconfig */,
+				87D9CC8FC508EABCC6B24621 /* Pods-localyyz.staging.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1012,6 +1041,10 @@
 				{
 					ProductGroup = 00C302E01ABCB9EE00DB3ED1 /* Products */;
 					ProjectRef = 00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */;
+				},
+				{
+					ProductGroup = BE45F78820E5441B00E7293E /* Products */;
+					ProjectRef = BE45F78720E5441B00E7293E /* RCTVideo.xcodeproj */;
 				},
 				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
@@ -1314,6 +1347,20 @@
 			fileType = archive.ar;
 			path = libRCTBlob.a;
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE45F78D20E5441B00E7293E /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = BE45F78C20E5441B00E7293E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE45F78F20E5441B00E7293E /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = BE45F78E20E5441B00E7293E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		BF05EB9C20781DDE00EF35B3 /* libRNPhotoView.a */ = {
@@ -1755,7 +1802,7 @@
 		};
 		BF4E7C69207A78FD009D2ED6 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D127AEA0D0F445540ACAE36 /* Pods-localyyz.debug.xcconfig */;
+			baseConfigurationReference = 87D9CC8FC508EABCC6B24621 /* Pods-localyyz.staging.xcconfig */;
 			buildSettings = {
 				API_URL = "https://api-staging.localyyz.com";
 				ASSETCATALOG_COMPILER_APPICON_NAME = icon;

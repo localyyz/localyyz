@@ -5,6 +5,78 @@ it("should initialize without error", () => {
   expect(product).toBeDefined();
 });
 
+describe("Selected variant", () => {
+  it("should select a variant based on selected color", () => {
+    const variants = [
+      { id: 1, etc: { color: "white" } },
+      { id: 2, etc: { color: "black" } }
+    ];
+
+    const product = new Product(
+      { colors: ["white", "black"], variants: variants },
+      "black"
+    );
+    expect(product).toBeDefined();
+    expect(product.selectedVariant.id).toEqual(2);
+  });
+
+  it("should select a variant based on selected color that's in stock", () => {
+    const variants = [
+      { id: 1, limits: 0, etc: { color: "black" } },
+      { id: 2, limits: 1, etc: { color: "black" } }
+    ];
+
+    const product = new Product(
+      { colors: ["black"], variants: variants },
+      "black"
+    );
+    expect(product).toBeDefined();
+    expect(product.selectedVariant.id).toEqual(2);
+  });
+
+  it("should select an in stock variant", () => {
+    const variants = [
+      { id: 1, limits: 0, etc: { color: "white" } },
+      { id: 2, limits: 1, etc: { color: "black" } }
+    ];
+
+    const product = new Product({
+      colors: ["white", "black"],
+      variants: variants
+    });
+    expect(product).toBeDefined();
+    expect(product.selectedVariant.id).toEqual(2);
+  });
+
+  it("should select an in stock variant if color could not be matched", () => {
+    const variants = [
+      { id: 1, limits: 0, etc: { color: "white" } },
+      { id: 2, limits: 1, etc: { color: "black" } }
+    ];
+
+    const product = new Product(
+      { colors: ["white", "black"], variants: variants },
+      "red"
+    );
+    expect(product).toBeDefined();
+    expect(product.selectedVariant.id).toEqual(2);
+  });
+
+  it("should select the first variant if color nor stock could be matched", () => {
+    const variants = [
+      { id: 1, limits: 0, etc: { color: "white" } },
+      { id: 2, limits: 0, etc: { color: "black" } }
+    ];
+
+    const product = new Product(
+      { colors: ["white", "black"], variants: variants },
+      "red"
+    );
+    expect(product).toBeDefined();
+    expect(product.selectedVariant.id).toEqual(1);
+  });
+});
+
 describe("Photo Groups", () => {
   it("should group single color with images (in order)", () => {
     const variants = [

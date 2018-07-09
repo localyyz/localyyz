@@ -9,7 +9,6 @@ import Pullup from "./components/Pullup";
 import TabBar from "./components/TabBar";
 import CartUIStore from "./cartUiStore";
 import { onlyIfLoggedIn } from "localyyz/helpers";
-import { GA } from "localyyz/global";
 
 // third party
 import PropTypes from "prop-types";
@@ -48,7 +47,9 @@ export default class NavBar extends React.Component {
     super(props);
     this.state = {
       // highlight active button
-      activeButton: null
+      activeButton: null,
+
+      lastNontoggleableButton: null
     };
 
     // bindings
@@ -67,7 +68,7 @@ export default class NavBar extends React.Component {
 
   onPullupClose() {
     this.setState({
-      activeButton: null
+      activeButton: this.state.lastNontoggleableButton
     });
   }
 
@@ -76,7 +77,13 @@ export default class NavBar extends React.Component {
     (this.state.activeButton !== button || toggleable)
       && this.setState(
         {
-          activeButton: this.state.activeButton === button ? null : button
+          activeButton:
+            this.state.activeButton === button
+              ? toggleable ? this.state.lastNontoggleableButton : null
+              : button,
+          lastNontoggleableButton: toggleable
+            ? this.state.lastNontoggleableButton
+            : button
         },
         // TODO: optimization, callback navigation rerenders
         () => callback && callback()
@@ -87,7 +94,6 @@ export default class NavBar extends React.Component {
       this.props.togglePullup(false);
     }
 
-    GA.trackScreen("cart");
     // chaining
     return true;
   }

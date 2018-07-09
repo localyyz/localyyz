@@ -3,9 +3,12 @@
 exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
 <View
   style={
-    Object {
-      "flex": 1,
-    }
+    Array [
+      Object {
+        "flex": 1,
+      },
+      undefined,
+    ]
   }
 >
   <View
@@ -142,6 +145,7 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
         <RCTScrollView
           onScroll={[Function]}
           scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
         >
           <View>
             <View

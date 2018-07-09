@@ -1,11 +1,11 @@
 import React from "react";
 import {
   View,
-  Image,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Alert
+  Alert,
+  TouchableWithoutFeedback
 } from "react-native";
 import PropTypes from "prop-types";
 
@@ -66,7 +66,10 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   isExploded: stores.productStore.isAddedSummaryVisible,
   explode: async () => stores.productStore.toggleAddedSummary(true),
   showNavbar: () => stores.navbarStore.show(),
-  hideNavbar: () => stores.navbarStore.hide()
+  hideNavbar: () => stores.navbarStore.hide(),
+
+  // today's deal
+  isDeal: !!stores.dealStore
 }))
 @observer
 class ProductBuy extends React.Component {
@@ -204,46 +207,50 @@ class ProductBuy extends React.Component {
         </TouchableOpacity>
         {this.props.isExpressSupported ? (
           <View style={styles.buttons}>
-            <ApplePayButton
-              width={Sizes.InnerFrame * 10}
-              height={Sizes.InnerFrame * 2}
-              onPress={() => {
-                this.isInStock
-                  ? this._onExpressCheckout()
-                  : this.onOutOfStock();
-              }}
-              style="black"
-              type="buy"/>
-            <ExplodingButton
-              isExploded={this.props.isExploded}
-              explode={async () =>
-                this.isInStock
-                && onlyIfLoggedIn(
-                  { hasSession },
-                  this.props.explode,
-                  this.props.navigation
-                )
-              }
-              shouldExplode={this.props.hasSession && this.isInStock}
-              color={Colours.Foreground}
-              onPress={() =>
-                this.isInStock ? this._onAdd() : this.onOutOfStock()
-              }
-              onExplosion={() => {
-                this.props.navigation.setParams({ gesturesEnabled: false });
-                this.props.hideNavbar();
-              }}
-              onExplosionCleared={() => {
-                this.props.navigation.setParams({ gesturesEnabled: true });
-                this.props.showNavbar();
-              }}>
-              <View style={styles.button}>
-                <MaterialIcon
-                  name="add-shopping-cart"
-                  color={Colours.Text}
-                  size={Sizes.H3}/>
-              </View>
-            </ExplodingButton>
+            <TouchableOpacity>
+              <ApplePayButton
+                width={Sizes.InnerFrame * 10}
+                height={Sizes.InnerFrame * 2}
+                onPress={() => {
+                  this.isInStock
+                    ? this._onExpressCheckout()
+                    : this.onOutOfStock();
+                }}
+                style="black"
+                type="buy"/>
+            </TouchableOpacity>
+            {!this.props.isDeal ? (
+              <ExplodingButton
+                isExploded={this.props.isExploded}
+                explode={async () =>
+                  this.isInStock
+                  && onlyIfLoggedIn(
+                    { hasSession },
+                    this.props.explode,
+                    this.props.navigation
+                  )
+                }
+                shouldExplode={this.props.hasSession && this.isInStock}
+                color={Colours.Foreground}
+                onPress={() =>
+                  this.isInStock ? this._onAdd() : this.onOutOfStock()
+                }
+                onExplosion={() => {
+                  this.props.navigation.setParams({ gesturesEnabled: false });
+                  this.props.hideNavbar();
+                }}
+                onExplosionCleared={() => {
+                  this.props.navigation.setParams({ gesturesEnabled: true });
+                  this.props.showNavbar();
+                }}>
+                <View style={styles.button}>
+                  <MaterialIcon
+                    name="add-shopping-cart"
+                    color={Colours.Text}
+                    size={Sizes.H3}/>
+                </View>
+              </ExplodingButton>
+            ) : null}
           </View>
         ) : (
           <View style={styles.buttons}>
@@ -322,11 +329,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: Colours.MenuBackground,
     overflow: "hidden"
-  },
-
-  expressButtonLogo: {
-    height: "70%",
-    tintColor: Colours.AlternateText
   },
 
   button: {

@@ -12,6 +12,7 @@ import PaymentMethods from "./components/PaymentMethods";
 import Email from "./components/Email";
 import DiscountCode from "./components/DiscountCode";
 
+import { GA } from "localyyz/global";
 import { Assistant } from "localyyz/components";
 
 // third party
@@ -45,6 +46,7 @@ export default class Cart extends React.Component {
   };
 
   componentDidMount() {
+    GA.trackScreen("cart");
     // load cart
     this.props.fetch();
     this._mounted = true;

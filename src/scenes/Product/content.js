@@ -25,7 +25,8 @@ import {
   ProductDetails,
   MerchantDetails,
   Photos,
-  ColourVariants
+  ColourVariants,
+  DealSection
 } from "./components";
 
 @withNavigation
@@ -33,7 +34,10 @@ import {
   coverImage:
     stores.productStore.product && stores.productStore.product.imageUrl,
   backgroundPosition: stores.uiStore.backgroundPosition,
-  product: stores.productStore.product
+  product: stores.productStore.product,
+
+  // today's deal
+  isDeal: !!stores.dealStore
 }))
 @observer
 export default class Content extends React.Component {
@@ -109,6 +113,9 @@ export default class Content extends React.Component {
                 end={{ y: 1, x: 0 }}>
                 <ProductBuy />
                 <ProductVariantSelector />
+                {this.props.isDeal ? (
+                  <DealSection navigation={this.props.navigation} />
+                ) : null}
               </LinearGradient>
             </LinearGradient>
           </View>

@@ -33,11 +33,16 @@ class ProductVariantSelector extends React.Component {
     // TODO: verify product has variants
     const { product } = props;
     this.state = {
-      color: product && product.selectedColor,
+      color:
+        (product
+          && product.selectedVariant.etc
+          && product.selectedVariant.etc.color)
+        || product.selectedColor,
       size:
-        product && product.sizes && product.sizes.length > 0
-          ? product.sizes[0]
-          : null
+        (product
+          && product.selectedVariant.etc
+          && product.selectedVariant.etc.size)
+        || (product.sizes && product.sizes.length > 0 ? product.sizes[0] : null)
     };
 
     // bindings

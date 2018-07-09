@@ -1,5 +1,7 @@
+// third party
 import { observable, action } from "mobx";
 
+// local
 import Place from "./Place";
 
 // consts
@@ -40,6 +42,11 @@ export default class Product {
   // not part of api product object, but to create separate virtual products
   // based on different colors
   @observable selectedColor;
+
+  // TODO: polyfilled for deals until backend supports it
+  @observable liveViews = 0;
+  @observable views = 0;
+  @observable purchased = 0;
 
   // extra non observables
   place = {};
@@ -89,15 +96,27 @@ export default class Product {
   // not actually selected variant, but used for a virtual instance to get
   // prices, etc for the current color product variant
   get selectedVariant() {
-    return this.variants && this.variants.length > 0
-      ? this.variants.find(
-          variant => variant.etc && variant.etc.color === this.selectedColor
+    let inStock = this.variants.filter(variant => variant.limits > 0);
+    let matchingColors = this.variants.filter(
+      variant => variant.etc && variant.etc.color === this.selectedColor
+    );
+    let both = inStock.find(
+      variant => !!matchingColors.find(color => color === variant)
+    );
 
-          // can't find a color match, so fallback to the first variant
-        ) || this.variants[0]
-      : {};
-
-    // no variants, no idea what to do here
+    if (both) {
+      // matching both
+      return both;
+    } else if (matchingColors.length > 0) {
+      // matching color
+      return matchingColors[0];
+    } else if (inStock.length > 0) {
+      // in stock, but not matching color
+      return inStock[0];
+    } else {
+      // no variants or nothing matching color and in stock
+      return this.variants ? this.variants[0] || {} : {};
+    }
   }
 
   get price() {
@@ -223,10 +242,12 @@ export default class Product {
       this.place = new Place(product.place);
     }
 
-    // set first color if not specified
+    // set first in stock color if not specified
+    let selectedVariant = this.selectedVariant;
     this.selectedColor
       = selectedColor
-      || (this.colors && this.colors.length > 0 ? this.colors[0] : "");
+      || product.selectedColor
+      || (selectedVariant.etc ? selectedVariant.etc.color : "");
   };
 }
 

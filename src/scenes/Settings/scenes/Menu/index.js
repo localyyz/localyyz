@@ -93,23 +93,28 @@ export default class SettingsMenu extends React.Component {
           <Forms.Section label="Display">
             <Forms.Picker isHorizontal field="currency" label="Currency" />
           </Forms.Section>
-          {this.props.hasSession ? (
-            <Forms.Section label="Account">
-              <Forms.BaseField
-                label="Saved addresses"
-                onPress={this.showAddresses}/>
-              <Forms.Picker
-                isHorizontal
-                field="gender"
-                label="I'd prefer to see more of"/>
-            </Forms.Section>
-          ) : (
-            <Forms.Section label="Account">
-              <Forms.BaseField
-                label="Sign in"
-                onPress={() => this.props.navigation.navigate("Login")}/>
-            </Forms.Section>
-          )}
+          <Forms.Section label="Account">
+            <Forms.BaseField
+              label="Browsing history"
+              onPress={() => this.props.navigation.navigate("History")}/>
+            {this.props.hasSession ? (
+              <View>
+                <Forms.BaseField
+                  label="Saved addresses"
+                  onPress={this.showAddresses}/>
+                <Forms.Picker
+                  isHorizontal
+                  field="gender"
+                  label="I'd prefer to see more of"/>
+              </View>
+            ) : (
+              <View>
+                <Forms.BaseField
+                  label="Sign in"
+                  onPress={() => this.props.navigation.navigate("Login")}/>
+              </View>
+            )}
+          </Forms.Section>
           <Forms.Section label="Legal">
             <Forms.BaseField
               label="Privacy policy"

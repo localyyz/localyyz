@@ -22,9 +22,9 @@ platform :ios do
 
   desc "Build and upload staging for testing"
   lane :staging do
-    ensure_git_branch(
-      branch: "staging"
-    )
+    #ensure_git_branch(
+      #branch: "staging"
+    #)
     ensure_git_status_clean()
   
     build_ios_app(
