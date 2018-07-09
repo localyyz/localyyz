@@ -85,7 +85,7 @@ export default class DealsScene extends React.Component {
         <View style={styles.wrapper}>
           <View style={styles.overlay} pointerEvents="box-none">
             <BaseScene
-              title="Today's deal"
+              title="#DOTD"
               header={this.renderHeader()}
               idleStatusBarStatus="light-content">
               <View style={styles.container}>
