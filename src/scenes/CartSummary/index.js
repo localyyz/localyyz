@@ -174,7 +174,7 @@ export default class CartSummaryScene extends React.Component {
       .then(wasSuccessful =>
         setTimeout(() => this.clearExploder(!!wasSuccessful), 1000)
       )
-      .catch(err => {
+      .catch(() => {
         this.clearExploder(false);
       });
   }
@@ -412,9 +412,7 @@ export default class CartSummaryScene extends React.Component {
           <Animatable.View animation="fadeInRight" duration={300} delay={200}>
             <Text style={styles.paymentHeader}>
               {this.state.wasSuccessful
-                ? // TODO: registration nagging
-                  // ? "login to save this receipt to your account"
-                  "We've saved this receipt to your account for order tracking"
+                ? "We've saved this receipt to your account for order tracking"
                 : `On order confirmation, $${this.props.navigation.state.params.amountTotal.toFixed(
                     2
                   )} will be charged to`}
@@ -771,27 +769,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: Sizes.InnerFrame,
     marginHorizontal: Sizes.OuterFrame
-  },
-
-  // loginManual: {
-  //   ...Styles.Text,
-  //   ...Styles.Terminal,
-  //   ...Styles.Emphasized,
-  //   ...Styles.Underlined,
-  //   ...Styles.Alternate,
-  //   marginTop: Sizes.InnerFrame / 2
-  // },
-  //
-  // socialButton: {
-  //   backgroundColor: Colours.Facebook,
-  //   marginTop: null
-  // },
-
-  socialButtonLabel: {
-    ...Styles.Text,
-    ...Styles.Modern,
-    ...Styles.Emphasized,
-    ...Styles.Alternate,
-    marginLeft: Sizes.InnerFrame
   }
 });
