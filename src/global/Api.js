@@ -4,7 +4,7 @@ import DeviceInfo from "react-native-device-info";
 import { Alert } from "react-native";
 
 // custom
-import { linkParser } from "localyyz/helpers";
+import { linkParser, capitalizeSentence } from "localyyz/helpers";
 
 // constants
 const RETRY_TIMEOUT = 3000;
@@ -51,8 +51,19 @@ export default class Api {
       this.initialize(this.apiUrl);
     } else {
       _error = err.response
-        ? { status: err.response.status, error: { data: err.response.data } }
-        : { message: err.message };
+        ? {
+            status: err.response.status,
+            error: { data: err.response.data },
+            message:
+              err.response.data
+              && err.response.data.status
+              && capitalizeSentence(err.response.data.status),
+            details:
+              err.response.data
+              && err.response.data.error
+              && capitalizeSentence(err.response.data.error)
+          }
+        : { message: err.message && capitalizeSentence(err.message) };
     }
 
     // debug

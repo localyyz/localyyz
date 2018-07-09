@@ -969,8 +969,9 @@ export default class CartStore {
       if (response.error) {
         return this._onExpressCheckoutFailure(
           {
-            _failureTitle: "Out of stock",
-            _failureMessage: "This product is currently out of stock"
+            _failureTitle: response.error.message || "Out of stock",
+            _failureMessage:
+              response.error.details || "This product is currently out of stock"
           },
           message
         );
