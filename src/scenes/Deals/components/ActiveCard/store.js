@@ -23,9 +23,8 @@ export default class ActiveDealUIStore {
     // bindings
     this.updateProgress = this.updateProgress.bind(this);
     this.refresh = this.refresh.bind(this);
-  }
 
-  componentDidMount() {
+    // initial data load
     this.updateProgress(this.deal.percentageClaimed);
     this.refresh();
   }
