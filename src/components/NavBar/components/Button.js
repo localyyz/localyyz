@@ -88,9 +88,11 @@ const styles = StyleSheet.create({
 
   badgeContainer: {
     position: "absolute",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
     left: 0,
     right: Sizes.InnerFrame / 2,
-    bottom: Sizes.InnerFrame * 2 / 3
+    bottom: Sizes.InnerFrame
   },
 
   badge: {

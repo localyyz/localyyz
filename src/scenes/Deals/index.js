@@ -1,9 +1,17 @@
 import React from "react";
-import { View, StyleSheet, Linking, Text, SectionList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Linking,
+  Text,
+  SectionList,
+  TouchableOpacity
+} from "react-native";
 
 // third party
 import LinearGradient from "react-native-linear-gradient";
 import { Provider, observer, inject } from "mobx-react/native";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 // custom
 import { BaseScene, PhotoDetails } from "localyyz/components";
@@ -14,34 +22,29 @@ import { Background, UpcomingCard, ActiveCard } from "./components";
 import DealsUIStore from "./store";
 
 // constants
+const MESSENGER_URI = "https://m.me/localyyz";
 const FAQ = [
   {
     title: "What's #DOTD?",
     description:
-      "It's the \"Deal of the Day\" on Localyyz. Everyday at 12PM (EST), we'll heavily discount a product to $30 (USD) for one hour until it sells out"
+      "Deal of the Day.\n\nEveryday at 12PM (EST), we'll heavily discount a product to $30 (USD) for one hour until it sells out."
   },
   {
     title: "Are there any restrictions?",
-    description:
-      "#DOTD purchases are capped at one per customer per day due to limited quantities and high demand"
+    description: "One per customer, per day, while quantities last."
   },
   {
-    title: "Have questions?",
-    description: (
-      <Text>
-        Send us an{" "}
-        <Text
-          onPress={() =>
-            Linking.openURL("mailto:support@localyyz.com?subject=#DOTD")
-          }>
-          email at support@localyyz.com
-        </Text>{" "}
-        or message us directly on{" "}
-        <Text onPress={() => Linking.openURL("https://m.me/localyyz")}>
-          Facebook Messenger
-        </Text>
-      </Text>
-    )
+    title: "Shipping?",
+    description: "Free internationally."
+  },
+  {
+    title: "What's the return policy?",
+    description: "14 days as long as the product is undamaged and unworn."
+  },
+  {
+    title: "Questions?",
+    description: "We're here. DM us directly on Facebook Messenger.",
+    onPress: () => Linking.openURL(MESSENGER_URI)
   }
 ];
 
@@ -90,7 +93,7 @@ export default class DealsScene extends React.Component {
                   onPressImage={this.onPressImage}
                   navigation={this.props.navigation}/>
                 {FAQ.map((faq, i) => (
-                  <FAQItem key={`faq-${i}`} title={faq.title}>
+                  <FAQItem key={`faq-${i}`} {...faq}>
                     {faq.description}
                   </FAQItem>
                 ))}
@@ -168,14 +171,39 @@ class Deals extends React.Component {
 }
 
 class FAQItem extends React.Component {
+  get container() {
+    return this.props.onPress ? TouchableOpacity : View;
+  }
+
   render() {
     return (
-      <View style={[styles.cardContainer, styles.card, styles.alternate]}>
-        <Text style={[styles.title, Styles.Alternate]}>{this.props.title}</Text>
-        <Text style={[styles.text, Styles.Alternate]}>
-          {this.props.children}
-        </Text>
-      </View>
+      <this.container
+        onPress={this.props.onPress}
+        style={[
+          styles.cardContainer,
+          styles.card,
+          styles.alternate,
+          styles.faqContainer
+        ]}>
+        <View style={styles.faq}>
+          <View style={styles.faqContent}>
+            <Text style={[styles.title, Styles.Alternate]}>
+              {this.props.title}
+            </Text>
+            <Text style={[styles.text, Styles.Alternate]}>
+              {this.props.children}
+            </Text>
+          </View>
+          <View style={styles.faqButton}>
+            {this.props.onPress ? (
+              <MaterialIcon
+                name="keyboard-arrow-right"
+                size={Sizes.H2}
+                color={Colours.AlternateText}/>
+            ) : null}
+          </View>
+        </View>
+      </this.container>
     );
   }
 }
@@ -210,7 +238,6 @@ const styles = StyleSheet.create({
   },
 
   alternate: {
-    paddingRight: Sizes.OuterFrame * 2,
     marginBottom: 0,
     backgroundColor: Colours.Transparent
   },
@@ -223,5 +250,19 @@ const styles = StyleSheet.create({
 
   text: {
     ...Styles.Text
+  },
+
+  faq: {
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns
+  },
+
+  faqContent: {
+    flex: 1,
+    paddingRight: Sizes.OuterFrame
+  },
+
+  faqButton: {
+    alignItems: "flex-end"
   }
 });
