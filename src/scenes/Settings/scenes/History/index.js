@@ -6,7 +6,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import { observer, inject } from "mobx-react/native";
 
 // custom
-import { ContentCoverSlider, NavBar } from "localyyz/components";
+import { BaseScene } from "localyyz/components";
 import HistoryItem from "./components/HistoryItem";
 
 @inject(stores => ({
@@ -18,14 +18,10 @@ import HistoryItem from "./components/HistoryItem";
 export default class HistoryScene extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      headerHeight: 0
-    };
 
     // bindings
     this.renderItem = this.renderItem.bind(this);
     this.renderSectionHeader = this.renderSectionHeader.bind(this);
-    this.renderHeader = this.renderHeader.bind(this);
   }
 
   componentDidMount() {
@@ -62,77 +58,27 @@ export default class HistoryScene extends React.Component {
     );
   }
 
-  renderHeader() {
-    return (
-      <View
-        style={styles.header}
-        onLayout={e =>
-          this.setState({
-            headerHeight: e.nativeEvent.layout.height
-          })
-        }>
-        <Text style={styles.headerTitle}>Your browsing history </Text>
-        <Text style={styles.headerSubtitle}>
-          {
-            "Keep an eye on this tab regularly to automatically track price drops since the last time you've viewed a product"
-          }
-        </Text>
-      </View>
-    );
-  }
-
   render() {
     return (
-      <View style={styles.container}>
-        <ContentCoverSlider
-          ref="container"
-          title="Browse History"
-          idleStatusBarStatus="dark-content"
-          background={this.renderHeader()}
-          backAction={this.props.navigation.goBack}
-          backColor={Colours.Text}>
-          <SectionList
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator={false}
-            sections={_sectionedHistory(this.props.groups)}
-            onScroll={e => this.refs.container.onScroll(e)}
-            renderItem={this.renderItem}
-            renderSectionHeader={this.renderSectionHeader}
-            keyExtractor={(item, i) => `item-${i}`}
-            contentContainerStyle={{
-              paddingBottom: NavBar.HEIGHT + this.state.headerHeight,
-              marginTop: this.state.headerHeight
-            }}
-            ListEmptyComponent={this.renderEmptyComponent}
-            ListFooterComponent={<View style={styles.footer} />}/>
-        </ContentCoverSlider>
-      </View>
+      <BaseScene
+        title="Browse history"
+        backAction={this.props.navigation.goBack}>
+        <SectionList
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          sections={_sectionedHistory(this.props.groups)}
+          onScroll={e => this.refs.container.onScroll(e)}
+          renderItem={this.renderItem}
+          renderSectionHeader={this.renderSectionHeader}
+          keyExtractor={(item, i) => `item-${i}`}
+          ListEmptyComponent={this.renderEmptyComponent}
+          ListFooterComponent={<View style={styles.footer} />}/>
+      </BaseScene>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colours.Background,
-    paddingBottom: NavBar.HEIGHT
-  },
-
-  header: {
-    paddingTop: Sizes.Height / 8,
-    paddingBottom: Sizes.InnerFrame
-  },
-
-  headerTitle: {
-    ...Styles.Text,
-    ...Styles.SectionTitle
-  },
-
-  headerSubtitle: {
-    ...Styles.Text,
-    ...Styles.SectionSubtitle
-  },
-
   itemContainer: {
     ...Styles.Horizontal,
     marginHorizontal: Sizes.OuterFrame,
