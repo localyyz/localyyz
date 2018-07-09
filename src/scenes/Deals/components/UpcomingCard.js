@@ -31,7 +31,7 @@ export default class UpcomingCard extends React.Component {
               sameElse: "DD/MM/YYYY"
             })}
           </Text>
-          <Text style={styles.text}>{this.props.deal.name}</Text>
+          <Text style={styles.text}>{this.props.deal.description}</Text>
         </View>
       </View>
     ) : null;
