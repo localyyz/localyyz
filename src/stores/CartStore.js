@@ -525,7 +525,7 @@ export default class CartStore {
       {
         merchantName: this.cart.items[0].product.place.name,
         requestName: true,
-        requestPhone: true,
+        requestPhone: false,
         requestEmail: true,
         requestShipping: true,
         requestBilling: true,
