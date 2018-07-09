@@ -18,8 +18,24 @@ export default class ActiveDealUIStore {
   constructor(deal) {
     // data
     this.deal = deal;
-    this.progress = new Animated.Value(deal.percentageClaimed);
+    this.progress = new Animated.Value(0);
+
+    // bindings
+    this.updateProgress = this.updateProgress.bind(this);
+    this.refresh = this.refresh.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateProgress(this.deal.percentageClaimed);
     this.refresh();
+  }
+
+  updateProgress(percentage) {
+    Animated.timing(this.progress, {
+      toValue: percentage,
+      duration: REFRESH_INTERVAL / 5,
+      easing: Easing.out(Easing.ease)
+    }).start();
   }
 
   refresh(interval = REFRESH_INTERVAL) {
@@ -49,11 +65,7 @@ export default class ActiveDealUIStore {
             );
 
           // update progress
-          Animated.timing(this.progress, {
-            toValue: this.deal.percentageClaimed,
-            duration: REFRESH_INTERVAL / 5,
-            easing: Easing.out(Easing.ease)
-          }).start();
+          this.updateProgress(this.deal.percentageClaimed);
         });
     }
   }
