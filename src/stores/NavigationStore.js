@@ -3,6 +3,7 @@ import { observable, action } from "mobx";
 // custom
 import { box } from "localyyz/helpers";
 import { ApiInstance } from "localyyz/global";
+import { GA } from "localyyz/global";
 
 export default class NavigationStore {
   @box cartItemCount = 0;
@@ -51,6 +52,7 @@ export default class NavigationStore {
   // NOTE: the second param, is to avoid stacking and reset the nav state
   @action
   dispatch = (router, action, stackNavState = true) => {
+    this.logWithGA(action);
     // TODO: properly handle extra navigations
     if (action.type == "Navigation/COMPLETE_TRANSITION") {
       // DO NOTHING
@@ -142,4 +144,47 @@ export default class NavigationStore {
 
     return this.navigationState;
   };
+
+  logWithGA(action) {
+    if (
+      (action.type == "Navigation/RESET" && action.index == 0)
+      || action.type == "tab"
+    ) {
+      if (action.routeName == "Root" || !action.routeName) {
+        GA.trackScreen("home");
+      } else {
+        GA.trackScreen(String(action.routeName).toLowerCase());
+      }
+    } else if (action.type == "Navigation/NAVIGATE") {
+      switch (action.routeName) {
+        case "ProductList":
+          if (!action.params.title) {
+            GA.trackEvent("collection", "view", "filter/sort from home");
+          } else {
+            GA.trackEvent("collection", "view", action.params.title);
+          }
+          break;
+        case "Product":
+          GA.trackEvent(
+            "product",
+            "view",
+            action.params.product.title,
+            action.params.product.id
+          );
+          break;
+        case "Modal":
+          GA.trackEvent("filter/sort", "open");
+          break;
+        case "Orders":
+          GA.trackEvent("settings", "view orders", "order history");
+          break;
+        case "Addresses":
+          GA.trackEvent("settings", "view account", "saved addresses");
+          break;
+        case "AddressForm":
+          GA.trackEvent("settings", "view account", "edit addresses");
+          break;
+      }
+    }
+  }
 }

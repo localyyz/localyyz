@@ -19,6 +19,8 @@ export default class StandardCollection extends React.Component {
         {this.props.imageUrl ? (
           <ConstrainedAspectImage
             source={{ uri: this.props.imageUrl }}
+            sourceWidth={this.props.imageWidth || null}
+            sourceHeight={this.props.imageHeight || null}
             constrainWidth={Sizes.Width}/>
         ) : null}
         <List {...this.props} fetchPath={this.props.fetchFrom} />

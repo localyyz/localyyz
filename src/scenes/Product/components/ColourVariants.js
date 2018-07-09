@@ -13,7 +13,9 @@ import PropTypes from "prop-types";
 
 @withNavigation
 @inject(stores => ({
-  product: stores.productStore.product
+  product: stores.productStore.product,
+  dealStore: stores.dealStore,
+  activeDealStore: stores.activeDealStore
 }))
 @observer
 export default class ColourVariants extends React.Component {
@@ -39,7 +41,13 @@ export default class ColourVariants extends React.Component {
           product={product}
           onPress={() =>
             this.props.navigation.navigate("Product", {
-              product: product
+              product: product,
+
+              // used for now timer sync
+              dealStore: this.props.dealStore,
+
+              // deal data itself
+              activeDealStore: this.props.activeDealStore
             })
           }/>
       </View>

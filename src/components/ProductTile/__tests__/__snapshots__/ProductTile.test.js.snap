@@ -96,30 +96,21 @@ exports[`ProductTile ProductTile: should render properly(snapshot) 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
           style={
-            Object {
-              "backgroundColor": "rgba(255, 255, 255, 0)",
-              "color": "#000000",
-              "fontSize": 18,
-              "fontWeight": "600",
-              "marginRight": 3.75,
-            }
+            Array [
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "#000000",
+                "fontSize": 18,
+                "fontWeight": "600",
+                "marginRight": 3.75,
+              },
+              Object {
+                "color": "#FF0000",
+              },
+            ]
           }
         >
           $10.00
-        </Text>
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
-            Object {
-              "color": "#FF0000",
-              "fontSize": 12,
-            }
-          }
-        >
-          50
-          % OFF
         </Text>
       </View>
       <View>
@@ -141,13 +132,8 @@ exports[`ProductTile ProductTile: should render properly(snapshot) 1`] = `
             accessible={true}
             allowFontScaling={true}
             ellipsizeMode="tail"
-            style={
-              Object {
-                "textDecorationLine": "line-through",
-              }
-            }
           >
-            $20.00
+            -50%
           </Text>
           <Text
             accessible={true}

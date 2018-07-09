@@ -52,6 +52,7 @@ public class MainActivity extends ReactActivity {
             protected Bundle getLaunchOptions() {
                 Bundle initialProps = new Bundle();
                 initialProps.putString("API_URL", BuildConfig.API_URL);
+                initialProps.putString("GOOGLE_ANALYTICS_KEY", BuildConfig.GOOGLE_ANALYTICS_KEY);
                 return initialProps;
             }
         };

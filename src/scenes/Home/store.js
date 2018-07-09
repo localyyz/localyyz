@@ -1,6 +1,6 @@
 // custom
 import { Product } from "localyyz/models";
-import { ApiInstance } from "localyyz/global";
+import { ApiInstance, GA } from "localyyz/global";
 import { assistantStore } from "localyyz/stores";
 import { box, capitalize, randInt } from "localyyz/helpers";
 import {
@@ -124,6 +124,7 @@ export default class HomeStore {
       )
       .then(response => {
         if (response && response.status < 400 && response.data.length > 0) {
+          GA.trackEvent("search", "view search result", this.searchQuery);
           runInAction("[ACTION] post search", () => {
             // product count
             if (response.headers && response.headers["x-item-total"] != null) {
@@ -142,6 +143,7 @@ export default class HomeStore {
         } else {
           // TODO: backend should sendback a http status hinting no results
           if (!this._selfSearch || this._selfSearch.page === PAGE_ONE) {
+            GA.trackEvent("search", "no results found", this.searchQuery);
             assistantStore.write(
               `Sorry! I couldn't find any product for "${this.searchQuery}"`,
               5000

@@ -36,7 +36,8 @@
   }
 
   NSString *apiUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"API_URL"];
-  NSDictionary *props = @{@"API_URL" : apiUrl};
+  NSString *GA = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GOOGLE_ANALYTICS_KEY"];
+  NSDictionary *props = @{@"API_URL" : apiUrl, @"GOOGLE_ANALYTICS_KEY": GA};
   
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"localyyz"

@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { Styles, Colours, Sizes } from "localyyz/constants";
+import { GA } from "localyyz/global";
 
 // third party
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
@@ -25,6 +26,7 @@ export default class SortBy extends React.Component {
   }
 
   onPress() {
+    GA.trackEvent("filter/sort", "sort by " + this.props.value);
     !this.isSelected && this.props.setSortBy(this.props.value);
   }
 

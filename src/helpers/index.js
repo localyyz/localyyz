@@ -83,6 +83,13 @@ export function capitalize(string) {
   });
 }
 
+export function capitalizeSentence(string) {
+  return string
+    .split(" ")
+    .map((word, i) => (i > 0 ? word : capitalize(word)))
+    .join(" ");
+}
+
 export function onlyIfLoggedIn({ hasSession }, action, navigation) {
   if (hasSession) {
     action && action();

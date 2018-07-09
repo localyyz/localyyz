@@ -10,7 +10,7 @@ import {
 import { Colours } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
-import { ApiInstance } from "localyyz/global";
+import { ApiInstance, GA } from "localyyz/global";
 import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 
 // third party
@@ -27,11 +27,11 @@ import {
   CartSummary,
   Deeplink,
   Information,
-  History,
   Brands,
   Modal,
   Checkout,
   SettingsTab,
+  Deals,
 
   // forms
   Forms
@@ -62,13 +62,16 @@ const AppNavigator = StackNavigator(
   }
 );
 
-const HistoryTab = StackNavigator(
+const DealsTab = StackNavigator(
   {
-    History: { screen: History },
-    Product: { screen: Product }
+    Deals: { screen: Deals },
+    Product: { screen: Product },
+    Information: { screen: Information },
+    ProductList: { screen: ProductList },
+    CartSummary: { screen: CartSummary }
   },
   {
-    initialRouteName: "History",
+    initialRouteName: "Deals",
     navigationOptions: ({ navigation: { state } }) => ({
       header: null,
       gesturesEnabled: state.params && state.params.gesturesEnabled
@@ -81,7 +84,7 @@ const HistoryTab = StackNavigator(
 const TabBarNavigator = TabNavigator(
   {
     Root: { screen: AppNavigator },
-    History: { screen: HistoryTab },
+    Deals: { screen: DealsTab },
     Settings: { screen: SettingsTab }
   },
   {
@@ -118,6 +121,7 @@ class AppContainer extends React.Component {
 
     // initialize api instance with API_URL from User defined vars
     ApiInstance.initialize(props.API_URL);
+    GA.initialize(props.GOOGLE_ANALYTICS_KEY);
   }
 
   get isMinVersion() {

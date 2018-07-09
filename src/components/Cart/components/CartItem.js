@@ -13,6 +13,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import { randInt } from "localyyz/helpers";
 import { Product } from "localyyz/models";
 import { LiquidImage, UppercasedText, SloppyView } from "localyyz/components";
+import { GA } from "localyyz/global";
 
 // third-party
 import PropTypes from "prop-types";
@@ -92,6 +93,7 @@ export class CartItem extends React.Component {
           this.props.remove(this.props.item).then(() => {
             this.props.sync();
           });
+          GA.trackEvent("cart", "remove item from cart");
         }
       }
     ]);
