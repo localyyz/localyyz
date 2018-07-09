@@ -71,7 +71,8 @@ export default class Api {
       && console.log(
         "API: Failed because",
         _error.message || "not sure",
-        tracking.message || ""
+        tracking.message || "",
+        _error
       );
 
     return {

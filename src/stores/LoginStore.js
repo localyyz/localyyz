@@ -5,7 +5,7 @@ import { facebook, storage } from "localyyz/effects";
 import { ApiInstance } from "localyyz/global";
 
 export default class LoginStore {
-  @observable _lastAttemptedLogin;
+  @observable _loggedInSince;
   @observable _wasLoginSkipped;
 
   constructor(userStore) {
@@ -18,7 +18,7 @@ export default class LoginStore {
 
   @computed
   get _wasLoginSuccessful() {
-    return this._lastAttemptedLogin !== undefined;
+    return !!this._loggedInSince;
   }
 
   @action
@@ -50,11 +50,15 @@ export default class LoginStore {
     return this._wasLoginSuccessful;
   };
 
-  @action
   logout = async () => {
     await storage.remove("session");
     this.user.model.reset();
     this.api.setAuth("");
+
+    // and finally, unset _loggedInSince
+    runInAction("[ACTION] Logging out", () => {
+      this._loggedInSince = null;
+    });
   };
 
   shouldSkipLogin = async () => {
@@ -64,7 +68,7 @@ export default class LoginStore {
 
   _loginSuccess = (type = "") => {
     runInAction(`[ACTION] ${type} record last attmped login`, () => {
-      this._lastAttemptedLogin = moment().unix();
+      this._loggedInSince = moment().unix();
     });
   };
 
