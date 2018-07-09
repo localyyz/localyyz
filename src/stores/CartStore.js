@@ -988,10 +988,10 @@ export default class CartStore {
       response = await this._onUserAcceptPayment(response);
       response = await this._payExpressCheckout(response);
       if (!response._wasFailed) {
-        await this.replace(response.cart);
+        await this.replace(response);
         let completionSummary = {
           wasSuccessful: true,
-          cart: this.cart,
+          cart: response,
           customerName: this.customerName,
           shippingDetails: this.shippingDetails,
           shippingExpectation: this.shippingExpectation,
