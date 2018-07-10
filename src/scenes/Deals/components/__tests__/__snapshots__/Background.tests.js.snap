@@ -1,0 +1,571 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Active Content 1`] = `
+<View
+  style={Object {}}
+>
+  <Video
+    muted={true}
+    playWhenInactive={true}
+    repeat={true}
+    resizeMode="cover"
+    source={
+      Object {
+        "testUri": "../../../src/assets/videos/clocks.mp4",
+      }
+    }
+    style={
+      Object {
+        "height": 444.6666666666667,
+        "width": 750,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "bottom": 0,
+        "justifyContent": "flex-end",
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  >
+    <BVLinearGradient
+      colors={
+        Array [
+          4278190080,
+          0,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      locations={null}
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 1,
+        }
+      }
+      style={
+        Object {
+          "height": 667,
+          "width": 750,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "justifyContent": "flex-end",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+        },
+      ]
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontSize": 22,
+          "fontWeight": "700",
+          "marginHorizontal": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+      Today's #DOTD is live!
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "borderBottomColor": "#FFFFFF",
+            "color": "#FFFFFF",
+            "fontSize": 22,
+            "fontWeight": "700",
+            "marginHorizontal": 25,
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 32,
+            "fontWeight": "700",
+            "lineHeight": 38.4,
+            "marginVertical": 15,
+          },
+        ]
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        target={Array []}
+      >
+        00:00:00
+      </Text>
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Expired Content 1`] = `
+<View
+  style={Object {}}
+>
+  <Video
+    muted={true}
+    playWhenInactive={true}
+    repeat={true}
+    resizeMode="cover"
+    source={
+      Object {
+        "testUri": "../../../src/assets/videos/static.mp4",
+      }
+    }
+    style={
+      Object {
+        "height": 444.6666666666667,
+        "width": 750,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "bottom": 0,
+        "justifyContent": "flex-end",
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  >
+    <BVLinearGradient
+      colors={
+        Array [
+          4278190080,
+          0,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      locations={null}
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 1,
+        }
+      }
+      style={
+        Object {
+          "height": 667,
+          "width": 750,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "justifyContent": "flex-end",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+        },
+      ]
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "borderBottomColor": "#FFFFFF",
+            "color": "#FFFFFF",
+            "fontSize": 22,
+            "fontWeight": "700",
+            "marginHorizontal": 25,
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 32,
+            "fontWeight": "700",
+            "lineHeight": 38.4,
+            "marginVertical": 15,
+          },
+        ]
+      }
+    >
+      .. and it's over
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "borderBottomColor": "#FFFFFF",
+            "color": "#FFFFFF",
+            "fontSize": 22,
+            "fontWeight": "700",
+            "marginHorizontal": 25,
+            "textAlign": "center",
+          },
+          Object {
+            "marginHorizontal": 187.5,
+          },
+        ]
+      }
+    >
+      next deal tomorrow at noon
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Missed Content 1`] = `
+<View
+  style={Object {}}
+>
+  <Video
+    muted={true}
+    playWhenInactive={true}
+    repeat={true}
+    resizeMode="cover"
+    source={
+      Object {
+        "testUri": "../../../src/assets/videos/girl.mp4",
+      }
+    }
+    style={
+      Object {
+        "height": 444.6666666666667,
+        "width": 750,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "bottom": 0,
+        "justifyContent": "flex-end",
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  >
+    <BVLinearGradient
+      colors={
+        Array [
+          4278190080,
+          0,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      locations={null}
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 1,
+        }
+      }
+      style={
+        Object {
+          "height": 667,
+          "width": 750,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "justifyContent": "flex-end",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+        },
+      ]
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "borderBottomColor": "#FFFFFF",
+            "color": "#FFFFFF",
+            "fontSize": 22,
+            "fontWeight": "700",
+            "marginHorizontal": 25,
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 32,
+            "fontWeight": "700",
+            "lineHeight": 38.4,
+            "marginVertical": 15,
+          },
+        ]
+      }
+    >
+      You missed it today
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontSize": 22,
+          "fontWeight": "700",
+          "marginHorizontal": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+      next deal tomorrow at noon
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontSize": 22,
+          "fontWeight": "700",
+          "marginHorizontal": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        target={Array []}
+      >
+        00:00:00
+      </Text>
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Waiting Content 1`] = `
+<View
+  style={Object {}}
+>
+  <Video
+    muted={true}
+    playWhenInactive={true}
+    repeat={true}
+    resizeMode="cover"
+    source={
+      Object {
+        "testUri": "../../../src/assets/videos/girl.mp4",
+      }
+    }
+    style={
+      Object {
+        "height": 444.6666666666667,
+        "width": 750,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "bottom": 0,
+        "justifyContent": "flex-end",
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  >
+    <BVLinearGradient
+      colors={
+        Array [
+          4278190080,
+          0,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      locations={null}
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 1,
+        }
+      }
+      style={
+        Object {
+          "height": 667,
+          "width": 750,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "justifyContent": "flex-end",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+        },
+      ]
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "borderBottomColor": "#FFFFFF",
+            "color": "#FFFFFF",
+            "fontSize": 22,
+            "fontWeight": "700",
+            "marginHorizontal": 25,
+            "textAlign": "center",
+          },
+          Object {
+            "fontSize": 32,
+            "fontWeight": "700",
+            "lineHeight": 38.4,
+            "marginVertical": 15,
+          },
+        ]
+      }
+    >
+      Today at noon
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontSize": 22,
+          "fontWeight": "700",
+          "marginHorizontal": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+      sale starts in
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontSize": 22,
+          "fontWeight": "700",
+          "marginHorizontal": 25,
+          "textAlign": "center",
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        target={Array []}
+      >
+        00:00:00
+      </Text>
+    </Text>
+  </View>
+</View>
+`;

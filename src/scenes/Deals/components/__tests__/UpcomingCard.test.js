@@ -14,6 +14,10 @@ const Component = UpcomingCard;
 const NAME = "Deals/UpcomingCard";
 const PROPS = {
   deal: {
+    imageUrl:
+      "https://cdn.shopify.com/s/files/1/1976/6885/files/01-Lit-SpringSummer-Sale-App-Banner.jpg?10230491971092553988",
+    imageWidth: 100,
+    imageHeight: 100,
     name: "Deal",
     startAt: "2018-01-01T00:00:00.6083Z"
   }

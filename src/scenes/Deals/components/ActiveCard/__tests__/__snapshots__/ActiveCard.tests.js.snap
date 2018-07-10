@@ -1,0 +1,304 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Deals/ActiveCard Deals/ActiveCard: should render properly 1`] = `
+<RCTScrollView
+  data={
+    Array [
+      Object {
+        "associatedPhotos": Array [
+          Object {
+            "imageUrl": "www.localyyz.com",
+          },
+        ],
+        "brand": "Test",
+        "place": Object {
+          "currency": "USD",
+        },
+        "price": 6.78,
+        "title": "Test Title",
+      },
+    ]
+  }
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  numColumns={1}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
+  updateCellsBatchingPeriod={50}
+  viewabilityConfigCallbackPairs={Array []}
+  windowSize={21}
+>
+  <View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "marginBottom": 7.5,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "padding": 15,
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "rgb(30, 30, 30)",
+                "fontSize": 22,
+                "fontWeight": "700",
+                "marginBottom": 7.5,
+              }
+            }
+          >
+            Tes Store
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "rgb(30, 30, 30)",
+                "fontSize": 16,
+                "fontWeight": "300",
+              }
+            }
+          >
+            Test Description
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+            }
+          }
+        >
+          <View
+            accessible={true}
+            isTVSelectable={true}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#FFFFFF",
+                  "height": 333.5,
+                  "overflow": "hidden",
+                  "width": undefined,
+                }
+              }
+            >
+              <View>
+                <View
+                  style={
+                    Object {
+                      "opacity": 0.5,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Object {
+                        "backgroundColor": "#efefef",
+                        "borderRadius": 0,
+                        "height": 333.5,
+                        "width": 50,
+                      }
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            accessible={true}
+            isTVSelectable={true}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#9013FE",
+                  "borderRadius": 15,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "margin": 15,
+                  "paddingHorizontal": 15,
+                  "paddingVertical": 7.5,
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "borderBottomColor": "#FFFFFF",
+                    "color": "#FFFFFF",
+                    "fontSize": 16,
+                    "fontWeight": "600",
+                  }
+                }
+              >
+                Buy — $6.78
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#44179E",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                  "marginBottom": 15,
+                }
+              }
+            >
+              5 currently viewing — 10 available
+            </Text>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#50E3C2",
+                  "flexDirection": "row",
+                  "height": 25,
+                  "justifyContent": "flex-start",
+                  "width": "100%",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "flex-end",
+                    "backgroundColor": "#44179E",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "width": "40%",
+                  }
+                }
+              >
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "borderBottomColor": "#FFFFFF",
+                      "color": "#FFFFFF",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "opacity": 0,
+                      "paddingLeft": 7.5,
+                      "paddingRight": 15,
+                    }
+                  }
+                >
+                  40% claimed
+                </Text>
+              </View>
+              <View
+                style={
+                  Object {
+                    "alignItems": "flex-start",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "width": "60%",
+                  }
+                }
+              >
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "borderBottomColor": "#FFFFFF",
+                      "color": "#FFFFFF",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "opacity": 1,
+                      "paddingLeft": 15,
+                      "paddingRight": 7.5,
+                    }
+                  }
+                >
+                  40% claimed
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
