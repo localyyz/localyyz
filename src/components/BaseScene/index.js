@@ -16,6 +16,7 @@ export default class BaseScene extends React.Component {
     this.renderHeader = this.renderHeader.bind(this);
     this.renderSpacer = this.renderSpacer.bind(this);
     this.onBack = this.onBack.bind(this);
+    this.scrollTo = this.scrollTo.bind(this);
   }
 
   renderHeader() {
@@ -44,6 +45,14 @@ export default class BaseScene extends React.Component {
     return this.props.backAction || false;
   }
 
+  scrollTo(y) {
+    return this.scrollRef && this.scrollRef.scrollTo(y);
+  }
+
+  get scrollRef() {
+    return this.refs.scroll;
+  }
+
   get sliderRef() {
     return this.refs.slider;
   }
@@ -63,9 +72,11 @@ export default class BaseScene extends React.Component {
           backColor={Colours.Text}
           backAction={this.onBack()}
           background={this.renderHeader()}
+          iconType={this.props.iconType}
           idleStatusBarStatus={this.props.idleStatusBarStatus}>
           <View style={styles.container}>
             <ScrollView
+              ref="scroll"
               showsVerticalScrollIndicator={false}
               scrollEventThrottle={16}
               onScroll={evt => this.sliderRef && this.sliderRef.onScroll(evt)}>

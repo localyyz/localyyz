@@ -82,8 +82,6 @@ export default class LoginStore {
         // update the global api instance with the user's login token
         this.api.setAuth(token);
 
-        console.log(this.api);
-
         // mark login as success
         //  updating the user model + login success status has side-effects
         //  that may trigger network calls across other components

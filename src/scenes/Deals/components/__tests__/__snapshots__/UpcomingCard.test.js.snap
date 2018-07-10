@@ -76,9 +76,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly 1`] = `
           "fontWeight": "300",
         }
       }
-    >
-      Deal
-    </Text>
+    />
   </View>
 </View>
 `;

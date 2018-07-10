@@ -11,6 +11,7 @@ export { default as Sizes } from "./sizes";
 export { default as Colours } from "./colours";
 export { default as Styles } from "./styles";
 export { default as Event } from "./postMessage";
+export { default as Config } from "./config";
 
 // keys
 export const GOOGLE_PLACES_KEY = "AIzaSyCyDtar76vRMUbDlv6uvTai9b_8F7_UBWE";
@@ -24,6 +25,7 @@ export const PRIVACY_POLICY_URI
   = "https://localyyz.com/business/privacy-policy-businesses.html";
 export const TERMS_AND_CONDITIONS_URI
   = "https://localyyz.com/business/terms-and-conditions-businesses.html";
+export const DEV_REMOTE_API = "https://api-staging.localyyz.com";
 
 // form labels
 export const DEFAULT_ADDRESS = "required";

@@ -238,7 +238,7 @@ exports[`Deals/ActiveCard Deals/ActiveCard: should render properly 1`] = `
                     "backgroundColor": "#44179E",
                     "height": "100%",
                     "justifyContent": "center",
-                    "width": "40%",
+                    "width": "0%",
                   }
                 }
               >
@@ -269,7 +269,7 @@ exports[`Deals/ActiveCard Deals/ActiveCard: should render properly 1`] = `
                     "alignItems": "flex-start",
                     "height": "100%",
                     "justifyContent": "center",
-                    "width": "60%",
+                    "width": "100%",
                   }
                 }
               >
