@@ -35,3 +35,7 @@ jest.mock("react-native-payments", () => {
 jest.mock("react-native-google-analytics-bridge", () => {
   return {};
 });
+
+jest.mock("react-native-video", () => {
+  return "Video";
+});
