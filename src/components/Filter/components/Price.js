@@ -13,7 +13,7 @@ import * as Animatable from "react-native-animatable";
 import SliderMarker from "./SliderMarker";
 
 // constants
-const STEP_SIZE = 0.15;
+const STEP_SIZE = 0.05;
 const SLIDER_PERCENTAGE_OF_PARENT_WIDTH = 0.8;
 
 @inject(stores => ({
@@ -41,14 +41,16 @@ export default class Price extends React.Component {
 
   static defaultProps = {
     min: 0,
-    max: 500
+    max: 300
   };
 
   constructor(props) {
     super(props);
     this.state = {
       isActive: false,
-      width: 0
+      width: 0,
+      //slider starts at max
+      isAtMax: true
     };
 
     // bindings
@@ -81,6 +83,10 @@ export default class Price extends React.Component {
       values[0].toString() + "-" + values[1].toString()
     );
     this.props.setPriceFilter(this.bound(values[0]), this.bound(values[1]));
+    this.setState({
+      //if the end value is equal to the max
+      isAtMax: values[1] === this.props.max
+    });
     this.activate(false);
   }
 
@@ -117,7 +123,10 @@ export default class Price extends React.Component {
             <Text style={styles.label}>
               {this.priceMin ? `$${this.priceMin.toFixed(2)}` : "Free"}
             </Text>
-            <Text style={styles.label}>{`$${this.priceMax.toFixed(2)}`}</Text>
+            <Text style={styles.label}>
+              {`$${this.priceMax.toFixed(2)}`}
+              {this.state.isAtMax ? "+" : ""}
+            </Text>
           </Animatable.View>
         </View>
         <MultiSlider
