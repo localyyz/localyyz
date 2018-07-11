@@ -7,7 +7,7 @@ import {
 } from "react-navigation";
 
 // custom
-import { Colours } from "localyyz/constants";
+import { Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
 import { ApiInstance, GA } from "localyyz/global";
@@ -120,7 +120,9 @@ class AppContainer extends React.Component {
     };
 
     // initialize api instance with API_URL from User defined vars
-    ApiInstance.initialize(props.API_URL);
+    ApiInstance.initialize(
+      Config.DEV_USE_REMOTE_API ? DEV_REMOTE_API : props.API_URL
+    );
     GA.initialize(props.GOOGLE_ANALYTICS_KEY);
   }
 

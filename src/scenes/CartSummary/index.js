@@ -1,18 +1,11 @@
 import React from "react";
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity
-} from "react-native";
+import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 // custom
 import { logo } from "localyyz/assets";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import {
-  ContentCoverSlider,
+  BaseScene,
   UppercasedText,
   ExplodingButton,
   ConstrainedAspectImage
@@ -27,52 +20,6 @@ import TearLines from "react-native-tear-lines";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { ifIphoneX } from "react-native-iphone-x-helper";
 
-class ContentChild extends React.Component {
-  static propTypes = {
-    backgroundPosition: PropTypes.number,
-    onScroll: PropTypes.func
-  };
-
-  static defaultProps = {
-    backgroundPosition: 0
-  };
-
-  constructor(props) {
-    super(props);
-
-    // refs
-    this.scrollRef = React.createRef();
-
-    // bindings
-    this.scrollTo = this.scrollTo.bind(this);
-  }
-
-  scrollTo(y) {
-    this.scrollRef.current
-      && this.scrollRef.current.scrollTo
-      && this.scrollRef.current.scrollTo({ y: y });
-  }
-
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.backgroundPosition !== this.props.backgroundPosition) {
-      return true;
-    }
-    return false;
-  }
-
-  render() {
-    return (
-      <ScrollView
-        ref={this.scrollRef}
-        contentContainerStyle={styles.itemsContainer}
-        scrollEventThrottle={16}
-        onScroll={this.props.onScroll}>
-        {this.props.children}
-      </ScrollView>
-    );
-  }
-}
-
 @inject(stores => ({
   hideNavbar: () => stores.navbarStore.hide(),
   showNavbar: () => stores.navbarStore.show(),
@@ -80,7 +27,9 @@ class ContentChild extends React.Component {
   onShowSummary: () => stores.cartStore.onShowSummary(),
   finalize: () => stores.cartStore.finalize({}),
   amountDiscount: stores.cartStore.amountDiscount,
-  paymentLastFour: stores.cartStore.paymentLastFour
+  paymentLastFour: stores.cartStore.paymentLastFour,
+  hasSession: stores.userStore.model.hasSession,
+  loginWithFacebook: () => stores.loginStore.login("facebook")
 }))
 @observer
 export default class CartSummaryScene extends React.Component {
@@ -109,30 +58,38 @@ export default class CartSummaryScene extends React.Component {
 
   constructor(props) {
     super(props);
+    this.settings
+      = (props.navigation
+        && props.navigation.state
+        && props.navigation.state.params)
+      || {};
     this.state = {
       backgroundPosition: 0,
       isProcessing: false,
-      wasSuccessful: props.navigation.state.params.wasSuccessful
+      wasSuccessful: this.settings.wasSuccessful
     };
-
-    // refs
-    this.exploderRef = React.createRef();
-    this.contentRef = React.createRef();
 
     // bindings
     this.onBack = this.onBack.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
     this.clearExploder = this.clearExploder.bind(this);
+    this.loginWithFacebook = this.loginWithFacebook.bind(this);
+    this.loginWithEmail = this.loginWithEmail.bind(this);
+    this.onCompletion = this.onCompletion.bind(this);
   }
 
   componentWillReceiveProps(next) {
+    let nextSettings
+      = (next.navigation
+        && next.navigation.state
+        && next.navigation.state.params)
+      || {};
     if (
-      next.navigation.state.params.wasSuccessful !== this.state.wasSuccessful
-      && next.navigation.state.params.wasSuccessful
-        !== this.props.navigation.state.params.wasSuccessful
+      nextSettings.wasSuccessful !== this.state.wasSuccessful
+      && nextSettings.wasSuccessful !== this.settings.wasSuccessful
     ) {
       this.setState({
-        wasSuccessful: next.navigation.state.params.wasSuccessful
+        wasSuccessful: nextSettings.wasSuccessful
       });
     }
   }
@@ -161,7 +118,7 @@ export default class CartSummaryScene extends React.Component {
         isProcessing: false
       },
       () => {
-        this.contentRef.current.scrollTo(0);
+        this.contentRef && this.contentRef.scrollTo(0);
       }
     );
   }
@@ -177,6 +134,10 @@ export default class CartSummaryScene extends React.Component {
       .catch(() => {
         this.clearExploder(false);
       });
+  }
+
+  get contentRef() {
+    return this.refs.content;
   }
 
   get renderDetails() {
@@ -206,32 +167,25 @@ export default class CartSummaryScene extends React.Component {
               )}
             </View>
             <Text style={styles.detailsText}>
-              {`Shipping to ${this.props.navigation.state.params.customerName
-                || "Somebody"}`}
+              {`Shipping to ${this.settings.customerName || "Somebody"}`}
             </Text>
             <Text style={styles.detailsText}>
-              {this.props.navigation.state.params.shippingDetails.address
-                + (this.props.navigation.state.params.shippingDetails.addressOpt
-                  ? `, ${
-                      this.props.navigation.state.params.shippingDetails
-                        .addressOpt
-                    }`
+              {this.settings.shippingDetails.address
+                + (this.settings.shippingDetails.addressOpt
+                  ? `, ${this.settings.shippingDetails.addressOpt}`
                   : "")}
             </Text>
             <Text style={styles.detailsText}>
-              {(this.props.navigation.state.params.shippingDetails.city
-                ? `${this.props.navigation.state.params.shippingDetails.city}, `
-                : "")
-                + this.props.navigation.state.params.shippingDetails.province
-                || this.props.navigation.state.params.shippingDetails.region
-                  + (this.props.navigation.state.params.shippingDetails.zip
-                    ? ` ${
-                        this.props.navigation.state.params.shippingDetails.zip
-                      }`
+              {(this.settings.shippingDetails.city
+                ? `${this.settings.shippingDetails.city}, `
+                : "") + this.settings.shippingDetails.province
+                || this.settings.shippingDetails.region
+                  + (this.settings.shippingDetails.zip
+                    ? ` ${this.settings.shippingDetails.zip}`
                     : "")}
             </Text>
             <Text style={styles.detailsText}>
-              {this.props.navigation.state.params.shippingDetails.country}
+              {this.settings.shippingDetails.country}
             </Text>
             <Text
               style={[
@@ -241,17 +195,17 @@ export default class CartSummaryScene extends React.Component {
               ]}>
               via Standard
             </Text>
-            {!!this.props.navigation.state.params.shippingExpectation && (
+            {!!this.settings.shippingExpectation && (
               <Text style={[styles.detailsText, styles.detailsTitle]}>
-                {this.props.navigation.state.params.shippingExpectation.toLowerCase()}
+                {this.settings.shippingExpectation.toLowerCase()}
               </Text>
             )}
           </View>
           <View style={Styles.Divider} />
-          {this.props.navigation.state.params.cart
-            && this.props.navigation.state.params.cart.items
-            && this.props.navigation.state.params.cart.items.length > 0
-            && this.props.navigation.state.params.cart.items.slice().map(item => (
+          {this.settings.cart
+            && this.settings.cart.items
+            && this.settings.cart.items.length > 0
+            && this.settings.cart.items.slice().map(item => (
               <View key={`item-${item.id}`} style={styles.detailsItem}>
                 <Text style={styles.detailsText}>1 x</Text>
                 <View style={styles.detailsItemTitle}>
@@ -276,9 +230,7 @@ export default class CartSummaryScene extends React.Component {
               subtotal
             </UppercasedText>
             <Text style={styles.detailsText}>
-              {`$${this.props.navigation.state.params.amountSubtotal.toFixed(
-                2
-              )}`}
+              {`$${this.settings.amountSubtotal.toFixed(2)}`}
             </Text>
           </View>
           <View style={styles.detailsItem}>
@@ -287,7 +239,7 @@ export default class CartSummaryScene extends React.Component {
               taxes
             </UppercasedText>
             <Text style={styles.detailsText}>
-              {`$${this.props.navigation.state.params.amountTaxes.toFixed(2)}`}
+              {`$${this.settings.amountTaxes.toFixed(2)}`}
             </Text>
           </View>
           {this.props.amountDiscount > 0 && (
@@ -297,9 +249,7 @@ export default class CartSummaryScene extends React.Component {
                 discounts
               </UppercasedText>
               <Text style={[styles.detailsText, styles.detailsTitle]}>
-                {`($${this.props.navigation.state.params.amountDiscount.toFixed(
-                  2
-                )})`}
+                {`($${this.settings.amountDiscount.toFixed(2)})`}
               </Text>
             </View>
           )}
@@ -309,9 +259,7 @@ export default class CartSummaryScene extends React.Component {
               shipping
             </UppercasedText>
             <Text style={styles.detailsText}>
-              {`$${this.props.navigation.state.params.amountShipping.toFixed(
-                2
-              )}`}
+              {`$${this.settings.amountShipping.toFixed(2)}`}
             </Text>
           </View>
           <View style={styles.detailsItem}>
@@ -324,11 +272,11 @@ export default class CartSummaryScene extends React.Component {
               grand total
             </UppercasedText>
             <Text style={[styles.detailsText, styles.detailsTitle]}>
-              {`$${this.props.navigation.state.params.amountTotal.toFixed(2)}`}
+              {`$${this.settings.amountTotal.toFixed(2)}`}
             </Text>
           </View>
-          {this.props.navigation.state.params.shippingDetails.address
-          !== this.props.navigation.state.params.billingDetails.address ? (
+          {this.settings.shippingDetails.address
+          !== this.settings.billingDetails.address ? (
             <View style={styles.chargeWrapper}>
               <View style={Styles.Divider} />
               <View style={[styles.detailsItem, styles.charge]}>
@@ -337,25 +285,19 @@ export default class CartSummaryScene extends React.Component {
                 </Text>
                 <View style={styles.chargeContainer}>
                   <FontAwesomeIcon
-                    name={this.props.navigation.state.params.paymentType}
+                    name={this.settings.paymentType}
                     size={Sizes.OuterFrame}
                     style={styles.paymentIcon}/>
                   <Text style={styles.chargeValueLabel}>
-                    {`ending in ${
-                      this.props.navigation.state.params.paymentLastFour
-                    }`}
+                    {`ending in ${this.settings.paymentLastFour}`}
                   </Text>
                 </View>
               </View>
               <View style={styles.detailsItem}>
                 <Text style={styles.detailsText}>
-                  {this.props.navigation.state.params.billingDetails.address
-                    + (this.props.navigation.state.params.billingDetails
-                      .addressOpt
-                      ? `, ${
-                          this.props.navigation.state.params.billingDetails
-                            .addressOpt
-                        }`
+                  {this.settings.billingDetails.address
+                    + (this.settings.billingDetails.addressOpt
+                      ? `, ${this.settings.billingDetails.addressOpt}`
                       : "")}
                 </Text>
               </View>
@@ -375,34 +317,102 @@ export default class CartSummaryScene extends React.Component {
     );
   }
 
-  get renderLogin() {
+  get paymentHeaderLabel() {
+    return this.state.wasSuccessful
+      ? this.props.hasSession
+        ? "We've saved this receipt to your account for order tracking"
+        : "Track the status of this order by logging in with your account"
+      : `On order confirmation, $${this.settings.amountTotal.toFixed(
+          2
+        )} will be charged to`;
+  }
+
+  async loginWithFacebook() {
+    let wasSuccessful = await this.props.loginWithFacebook();
+    if (wasSuccessful) {
+      this.onCompletion("Orders");
+    }
+  }
+
+  loginWithEmail() {
+    this.onCompletion("Login");
+  }
+
+  onCompletion(scene) {
+    this.onBack();
+    this.props.navigation.navigate(scene);
+  }
+
+  get renderSummaryLogin() {
     return (
       <View style={styles.login}>
+        <View style={styles.buttons}>
+          <TouchableOpacity onPress={this.loginWithFacebook}>
+            <View style={[styles.button, styles.socialButton]}>
+              <FontAwesomeIcon
+                name="facebook-square"
+                color={Colours.AlternateText}
+                size={Sizes.Text}/>
+              <Text style={[styles.buttonLabel, styles.socialButtonLabel]}>
+                Login
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.loginWithEmail}>
+            <View style={styles.button}>
+              <Text style={styles.buttonLabel}>Email</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity onPress={() => this.onBack()}>
-          <View style={[Styles.RoundedButton, styles.paymentButton]}>
-            <UppercasedText style={styles.paymentButtonLabel}>
-              Continue Shopping
-            </UppercasedText>
+          <Text style={styles.skipLoginButtonLabel}>
+            No thanks—continue browsing
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  get renderSummaryComplete() {
+    return (
+      <View style={styles.buttons}>
+        <TouchableOpacity onPress={() => this.onBack()}>
+          <View style={styles.button}>
+            <Text style={styles.buttonLabel}>Continue browsing</Text>
           </View>
         </TouchableOpacity>
       </View>
     );
-    // return (
-    //   <View style={styles.login}>
-    //     <View style={[Styles.RoundedButton, styles.socialButton]}>
-    //       <FontAwesomeIcon
-    //         name="facebook-square"
-    //         color={Colours.AlternateText}
-    //         size={Sizes.Text} />
-    //       <UppercasedText style={styles.socialButtonLabel}>
-    //         Login with Facebook
-    //       </UppercasedText>
-    //     </View>
-    //     <Text style={styles.loginManual}>
-    //       .. or login via email
-    //     </Text>
-    //   </View>
-    // );
+  }
+
+  get renderSummaryPayment() {
+    return (
+      <View style={styles.paymentContainer}>
+        <FontAwesomeIcon
+          name={this.settings.paymentType}
+          size={Sizes.OuterFrame}
+          color={Colours.AlternateText}
+          style={styles.paymentIcon}/>
+        <Text style={styles.paymentLabel}>
+          {`xxxx xxxx xxxx ${this.settings.paymentLastFour}`}
+        </Text>
+        <ExplodingButton
+          color={Colours.PositiveButton}
+          isExploded={this.state.isProcessing}
+          explode={async () =>
+            this.setState({
+              isProcessing: true
+            })
+          }
+          onPress={this.onConfirm}>
+          <View style={styles.button}>
+            <UppercasedText style={styles.buttonLabel}>
+              Confirm Payment
+            </UppercasedText>
+          </View>
+        </ExplodingButton>
+      </View>
+    );
   }
 
   get renderSummary() {
@@ -410,55 +420,19 @@ export default class CartSummaryScene extends React.Component {
       <View style={styles.summaryContainer}>
         <View style={styles.confirmContainer}>
           <Animatable.View animation="fadeInRight" duration={300} delay={200}>
-            <Text style={styles.paymentHeader}>
-              {this.state.wasSuccessful
-                ? "We've saved this receipt to your account for order tracking"
-                : `On order confirmation, $${this.props.navigation.state.params.amountTotal.toFixed(
-                    2
-                  )} will be charged to`}
-            </Text>
+            <Text style={styles.paymentHeader}>{this.paymentHeaderLabel}</Text>
           </Animatable.View>
-          {this.state.wasSuccessful ? (
-            <Animatable.View
-              animation="fadeInRight"
-              duration={300}
-              delay={500}
-              style={styles.loginContainer}>
-              {this.renderLogin}
-            </Animatable.View>
-          ) : (
-            <Animatable.View
-              animation="fadeInRight"
-              duration={300}
-              delay={500}
-              style={styles.paymentContainer}>
-              <FontAwesomeIcon
-                name={this.props.navigation.state.params.paymentType}
-                size={Sizes.OuterFrame}
-                color={Colours.AlternateText}
-                style={styles.paymentIcon}/>
-              <Text style={styles.paymentLabel}>
-                {`xxxx xxxx xxxx ${
-                  this.props.navigation.state.params.paymentLastFour
-                }`}
-              </Text>
-              <ExplodingButton
-                color={Colours.PositiveButton}
-                isExploded={this.state.isProcessing}
-                explode={async () =>
-                  this.setState({
-                    isProcessing: true
-                  })
-                }
-                onPress={this.onConfirm}>
-                <View style={[Styles.RoundedButton, styles.paymentButton]}>
-                  <UppercasedText style={styles.paymentButtonLabel}>
-                    Confirm Payment
-                  </UppercasedText>
-                </View>
-              </ExplodingButton>
-            </Animatable.View>
-          )}
+          <Animatable.View
+            animation="fadeInRight"
+            duration={300}
+            delay={500}
+            style={styles.summaryActions}>
+            {this.state.wasSuccessful
+              ? this.props.hasSession
+                ? this.renderSummaryComplete
+                : this.renderSummaryLogin
+              : this.renderSummaryPayment}
+          </Animatable.View>
         </View>
       </View>
     );
@@ -489,10 +463,10 @@ export default class CartSummaryScene extends React.Component {
   }
 
   get merchantLogo() {
-    let products = (this.props.navigation.state.params.cart
-    && this.props.navigation.state.params.cart.items
-    && this.props.navigation.state.params.cart.items.length > 0
-      ? this.props.navigation.state.params.cart.items
+    let products = (this.settings.cart
+    && this.settings.cart.items
+    && this.settings.cart.items.length > 0
+      ? this.settings.cart.items
       : []
     ).filter(
       item => item.product && item.product.place && item.product.place.imageUrl
@@ -501,81 +475,64 @@ export default class CartSummaryScene extends React.Component {
     return products.length > 0 && products[0].product.place.imageUrl;
   }
 
+  get header() {
+    return (
+      <View style={styles.background}>
+        {this.state.wasSuccessful != null && (
+          <View style={styles.resultIconContainer}>
+            <Animatable.View animation="bounce" duration={300} delay={300}>
+              <FontAwesomeIcon
+                name={
+                  this.state.wasSuccessful ? "check-circle" : "times-circle"
+                }
+                color={
+                  this.state.wasSuccessful ? Colours.Success : Colours.Fail
+                }
+                size={Sizes.Avatar}
+                style={styles.resultIcon}/>
+            </Animatable.View>
+          </View>
+        )}
+        <Text style={styles.title}>
+          {this.state.wasSuccessful != null
+            ? this.state.wasSuccessful ? "Thank you!" : "Something went wrong"
+            : "Lets confirm your order"}
+        </Text>
+        <Text style={styles.subtitle}>
+          {this.state.wasSuccessful != null
+            ? this.state.wasSuccessful
+              ? "Your payment was processed successfully by the merchant and will be delivered out shortly. We've also sent you an email confirmation for record keeping."
+              : `We couldn't process your selected payment method ending in ${
+                  this.props.paymentLastFour
+                }. Please either try again, or go back and use a different payment method.`
+            : "Your order will be immediately dispatched to the merchant for processing as soon as this screen is confirmed by you."}
+        </Text>
+      </View>
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <ContentCoverSlider
-          ref="container"
-          title="Purchase Confirmation"
+        <BaseScene
+          ref="content"
+          title="Purchase confirmation"
           iconType="close"
           backAction={
             this.state.wasSuccessful ? false : () => this.onBack(true)
           }
-          backColor={Colours.Text}
-          background={
-            <View
-              onLayout={e => {
-                this.setState({
-                  // pushes content under the end of background dynamically
-                  backgroundPosition:
-                    e.nativeEvent.layout.y + e.nativeEvent.layout.height
-                });
-              }}
-              style={styles.background}>
-              {this.state.wasSuccessful != null && (
-                <View style={styles.resultIconContainer}>
-                  <Animatable.View
-                    animation="bounce"
-                    duration={300}
-                    delay={300}>
-                    <FontAwesomeIcon
-                      name={
-                        this.state.wasSuccessful
-                          ? "check-circle"
-                          : "times-circle"
-                      }
-                      color={
-                        this.state.wasSuccessful
-                          ? Colours.Success
-                          : Colours.Fail
-                      }
-                      size={Sizes.Avatar}
-                      style={styles.resultIcon}/>
-                  </Animatable.View>
-                </View>
-              )}
-              <Text style={styles.title}>
-                {this.state.wasSuccessful != null
-                  ? this.state.wasSuccessful
-                    ? "Thank you!"
-                    : "Something went wrong"
-                  : "Lets confirm your order"}
-              </Text>
-              <Text style={styles.subtitle}>
-                {this.state.wasSuccessful != null
-                  ? this.state.wasSuccessful
-                    ? "Your payment was processed successfully by the merchant and will be delivered out shortly. We've also sent you an email confirmation for record keeping."
-                    : `We couldn't process your selected payment method ending in ${
-                        this.props.paymentLastFour
-                      }. Please either try again, or go back and use a different payment method.`
-                  : "Your order will be immediately dispatched to the merchant for processing as soon as this screen is confirmed by you."}
-              </Text>
-            </View>
-          }>
-          <ContentChild
-            ref={this.contentRef}
-            onScroll={event => this.refs.container.onScroll(event)}
-            backgroundPosition={this.state.backgroundPosition}>
-            {this.renderDetails}
-          </ContentChild>
+          header={this.header}>
+          {this.renderDetails}
+        </BaseScene>
+        <View pointerEvents="box-none" style={styles.details}>
           <LinearGradient
             pointerEvents="none"
             colors={[Colours.Background, Colours.Transparent]}
             start={{ x: 0, y: 1 }}
             end={{ x: 0, y: 0 }}
             style={styles.gradient}/>
-        </ContentCoverSlider>
-        {this.renderSummary}
+          {this.renderSummary}
+        </View>
         {this.state.isProcessing && this.renderOverlay}
       </View>
     );
@@ -588,11 +545,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colours.Background
   },
 
+  details: {
+    ...Styles.Overlay,
+    justifyContent: "flex-end"
+  },
+
   gradient: {
-    position: "absolute",
-    left: 0,
-    bottom: 0,
-    right: 0,
+    width: Sizes.Width,
     height: Sizes.OuterFrame * 2
   },
 
@@ -684,7 +643,6 @@ const styles = StyleSheet.create({
 
   paymentContainer: {
     ...Styles.Horizontal,
-    marginVertical: Sizes.InnerFrame / 2,
     alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap"
@@ -716,14 +674,31 @@ const styles = StyleSheet.create({
     marginLeft: Sizes.InnerFrame / 2
   },
 
-  paymentButton: {
-    marginVertical: Sizes.InnerFrame
+  buttons: {
+    ...Styles.Horizontal,
+    justifyContent: "center",
+    flexWrap: "wrap"
   },
 
-  paymentButtonLabel: {
+  button: {
+    ...Styles.RoundedButton,
+    marginHorizontal: Sizes.InnerFrame / 3,
+    marginVertical: Sizes.InnerFrame / 2,
+    backgroundColor: Colours.Foreground
+  },
+
+  buttonLabel: {
     ...Styles.Text,
-    ...Styles.Emphasized,
-    ...Styles.Alternate
+    ...Styles.Emphasized
+  },
+
+  socialButton: {
+    backgroundColor: Colours.Facebook
+  },
+
+  socialButtonLabel: {
+    ...Styles.Alternate,
+    marginLeft: Sizes.InnerFrame / 2
   },
 
   overlay: {
@@ -760,14 +735,20 @@ const styles = StyleSheet.create({
     fontSize: Sizes.Oversized * 2
   },
 
-  loginContainer: {
-    alignItems: "center",
-    alignSelf: "center"
+  summaryActions: {
+    marginVertical: Sizes.InnerFrame
   },
 
   login: {
     alignItems: "center",
-    marginTop: Sizes.InnerFrame,
     marginHorizontal: Sizes.OuterFrame
+  },
+
+  skipLoginButtonLabel: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
+    ...Styles.TinyText,
+    ...Styles.Alternate,
+    marginTop: Sizes.InnerFrame / 2
   }
 });
