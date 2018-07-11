@@ -128,8 +128,8 @@ class AppContainer extends React.Component {
 
   get isMinVersion() {
     return (
-      Platform.OS !== "ios"
-      || (Platform.OS === "ios" && DeviceInfo.getBuildNumber() > 221)
+      Platform.OS !== "ios" ||
+      (Platform.OS === "ios" && parseInt(DeviceInfo.getBuildNumber()) > 250)
     );
   }
 
@@ -171,9 +171,9 @@ class AppContainer extends React.Component {
       },
       codePushStatus => {
         if (
-          codePushStatus === codePush.SyncStatus.UPDATE_INSTALLED
-          || codePushStatus === codePush.SyncStatus.UNKNOWN_ERROR
-          || codePushStatus === codePush.SyncStatus.UP_TO_DATE
+          codePushStatus === codePush.SyncStatus.UPDATE_INSTALLED ||
+          codePushStatus === codePush.SyncStatus.UNKNOWN_ERROR ||
+          codePushStatus === codePush.SyncStatus.UP_TO_DATE
         ) {
           stores.deviceStore.sendDeviceData();
         }
@@ -205,7 +205,8 @@ class AppContainer extends React.Component {
               addListener: () => {
                 /* left blank intentionally */
               }
-            })}/>
+            })}
+          />
           <GlobalAssistant />
         </View>
       </Provider>
