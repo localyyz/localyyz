@@ -1,11 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
 
 // custom
 import {
-  ContentCoverSlider,
+  BaseScene,
   ProductList,
   Filter,
   FilterPopupButton
@@ -27,21 +27,16 @@ import Store from "./store";
 @observer
 class Content extends React.Component {
   static propTypes = {
-    headerHeight: PropTypes.number,
     products: PropTypes.array
   };
 
   static defaultProps = {
-    headerHeight: 0,
     products: []
   };
 
   shouldComponentUpdate(nextProps) {
-    // wrapper component that stops ProductList
-    // rerendering if header height has not been updated
     return (
-      nextProps.headerHeight !== this.props.headerHeight
-      || nextProps.products.length !== this.props.products.length
+      nextProps.products.length !== this.props.products.length
       // order has changed, based on id's concat'ed (for order string)
       || (nextProps.products
         && this.props.products
@@ -71,15 +66,12 @@ export default class ProductListScene extends React.Component {
 
   constructor(props) {
     super(props);
-    this.store = new Store(props.navigation.state.params);
+    this.settings = props.navigation.state.params || {};
+    this.store = new Store(this.settings);
     this.filterStore = Filter.getNewStore(this.store);
     this.state = {
-      headerHeight: 0,
-
       // when navigating to productList, is the filter popup visible?
-      isFilterVisible:
-        props.navigation.state.params
-        && props.navigation.state.params.isFilterVisible
+      isFilterVisible: this.settings.isFilterVisible
     };
   }
 
@@ -91,39 +83,15 @@ export default class ProductListScene extends React.Component {
     return (
       <Provider productListStore={this.store}>
         <View style={styles.container}>
-          <ContentCoverSlider
-            ref="container"
-            title={this.props.navigation.state.params.title}
-            backAction={() => this.props.navigation.goBack()}
-            backColor={Colours.Text}
-            background={
-              <View
-                onLayout={e =>
-                  this.setState({
-                    headerHeight: Math.round(e.nativeEvent.layout.height)
-                  })
-                }>
-                <View style={styles.header}>
-                  {this.props.navigation.state.params.title ? (
-                    <Text style={styles.headerLabel}>
-                      {this.props.navigation.state.params.title}
-                    </Text>
-                  ) : null}
-                  {this.props.navigation.state.params.subtitle ? (
-                    <Text style={styles.headerSublabel}>
-                      {this.props.navigation.state.params.subtitle}
-                    </Text>
-                  ) : null}
-                </View>
-              </View>
-            }>
+          <BaseScene
+            title={this.settings.title}
+            description={this.settings.description}
+            image={this.settings.image}
+            backAction={this.props.navigation.goBack}>
             <Content
-              onScroll={e => this.refs.container.onScroll(e)}
-              headerHeight={this.state.headerHeight}
-              paddingBottom={this.state.headerHeight + NAVBAR_HEIGHT}
               fetchPath={this.store.fetchPath}
               onEndReached={() => this.store.fetchNextPage()}/>
-          </ContentCoverSlider>
+          </BaseScene>
           <View style={styles.filter} pointerEvents="box-none">
             <FilterPopupButton
               store={this.filterStore}
@@ -137,31 +105,10 @@ export default class ProductListScene extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginBottom: NAVBAR_HEIGHT,
-    backgroundColor: Colours.Background
-  },
-
-  header: {
-    ...Styles.Card,
-    marginBottom: Sizes.InnerFrame,
-    marginTop: Sizes.OuterFrame * 5,
-    paddingHorizontal: null,
-    backgroundColor: Colours.Transparent
-  },
-
-  headerLabel: {
-    ...Styles.Text,
-    ...Styles.SectionTitle
-  },
-
-  headerSublabel: {
-    ...Styles.Text,
-    ...Styles.SectionSubtitle
+    flex: 1
   },
 
   content: {
-    paddingVertical: Sizes.InnerFrame,
     paddingBottom: NAVBAR_HEIGHT
   },
 

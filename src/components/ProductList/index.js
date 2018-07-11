@@ -184,12 +184,12 @@ const styles = StyleSheet.create({
   },
 
   list: {
-    paddingHorizontal: Sizes.InnerFrame
+    paddingHorizontal: Sizes.InnerFrame / 4
   },
 
   tile: {
     flex: 1,
-    paddingHorizontal: Sizes.InnerFrame / 2
+    paddingHorizontal: Sizes.InnerFrame / 4
   },
 
   emptyList: {

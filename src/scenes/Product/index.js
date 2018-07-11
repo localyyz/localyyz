@@ -18,8 +18,8 @@ import Content from "./content";
 
 // constants
 // should be manually sync'ed whenever the CTA header changes in layout
-const CTA_HEIGHT = 180;
-const DEAL_HEIGHT = 127;
+const CTA_HEIGHT = 183;
+const DEAL_HEIGHT = 107.5;
 
 @inject(stores => ({
   setAppContext: context => stores.navStore.setAppContext(context),

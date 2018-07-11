@@ -18,8 +18,8 @@ exports[`Order Order: should render the flatlist properly 1`] = `
         Array [
           Object {
             "backgroundColor": "#FFFFFF",
-            "paddingHorizontal": 25,
-            "paddingVertical": 15,
+            "paddingHorizontal": 15,
+            "paddingVertical": 10,
           },
           Object {
             "alignItems": "center",

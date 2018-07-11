@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 //import { applePayButton } from "localyyz/assets";
 import { onlyIfLoggedIn, toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { ExplodingButton, SloppyView } from "localyyz/components";
+import { ExplodingButton, SloppyView, PriceTag } from "localyyz/components";
 import { capitalize } from "localyyz/helpers";
 import { GA } from "localyyz/global";
 
@@ -161,16 +161,7 @@ class ProductBuy extends React.Component {
     const { hasSession } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.price}>
-          <Text style={styles.priceLabel}>
-            {toPriceString(this.props.price, this.props.product.place.currency)}
-          </Text>
-          {this.props.isOnSale ? (
-            <Text style={styles.discountText}>
-              {Math.round(this.props.discount * 100.0, 0)}% OFF
-            </Text>
-          ) : null}
-        </View>
+        <PriceTag size={Sizes.H1} product={this.props.product} />
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate(
@@ -281,17 +272,7 @@ class ProductBuy extends React.Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: "flex-start",
-    paddingHorizontal: Sizes.OuterFrame
-  },
-
-  price: {
-    ...Styles.Horizontal
-  },
-
-  priceLabel: {
-    ...Styles.Text,
-    ...Styles.Title,
-    marginRight: Sizes.InnerFrame / 4
+    paddingHorizontal: Sizes.InnerFrame
   },
 
   subtitle: {
@@ -301,11 +282,6 @@ const styles = StyleSheet.create({
 
   previousPrice: {
     textDecorationLine: "line-through"
-  },
-
-  discountText: {
-    color: Colours.Fail,
-    fontSize: Sizes.TinyText
   },
 
   buttons: {

@@ -8,7 +8,7 @@ import { StackNavigator } from "react-navigation";
 import { Menu, Addresses, Orders, History } from "./scenes";
 import ProductScene from "../Product";
 
-export const SettingsTab = StackNavigator(
+export const SettingsNavigator = StackNavigator(
   {
     Menu: { screen: Menu },
     Addresses: { screen: Addresses },

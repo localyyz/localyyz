@@ -30,7 +30,7 @@ import {
   Brands,
   Modal,
   Checkout,
-  SettingsTab,
+  Settings,
   Deals,
 
   // forms
@@ -62,30 +62,13 @@ const AppNavigator = StackNavigator(
   }
 );
 
-const DealsTab = StackNavigator(
-  {
-    Deals: { screen: Deals },
-    Product: { screen: Product },
-    Information: { screen: Information },
-    ProductList: { screen: ProductList },
-    CartSummary: { screen: CartSummary }
-  },
-  {
-    initialRouteName: "Deals",
-    navigationOptions: ({ navigation: { state } }) => ({
-      header: null,
-      gesturesEnabled: state.params && state.params.gesturesEnabled
-    })
-  }
-);
-
 //TODO: NavBar should probably read from navigationOptions
 //rather than everything mostly hardcoded
 const TabBarNavigator = TabNavigator(
   {
     Root: { screen: AppNavigator },
-    Deals: { screen: DealsTab },
-    Settings: { screen: SettingsTab }
+    Deals: { screen: Deals },
+    Settings: { screen: Settings }
   },
   {
     tabBarComponent: NavBar,

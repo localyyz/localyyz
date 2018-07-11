@@ -25,8 +25,7 @@ export default class InformationScene extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: Sizes.OuterFrame,
-    paddingVertical: Sizes.InnerFrame,
+    padding: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
   }
 });

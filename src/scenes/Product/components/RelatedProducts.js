@@ -72,8 +72,7 @@ export default class RelatedProducts extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colours.Foreground,
-    marginVertical: Sizes.InnerFrame,
-    paddingHorizontal: Sizes.OuterFrame - Sizes.InnerFrame
+    marginVertical: Sizes.InnerFrame
   },
 
   header: {

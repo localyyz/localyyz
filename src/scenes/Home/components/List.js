@@ -42,15 +42,7 @@ class List extends React.Component {
   };
 
   get renderMoreButton() {
-    return (
-      <MoreFooter
-        title={this.props.title}
-        description={this.props.description}
-        fetchPath={this.props.fetchPath}
-        basePath={this.props.basePath}
-        categories={this.props.categories}
-        numProducts={this.props.numProducts}/>
-    );
+    return <MoreFooter {...this.props} />;
   }
 
   shouldComponentUpdate(nextProps) {

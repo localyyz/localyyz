@@ -81,7 +81,7 @@ export default class HistoryScene extends React.Component {
 const styles = StyleSheet.create({
   itemContainer: {
     ...Styles.Horizontal,
-    marginHorizontal: Sizes.OuterFrame,
+    marginHorizontal: Sizes.InnerFrame,
     marginVertical: Sizes.InnerFrame / 8,
     padding: Sizes.InnerFrame / 2,
     backgroundColor: Colours.Foreground
