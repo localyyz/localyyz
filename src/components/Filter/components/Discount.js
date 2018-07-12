@@ -18,7 +18,8 @@ const SLIDER_PERCENTAGE_OF_PARENT_WIDTH = 0.8;
 
 @inject(stores => ({
   discountMin: stores.filterStore.discountMin,
-  setDiscountFilter: stores.filterStore.setDiscountFilter
+  setDiscountFilter: stores.filterStore.setDiscountFilter,
+  categoriesSelected: stores.filterStore.category
 }))
 @observer
 export default class Discount extends React.Component {
@@ -86,13 +87,14 @@ export default class Discount extends React.Component {
 
   render() {
     return (
-      <View style={styles.container} onLayout={this.onLayout}>
+      <View style={styles.container} onLayout={this.onLayout} pointerEvents={this.props.categoriesSelected ? "" : "none"}>
+        <Text style={this.props.categoriesSelected ? styles.filterHeader : styles.disabledHeader}>By minimum discount %</Text>
         <View style={styles.labelsAnimation}>
           <Animatable.View
             animation={this.state.isActive ? "fadeOut" : "slideInUp"}
             duration={300}
             style={styles.labels}>
-            <Text style={styles.label}>
+            <Text style={this.props.categoriesSelected ? styles.label : styles.disabled}>
               {this.discountMin
                 ? `${(this.discountMin * 100).toFixed(0)}%`
                 : "Regular price"}
@@ -119,8 +121,8 @@ export default class Discount extends React.Component {
           trackStyle={styles.track}
           markerOffsetX={-13}
           markerOffsetY={-5.5}
-          unselectedStyle={styles.sliderSelected}
-          selectedStyle={styles.sliderUnselected}
+          unselectedStyle={styles.sliderUnSelected}
+          selectedStyle={this.props.categoriesSelected ? styles.sliderSelected : styles.sliderUnselected}
           values={[this.discountMin]}
           onValuesChangeStart={this.onValuesChangeStart}
           onValuesChangeFinish={this.onValuesChangeFinish}
@@ -144,6 +146,21 @@ const styles = StyleSheet.create({
   labelsAnimation: {
     paddingBottom: Sizes.InnerFrame,
     overflow: "hidden"
+  },
+
+  filterHeader: {
+    marginBottom: Sizes.InnerFrame
+  },
+
+  disabledHeader: {
+    color: Colours.SubduedText,
+    marginBottom: Sizes.InnerFrame
+  },
+
+  disabled: {
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
+    color: Colours.SubduedText
   },
 
   labels: {

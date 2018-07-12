@@ -10,7 +10,8 @@ import Common from "./Common";
   setFilter: stores.filterStore.setBrandFilter,
   clearFilter: () => stores.filterStore.setBrandFilter(""),
   data: stores.filterStore.brands,
-  selected: stores.filterStore.brand
+  selected: stores.filterStore.brand,
+  categoriesSelected: stores.filterStore.category
 }))
 @observer
 export class Brands extends React.Component {
@@ -24,7 +25,8 @@ export class Brands extends React.Component {
   setFilter: stores.filterStore.setColorFilter,
   clearFilter: () => stores.filterStore.setColorFilter(""),
   data: stores.filterStore.colors,
-  selected: stores.filterStore.color
+  selected: stores.filterStore.color,
+  categoriesSelected: stores.filterStore.category
 }))
 @observer
 export class Colors extends React.Component {
@@ -38,7 +40,8 @@ export class Colors extends React.Component {
   setFilter: stores.filterStore.setSizeFilter,
   clearFilter: () => stores.filterStore.setSizeFilter(""),
   data: stores.filterStore.sizes,
-  selected: stores.filterStore.size
+  selected: stores.filterStore.size,
+  categoriesSelected: stores.filterStore.category
 }))
 @observer
 export class Sizes extends React.Component {

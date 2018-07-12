@@ -27,18 +27,13 @@ export default class Filter extends React.Component {
         <Text style={styles.header}>Sort</Text>
         <Sort />
         <View style={styles.spacer} />
-
         <Text style={styles.header}>Filters</Text>
-        <Text style={styles.label}>By price</Text>
+        <GenderCategories />
         <Price />
-        <Text style={styles.label}>By minimum discount %</Text>
         <Discount />
-
         <Brands headerStyle={styles.label} />
         <Colors headerStyle={styles.label} />
         <SizesFilter headerStyle={styles.label} />
-
-        <GenderCategories />
       </View>
     );
   }

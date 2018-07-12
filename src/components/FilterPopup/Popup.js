@@ -43,7 +43,7 @@ export default class FilterPopup extends React.Component {
             bounces={false}>
             <Filter />
           </ScrollView>
-          {this.props.store.numProducts > 0 ? (
+          {this.props.store.category ? (
             <View pointerEvents="box-none" style={styles.footer}>
               <LinearGradient
                 pointerEvents="box-none"

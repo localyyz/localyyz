@@ -11,7 +11,7 @@ export default class ExpandableHeader extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.label} children={this.props.children} />
+        <Text style={this.props.enabled ? styles.label : styles.disabled} children={this.props.children} />
         {!this.props.hideCollapse || !this.props.isOpen ? (
           <MaterialIcon
             name={
@@ -32,6 +32,11 @@ const styles = StyleSheet.create({
   },
 
   label: {
+    marginRight: Sizes.InnerFrame / 2
+  },
+
+  disabled: {
+    color: Colours.SubduedText,
     marginRight: Sizes.InnerFrame / 2
   }
 });

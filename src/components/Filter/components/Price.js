@@ -20,7 +20,8 @@ const SLIDER_PERCENTAGE_OF_PARENT_WIDTH = 0.8;
   priceMin: stores.filterStore.priceMin,
   priceMax: stores.filterStore.priceMax,
   setPriceFilter: stores.filterStore.setPriceFilter,
-  setScrollEnabled: stores.filterStore.setScrollEnabled
+  setScrollEnabled: stores.filterStore.setScrollEnabled,
+  categoriesSelected: stores.filterStore.category
 }))
 @observer
 export default class Price extends React.Component {
@@ -114,16 +115,20 @@ export default class Price extends React.Component {
 
   render() {
     return (
-      <View style={styles.container} onLayout={this.onLayout}>
+      <View
+        style={styles.container}
+        onLayout={this.onLayout}
+        pointerEvents={this.props.categoriesSelected ? "" : "none"}>
+        <Text style={this.props.categoriesSelected? styles.filterHeader : styles.disabledHeader}>By price</Text>
         <View style={styles.labelsAnimation}>
           <Animatable.View
             animation={this.state.isActive ? "fadeOut" : "slideInUp"}
             duration={300}
             style={styles.labels}>
-            <Text style={styles.label}>
+            <Text style={this.props.categoriesSelected? styles.labels : styles.disabled}>
               {this.priceMin ? `$${this.priceMin.toFixed(2)}` : "Free"}
             </Text>
-            <Text style={styles.label}>
+            <Text style={this.props.categoriesSelected? styles.labels : styles.disabled}>
               {`$${this.priceMax.toFixed(2)}`}
               {this.state.isAtMax ? "+" : ""}
             </Text>
@@ -145,7 +150,7 @@ export default class Price extends React.Component {
           markerOffsetX={-13}
           markerOffsetY={-5.5}
           unselectedStyle={styles.sliderUnselected}
-          selectedStyle={styles.sliderSelected}
+          selectedStyle={this.props.categoriesSelected ? styles.sliderSelected : styles.sliderUnselected}
           values={[this.priceMin, this.priceMax]}
           onValuesChangeStart={this.onValuesChangeStart}
           onValuesChangeFinish={this.onValuesChangeFinish}
@@ -171,15 +176,26 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
 
+  filterHeader: {
+    marginBottom: Sizes.InnerFrame
+  },
+
+  disabledHeader: {
+    color: Colours.SubduedText,
+    marginBottom: Sizes.InnerFrame
+  },
+
+  disabled: {
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
+    color: Colours.SubduedText,
+  },
+
   labels: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns
   },
 
-  label: {
-    ...Styles.Text,
-    ...Styles.TinyText
-  },
 
   sliderSelected: {
     backgroundColor: Colours.Selected,
@@ -197,5 +213,10 @@ const styles = StyleSheet.create({
     height: Sizes.OuterFrame * 2
   },
 
+  markerContainerDisabled: {
+    width: Sizes.OuterFrame * 3,
+    height: Sizes.OuterFrame * 2,
+    color: Colours.SubduedText
+  },
   track: { marginBottom: Sizes.OuterFrame }
 });
