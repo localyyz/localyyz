@@ -29,24 +29,14 @@ class ProductVariantSelector extends React.Component {
 
   constructor(props) {
     super(props);
-
-    // TODO: verify product has variants
-    const { product } = props;
+    let defaultVariant
+      = this.props.product && this.props.product.selectedVariant;
     this.state = {
-      color:
-        (product
-          && product.selectedVariant.etc
-          && product.selectedVariant.etc.color)
-        || product.selectedColor,
-      size:
-        (product
-          && product.selectedVariant.etc
-          && product.selectedVariant.etc.size)
-        || (product.sizes && product.sizes.length > 0 ? product.sizes[0] : null)
+      color: defaultVariant.etc && defaultVariant.etc.color,
+      size: defaultVariant.etc && defaultVariant.etc.size
     };
 
     // bindings
-    this.findVariantWithSelection = this.findVariantWithSelection.bind(this);
     this.renderSize = this.renderSize.bind(this);
     this.onSizeSelect = this.onSizeSelect.bind(this);
   }
@@ -62,34 +52,15 @@ class ProductVariantSelector extends React.Component {
   componentDidUpdate() {
     // as if an network call, sync up the variant to other
     // components in the localyyz universe
-    this.props.onSelectVariant(
-      this.findVariantWithSelection(this.state.size, this.state.color)
-    );
+    this.props.product
+      && this.props.onSelectVariant(
+        this.props.product.getVariant(this.state.size, this.state.color)
+          || this.props.product.defaultVariant
+      );
   }
 
   componentDidMount() {
     this.componentDidUpdate();
-  }
-
-  findVariantWithSelection(size, color) {
-    let variant = this.props.product.variants.find(
-      variant => variant.etc.color === color && variant.etc.size === size
-    );
-
-    if (!variant && color) {
-      variant = this.props.product.variants.find(
-        variant => variant.etc.color === color
-      );
-    } else if (!variant && size) {
-      variant = this.props.product.variants.find(
-        variant => variant.etc.size === size
-      );
-    } else if (!!this.props.product.variants && !size && !color) {
-      variant = this.props.product.variants[0];
-    }
-
-    // cache the result
-    return variant;
   }
 
   onSizeSelect(size) {
@@ -99,7 +70,7 @@ class ProductVariantSelector extends React.Component {
       },
       () => {
         this.props.onSelectVariant(
-          this.findVariantWithSelection(size, this.state.color)
+          this.props.product.getVariant(size, this.state.color)
         );
         this.props.toggle(false);
       }
@@ -114,8 +85,8 @@ class ProductVariantSelector extends React.Component {
   }
 
   renderSize(size) {
-    let variant = this.findVariantWithSelection(size, this.state.color);
-    return (
+    let variant = this.props.product.getVariant(size, this.state.color);
+    return variant ? (
       <TouchableOpacity
         key={`size-${size}`}
         onPress={() =>
@@ -140,7 +111,7 @@ class ProductVariantSelector extends React.Component {
           </View>
         </SloppyView>
       </TouchableOpacity>
-    );
+    ) : null;
   }
 
   get hasSelectableOptions() {
@@ -152,10 +123,10 @@ class ProductVariantSelector extends React.Component {
   }
 
   render() {
-    let variant = this.findVariantWithSelection(
-      this.state.size,
-      this.state.color
-    ) || { etc: { size: "one size" } };
+    let variant = (this.props.product
+      && this.props.product.getVariant(this.state.size, this.state.color)) || {
+      etc: { size: "one size" }
+    };
 
     return (
       <View style={styles.container}>

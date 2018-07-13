@@ -37,19 +37,21 @@ export default class HomeStore {
   }
 
   _listProducts = listData => {
-    return (listData || [])
-      .filter(p => {
-        return p.images && p.images.length > 0;
-      })
-      .map(
-        p =>
-          new Product({
-            ...p,
-            description: p.noTagDescription,
-            titleWordsLength: 3,
-            descriptionWordsLength: 10
-          })
-      );
+    return (
+      (listData || [])
+        .map(
+          p =>
+            new Product({
+              ...p,
+              description: p.noTagDescription,
+              titleWordsLength: 3,
+              descriptionWordsLength: 10
+            })
+        )
+
+        // only with photos and variant available
+        .filter(p => p.associatedPhotos.length > 0 && p.selectedVariant.price)
+    );
   };
 
   /////////////////////////////////// search suggestion observables

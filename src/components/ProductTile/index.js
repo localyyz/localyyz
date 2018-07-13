@@ -50,7 +50,7 @@ export default class ProductTile extends React.PureComponent {
   }
 
   render() {
-    return this.props.product ? (
+    return (
       <TouchableOpacity
         ref="productTileTouchable"
         onPress={this.props.onPress}
@@ -122,7 +122,7 @@ export default class ProductTile extends React.PureComponent {
           </View>
         </View>
       </TouchableOpacity>
-    ) : null;
+    );
   }
 }
 
