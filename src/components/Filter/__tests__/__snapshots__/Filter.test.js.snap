@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Filter should render to snapshot 1`] = `
+exports[`Filter should render to snapshot - search:false 1`] = `
 <Component
   style={
     Object {
@@ -48,33 +48,92 @@ exports[`Filter should render to snapshot 1`] = `
   >
     Filters
   </Text>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={Object {}}
-  >
-    By price
-  </Text>
-  <inject-Price />
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={Object {}}
-  >
-    By minimum discount %
-  </Text>
-  <inject-Discount />
+  <inject-Price
+    search={false}
+  />
+  <inject-Discount
+    search={false}
+  />
   <inject-Brands
     headerStyle={Object {}}
+    search={false}
   />
   <inject-Colors
     headerStyle={Object {}}
+    search={false}
   />
   <inject-Sizes
     headerStyle={Object {}}
+    search={false}
   />
-  <inject-Categories />
+</Component>
+`;
+
+exports[`Filter should render to snapshot - search:true 1`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "rgb(30, 30, 30)",
+        "fontSize": 22,
+        "fontWeight": "700",
+        "marginBottom": 15,
+      }
+    }
+  >
+    Sort
+  </Text>
+  <inject-Sort />
+  <Component
+    style={
+      Object {
+        "height": 25,
+      }
+    }
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "rgb(30, 30, 30)",
+        "fontSize": 22,
+        "fontWeight": "700",
+        "marginBottom": 15,
+      }
+    }
+  >
+    Filters
+  </Text>
+  <inject-Price
+    search={true}
+  />
+  <inject-Discount
+    search={true}
+  />
+  <inject-Brands
+    headerStyle={Object {}}
+    search={true}
+  />
+  <inject-Colors
+    headerStyle={Object {}}
+    search={true}
+  />
+  <inject-Sizes
+    headerStyle={Object {}}
+    search={true}
+  />
 </Component>
 `;

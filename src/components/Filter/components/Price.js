@@ -62,7 +62,7 @@ export default class Price extends React.Component {
     this.activate = this.activate.bind(this);
     this.bound = this.bound.bind(this);
   }
-  
+
   activate(active) {
     active != this.state.isActive
       && this.setState(

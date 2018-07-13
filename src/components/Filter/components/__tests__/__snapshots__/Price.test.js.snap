@@ -3,12 +3,26 @@
 exports[`Price filter Price filter: should render to snapshot 1`] = `
 <View
   onLayout={[Function]}
+  pointerEvents="none"
   style={
     Object {
       "marginVertical": 7.5,
     }
   }
 >
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#999999",
+        "marginBottom": 15,
+      }
+    }
+  >
+    By price
+  </Text>
   <View
     style={
       Object {
@@ -37,10 +51,10 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
         ellipsizeMode="tail"
         style={
           Object {
-            "backgroundColor": "rgba(255, 255, 255, 0)",
-            "color": "rgb(30, 30, 30)",
-            "fontSize": 12,
-            "fontWeight": "300",
+            "alignItems": "center",
+            "color": "#999999",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
           }
         }
       >
@@ -52,14 +66,15 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
         ellipsizeMode="tail"
         style={
           Object {
-            "backgroundColor": "rgba(255, 255, 255, 0)",
-            "color": "rgb(30, 30, 30)",
-            "fontSize": 12,
-            "fontWeight": "300",
+            "alignItems": "center",
+            "color": "#999999",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
           }
         }
       >
         $100.00
+        +
       </Text>
     </View>
   </View>
@@ -123,7 +138,7 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
               "marginBottom": 25,
             },
             Object {
-              "backgroundColor": "rgb(30, 30, 30)",
+              "backgroundColor": "rgb(200, 200, 200)",
               "height": 1,
             },
             Object {
@@ -207,6 +222,7 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
             style={
               Object {
                 "alignItems": "center",
+                "color": "#999999",
                 "height": 50,
                 "width": 75,
               }
@@ -333,6 +349,7 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
             style={
               Object {
                 "alignItems": "center",
+                "color": "#999999",
                 "height": 50,
                 "width": 75,
               }
