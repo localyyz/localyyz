@@ -41,6 +41,10 @@ export default class Common extends React.Component {
     this.state = { collapsed: true };
   }
 
+  get enabled(){
+    return this.props.search || this.props.categoriesSelected
+  }
+
   onToggle = () => {
     GA.trackEvent("filter/sort", "filter by " + this.props.title);
     this.setState({ collapsed: !this.state.collapsed });
@@ -79,9 +83,9 @@ export default class Common extends React.Component {
 
   render() {
     return (
-      <View style={styles.container} pointerEvents={this.props.categoriesSelected ? "" : "none"}>
+      <View style={styles.container} pointerEvents={this.enabled ? "" : "none"}>
         <TouchableOpacity onPress={this.onToggle}>
-          <ExpandableHeader isOpen={!this.state.collapsed} enabled={this.props.categoriesSelected}>
+          <ExpandableHeader isOpen={!this.state.collapsed} enabled={this.enabled}>
             {this.props.title}
           </ExpandableHeader>
         </TouchableOpacity>

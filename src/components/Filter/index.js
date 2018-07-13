@@ -7,7 +7,6 @@ import {
   Price,
   Discount,
   Sort,
-  GenderCategories,
   Brands,
   Sizes as SizesFilter,
   Colors
@@ -28,12 +27,11 @@ export default class Filter extends React.Component {
         <Sort />
         <View style={styles.spacer} />
         <Text style={styles.header}>Filters</Text>
-        <GenderCategories />
-        <Price />
-        <Discount />
-        <Brands headerStyle={styles.label} />
-        <Colors headerStyle={styles.label} />
-        <SizesFilter headerStyle={styles.label} />
+        <Price search={this.props.search}/>
+        <Discount search={this.props.search}/>
+        <Brands headerStyle={styles.label} search={this.props.search}/>
+        <Colors headerStyle={styles.label} search={this.props.search}/>
+        <SizesFilter headerStyle={styles.label} search={this.props.search}/>
       </View>
     );
   }

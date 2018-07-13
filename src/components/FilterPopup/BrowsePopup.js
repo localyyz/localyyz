@@ -1,9 +1,15 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Text
+} from "react-native";
 
 // custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
-import Filter, { ProductCount } from "../Filter";
+import Browse from "../Filter/Browse";
 
 // third party
 import PropTypes from "prop-types";
@@ -14,7 +20,7 @@ import LinearGradient from "react-native-linear-gradient";
 const BOTTOM_MARGIN = Sizes.OuterFrame * 3;
 
 @observer
-export default class FilterPopup extends React.Component {
+export default class BrowsePopup extends React.Component {
   static propTypes = {
     store: PropTypes.object.isRequired,
 
@@ -27,9 +33,6 @@ export default class FilterPopup extends React.Component {
     contentStyle: {}
   };
 
-  componentDidMount(){
-    this.props.store.refresh();
-  }
   render() {
     return (
       <Provider filterStore={this.props.store}>
@@ -44,24 +47,26 @@ export default class FilterPopup extends React.Component {
             ]}
             showsVerticalScrollIndicator={false}
             bounces={false}>
-            <Filter search={this.props.search}/>
+            <Browse />
+            <View pointerEvents="box-none" style={styles.footer}>
+              <LinearGradient
+                pointerEvents="box-none"
+                colors={[Colours.WhiteTransparent, Colours.Transparent]}
+                start={{ y: 1, x: 0 }}
+                end={{ y: 0, x: 0 }}
+                style={styles.gradient}>
+                <View style={styles.toggle}>
+                  <TouchableOpacity onPress={this.props.onClose}>
+                    <View style={styles.button}>
+                      <Text style={styles.label}>
+                        Close
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </LinearGradient>
+            </View>
           </ScrollView>
-          <View pointerEvents="box-none" style={styles.footer}>
-            <LinearGradient
-              pointerEvents="box-none"
-              colors={[Colours.WhiteTransparent, Colours.Transparent]}
-              start={{ y: 1, x: 0 }}
-              end={{ y: 0, x: 0 }}
-              style={styles.gradient}>
-              <View style={styles.toggle}>
-                <TouchableOpacity onPress={this.props.onClose}>
-                  <View style={styles.button}>
-                    <ProductCount labelStyle={styles.label} />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </LinearGradient>
-          </View>
         </View>
       </Provider>
     );
@@ -98,7 +103,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: Sizes.InnerFrame,
     paddingHorizontal: Sizes.OuterFrame * 2,
-    backgroundColor: Colours.PositiveButton
+    backgroundColor: Colours.PositiveButton,
+    marginBottom: Sizes.InnerFrame * 3
   },
 
   label: {

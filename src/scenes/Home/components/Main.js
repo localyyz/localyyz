@@ -2,12 +2,13 @@ import React from "react";
 import { Animated, View, StyleSheet, FlatList } from "react-native";
 
 // custom
-import { NAVBAR_HEIGHT, Colours, Sizes } from "localyyz/constants";
-import { ReactiveSpacer, FilterPopupButton } from "localyyz/components";
+import { NAVBAR_HEIGHT, Colours, Sizes, Styles } from "localyyz/constants";
+import { ReactiveSpacer, FilterPopupButton, BrowsePopupButton } from "localyyz/components";
 
 // third party
 import { withNavigation } from "react-navigation";
 import { observer, inject } from "mobx-react/native";
+import LinearGradient from "react-native-linear-gradient";
 
 // local
 import { Banner, Collection, Brands } from "../blocks";
@@ -158,7 +159,17 @@ export class Main extends React.Component {
       <View style={styles.container}>
         <View style={styles.contentContainer}>{this.renderBlocks}</View>
         <View pointerEvents="box-none" style={styles.filter}>
-          <FilterPopupButton text={"Filter"} onPress={this.onFilterPress} />
+          <LinearGradient
+            colors={[Colours.WhiteTransparent, Colours.Transparent]}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 0, y: 0 }}
+            style={styles.gradient}
+            pointerEvents="box-none">
+            <View style={styles.buttons}>
+              <BrowsePopupButton text={"Browse"} onPress={this.onFilterPress} />
+              <FilterPopupButton text={"Sort"} onPress={this.onFilterPress} />
+            </View>
+          </LinearGradient>
         </View>
       </View>
     ) : (
@@ -172,6 +183,13 @@ export default withNavigation(Main);
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+
+  gradient: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    height: Sizes.Height / 7,
+    width: Sizes.Width
   },
 
   contentContainer: {
@@ -196,5 +214,11 @@ const styles = StyleSheet.create({
 
   firstBlockContainer: {
     marginBottom: Sizes.InnerFrame / 2
-  }
+  },
+
+  buttons: {
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
+    justifyContent: "center",
+  },
 });

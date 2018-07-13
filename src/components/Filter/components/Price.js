@@ -21,7 +21,8 @@ const SLIDER_PERCENTAGE_OF_PARENT_WIDTH = 0.8;
   priceMax: stores.filterStore.priceMax,
   setPriceFilter: stores.filterStore.setPriceFilter,
   setScrollEnabled: stores.filterStore.setScrollEnabled,
-  categoriesSelected: stores.filterStore.category
+  categoriesSelected: stores.filterStore.category,
+  refresh: stores.filterStore.refresh
 }))
 @observer
 export default class Price extends React.Component {
@@ -61,7 +62,7 @@ export default class Price extends React.Component {
     this.activate = this.activate.bind(this);
     this.bound = this.bound.bind(this);
   }
-
+  
   activate(active) {
     active != this.state.isActive
       && this.setState(
@@ -103,6 +104,10 @@ export default class Price extends React.Component {
     return this.props.priceMax != null ? this.props.priceMax : this.props.max;
   }
 
+  get enabled(){
+    return this.props.search || this.props.categoriesSelected
+  }
+
   bound(price) {
     return Math.max(this.props.min, Math.min(this.props.max, price));
   }
@@ -118,17 +123,17 @@ export default class Price extends React.Component {
       <View
         style={styles.container}
         onLayout={this.onLayout}
-        pointerEvents={this.props.categoriesSelected ? "" : "none"}>
-        <Text style={this.props.categoriesSelected? styles.filterHeader : styles.disabledHeader}>By price</Text>
+        pointerEvents={this.enabled ? "" : "none"}>
+        <Text style={this.enabled ? styles.filterHeader : styles.disabledHeader}>By price</Text>
         <View style={styles.labelsAnimation}>
           <Animatable.View
             animation={this.state.isActive ? "fadeOut" : "slideInUp"}
             duration={300}
             style={styles.labels}>
-            <Text style={this.props.categoriesSelected? styles.labels : styles.disabled}>
+            <Text style={this.enabled ? styles.labels : styles.disabled}>
               {this.priceMin ? `$${this.priceMin.toFixed(2)}` : "Free"}
             </Text>
-            <Text style={this.props.categoriesSelected? styles.labels : styles.disabled}>
+            <Text style={this.enabled ? styles.labels : styles.disabled}>
               {`$${this.priceMax.toFixed(2)}`}
               {this.state.isAtMax ? "+" : ""}
             </Text>
@@ -150,7 +155,7 @@ export default class Price extends React.Component {
           markerOffsetX={-13}
           markerOffsetY={-5.5}
           unselectedStyle={styles.sliderUnselected}
-          selectedStyle={this.props.categoriesSelected ? styles.sliderSelected : styles.sliderUnselected}
+          selectedStyle={this.enabled ? styles.sliderSelected : styles.sliderUnselected}
           values={[this.priceMin, this.priceMax]}
           onValuesChangeStart={this.onValuesChangeStart}
           onValuesChangeFinish={this.onValuesChangeFinish}

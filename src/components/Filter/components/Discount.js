@@ -75,6 +75,10 @@ export default class Discount extends React.Component {
     return this.props.discountMin != null ? this.props.discountMin : 0;
   }
 
+  get enabled(){
+    return this.props.search || this.props.categoriesSelected
+  }
+
   bound(price) {
     return Math.max(0, Math.min(1, price));
   }
@@ -87,14 +91,14 @@ export default class Discount extends React.Component {
 
   render() {
     return (
-      <View style={styles.container} onLayout={this.onLayout} pointerEvents={this.props.categoriesSelected ? "" : "none"}>
-        <Text style={this.props.categoriesSelected ? styles.filterHeader : styles.disabledHeader}>By minimum discount %</Text>
+      <View style={styles.container} onLayout={this.onLayout} pointerEvents={this.enabled  ? "" : "none"}>
+        <Text style={this.enabled ? styles.filterHeader : styles.disabledHeader}>By minimum discount %</Text>
         <View style={styles.labelsAnimation}>
           <Animatable.View
             animation={this.state.isActive ? "fadeOut" : "slideInUp"}
             duration={300}
             style={styles.labels}>
-            <Text style={this.props.categoriesSelected ? styles.label : styles.disabled}>
+            <Text style={this.enabled  ? styles.label : styles.disabled}>
               {this.discountMin
                 ? `${(this.discountMin * 100).toFixed(0)}%`
                 : "Regular price"}
@@ -122,7 +126,7 @@ export default class Discount extends React.Component {
           markerOffsetX={-13}
           markerOffsetY={-5.5}
           unselectedStyle={styles.sliderUnSelected}
-          selectedStyle={this.props.categoriesSelected ? styles.sliderSelected : styles.sliderUnselected}
+          selectedStyle={this.enabled ? styles.sliderSelected : styles.sliderUnselected}
           values={[this.discountMin]}
           onValuesChangeStart={this.onValuesChangeStart}
           onValuesChangeFinish={this.onValuesChangeFinish}
