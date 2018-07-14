@@ -14,5 +14,5 @@ export { default as Information } from "./Information";
 export { default as Modal } from "./Modal";
 export { default as Checkout } from "./Checkout";
 export { default as Forms } from "./Forms";
-export { SettingsTab } from "./Settings";
-export { default as Deals } from "./Deals";
+export { SettingsNavigator as Settings } from "./Settings";
+export { DealsNavigator as Deals } from "./Deals";

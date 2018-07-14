@@ -37,7 +37,7 @@ export default class BaseField extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: Sizes.InnerFrame / 2,
+    paddingVertical: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
   },
 
@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    paddingHorizontal: Sizes.OuterFrame,
-    paddingVertical: Sizes.InnerFrame
+    paddingHorizontal: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame / 2
   },
 
   label: {

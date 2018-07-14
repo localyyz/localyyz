@@ -32,6 +32,7 @@ let IntoTheGrey = "#313131";
 // ken's choice of colours
 let FadedGrey = "#EEEEEE";
 let LightGrey = "#999999";
+let Yellow = "#FFF200";
 
 export const Colours = {
   // backgrounds
@@ -55,6 +56,7 @@ export const Colours = {
   PositiveButton: UltraViolet,
   NegativeButton: Red,
   DisabledButton: LightShadow,
+  Clearance: Yellow,
 
   // text
   Text: Text,

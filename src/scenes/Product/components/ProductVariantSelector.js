@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   selected: {
     ...Styles.Horizontal,
     marginBottom: Sizes.InnerFrame / 2,
-    paddingHorizontal: Sizes.OuterFrame
+    paddingHorizontal: Sizes.InnerFrame
   },
 
   selectedLabel: {

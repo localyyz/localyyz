@@ -25,7 +25,7 @@ export default class DealSection extends React.Component {
     return this.props.deal ? (
       <View style={styles.container}>
         <ProgressBar
-          padding={Sizes.OuterFrame}
+          padding={Sizes.InnerFrame}
           percentage={this.props.deal.percentageClaimed}
           progress={this.props.progress}/>
         <View style={styles.content}>
@@ -45,7 +45,9 @@ export default class DealSection extends React.Component {
                 )}
               </Text>
               <Text style={[styles.title, styles.subTitle]}>
-                {`${this.props.deal.quantityAvailable} left`}
+                {this.props.deal.quantityAvailable
+                  ? `${this.props.deal.quantityAvailable} left`
+                  : "sold out"}
               </Text>
             </View>
           </View>
@@ -59,8 +61,7 @@ const styles = StyleSheet.create({
   container: {},
 
   content: {
-    paddingHorizontal: Sizes.OuterFrame,
-    paddingVertical: Sizes.OuterFrame,
+    padding: Sizes.InnerFrame,
     backgroundColor: Colours.MenuBackground
   },
 

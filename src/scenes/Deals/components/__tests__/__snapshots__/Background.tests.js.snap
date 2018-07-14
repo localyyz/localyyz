@@ -16,7 +16,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Ac
     }
     style={
       Object {
-        "height": 444.6666666666667,
+        "height": 333.5,
         "width": 750,
       }
     }
@@ -55,7 +55,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Ac
       }
       style={
         Object {
-          "height": 667,
+          "height": 444.6666666666667,
           "width": 750,
         }
       }
@@ -95,7 +95,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Ac
         }
       }
     >
-      Today's #DOTD is live!
+      #DOTD is live!
     </Text>
     <Text
       accessible={true}
@@ -150,7 +150,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Ex
     }
     style={
       Object {
-        "height": 444.6666666666667,
+        "height": 333.5,
         "width": 750,
       }
     }
@@ -189,7 +189,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Ex
       }
       style={
         Object {
-          "height": 667,
+          "height": 444.6666666666667,
           "width": 750,
         }
       }
@@ -282,7 +282,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Mi
     }
     style={
       Object {
-        "height": 444.6666666666667,
+        "height": 333.5,
         "width": 750,
       }
     }
@@ -321,7 +321,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Mi
       }
       style={
         Object {
-          "height": 667,
+          "height": 444.6666666666667,
           "width": 750,
         }
       }
@@ -434,7 +434,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Wa
     }
     style={
       Object {
-        "height": 444.6666666666667,
+        "height": 333.5,
         "width": 750,
       }
     }
@@ -473,7 +473,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Wa
       }
       style={
         Object {
-          "height": 667,
+          "height": 444.6666666666667,
           "width": 750,
         }
       }

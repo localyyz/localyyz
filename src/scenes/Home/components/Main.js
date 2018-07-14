@@ -1,5 +1,5 @@
 import React from "react";
-import { Animated, View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 
 // custom
 import { NAVBAR_HEIGHT, Colours, Sizes } from "localyyz/constants";
@@ -120,7 +120,6 @@ export class Main extends React.Component {
               noMargin
               hideHeader
               fetchFrom={block.path}
-              imageUrl={null}
               limit={4}/>
           </View>
         );

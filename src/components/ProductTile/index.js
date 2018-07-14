@@ -3,11 +3,10 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { ConstrainedAspectImage } from "localyyz/components";
-import { capitalize, toPriceString } from "localyyz/helpers";
+import { ConstrainedAspectImage, PriceTag } from "localyyz/components";
+import { capitalize } from "localyyz/helpers";
 
 // third party
-import getSymbolFromCurrency from "currency-symbol-map";
 import PropTypes from "prop-types";
 import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
@@ -87,17 +86,7 @@ export default class ProductTile extends React.PureComponent {
           </View>
           <View style={styles.content}>
             <View style={styles.price}>
-              <Text
-                ref="productTilePrice"
-                style={[
-                  styles.priceLabel,
-                  this.isOnSale && styles.discountText
-                ]}>
-                {toPriceString(
-                  this.props.product.price,
-                  this.props.product.place.currency
-                )}
-              </Text>
+              <PriceTag ref="productTilePrice" product={this.props.product} />
             </View>
             <View style={styles.details}>
               <Text numberOfLines={1} style={styles.label}>
@@ -128,8 +117,9 @@ export default class ProductTile extends React.PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 1,
-    paddingVertical: Sizes.InnerFrame / 2
+    marginVertical: Sizes.InnerFrame / 4,
+    paddingVertical: Sizes.InnerFrame / 2,
+    backgroundColor: Colours.Foreground
   },
 
   photoContainer: {
@@ -150,20 +140,10 @@ const styles = StyleSheet.create({
     marginBottom: Sizes.InnerFrame / 2
   },
 
-  priceLabel: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    fontSize: Sizes.H3,
-    marginRight: Sizes.InnerFrame / 4
-  },
-
   label: {
     ...Styles.Text,
     ...Styles.TinyText,
-    ...Styles.Subdued
-  },
-
-  discountText: {
-    color: Colours.Fail
+    ...Styles.Subdued,
+    marginHorizontal: Sizes.InnerFrame
   }
 });

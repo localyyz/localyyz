@@ -32,8 +32,9 @@ describe("ProductTile", () => {
     ).getInstance();
 
     // or use instance test?
-    expect(rendered.refs.productTilePrice.props.children).toBe("$10.00");
-    expect(rendered.refs.productTileDiscount.props.children).toBe("-50%");
+    expect(rendered.refs.productTilePrice.refs.price.props.children).toBe(
+      "$10.00"
+    );
   });
 
   it("ProductTile: should render properly(snapshot)", () => {

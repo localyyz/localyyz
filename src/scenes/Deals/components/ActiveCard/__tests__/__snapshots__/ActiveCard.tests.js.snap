@@ -166,7 +166,7 @@ exports[`Deals/ActiveCard Deals/ActiveCard: should render properly 1`] = `
               style={
                 Object {
                   "alignItems": "center",
-                  "backgroundColor": "#9013FE",
+                  "backgroundColor": "#000000",
                   "borderRadius": 15,
                   "flexDirection": "row",
                   "justifyContent": "center",
@@ -217,7 +217,7 @@ exports[`Deals/ActiveCard Deals/ActiveCard: should render properly 1`] = `
                 }
               }
             >
-              5 currently viewing — 10 available
+              5 currently viewing
             </Text>
             <View
               style={

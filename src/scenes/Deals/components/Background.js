@@ -81,7 +81,7 @@ class DealActiveContent extends React.Component {
   render() {
     return (
       <View style={[styles.content, styles.centered]}>
-        <Text style={styles.title}>{"Today's #DOTD is live!"}</Text>
+        <Text style={styles.title}>{"#DOTD is live!"}</Text>
         <Text style={[styles.title, styles.header]}>
           <Timer
             target={this.props.target}
@@ -135,12 +135,12 @@ const styles = StyleSheet.create({
   },
 
   video: {
-    height: Sizes.Height / 3,
+    height: Sizes.Height / 4,
     width: Sizes.Width
   },
 
   gradient: {
-    height: Sizes.Height / 2,
+    height: Sizes.Height / 3,
     width: Sizes.Width
   },
 

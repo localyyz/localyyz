@@ -16,7 +16,7 @@ export default class StandardCollection extends React.Component {
   render() {
     return (
       <View style={this.props.noMargin ? null : styles.container}>
-        {this.props.imageUrl ? (
+        {this.props.showImage && this.props.imageUrl ? (
           <ConstrainedAspectImage
             source={{ uri: this.props.imageUrl }}
             sourceWidth={this.props.imageWidth || null}

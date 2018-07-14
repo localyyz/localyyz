@@ -11,15 +11,18 @@ const DEBUG = false;
 const ENDPOINT = "deals";
 const MIN_SYNC_INTERVAL = 1000;
 const MAX_SYNC_INTERVAL = 10000;
+const FEATURED_LIMIT = 3;
 
 export default class DealsUIStore {
   @observable active = [];
   @observable upcoming = [];
+  @observable missed = [];
   @observable now = Moment();
 
   constructor() {
     // bindings
     this.fetch = this.fetch.bind(this);
+    this.fetchMissed = this.fetchMissed.bind(this);
     this.refresh = this.refresh.bind(this);
     this.equals = this.equals.bind(this);
   }
@@ -68,6 +71,29 @@ export default class DealsUIStore {
     this.refresh(10);
   }
 
+  async fetchMissed() {
+    let missedOrigin = `${ENDPOINT}/history`;
+
+    // undefined is fetch origin, null is no pages left
+    if (this.nextMissedUri !== null) {
+      let missed = await ApiInstance.get(this.nextMissedUri || missedOrigin);
+      if (missed && missed.status < 400 && missed.data) {
+        runInAction("[ACTION] Fetching missed deals", () => {
+          this.nextMissedUri = (missed.link && missed.link.next) || null;
+          this.missed = [
+            ...this.missed,
+            ...missed.data.map(
+              deal =>
+                new Deal({ ...deal, origin: `${missedOrigin}/${deal.id}` })
+            )
+          ];
+        });
+
+        return this.missed;
+      }
+    }
+  }
+
   refresh(interval = 0) {
     this._refreshTimeout && clearTimeout(this._refreshTimeout);
     this._refreshTimeout = setTimeout(() => {
@@ -104,6 +130,14 @@ export default class DealsUIStore {
         `[Deals] Testing for changes: length ${lengthTest}, signature ${signatureTest}`
       );
     return lengthTest && signatureTest;
+  }
+
+  @computed
+  get featuredMissed() {
+    return [
+      ...this.missed.filter(deal => deal.isFeatured).slice(0, FEATURED_LIMIT),
+      ...this.missed.filter(deal => !deal.isFeatured).slice(0, FEATURED_LIMIT)
+    ].slice(0, FEATURED_LIMIT);
   }
 
   @computed
