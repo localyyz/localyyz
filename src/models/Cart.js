@@ -5,7 +5,7 @@ import UserAddress from "./UserAddress";
 
 export default class Cart {
   @observable id;
-  @observable items;
+  @observable items = [];
   @observable status;
   @observable isExpress;
 
@@ -59,6 +59,9 @@ export default class Cart {
     for (let k in this) {
       this[k] = undefined;
     }
+
+    // reset data to defaults
+    this.update({ items: [] });
   };
 
   toJS() {
