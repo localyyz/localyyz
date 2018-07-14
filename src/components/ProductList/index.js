@@ -4,6 +4,7 @@ import { Sizes, Styles } from "localyyz/constants";
 
 // custom
 import { ProductTile } from "localyyz/components";
+import { randInt } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
@@ -66,6 +67,9 @@ export default class ProductList extends React.Component {
     this.position = 0;
     this.change = 0;
     this.thresholdReached = false;
+
+    // pseudo-unique (law of large numbers) key seed
+    this.keySeed = randInt(10000000) + 1;
   }
 
   fetchMore({ distanceFromEnd }) {
@@ -146,7 +150,7 @@ export default class ProductList extends React.Component {
           keyboardShouldPersistTaps="always"
           data={this.props.products}
           numColumns={2}
-          keyExtractor={e => e.id}
+          keyExtractor={(e, i) => `list-${this.keySeed}-row-${i}-id-${e.id}`}
           onEndReached={this.fetchMore}
           onEndReachedThreshold={1}
           onScroll={this.onScroll}

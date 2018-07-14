@@ -66,10 +66,20 @@ class Store {
         this.next = response.link.next;
         this.self = response.link.self;
         if (this.self && this.self.page == 1) {
-          this.listData = response.data.map(p => new Product(p));
+          // only valid products used
+          this.listData = response.data
+            .map(p => new Product(p))
+            .filter(
+              p => p.associatedPhotos.length > 0 && p.selectedVariant.price
+            );
         } else {
           response.data.forEach(p => {
-            this.listData.push(new Product(p));
+            let product = new Product(p);
+
+            // only valid products used
+            product.associatedPhotos.length > 0
+              && product.selectedVariant.price
+              && this.listData.push(product);
           });
         }
       });

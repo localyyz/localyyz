@@ -20,6 +20,57 @@ describe("Selected variant", () => {
     expect(product.selectedVariant.id).toEqual(2);
   });
 
+  it("should select the lowest priced variant that's in stock", () => {
+    const variants = [
+      { id: 1, limits: 0, price: 1000, etc: { color: "black" } },
+      { id: 2, limits: 0, price: 10, etc: { color: "black" } },
+      { id: 3, limits: 1, price: 100, etc: { color: "black" } },
+      { id: 4, limits: 1, price: 50, etc: { color: "black" } },
+      { id: 5, limits: 1, price: 5000, etc: { color: "black" } }
+    ];
+
+    const product = new Product(
+      { colors: ["black"], variants: variants },
+      "black"
+    );
+    expect(product).toBeDefined();
+    expect(product.selectedVariant.id).toEqual(4);
+  });
+
+  it("should select out of stock variant matching color even though there's cheaper and in stock variants (not matching color)", () => {
+    const variants = [
+      { id: 1, limits: 0, price: 10, etc: { color: "black" } },
+      { id: 2, limits: 1, price: 100, etc: { color: "black" } },
+      { id: 3, limits: 1, price: 50, etc: { color: "black" } },
+      { id: 4, limits: 0, price: 10000, etc: { color: "white" } },
+      { id: 5, limits: 1, price: 5000, etc: { color: "black" } }
+    ];
+
+    const product = new Product(
+      { colors: ["black"], variants: variants },
+      "white"
+    );
+    expect(product).toBeDefined();
+    expect(product.selectedVariant.id).toEqual(4);
+  });
+
+  it("should select the lowest priced variant based on selected color that's in stock", () => {
+    const variants = [
+      { id: 1, limits: 0, price: 1000, etc: { color: "black" } },
+      { id: 2, limits: 0, price: 10, etc: { color: "black" } },
+      { id: 3, limits: 1, price: 10000, etc: { color: "black" } },
+      { id: 4, limits: 1, price: 50, etc: { color: "white" } },
+      { id: 5, limits: 1, price: 5000, etc: { color: "black" } }
+    ];
+
+    const product = new Product(
+      { colors: ["black"], variants: variants },
+      "black"
+    );
+    expect(product).toBeDefined();
+    expect(product.selectedVariant.id).toEqual(5);
+  });
+
   it("should select a variant based on selected color that's in stock", () => {
     const variants = [
       { id: 1, limits: 0, etc: { color: "black" } },
@@ -78,6 +129,23 @@ describe("Selected variant", () => {
 });
 
 describe("Photo Groups", () => {
+  it("should return all photos when no variant is given", () => {
+    const images = [
+      { id: 1, ordering: 1 },
+      { id: 2, ordering: 2 },
+      { id: 2, ordering: 3 }
+    ];
+
+    const product = new Product({ images: images });
+    expect(product).toBeDefined();
+    expect(product.photoGroups).toMatchObject({
+      _common: images
+    });
+
+    // and associated photos
+    expect(product.associatedPhotos).toMatchObject(images);
+  });
+
   it("should group single color with images (in order)", () => {
     const variants = [
       { id: 1, imageId: 1, etc: { color: "white", size: "small" } },

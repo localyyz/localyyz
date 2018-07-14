@@ -96,7 +96,10 @@ export default class Product {
   // not actually selected variant, but used for a virtual instance to get
   // prices, etc for the current color product variant
   get selectedVariant() {
-    let inStock = this.variants.filter(variant => variant.limits > 0);
+    // sorted by price ASC (show the cheapest variant first)
+    let inStock = this.variants
+      .filter(variant => variant.limits > 0)
+      .sort((a, b) => a.price > b.price);
     let matchingColors = this.variants.filter(
       variant => variant.etc && variant.etc.color === this.selectedColor
     );
@@ -115,7 +118,9 @@ export default class Product {
       return inStock[0];
     } else {
       // no variants or nothing matching color and in stock
-      return this.variants ? this.variants[0] || {} : {};
+      return this.variants && this.variants.length > 0
+        ? this.variants[0] || {}
+        : {};
     }
   }
 
@@ -168,11 +173,29 @@ export default class Product {
     );
   }
 
+  getVariant(size, color, isPartialAllowed = false) {
+    color = color || this.selectedColor;
+    let variant = this.variants.find(
+      variant => variant.etc.color === color && variant.etc.size === size
+    );
+
+    // if partial matches allowed
+    if (isPartialAllowed && !variant && color) {
+      variant = this.variants.find(variant => variant.etc.color === color);
+    } else if (isPartialAllowed && !variant && size) {
+      variant = this.variants.find(variant => variant.etc.size === size);
+    }
+
+    return variant;
+  }
+
+  // photos associated with this color
   get associatedPhotos() {
     let photoGroups = this.photoGroups;
 
     // proposed, group if exists else common
-    return photoGroups[this.selectedColor]
+    return this.selectedColor
+      && photoGroups[this.selectedColor]
       && photoGroups[this.selectedColor].length > 0
       ? photoGroups[this.selectedColor]
       : photoGroups._common;
@@ -192,7 +215,7 @@ export default class Product {
 
     // build keys of imageId's to colours
     let keys = {};
-    for (let variant of this.variants) {
+    for (let variant of this.variants || []) {
       if (variant.imageId) {
         keys[variant.imageId] = variant.etc.color;
 
