@@ -4,18 +4,13 @@ import { Styles, Sizes } from "localyyz/constants";
 
 // local
 import {
-  Price,
-  Discount,
-  Sort,
-  Brands,
-  Sizes as SizesFilter,
-  Colors
+  GenderCategories,
 } from "./components";
 import FilterStore from "./store";
 
 export { ProductCount } from "./components";
 
-export default class Filter extends React.Component {
+export default class Browse extends React.Component {
   static getNewStore(searchStore) {
     return new FilterStore(searchStore);
   }
@@ -23,15 +18,8 @@ export default class Filter extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Sort</Text>
-        <Sort />
-        <View style={styles.spacer} />
-        <Text style={styles.header}>Filters</Text>
-        <Price/>
-        <Discount/>
-        <Brands headerStyle={styles.label}/>
-        <Colors headerStyle={styles.label}/>
-        <SizesFilter headerStyle={styles.label}/>
+        <Text style={styles.header}>Category</Text>
+        <GenderCategories />
       </View>
     );
   }
@@ -42,15 +30,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
-  spacer: {
-    height: Sizes.OuterFrame
-  },
-
   header: {
     ...Styles.Text,
     ...Styles.Title,
     marginBottom: Sizes.InnerFrame
   },
 
-  label: {}
 });

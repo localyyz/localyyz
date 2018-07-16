@@ -18,6 +18,7 @@ import { GA } from "localyyz/global";
 // local
 import ExpandableHeader from "./ExpandableHeader";
 import SelectedFilter from "./SelectedFilter";
+import { Colours } from "localyyz/constants";
 
 export default class Common extends React.Component {
   static propTypes = {
@@ -75,7 +76,7 @@ export default class Common extends React.Component {
       </TouchableOpacity>
     );
   };
-
+  
   render() {
     return (
       <View style={styles.container}>

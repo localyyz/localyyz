@@ -9,9 +9,9 @@ import { View as AnimatableView } from "react-native-animatable";
 import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-import Popup from "./Popup";
+import Popup from "./BrowsePopup";
 
-export class Button extends React.Component {
+export class BrowseButton extends React.Component {
   static propTypes = {
     text: PropTypes.string,
     isInitialVisible: PropTypes.bool,
@@ -19,20 +19,20 @@ export class Button extends React.Component {
   };
 
   static defaultProps = {
-    text: "Sort",
+    text: "Browse",
     isInitialVisible: false
   };
 
   componentDidMount() {
     this.props.isInitialVisible ? this.onPress() : null;
   }
-
+  //
   onPress = () => {
     this.props.onPress
       ? this.props.onPress()
       : this.props.navigation.navigate("Modal", {
-          component: <Popup {...this.props} />
-        });
+        component: <Popup {...this.props} />
+      });
   };
 
   render() {
@@ -45,7 +45,7 @@ export class Button extends React.Component {
             delay={1000}
             style={styles.toggleContainer}>
             <MaterialIcon
-              name="sort"
+              name="change-history"
               size={Sizes.TinyText}
               color={Colours.Text}/>
             <UppercasedText style={styles.toggleLabel}>
@@ -58,9 +58,10 @@ export class Button extends React.Component {
   }
 }
 
-export default withNavigation(Button);
+export default withNavigation(BrowseButton);
 
 const styles = StyleSheet.create({
+
   toggleContainer: {
     ...Styles.Horizontal,
     margin: Sizes.InnerFrame,

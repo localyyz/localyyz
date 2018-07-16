@@ -1,9 +1,15 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Text
+} from "react-native";
 
 // custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
-import Filter, { ProductCount } from "../Filter";
+import Browse from "../Filter/Browse";
 
 // third party
 import PropTypes from "prop-types";
@@ -14,7 +20,7 @@ import LinearGradient from "react-native-linear-gradient";
 const BOTTOM_MARGIN = Sizes.OuterFrame * 3;
 
 @observer
-export default class FilterPopup extends React.Component {
+export default class BrowsePopup extends React.Component {
   static propTypes = {
     store: PropTypes.object.isRequired,
 
@@ -26,10 +32,6 @@ export default class FilterPopup extends React.Component {
   static defaultProps = {
     contentStyle: {}
   };
-
-  componentDidMount(){
-    this.props.store.refresh();
-  }
 
   render() {
     return (
@@ -45,7 +47,7 @@ export default class FilterPopup extends React.Component {
             ]}
             showsVerticalScrollIndicator={false}
             bounces={false}>
-            <Filter/>
+            <Browse />
           </ScrollView>
           <View pointerEvents="box-none" style={styles.footer}>
             <LinearGradient
@@ -57,7 +59,7 @@ export default class FilterPopup extends React.Component {
               <View style={styles.toggle}>
                 <TouchableOpacity onPress={this.props.onClose}>
                   <View style={styles.button}>
-                    <ProductCount labelStyle={styles.label} />
+                    <Text style={styles.label}>Close</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -79,15 +81,15 @@ const styles = StyleSheet.create({
     padding: Sizes.OuterFrame
   },
 
+  gradient: {
+    paddingBottom: Sizes.ScreenBottom
+  },
+
   footer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0
-  },
-
-  gradient: {
-    paddingBottom: Sizes.ScreenBottom
   },
 
   toggle: {

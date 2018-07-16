@@ -16,6 +16,9 @@ const PROPS = {
     }
   }
 };
+
+jest.mock('moment', () => () => ({from: () => '2 months'}));
+
 describe("OrderItem", () => {
   it("OrderItems: should render properly - order status : completed", () => {
     let props = {

@@ -87,6 +87,7 @@ export default class Discount extends React.Component {
   render() {
     return (
       <View style={styles.container} onLayout={this.onLayout}>
+        <Text style={styles.filterHeader}>By minimum discount %</Text>
         <View style={styles.labelsAnimation}>
           <Animatable.View
             animation={this.state.isActive ? "fadeOut" : "slideInUp"}
@@ -144,6 +145,10 @@ const styles = StyleSheet.create({
   labelsAnimation: {
     paddingBottom: Sizes.InnerFrame,
     overflow: "hidden"
+  },
+
+  filterHeader: {
+    marginBottom: Sizes.InnerFrame
   },
 
   labels: {

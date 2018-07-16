@@ -8,12 +8,14 @@ import {
   BaseScene,
   ProductList,
   Filter,
-  FilterPopupButton
+  FilterPopupButton,
+  BrowsePopupButton
 } from "localyyz/components";
 import { Styles, Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
 import { Provider, observer, inject } from "mobx-react/native";
+import LinearGradient from "react-native-linear-gradient";
 
 // local
 import Store from "./store";
@@ -93,9 +95,22 @@ export default class ProductListScene extends React.Component {
               onEndReached={() => this.store.fetchNextPage()}/>
           </BaseScene>
           <View style={styles.filter} pointerEvents="box-none">
-            <FilterPopupButton
-              store={this.filterStore}
-              isInitialVisible={this.state.isFilterVisible}/>
+            <LinearGradient
+              colors={[Colours.WhiteTransparent, Colours.Transparent]}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 0, y: 0 }}
+              style={styles.gradient}
+              pointerEvents="box-none">
+              <View style={styles.buttons}>
+                <BrowsePopupButton
+                  text={"Categories"}
+                  store={this.filterStore}
+                  isInitialVisible={this.state.isFilterVisible}/>
+                <FilterPopupButton
+                  store={this.filterStore}
+                  isInitialVisible={false}/>
+              </View>
+            </LinearGradient>
           </View>
         </View>
       </Provider>
@@ -115,5 +130,18 @@ const styles = StyleSheet.create({
   filter: {
     ...Styles.Overlay,
     justifyContent: "flex-end"
-  }
+  },
+
+  gradient: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    height: Sizes.Height / 7,
+    width: Sizes.Width
+  },
+
+  buttons: {
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
+    justifyContent: "center",
+  },
 });
