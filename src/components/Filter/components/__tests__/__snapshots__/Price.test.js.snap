@@ -71,8 +71,7 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
           }
         }
       >
-        $100.00
-        +
+        $100.00+
       </Text>
     </View>
   </View>
@@ -220,7 +219,6 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
             style={
               Object {
                 "alignItems": "center",
-                "color": "#999999",
                 "height": 50,
                 "width": 75,
               }
@@ -347,7 +345,6 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
             style={
               Object {
                 "alignItems": "center",
-                "color": "#999999",
                 "height": 50,
                 "width": 75,
               }

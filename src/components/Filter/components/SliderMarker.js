@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     width: Sizes.OuterFrame * 3,
     height: Sizes.OuterFrame * 2,
     alignItems: "center",
-    color: Colours.SubduedText
   },
 
   spacer: {
