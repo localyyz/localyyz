@@ -7,6 +7,7 @@ import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
 import { BlurView } from "localyyz/components";
+import { GA } from "localyyz/global";
 
 // local
 import SearchResult from "./SearchResult";
@@ -37,7 +38,7 @@ export default class Search extends React.Component {
 
   render() {
     const { searchActive, headerHeight, onPress } = this.props;
-
+    searchActive ? GA.trackScreen("search") : GA.trackScreen("home");
     return searchActive ? (
       <Animatable.View
         animation="fadeIn"

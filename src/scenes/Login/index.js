@@ -11,6 +11,7 @@ import {
   UppercasedText
 } from "localyyz/components";
 import { resetAction } from "localyyz/helpers";
+import { GA } from "localyyz/global";
 
 // third party
 import PropTypes from "prop-types";
@@ -73,6 +74,8 @@ export default class Login extends React.Component {
     this.onRegister = this.onRegister.bind(this);
     this.onGenderChange = this.onGenderChange.bind(this);
     this.toggleGenderPicker = this.toggleGenderPicker.bind(this);
+
+    GA.trackScreen("login");
   }
 
   componentDidMount() {
