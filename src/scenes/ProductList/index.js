@@ -135,6 +135,7 @@ export default class ProductListScene extends React.Component {
               pointerEvents="box-none">
               <View style={styles.buttons}>
                 <BrowsePopupButton
+                  text={"Categories"}
                   store={this.filterStore}
                   isInitialVisible={this.state.isFilterVisible}/>
                 <FilterPopupButton

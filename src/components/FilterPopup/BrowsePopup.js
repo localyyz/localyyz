@@ -48,25 +48,23 @@ export default class BrowsePopup extends React.Component {
             showsVerticalScrollIndicator={false}
             bounces={false}>
             <Browse />
-            <View pointerEvents="box-none" style={styles.footer}>
-              <LinearGradient
-                pointerEvents="box-none"
-                colors={[Colours.WhiteTransparent, Colours.Transparent]}
-                start={{ y: 1, x: 0 }}
-                end={{ y: 0, x: 0 }}
-                style={styles.gradient}>
-                <View style={styles.toggle}>
-                  <TouchableOpacity onPress={this.props.onClose}>
-                    <View style={styles.button}>
-                      <Text style={styles.label}>
-                        Close
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </LinearGradient>
-            </View>
           </ScrollView>
+          <View pointerEvents="box-none" style={styles.footer}>
+            <LinearGradient
+              pointerEvents="box-none"
+              colors={[Colours.WhiteTransparent, Colours.Transparent]}
+              start={{ y: 1, x: 0 }}
+              end={{ y: 0, x: 0 }}
+              style={styles.gradient}>
+              <View style={styles.toggle}>
+                <TouchableOpacity onPress={this.props.onClose}>
+                  <View style={styles.button}>
+                    <Text style={styles.label}>Close</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
         </View>
       </Provider>
     );
@@ -83,15 +81,15 @@ const styles = StyleSheet.create({
     padding: Sizes.OuterFrame
   },
 
+  gradient: {
+    paddingBottom: Sizes.ScreenBottom
+  },
+
   footer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0
-  },
-
-  gradient: {
-    paddingBottom: Sizes.ScreenBottom
   },
 
   toggle: {
@@ -103,8 +101,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: Sizes.InnerFrame,
     paddingHorizontal: Sizes.OuterFrame * 2,
-    backgroundColor: Colours.PositiveButton,
-    marginBottom: Sizes.InnerFrame * 3
+    backgroundColor: Colours.PositiveButton
   },
 
   label: {

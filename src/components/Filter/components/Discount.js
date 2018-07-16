@@ -18,8 +18,7 @@ const SLIDER_PERCENTAGE_OF_PARENT_WIDTH = 0.8;
 
 @inject(stores => ({
   discountMin: stores.filterStore.discountMin,
-  setDiscountFilter: stores.filterStore.setDiscountFilter,
-  categoriesSelected: stores.filterStore.category
+  setDiscountFilter: stores.filterStore.setDiscountFilter
 }))
 @observer
 export default class Discount extends React.Component {
@@ -75,10 +74,6 @@ export default class Discount extends React.Component {
     return this.props.discountMin != null ? this.props.discountMin : 0;
   }
 
-  get enabled(){
-    return this.props.search || this.props.categoriesSelected
-  }
-
   bound(price) {
     return Math.max(0, Math.min(1, price));
   }
@@ -91,14 +86,14 @@ export default class Discount extends React.Component {
 
   render() {
     return (
-      <View style={styles.container} onLayout={this.onLayout} pointerEvents={this.enabled  ? "" : "none"}>
-        <Text style={this.enabled ? styles.filterHeader : styles.disabledHeader}>By minimum discount %</Text>
+      <View style={styles.container} onLayout={this.onLayout}>
+        <Text style={styles.filterHeader}>By minimum discount %</Text>
         <View style={styles.labelsAnimation}>
           <Animatable.View
             animation={this.state.isActive ? "fadeOut" : "slideInUp"}
             duration={300}
             style={styles.labels}>
-            <Text style={this.enabled  ? styles.label : styles.disabled}>
+            <Text style={styles.label}>
               {this.discountMin
                 ? `${(this.discountMin * 100).toFixed(0)}%`
                 : "Regular price"}
@@ -125,8 +120,8 @@ export default class Discount extends React.Component {
           trackStyle={styles.track}
           markerOffsetX={-13}
           markerOffsetY={-5.5}
-          unselectedStyle={styles.sliderUnSelected}
-          selectedStyle={this.enabled ? styles.sliderSelected : styles.sliderUnselected}
+          unselectedStyle={styles.sliderSelected}
+          selectedStyle={styles.sliderUnselected}
           values={[this.discountMin]}
           onValuesChangeStart={this.onValuesChangeStart}
           onValuesChangeFinish={this.onValuesChangeFinish}
@@ -154,17 +149,6 @@ const styles = StyleSheet.create({
 
   filterHeader: {
     marginBottom: Sizes.InnerFrame
-  },
-
-  disabledHeader: {
-    color: Colours.SubduedText,
-    marginBottom: Sizes.InnerFrame
-  },
-
-  disabled: {
-    ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    color: Colours.SubduedText
   },
 
   labels: {

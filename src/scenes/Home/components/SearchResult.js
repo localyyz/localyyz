@@ -56,18 +56,20 @@ export default class SearchResult extends React.Component {
           </Animatable.View>
         )}
 
-        <View pointerEvents="box-none" style={styles.filter}>
-          <LinearGradient
-            colors={[Colours.WhiteTransparent, Colours.Transparent]}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 0, y: 0 }}
-            style={styles.gradient}
-            pointerEvents="box-none">
-            <View style={styles.buttons}>
-              <FilterPopupButton store={this.filterStore} search={true}/>
-            </View>
-          </LinearGradient>
-        </View>
+        {this.props.searchResults.slice().length > 0 ? (
+          <View pointerEvents="box-none" style={styles.filter}>
+            <LinearGradient
+              colors={[Colours.WhiteTransparent, Colours.Transparent]}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 0, y: 0 }}
+              style={styles.gradient}
+              pointerEvents="box-none">
+              <View style={styles.buttons}>
+                <FilterPopupButton store={this.filterStore} />
+              </View>
+            </LinearGradient>
+          </View>
+        ) : null}
       </View>
     );
   }

@@ -30,6 +30,7 @@ export default class FilterPopup extends React.Component {
   componentDidMount(){
     this.props.store.refresh();
   }
+
   render() {
     return (
       <Provider filterStore={this.props.store}>
@@ -44,7 +45,7 @@ export default class FilterPopup extends React.Component {
             ]}
             showsVerticalScrollIndicator={false}
             bounces={false}>
-            <Filter search={this.props.search}/>
+            <Filter/>
           </ScrollView>
           <View pointerEvents="box-none" style={styles.footer}>
             <LinearGradient

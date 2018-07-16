@@ -167,7 +167,6 @@ export class Main extends React.Component {
             pointerEvents="box-none">
             <View style={styles.buttons}>
               <BrowsePopupButton text={"Browse"} onPress={this.onFilterPress} />
-              <FilterPopupButton text={"Sort"} onPress={this.onFilterPress} />
             </View>
           </LinearGradient>
         </View>

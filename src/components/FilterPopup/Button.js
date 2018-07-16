@@ -31,7 +31,7 @@ export class Button extends React.Component {
     this.props.onPress
       ? this.props.onPress()
       : this.props.navigation.navigate("Modal", {
-          component: <Popup {...this.props} search={this.props.search} />
+          component: <Popup {...this.props} />
         });
   };
 
