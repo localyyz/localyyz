@@ -74,8 +74,6 @@ export default class Login extends React.Component {
     this.onRegister = this.onRegister.bind(this);
     this.onGenderChange = this.onGenderChange.bind(this);
     this.toggleGenderPicker = this.toggleGenderPicker.bind(this);
-
-    GA.trackScreen("login");
   }
 
   componentDidMount() {
@@ -83,6 +81,7 @@ export default class Login extends React.Component {
     this.setState({
       appContext: state && state.params && state.params.appContext
     });
+    GA.trackScreen("login");
   }
 
   renderAlert() {

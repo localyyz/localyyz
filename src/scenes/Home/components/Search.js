@@ -36,9 +36,12 @@ export default class Search extends React.Component {
     this.state = { blurviewRef: null };
   }
 
+  componentDidUpdate(){
+    this.props.searchActive ? GA.trackScreen("search") : GA.trackScreen("home");
+  }
+  
   render() {
     const { searchActive, headerHeight, onPress } = this.props;
-    searchActive ? GA.trackScreen("search") : GA.trackScreen("home");
     return searchActive ? (
       <Animatable.View
         animation="fadeIn"
