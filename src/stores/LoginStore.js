@@ -90,6 +90,7 @@ export default class LoginStore {
         //
         //  ie home and cart
         this.user.model.update(response.data);
+
         this._loginSuccess("email");
       }
     } catch (err) {

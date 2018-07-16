@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>API_URL</key>
-	<string>$(API_URL)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -36,14 +34,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>251</string>
-	<key>CodePushDeploymentKey</key>
-	<string>$(CODE_PUSH_KEY)</string>
-	<key>FacebookAppID</key>
-	<string>$(FACEBOOK_APP_ID)</string>
-	<key>FacebookDisplayName</key>
-	<string>Localyyz</string>
-	<key>GOOGLE_ANALYTICS_KEY</key>
-	<string>$(GOOGLE_ANALYTICS_KEY)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -125,9 +115,21 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>API_URL</key>
+	<string>$(API_URL)</string>
 	<key>branch_app_domain</key>
 	<string>$(BRANCH_APP_DOMAIN)</string>
 	<key>branch_key</key>
 	<string>$(BRANCH_KEY)</string>
+	<key>CodePushDeploymentKey</key>
+	<string>$(CODE_PUSH_KEY)</string>
+	<key>FacebookAppID</key>
+	<string>$(FACEBOOK_APP_ID)</string>
+	<key>FacebookDisplayName</key>
+	<string>Localyyz</string>
+	<key>GOOGLE_ANALYTICS_KEY</key>
+	<string>$(GOOGLE_ANALYTICS_KEY)</string>
+	<key>ONESIGNAL_APPID</key>
+	<string>$(ONESIGNAL_APPID)</string>
 </dict>
 </plist>

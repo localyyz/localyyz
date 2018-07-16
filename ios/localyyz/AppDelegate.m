@@ -16,8 +16,6 @@
 // Facebook
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import <FBNotifications/FBNotifications.h>
-#import <UserNotifications/UserNotifications.h>
 
 // CodePush
 #import <CodePush/CodePush.h>
@@ -30,14 +28,15 @@
 
   if (RCT_DEBUG == 1) {
     //jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-    jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.bundle?platform=ios&dev=true"];
+    jsCodeLocation = [NSURL URLWithString:@"http://px.local:8081/index.bundle?platform=ios&dev=true"];
   } else {
     jsCodeLocation = [CodePush bundleURL];
   }
 
   NSString *apiUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"API_URL"];
   NSString *GA = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GOOGLE_ANALYTICS_KEY"];
-  NSDictionary *props = @{@"API_URL" : apiUrl, @"GOOGLE_ANALYTICS_KEY": GA};
+  NSString *oneSignalAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ONESIGNAL_APPID"];
+  NSDictionary *props = @{@"ONESIGNAL_APPID": oneSignalAppId, @"API_URL" : apiUrl, @"GOOGLE_ANALYTICS_KEY": GA};
   
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"localyyz"
@@ -62,35 +61,7 @@
   // branch
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
 
-  // push notification
-  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-  center.delegate = self;
-  [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
-    if( !error ) {
-      // required to get the app to do anything at all about push notifications
-      [[UIApplication sharedApplication] registerForRemoteNotifications];
-      NSLog( @"Push registration success.");
-    } else {
-      NSLog( @"Push registration FAILED" );
-      NSLog( @"ERROR: %@ - %@", error.localizedFailureReason, error.localizedDescription );
-      NSLog( @"SUGGESTIONS: %@ - %@", error.localizedRecoveryOptions, error.localizedRecoverySuggestion );
-    }
-  }];
-
   return YES;
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
-  FBNotificationsManager *notificationsManager = [FBNotificationsManager sharedManager];
-  [notificationsManager presentPushCardForRemoteNotificationPayload:userInfo
-                                                 fromViewController:nil
-                                                         completion:^(FBNCardViewController * _Nullable viewController, NSError * _Nullable error) {
-                                                           if (error) {
-                                                             completionHandler(UIBackgroundFetchResultFailed);
-                                                           } else {
-                                                             completionHandler(UIBackgroundFetchResultNewData);
-                                                           }
-                                                         }];
 }
 
 - (BOOL)application:(UIApplication *)application
@@ -106,26 +77,8 @@
   return handled;
 }
 
-// track opening and resuming the application attached to the push notification
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  [FBSDKAppEvents logPushNotificationOpen:userInfo];
-}
-
-// track action performed that was attached to the push notification
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo
-  completionHandler:(void (^)())completionHandler {
-  [FBSDKAppEvents logPushNotificationOpen:userInfo action:identifier];
-}
-
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
   return [RNBranch continueUserActivity:userActivity];
-}
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-  token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-  NSLog(@"content--- %@", token);
-  [FBSDKAppEvents setPushNotificationsDeviceToken:deviceToken];
 }
 
 // Facebook SDK
