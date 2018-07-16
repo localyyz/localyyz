@@ -2,7 +2,7 @@ import { observable, computed, runInAction, action } from "mobx";
 import moment from "moment";
 
 import { facebook, storage } from "localyyz/effects";
-import { ApiInstance } from "localyyz/global";
+import { ApiInstance, GA } from "localyyz/global";
 
 export default class LoginStore {
   @observable _loggedInSince;
@@ -59,6 +59,7 @@ export default class LoginStore {
     runInAction("[ACTION] Logging out", () => {
       this._loggedInSince = null;
     });
+    GA.trackEvent("logout", "success");
   };
 
   shouldSkipLogin = async () => {
@@ -70,6 +71,7 @@ export default class LoginStore {
     runInAction(`[ACTION] ${type} record last attmped login`, () => {
       this._loggedInSince = moment().unix();
     });
+    GA.trackEvent("login", "success");
   };
 
   _loginViaEmail = async (email, password) => {
