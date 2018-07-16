@@ -1,7 +1,7 @@
 import { observable, runInAction } from "mobx";
 import { Platform } from "react-native";
 
-import { ApiInstance } from "localyyz/global";
+import { OS, ApiInstance } from "localyyz/global";
 import DeviceInfo from "react-native-device-info";
 import codePush from "react-native-code-push";
 
@@ -75,13 +75,13 @@ export default class DeviceStore {
   };
 
   sendDeviceData = () => {
-    const route = "/ping/";
     codePush.getUpdateMetadata(codePush.UpdateState.LATEST).then(metadata => {
       let payload = this.getDeviceData();
       if (metadata) {
         payload.codePushVersion = metadata.label;
       }
-      return this.api.post(route, payload);
+      OS.sendTags(payload);
+      return this.api.post("ping", payload);
     });
   };
 }

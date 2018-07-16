@@ -87,7 +87,7 @@ export default class Api {
   /* register one signal player id*/
   registerPlayerId = async playerId => {
     try {
-      return await this._client.put("users/me", { playerId: playerId });
+      return await this._client.post("ping", { playerId: playerId });
     } catch (err) {
       this.handleErr(err);
     }

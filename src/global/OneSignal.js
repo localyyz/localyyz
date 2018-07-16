@@ -8,9 +8,12 @@ export default class OneSignal {
     parent.configure();
   }
 
+  sendTags = tags => {
+    parent.sendTags(tags);
+  };
+
   onIds = device => {
     // sync the player id to backend
-    console.log("onesignal", device);
     ApiInstance.registerPlayerId(device.userId);
   };
 }

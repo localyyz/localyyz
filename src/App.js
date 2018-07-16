@@ -107,7 +107,7 @@ class AppContainer extends React.Component {
       Config.DEV_USE_REMOTE_API ? DEV_REMOTE_API : props.API_URL
     );
     GA.initialize(props.GOOGLE_ANALYTICS_KEY);
-    OS.initialize("e6079043-71d2-4180-84d4-eaef47683cf1");
+    OS.initialize(props.ONESIGNAL_APPID);
   }
 
   get isMinVersion() {
