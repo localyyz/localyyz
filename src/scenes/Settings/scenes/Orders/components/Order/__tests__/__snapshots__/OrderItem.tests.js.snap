@@ -233,7 +233,7 @@ exports[`OrderItem OrderItems: should render properly - order status : completed
           ]
         }
       >
-        Shipped out a month ago
+        Shipped out 2 months ago
       </Text>
     </View>
   </View>

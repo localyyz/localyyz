@@ -106,7 +106,6 @@ exports[`Common should render item properly 1`] = `
 
 exports[`Common should render to snapshot 1`] = `
 <View
-  pointerEvents="none"
   style={
     Object {
       "marginVertical": 7.5,
@@ -143,7 +142,6 @@ exports[`Common should render to snapshot 1`] = `
         ellipsizeMode="tail"
         style={
           Object {
-            "color": "#999999",
             "marginRight": 7.5,
           }
         }

@@ -48,23 +48,16 @@ exports[`Filter should render to snapshot - search:false 1`] = `
   >
     Filters
   </Text>
-  <inject-Price
-    search={false}
-  />
-  <inject-Discount
-    search={false}
-  />
+  <inject-Price />
+  <inject-Discount />
   <inject-Brands
     headerStyle={Object {}}
-    search={false}
   />
   <inject-Colors
     headerStyle={Object {}}
-    search={false}
   />
   <inject-Sizes
     headerStyle={Object {}}
-    search={false}
   />
 </Component>
 `;
@@ -117,23 +110,16 @@ exports[`Filter should render to snapshot - search:true 1`] = `
   >
     Filters
   </Text>
-  <inject-Price
-    search={true}
-  />
-  <inject-Discount
-    search={true}
-  />
+  <inject-Price />
+  <inject-Discount />
   <inject-Brands
     headerStyle={Object {}}
-    search={true}
   />
   <inject-Colors
     headerStyle={Object {}}
-    search={true}
   />
   <inject-Sizes
     headerStyle={Object {}}
-    search={true}
   />
 </Component>
 `;

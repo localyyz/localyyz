@@ -3,7 +3,6 @@
 exports[`Discount filter should render to snapshot 1`] = `
 <View
   onLayout={[Function]}
-  pointerEvents="none"
   style={
     Object {
       "marginVertical": 7.5,
@@ -16,7 +15,6 @@ exports[`Discount filter should render to snapshot 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
-        "color": "#999999",
         "marginBottom": 15,
       }
     }
@@ -51,10 +49,10 @@ exports[`Discount filter should render to snapshot 1`] = `
         ellipsizeMode="tail"
         style={
           Object {
-            "alignItems": "center",
-            "color": "#999999",
-            "flexDirection": "row",
-            "justifyContent": "space-between",
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 12,
+            "fontWeight": "300",
           }
         }
       >
@@ -121,7 +119,10 @@ exports[`Discount filter should render to snapshot 1`] = `
             Object {
               "marginBottom": 25,
             },
-            undefined,
+            Object {
+              "backgroundColor": "rgb(30, 30, 30)",
+              "height": 1,
+            },
             Object {
               "width": 600,
             },
