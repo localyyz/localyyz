@@ -109,8 +109,6 @@ class ProductUIStore {
       controlParams
     );
 
-    console.log(url);
-
     return url;
   }
 }

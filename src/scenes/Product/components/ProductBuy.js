@@ -71,19 +71,6 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   // today's deal
   isDeal: !!stores.dealStore,
 
-  // deeplink
-  generateProductDeeplink: (
-    productID,
-    productTitle,
-    productDescription,
-    isDeal
-  ) =>
-    stores.productStore.generateProductDeeplink(
-      productID,
-      productTitle,
-      productDescription,
-      isDeal
-    )
 }))
 @observer
 class ProductBuy extends React.Component {
@@ -329,16 +316,6 @@ const styles = StyleSheet.create({
     borderRadius: Sizes.InnerFrame * 2 / 3,
     backgroundColor: Colours.Foreground,
     marginRight: Sizes.InnerFrame / 4
-  },
-
-  shareButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: Sizes.InnerFrame * 2,
-    marginHorizontal: Sizes.InnerFrame / 4,
-    paddingHorizontal: Sizes.InnerFrame,
-    borderRadius: Sizes.InnerFrame * 2 / 3,
-    backgroundColor: Colours.Foreground
   },
 
   addButtonLabel: {

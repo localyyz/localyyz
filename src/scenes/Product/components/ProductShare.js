@@ -7,7 +7,7 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // third party
 import { inject, observer } from "mobx-react/native";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import Icon from "react-native-vector-icons/Feather";
 import { ifIphoneX } from "react-native-iphone-x-helper";
 
 @inject(stores => ({
@@ -89,7 +89,7 @@ export default class ProductShare extends React.Component {
         onPress={() => {
           this.shareProduct();
         }}>
-        <MaterialIcon name="share" color={Colours.Text} size={Sizes.H3} />
+        <Icon name="share" size={15}/>
       </TouchableOpacity>
     );
   }
@@ -105,13 +105,12 @@ const styles = StyleSheet.create({
     height: Sizes.InnerFrame * 2,
     paddingHorizontal: Sizes.InnerFrame,
     borderRadius: Sizes.InnerFrame * 2 / 3,
-    marginHorizontal: Sizes.InnerFrame * 1.25,
+    marginHorizontal: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground,
     ...ifIphoneX({
-      marginVertical: Sizes.InnerFrame * 2.5,
+      marginVertical: Sizes.InnerFrame * 2.25,
     }, {
-      marginVertical: Sizes.InnerFrame * 1.5
+      marginVertical: Sizes.InnerFrame * 1.25
     })
-
   }
 });
