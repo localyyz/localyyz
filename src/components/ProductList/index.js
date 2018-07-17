@@ -60,7 +60,6 @@ export default class ProductList extends React.Component {
     // bindings
     this.fetchMore = this.fetchMore.bind(this);
     this.renderItem = this.renderItem.bind(this);
-    this.renderEmptyList = this.renderEmptyList.bind(this);
     this.onScroll = this.onScroll.bind(this);
 
     // scrolling
@@ -133,12 +132,32 @@ export default class ProductList extends React.Component {
     this.props.onScroll(e);
   }
 
-  renderEmptyList() {
+  get emptyList() {
     return !this.props.isLoading ? (
-      <View style={styles.emptyList}>
+      <View
+        style={[
+          styles.emptyList,
+          this.props.backgroundColor && {
+            backgroundColor: this.props.backgroundColor
+          }
+        ]}>
         <Text style={styles.emptyLabel}>
           {"There are no products matching your search criteria"}
         </Text>
+      </View>
+    ) : null;
+  }
+
+  get placeholder() {
+    return this.props.onEndReached && this.props.isLoading ? (
+      <View
+        style={[
+          styles.column,
+          this.props.backgroundColor && {
+            backgroundColor: this.props.backgroundColor
+          }
+        ]}>
+        <ProductListPlaceholder />
       </View>
     ) : null;
   }
@@ -154,29 +173,28 @@ export default class ProductList extends React.Component {
           onEndReached={this.fetchMore}
           onEndReachedThreshold={1}
           onScroll={this.onScroll}
-          ListFooterComponent={
-            this.props.onEndReached
-            && this.props.isLoading && <ProductListPlaceholder />
-          }
-          ListEmptyComponent={this.renderEmptyList}
+          ListHeaderComponent={this.props.header}
+          ListFooterComponent={this.placeholder}
+          ListEmptyComponent={this.emptyList}
           contentContainerStyle={[
             styles.list,
             this.props.style,
-            this.props.backgroundColor && {
-              backgroundColor: this.props.backgroundColor
-            },
             {
-              marginTop: this.props.headerHeight,
               paddingBottom:
                 this.props.paddingBottom
-                + (this.props.isFilterSupported ? Sizes.OuterFrame : 0)
+                + (this.props.isFilterSupported ? Sizes.OuterFrame * 4 : 0)
             }
           ]}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           renderItem={this.renderItem}
           scrollEventThrottle={16}
-          columnWrapperStyle={styles.column}/>
+          columnWrapperStyle={[
+            styles.column,
+            this.props.backgroundColor && {
+              backgroundColor: this.props.backgroundColor
+            }
+          ]}/>
       </View>
     );
   }
@@ -187,10 +205,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
-  list: {
-    paddingHorizontal: Sizes.InnerFrame / 4
-  },
-
   tile: {
     flex: 1,
     paddingHorizontal: Sizes.InnerFrame / 4
@@ -198,11 +212,18 @@ const styles = StyleSheet.create({
 
   emptyList: {
     flex: 1,
-    paddingLeft: Sizes.InnerFrame / 2,
-    paddingRight: Sizes.Width / 4
+    paddingLeft: Sizes.InnerFrame,
+    paddingRight: Math.max(Sizes.InnerFrame, Sizes.Width / 4),
+    paddingTop: Sizes.InnerFrame,
+    paddingBottom: Sizes.OuterFrame * 3
   },
 
   emptyLabel: {
     ...Styles.Text
+  },
+
+  column: {
+    alignItems: "center",
+    paddingHorizontal: Sizes.InnerFrame / 4
   }
 });

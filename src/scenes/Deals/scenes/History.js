@@ -21,14 +21,6 @@ export default class DealsHistoryScene extends React.Component {
     this.settings = this.props.navigation.state.params || {};
   }
 
-  componentDidMount() {
-    this.fetch();
-  }
-
-  fetch() {
-    this.settings.dealStore && this.settings.dealStore.fetchMissed();
-  }
-
   render() {
     return (
       <Provider dealStore={this.settings.dealStore}>
@@ -38,7 +30,6 @@ export default class DealsHistoryScene extends React.Component {
             titleColor={Colours.AlternateText}
             backColor={Colours.AlternateText}
             backAction={this.props.navigation.goBack}
-            onEndReached={() => this.fetch()}
             idleStatusBarStatus="light-content">
             <Deals navigation={this.props.navigation} />
           </BaseScene>
@@ -56,7 +47,8 @@ const styles = StyleSheet.create({
 });
 
 @inject(stores => ({
-  deals: stores.dealStore.missed
+  deals: stores.dealStore.missed,
+  fetch: stores.dealStore.fetchMissed
 }))
 @observer
 class Deals extends React.Component {
@@ -65,6 +57,15 @@ class Deals extends React.Component {
 
     // bindings
     this.renderItem = this.renderItem.bind(this);
+    this.fetch = this.fetch.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetch();
+  }
+
+  fetch() {
+    this.props.fetch();
   }
 
   renderItem({ item: deal }) {
@@ -75,6 +76,7 @@ class Deals extends React.Component {
     return (
       <FlatList
         data={this.props.deals && this.props.deals.slice()}
+        onEndReached={() => this.fetch()}
         renderItem={this.renderItem}
         keyExtractor={deal => `missed-deal-${deal.id}`}/>
     );

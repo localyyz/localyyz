@@ -12,54 +12,15 @@ import {
   ConstrainedAspectImage
 } from "localyyz/components";
 
-// constants
-const DEFAULT_END_REACHED_THRESHOLD = Sizes.Height;
-
-export default class BaseScene extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // internally used to trigger single endReached call, reset
-    // when scrolled up, toggled on when scrolling down and
-    // end reached
-    //
-    // in other words, rate limit the end reached call
-    this._endReached = false;
-
-    // internally used to detect direction of scrolling
-    this._scrollOffset = 0;
-
-    // internally used to bypass rate limiting when height changes
-    this._scrollHeight = 0;
-
-    // stores
-    this.contentCoverStore = ContentCoverSlider.createStore();
-
-    // bindings
-    this.onBack = this.onBack.bind(this);
-    this.scrollTo = this.scrollTo.bind(this);
-    this.onScroll = this.onScroll.bind(this);
-    this.onEndReached = this.onEndReached.bind(this);
-  }
-
-  onBack() {
-    return this.props.backAction || false;
-  }
-
-  scrollTo(y) {
-    return this.scrollRef && this.scrollRef.scrollTo(y);
-  }
-
+export class BaseHeader extends React.Component {
   get headerComponent() {
     return this.props.image ? ConstrainedAspectImage : View;
   }
 
-  get header() {
+  render() {
     let image = this.props.image || {};
     return (
-      <View
-        onLayout={this.contentCoverStore.onLayout}
-        style={!this.props.header && styles.header}>
+      <View style={!this.props.header && styles.header}>
         {!this.props.header ? (
           <this.headerComponent
             source={{ uri: image.imageUrl }}
@@ -108,6 +69,30 @@ export default class BaseScene extends React.Component {
       </View>
     );
   }
+}
+
+export default class BaseScene extends React.Component {
+  static Header = BaseHeader;
+
+  constructor(props) {
+    super(props);
+
+    // stores
+    this.contentCoverStore = ContentCoverSlider.createStore();
+
+    // bindings
+    this.onBack = this.onBack.bind(this);
+    this.scrollTo = this.scrollTo.bind(this);
+    this.onScroll = this.onScroll.bind(this);
+  }
+
+  onBack() {
+    return this.props.backAction || false;
+  }
+
+  scrollTo(y) {
+    return this.scrollRef && this.scrollRef.scrollTo(y);
+  }
 
   get spacer() {
     return (
@@ -125,52 +110,16 @@ export default class BaseScene extends React.Component {
     return this.refs.slider;
   }
 
-  // polyfill this for scrollview
-  onEndReached({ distanceFromEnd }) {
-    this._endReached = true;
-    this.props.onEndReached
-      && this.props.onEndReached({ distanceFromEnd: distanceFromEnd });
+  onScroll(evt) {
+    return this.sliderRef && this.sliderRef.onScroll(evt);
   }
 
-  onScroll(evt) {
-    // scroll direction
-    let scrollDelta = evt.nativeEvent.contentOffset.y - this._scrollOffset;
-    this._scrollOffset = evt.nativeEvent.contentOffset.y;
-
-    // end thresholds
-    let scrollHeight = evt.nativeEvent.contentSize.height;
-    let distanceFromEnd
-      = scrollHeight
-      - (evt.nativeEvent.layoutMeasurement.height
-        + evt.nativeEvent.contentOffset.y);
-    let distanceFromThreshold
-      = distanceFromEnd
-      - (this.props.onEndReachedThreshold || DEFAULT_END_REACHED_THRESHOLD);
-
-    // filter out small events
-    if (Math.abs(scrollDelta) >= 3) {
-      if (
-        // if crossed threshold, scrolling down, and end not triggered yet
-        // => then trigger end
-        distanceFromThreshold <= 0
-        && scrollDelta > 0
-        && (!this._endReached || scrollHeight > this._scrollHeight)
-      ) {
-        this.onEndReached({ distanceFromEnd: Math.max(0, distanceFromEnd) });
-      } else if (
-        // scrolling up or content change should reset and allow
-        // future end reach
-        (distanceFromThreshold > 0 && scrollDelta < 0 && this._endReached)
-        || scrollHeight > this._scrollHeight
-      ) {
-        this._endReached = false;
-      }
-
-      // update so if changed next time, can bypass rate limiting
-      this._scrollHeight = scrollHeight;
-    }
-
-    return this.sliderRef && this.sliderRef.onScroll(evt);
+  get header() {
+    return (
+      <View onLayout={this.contentCoverStore.onLayout}>
+        <BaseHeader {...this.props} />
+      </View>
+    );
   }
 
   render() {

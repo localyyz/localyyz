@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
 
 // custom
@@ -9,7 +8,9 @@ import {
   ProductList,
   Filter,
   FilterPopupButton,
-  BrowsePopupButton
+  BrowsePopupButton,
+  ContentCoverSlider,
+  ReactiveSpacer
 } from "localyyz/components";
 import { Styles, Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 
@@ -21,6 +22,7 @@ import LinearGradient from "react-native-linear-gradient";
 import Store from "./store";
 
 @inject(stores => ({
+  contentCoverStore: stores.contentCoverStore,
   products:
     stores.productListStore && stores.productListStore.listData
       ? stores.productListStore.listData.slice()
@@ -35,6 +37,14 @@ class Content extends React.Component {
   static defaultProps = {
     products: []
   };
+
+  get spacer() {
+    return (
+      <ReactiveSpacer
+        store={this.props.contentCoverStore}
+        heightProp="headerHeight"/>
+    );
+  }
 
   shouldComponentUpdate(nextProps) {
     return (
@@ -53,45 +63,67 @@ class Content extends React.Component {
     return (
       <ProductList
         {...this.props}
+        header={this.spacer}
         products={this.props.products}
         backgroundColor={Colours.Foreground}/>
     );
   }
 }
 
-@withNavigation
 export default class ProductListScene extends React.Component {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired
-  };
-
   constructor(props) {
     super(props);
+
+    // stores
     this.settings = props.navigation.state.params || {};
     this.store = new Store(this.settings);
+    this.contentCoverStore = ContentCoverSlider.createStore();
     this.filterStore = Filter.getNewStore(this.store);
     this.state = {
       // when navigating to productList, is the filter popup visible?
       isFilterVisible: this.settings.isFilterVisible
     };
+
+    // bindings
+    this.onScroll = this.onScroll.bind(this);
   }
 
   componentDidMount() {
     this.store.fetchNextPage();
   }
 
+  get sliderRef() {
+    return this.refs.slider;
+  }
+
+  get header() {
+    return (
+      <View onLayout={this.contentCoverStore.onLayout}>
+        <BaseScene.Header {...this.settings || {}} />
+      </View>
+    );
+  }
+
+  onScroll(evt) {
+    this.sliderRef && this.sliderRef.onScroll(evt);
+  }
+
   render() {
     return (
-      <Provider productListStore={this.store}>
+      <Provider
+        productListStore={this.store}
+        contentCoverStore={this.contentCoverStore}>
         <View style={styles.container}>
-          <BaseScene
+          <ContentCoverSlider
+            ref="slider"
             title={this.settings.title}
-            description={this.settings.description}
-            image={this.settings.image}
             backAction={this.props.navigation.goBack}
-            onEndReached={() => this.store.fetchNextPage()}>
-            <Content fetchPath={this.store.fetchPath} />
-          </BaseScene>
+            background={this.header}>
+            <Content
+              fetchPath={this.store.fetchPath}
+              onScroll={this.onScroll}
+              onEndReached={() => this.store.fetchNextPage()}/>
+          </ContentCoverSlider>
           <View style={styles.filter} pointerEvents="box-none">
             <LinearGradient
               colors={[Colours.WhiteTransparent, Colours.Transparent]}
