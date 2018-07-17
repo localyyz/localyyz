@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Share
+} from "react-native";
 import PropTypes from "prop-types";
 
 // custom
@@ -62,7 +69,8 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   hideNavbar: () => stores.navbarStore.hide(),
 
   // today's deal
-  isDeal: !!stores.dealStore
+  isDeal: !!stores.dealStore,
+
 }))
 @observer
 class ProductBuy extends React.Component {
@@ -242,8 +250,7 @@ class ProductBuy extends React.Component {
               navigation={this.props.navigation}
               isExploded={this.props.isExploded}
               explode={async () =>
-                this.isInStock
-                && onlyIfLoggedIn(
+                this.isInStock && onlyIfLoggedIn(
                   { hasSession },
                   this.props.explode,
                   this.props.navigation
@@ -307,7 +314,8 @@ const styles = StyleSheet.create({
     marginHorizontal: Sizes.InnerFrame / 2,
     paddingHorizontal: Sizes.InnerFrame,
     borderRadius: Sizes.InnerFrame * 2 / 3,
-    backgroundColor: Colours.Foreground
+    backgroundColor: Colours.Foreground,
+    marginRight: Sizes.InnerFrame / 4
   },
 
   addButtonLabel: {

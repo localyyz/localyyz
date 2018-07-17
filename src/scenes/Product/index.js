@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import { inject, observer, Provider } from "mobx-react/native";
 
 // local component
-import { AddedSummary, ProductHeader } from "./components";
+import { AddedSummary, ProductHeader, ProductShare } from "./components";
 import Content from "./content";
 
 // constants
@@ -174,6 +174,7 @@ class ProductScene extends React.Component {
           <PhotoDetails
             navigation={this.props.navigation}
             ref={this.photoDetailsRef}/>
+          <ProductShare/>
         </View>
       </Provider>
     ) : null;

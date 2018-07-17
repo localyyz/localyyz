@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
 
   statusBarTitle: {
     alignItems: "center",
-    paddingHorizontal: Sizes.OuterFrame * 2
+    paddingHorizontal: Sizes.OuterFrame * 3
   },
 
   statusBarTitleLabel: {
