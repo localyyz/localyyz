@@ -19,6 +19,7 @@ export const STRIPE_PUB_KEY = __DEV__
   ? "pk_test_niTKL8wfaUtS6YoRDl6iBaJr"
   : "pk_live_hWOrjVkLRkwWH866iWpqhZen";
 export const STRIPE_DEF_MERCHANT_ID = "merchant.com.localyyz.toronto";
+export const BRANCH_UUID = "535881353091109066"
 
 // links
 export const PRIVACY_POLICY_URI

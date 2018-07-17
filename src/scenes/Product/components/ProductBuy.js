@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Share
+} from "react-native";
 import PropTypes from "prop-types";
 
 // custom
@@ -62,7 +69,21 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   hideNavbar: () => stores.navbarStore.hide(),
 
   // today's deal
-  isDeal: !!stores.dealStore
+  isDeal: !!stores.dealStore,
+
+  // deeplink
+  generateProductDeeplink: (
+    productID,
+    productTitle,
+    productDescription,
+    isDeal
+  ) =>
+    stores.productStore.generateProductDeeplink(
+      productID,
+      productTitle,
+      productDescription,
+      isDeal
+    )
 }))
 @observer
 class ProductBuy extends React.Component {
@@ -157,6 +178,46 @@ class ProductBuy extends React.Component {
         };
   }
 
+  async shareProduct() {
+    await this.props
+      .generateProductDeeplink(
+        this.props.product.id,
+        this.props.product.title,
+        this.props.product.description,
+        this.props.isDeal
+      )
+      .then(
+        url => {
+          Share.share(
+            {
+              message: this.props.product.title,
+              url: url,
+              title: "Localyyz"
+            },
+            {
+              // Android only:
+              dialogTitle: this.props.product.title,
+              // iOS only:
+              excludedActivityTypes: []
+            }
+          );
+        },
+        () => {
+          Alert.alert(
+            "Error",
+            "Sharing is unavailable at the moment. Please try again later",
+            [
+              {
+                text: "OK",
+                onPress: () => {}
+              }
+            ],
+            { cancelable: true }
+          );
+        }
+      );
+  }
+
   render() {
     const { hasSession } = this.props;
     return (
@@ -235,6 +296,13 @@ class ProductBuy extends React.Component {
                 </View>
               </ExplodingButton>
             ) : null}
+            <TouchableOpacity
+              style={styles.shareButton}
+              onPress={() => {
+                this.shareProduct();
+              }}>
+              <MaterialIcon name="share" color={Colours.Text} size={Sizes.H3} />
+            </TouchableOpacity>
           </View>
         ) : (
           <View style={styles.buttons}>
@@ -242,8 +310,7 @@ class ProductBuy extends React.Component {
               navigation={this.props.navigation}
               isExploded={this.props.isExploded}
               explode={async () =>
-                this.isInStock
-                && onlyIfLoggedIn(
+                this.isInStock && onlyIfLoggedIn(
                   { hasSession },
                   this.props.explode,
                   this.props.navigation
@@ -262,6 +329,13 @@ class ProductBuy extends React.Component {
                 <Text style={styles.addButtonLabel}>Add to cart</Text>
               </View>
             </ExplodingButton>
+            <TouchableOpacity
+              style={styles.shareButton}
+              onPress={() => {
+                this.shareProduct();
+              }}>
+              <MaterialIcon name="share" color={Colours.Text} size={Sizes.H3} />
+            </TouchableOpacity>
           </View>
         )}
       </View>
@@ -305,6 +379,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: Sizes.InnerFrame * 2,
     marginHorizontal: Sizes.InnerFrame / 2,
+    paddingHorizontal: Sizes.InnerFrame,
+    borderRadius: Sizes.InnerFrame * 2 / 3,
+    backgroundColor: Colours.Foreground,
+    marginRight: Sizes.InnerFrame / 4
+  },
+
+  shareButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: Sizes.InnerFrame * 2,
+    marginHorizontal: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame,
     borderRadius: Sizes.InnerFrame * 2 / 3,
     backgroundColor: Colours.Foreground
