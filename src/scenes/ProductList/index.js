@@ -54,8 +54,7 @@ class Content extends React.Component {
       <ProductList
         {...this.props}
         products={this.props.products}
-        backgroundColor={Colours.Foreground}
-        style={styles.content}/>
+        backgroundColor={Colours.Foreground}/>
     );
   }
 }
@@ -89,10 +88,9 @@ export default class ProductListScene extends React.Component {
             title={this.settings.title}
             description={this.settings.description}
             image={this.settings.image}
-            backAction={this.props.navigation.goBack}>
-            <Content
-              fetchPath={this.store.fetchPath}
-              onEndReached={() => this.store.fetchNextPage()}/>
+            backAction={this.props.navigation.goBack}
+            onEndReached={() => this.store.fetchNextPage()}>
+            <Content fetchPath={this.store.fetchPath} />
           </BaseScene>
           <View style={styles.filter} pointerEvents="box-none">
             <LinearGradient
@@ -120,15 +118,13 @@ export default class ProductListScene extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-
-  content: {
+    flex: 1,
     paddingBottom: NAVBAR_HEIGHT
   },
 
   filter: {
     ...Styles.Overlay,
+    bottom: NAVBAR_HEIGHT,
     justifyContent: "flex-end"
   },
 
@@ -142,6 +138,6 @@ const styles = StyleSheet.create({
   buttons: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 });
