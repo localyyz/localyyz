@@ -5,7 +5,6 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 // custom
 import Button from "./Button";
 import { onlyIfLoggedIn } from "localyyz/helpers";
-import { IS_DEALS_SUPPORTED } from "localyyz/constants";
 
 // third party
 import { withNavigation } from "react-navigation";
@@ -53,6 +52,35 @@ export class TabBar extends React.Component {
   }
 
   render() {
+    const tabs = this.props.tabs.map((t, i) => {
+      let onPress;
+      let badge;
+      if (t.id == "cart") {
+        // special case for cart tab
+        onPress = () =>
+          onlyIfLoggedIn(
+            { hasSession: this.props.hasSession },
+            () =>
+              this.props.onPress("cart", this.props.togglePullup, false, true),
+            this.props.navigation
+          );
+        badge = this.props.numItems > 0 ? `${this.props.numItems}` : null;
+      } else {
+        onPress = () =>
+          this.props.onPress(t.id, () =>
+            this.props.navigation.navigate(t.tabKey)
+          );
+      }
+
+      return React.createElement(Button, {
+        ...t,
+        badge: badge,
+        key: `tab${i}`,
+        activeButton: this.props.activeButton,
+        onPress: onPress
+      });
+    });
+
     return (
       <View style={styles.container} pointerEvents="auto">
         <Animatable.View
@@ -61,80 +89,10 @@ export class TabBar extends React.Component {
           delay={400}
           style={[
             styles.bar,
-            this.props.activeButton === "deals" && styles.deals
+            this.props.activeButton === "deals" && styles.deals,
+            this.props.height && { height: this.props.height }
           ]}>
-          <View style={styles.buttons}>
-            <Button
-              icon="hanger"
-              label="Shop"
-              isActive={this.props.activeButton !== "cart"}
-              color={
-                this.props.activeButton === "deals"
-                  ? Colours.AlternateText
-                  : null
-              }
-              onPress={() =>
-                this.props.onPress("home", () => {
-                  this.props.navigation.navigate("Root");
-                })
-              }/>
-            {IS_DEALS_SUPPORTED ? (
-              <Button
-                fontAwesome
-                icon="bolt"
-                label="#DOTD"
-                isActive={this.props.activeButton !== "cart"}
-                color={
-                  this.props.activeButton === "deals"
-                    ? Colours.AlternateText
-                    : null
-                }
-                onPress={() =>
-                  this.props.onPress("deals", () => {
-                    this.props.navigation.navigate("DealsScene");
-                  })
-                }/>
-            ) : null}
-            <Button
-              isActive
-              entypo
-              icon="shopping-basket"
-              label="Cart"
-              badge={this.props.numItems > 0 ? `${this.props.numItems}` : null}
-              color={
-                this.props.activeButton === "deals"
-                  ? Colours.AlternateText
-                  : null
-              }
-              onPress={() =>
-                onlyIfLoggedIn(
-                  { hasSession: this.props.hasSession },
-                  () =>
-                    this.props.onPress(
-                      "cart",
-                      this.props.togglePullup,
-                      false,
-                      true
-                    ),
-                  this.props.navigation
-                )
-              }/>
-            <Button
-              material
-              icon="more-horiz"
-              label="Settings"
-              isActive={this.props.activeButton !== "cart"}
-              color={
-                this.props.activeButton === "deals"
-                  ? Colours.AlternateText
-                  : null
-              }
-              onPress={() =>
-                this.props.onPress("settings", () => {
-                  this.props.navigation.navigate("Settings");
-                })
-              }/>
-          </View>
+          <View style={styles.buttons}>{tabs}</View>
         </Animatable.View>
       </View>
     );
@@ -162,7 +120,8 @@ const styles = StyleSheet.create({
 
   buttons: {
     ...Styles.EqualColumns,
+    flex: 1,
     alignItems: "center",
-    paddingHorizontal: Sizes.Width / 14
+    paddingHorizontal: Sizes.InnerFrame / 2
   }
 });

@@ -2,9 +2,13 @@ import { runInAction, action, observable, computed, reaction } from "mobx";
 import { ApiInstance as api } from "localyyz/global";
 import { capitalize } from "localyyz/helpers";
 
+// constants
+// inconsistency between user settings and filters from API
+const GENDER_MAPPING = { male: "man", female: "woman" };
+
 export default class FilterStore {
   // sorting
-  @observable sortBy;
+  @observable sortBy = "created_at";
 
   // price filter
   @observable priceMin;
@@ -14,7 +18,7 @@ export default class FilterStore {
   @observable discountMin;
 
   // gender filter
-  @observable gender = "woman";
+  @observable _gender;
 
   // category filters
   @observable category;
@@ -34,9 +38,16 @@ export default class FilterStore {
   // ui
   @observable scrollEnabled;
 
-  constructor(searchStore) {
+  constructor(searchStore, userStore) {
     // requires .reset(params) and .numProducts
     this.searchStore = searchStore;
+
+    // set gender from settings on mount, can be
+    // overrided
+    userStore
+      && userStore.gender
+      && GENDER_MAPPING[userStore.gender]
+      && this.setGenderFilter(GENDER_MAPPING[userStore.gender]);
 
     // bindings
     this.setPriceFilter = this.setPriceFilter.bind(this);
@@ -70,8 +81,8 @@ export default class FilterStore {
 
   @action
   refresh = () => {
-    if (this.isSearchSupported){
-      this.searchStore.reset(this.fetchParams)
+    if (this.isSearchSupported) {
+      this.searchStore.reset(this.fetchParams);
     }
   };
 
@@ -151,12 +162,21 @@ export default class FilterStore {
 
   @computed
   get numProducts() {
-    return (this.searchStore && this.searchStore.numProducts) || 0;
+    return Math.max(
+      0,
+      this.searchStore.numProducts || 0,
+      this.searchStore.products.length
+    );
   }
 
   @computed
   get isLoading() {
     return (this.searchStore && this.searchStore.isLoading) || false;
+  }
+
+  @computed
+  get gender() {
+    return this._gender;
   }
 
   @action
@@ -171,7 +191,7 @@ export default class FilterStore {
 
   @action
   setGenderFilter = val => {
-    this.gender = val;
+    this._gender = val;
   };
 
   @action
@@ -204,17 +224,6 @@ export default class FilterStore {
 
   get isSearchSupported() {
     return !!this.searchStore && !!this.searchStore.reset;
-  }
-
-  @computed
-  get params() {
-    return {
-      sortBy: this.sortBy,
-      priceMin: this.priceMin,
-      priceMax: this.priceMax,
-      discountMin: this.discountMin,
-      gender: this.gender
-    };
   }
 
   @computed

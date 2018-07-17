@@ -52,7 +52,7 @@ export const Sizes = {
 
   // buttons
   SquareButton: 75,
-  IconButton: 25,
+  IconButton: 20,
   Avatar: 40,
   NavLeft: Platform.OS == "ios" ? 18 : 36,
 

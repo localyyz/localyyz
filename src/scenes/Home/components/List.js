@@ -84,8 +84,7 @@ export class List extends React.Component {
             numColumns={2}
             ListEmptyComponent={
               <ProductList.Placeholder limit={this.props.limit} />
-            }
-            contentContainerStyle={styles.splitList}/>
+            }/>
         </View>
         {this.renderMoreButton}
       </View>
@@ -97,17 +96,12 @@ export default withNavigation(List);
 
 const styles = StyleSheet.create({
   listWrapper: {
-    paddingVertical: Sizes.InnerFrame,
-    paddingHorizontal: Sizes.InnerFrame,
+    padding: Sizes.InnerFrame / 2,
     backgroundColor: Colours.Foreground
   },
 
   tile: {
     flex: 1,
     paddingHorizontal: Sizes.InnerFrame / 2
-  },
-
-  splitList: {
-    paddingHorizontal: Sizes.InnerFrame
   }
 });

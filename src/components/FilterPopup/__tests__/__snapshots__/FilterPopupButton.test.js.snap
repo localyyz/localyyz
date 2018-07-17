@@ -23,7 +23,7 @@ exports[`FilterPopupButton should render to snapshot 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "rgba(255, 255, 255, 0.9)",
+          "backgroundColor": "#000000",
           "borderRadius": 15,
           "flexDirection": "row",
           "justifyContent": "center",
@@ -48,7 +48,7 @@ exports[`FilterPopupButton should render to snapshot 1`] = `
         style={
           Array [
             Object {
-              "color": "rgb(30, 30, 30)",
+              "color": "#FFFFFF",
               "fontSize": 12,
             },
             undefined,
@@ -69,7 +69,8 @@ exports[`FilterPopupButton should render to snapshot 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(255, 255, 255, 0)",
-            "color": "rgb(30, 30, 30)",
+            "borderBottomColor": "#FFFFFF",
+            "color": "#FFFFFF",
             "fontSize": 14,
             "fontWeight": "500",
             "marginLeft": 7.5,

@@ -137,7 +137,7 @@ exports[`ProductTile ProductTile: should render properly(snapshot) 1`] = `
               ]
             }
           >
-            $10.00
+            $10
           </Text>
         </View>
       </View>

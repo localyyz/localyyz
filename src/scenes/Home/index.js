@@ -8,7 +8,7 @@ import { NAVBAR_HEIGHT } from "localyyz/constants";
 import { Provider } from "mobx-react/native";
 
 // local
-import { Main, Header, Search } from "./components";
+import { Main, Header } from "./components";
 import Store from "./store";
 
 export default class Home extends React.Component {
@@ -27,7 +27,6 @@ export default class Home extends React.Component {
         <View style={styles.container}>
           <StatusBar barStyle="light-content" />
           <Main />
-          <Search />
           <Header />
         </View>
       </Provider>

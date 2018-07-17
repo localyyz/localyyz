@@ -192,7 +192,7 @@ exports[`CartItem CartItems: should render cart items properly(large) snapshot 1
                 Array [
                   Object {
                     "color": "rgb(30, 30, 30)",
-                    "fontSize": 12.5,
+                    "fontSize": 10,
                   },
                   Object {
                     "marginRight": 7.5,
@@ -423,7 +423,7 @@ exports[`CartItem CartItems: should render cart items properly(small) snapshot 1
                 Array [
                   Object {
                     "color": "rgb(30, 30, 30)",
-                    "fontSize": 12.5,
+                    "fontSize": 10,
                   },
                   Object {
                     "marginRight": 7.5,

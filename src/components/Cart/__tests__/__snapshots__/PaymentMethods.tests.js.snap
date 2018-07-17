@@ -79,7 +79,7 @@ exports[`Payment Methods Payment Methods: should render properly 1`] = `
           Array [
             Object {
               "color": "#FF0000",
-              "fontSize": 25,
+              "fontSize": 20,
             },
             undefined,
             Object {
@@ -180,7 +180,7 @@ exports[`Payment Methods Payment Methods: should render properly 1`] = `
                     Array [
                       Object {
                         "color": null,
-                        "fontSize": 12.5,
+                        "fontSize": 10,
                       },
                       undefined,
                       Object {
@@ -305,7 +305,7 @@ exports[`Payment Methods Payment Methods: should render properly 1`] = `
                     Array [
                       Object {
                         "color": null,
-                        "fontSize": 12.5,
+                        "fontSize": 10,
                       },
                       undefined,
                       Object {
@@ -429,7 +429,7 @@ exports[`Payment Methods Payment Methods: should render properly 1`] = `
                     Array [
                       Object {
                         "color": null,
-                        "fontSize": 12.5,
+                        "fontSize": 10,
                       },
                       undefined,
                       Object {
@@ -554,7 +554,7 @@ exports[`Payment Methods Payment Methods: should render properly 1`] = `
                   Array [
                     Object {
                       "color": null,
-                      "fontSize": 12.5,
+                      "fontSize": 10,
                     },
                     undefined,
                     Object {

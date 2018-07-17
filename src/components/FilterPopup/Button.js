@@ -19,7 +19,7 @@ export class Button extends React.Component {
   };
 
   static defaultProps = {
-    text: "Sort",
+    text: "Refine",
     isInitialVisible: false
   };
 
@@ -47,7 +47,7 @@ export class Button extends React.Component {
             <MaterialIcon
               name="sort"
               size={Sizes.TinyText}
-              color={Colours.Text}/>
+              color={Colours.AlternateText}/>
             <UppercasedText style={styles.toggleLabel}>
               {this.props.text}
             </UppercasedText>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     paddingVertical: Sizes.InnerFrame / 2,
     paddingHorizontal: Sizes.InnerFrame,
     borderRadius: Sizes.InnerFrame,
-    backgroundColor: Colours.WhiteTransparent,
+    backgroundColor: Colours.MenuBackground,
     shadowColor: Colours.DarkTransparent,
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 5,
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.SmallText,
     ...Styles.Medium,
+    ...Styles.Alternate,
     marginLeft: Sizes.InnerFrame / 2
   }
 });

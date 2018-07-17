@@ -3,8 +3,9 @@ import { Product } from "localyyz/models";
 import { box } from "localyyz/helpers";
 import { ApiInstance } from "localyyz/global";
 
+// API: products, numProducts, fetchNextPage(params), reset(params)
 class Store {
-  @observable listData = [];
+  @observable products = [];
   @box numProducts = 0;
   @box isLoading = false;
 
@@ -16,14 +17,15 @@ class Store {
     this.isLoading;
     this.next;
     this.self;
-    this.listData;
+    this.products;
 
     // bindings
     this.reset = this.reset.bind(this);
     this.fetchNextPage = this.fetchNextPage.bind(this);
   }
 
-  reset(mergeParams = {}) {
+  @action
+  reset(mergeParams = {}, fetchPath = "") {
     this.isLoading = null;
     this.next = null;
     this.self = null;
@@ -33,7 +35,15 @@ class Store {
     if (mergeParams) {
       params = { ...this.defaultParams, ...mergeParams };
     }
-    this.listData.clear();
+    this.products.clear();
+
+    // special case where, sometime we want to swap out
+    // the fetch path of this product list
+    //
+    // ie. search/browse -> selected sub categories
+    if (fetchPath != "") {
+      this.fetchPath = fetchPath;
+    }
 
     // and finally refetch
     this.fetchNextPage(params);
@@ -67,7 +77,7 @@ class Store {
         this.self = response.link.self;
         if (this.self && this.self.page == 1) {
           // only valid products used
-          this.listData = response.data
+          this.products = response.data
             .map(p => new Product(p))
             .filter(
               p => p.associatedPhotos.length > 0 && p.selectedVariant.price
@@ -79,7 +89,7 @@ class Store {
             // only valid products used
             product.associatedPhotos.length > 0
               && product.selectedVariant.price
-              && this.listData.push(product);
+              && this.products.push(product);
           });
         }
       });
