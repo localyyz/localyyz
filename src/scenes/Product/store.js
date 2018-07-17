@@ -89,17 +89,13 @@ class ProductUIStore {
     isDeal
   ) {
     let branchUniversalObject = await branch.createBranchUniversalObject(
-      BRANCH_UUID,
+      `product:${productID}`,
       {
         locallyIndex: true,
         title: productTitle,
         contentDescription: productDescription
       }
     );
-
-    let linkProperties = {
-      $uri_redirect_mode: 1
-    };
 
     let controlParams = isDeal
       ? { destination: "deals" }
@@ -109,9 +105,11 @@ class ProductUIStore {
         };
 
     let { url } = await branchUniversalObject.generateShortUrl(
-      linkProperties,
+      {},
       controlParams
     );
+
+    console.log(url);
 
     return url;
   }

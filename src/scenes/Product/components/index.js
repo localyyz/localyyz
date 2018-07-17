@@ -10,3 +10,4 @@ export { default as MerchantDetails } from "./MerchantDetails";
 export { default as Photos } from "./Photos";
 export { default as ColourVariants } from "./ColourVariants";
 export { default as DealSection } from "./DealSection";
+export { default as ProductShare } from "./ProductShare";
