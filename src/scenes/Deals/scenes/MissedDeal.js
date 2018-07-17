@@ -6,12 +6,7 @@ import Moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
 
 // custom
-import {
-  BaseScene,
-  ConstrainedAspectImage,
-  ProgressBar,
-  ProductList
-} from "localyyz/components";
+import { BaseScene, ProgressBar, ProductList } from "localyyz/components";
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 
 export default class MissedDealScene extends React.Component {

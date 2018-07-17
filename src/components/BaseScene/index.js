@@ -12,36 +12,15 @@ import {
   ConstrainedAspectImage
 } from "localyyz/components";
 
-export default class BaseScene extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // stores
-    this.contentCoverStore = ContentCoverSlider.createStore();
-
-    // bindings
-    this.onBack = this.onBack.bind(this);
-    this.scrollTo = this.scrollTo.bind(this);
-  }
-
-  onBack() {
-    return this.props.backAction || false;
-  }
-
-  scrollTo(y) {
-    return this.scrollRef && this.scrollRef.scrollTo(y);
-  }
-
+export class BaseHeader extends React.Component {
   get headerComponent() {
     return this.props.image ? ConstrainedAspectImage : View;
   }
 
-  get header() {
+  render() {
     let image = this.props.image || {};
     return (
-      <View
-        onLayout={this.contentCoverStore.onLayout}
-        style={!this.props.header && styles.header}>
+      <View style={!this.props.header && styles.header}>
         {!this.props.header ? (
           <this.headerComponent
             source={{ uri: image.imageUrl }}
@@ -90,6 +69,30 @@ export default class BaseScene extends React.Component {
       </View>
     );
   }
+}
+
+export default class BaseScene extends React.Component {
+  static Header = BaseHeader;
+
+  constructor(props) {
+    super(props);
+
+    // stores
+    this.contentCoverStore = ContentCoverSlider.createStore();
+
+    // bindings
+    this.onBack = this.onBack.bind(this);
+    this.scrollTo = this.scrollTo.bind(this);
+    this.onScroll = this.onScroll.bind(this);
+  }
+
+  onBack() {
+    return this.props.backAction || false;
+  }
+
+  scrollTo(y) {
+    return this.scrollRef && this.scrollRef.scrollTo(y);
+  }
 
   get spacer() {
     return (
@@ -105,6 +108,18 @@ export default class BaseScene extends React.Component {
 
   get sliderRef() {
     return this.refs.slider;
+  }
+
+  onScroll(evt) {
+    return this.sliderRef && this.sliderRef.onScroll(evt);
+  }
+
+  get header() {
+    return (
+      <View onLayout={this.contentCoverStore.onLayout}>
+        <BaseHeader {...this.props} />
+      </View>
+    );
   }
 
   render() {
@@ -129,7 +144,7 @@ export default class BaseScene extends React.Component {
               ref="scroll"
               showsVerticalScrollIndicator={false}
               scrollEventThrottle={16}
-              onScroll={evt => this.sliderRef && this.sliderRef.onScroll(evt)}>
+              onScroll={this.onScroll}>
               {this.spacer}
               <View style={styles.content}>{this.props.children}</View>
             </ScrollView>
@@ -164,5 +179,5 @@ const styles = StyleSheet.create({
     paddingBottom: Sizes.InnerFrame
   },
 
-  content: { paddingBottom: Sizes.OuterFrame * 4 }
+  content: { marginBottom: Sizes.OuterFrame * 4 }
 });

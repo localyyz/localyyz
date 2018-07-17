@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 
 // custom
 import { ProductTile } from "localyyz/components";
+import { Styles } from "localyyz/constants";
 
 // constants
 const NUM_TILES = 4;
@@ -21,7 +22,8 @@ export default class ProductListPlaceholder extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
     flexWrap: "wrap"
   }
 });

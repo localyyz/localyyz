@@ -57,9 +57,14 @@ class Deals extends React.Component {
 
     // bindings
     this.renderItem = this.renderItem.bind(this);
+    this.fetch = this.fetch.bind(this);
   }
 
   componentDidMount() {
+    this.fetch();
+  }
+
+  fetch() {
     this.props.fetch();
   }
 
@@ -71,6 +76,7 @@ class Deals extends React.Component {
     return (
       <FlatList
         data={this.props.deals && this.props.deals.slice()}
+        onEndReached={() => this.fetch()}
         renderItem={this.renderItem}
         keyExtractor={deal => `missed-deal-${deal.id}`}/>
     );

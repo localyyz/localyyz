@@ -109,63 +109,65 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
           <View
             onLayout={[Function]}
           >
-            <View
-              constrainWidth={750}
-              source={
-                Object {
-                  "uri": undefined,
+            <View>
+              <View
+                constrainWidth={750}
+                source={
+                  Object {
+                    "uri": undefined,
+                  }
                 }
-              }
-            >
-              <View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      16777215,
-                      16777215,
-                      16777215,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0,
-                    }
-                  }
-                  locations={null}
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  style={
-                    Object {
-                      "paddingBottom": 15,
-                      "paddingHorizontal": 15,
-                      "paddingTop": 75,
-                    }
-                  }
-                >
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
-                    style={
+              >
+                <View>
+                  <BVLinearGradient
+                    colors={
                       Array [
-                        Object {
-                          "backgroundColor": "rgba(255, 255, 255, 0)",
-                          "color": "rgb(30, 30, 30)",
-                          "fontSize": 22,
-                          "fontWeight": "700",
-                        },
-                        undefined,
+                        16777215,
+                        16777215,
+                        16777215,
                       ]
                     }
+                    endPoint={
+                      Object {
+                        "x": 0,
+                        "y": 0,
+                      }
+                    }
+                    locations={null}
+                    startPoint={
+                      Object {
+                        "x": 0,
+                        "y": 1,
+                      }
+                    }
+                    style={
+                      Object {
+                        "paddingBottom": 15,
+                        "paddingHorizontal": 15,
+                        "paddingTop": 75,
+                      }
+                    }
                   >
-                    Settings
-                  </Text>
-                </BVLinearGradient>
+                    <Text
+                      accessible={true}
+                      allowFontScaling={true}
+                      ellipsizeMode="tail"
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontSize": 22,
+                            "fontWeight": "700",
+                          },
+                          undefined,
+                        ]
+                      }
+                    >
+                      Settings
+                    </Text>
+                  </BVLinearGradient>
+                </View>
               </View>
             </View>
           </View>
@@ -209,7 +211,7 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
                 <View
                   style={
                     Object {
-                      "paddingBottom": 100,
+                      "marginBottom": 100,
                     }
                   }
                 >
@@ -1449,63 +1451,65 @@ exports[`Settings Menu Settings Menu: should render properly when user is not lo
           <View
             onLayout={[Function]}
           >
-            <View
-              constrainWidth={750}
-              source={
-                Object {
-                  "uri": undefined,
+            <View>
+              <View
+                constrainWidth={750}
+                source={
+                  Object {
+                    "uri": undefined,
+                  }
                 }
-              }
-            >
-              <View>
-                <BVLinearGradient
-                  colors={
-                    Array [
-                      16777215,
-                      16777215,
-                      16777215,
-                    ]
-                  }
-                  endPoint={
-                    Object {
-                      "x": 0,
-                      "y": 0,
-                    }
-                  }
-                  locations={null}
-                  startPoint={
-                    Object {
-                      "x": 0,
-                      "y": 1,
-                    }
-                  }
-                  style={
-                    Object {
-                      "paddingBottom": 15,
-                      "paddingHorizontal": 15,
-                      "paddingTop": 75,
-                    }
-                  }
-                >
-                  <Text
-                    accessible={true}
-                    allowFontScaling={true}
-                    ellipsizeMode="tail"
-                    style={
+              >
+                <View>
+                  <BVLinearGradient
+                    colors={
                       Array [
-                        Object {
-                          "backgroundColor": "rgba(255, 255, 255, 0)",
-                          "color": "rgb(30, 30, 30)",
-                          "fontSize": 22,
-                          "fontWeight": "700",
-                        },
-                        undefined,
+                        16777215,
+                        16777215,
+                        16777215,
                       ]
                     }
+                    endPoint={
+                      Object {
+                        "x": 0,
+                        "y": 0,
+                      }
+                    }
+                    locations={null}
+                    startPoint={
+                      Object {
+                        "x": 0,
+                        "y": 1,
+                      }
+                    }
+                    style={
+                      Object {
+                        "paddingBottom": 15,
+                        "paddingHorizontal": 15,
+                        "paddingTop": 75,
+                      }
+                    }
                   >
-                    Settings
-                  </Text>
-                </BVLinearGradient>
+                    <Text
+                      accessible={true}
+                      allowFontScaling={true}
+                      ellipsizeMode="tail"
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontSize": 22,
+                            "fontWeight": "700",
+                          },
+                          undefined,
+                        ]
+                      }
+                    >
+                      Settings
+                    </Text>
+                  </BVLinearGradient>
+                </View>
               </View>
             </View>
           </View>
@@ -1549,7 +1553,7 @@ exports[`Settings Menu Settings Menu: should render properly when user is not lo
                 <View
                   style={
                     Object {
-                      "paddingBottom": 100,
+                      "marginBottom": 100,
                     }
                   }
                 >
