@@ -10,7 +10,7 @@ import {
 import { Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
-import { ApiInstance, GA } from "localyyz/global";
+import { ApiInstance, GA, OS } from "localyyz/global";
 import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 
 // third party
@@ -107,12 +107,13 @@ class AppContainer extends React.Component {
       Config.DEV_USE_REMOTE_API ? DEV_REMOTE_API : props.API_URL
     );
     GA.initialize(props.GOOGLE_ANALYTICS_KEY);
+    OS.initialize(props.ONESIGNAL_APPID);
   }
 
   get isMinVersion() {
     return (
-      Platform.OS !== "ios" ||
-      (Platform.OS === "ios" && parseInt(DeviceInfo.getBuildNumber()) > 250)
+      Platform.OS !== "ios"
+      || (Platform.OS === "ios" && parseInt(DeviceInfo.getBuildNumber()) > 250)
     );
   }
 
@@ -154,9 +155,9 @@ class AppContainer extends React.Component {
       },
       codePushStatus => {
         if (
-          codePushStatus === codePush.SyncStatus.UPDATE_INSTALLED ||
-          codePushStatus === codePush.SyncStatus.UNKNOWN_ERROR ||
-          codePushStatus === codePush.SyncStatus.UP_TO_DATE
+          codePushStatus === codePush.SyncStatus.UPDATE_INSTALLED
+          || codePushStatus === codePush.SyncStatus.UNKNOWN_ERROR
+          || codePushStatus === codePush.SyncStatus.UP_TO_DATE
         ) {
           stores.deviceStore.sendDeviceData();
         }
@@ -188,8 +189,7 @@ class AppContainer extends React.Component {
               addListener: () => {
                 /* left blank intentionally */
               }
-            })}
-          />
+            })}/>
           <GlobalAssistant />
         </View>
       </Provider>

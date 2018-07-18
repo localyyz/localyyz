@@ -6545,6 +6545,12 @@ react-native-linear-gradient@^2.4.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-onesignal@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.2.5.tgz#8b20a63877ee8fe3a77c76db40b0d8d9e192ec42"
+  dependencies:
+    invariant "^2.2.2"
+
 "react-native-payments@https://github.com/localyyz/react-native-payments#b9230f5228d780caa521b6e41871c6d43222ba31":
   version "0.7.0"
   resolved "https://github.com/localyyz/react-native-payments#b9230f5228d780caa521b6e41871c6d43222ba31"
