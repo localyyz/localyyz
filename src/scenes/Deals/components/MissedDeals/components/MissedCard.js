@@ -81,8 +81,8 @@ export default class MissedCard extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Sizes.InnerFrame,
-    marginRight: Sizes.InnerFrame / 2,
+    padding: Sizes.InnerFrame / 2,
+    marginRight: Sizes.InnerFrame / 4,
     backgroundColor: Colours.Foreground
   },
 
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   },
 
   details: {
+    padding: Sizes.InnerFrame / 2,
     paddingTop: Sizes.InnerFrame
   },
 

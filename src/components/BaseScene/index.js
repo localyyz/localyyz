@@ -1,79 +1,11 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
-
-// third party
-import LinearGradient from "react-native-linear-gradient";
+import { View, StyleSheet, ScrollView } from "react-native";
 
 // custom
-import { Sizes, Styles, Colours } from "localyyz/constants";
-import {
-  ContentCoverSlider,
-  ReactiveSpacer,
-  ConstrainedAspectImage
-} from "localyyz/components";
-
-export class BaseHeader extends React.Component {
-  get headerComponent() {
-    return this.props.image ? ConstrainedAspectImage : View;
-  }
-
-  render() {
-    let image = this.props.image || {};
-    return (
-      <View style={!this.props.header && styles.header}>
-        {!this.props.header ? (
-          <this.headerComponent
-            source={{ uri: image.imageUrl }}
-            constrainWidth={Sizes.Width}
-            sourceWidth={image.width}
-            sourceHeight={image.height}>
-            <View style={image.imageUrl && styles.builtInHeader}>
-              <LinearGradient
-                colors={[
-                  image.imageUrl
-                    ? this.props.backgroundColor || Colours.Foreground
-                    : Colours.Transparent,
-                  image.imageUrl
-                    ? this.props.backgroundColor || Colours.Foreground
-                    : Colours.Transparent,
-                  image.imageUrl
-                    ? this.props.transparentBackgroundColor
-                      || Colours.Transparent
-                    : Colours.Transparent
-                ]}
-                start={{ y: 1, x: 0 }}
-                end={{ y: 0, x: 0 }}
-                style={styles.gradient}>
-                <Text
-                  style={[
-                    styles.title,
-                    this.props.titleColor && { color: this.props.titleColor }
-                  ]}>
-                  {this.props.title}
-                </Text>
-                {this.props.description ? (
-                  <Text
-                    style={[
-                      styles.description,
-                      this.props.titleColor && { color: this.props.titleColor }
-                    ]}>
-                    {this.props.description}
-                  </Text>
-                ) : null}
-              </LinearGradient>
-            </View>
-          </this.headerComponent>
-        ) : (
-          this.props.header
-        )}
-      </View>
-    );
-  }
-}
+import { Sizes, Colours } from "localyyz/constants";
+import { ContentCoverSlider, ReactiveSpacer } from "localyyz/components";
 
 export default class BaseScene extends React.Component {
-  static Header = BaseHeader;
-
   constructor(props) {
     super(props);
 
@@ -117,7 +49,7 @@ export default class BaseScene extends React.Component {
   get header() {
     return (
       <View onLayout={this.contentCoverStore.onLayout}>
-        <BaseHeader {...this.props} />
+        {this.props.header || <ContentCoverSlider.Header {...this.props} />}
       </View>
     );
   }
@@ -157,27 +89,6 @@ export default class BaseScene extends React.Component {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-
-  title: {
-    ...Styles.Text,
-    ...Styles.Title
-  },
-
-  description: {
-    ...Styles.Text,
-    marginTop: Sizes.InnerFrame / 2
-  },
-
-  builtInHeader: {
-    flex: 1,
-    justifyContent: "flex-end"
-  },
-
-  gradient: {
-    paddingTop: Sizes.OuterFrame * 3,
-    paddingHorizontal: Sizes.InnerFrame,
-    paddingBottom: Sizes.InnerFrame
-  },
 
   content: { marginBottom: Sizes.OuterFrame * 4 }
 });

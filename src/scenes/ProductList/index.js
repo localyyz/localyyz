@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 // custom
 import {
-  BaseScene,
   ProductList,
   Filter,
   FilterPopupButton,
@@ -99,7 +98,7 @@ export default class ProductListScene extends React.Component {
   get header() {
     return (
       <View onLayout={this.contentCoverStore.onLayout}>
-        <BaseScene.Header {...this.settings || {}} />
+        <ContentCoverSlider.Header {...this.settings || {}} />
       </View>
     );
   }
@@ -122,7 +121,8 @@ export default class ProductListScene extends React.Component {
             <Content
               fetchPath={this.store.fetchPath}
               onScroll={this.onScroll}
-              onEndReached={() => this.store.fetchNextPage()}/>
+              onEndReached={() => this.store.fetchNextPage()}
+              paddingBottom={NAVBAR_HEIGHT}/>
           </ContentCoverSlider>
           <View style={styles.filter} pointerEvents="box-none">
             <LinearGradient
