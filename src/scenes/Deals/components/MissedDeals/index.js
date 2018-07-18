@@ -49,12 +49,12 @@ export default class MissedDeals extends React.Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: Sizes.InnerFrame / 4,
-    marginBottom: Sizes.InnerFrame / 2
+    marginBottom: Sizes.InnerFrame
   },
 
   wrapper: {
     flex: 1,
     flexWrap: "wrap",
-    marginTop: Sizes.InnerFrame / 2
+    marginTop: Sizes.InnerFrame / 4
   }
 });

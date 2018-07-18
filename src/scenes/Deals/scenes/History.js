@@ -12,27 +12,57 @@ import { Provider, inject, observer } from "mobx-react/native";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 // custom
-import { BaseScene } from "localyyz/components";
+import { ContentCoverSlider, ReactiveSpacer } from "localyyz/components";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 export default class DealsHistoryScene extends React.Component {
   constructor(props) {
     super(props);
     this.settings = this.props.navigation.state.params || {};
+
+    // stores
+    this.contentCoverStore = ContentCoverSlider.createStore();
+
+    // bindings
+    this.onScroll = this.onScroll.bind(this);
+  }
+
+  get sliderRef() {
+    return this.refs.slider;
+  }
+
+  onScroll(evt) {
+    return this.sliderRef && this.sliderRef.onScroll(evt);
+  }
+
+  get header() {
+    return (
+      <View onLayout={this.contentCoverStore.onLayout}>
+        <ContentCoverSlider.Header
+          title="Previous deals"
+          titleColor={Colours.AlternateText}/>
+      </View>
+    );
   }
 
   render() {
     return (
-      <Provider dealStore={this.settings.dealStore}>
+      <Provider
+        dealStore={this.settings.dealStore}
+        contentCoverStore={this.contentCoverStore}>
         <View style={styles.container}>
-          <BaseScene
+          <ContentCoverSlider
+            ref="slider"
             title="Previous deals"
             titleColor={Colours.AlternateText}
             backColor={Colours.AlternateText}
             backAction={this.props.navigation.goBack}
+            background={this.header}
             idleStatusBarStatus="light-content">
-            <Deals navigation={this.props.navigation} />
-          </BaseScene>
+            <Deals
+              onScroll={this.onScroll}
+              navigation={this.props.navigation}/>
+          </ContentCoverSlider>
         </View>
       </Provider>
     );
@@ -48,7 +78,8 @@ const styles = StyleSheet.create({
 
 @inject(stores => ({
   deals: stores.dealStore.missed,
-  fetch: stores.dealStore.fetchMissed
+  fetch: stores.dealStore.fetchMissed,
+  contentCoverStore: stores.contentCoverStore
 }))
 @observer
 class Deals extends React.Component {
@@ -72,12 +103,23 @@ class Deals extends React.Component {
     return <MissedCard navigation={this.props.navigation} deal={deal} />;
   }
 
+  get spacer() {
+    return (
+      <ReactiveSpacer
+        store={this.props.contentCoverStore}
+        heightProp="headerHeight"/>
+    );
+  }
+
   render() {
     return (
       <FlatList
         data={this.props.deals && this.props.deals.slice()}
+        scrollEventThrottle={16}
+        onScroll={this.props.onScroll}
         onEndReached={() => this.fetch()}
         renderItem={this.renderItem}
+        ListHeaderComponent={this.spacer}
         keyExtractor={deal => `missed-deal-${deal.id}`}/>
     );
   }
