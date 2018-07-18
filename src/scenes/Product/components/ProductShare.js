@@ -34,7 +34,7 @@ import { ifIphoneX } from "react-native-iphone-x-helper";
 export default class ProductShare extends React.Component {
   static propTypes = {
     product: PropTypes.object,
-    isDeal: PropTypes.boolean,
+    isDeal: PropTypes.bool,
     generateProductDeeplink: PropTypes.func.isRequired
   };
 
@@ -89,7 +89,7 @@ export default class ProductShare extends React.Component {
         onPress={() => {
           this.shareProduct();
         }}>
-        <Icon name="share" size={15}/>
+        <Icon name="share" size={15} />
       </TouchableOpacity>
     );
   }
@@ -107,10 +107,13 @@ const styles = StyleSheet.create({
     borderRadius: Sizes.InnerFrame * 2 / 3,
     marginHorizontal: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground,
-    ...ifIphoneX({
-      marginVertical: Sizes.InnerFrame * 2.25,
-    }, {
-      marginVertical: Sizes.InnerFrame * 1.25
-    })
+    ...ifIphoneX(
+      {
+        marginVertical: Sizes.InnerFrame * 2.25
+      },
+      {
+        marginVertical: Sizes.InnerFrame * 1.25
+      }
+    )
   }
 });
