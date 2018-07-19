@@ -7,7 +7,6 @@ import branch from "react-native-branch";
 import { inject } from "mobx-react/native";
 
 @inject(stores => ({
-  navStore: stores.navStore,
   loginStore: stores.loginStore,
   historyStore: stores.historyStore
 }))
@@ -19,8 +18,9 @@ export default class Deeplink extends React.Component {
 
   componentDidMount() {
     this.props.loginStore.skipLogin();
-    //this.props.navigation.dispatch(resetHome());
-    this.props.navigation.navigate("App");
+
+    // navigating with key = null will reset the root navigator
+    this.props.navigation.replace("App");
     this.branchUnsubscriber = branch.subscribe(this.onBranchDeepLink);
   }
 
@@ -74,6 +74,5 @@ export default class Deeplink extends React.Component {
         this.props.navigation.dispatch(changeTab("Deals"));
       }
     }
-    this.props.navStore.setLoaded();
   };
 }

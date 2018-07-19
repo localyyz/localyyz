@@ -19,7 +19,8 @@ import { toPriceString } from "localyyz/helpers";
 import ActiveDealUIStore from "./store";
 
 @inject(stores => ({
-  dealStore: stores.dealStore
+  dealStore: stores.dealStore,
+  isDealFocused: stores.dealStore.isFocused
 }))
 @observer
 export default class ActiveCard extends React.Component {
@@ -29,6 +30,20 @@ export default class ActiveCard extends React.Component {
 
     // bindings
     this.renderProduct = this.renderProduct.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.isDealFocused !== this.props.isDealFocused) {
+      if (!this.props.isDealFocused) {
+        this.store.clearTimeout();
+      } else {
+        this.store.refresh();
+      }
+    }
+  }
+
+  componentDidMount() {
+    this.store.fetch();
   }
 
   renderProduct({ item: product, index }) {

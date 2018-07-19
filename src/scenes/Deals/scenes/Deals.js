@@ -76,6 +76,19 @@ export default class DealsScene extends React.Component {
     this.onPressImage = this.onPressImage.bind(this);
   }
 
+  componentWillMount() {
+    this.props.navigation.addListener("didFocus", () => {
+      // focused! fetch
+      this.store.refresh(10);
+      this.store.isFocused = true;
+    });
+    this.props.navigation.addListener("willBlur", () => {
+      // blurring, stop fetching deals
+      this.store.clearTimeout();
+      this.store.isFocused = false;
+    });
+  }
+
   componentDidMount() {
     this.store.fetch();
   }

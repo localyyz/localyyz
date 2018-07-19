@@ -1,17 +1,13 @@
 import React from "react";
 import { AppState, Alert, Platform, Linking, View } from "react-native";
-import {
-  createNavigator,
-  createNavigationContainer,
-  createStackNavigator,
-  createTabNavigator
-} from "react-navigation";
+import { createStackNavigator, createTabNavigator } from "react-navigation";
 
 // custom
 import { Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
 import { ApiInstance, GA, OS } from "localyyz/global";
+import { getActiveRoute } from "localyyz/helpers";
 import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 
 // third party
@@ -121,6 +117,54 @@ class AppView extends React.Component {
     stores.loginStore.login("storage");
   }
 
+  // this tracks navigations and sends screen transitions to Google Analytics
+  trackScreen = (prevState, currentState) => {
+    const currentScreen = getActiveRoute(currentState);
+    const prevScreen = getActiveRoute(prevState);
+
+    if (prevScreen.routeName !== currentScreen.routeName) {
+      // extra events.
+      switch (currentScreen.routeName.toLowerCase()) {
+        case "productlist":
+          if (!currentScreen.params.title) {
+            GA.trackEvent("collection", "view", "filter/sort from home");
+          } else {
+            GA.trackEvent("collection", "view", currentScreen.params.title);
+          }
+          GA.trackScreen("collection");
+          break;
+        case "product":
+          GA.trackEvent(
+            "product",
+            "view",
+            currentScreen.params.product.title,
+            currentScreen.params.product.id
+          );
+          GA.trackScreen("product");
+          break;
+        case "modal":
+          GA.trackEvent("filter/sort", "open");
+          GA.trackScreen("filter/sort");
+          break;
+        case "orders":
+          GA.trackEvent("settings", "view orders", "order history");
+          GA.trackScreen("settings - orders");
+          break;
+        case "addresses":
+          GA.trackEvent("settings", "view account", "saved addresses");
+          GA.trackScreen("settings - saved addresses");
+          break;
+        case "addressform":
+          GA.trackEvent("settings", "view account", "edit addresses");
+          GA.trackScreen("settings - edit addresses");
+          break;
+        default:
+          // by default, track screen names
+          GA.trackScreen(currentScreen.routeName.toLowerCase());
+      }
+    }
+  };
+
   render() {
     if (!this.state.hasMinVersion) {
       return null;
@@ -129,7 +173,7 @@ class AppView extends React.Component {
     return (
       <Provider {...stores} suppressChangedStoreWarning>
         <View style={{ flex: 1 }}>
-          <RootNavigator navigation={this.props.navigation} />
+          <RootNavigator onNavigationStateChange={this.trackScreen} />
           <GlobalAssistant />
         </View>
       </Provider>
@@ -189,11 +233,6 @@ const RootNavigator = createStackNavigator(
   }
 );
 
-// Top-level navigator that will be propagated down to all screens
-const AppContainer = createNavigationContainer(
-  createNavigator(AppView, RootNavigator.router, {})
-);
-
 /**
  * Render the initial style when the initial layout isn't measured yet.
  */
@@ -240,4 +279,4 @@ function forVertical(props) {
 
 export default codePush({
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME
-})(AppContainer);
+})(AppView);

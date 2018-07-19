@@ -22,7 +22,6 @@ const CTA_HEIGHT = 183;
 const DEAL_HEIGHT = 107.5;
 
 @inject(stores => ({
-  setAppContext: context => stores.navStore.setAppContext(context),
   logToHistory: product => stores.historyStore.log(product),
   hideNavbar: () => stores.navbarStore.hide(),
   write: message => stores.assistantStore(message, 10000, true),
@@ -36,7 +35,6 @@ class ProductScene extends React.Component {
     navigation: PropTypes.object.isRequired,
 
     // mobx injected
-    setAppContext: PropTypes.func.isRequired,
     logToHistory: PropTypes.func.isRequired,
     hideNavbar: PropTypes.func.isRequired
   };
@@ -75,17 +73,8 @@ class ProductScene extends React.Component {
   }
 
   componentDidMount() {
-    // set app context
-    this.props.setAppContext("product");
-
     // internal history logging
     this.store.product && this.props.logToHistory(this.store.product);
-  }
-
-  componentWillUnmount() {
-    // set app context to help app resume the correct state
-    // please see "Deeplink" for comments and why this is needed
-    this.props.setAppContext();
   }
 
   onVariantChange(variant) {

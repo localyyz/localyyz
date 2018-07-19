@@ -5,12 +5,12 @@ import { Forms } from "localyyz/scenes";
 import { StackNavigator } from "react-navigation";
 
 // local
-import { Menu, Addresses, Orders, History } from "./scenes";
+import { Menu as Settings, Addresses, Orders, History } from "./scenes";
 import ProductScene from "../Product";
 
 export const SettingsNavigator = StackNavigator(
   {
-    Menu: { screen: Menu },
+    Settings: { screen: Settings },
     Addresses: { screen: Addresses },
     AddressForm: { screen: Forms.AddressForm },
     Orders: { screen: Orders },
@@ -18,7 +18,7 @@ export const SettingsNavigator = StackNavigator(
     Product: { screen: ProductScene }
   },
   {
-    initialRouteName: "Menu",
+    initialRouteName: "Settings",
     navigationOptions: ({ navigation: { state } }) => ({
       header: null,
       gesturesEnabled: state.params && state.params.gesturesEnabled
