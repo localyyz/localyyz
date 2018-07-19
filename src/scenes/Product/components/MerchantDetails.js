@@ -21,7 +21,6 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 // local
 import ExpandableSection from "./ExpandableSection";
 
-@withNavigation
 @inject(stores => ({
   placeName:
     stores.productStore.product && stores.productStore.product.place.name,
@@ -41,7 +40,7 @@ import ExpandableSection from "./ExpandableSection";
     && stores.productStore.product.place.instagramUrl
 }))
 @observer
-export default class MerchantDetails extends React.Component {
+export class MerchantDetails extends React.Component {
   static propTypes = {
     // mobx injected
     placeName: PropTypes.string,
@@ -153,6 +152,8 @@ export default class MerchantDetails extends React.Component {
     );
   }
 }
+
+export default withNavigation(MerchantDetails);
 
 const styles = StyleSheet.create({
   container: {},

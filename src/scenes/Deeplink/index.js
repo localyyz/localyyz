@@ -5,15 +5,13 @@ import ProductStore from "../Product/store";
 
 import branch from "react-native-branch";
 import { inject } from "mobx-react/native";
-import { withNavigation } from "react-navigation";
 
-@withNavigation
 @inject(stores => ({
   navStore: stores.navStore,
   loginStore: stores.loginStore,
   historyStore: stores.historyStore
 }))
-class Deeplink extends React.Component {
+export default class Deeplink extends React.Component {
   constructor(props) {
     super(props);
     this.getDeeplinkProduct = this.getDeeplinkProduct.bind(this);
@@ -79,5 +77,3 @@ class Deeplink extends React.Component {
     this.props.navStore.setLoaded();
   };
 }
-
-export default Deeplink;

@@ -11,14 +11,13 @@ import { withNavigation } from "react-navigation";
 import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
-@withNavigation
 @inject(stores => ({
   product: stores.productStore.product,
   dealStore: stores.dealStore,
   activeDealStore: stores.activeDealStore
 }))
 @observer
-export default class ColourVariants extends React.Component {
+export class ColourVariants extends React.Component {
   static propTypes = {
     // mobx injected
     product: PropTypes.object.isRequired
@@ -80,6 +79,8 @@ export default class ColourVariants extends React.Component {
     ) : null;
   }
 }
+
+export default withNavigation(ColourVariants);
 
 const styles = StyleSheet.create({
   container: {

@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 import { withNavigation } from "react-navigation";
 import { observer, inject, Provider } from "mobx-react/native";
 
-@withNavigation
 @inject(stores => ({
   title: stores.productStore.product && stores.productStore.product.title,
   description:
@@ -26,7 +25,7 @@ import { observer, inject, Provider } from "mobx-react/native";
   productStore: stores.productStore
 }))
 @observer
-export default class ProductDetails extends React.Component {
+export class ProductDetails extends React.Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
 
@@ -80,6 +79,8 @@ export default class ProductDetails extends React.Component {
     );
   }
 }
+
+export default withNavigation(ProductDetails);
 
 const styles = StyleSheet.create({
   container: {}

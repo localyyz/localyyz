@@ -10,9 +10,8 @@ import { capitalize } from "localyyz/helpers";
 import { withNavigation } from "react-navigation";
 import { observer } from "mobx-react/native";
 
-@withNavigation
 @observer
-export default class Brand extends React.Component {
+export class Brand extends React.Component {
   constructor(props) {
     super(props);
 
@@ -50,6 +49,8 @@ export default class Brand extends React.Component {
     );
   }
 }
+
+export default withNavigation(Brand);
 
 const styles = StyleSheet.create({
   wrapper: {

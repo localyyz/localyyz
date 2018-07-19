@@ -16,13 +16,12 @@ import { capitalize } from "localyyz/helpers";
 import { withNavigation } from "react-navigation";
 import { observer, inject } from "mobx-react/native";
 
-@withNavigation
 @inject(stores => ({
   fetchNextPage: () => stores.brandsStore.fetchNextPage(),
   brands: stores.brandsStore.brands
 }))
 @observer
-export default class Listing extends React.Component {
+export class Listing extends React.Component {
   constructor(props) {
     super(props);
 
@@ -111,6 +110,8 @@ export default class Listing extends React.Component {
     );
   }
 }
+
+export default withNavigation(Listing);
 
 const styles = StyleSheet.create({
   container: {

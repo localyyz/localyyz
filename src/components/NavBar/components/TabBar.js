@@ -18,9 +18,8 @@ import * as Animatable from "react-native-animatable";
   numItems: stores.cartStore.numItems,
   togglePullup: visible => stores.navbarStore.togglePullup(visible)
 }))
-@withNavigation
 @observer
-export default class TabBar extends React.Component {
+export class TabBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -141,6 +140,8 @@ export default class TabBar extends React.Component {
     );
   }
 }
+
+export default withNavigation(TabBar);
 
 const styles = StyleSheet.create({
   container: {
