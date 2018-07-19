@@ -12,6 +12,8 @@ let BlackTransparent = "rgba(0, 0, 0, 0)";
 let DarkTransparent = "rgba(0, 0, 0, 0.8)";
 let WhiteTransparent = "rgba(255, 255, 255, 0.9)";
 let Shadow = "rgba(0, 0, 0, 0.1)";
+let LightDarkShadow = "rgba(0, 0, 0, 0.2)";
+let WhiteShadow = "rgba(255, 255, 255, 0.1)";
 let LightShadow = "rgba(255, 255, 255, 0.5)";
 let Highlight = "rgba(255, 255, 255, 0.1)";
 let LightYellow = "#FFFFE0";
@@ -48,6 +50,8 @@ export const Colours = {
   DarkTransparent: DarkTransparent,
   WhiteTransparent: WhiteTransparent,
   Shadow: Shadow,
+  LightDarkShadow: LightDarkShadow,
+  WhiteShadow: WhiteShadow,
   LightShadow: LightShadow,
   Highlight: Highlight,
   Alert: LightYellow,

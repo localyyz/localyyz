@@ -183,42 +183,51 @@ export default class ContentCoverSlider extends React.Component {
           style={styles.content}>
           {this.props.children}
         </Animatable.View>
-
         {this.props.backAction != false && (
-          <Animatable.View animation="bounceIn" delay={200} style={styles.back}>
-            <TouchableOpacity
-              onPress={() => {
-                // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
-                // for clarification on why this is needed
-                this.props.backActionThrottle
-                  ? setTimeout(() => {
-                      this.props.backAction();
-                    }, RECOMMENDED_BROWSING_SPEED)
-                  : this.props.backAction();
-              }}>
-              <SloppyView>
-                <Icon
-                  name={this.props.iconType || "arrow-back"}
-                  size={Sizes.NavLeft}
-                  color={
-                    this.state.y / (this.props.fadeHeight || FADE_HEIGHT)
-                    >= 0.25
-                      ? Colours.AlternateText
-                      : this.props.backColor || Colours.AlternateText
-                  }
-                  onPress={() => {
-                    // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
-                    // for clarification on why this is needed
-                    this.props.backActionThrottle
-                      ? setTimeout(() => {
-                          this.props.backAction();
-                        }, RECOMMENDED_BROWSING_SPEED)
-                      : this.props.backAction();
-                  }}
-                  underlayColor={Colours.Transparent}/>
-              </SloppyView>
-            </TouchableOpacity>
-          </Animatable.View>
+          <LinearGradient
+            colors={[Colours.LightDarkShadow, Colours.BlackTransparent]}
+            start={{ y: 0, x: 0 }}
+            end={{ y: 1, x: 0 }}
+            style={styles.back}
+            pointerEvents="box-none">
+            <Animatable.View
+              animation="bounceIn"
+              delay={200}
+              style={styles.backButton}>
+              <TouchableOpacity
+                onPress={() => {
+                  // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
+                  // for clarification on why this is needed
+                  this.props.backActionThrottle
+                    ? setTimeout(() => {
+                        this.props.backAction();
+                      }, RECOMMENDED_BROWSING_SPEED)
+                    : this.props.backAction();
+                }}>
+                <SloppyView>
+                  <Icon
+                    name={this.props.iconType || "arrow-back"}
+                    size={Sizes.NavLeft}
+                    color={
+                      this.state.y / (this.props.fadeHeight || FADE_HEIGHT)
+                      >= 0.25
+                        ? Colours.AlternateText
+                        : this.props.backColor || Colours.AlternateText
+                    }
+                    onPress={() => {
+                      // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
+                      // for clarification on why this is needed
+                      this.props.backActionThrottle
+                        ? setTimeout(() => {
+                            this.props.backAction();
+                          }, RECOMMENDED_BROWSING_SPEED)
+                        : this.props.backAction();
+                    }}
+                    underlayColor={Colours.Transparent}/>
+                </SloppyView>
+              </TouchableOpacity>
+            </Animatable.View>
+          </LinearGradient>
         )}
       </View>
     );
@@ -277,9 +286,18 @@ const styles = StyleSheet.create({
 
   back: {
     position: "absolute",
-    top: Sizes.ScreenTop - 0.1,
-    left: Sizes.InnerFrame,
+    top: 0,
+    left: 0,
+    right: 0,
+    height: Sizes.Height / 4,
     zIndex: 3
+  },
+
+  backButton: {
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginTop: Sizes.ScreenTop - 0.1,
+    marginLeft: Sizes.InnerFrame
   },
 
   // header
