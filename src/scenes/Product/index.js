@@ -163,8 +163,7 @@ class ProductScene extends React.Component {
             backActionThrottle
             backAction={this.onBack}
             fadeHeight={this.backgroundPosition / 3}
-            background={this.productHeader}
-            backColor={Colours.Text}>
+            background={this.productHeader}>
             <Content
               settings={this.settings}
               onPressImage={this.onPressImage}
@@ -174,7 +173,7 @@ class ProductScene extends React.Component {
           <PhotoDetails
             navigation={this.props.navigation}
             ref={this.photoDetailsRef}/>
-          <ProductShare/>
+          <ProductShare />
         </View>
       </Provider>
     ) : null;

@@ -117,6 +117,8 @@ export default class ProductListScene extends React.Component {
             ref="slider"
             title={this.settings.title}
             backAction={this.props.navigation.goBack}
+            backColor={Colours.AlternateText}
+            idleStatusBarStatus="light-content"
             background={this.header}>
             <Content
               fetchPath={this.store.fetchPath}
