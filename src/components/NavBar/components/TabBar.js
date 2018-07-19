@@ -4,7 +4,7 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
 import Button from "./Button";
-import { changeTab, onlyIfLoggedIn } from "localyyz/helpers";
+import { onlyIfLoggedIn } from "localyyz/helpers";
 import { IS_DEALS_SUPPORTED } from "localyyz/constants";
 
 // third party
@@ -76,9 +76,7 @@ export default class TabBar extends React.Component {
               }
               onPress={() =>
                 this.props.onPress("home", () => {
-                  this.props.navigation.dispatch(
-                    changeTab("Root", { reset: true })
-                  );
+                  this.props.navigation.navigate("Root");
                 })
               }/>
             {IS_DEALS_SUPPORTED ? (
@@ -94,7 +92,7 @@ export default class TabBar extends React.Component {
                 }
                 onPress={() =>
                   this.props.onPress("deals", () => {
-                    this.props.navigation.dispatch(changeTab("Deals"));
+                    this.props.navigation.navigate("Deals");
                   })
                 }/>
             ) : null}
@@ -134,7 +132,7 @@ export default class TabBar extends React.Component {
               }
               onPress={() =>
                 this.props.onPress("settings", () => {
-                  this.props.navigation.dispatch(changeTab("Settings"));
+                  this.props.navigation.navigate("Settings");
                 })
               }/>
           </View>

@@ -1,9 +1,10 @@
 import React from "react";
 import { AppState, Alert, Platform, Linking, View } from "react-native";
 import {
-  addNavigationHelpers,
-  StackNavigator,
-  TabNavigator
+  createNavigator,
+  createNavigationContainer,
+  createStackNavigator,
+  createTabNavigator
 } from "react-navigation";
 
 // custom
@@ -40,62 +41,8 @@ import {
 // debug
 console.disableYellowBox = true;
 
-const AppNavigator = StackNavigator(
-  {
-    Home: { screen: Home },
-    Product: { screen: Product },
-    ProductList: { screen: ProductList },
-    Checkout: { screen: Checkout },
-    CartSummary: { screen: CartSummary },
-    Information: { screen: Information },
-    Brands: { screen: Brands },
-
-    // forms
-    AddressForm: { screen: Forms.AddressForm }
-  },
-  {
-    initialRouteName: "Home",
-    navigationOptions: ({ navigation: { state } }) => ({
-      header: null,
-      gesturesEnabled: state.params && state.params.gesturesEnabled
-    })
-  }
-);
-
-//TODO: NavBar should probably read from navigationOptions
-//rather than everything mostly hardcoded
-const TabBarNavigator = TabNavigator(
-  {
-    Root: { screen: AppNavigator },
-    Deals: { screen: Deals },
-    Settings: { screen: Settings }
-  },
-  {
-    tabBarComponent: NavBar,
-    tabBarPosition: "bottom",
-    lazy: true
-  }
-);
-
-const RootNavigator = StackNavigator(
-  {
-    Deeplink: { screen: Deeplink },
-    Login: { screen: Login },
-    Modal: { screen: Modal },
-    App: { screen: TabBarNavigator }
-  },
-  {
-    mode: "modal",
-    headerMode: "none",
-    transitionConfig: () => ({
-      screenInterpolator: forVertical
-    }),
-    cardStyle: { backgroundColor: Colours.Transparent }
-  }
-);
-
 @observer
-class AppContainer extends React.Component {
+class AppView extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -182,22 +129,70 @@ class AppContainer extends React.Component {
     return (
       <Provider {...stores} suppressChangedStoreWarning>
         <View style={{ flex: 1 }}>
-          <RootNavigator
-            navigation={addNavigationHelpers({
-              dispatch: action => {
-                stores.navStore.dispatch(RootNavigator.router, action);
-              },
-              state: stores.navStore.navigationState,
-              addListener: () => {
-                /* left blank intentionally */
-              }
-            })}/>
+          <RootNavigator navigation={this.props.navigation} />
           <GlobalAssistant />
         </View>
       </Provider>
     );
   }
 }
+
+const AppNavigator = createStackNavigator(
+  {
+    Home: { screen: Home },
+    Product: { screen: Product },
+    ProductList: { screen: ProductList },
+    Checkout: { screen: Checkout },
+    CartSummary: { screen: CartSummary },
+    Information: { screen: Information },
+    Brands: { screen: Brands },
+
+    // forms
+    AddressForm: { screen: Forms.AddressForm }
+  },
+  {
+    initialRouteName: "Home",
+    navigationOptions: ({ navigation: { state } }) => ({
+      header: null,
+      gesturesEnabled: state.params && state.params.gesturesEnabled
+    })
+  }
+);
+
+const TabNavigator = createTabNavigator(
+  {
+    Root: { screen: AppNavigator },
+    Deals: { screen: Deals },
+    Settings: { screen: Settings }
+  },
+  {
+    tabBarComponent: NavBar,
+    tabBarPosition: "bottom",
+    lazy: true
+  }
+);
+
+const RootNavigator = createStackNavigator(
+  {
+    Deeplink: { screen: Deeplink },
+    Login: { screen: Login },
+    Modal: { screen: Modal },
+    App: { screen: TabNavigator }
+  },
+  {
+    mode: "modal",
+    headerMode: "none",
+    transitionConfig: () => ({
+      screenInterpolator: forVertical
+    }),
+    cardStyle: { backgroundColor: Colours.Transparent }
+  }
+);
+
+// Top-level navigator that will be propagated down to all screens
+const AppContainer = createNavigationContainer(
+  createNavigator(AppView, RootNavigator.router, {})
+);
 
 /**
  * Render the initial style when the initial layout isn't measured yet.

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { resetHome, changeTab } from "localyyz/helpers";
+import { changeTab } from "localyyz/helpers";
 import ProductStore from "../Product/store";
 
 import branch from "react-native-branch";
@@ -21,7 +21,8 @@ class Deeplink extends React.Component {
 
   componentDidMount() {
     this.props.loginStore.skipLogin();
-    this.props.navigation.dispatch(resetHome());
+    //this.props.navigation.dispatch(resetHome());
+    this.props.navigation.navigate("App");
     this.branchUnsubscriber = branch.subscribe(this.onBranchDeepLink);
   }
 
