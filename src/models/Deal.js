@@ -80,6 +80,29 @@ export default class Deal {
     return Math.min(1, Math.max(0, this.cap ? this.itemsSold / this.cap : 1));
   }
 
+  @computed
+  get representativeProduct() {
+    return (
+      (this.products
+        && (this.products || []).find(
+          product => product.associatedPhotos.length > 0
+        ))
+      || {}
+    );
+  }
+
+  @computed
+  get productPhoto() {
+    let product = this.representativeProduct;
+    return (product.associatedPhotos && product.associatedPhotos[0]) || {};
+  }
+
+  @computed
+  get msrp() {
+    let product = this.representativeProduct;
+    return product.previousPrice || product.price || 0;
+  }
+
   equals(deal) {
     let idTest, signatureTest, claimedTest, viewTest;
     idTest = this.id === deal.id;

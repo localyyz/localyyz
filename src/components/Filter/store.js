@@ -68,6 +68,13 @@ export default class FilterStore {
     }
   );
 
+  @action
+  refresh = () => {
+    if (this.isSearchSupported){
+      this.searchStore.reset(this.fetchParams)
+    }
+  };
+
   // asyncFetch recursively fetches the available filters
   // for example:
   //

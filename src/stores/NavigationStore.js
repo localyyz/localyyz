@@ -2,8 +2,7 @@ import { observable, action } from "mobx";
 
 // custom
 import { box } from "localyyz/helpers";
-import { ApiInstance } from "localyyz/global";
-import { GA } from "localyyz/global";
+import { ApiInstance, GA } from "localyyz/global";
 
 export default class NavigationStore {
   @box cartItemCount = 0;
@@ -163,6 +162,7 @@ export default class NavigationStore {
           } else {
             GA.trackEvent("collection", "view", action.params.title);
           }
+          GA.trackScreen("collection");
           break;
         case "Product":
           GA.trackEvent(
@@ -171,18 +171,23 @@ export default class NavigationStore {
             action.params.product.title,
             action.params.product.id
           );
+          GA.trackScreen("product");
           break;
         case "Modal":
           GA.trackEvent("filter/sort", "open");
+          GA.trackScreen("filter/sort");
           break;
         case "Orders":
           GA.trackEvent("settings", "view orders", "order history");
+          GA.trackScreen("settings - orders");
           break;
         case "Addresses":
           GA.trackEvent("settings", "view account", "saved addresses");
+          GA.trackScreen("settings - saved addresses");
           break;
         case "AddressForm":
           GA.trackEvent("settings", "view account", "edit addresses");
+          GA.trackScreen("settings - edit addresses");
           break;
       }
     }

@@ -2,7 +2,7 @@ import { observable, computed, runInAction, action } from "mobx";
 import moment from "moment";
 
 import { facebook, storage } from "localyyz/effects";
-import { ApiInstance } from "localyyz/global";
+import { ApiInstance, GA } from "localyyz/global";
 
 export default class LoginStore {
   @observable _loggedInSince;
@@ -59,6 +59,7 @@ export default class LoginStore {
     runInAction("[ACTION] Logging out", () => {
       this._loggedInSince = null;
     });
+    GA.trackEvent("logout", "success");
   };
 
   shouldSkipLogin = async () => {
@@ -70,6 +71,7 @@ export default class LoginStore {
     runInAction(`[ACTION] ${type} record last attmped login`, () => {
       this._loggedInSince = moment().unix();
     });
+    GA.trackEvent("login", "success");
   };
 
   _loginViaEmail = async (email, password) => {
@@ -82,14 +84,13 @@ export default class LoginStore {
         // update the global api instance with the user's login token
         this.api.setAuth(token);
 
-        console.log(this.api);
-
         // mark login as success
         //  updating the user model + login success status has side-effects
         //  that may trigger network calls across other components
         //
         //  ie home and cart
         this.user.model.update(response.data);
+
         this._loginSuccess("email");
       }
     } catch (err) {

@@ -27,6 +27,10 @@ export default class FilterPopup extends React.Component {
     contentStyle: {}
   };
 
+  componentDidMount(){
+    this.props.store.refresh();
+  }
+
   render() {
     return (
       <Provider filterStore={this.props.store}>
@@ -41,26 +45,24 @@ export default class FilterPopup extends React.Component {
             ]}
             showsVerticalScrollIndicator={false}
             bounces={false}>
-            <Filter />
+            <Filter/>
           </ScrollView>
-          {this.props.store.numProducts > 0 ? (
-            <View pointerEvents="box-none" style={styles.footer}>
-              <LinearGradient
-                pointerEvents="box-none"
-                colors={[Colours.WhiteTransparent, Colours.Transparent]}
-                start={{ y: 1, x: 0 }}
-                end={{ y: 0, x: 0 }}
-                style={styles.gradient}>
-                <View style={styles.toggle}>
-                  <TouchableOpacity onPress={this.props.onClose}>
-                    <View style={styles.button}>
-                      <ProductCount labelStyle={styles.label} />
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </LinearGradient>
-            </View>
-          ) : null}
+          <View pointerEvents="box-none" style={styles.footer}>
+            <LinearGradient
+              pointerEvents="box-none"
+              colors={[Colours.WhiteTransparent, Colours.Transparent]}
+              start={{ y: 1, x: 0 }}
+              end={{ y: 0, x: 0 }}
+              style={styles.gradient}>
+              <View style={styles.toggle}>
+                <TouchableOpacity onPress={this.props.onClose}>
+                  <View style={styles.button}>
+                    <ProductCount labelStyle={styles.label} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
         </View>
       </Provider>
     );

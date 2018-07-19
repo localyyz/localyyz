@@ -5,6 +5,8 @@ import { Product } from "localyyz/models";
 
 import { facebook as Facebook } from "localyyz/effects";
 import { ApiInstance } from "localyyz/global";
+import { BRANCH_UUID } from "localyyz/constants";
+import branch from "react-native-branch";
 
 class ProductUIStore {
   @box product = {};
@@ -34,8 +36,8 @@ class ProductUIStore {
   // added summary
   @action
   toggleAddedSummary(visible) {
-    this.isAddedSummaryVisible
-      = visible != null ? visible : !this.isAddedSummaryVisible;
+    this.isAddedSummaryVisible =
+      visible != null ? visible : !this.isAddedSummaryVisible;
   }
 
   // select variant syncs selected variant across components
@@ -79,6 +81,36 @@ class ProductUIStore {
       });
     }
   };
+
+  async generateProductDeeplink(
+    productID,
+    productTitle,
+    productDescription,
+    isDeal
+  ) {
+    let branchUniversalObject = await branch.createBranchUniversalObject(
+      `product:${productID}`,
+      {
+        locallyIndex: true,
+        title: productTitle,
+        contentDescription: productDescription
+      }
+    );
+
+    let controlParams = isDeal
+      ? { destination: "deals" }
+      : {
+          destination: "product",
+          destination_id: productID
+        };
+
+    let { url } = await branchUniversalObject.generateShortUrl(
+      {},
+      controlParams
+    );
+
+    return url;
+  }
 }
 
 export default ProductUIStore;

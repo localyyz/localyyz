@@ -89,8 +89,8 @@ export const Styles = {
   // containers
   Card: {
     backgroundColor: Colours.Foreground,
-    paddingHorizontal: Sizes.OuterFrame,
-    paddingVertical: Sizes.InnerFrame
+    padding: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame / 2
   },
 
   TopSpacing: {

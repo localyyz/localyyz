@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
   },
 
   wrapper: {
-    paddingVertical: Sizes.InnerFrame,
-    paddingHorizontal: Sizes.OuterFrame,
+    paddingHorizontal: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame * 2 / 3,
     backgroundColor: Colours.Foreground
   },
 

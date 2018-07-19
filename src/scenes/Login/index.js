@@ -11,6 +11,7 @@ import {
   UppercasedText
 } from "localyyz/components";
 import { resetAction } from "localyyz/helpers";
+import { GA } from "localyyz/global";
 
 // third party
 import PropTypes from "prop-types";
@@ -80,6 +81,7 @@ export default class Login extends React.Component {
     this.setState({
       appContext: state && state.params && state.params.appContext
     });
+    GA.trackScreen("login");
   }
 
   renderAlert() {

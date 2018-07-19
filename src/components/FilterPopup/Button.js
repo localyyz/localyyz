@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import { View as AnimatableView } from "react-native-animatable";
 import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import LinearGradient from "react-native-linear-gradient";
 
 import Popup from "./Popup";
 
@@ -20,7 +19,7 @@ export class Button extends React.Component {
   };
 
   static defaultProps = {
-    text: "Filter / Sort",
+    text: "Sort",
     isInitialVisible: false
   };
 
@@ -39,28 +38,21 @@ export class Button extends React.Component {
   render() {
     return (
       <View style={styles.toggle} pointerEvents="box-none">
-        <LinearGradient
-          colors={[Colours.WhiteTransparent, Colours.Transparent]}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 0, y: 0 }}
-          style={styles.gradient}
-          pointerEvents="box-none">
-          <TouchableOpacity onPress={this.onPress}>
-            <AnimatableView
-              animation="fadeIn"
-              duration={500}
-              delay={1000}
-              style={styles.toggleContainer}>
-              <MaterialIcon
-                name="sort"
-                size={Sizes.TinyText}
-                color={Colours.Text}/>
-              <UppercasedText style={styles.toggleLabel}>
-                {this.props.text}
-              </UppercasedText>
-            </AnimatableView>
-          </TouchableOpacity>
-        </LinearGradient>
+        <TouchableOpacity onPress={this.onPress}>
+          <AnimatableView
+            animation="fadeIn"
+            duration={500}
+            delay={1000}
+            style={styles.toggleContainer}>
+            <MaterialIcon
+              name="sort"
+              size={Sizes.TinyText}
+              color={Colours.Text}/>
+            <UppercasedText style={styles.toggleLabel}>
+              {this.props.text}
+            </UppercasedText>
+          </AnimatableView>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -69,12 +61,6 @@ export class Button extends React.Component {
 export default withNavigation(Button);
 
 const styles = StyleSheet.create({
-  gradient: {
-    alignItems: "center",
-    justifyContent: "flex-end",
-    height: Sizes.Height / 6
-  },
-
   toggleContainer: {
     ...Styles.Horizontal,
     margin: Sizes.InnerFrame,

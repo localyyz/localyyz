@@ -12,7 +12,7 @@ export default class ProductTilePlaceholder extends React.Component {
         <View style={styles.tileContent}>
           <Placeholder.Box
             animate="fade"
-            width={(Sizes.Width - Sizes.OuterFrame * 4) / 2}
+            width={(Sizes.Width - Sizes.OuterFrame * 2) / 2}
             height={Sizes.Height / 4}/>
           <View style={styles.tileSpacer} />
           <Placeholder.Paragraph
@@ -30,7 +30,7 @@ export default class ProductTilePlaceholder extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    width: (Sizes.Width - Sizes.InnerFrame * 4) / 2,
+    width: (Sizes.Width - Sizes.InnerFrame * 3) / 2,
     margin: Sizes.InnerFrame / 2,
     alignItems: "center"
   },

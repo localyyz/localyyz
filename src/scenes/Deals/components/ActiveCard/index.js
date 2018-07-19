@@ -75,17 +75,11 @@ export default class ActiveCard extends React.Component {
             </View>
           </TouchableOpacity>
           <View style={styles.social}>
-            <Text style={styles.socialLabel}>
-              {`${
-                this.store.deal.usersViewing
-                  ? `${this.store.deal.usersViewing} currently viewing — `
-                  : ""
-              }${
-                this.store.deal.quantityAvailable
-                  ? `${this.store.deal.quantityAvailable} available`
-                  : "sold out"
-              }`}
-            </Text>
+            {this.store.deal.usersViewing ? (
+              <Text style={styles.socialLabel}>
+                {`${this.store.deal.usersViewing} currently viewing`}
+              </Text>
+            ) : null}
             <ProgressBar
               percentage={this.store.deal.percentageClaimed}
               progress={this.store.progress}/>
@@ -138,7 +132,8 @@ const styles = StyleSheet.create({
   button: {
     ...Styles.RoundedButton,
     paddingHorizontal: Sizes.InnerFrame,
-    margin: Sizes.InnerFrame
+    margin: Sizes.InnerFrame,
+    backgroundColor: Colours.MenuBackground
   },
 
   buttonLabel: {

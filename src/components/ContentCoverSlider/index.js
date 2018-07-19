@@ -1,9 +1,22 @@
 import React from "react";
-import { View, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity,
+  Text
+} from "react-native";
 
-// components
-import { UppercasedText, SloppyView } from "localyyz/components";
+// third party
+import LinearGradient from "react-native-linear-gradient";
+
+// custom
+import { Colours, Sizes, Styles } from "localyyz/constants";
+import {
+  UppercasedText,
+  SloppyView,
+  ConstrainedAspectImage
+} from "localyyz/components";
 import * as Animatable from "react-native-animatable";
 import { Icon } from "react-native-elements";
 
@@ -22,7 +35,61 @@ const RECOMMENDED_BROWSING_SPEED = 0;
 // allows hack to work without making the header visible on load
 const SCROLL_OFFSET = 1;
 
+export class Header extends React.Component {
+  get headerComponent() {
+    return this.props.image ? ConstrainedAspectImage : View;
+  }
+
+  render() {
+    let image = this.props.image || {};
+    return (
+      <this.headerComponent
+        source={{ uri: image.imageUrl }}
+        constrainWidth={Sizes.Width}
+        sourceWidth={image.width}
+        sourceHeight={image.height}>
+        <View style={image.imageUrl && styles.builtInHeader}>
+          <LinearGradient
+            colors={[
+              image.imageUrl
+                ? this.props.backgroundColor || Colours.Foreground
+                : Colours.Transparent,
+              image.imageUrl
+                ? this.props.backgroundColor || Colours.Foreground
+                : Colours.Transparent,
+              image.imageUrl
+                ? this.props.transparentBackgroundColor || Colours.Transparent
+                : Colours.Transparent
+            ]}
+            start={{ y: 1, x: 0 }}
+            end={{ y: 0, x: 0 }}
+            style={styles.gradient}>
+            <Text
+              style={[
+                styles.title,
+                this.props.titleColor && { color: this.props.titleColor }
+              ]}>
+              {this.props.title}
+            </Text>
+            {this.props.description ? (
+              <Text
+                style={[
+                  styles.description,
+                  this.props.titleColor && { color: this.props.titleColor }
+                ]}>
+                {this.props.description}
+              </Text>
+            ) : null}
+          </LinearGradient>
+        </View>
+      </this.headerComponent>
+    );
+  }
+}
+
 export default class ContentCoverSlider extends React.Component {
+  static Header = Header;
+
   static createStore() {
     return new Store();
   }
@@ -116,42 +183,51 @@ export default class ContentCoverSlider extends React.Component {
           style={styles.content}>
           {this.props.children}
         </Animatable.View>
-
         {this.props.backAction != false && (
-          <Animatable.View animation="bounceIn" delay={200} style={styles.back}>
-            <TouchableOpacity
-              onPress={() => {
-                // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
-                // for clarification on why this is needed
-                this.props.backActionThrottle
-                  ? setTimeout(() => {
-                      this.props.backAction();
-                    }, RECOMMENDED_BROWSING_SPEED)
-                  : this.props.backAction();
-              }}>
-              <SloppyView>
-                <Icon
-                  name={this.props.iconType || "arrow-back"}
-                  size={Sizes.NavLeft}
-                  color={
-                    this.state.y / (this.props.fadeHeight || FADE_HEIGHT)
-                    >= 0.25
-                      ? Colours.AlternateText
-                      : this.props.backColor || Colours.AlternateText
-                  }
-                  onPress={() => {
-                    // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
-                    // for clarification on why this is needed
-                    this.props.backActionThrottle
-                      ? setTimeout(() => {
-                          this.props.backAction();
-                        }, RECOMMENDED_BROWSING_SPEED)
-                      : this.props.backAction();
-                  }}
-                  underlayColor={Colours.Transparent}/>
-              </SloppyView>
-            </TouchableOpacity>
-          </Animatable.View>
+          <LinearGradient
+            colors={[Colours.LightDarkShadow, Colours.BlackTransparent]}
+            start={{ y: 0, x: 0 }}
+            end={{ y: 1, x: 0 }}
+            style={styles.back}
+            pointerEvents="box-none">
+            <Animatable.View
+              animation="bounceIn"
+              delay={200}
+              style={styles.backButton}>
+              <TouchableOpacity
+                onPress={() => {
+                  // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
+                  // for clarification on why this is needed
+                  this.props.backActionThrottle
+                    ? setTimeout(() => {
+                        this.props.backAction();
+                      }, RECOMMENDED_BROWSING_SPEED)
+                    : this.props.backAction();
+                }}>
+                <SloppyView>
+                  <Icon
+                    name={this.props.iconType || "arrow-back"}
+                    size={Sizes.NavLeft}
+                    color={
+                      this.state.y / (this.props.fadeHeight || FADE_HEIGHT)
+                      >= 0.25
+                        ? Colours.AlternateText
+                        : this.props.backColor || Colours.AlternateText
+                    }
+                    onPress={() => {
+                      // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
+                      // for clarification on why this is needed
+                      this.props.backActionThrottle
+                        ? setTimeout(() => {
+                            this.props.backAction();
+                          }, RECOMMENDED_BROWSING_SPEED)
+                        : this.props.backAction();
+                    }}
+                    underlayColor={Colours.Transparent}/>
+                </SloppyView>
+              </TouchableOpacity>
+            </Animatable.View>
+          </LinearGradient>
         )}
       </View>
     );
@@ -182,7 +258,7 @@ const styles = StyleSheet.create({
 
   statusBarTitle: {
     alignItems: "center",
-    paddingHorizontal: Sizes.OuterFrame * 2
+    paddingHorizontal: Sizes.OuterFrame * 3
   },
 
   statusBarTitleLabel: {
@@ -210,8 +286,39 @@ const styles = StyleSheet.create({
 
   back: {
     position: "absolute",
-    top: Sizes.ScreenTop - 0.1,
-    left: Sizes.InnerFrame,
+    top: 0,
+    left: 0,
+    right: 0,
+    height: Sizes.Height / 4,
     zIndex: 3
+  },
+
+  backButton: {
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginTop: Sizes.ScreenTop - 0.1,
+    marginLeft: Sizes.InnerFrame
+  },
+
+  // header
+  title: {
+    ...Styles.Text,
+    ...Styles.Title
+  },
+
+  description: {
+    ...Styles.Text,
+    marginTop: Sizes.InnerFrame / 2
+  },
+
+  builtInHeader: {
+    flex: 1,
+    justifyContent: "flex-end"
+  },
+
+  gradient: {
+    paddingTop: Sizes.OuterFrame * 3,
+    paddingHorizontal: Sizes.InnerFrame,
+    paddingBottom: Sizes.InnerFrame
   }
 });

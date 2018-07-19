@@ -1,12 +1,19 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Share
+} from "react-native";
 import PropTypes from "prop-types";
 
 // custom
 //import { applePayButton } from "localyyz/assets";
 import { onlyIfLoggedIn, toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { ExplodingButton, SloppyView } from "localyyz/components";
+import { ExplodingButton, SloppyView, PriceTag } from "localyyz/components";
 import { capitalize } from "localyyz/helpers";
 import { GA } from "localyyz/global";
 
@@ -62,7 +69,8 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   hideNavbar: () => stores.navbarStore.hide(),
 
   // today's deal
-  isDeal: !!stores.dealStore
+  isDeal: !!stores.dealStore,
+
 }))
 @observer
 class ProductBuy extends React.Component {
@@ -161,16 +169,7 @@ class ProductBuy extends React.Component {
     const { hasSession } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.price}>
-          <Text style={styles.priceLabel}>
-            {toPriceString(this.props.price, this.props.product.place.currency)}
-          </Text>
-          {this.props.isOnSale ? (
-            <Text style={styles.discountText}>
-              {Math.round(this.props.discount * 100.0, 0)}% OFF
-            </Text>
-          ) : null}
-        </View>
+        <PriceTag size={Sizes.H1} product={this.props.product} />
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate(
@@ -251,8 +250,7 @@ class ProductBuy extends React.Component {
               navigation={this.props.navigation}
               isExploded={this.props.isExploded}
               explode={async () =>
-                this.isInStock
-                && onlyIfLoggedIn(
+                this.isInStock && onlyIfLoggedIn(
                   { hasSession },
                   this.props.explode,
                   this.props.navigation
@@ -281,17 +279,7 @@ class ProductBuy extends React.Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: "flex-start",
-    paddingHorizontal: Sizes.OuterFrame
-  },
-
-  price: {
-    ...Styles.Horizontal
-  },
-
-  priceLabel: {
-    ...Styles.Text,
-    ...Styles.Title,
-    marginRight: Sizes.InnerFrame / 4
+    paddingHorizontal: Sizes.InnerFrame
   },
 
   subtitle: {
@@ -301,11 +289,6 @@ const styles = StyleSheet.create({
 
   previousPrice: {
     textDecorationLine: "line-through"
-  },
-
-  discountText: {
-    color: Colours.Fail,
-    fontSize: Sizes.TinyText
   },
 
   buttons: {
@@ -331,7 +314,8 @@ const styles = StyleSheet.create({
     marginHorizontal: Sizes.InnerFrame / 2,
     paddingHorizontal: Sizes.InnerFrame,
     borderRadius: Sizes.InnerFrame * 2 / 3,
-    backgroundColor: Colours.Foreground
+    backgroundColor: Colours.Foreground,
+    marginRight: Sizes.InnerFrame / 4
   },
 
   addButtonLabel: {

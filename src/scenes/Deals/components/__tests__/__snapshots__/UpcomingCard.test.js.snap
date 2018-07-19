@@ -1,49 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly 1`] = `
-<View
-  style={
-    Array [
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "marginBottom": 7.5,
-      },
-      Object {
-        "padding": 15,
-      },
-    ]
-  }
->
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
+<View>
+  <View
     style={
       Object {
         "backgroundColor": "rgba(255, 255, 255, 0)",
-        "color": "rgb(30, 30, 30)",
-        "fontSize": 22,
-        "fontWeight": "700",
-        "marginBottom": 7.5,
+        "height": 100,
+        "overflow": "hidden",
+        "width": 100,
       }
     }
   >
-    6 months ago
-  </Text>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
+    <Image
+      constrainWidth={720}
+      onError={[Function]}
+      resizeMode="contain"
+      shouldPinHeight={false}
+      shouldPinWidth={false}
+      source={
+        Object {
+          "uri": "https://cdn.shopify.com/s/files/1/1976/6885/files/01-Lit-SpringSummer-Sale-App-Banner_1440x.jpg?10230491971092553988",
+        }
+      }
+      sourceHeight={100}
+      sourceWidth={100}
+      style={
+        Array [
+          Object {
+            "height": 100,
+            "width": 100,
+          },
+        ]
+      }
+    />
+  </View>
+  <View
     style={
-      Object {
-        "backgroundColor": "rgba(255, 255, 255, 0)",
-        "color": "rgb(30, 30, 30)",
-        "fontSize": 16,
-        "fontWeight": "300",
-      }
+      Array [
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "marginBottom": 7.5,
+        },
+        Object {
+          "padding": 15,
+        },
+      ]
     }
   >
-    Deal
-  </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "rgb(30, 30, 30)",
+          "fontSize": 22,
+          "fontWeight": "700",
+          "marginBottom": 7.5,
+        }
+      }
+    >
+      31/12/2017
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "rgb(30, 30, 30)",
+          "fontSize": 16,
+          "fontWeight": "300",
+        }
+      }
+    />
+  </View>
 </View>
 `;

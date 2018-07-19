@@ -37,7 +37,8 @@ export default class Gender extends React.Component {
         <SloppyView>
           <ExpandableHeader
             hideCollapse
-            isOpen={this.props.gender === this.props.value}>
+            isOpen={this.props.gender === this.props.value}
+            enabled={true}>
             {this.props.label}
           </ExpandableHeader>
         </SloppyView>

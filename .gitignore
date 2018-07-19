@@ -109,3 +109,5 @@ __coverage__/
 
 # Other
 *_CHANGELOG*
+
+.idea/

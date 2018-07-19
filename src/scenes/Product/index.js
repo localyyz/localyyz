@@ -13,13 +13,13 @@ import PropTypes from "prop-types";
 import { inject, observer, Provider } from "mobx-react/native";
 
 // local component
-import { AddedSummary, ProductHeader } from "./components";
+import { AddedSummary, ProductHeader, ProductShare } from "./components";
 import Content from "./content";
 
 // constants
 // should be manually sync'ed whenever the CTA header changes in layout
-const CTA_HEIGHT = 180;
-const DEAL_HEIGHT = 127;
+const CTA_HEIGHT = 183;
+const DEAL_HEIGHT = 107.5;
 
 @inject(stores => ({
   setAppContext: context => stores.navStore.setAppContext(context),
@@ -163,8 +163,7 @@ class ProductScene extends React.Component {
             backActionThrottle
             backAction={this.onBack}
             fadeHeight={this.backgroundPosition / 3}
-            background={this.productHeader}
-            backColor={Colours.Text}>
+            background={this.productHeader}>
             <Content
               settings={this.settings}
               onPressImage={this.onPressImage}
@@ -174,6 +173,7 @@ class ProductScene extends React.Component {
           <PhotoDetails
             navigation={this.props.navigation}
             ref={this.photoDetailsRef}/>
+          <ProductShare />
         </View>
       </Provider>
     ) : null;

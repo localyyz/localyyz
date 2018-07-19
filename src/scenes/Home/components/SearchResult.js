@@ -13,6 +13,7 @@ import {
 // third party
 import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
+import LinearGradient from "react-native-linear-gradient";
 
 @inject(stores => ({
   searchStore: stores.homeStore,
@@ -55,9 +56,20 @@ export default class SearchResult extends React.Component {
           </Animatable.View>
         )}
 
-        <View pointerEvents="box-none" style={styles.filter}>
-          <FilterPopupButton store={this.filterStore} />
-        </View>
+        {this.props.searchResults.slice().length > 0 ? (
+          <View pointerEvents="box-none" style={styles.filter}>
+            <LinearGradient
+              colors={[Colours.WhiteTransparent, Colours.Transparent]}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 0, y: 0 }}
+              style={styles.gradient}
+              pointerEvents="box-none">
+              <View style={styles.buttons}>
+                <FilterPopupButton store={this.filterStore} />
+              </View>
+            </LinearGradient>
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -84,5 +96,18 @@ const styles = StyleSheet.create({
     padding: Sizes.InnerFrame / 2,
     paddingVertical: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
+  },
+
+  gradient: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    height: Sizes.Height / 7,
+    width: Sizes.Width
+  },
+
+  buttons: {
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
+    justifyContent: "center"
   }
 });

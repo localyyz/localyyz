@@ -23,8 +23,8 @@ exports[`Base Field test - form Base Field test - form: should render properly h
       Array [
         Object {
           "backgroundColor": "#FFFFFF",
-          "paddingHorizontal": 25,
-          "paddingVertical": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
         },
         Object {
           "alignItems": "center",
@@ -128,8 +128,8 @@ exports[`Base Field test - form Base Field test - form: should render properly h
       Array [
         Object {
           "backgroundColor": "#FFFFFF",
-          "paddingHorizontal": 25,
-          "paddingVertical": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
         },
         Object {
           "alignItems": "center",
@@ -237,8 +237,8 @@ exports[`Base Field test - form Base Field test - form: should render properly h
       Array [
         Object {
           "backgroundColor": "#FFFFFF",
-          "paddingHorizontal": 25,
-          "paddingVertical": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
         },
         Object {
           "alignItems": "center",
@@ -346,8 +346,8 @@ exports[`Base Field test - form Base Field test - form: should render properly i
       Array [
         Object {
           "backgroundColor": "#FFFFFF",
-          "paddingHorizontal": 25,
-          "paddingVertical": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
         },
         Object {
           "alignItems": "center",
@@ -452,8 +452,8 @@ exports[`Base Field test - form Base Field test - form: should render properly n
       Array [
         Object {
           "backgroundColor": "#FFFFFF",
-          "paddingHorizontal": 25,
-          "paddingVertical": 15,
+          "paddingHorizontal": 15,
+          "paddingVertical": 10,
         },
         Object {
           "alignItems": "center",

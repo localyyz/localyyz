@@ -1,24 +1,27 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { withNavigation } from "react-navigation";
+import { StyleSheet, View } from "react-native";
 import PropTypes from "prop-types";
 
 // custom
 import {
-  ContentCoverSlider,
   ProductList,
   Filter,
-  FilterPopupButton
+  FilterPopupButton,
+  BrowsePopupButton,
+  ContentCoverSlider,
+  ReactiveSpacer
 } from "localyyz/components";
 import { Styles, Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
 import { Provider, observer, inject } from "mobx-react/native";
+import LinearGradient from "react-native-linear-gradient";
 
 // local
 import Store from "./store";
 
 @inject(stores => ({
+  contentCoverStore: stores.contentCoverStore,
   products:
     stores.productListStore && stores.productListStore.listData
       ? stores.productListStore.listData.slice()
@@ -27,21 +30,24 @@ import Store from "./store";
 @observer
 class Content extends React.Component {
   static propTypes = {
-    headerHeight: PropTypes.number,
     products: PropTypes.array
   };
 
   static defaultProps = {
-    headerHeight: 0,
     products: []
   };
 
-  shouldComponentUpdate(nextProps) {
-    // wrapper component that stops ProductList
-    // rerendering if header height has not been updated
+  get spacer() {
     return (
-      nextProps.headerHeight !== this.props.headerHeight
-      || nextProps.products.length !== this.props.products.length
+      <ReactiveSpacer
+        store={this.props.contentCoverStore}
+        heightProp="headerHeight"/>
+    );
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return (
+      nextProps.products.length !== this.props.products.length
       // order has changed, based on id's concat'ed (for order string)
       || (nextProps.products
         && this.props.products
@@ -56,78 +62,87 @@ class Content extends React.Component {
     return (
       <ProductList
         {...this.props}
+        header={this.spacer}
         products={this.props.products}
-        backgroundColor={Colours.Foreground}
-        style={styles.content}/>
+        backgroundColor={Colours.Foreground}/>
     );
   }
 }
 
-@withNavigation
 export default class ProductListScene extends React.Component {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired
-  };
-
   constructor(props) {
     super(props);
-    this.store = new Store(props.navigation.state.params);
+
+    // stores
+    this.settings = props.navigation.state.params || {};
+    this.store = new Store(this.settings);
+    this.contentCoverStore = ContentCoverSlider.createStore();
     this.filterStore = Filter.getNewStore(this.store);
     this.state = {
-      headerHeight: 0,
-
       // when navigating to productList, is the filter popup visible?
-      isFilterVisible:
-        props.navigation.state.params
-        && props.navigation.state.params.isFilterVisible
+      isFilterVisible: this.settings.isFilterVisible
     };
+
+    // bindings
+    this.onScroll = this.onScroll.bind(this);
   }
 
   componentDidMount() {
     this.store.fetchNextPage();
   }
 
+  get sliderRef() {
+    return this.refs.slider;
+  }
+
+  get header() {
+    return (
+      <View onLayout={this.contentCoverStore.onLayout}>
+        <ContentCoverSlider.Header {...this.settings || {}} />
+      </View>
+    );
+  }
+
+  onScroll(evt) {
+    this.sliderRef && this.sliderRef.onScroll(evt);
+  }
+
   render() {
     return (
-      <Provider productListStore={this.store}>
+      <Provider
+        productListStore={this.store}
+        contentCoverStore={this.contentCoverStore}>
         <View style={styles.container}>
           <ContentCoverSlider
-            ref="container"
-            title={this.props.navigation.state.params.title}
-            backAction={() => this.props.navigation.goBack()}
-            backColor={Colours.Text}
-            background={
-              <View
-                onLayout={e =>
-                  this.setState({
-                    headerHeight: Math.round(e.nativeEvent.layout.height)
-                  })
-                }>
-                <View style={styles.header}>
-                  {this.props.navigation.state.params.title ? (
-                    <Text style={styles.headerLabel}>
-                      {this.props.navigation.state.params.title}
-                    </Text>
-                  ) : null}
-                  {this.props.navigation.state.params.subtitle ? (
-                    <Text style={styles.headerSublabel}>
-                      {this.props.navigation.state.params.subtitle}
-                    </Text>
-                  ) : null}
-                </View>
-              </View>
-            }>
+            ref="slider"
+            title={this.settings.title}
+            backAction={this.props.navigation.goBack}
+            backColor={Colours.AlternateText}
+            idleStatusBarStatus="light-content"
+            background={this.header}>
             <Content
-              onScroll={e => this.refs.container.onScroll(e)}
-              headerHeight={this.state.headerHeight}
-              paddingBottom={this.state.headerHeight + NAVBAR_HEIGHT}
               fetchPath={this.store.fetchPath}
-              onEndReached={() => this.store.fetchNextPage()}/>
+              onScroll={this.onScroll}
+              onEndReached={() => this.store.fetchNextPage()}
+              paddingBottom={NAVBAR_HEIGHT}/>
           </ContentCoverSlider>
           <View style={styles.filter} pointerEvents="box-none">
-            <FilterPopupButton
-              store={this.filterStore}
-              isInitialVisible={this.state.isFilterVisible}/>
+            <LinearGradient
+              colors={[Colours.WhiteTransparent, Colours.Transparent]}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 0, y: 0 }}
+              style={styles.gradient}
+              pointerEvents="box-none">
+              <View style={styles.buttons}>
+                <BrowsePopupButton
+                  text={"Categories"}
+                  store={this.filterStore}
+                  isInitialVisible={this.state.isFilterVisible}/>
+                <FilterPopupButton
+                  store={this.filterStore}
+                  isInitialVisible={false}/>
+              </View>
+            </LinearGradient>
           </View>
         </View>
       </Provider>
@@ -138,35 +153,25 @@ export default class ProductListScene extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: NAVBAR_HEIGHT,
-    backgroundColor: Colours.Background
-  },
-
-  header: {
-    ...Styles.Card,
-    marginBottom: Sizes.InnerFrame,
-    marginTop: Sizes.OuterFrame * 5,
-    paddingHorizontal: null,
-    backgroundColor: Colours.Transparent
-  },
-
-  headerLabel: {
-    ...Styles.Text,
-    ...Styles.SectionTitle
-  },
-
-  headerSublabel: {
-    ...Styles.Text,
-    ...Styles.SectionSubtitle
-  },
-
-  content: {
-    paddingVertical: Sizes.InnerFrame,
     paddingBottom: NAVBAR_HEIGHT
   },
 
   filter: {
     ...Styles.Overlay,
+    bottom: NAVBAR_HEIGHT,
     justifyContent: "flex-end"
+  },
+
+  gradient: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    height: Sizes.Height / 7,
+    width: Sizes.Width
+  },
+
+  buttons: {
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
+    justifyContent: "center"
   }
 });

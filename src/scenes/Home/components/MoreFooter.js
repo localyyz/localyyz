@@ -1,10 +1,13 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // third party
 import { withNavigation } from "react-navigation";
 import EntypoIcon from "react-native-vector-icons/Entypo";
+
+// custom
+import { Styles, Colours, Sizes } from "localyyz/constants";
+import { capitalize } from "localyyz/helpers";
 
 @withNavigation
 export default class MoreFooter extends React.Component {
@@ -22,8 +25,13 @@ export default class MoreFooter extends React.Component {
   onPress() {
     this.props.navigation.navigate("ProductList", {
       fetchPath: this.props.fetchPath,
-      title: this.props.title,
-      subtitle: this.props.description,
+      title: capitalize(this.props.title),
+      description: this.props.description,
+      image: this.props.imageUrl && {
+        imageUrl: this.props.imageUrl,
+        width: this.props.imageWidth,
+        height: this.props.imageHeight
+      },
       categories: this.props.categories,
       basePath: this.props.basePath
     });

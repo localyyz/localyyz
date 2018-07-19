@@ -50,7 +50,7 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
           style={
             Object {
               "alignItems": "center",
-              "paddingHorizontal": 50,
+              "paddingHorizontal": 75,
             }
           }
         >
@@ -94,29 +94,66 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
     >
       <View
         onLayout={[Function]}
-        style={
-          Object {
-            "paddingHorizontal": 25,
-            "paddingTop": 75,
-            "paddingVertical": 15,
-          }
-        }
       >
-        <Text
-          accessible={true}
-          allowFontScaling={true}
-          ellipsizeMode="tail"
-          style={
+        <View
+          constrainWidth={750}
+          source={
             Object {
-              "backgroundColor": "rgba(255, 255, 255, 0)",
-              "color": "rgb(30, 30, 30)",
-              "fontSize": 22,
-              "fontWeight": "700",
+              "uri": undefined,
             }
           }
         >
-          Addresses
-        </Text>
+          <View>
+            <BVLinearGradient
+              colors={
+                Array [
+                  16777215,
+                  16777215,
+                  16777215,
+                ]
+              }
+              endPoint={
+                Object {
+                  "x": 0,
+                  "y": 0,
+                }
+              }
+              locations={null}
+              startPoint={
+                Object {
+                  "x": 0,
+                  "y": 1,
+                }
+              }
+              style={
+                Object {
+                  "paddingBottom": 15,
+                  "paddingHorizontal": 15,
+                  "paddingTop": 75,
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "rgb(30, 30, 30)",
+                      "fontSize": 22,
+                      "fontWeight": "700",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                Addresses
+              </Text>
+            </BVLinearGradient>
+          </View>
+        </View>
       </View>
     </View>
     <View
@@ -151,14 +188,14 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
             <View
               style={
                 Object {
-                  "paddingTop": 0,
+                  "paddingTop": 1334,
                 }
               }
             />
             <View
               style={
                 Object {
-                  "paddingBottom": 100,
+                  "marginBottom": 100,
                 }
               }
             >
@@ -231,8 +268,8 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
                             Array [
                               Object {
                                 "backgroundColor": "#FFFFFF",
-                                "paddingHorizontal": 25,
-                                "paddingVertical": 15,
+                                "paddingHorizontal": 15,
+                                "paddingVertical": 10,
                               },
                               Object {
                                 "alignItems": "center",
@@ -340,8 +377,8 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
                             Array [
                               Object {
                                 "backgroundColor": "#FFFFFF",
-                                "paddingHorizontal": 25,
-                                "paddingVertical": 15,
+                                "paddingHorizontal": 15,
+                                "paddingVertical": 10,
                               },
                               Object {
                                 "alignItems": "center",

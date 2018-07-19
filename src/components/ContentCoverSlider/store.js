@@ -1,8 +1,11 @@
 // third party
 import { observable, action } from "mobx";
 
+// custom
+import { Sizes } from "localyyz/constants";
+
 export default class ContentCoverSliderUIStore {
-  @observable headerHeight = 0;
+  @observable headerHeight = Sizes.Height;
 
   constructor() {
     this.onLayout = this.onLayout.bind(this);

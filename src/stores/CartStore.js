@@ -912,6 +912,9 @@ export default class CartStore {
 
   _onExpressCheckoutFailure = (response = {}, message) => {
     assistantStore.cancel(message);
+
+    // clear the current cart and refetch
+    this.cart.clear();
     this.fetch();
 
     // only close if user aborted failure
@@ -921,11 +924,11 @@ export default class CartStore {
       && response._error.message !== "AbortError"
     ) {
       response._paymentResponse._paymentRequest.abort();
-      // if debug, console error for easy debugging
-      DEBUG && console.error(response);
     }
 
     // present failure
+    // if debug, console error for easy debugging
+    DEBUG && console.log("[CartStore] Error", response);
     return {
       wasSuccessful: false,
       wasAborted:

@@ -7,10 +7,10 @@ import {
 } from "react-navigation";
 
 // custom
-import { Colours } from "localyyz/constants";
+import { Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
-import { ApiInstance, GA } from "localyyz/global";
+import { ApiInstance, GA, OS } from "localyyz/global";
 import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 
 // third party
@@ -30,7 +30,7 @@ import {
   Brands,
   Modal,
   Checkout,
-  SettingsTab,
+  Settings,
   Deals,
 
   // forms
@@ -62,30 +62,13 @@ const AppNavigator = StackNavigator(
   }
 );
 
-const DealsTab = StackNavigator(
-  {
-    Deals: { screen: Deals },
-    Product: { screen: Product },
-    Information: { screen: Information },
-    ProductList: { screen: ProductList },
-    CartSummary: { screen: CartSummary }
-  },
-  {
-    initialRouteName: "Deals",
-    navigationOptions: ({ navigation: { state } }) => ({
-      header: null,
-      gesturesEnabled: state.params && state.params.gesturesEnabled
-    })
-  }
-);
-
 //TODO: NavBar should probably read from navigationOptions
 //rather than everything mostly hardcoded
 const TabBarNavigator = TabNavigator(
   {
     Root: { screen: AppNavigator },
-    Deals: { screen: DealsTab },
-    Settings: { screen: SettingsTab }
+    Deals: { screen: Deals },
+    Settings: { screen: Settings }
   },
   {
     tabBarComponent: NavBar,
@@ -120,14 +103,19 @@ class AppContainer extends React.Component {
     };
 
     // initialize api instance with API_URL from User defined vars
-    ApiInstance.initialize(props.API_URL);
+    ApiInstance.initialize(
+      Config.DEV_USE_REMOTE_API ? DEV_REMOTE_API : props.API_URL
+    );
     GA.initialize(props.GOOGLE_ANALYTICS_KEY);
+    if (props.ONESIGNAL_APPID != "") {
+      OS.initialize(props.ONESIGNAL_APPID);
+    }
   }
 
   get isMinVersion() {
     return (
       Platform.OS !== "ios"
-      || (Platform.OS === "ios" && DeviceInfo.getBuildNumber() > 221)
+      || (Platform.OS === "ios" && parseInt(DeviceInfo.getBuildNumber()) > 250)
     );
   }
 

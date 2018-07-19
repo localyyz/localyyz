@@ -53,6 +53,7 @@
 		BF5DC3952075327500CE540C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5DC3902075327500CE540C /* Bolts.framework */; };
 		BF5DC3962075327500CE540C /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5DC3912075327500CE540C /* FBSDKCoreKit.framework */; };
 		BF5DC3972075327500CE540C /* FBNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5DC3922075327500CE540C /* FBNotifications.framework */; };
+		BFF58BB720F9475A00D926C5 /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF58BB620F9474200D926C5 /* libRCTOneSignal.a */; };
 		CC2589DFA3519D4CD94637F8 /* libPods-localyyz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC881114F72B275FDD220FE3 /* libPods-localyyz.a */; };
 		CD0F336D99C2492D99120153 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6541E2DA252E454390E394FC /* EvilIcons.ttf */; };
 		D8587C0E9E09464DA5E1E26B /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F44D36F14F47F080B45710 /* libRCTFBSDK.a */; };
@@ -439,6 +440,13 @@
 			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
 			remoteInfo = ReactNativePayments;
 		};
+		BFF58BB520F9474200D926C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFF58BB120F9474200D926C5 /* RCTOneSignal.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3245CDED1BFEE35C00EABF68;
+			remoteInfo = RCTOneSignal;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -503,6 +511,7 @@
 		BF5DC3902075327500CE540C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		BF5DC3912075327500CE540C /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		BF5DC3922075327500CE540C /* FBNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBNotifications.framework; path = Frameworks/FBNotifications.framework; sourceTree = "<group>"; };
+		BFF58BB120F9474200D926C5 /* RCTOneSignal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOneSignal.xcodeproj; path = "../node_modules/react-native-onesignal/ios/RCTOneSignal.xcodeproj"; sourceTree = "<group>"; };
 		C4A5A9426F50DE7CE3A8046B /* Pods-localyyz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-localyyz.release.xcconfig"; path = "Pods/Target Support Files/Pods-localyyz/Pods-localyyz.release.xcconfig"; sourceTree = "<group>"; };
 		CBF16531CD1D4D899A30EAD3 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../assets/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
 		CDFCD743AD144384896E6F96 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -522,6 +531,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF58BB720F9475A00D926C5 /* libRCTOneSignal.a in Frameworks */,
 				1614E70D20E68D9A004C4708 /* AdSupport.framework in Frameworks */,
 				1614E70B20E68D8D004C4708 /* libsqlite3.0.tbd in Frameworks */,
 				1614E70920E68D86004C4708 /* libz.tbd in Frameworks */,
@@ -727,6 +737,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				BFF58BB120F9474200D926C5 /* RCTOneSignal.xcodeproj */,
 				1614E6CE20E68D59004C4708 /* RCTGoogleAnalyticsBridge.xcodeproj */,
 				BE45F78720E5441B00E7293E /* RCTVideo.xcodeproj */,
 				BF05EC112079076600EF35B3 /* BVLinearGradient.xcodeproj */,
@@ -922,6 +933,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BFF58BB220F9474200D926C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BFF58BB620F9474200D926C5 /* libRCTOneSignal.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1029,6 +1048,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = BFF58BB220F9474200D926C5 /* Products */;
+					ProjectRef = BFF58BB120F9474200D926C5 /* RCTOneSignal.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -1447,6 +1470,13 @@
 			remoteRef = BF5DC37F2075317C00CE540C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		BFF58BB620F9474200D926C5 /* libRCTOneSignal.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTOneSignal.a;
+			remoteRef = BFF58BB520F9474200D926C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1608,6 +1638,7 @@
 				INFOPLIST_FILE = localyyz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONESIGNAL_APPID = "e6079043-71d2-4180-84d4-eaef47683cf1";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1702,6 +1733,7 @@
 				GOOGLE_PLACES_KEY = AIzaSyCyDtar76vRMUbDlv6uvTai9b_8F7_UBWE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONESIGNAL_APPID = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				STRIPE_PUBLIC_KEY = pk_test_niTKL8wfaUtS6YoRDl6iBaJr;
@@ -1746,6 +1778,7 @@
 				GOOGLE_PLACES_KEY = AIzaSyCyDtar76vRMUbDlv6uvTai9b_8F7_UBWE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONESIGNAL_APPID = "a2f1775c-d963-4ad9-bbcd-d581f4ce7e43";
 				SDKROOT = iphoneos;
 				STRIPE_PUBLIC_KEY = pk_live_hWOrjVkLRkwWH866iWpqhZen;
 				VALIDATE_PRODUCT = YES;
@@ -1793,6 +1826,7 @@
 				GOOGLE_PLACES_KEY = AIzaSyCyDtar76vRMUbDlv6uvTai9b_8F7_UBWE;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				ONESIGNAL_APPID = "a2f1775c-d963-4ad9-bbcd-d581f4ce7e43";
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				STRIPE_PUBLIC_KEY = pk_test_niTKL8wfaUtS6YoRDl6iBaJr;
@@ -1828,6 +1862,7 @@
 				INFOPLIST_FILE = localyyz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONESIGNAL_APPID = "e6079043-71d2-4180-84d4-eaef47683cf1";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

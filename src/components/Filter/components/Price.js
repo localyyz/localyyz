@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Styles, Sizes, Colours } from "localyyz/constants";
+import {toPriceString} from "localyyz/helpers";
 import { GA } from "localyyz/global";
 
 // third party
@@ -13,14 +14,15 @@ import * as Animatable from "react-native-animatable";
 import SliderMarker from "./SliderMarker";
 
 // constants
-const STEP_SIZE = 0.15;
+const STEP_SIZE = 0.05;
 const SLIDER_PERCENTAGE_OF_PARENT_WIDTH = 0.8;
 
 @inject(stores => ({
   priceMin: stores.filterStore.priceMin,
   priceMax: stores.filterStore.priceMax,
   setPriceFilter: stores.filterStore.setPriceFilter,
-  setScrollEnabled: stores.filterStore.setScrollEnabled
+  setScrollEnabled: stores.filterStore.setScrollEnabled,
+  refresh: stores.filterStore.refresh
 }))
 @observer
 export default class Price extends React.Component {
@@ -41,14 +43,15 @@ export default class Price extends React.Component {
 
   static defaultProps = {
     min: 0,
-    max: 500
+    max: 300
   };
 
   constructor(props) {
     super(props);
     this.state = {
       isActive: false,
-      width: 0
+      width: 0,
+      isAtMax: this.props.priceMax ? this.props.priceMax === Price.defaultProps.max : true
     };
 
     // bindings
@@ -81,6 +84,10 @@ export default class Price extends React.Component {
       values[0].toString() + "-" + values[1].toString()
     );
     this.props.setPriceFilter(this.bound(values[0]), this.bound(values[1]));
+    this.setState({
+      //if the end value is equal to the max
+      isAtMax: values[1] === this.props.max
+    });
     this.activate(false);
   }
 
@@ -109,6 +116,7 @@ export default class Price extends React.Component {
   render() {
     return (
       <View style={styles.container} onLayout={this.onLayout}>
+        <Text style={styles.filterHeader}>By price</Text>
         <View style={styles.labelsAnimation}>
           <Animatable.View
             animation={this.state.isActive ? "fadeOut" : "slideInUp"}
@@ -117,7 +125,9 @@ export default class Price extends React.Component {
             <Text style={styles.label}>
               {this.priceMin ? `$${this.priceMin.toFixed(2)}` : "Free"}
             </Text>
-            <Text style={styles.label}>{`$${this.priceMax.toFixed(2)}`}</Text>
+            <Text style={styles.label}>
+              {`${toPriceString(this.priceMax)}${this.state.isAtMax ? "+" : ""}`}
+            </Text>
           </Animatable.View>
         </View>
         <MultiSlider
@@ -160,6 +170,10 @@ const styles = StyleSheet.create({
   labelsAnimation: {
     paddingBottom: Sizes.InnerFrame,
     overflow: "hidden"
+  },
+
+  filterHeader: {
+    marginBottom: Sizes.InnerFrame
   },
 
   labels: {
