@@ -15,7 +15,9 @@ import { lazyObservable } from "mobx-utils";
 // local
 import { StandardCollection } from "./components";
 
-@inject("loginStore")
+@inject(stores => ({
+  wasLoginSuccessful: stores.loginStore._wasLoginSuccessful
+}))
 @observer
 export default class Collection extends React.Component {
   @observable products;
@@ -36,9 +38,7 @@ export default class Collection extends React.Component {
     backgroundColor: Colours.Background
   };
 
-  constructor(props) {
-    super(props);
-
+  componentWillMount() {
     // setup the items
     this.products = lazyObservable(sink =>
       ApiInstance.get(this.props.fetchFrom, { limit: this.props.limit }).then(
@@ -65,21 +65,18 @@ export default class Collection extends React.Component {
         }
       )
     );
-  }
 
-  reactLogin = reaction(
-    () => {
-      return {
-        success: this.props.loginStore._wasLoginSuccessful,
-        skipped: this.props.loginStore._wasLoginSkipped
-      };
-    },
-    ({ success, skipped }) => {
-      if (success || skipped) {
-        this.products && this.products.refresh();
+    this.reactLogin = reaction(
+      () => {
+        return this.props.wasLoginSuccessful;
+      },
+      success => {
+        if (success) {
+          this.products && this.products.refresh();
+        }
       }
-    }
-  );
+    );
+  }
 
   render() {
     return (

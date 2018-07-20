@@ -34,7 +34,6 @@ const VIEWABLITY_CONFIG = {
   updateBlockHeight: (i, evt) => stores.homeStore.updateBlockHeight(i, evt),
 
   // block fetching
-  //fetchCategoryBlocks: () => stores.homeStore.fetchCategoryBlocks(),
   fetchCollectionBlocks: () => stores.homeStore.fetchCollectionBlocks()
 }))
 @observer

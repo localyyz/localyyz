@@ -1,8 +1,8 @@
 // custom
 import { Product } from "localyyz/models";
 import { ApiInstance, GA } from "localyyz/global";
-import { assistantStore } from "localyyz/stores";
-import { box, capitalize, randInt } from "localyyz/helpers";
+import { assistantStore, loginStore } from "localyyz/stores";
+import { box, randInt } from "localyyz/helpers";
 import {
   Sizes,
   SEARCH_SUGGESTIONS_FEMALE,
@@ -16,17 +16,6 @@ import { Animated, Easing } from "react-native";
 const PAGE_LIMIT = 8;
 const PAGE_ONE = 1;
 const SEARCH_DELAY = 2000;
-
-export const DEFAULT_BLOCKS = [
-  //{
-  //type: "brand",
-  //id: "brands",
-  //brandType: "designers",
-  //title: "Brands",
-  //description: "Browse the thousands of brands available on the Localyyz app",
-  //numBrands: 10000
-  //}
-];
 
 export default class HomeStore {
   constructor() {
@@ -63,7 +52,6 @@ export default class HomeStore {
     this.searchSuggestions
       = gender === "male" ? SEARCH_SUGGESTIONS_MALE : SEARCH_SUGGESTIONS_FEMALE;
   }
-
   /////////////////////////////////// search observables
 
   @box searchQuery = "";
@@ -172,46 +160,8 @@ export default class HomeStore {
 
   // blocks horizontal scroller and blocks registry
   // all blocks have the following min props: type
-  @observable blocks = DEFAULT_BLOCKS;
+  @observable blocks = [];
   @observable currentBlock;
-
-  // NOTE/TODO: what is this for???
-  hasFetchedCategory = false;
-
-  @action
-  async fetchCategoryBlocks() {
-    if (!this.hasFetchedCategory) {
-      this.hasFetchedCategory = true;
-      let response = await this.api.get("categories", null, true);
-      if (response.status < 400 && response.data && response.data.length > 0) {
-        let categoryBlocks = response.data.map(category => ({
-          type: "productList",
-          categories: category.values.map(v => ({
-            type: v,
-            fetchPath: `categories/${category.type}`
-          })),
-          id: category.type,
-
-          // used to differentiate from locally specified
-          _fetched: true,
-          title: capitalize(category.type),
-          basePath: `categories/${category.type}`,
-          path: `categories/${category.type}/products`,
-          limit: 4
-        }));
-
-        return await runInAction(
-          "[ACTION] appending category blocks to layout",
-          () => {
-            this.blocks = [
-              ...this.filterBlocks(this.blocks, "productList"),
-              ...categoryBlocks
-            ];
-          }
-        );
-      }
-    }
-  }
 
   filterBlocks(blocks, type) {
     return blocks.filter(block => block.type !== type || !block._fetched);
