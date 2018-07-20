@@ -27,13 +27,18 @@ const MAX_PHOTO = Sizes.Width / 5;
 const MIN_PHOTO = MAX_PHOTO / 3;
 
 @inject((stores, props) => ({
-  setFullscreenPullup: () => (stores.cartUiStore || props.cartUiStore).setFullscreenPullup(),
-  setLargeItemType: () => (stores.cartUiStore || props.cartUiStore).setItemSizeType(2),
-  closeCart: () => (stores.navbarStore || props.cartUiStore).togglePullup(false),
+  setFullscreenPullup: () =>
+    (stores.cartUiStore || props.cartUiStore).setFullscreenPullup(),
+  setLargeItemType: () =>
+    (stores.cartUiStore || props.cartUiStore).setItemSizeType(2),
+  closeCart: () =>
+    (stores.navbarStore || props.cartUiStore).togglePullup(false),
   remove: product => (stores.cartStore || props.cartStore).removeItem(product),
   sync: () => (stores.cartStore || props.cartStore).checkoutWithReject(),
-  write: message => (stores.assistantStore || props.assistantStore).write(message, null, true),
-  getWrite: message => (stores.assistantStore || props.assistantStore).get(message)
+  write: message =>
+    (stores.assistantStore || props.assistantStore).write(message, null, true),
+  getWrite: message =>
+    (stores.assistantStore || props.assistantStore).get(message)
 }))
 export class CartItem extends React.Component {
   static propTypes = {
@@ -179,7 +184,7 @@ export class CartItem extends React.Component {
   }
 }
 
-export default withNavigation(CartItem)
+export default withNavigation(CartItem);
 
 const styles = StyleSheet.create({
   container: {

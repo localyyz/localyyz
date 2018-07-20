@@ -10,6 +10,18 @@ import getSymbolFromCurrency from "currency-symbol-map";
 export { default as isCssColor } from "./csscolor";
 export { default as linkParser } from "./linkparser";
 
+// gets the current screen from navigation state
+export const getActiveRoute = navigationState => {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  // dive into nested navigators
+  // return route if no children routes
+  // else, recurse
+  return route.routes ? getActiveRoute(route) : route;
+};
+
 // usage:
 // - instead of the typical `@observable x;`
 // pattern used by mobx, wrap the prop by
@@ -26,44 +38,6 @@ export const box = (target, name, descriptor) => {
       this[privateName] = value;
     }
   });
-};
-
-export const resetHome = params => {
-  let opt = {
-    index: 0,
-    actions: [
-      NavigationActions.navigate({
-        routeName: "App",
-        params: params
-      })
-    ],
-    key: null
-  };
-  return NavigationActions.reset(opt);
-};
-
-export const changeTab = (tab, params) => {
-  return {
-    type: "tab",
-    routeName: tab,
-    params: params
-  };
-};
-
-export const resetAction = (routeName, params = {}) => {
-  let opt = {
-    index: 0,
-    actions: [
-      NavigationActions.navigate({
-        routeName: routeName,
-        params: params
-      })
-    ]
-  };
-  if (routeName === "Login") {
-    opt.key = null;
-  }
-  return NavigationActions.reset(opt);
 };
 
 export const paramsAction = (key, params = {}) => {

@@ -17,13 +17,12 @@ import { ProductListPlaceholder } from "./components";
 // constants
 const SCROLL_THRESHOLD = 100;
 
-@withNavigation
 @inject(stores => ({
   isFilterSupported: !!stores.filterStore,
   isLoading: stores.productListStore && stores.productListStore.isLoading
 }))
 @observer
-export default class ProductList extends React.Component {
+export class ProductList extends React.Component {
   static Placeholder = ProductListPlaceholder;
 
   static propTypes = {
@@ -91,8 +90,14 @@ export default class ProductList extends React.Component {
         <ProductTile
           style={styles.tileComponent}
           onPress={() =>
-            this.props.navigation.navigate("Product", {
-              product: product
+            // NOTE: specify the navigation `key` here
+            // to force a "pushey" navigation
+            this.props.navigation.navigate({
+              routeName: "Product",
+              key: `prouct${product.id}`,
+              params: {
+                product: product
+              }
             })
           }
           backgroundColor={this.props.backgroundColor}
@@ -199,6 +204,8 @@ export default class ProductList extends React.Component {
     );
   }
 }
+
+export default withNavigation(ProductList);
 
 const styles = StyleSheet.create({
   container: {

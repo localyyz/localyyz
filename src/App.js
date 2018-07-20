@@ -1,16 +1,13 @@
 import React from "react";
 import { AppState, Alert, Platform, Linking, View } from "react-native";
-import {
-  addNavigationHelpers,
-  StackNavigator,
-  TabNavigator
-} from "react-navigation";
+import { createStackNavigator, createTabNavigator } from "react-navigation";
 
 // custom
 import { Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
 import { ApiInstance, GA, OS } from "localyyz/global";
+import { getActiveRoute } from "localyyz/helpers";
 import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 
 // third party
@@ -40,62 +37,8 @@ import {
 // debug
 console.disableYellowBox = true;
 
-const AppNavigator = StackNavigator(
-  {
-    Home: { screen: Home },
-    Product: { screen: Product },
-    ProductList: { screen: ProductList },
-    Checkout: { screen: Checkout },
-    CartSummary: { screen: CartSummary },
-    Information: { screen: Information },
-    Brands: { screen: Brands },
-
-    // forms
-    AddressForm: { screen: Forms.AddressForm }
-  },
-  {
-    initialRouteName: "Home",
-    navigationOptions: ({ navigation: { state } }) => ({
-      header: null,
-      gesturesEnabled: state.params && state.params.gesturesEnabled
-    })
-  }
-);
-
-//TODO: NavBar should probably read from navigationOptions
-//rather than everything mostly hardcoded
-const TabBarNavigator = TabNavigator(
-  {
-    Root: { screen: AppNavigator },
-    Deals: { screen: Deals },
-    Settings: { screen: Settings }
-  },
-  {
-    tabBarComponent: NavBar,
-    tabBarPosition: "bottom",
-    lazy: true
-  }
-);
-
-const RootNavigator = StackNavigator(
-  {
-    Deeplink: { screen: Deeplink },
-    Login: { screen: Login },
-    Modal: { screen: Modal },
-    App: { screen: TabBarNavigator }
-  },
-  {
-    mode: "modal",
-    headerMode: "none",
-    transitionConfig: () => ({
-      screenInterpolator: forVertical
-    }),
-    cardStyle: { backgroundColor: Colours.Transparent }
-  }
-);
-
 @observer
-class AppContainer extends React.Component {
+class AppView extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -174,6 +117,54 @@ class AppContainer extends React.Component {
     stores.loginStore.login("storage");
   }
 
+  // this tracks navigations and sends screen transitions to Google Analytics
+  trackScreen = (prevState, currentState) => {
+    const currentScreen = getActiveRoute(currentState);
+    const prevScreen = getActiveRoute(prevState);
+
+    if (prevScreen.routeName !== currentScreen.routeName) {
+      // extra events.
+      switch (currentScreen.routeName.toLowerCase()) {
+        case "productlist":
+          if (!currentScreen.params.title) {
+            GA.trackEvent("collection", "view", "filter/sort from home");
+          } else {
+            GA.trackEvent("collection", "view", currentScreen.params.title);
+          }
+          GA.trackScreen("collection");
+          break;
+        case "product":
+          GA.trackEvent(
+            "product",
+            "view",
+            currentScreen.params.product.title,
+            currentScreen.params.product.id
+          );
+          GA.trackScreen("product");
+          break;
+        case "modal":
+          GA.trackEvent("filter/sort", "open");
+          GA.trackScreen("filter/sort");
+          break;
+        case "orders":
+          GA.trackEvent("settings", "view orders", "order history");
+          GA.trackScreen("settings - orders");
+          break;
+        case "addresses":
+          GA.trackEvent("settings", "view account", "saved addresses");
+          GA.trackScreen("settings - saved addresses");
+          break;
+        case "addressform":
+          GA.trackEvent("settings", "view account", "edit addresses");
+          GA.trackScreen("settings - edit addresses");
+          break;
+        default:
+          // by default, track screen names
+          GA.trackScreen(currentScreen.routeName.toLowerCase());
+      }
+    }
+  };
+
   render() {
     if (!this.state.hasMinVersion) {
       return null;
@@ -182,22 +173,65 @@ class AppContainer extends React.Component {
     return (
       <Provider {...stores} suppressChangedStoreWarning>
         <View style={{ flex: 1 }}>
-          <RootNavigator
-            navigation={addNavigationHelpers({
-              dispatch: action => {
-                stores.navStore.dispatch(RootNavigator.router, action);
-              },
-              state: stores.navStore.navigationState,
-              addListener: () => {
-                /* left blank intentionally */
-              }
-            })}/>
+          <RootNavigator onNavigationStateChange={this.trackScreen} />
           <GlobalAssistant />
         </View>
       </Provider>
     );
   }
 }
+
+const AppNavigator = createStackNavigator(
+  {
+    Home: { screen: Home },
+    Product: { screen: Product },
+    ProductList: { screen: ProductList },
+    Checkout: { screen: Checkout },
+    CartSummary: { screen: CartSummary },
+    Information: { screen: Information },
+    Brands: { screen: Brands },
+
+    // forms
+    AddressForm: { screen: Forms.AddressForm }
+  },
+  {
+    initialRouteName: "Home",
+    navigationOptions: ({ navigation: { state } }) => ({
+      header: null,
+      gesturesEnabled: state.params && state.params.gesturesEnabled
+    })
+  }
+);
+
+const TabNavigator = createTabNavigator(
+  {
+    Root: { screen: AppNavigator },
+    Deals: { screen: Deals },
+    Settings: { screen: Settings }
+  },
+  {
+    tabBarComponent: NavBar,
+    tabBarPosition: "bottom",
+    lazy: true
+  }
+);
+
+const RootNavigator = createStackNavigator(
+  {
+    Deeplink: { screen: Deeplink },
+    Login: { screen: Login },
+    Modal: { screen: Modal },
+    App: { screen: TabNavigator }
+  },
+  {
+    mode: "modal",
+    headerMode: "none",
+    transitionConfig: () => ({
+      screenInterpolator: forVertical
+    }),
+    cardStyle: { backgroundColor: Colours.Transparent }
+  }
+);
 
 /**
  * Render the initial style when the initial layout isn't measured yet.
@@ -245,4 +279,4 @@ function forVertical(props) {
 
 export default codePush({
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME
-})(AppContainer);
+})(AppView);

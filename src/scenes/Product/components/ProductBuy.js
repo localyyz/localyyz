@@ -23,7 +23,6 @@ import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-@withNavigation
 @inject(stores => ({
   isOnSale:
     stores.productStore.product
@@ -69,11 +68,10 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   hideNavbar: () => stores.navbarStore.hide(),
 
   // today's deal
-  isDeal: !!stores.dealStore,
-
+  isDeal: !!stores.dealStore
 }))
 @observer
-class ProductBuy extends React.Component {
+export class ProductBuy extends React.Component {
   static propTypes = {
     selectedVariant: PropTypes.object,
     product: PropTypes.object,
@@ -250,7 +248,8 @@ class ProductBuy extends React.Component {
               navigation={this.props.navigation}
               isExploded={this.props.isExploded}
               explode={async () =>
-                this.isInStock && onlyIfLoggedIn(
+                this.isInStock
+                && onlyIfLoggedIn(
                   { hasSession },
                   this.props.explode,
                   this.props.navigation
@@ -275,6 +274,8 @@ class ProductBuy extends React.Component {
     );
   }
 }
+
+export default withNavigation(ProductBuy);
 
 const styles = StyleSheet.create({
   container: {
@@ -326,5 +327,3 @@ const styles = StyleSheet.create({
     marginLeft: Sizes.InnerFrame / 2
   }
 });
-
-export default ProductBuy;

@@ -20,9 +20,8 @@ import BrandsPlaceholder from "./BrandsPlaceholder";
 // constants
 const HIDE_TITLES_TYPE = "designers";
 
-@withNavigation
 @observer
-export default class Brands extends React.Component {
+export class Brands extends React.Component {
   @observable brands;
 
   constructor(props) {
@@ -88,6 +87,8 @@ export default class Brands extends React.Component {
     );
   }
 }
+
+export default withNavigation(Brands);
 
 const styles = StyleSheet.create({
   container: {

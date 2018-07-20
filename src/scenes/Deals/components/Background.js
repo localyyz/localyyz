@@ -15,7 +15,8 @@ import { clocksVideo, girlVideo, staticVideo } from "localyyz/assets";
 
 @inject(stores => ({
   currentStatus: stores.dealStore.currentStatus,
-  currentTimerTargetArray: stores.dealStore.currentTimerTargetArray
+  currentTimerTargetArray: stores.dealStore.currentTimerTargetArray,
+  isDealFocused: stores.dealStore.isFocused
 }))
 @observer
 export default class Background extends React.Component {
@@ -42,6 +43,7 @@ export default class Background extends React.Component {
           muted
           repeat
           playWhenInactive
+          paused={!this.props.isDealFocused}
           resizeMode="cover"
           source={this.content.video}
           style={styles.video}/>

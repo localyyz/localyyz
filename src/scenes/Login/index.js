@@ -10,8 +10,6 @@ import {
   PickerField,
   UppercasedText
 } from "localyyz/components";
-import { resetAction } from "localyyz/helpers";
-import { GA } from "localyyz/global";
 
 // third party
 import PropTypes from "prop-types";
@@ -74,14 +72,6 @@ export default class Login extends React.Component {
     this.onRegister = this.onRegister.bind(this);
     this.onGenderChange = this.onGenderChange.bind(this);
     this.toggleGenderPicker = this.toggleGenderPicker.bind(this);
-  }
-
-  componentDidMount() {
-    const { navigation: { state } } = this.props;
-    this.setState({
-      appContext: state && state.params && state.params.appContext
-    });
-    GA.trackScreen("login");
   }
 
   renderAlert() {
@@ -300,9 +290,7 @@ export default class Login extends React.Component {
     // dismiss assistant
     this.props.cancel(BUSY_MESSAGE);
     if (wasSuccessful) {
-      this.state.appContext
-        ? this.props.navigation.goBack()
-        : this.props.navigation.dispatch(resetAction("App"));
+      this.props.navigation.goBack();
     } else {
       !skipRegister
         && this.setState({
@@ -327,9 +315,7 @@ export default class Login extends React.Component {
     // dismiss assistant
     this.props.cancel(BUSY_REGISTER_MESSAGE);
     if (wasSuccessful) {
-      this.state.appContext
-        ? this.props.navigation.goBack()
-        : this.props.navigation.dispatch(resetAction("App"));
+      this.props.navigation.goBack();
     } else {
       this.setState({
         alertTitle: "There was an issue creating your new account.",

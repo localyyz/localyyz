@@ -26,7 +26,6 @@ export default class ActiveDealUIStore {
 
     // initial data load
     this.updateProgress(this.deal.percentageClaimed);
-    this.refresh();
   }
 
   updateProgress(percentage) {
@@ -36,6 +35,11 @@ export default class ActiveDealUIStore {
       easing: Easing.out(Easing.ease)
     }).start();
   }
+
+  clearTimeout = () => {
+    this._refreshTimeout && clearTimeout(this._refreshTimeout);
+    this._refreshTimeout = null;
+  };
 
   refresh(interval = REFRESH_INTERVAL) {
     this.fetch().then(() => {

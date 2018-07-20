@@ -26,9 +26,8 @@ export const NAVBAR_HEIGHT = 48 + Sizes.ScreenBottom;
   isPullupVisible: stores.navbarStore.isPullupVisible,
   togglePullup: visible => stores.navbarStore.togglePullup(visible)
 }))
-@withNavigation
 @observer
-export default class NavBar extends React.Component {
+export class NavBar extends React.Component {
   static HEIGHT = NAVBAR_HEIGHT;
   static propTypes = {
     // mobx injected
@@ -124,6 +123,8 @@ export default class NavBar extends React.Component {
     );
   }
 }
+
+export default withNavigation(NavBar);
 
 const styles = StyleSheet.create({
   container: {
