@@ -18,9 +18,9 @@ import { toPriceString } from "localyyz/helpers";
 // custom
 import ActiveDealUIStore from "./store";
 
-@inject(stores => ({
+@inject((stores, props) => ({
   dealStore: stores.dealStore,
-  isDealFocused: stores.dealStore.isFocused
+  isDealFocused: (stores.dealStore || props).isFocused
 }))
 @observer
 export default class ActiveCard extends React.Component {

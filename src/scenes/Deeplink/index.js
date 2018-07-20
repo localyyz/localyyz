@@ -1,6 +1,5 @@
 import React from "react";
 
-import { changeTab } from "localyyz/helpers";
 import ProductStore from "../Product/store";
 
 import branch from "react-native-branch";
@@ -54,24 +53,47 @@ export default class Deeplink extends React.Component {
     if (error) {
       console.log("Error: failed to deep link", error);
     } else if (params) {
-      if (params.destination === "product") {
-        let product = await this.getDeeplinkProduct(params.destination_id);
-        this.props.navigation.navigate("Product", {
-          product: product
-        });
-      } else if (params.destination === "collection") {
-        this.props.navigation.navigate("ProductList", {
-          fetchPath: "collections/" + params.destination_id + "/products",
-          title: params.title,
-          subtitle: params.description
-        });
-      } else if (params.destination === "place") {
-        this.props.navigation.navigate("ProductList", {
-          fetchPath: "places/" + params.destination_id + "/products",
-          title: params.title
-        });
-      } else if (params.destination === "deals") {
-        this.props.navigation.dispatch(changeTab("Deals"));
+      switch (params.destination) {
+        case "product":
+          this.props.navigation.navigate({
+            routeName: "Product",
+            key: `prouct${params.destination_id}`,
+            params: {
+              product: await this.getDeeplinkProduct(params.destination_id)
+            }
+          });
+          break;
+        case "collection":
+          this.props.navigation.navigate({
+            routeName: "ProductList",
+            key: `collection${params.destination_id}`,
+            params: {
+              fetchPath: "collections/" + params.destination_id + "/products",
+              title: params.title,
+              subtitle: params.description
+            }
+          });
+          break;
+        case "place":
+          this.props.navigation.navigate({
+            routeName: "ProductList",
+            key: `place${params.destination_id}`,
+            params: {
+              fetchPath: "places/" + params.destination_id + "/products",
+              title: params.title
+            }
+          });
+          break;
+        case "deals":
+          this.props.navigation.navigate({
+            routeName: "Deals",
+            params: {
+              fetchPath: `deals/active/${params.destination_id}`
+            }
+          });
+          break;
+        default:
+        // do nothing
       }
     }
   };
