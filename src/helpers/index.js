@@ -17,10 +17,9 @@ export const getActiveRoute = navigationState => {
   }
   const route = navigationState.routes[navigationState.index];
   // dive into nested navigators
-  if (route.routes) {
-    return getActiveRoute(route);
-  }
-  return route;
+  // return route if no children routes
+  // else, recurse
+  return route.routes ? getActiveRoute(route) : route;
 };
 
 // usage:
