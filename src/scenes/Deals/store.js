@@ -33,6 +33,14 @@ export default class DealsUIStore {
     this.equals = this.equals.bind(this);
   }
 
+  activate = async ({ dealId, startAt = null, duration = null }) => {
+    await ApiInstance.post("/deals/activate", {
+      dealId: parseInt(dealId, 10),
+      duration: parseInt(duration, 10),
+      startAt: startAt
+    });
+  };
+
   async fetch() {
     let activeOrigin = `${ENDPOINT}/active`;
     let upcomingOrigin = `${ENDPOINT}/upcoming`;

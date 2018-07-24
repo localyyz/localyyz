@@ -88,7 +88,9 @@ export default class Deeplink extends React.Component {
           this.props.navigation.navigate({
             routeName: "Deals",
             params: {
-              fetchPath: `deals/active/${params.destination_id}`
+              dealId: params.destination_id,
+              startAt: params.startAt,
+              duration: params.duration
             }
           });
           break;
