@@ -22,7 +22,6 @@ import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
-@withNavigation
 @inject(stores => ({
   image:
     stores.productStore.product
@@ -55,7 +54,7 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
   showNavbar: () => stores.navbarStore.show()
 }))
 @observer
-export default class AddedSummary extends React.Component {
+export class AddedSummary extends React.Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
 
@@ -194,6 +193,8 @@ export default class AddedSummary extends React.Component {
     ) : null;
   }
 }
+
+export default withNavigation(AddedSummary);
 
 const styles = StyleSheet.create({
   container: {

@@ -12,11 +12,10 @@ import { inject } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import * as Animatable from "react-native-animatable";
 
-@withNavigation
 @inject(stores => ({
   closeAddedSummary: () => stores.productStore.toggleAddedSummary(false)
 }))
-export default class RelatedItem extends React.Component {
+export class RelatedItem extends React.Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     product: PropTypes.object.isRequired,
@@ -76,6 +75,8 @@ export default class RelatedItem extends React.Component {
     );
   }
 }
+
+export default withNavigation(RelatedItem);
 
 const styles = StyleSheet.create({
   container: {

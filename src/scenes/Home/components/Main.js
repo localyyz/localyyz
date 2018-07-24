@@ -3,7 +3,11 @@ import { View, StyleSheet, FlatList } from "react-native";
 
 // custom
 import { NAVBAR_HEIGHT, Colours, Sizes, Styles } from "localyyz/constants";
-import { ReactiveSpacer, FilterPopupButton, BrowsePopupButton } from "localyyz/components";
+import {
+  ReactiveSpacer,
+  FilterPopupButton,
+  BrowsePopupButton
+} from "localyyz/components";
 
 // third party
 import { withNavigation } from "react-navigation";
@@ -30,7 +34,6 @@ const VIEWABLITY_CONFIG = {
   updateBlockHeight: (i, evt) => stores.homeStore.updateBlockHeight(i, evt),
 
   // block fetching
-  //fetchCategoryBlocks: () => stores.homeStore.fetchCategoryBlocks(),
   fetchCollectionBlocks: () => stores.homeStore.fetchCollectionBlocks()
 }))
 @observer
@@ -147,9 +150,14 @@ export class Main extends React.Component {
   // navigate to a "product list" with top level categories
   onFilterPress = () => {
     // navigates to a category/products filter
-    this.props.navigation.navigate("ProductList", {
-      fetchPath: "/products",
-      isFilterVisible: true
+    this.props.navigation.navigate({
+      routeName: "ProductList",
+      key: "browseProducts",
+      params: {
+        title: "Browse",
+        fetchPath: "/products",
+        isFilterVisible: true
+      }
     });
   };
 
@@ -217,6 +225,6 @@ const styles = StyleSheet.create({
   buttons: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
-    justifyContent: "center",
-  },
+    justifyContent: "center"
+  }
 });

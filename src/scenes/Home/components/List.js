@@ -16,7 +16,7 @@ import ListHeader from "./ListHeader";
 import MoreFooter from "./MoreFooter";
 
 @observer
-class List extends React.Component {
+export class List extends React.Component {
   static propTypes = {
     // listData input type take a look at home store
     //  fetchFeaturedProducts
@@ -93,6 +93,8 @@ class List extends React.Component {
   }
 }
 
+export default withNavigation(List);
+
 const styles = StyleSheet.create({
   listWrapper: {
     paddingVertical: Sizes.InnerFrame,
@@ -109,5 +111,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: Sizes.InnerFrame
   }
 });
-
-export default withNavigation(List);

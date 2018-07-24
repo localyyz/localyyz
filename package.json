@@ -89,7 +89,7 @@
     "react-native-tear-lines": "^1.0.3",
     "react-native-vector-icons": "^4.6.0",
     "react-native-video": "^2.3.1",
-    "react-navigation": "^1.5.11",
+    "react-navigation": "2.7.0",
     "rn-placeholder": "^1.2.0",
     "url": "^0.11.0"
   },

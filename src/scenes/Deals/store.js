@@ -3,6 +3,7 @@ import { observable, runInAction, computed } from "mobx";
 import Moment from "moment";
 
 // custom
+import { box } from "localyyz/helpers";
 import { ApiInstance } from "localyyz/global";
 import { Deal } from "localyyz/models";
 
@@ -19,6 +20,11 @@ export default class DealsUIStore {
   @observable missed = [];
   @observable now = Moment();
 
+  // is the top deals tab focused?
+  // this syncs up active cards and lets them
+  // know to stop refreshing
+  @box isFocused = false;
+
   constructor() {
     // bindings
     this.fetch = this.fetch.bind(this);
@@ -26,6 +32,16 @@ export default class DealsUIStore {
     this.refresh = this.refresh.bind(this);
     this.equals = this.equals.bind(this);
   }
+
+  activate = ({ dealId, startAt = null, duration = null }) => {
+    ApiInstance.post("/deals/activate", {
+      dealId: parseInt(dealId, 10),
+      duration: parseInt(duration, 10),
+      startAt: startAt
+    }).then(() => {
+      this.fetch();
+    });
+  };
 
   async fetch() {
     let activeOrigin = `${ENDPOINT}/active`;
@@ -66,9 +82,6 @@ export default class DealsUIStore {
         return this.deals;
       });
     }
-
-    // force timer update
-    this.refresh(10);
   }
 
   async fetchMissed() {
@@ -94,8 +107,12 @@ export default class DealsUIStore {
     }
   }
 
-  refresh(interval = 0) {
+  clearTimeout = () => {
     this._refreshTimeout && clearTimeout(this._refreshTimeout);
+    this._refreshTimeout = null;
+  };
+
+  refresh(interval = 0) {
     this._refreshTimeout = setTimeout(() => {
       runInAction("[ACTION] Syncing deals with current time", () => {
         this.now = Moment();

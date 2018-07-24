@@ -4,7 +4,7 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
 import Button from "./Button";
-import { changeTab, onlyIfLoggedIn } from "localyyz/helpers";
+import { onlyIfLoggedIn } from "localyyz/helpers";
 import { IS_DEALS_SUPPORTED } from "localyyz/constants";
 
 // third party
@@ -18,9 +18,8 @@ import * as Animatable from "react-native-animatable";
   numItems: stores.cartStore.numItems,
   togglePullup: visible => stores.navbarStore.togglePullup(visible)
 }))
-@withNavigation
 @observer
-export default class TabBar extends React.Component {
+export class TabBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,9 +75,7 @@ export default class TabBar extends React.Component {
               }
               onPress={() =>
                 this.props.onPress("home", () => {
-                  this.props.navigation.dispatch(
-                    changeTab("Root", { reset: true })
-                  );
+                  this.props.navigation.navigate("Root");
                 })
               }/>
             {IS_DEALS_SUPPORTED ? (
@@ -94,7 +91,7 @@ export default class TabBar extends React.Component {
                 }
                 onPress={() =>
                   this.props.onPress("deals", () => {
-                    this.props.navigation.dispatch(changeTab("Deals"));
+                    this.props.navigation.navigate("DealsScene");
                   })
                 }/>
             ) : null}
@@ -134,7 +131,7 @@ export default class TabBar extends React.Component {
               }
               onPress={() =>
                 this.props.onPress("settings", () => {
-                  this.props.navigation.dispatch(changeTab("Settings"));
+                  this.props.navigation.navigate("Settings");
                 })
               }/>
           </View>
@@ -143,6 +140,8 @@ export default class TabBar extends React.Component {
     );
   }
 }
+
+export default withNavigation(TabBar);
 
 const styles = StyleSheet.create({
   container: {

@@ -29,7 +29,6 @@ import {
   DealSection
 } from "./components";
 
-@withNavigation
 @inject(stores => ({
   coverImage:
     stores.productStore.product && stores.productStore.product.imageUrl,
@@ -40,7 +39,7 @@ import {
   isDeal: !!stores.dealStore
 }))
 @observer
-export default class Content extends React.Component {
+export class Content extends React.Component {
   static propTypes = {
     backgroundPosition: PropTypes.number,
     product: PropTypes.object.isRequired,
@@ -133,6 +132,8 @@ export default class Content extends React.Component {
     );
   }
 }
+
+export default withNavigation(Content);
 
 const styles = StyleSheet.create({
   productContainer: {

@@ -10,7 +10,6 @@ import { withNavigation } from "react-navigation";
 import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
-@withNavigation
 @inject(stores => ({
   relatedProducts: stores.productStore.relatedProducts.slice() || [],
   fetch: () =>
@@ -27,7 +26,7 @@ import PropTypes from "prop-types";
     && stores.productStore.product.place.name
 }))
 @observer
-export default class RelatedProducts extends React.Component {
+export class RelatedProducts extends React.Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
 
@@ -68,6 +67,8 @@ export default class RelatedProducts extends React.Component {
     ) : null;
   }
 }
+
+export default withNavigation(RelatedProducts);
 
 const styles = StyleSheet.create({
   container: {

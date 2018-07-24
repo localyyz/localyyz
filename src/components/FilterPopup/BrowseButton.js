@@ -23,16 +23,15 @@ export class BrowseButton extends React.Component {
     isInitialVisible: false
   };
 
-  componentDidMount() {
-    this.props.isInitialVisible ? this.onPress() : null;
-  }
-  //
   onPress = () => {
     this.props.onPress
       ? this.props.onPress()
-      : this.props.navigation.navigate("Modal", {
-        component: <Popup {...this.props} />
-      });
+      : this.props.navigation.navigate({
+          routeName: "Modal",
+          params: {
+            component: <Popup {...this.props} />
+          }
+        });
   };
 
   render() {
@@ -61,7 +60,6 @@ export class BrowseButton extends React.Component {
 export default withNavigation(BrowseButton);
 
 const styles = StyleSheet.create({
-
   toggleContainer: {
     ...Styles.Horizontal,
     margin: Sizes.InnerFrame,

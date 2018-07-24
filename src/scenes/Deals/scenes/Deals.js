@@ -76,9 +76,51 @@ export default class DealsScene extends React.Component {
     this.onPressImage = this.onPressImage.bind(this);
   }
 
+  componentWillMount() {
+    this.focusListener = this.props.navigation.addListener("didFocus", () => {
+      this.store.refresh(10);
+      this.store.isFocused = true;
+    });
+    this.blurListener = this.props.navigation.addListener("willBlur", () => {
+      // blurring, stop fetching deals
+      this.store.clearTimeout();
+      this.store.isFocused = false;
+    });
+  }
+
   componentDidMount() {
     this.store.fetch();
+    this.activateDeal();
   }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.navigation.getParam("dealId")
+      && this.props.navigation.getParam("dealId")
+        !== prevProps.navigation.getParam("dealId")
+    ) {
+      this.activateDeal();
+    }
+  }
+
+  componentWillUnmount() {
+    // unsubscribe to listeners
+    this.focusListener && this.focusListener.remove();
+    this.focusListener = null;
+
+    this.blurListener && this.blurListener.remove();
+    this.blurListener = null;
+  }
+
+  activateDeal = () => {
+    // should activate a deal or not based on navigation props
+    const dealId = this.props.navigation.getParam("dealId");
+    const startAt = this.props.navigation.getParam("startAt");
+    const duration = this.props.navigation.getParam("duration");
+    if (dealId) {
+      this.store.activate({ dealId, startAt, duration });
+    }
+  };
 
   renderHeader() {
     return <Background onComplete={this.store.fetch} />;

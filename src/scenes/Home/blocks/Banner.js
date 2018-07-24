@@ -9,8 +9,7 @@ import { capitalize } from "localyyz/helpers";
 // third party
 import { withNavigation } from "react-navigation";
 
-@withNavigation
-export default class Banner extends React.Component {
+export class Banner extends React.Component {
   constructor(props) {
     super(props);
 
@@ -45,3 +44,5 @@ export default class Banner extends React.Component {
     );
   }
 }
+
+export default withNavigation(Banner);

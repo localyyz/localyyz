@@ -9,8 +9,7 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 import { capitalize } from "localyyz/helpers";
 
-@withNavigation
-export default class MoreFooter extends React.Component {
+export class MoreFooter extends React.Component {
   constructor(props) {
     super(props);
 
@@ -55,6 +54,8 @@ export default class MoreFooter extends React.Component {
     ) : null;
   }
 }
+
+export default withNavigation(MoreFooter);
 
 const styles = StyleSheet.create({
   container: {

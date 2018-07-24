@@ -10,11 +10,11 @@ import {
 } from "localyyz/scenes";
 
 // local
-import { Deals, History, MissedDeal } from "./scenes";
+import { DealsScene, History, MissedDeal } from "./scenes";
 
 export const DealsNavigator = StackNavigator(
   {
-    Deals: { screen: Deals },
+    DealsScene: { screen: DealsScene },
     History: { screen: History },
     MissedDeal: { screen: MissedDeal },
     Product: { screen: Product },
@@ -23,7 +23,7 @@ export const DealsNavigator = StackNavigator(
     CartSummary: { screen: CartSummary }
   },
   {
-    initialRouteName: "Deals",
+    initialRouteName: "DealsScene",
     navigationOptions: ({ navigation: { state } }) => ({
       header: null,
       gesturesEnabled: state.params && state.params.gesturesEnabled
