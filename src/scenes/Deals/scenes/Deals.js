@@ -78,7 +78,6 @@ export default class DealsScene extends React.Component {
 
   componentWillMount() {
     this.focusListener = this.props.navigation.addListener("didFocus", () => {
-      // focused! fetch
       this.store.refresh(10);
       this.store.isFocused = true;
     });
@@ -89,19 +88,19 @@ export default class DealsScene extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    // should activate a deal or not based on navigation props
-    const dealId = this.props.navigation.getParam("dealId");
-    const startAt = this.props.navigation.getParam("startAt");
-    const duration = this.props.navigation.getParam("duration");
-    // activate a deal
-    if (dealId) {
-      this.store.activate({ dealId, startAt, duration });
-    }
-  }
-
   componentDidMount() {
     this.store.fetch();
+    this.activateDeal();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.navigation.getParam("dealId")
+      && this.props.navigation.getParam("dealId")
+        !== prevProps.navigation.getParam("dealId")
+    ) {
+      this.activateDeal();
+    }
   }
 
   componentWillUnmount() {
@@ -112,6 +111,16 @@ export default class DealsScene extends React.Component {
     this.blurListener && this.blurListener.remove();
     this.blurListener = null;
   }
+
+  activateDeal = () => {
+    // should activate a deal or not based on navigation props
+    const dealId = this.props.navigation.getParam("dealId");
+    const startAt = this.props.navigation.getParam("startAt");
+    const duration = this.props.navigation.getParam("duration");
+    if (dealId) {
+      this.store.activate({ dealId, startAt, duration });
+    }
+  };
 
   renderHeader() {
     return <Background onComplete={this.store.fetch} />;

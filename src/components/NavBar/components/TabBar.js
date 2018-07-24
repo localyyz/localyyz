@@ -91,7 +91,7 @@ export class TabBar extends React.Component {
                 }
                 onPress={() =>
                   this.props.onPress("deals", () => {
-                    this.props.navigation.navigate("Deals");
+                    this.props.navigation.navigate("DealsScene");
                   })
                 }/>
             ) : null}

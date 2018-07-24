@@ -85,13 +85,10 @@ export default class Deeplink extends React.Component {
           });
           break;
         case "deals":
-          this.props.navigation.navigate({
-            routeName: "Deals",
-            params: {
-              dealId: params.destination_id,
-              startAt: params.startAt,
-              duration: params.duration
-            }
+          this.props.navigation.navigate("DealsScene", {
+            dealId: params.destination_id,
+            startAt: params.startAt,
+            duration: params.duration
           });
           break;
         default:
