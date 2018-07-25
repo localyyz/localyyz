@@ -56,7 +56,6 @@ class AppView extends React.Component {
   }
 
   get isMinVersion() {
-    console.log(parseInt(DeviceInfo.getBuildNumber()));
     return (
       Platform.OS !== "ios"
       || (Platform.OS === "ios" && parseInt(DeviceInfo.getBuildNumber()) > 250)
