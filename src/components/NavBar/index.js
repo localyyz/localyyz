@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Sizes } from "localyyz/constants";
 import { withNavigation } from "react-navigation";
 
 // custom
+import { Sizes, IS_DEALS_SUPPORTED } from "localyyz/constants";
 import { Cart, CartHeaderSummary } from "localyyz/components";
 import Pullup from "./components/Pullup";
 import TabBar from "./components/TabBar";
@@ -46,7 +46,7 @@ export class NavBar extends React.Component {
     super(props);
     this.state = {
       // highlight active button
-      activeButton: null,
+      activeButton: this.tabs[0].id,
 
       lastNontoggleableButton: null
     };
@@ -72,21 +72,22 @@ export class NavBar extends React.Component {
   }
 
   onPress(button, callback, closePullup = true, toggleable = false) {
-    // ensure button pressed is different or toggleable before rerender
-    (this.state.activeButton !== button || toggleable)
-      && this.setState(
-        {
-          activeButton:
-            this.state.activeButton === button
-              ? toggleable ? this.state.lastNontoggleableButton : null
-              : button,
-          lastNontoggleableButton: toggleable
-            ? this.state.lastNontoggleableButton
-            : button
-        },
-        // TODO: optimization, callback navigation rerenders
-        () => callback && callback()
-      );
+    // 1. pressing tab button multiple times should reset back to index of the
+    //    tab
+    // 2. toggleable tab button should reset
+    this.setState(
+      {
+        activeButton:
+          this.state.activeButton === button
+            ? toggleable ? this.state.lastNontoggleableButton : button
+            : button,
+        lastNontoggleableButton: toggleable
+          ? this.state.lastNontoggleableButton
+          : button
+      },
+      // TODO: optimization, callback navigation rerenders
+      () => callback && callback()
+    );
 
     // handle closing the cart if previously open and requested close
     if (this.props.isPullupVisible && closePullup) {
@@ -95,6 +96,45 @@ export class NavBar extends React.Component {
 
     // chaining
     return true;
+  }
+
+  get tabs() {
+    // NOTE: this is here because IS_DEALS_SUPPORTED will
+    // return undefined when called outside of component...
+    return [
+      { id: "home", icon: "hanger", label: "Explore", tabKey: "Root" },
+      {
+        id: "search",
+        icon: "search",
+        iconType: "fontAwesome",
+        label: "Search",
+        tabKey: "SearchBrowse"
+      },
+      ...(IS_DEALS_SUPPORTED
+        ? [
+            {
+              id: "deals",
+              icon: "bolt",
+              iconType: "fontAwesome",
+              label: "#DOTD",
+              tabKey: "Deals"
+            }
+          ]
+        : []),
+      {
+        id: "settings",
+        icon: "more-horiz",
+        iconType: "material",
+        label: "You",
+        tabKey: "Settings"
+      },
+      {
+        id: "cart",
+        icon: "shopping-basket",
+        iconType: "entypo",
+        label: "Cart"
+      }
+    ];
   }
 
   render() {
@@ -116,6 +156,8 @@ export class NavBar extends React.Component {
             </Pullup>
           </Provider>
           <TabBar
+            height={NAVBAR_HEIGHT}
+            tabs={this.tabs}
             onPress={this.onPress}
             activeButton={this.state.activeButton}/>
         </Animatable.View>

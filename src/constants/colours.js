@@ -35,6 +35,7 @@ let IntoTheGrey = "#313131";
 let FadedGrey = "#EEEEEE";
 let LightGrey = "#999999";
 let Yellow = "#FFF200";
+let LightBlue = "#DEEFF5";
 
 export const Colours = {
   // backgrounds
@@ -61,6 +62,7 @@ export const Colours = {
   NegativeButton: Red,
   DisabledButton: LightShadow,
   Clearance: Yellow,
+  Action: LightBlue,
 
   // text
   Text: Text,
@@ -76,6 +78,7 @@ export const Colours = {
   FirstGradient: Blue,
   SecondGradient: Purple,
 
+  // status
   Success: CokeBottleGreen,
   Fail: Red,
 

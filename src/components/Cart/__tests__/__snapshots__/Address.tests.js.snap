@@ -128,7 +128,7 @@ exports[`Address Address: should render properly(snapshot) 1`] = `
             Array [
               Object {
                 "color": "#000000",
-                "fontSize": 12.5,
+                "fontSize": 10,
               },
               Object {
                 "marginRight": 6,
@@ -199,7 +199,7 @@ exports[`Address Address: should render properly(snapshot) 1`] = `
             Array [
               Object {
                 "color": "#000000",
-                "fontSize": 12.5,
+                "fontSize": 10,
               },
               Object {
                 "marginRight": 6,

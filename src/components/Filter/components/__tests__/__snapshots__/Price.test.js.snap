@@ -71,7 +71,7 @@ exports[`Price filter Price filter: should render to snapshot 1`] = `
           }
         }
       >
-        $100.00+
+        $100+
       </Text>
     </View>
   </View>

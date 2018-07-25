@@ -2,7 +2,7 @@
 import { ApiInstance } from "localyyz/global";
 
 // third party
-import { observable, computed, action } from "mobx";
+import { computed } from "mobx";
 
 export default class MenuUIStore {
   constructor(userStore) {

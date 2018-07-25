@@ -2,12 +2,8 @@ import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 
 // custom
-import { NAVBAR_HEIGHT, Colours, Sizes, Styles } from "localyyz/constants";
-import {
-  ReactiveSpacer,
-  FilterPopupButton,
-  BrowsePopupButton
-} from "localyyz/components";
+import { NAVBAR_HEIGHT, Colours, Sizes } from "localyyz/constants";
+import { ReactiveSpacer } from "localyyz/components";
 
 // third party
 import { withNavigation } from "react-navigation";
@@ -171,11 +167,7 @@ export class Main extends React.Component {
             start={{ x: 0, y: 1 }}
             end={{ x: 0, y: 0 }}
             style={styles.gradient}
-            pointerEvents="box-none">
-            <View style={styles.buttons}>
-              <BrowsePopupButton text={"Browse"} onPress={this.onFilterPress} />
-            </View>
-          </LinearGradient>
+            pointerEvents="box-none"/>
         </View>
       </View>
     ) : (
@@ -220,11 +212,5 @@ const styles = StyleSheet.create({
 
   firstBlockContainer: {
     marginBottom: Sizes.InnerFrame / 2
-  },
-
-  buttons: {
-    ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    justifyContent: "center"
   }
 });

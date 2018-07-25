@@ -15,37 +15,60 @@ import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 export default class Button extends React.Component {
   static propTypes = {
     onPress: PropTypes.func.isRequired,
+    // button id to sync group activation and deactivation
+    id: PropTypes.string.isRequired,
+    activeButton: PropTypes.string.isRequired,
+
     icon: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     badge: PropTypes.string,
-    isActive: PropTypes.bool,
-    entypo: PropTypes.bool
+
+    iconType: PropTypes.string
   };
 
   static defaultProps = {
-    badge: null,
-    isActive: false,
-    entypo: false
+    badge: null
   };
 
+  static getDerivedStateFromProps(props) {
+    return {
+      isActive:
+        props.activeButton == "cart" ? props.activeButton == props.id : true
+    };
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isActive: props.activeButton == props.id
+    };
+  }
+
   get buttonColor() {
-    return (
-      this.props.color
-      || (this.props.isActive ? Colours.Text : Colours.SubduedText)
-    );
+    return this.props.activeButton === "deals"
+      ? Colours.AlternateText
+      : this.state.isActive ? Colours.Text : Colours.SubduedText;
   }
 
   get icon() {
-    if (this.props.type === "entypo" || this.props.entypo) {
-      return EntypoIcon;
-    } else if (this.props.type === "fontAwesome" || this.props.fontAwesome) {
-      return FontAwesomeIcon;
-    } else if (this.props.type === "material" || this.props.material) {
-      return MaterialIcon;
-    } else {
-      return MaterialCommunityIcon;
+    switch (this.props.iconType) {
+      case "entypo":
+        return EntypoIcon;
+      case "fontAwesome":
+        return FontAwesomeIcon;
+      case "material":
+        return MaterialIcon;
+      default:
+        return MaterialCommunityIcon;
     }
   }
+
+  onPress = () => {
+    this.setState({ isActive: true });
+
+    // propagate
+    this.props.onPress();
+  };
 
   render() {
     return (
@@ -77,7 +100,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: Sizes.InnerFrame,
-    paddingVertical: Sizes.InnerFrame / 6
+    paddingVertical: Sizes.InnerFrame / 4
   },
 
   buttonLabel: {

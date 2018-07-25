@@ -87,7 +87,7 @@ exports[`Addresses should match snapshot when complete 1`] = `
         allowFontScaling={false}
         color="#9013FE"
         name="check-circle"
-        size={12.5}
+        size={10}
         style={
           Object {
             "marginRight": 6,
@@ -183,7 +183,7 @@ exports[`Addresses should match snapshot when incomplete 1`] = `
         allowFontScaling={false}
         color="#FF0000"
         name="dot-single"
-        size={25}
+        size={20}
       />
     }
     title="Sample Address"

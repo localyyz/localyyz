@@ -33,7 +33,7 @@ describe("ProductTile", () => {
 
     // or use instance test?
     expect(rendered.refs.productTilePrice.refs.price.props.children).toBe(
-      "$10.00"
+      "$10"
     );
   });
 

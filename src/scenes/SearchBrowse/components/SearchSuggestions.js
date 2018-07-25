@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Animated, StyleSheet } from "react-native";
-import { Styles, Colours, Sizes } from "localyyz/constants";
+import { Styles, Sizes } from "localyyz/constants";
 
 // third party
 import { reaction } from "mobx";
@@ -14,16 +14,15 @@ const TRANSITION_DURATION = 100;
 const DURATION = 2000;
 
 @inject(stores => ({
-  position: stores.homeStore.scrollAnimate,
   setNextSuggestion: () =>
-    (stores.homeStore.currentSuggestion
-      = (stores.homeStore.currentSuggestion + 1)
-      % stores.homeStore.searchSuggestions.length),
+    (stores.store.currentSuggestion
+      = (stores.store.currentSuggestion + 1)
+      % stores.store.searchSuggestions.length),
   currentSuggestion:
-    stores.homeStore.searchSuggestions[stores.homeStore.currentSuggestion],
-  searchSuggestions: stores.homeStore.searchSuggestions,
-  changeGenderSuggestions: stores.homeStore.changeGenderSuggestions,
-  searchQuery: stores.homeStore.searchQuery,
+    stores.store.searchSuggestions[stores.store.currentSuggestion],
+  searchSuggestions: stores.store.searchSuggestions,
+  changeGenderSuggestions: stores.store.changeGenderSuggestions,
+  searchQuery: stores.store.searchQuery,
   gender: stores.userStore.gender
 }))
 @observer
@@ -83,11 +82,11 @@ export default class SearchSuggestions extends React.Component {
             style={[
               styles.suggestion,
               {
-                color: this.props.position.interpolate({
-                  inputRange: [0, Sizes.Height / 5],
-                  outputRange: [Colours.Text, Colours.AlternateText],
-                  extrapolate: "clamp"
-                })
+                //color: this.props.position.interpolate({
+                //inputRange: [0, Sizes.Height / 5],
+                //outputRange: [Colours.Text, Colours.AlternateText],
+                //extrapolate: "clamp"
+                //})
               }
             ]}>
             {this.props.currentSuggestion}
