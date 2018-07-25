@@ -71,7 +71,7 @@ export class ProductList extends React.Component {
   }
 
   get placeholder() {
-    return this.props.isLoading ? <ProductListPlaceholder /> : null;
+    return this.props.isLoading ? <ProductListPlaceholder limit={2} /> : null;
   }
 
   render() {
@@ -82,7 +82,7 @@ export class ProductList extends React.Component {
           numColumns={2}
           keyExtractor={(e, i) => `list-${this._keySeed}-row-${i}-id-${e.id}`}
           renderSectionHeader={this.renderSectionHeader}
-          ListFooterComponent={this.placeholder}
+          ListEmptyComponent={this.placeholder}
           renderItem={this.renderItem}/>
       </View>
     );

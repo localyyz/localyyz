@@ -21,12 +21,7 @@ export class Banner extends React.Component {
     this.props.navigation.navigate("ProductList", {
       fetchPath: this.props.path,
       title: capitalize(this.props.title),
-      description: this.props.description,
-      image: this.props.imageUrl && {
-        imageUrl: this.props.imageUrl,
-        width: this.props.imageWidth,
-        height: this.props.imageHeight
-      }
+      description: this.props.description
     });
   }
 

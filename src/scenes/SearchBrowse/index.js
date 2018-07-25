@@ -14,9 +14,9 @@ const SearchBrowseStack = StackNavigator(
   },
   {
     initialRouteName: "SearchBrowse",
-    navigationOptions: () => ({
+    navigationOptions: ({ navigation: { state } }) => ({
       header: null,
-      gesturesEnabled: false
+      gesturesEnabled: state.params && state.params.gesturesEnabled
     })
   }
 );

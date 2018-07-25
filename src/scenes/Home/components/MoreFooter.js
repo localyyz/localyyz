@@ -26,11 +26,6 @@ export class MoreFooter extends React.Component {
       fetchPath: this.props.fetchPath,
       title: capitalize(this.props.title),
       description: this.props.description,
-      image: this.props.imageUrl && {
-        imageUrl: this.props.imageUrl,
-        width: this.props.imageWidth,
-        height: this.props.imageHeight
-      },
       categories: this.props.categories,
       basePath: this.props.basePath
     });
