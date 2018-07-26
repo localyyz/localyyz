@@ -72,6 +72,16 @@ export class FilterBar extends React.Component {
     return <SortOption {...sorter} />;
   }
 
+  get genderFilter() {
+    return !this.props.hideGenderFilter ? (
+      <View style={{ marginLeft: Sizes.InnerFrame }}>
+        <View style={styles.circle}>
+          <Filter.Gender />
+        </View>
+      </View>
+    ) : null;
+  }
+
   get header() {
     return (
       <View style={Styles.Horizontal}>
@@ -85,11 +95,7 @@ export class FilterBar extends React.Component {
             </View>
           </SloppyView>
         </TouchableOpacity>
-        <View style={{ marginLeft: Sizes.InnerFrame }}>
-          <View style={styles.circle}>
-            <Filter.Gender />
-          </View>
-        </View>
+        {this.genderFilter}
         <View style={styles.optionContainer}>
           <Text style={styles.optionHeader}>Sort by</Text>
         </View>

@@ -4,7 +4,7 @@ import { capitalize } from "localyyz/helpers";
 
 // constants
 // inconsistency between user settings and filters from API
-const GENDER_MAPPING = { male: "man", female: "woman" };
+const GENDER_MAPPING = { male: "man", female: "woman", unisex: "unisex" };
 
 export default class FilterStore {
   // sorting
@@ -38,16 +38,9 @@ export default class FilterStore {
   // ui
   @observable scrollEnabled;
 
-  constructor(searchStore, userStore) {
+  constructor(searchStore, userStore, defaultGender) {
     // requires .reset(params) and .numProducts
     this.searchStore = searchStore;
-
-    // set gender from settings on mount, can be
-    // overrided
-    userStore
-      && userStore.gender
-      && GENDER_MAPPING[userStore.gender]
-      && this.setGenderFilter(GENDER_MAPPING[userStore.gender]);
 
     // bindings
     this.refresh = this.refresh.bind(this);
@@ -68,6 +61,12 @@ export default class FilterStore {
     this.setDiscountFilter = this.setDiscountFilter.bind(this);
     this.setSortBy = this.setSortBy.bind(this);
     this.setScrollEnabled = this.setScrollEnabled.bind(this);
+
+    // set gender from settings on mount, can be
+    // overrided
+    let gender = defaultGender || (userStore && userStore.gender);
+    gender = GENDER_MAPPING[gender];
+    gender && this.setGenderFilter(gender);
 
     // initial
     this.scrollEnabled = true;

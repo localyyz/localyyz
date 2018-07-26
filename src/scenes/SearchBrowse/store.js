@@ -159,10 +159,31 @@ export default class Store {
 
   /////////////////////////////////// category states below
   @observable categories = [];
+  @observable gender;
+
+  @computed
+  get fetchCategoriesParams() {
+    return {
+      filter: [...(this.gender ? [`gender,val=${this.gender.filterId}`] : [])]
+    };
+  }
+
+  @action
+  setGender = gender => {
+    // if same, then toggle off
+    this.gender = !this.gender || gender.id != this.gender.id ? gender : null;
+
+    // trigger refresh of categories
+    this.fetchCategories();
+  };
 
   @action
   fetchCategories = async () => {
-    let response = await this.api.get("categories", null, true);
+    let response = await this.api.get(
+      "categories",
+      this.fetchCategoriesParams,
+      true
+    );
     if (response.status < 400 && response.data && response.data.length > 0) {
       runInAction("[ACTION] fetch categories", () => {
         this.categories = response.data.map(category => ({

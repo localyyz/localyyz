@@ -15,6 +15,7 @@ exports[`SearchBrowse should render properly 1`] = `
       "changeGenderSuggestions": [Function],
       "clearSearch": [Function],
       "fetchNextPage": [Function],
+      "gender": undefined,
       "products": Array [],
       "reset": [Function],
       "searchQuery": "",
@@ -46,16 +47,11 @@ exports[`SearchBrowse should render properly 1`] = `
       style={
         Object {
           "backgroundColor": "#FFFFFF",
+          "flex": 1,
         }
       }
     >
-      <withNavigation(inject-CategoryList)
-        style={
-          Object {
-            "paddingTop": 75,
-          }
-        }
-      />
+      <withNavigation(inject-CategoryList) />
       <AnimatedComponent
         pointerEvents="box-none"
         style={

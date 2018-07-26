@@ -27,7 +27,11 @@ export default class ProductListScene extends React.Component {
     // stores
     this.store = this.settings.store || new Store(this.settings);
     this.contentCoverStore = ContentCoverSlider.createStore();
-    this.filterStore = Filter.getNewStore(this.store, this.props.userStore);
+    this.filterStore = Filter.getNewStore(
+      this.store,
+      this.props.userStore,
+      this.settings.gender
+    );
 
     // bindings
     this.onScroll = this.onScroll.bind(this);
@@ -78,7 +82,7 @@ export default class ProductListScene extends React.Component {
     return (
       <View style={styles.header}>
         {this.settings.listHeader}
-        <FilterBar />
+        <FilterBar hideGenderFilter={this.settings.hideGenderFilter} />
       </View>
     );
   }

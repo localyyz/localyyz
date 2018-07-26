@@ -5,7 +5,7 @@ import { View, StyleSheet, StatusBar, Animated } from "react-native";
 import { Provider, observer } from "mobx-react/native";
 
 // custom
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Colours, Styles } from "localyyz/constants";
 import { capitalizeSentence } from "localyyz/helpers";
 
 // local
@@ -29,7 +29,7 @@ export default class Search extends React.Component {
           <StatusBar barStyle="dark-content" />
           {!this.store.searchQuery ? (
             <View style={styles.landing}>
-              <CategoryList style={styles.categories} />
+              <CategoryList />
               <Animated.View style={styles.overlay} pointerEvents="box-none">
                 <SearchInputBox />
               </Animated.View>
@@ -54,14 +54,11 @@ const styles = StyleSheet.create({
   },
 
   landing: {
+    flex: 1,
     backgroundColor: Colours.Foreground
   },
 
   overlay: {
     ...Styles.Overlay
-  },
-
-  categories: {
-    paddingTop: Sizes.ScreenTop + Sizes.InnerFrame * 3
   }
 });
