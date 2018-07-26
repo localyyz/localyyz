@@ -11,7 +11,7 @@ const DEBUG_PHOTO = "https://picsum.photos/400/?random";
 
 export default class CategoryButton extends React.Component {
   get imageUrl() {
-    return this.props.imageUrl || DEBUG ? DEBUG_PHOTO : "";
+    return this.props.imageUrl || (DEBUG ? DEBUG_PHOTO : "");
   }
 
   get container() {
