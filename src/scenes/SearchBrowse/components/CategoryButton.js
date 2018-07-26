@@ -8,6 +8,12 @@ import { getCategoryIcon } from "localyyz/assets";
 // constants
 const DEBUG = false;
 const DEBUG_PHOTO = "https://picsum.photos/400/?random";
+export const WIDTH = Sizes.Width / 3;
+export const HEIGHT = Sizes.Width / 4;
+export const RIGHT_MARGIN = Sizes.InnerFrame / 2;
+const SMALL_WIDTH = WIDTH;
+const SMALL_HEIGHT = Sizes.Width / 11;
+const SMALL_RIGHT_MARGIN = Sizes.InnerFrame / 4;
 
 export default class CategoryButton extends React.Component {
   get imageUrl() {
@@ -53,15 +59,15 @@ const styles = StyleSheet.create({
   },
 
   photo: {
-    width: Sizes.Width / 3,
-    height: Sizes.Width / 4,
-    marginRight: Sizes.InnerFrame / 2,
+    width: WIDTH,
+    height: HEIGHT,
+    marginRight: RIGHT_MARGIN,
     backgroundColor: Colours.MenuBackground
   },
 
   small: {
-    height: Sizes.Width / 11,
-    marginRight: Sizes.InnerFrame / 4
+    height: SMALL_HEIGHT,
+    marginRight: SMALL_RIGHT_MARGIN
   },
 
   label: {

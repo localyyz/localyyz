@@ -156,8 +156,7 @@ export default class ProductListScene extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingBottom: Sizes.ScreenBottom + NAVBAR_HEIGHT
+    flex: 1
   },
 
   header: {
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
 
   sectionList: {
     marginTop: ContentCoverSlider.STATUS_BAR_HEIGHT,
-    paddingBottom: NAVBAR_HEIGHT
+    paddingBottom: NAVBAR_HEIGHT * 3
   },
 
   list: {

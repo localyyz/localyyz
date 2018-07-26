@@ -38,6 +38,7 @@ const CATEGORY_ICONS = {
   handbags: [require("./icons/categories/handbags.png")],
   clutches: [require("./icons/categories/clutches.png")],
   ["shoulder bags"]: [require("./icons/categories/shoulderbags.png")],
+  backpacks: [require("./icons/categories/backpacks.png")],
 
   // shoes
   shoes: [require("./icons/categories/shoes.png")],
