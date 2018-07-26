@@ -19,7 +19,9 @@ export default class CategoryButton extends React.Component {
   }
 
   render() {
-    let categoryIcon = getCategoryIcon(this.props.id);
+    let categoryIcon = getCategoryIcon(
+      this.props.id && this.props.id.toLowerCase().trim()
+    );
 
     return (
       <this.container
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
   },
 
   photo: {
-    width: Sizes.Width / 4,
+    width: Sizes.Width / 3,
     height: Sizes.Width / 4,
     marginRight: Sizes.InnerFrame / 2,
     backgroundColor: Colours.MenuBackground
@@ -65,13 +67,12 @@ const styles = StyleSheet.create({
   label: {
     ...Styles.Text,
     ...Styles.Emphasized,
-    ...Styles.TinyText,
     ...Styles.Alternate
   },
 
   icon: {
-    width: Sizes.InnerFrame,
-    height: Sizes.InnerFrame
+    width: Sizes.OuterFrame,
+    height: Sizes.OuterFrame
   },
 
   smallIcon: {

@@ -143,20 +143,6 @@ export class Main extends React.Component {
     );
   }
 
-  // navigate to a "product list" with top level categories
-  onFilterPress = () => {
-    // navigates to a category/products filter
-    this.props.navigation.navigate({
-      routeName: "ProductList",
-      key: "browseProducts",
-      params: {
-        title: "Browse",
-        fetchPath: "/products",
-        isFilterVisible: true
-      }
-    });
-  };
-
   render() {
     return this.state.isLayoutReady ? (
       <View style={styles.container}>

@@ -121,10 +121,10 @@ export default class ProductListScene extends React.Component {
             ref="slider"
             title={this.settings.title}
             idleStatusBarStatus={this.settings.idleStatusBarStatus}
+            iconType={this.settings.iconType}
             backColor={
-              this.settings.backColor || this.settings.image
-                ? Colours.AlternateText
-                : Colours.Text
+              this.settings.backColor
+              || (this.settings.image ? Colours.AlternateText : Colours.Text)
             }
             backAction={this.settings.onBack || this.props.navigation.goBack}
             background={this.header}
@@ -157,7 +157,7 @@ export default class ProductListScene extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: NAVBAR_HEIGHT
+    paddingBottom: Sizes.ScreenBottom + NAVBAR_HEIGHT
   },
 
   header: {
@@ -166,7 +166,8 @@ const styles = StyleSheet.create({
   },
 
   sectionList: {
-    marginTop: ContentCoverSlider.STATUS_BAR_HEIGHT
+    marginTop: ContentCoverSlider.STATUS_BAR_HEIGHT,
+    paddingBottom: NAVBAR_HEIGHT
   },
 
   list: {

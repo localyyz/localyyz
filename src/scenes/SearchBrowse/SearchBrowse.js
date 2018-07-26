@@ -39,6 +39,7 @@ export default class Search extends React.Component {
               store={this.store}
               title={capitalizeSentence(this.store.searchQuery)}
               onBack={this.store.clearSearch}
+              iconType="close"
               backColor={Colours.Text}/>
           )}
         </View>

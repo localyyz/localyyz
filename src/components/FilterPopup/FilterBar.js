@@ -77,11 +77,18 @@ export class FilterBar extends React.Component {
       <View style={Styles.Horizontal}>
         <TouchableOpacity onPress={this.openFilter}>
           <SloppyView>
-            <MaterialIcon name="sort" size={Sizes.Text} color={Colours.Text} />
+            <View style={styles.circle}>
+              <MaterialIcon
+                name="sort"
+                size={Sizes.Text}
+                color={Colours.Text}/>
+            </View>
           </SloppyView>
         </TouchableOpacity>
         <View style={{ marginLeft: Sizes.InnerFrame }}>
-          <Filter.Gender />
+          <View style={styles.circle}>
+            <Filter.Gender />
+          </View>
         </View>
         <View style={styles.optionContainer}>
           <Text style={styles.optionHeader}>Sort by</Text>
@@ -164,7 +171,7 @@ class SortOption extends React.Component {
               {this.props.hasDirection && this.isSelected ? (
                 <View style={styles.optionDirection}>
                   <MaterialIcon
-                    name={this.isDescending ? "arrow-upward" : "arrow-downward"}
+                    name={this.isDescending ? "arrow-downward" : "arrow-upward"}
                     size={Sizes.TinyText}/>
                 </View>
               ) : null}
@@ -230,5 +237,14 @@ const styles = StyleSheet.create({
     ...Styles.Subdued,
     paddingTop: Sizes.InnerFrame / 2,
     paddingHorizontal: Sizes.InnerFrame
+  },
+
+  circle: {
+    width: Sizes.InnerFrame * 2,
+    height: Sizes.InnerFrame * 2,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: Sizes.InnerFrame,
+    backgroundColor: Colours.Action
   }
 });
