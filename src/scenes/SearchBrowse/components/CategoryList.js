@@ -14,6 +14,7 @@ import { withNavigation } from "react-navigation";
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 import { paramsAction, randInt } from "localyyz/helpers";
+import { GA } from "localyyz/global";
 
 // local
 import CategoryBar from "./CategoryBar";
@@ -68,6 +69,7 @@ export class CategoryList extends React.Component {
 
   onChangeCategory(category) {
     // this dispatches the changed category to product list store
+    GA.trackEvent("category", category.id);
     this.props.navigation.dispatch(
       paramsAction(
         CATEGORY_PRODUCT_LIST_KEY,
