@@ -83,6 +83,7 @@ export class ProductList extends React.Component {
           keyExtractor={(e, i) => `list-${this._keySeed}-row-${i}-id-${e.id}`}
           renderSectionHeader={this.renderSectionHeader}
           ListEmptyComponent={this.placeholder}
+          initialNumToRender={6}
           renderItem={this.renderItem}/>
       </View>
     );

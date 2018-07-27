@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBrowse should render properly 1`] = `
+<Provider
+  searchStore={
+    Store {
+      "__processing": false,
+      "_currentSuggestion": 0,
+      "_listProducts": [Function],
+      "_numProducts": 0,
+      "api": Api {
+        "registerPlayerId": [Function],
+      },
+      "categories": Array [],
+      "changeGenderSuggestions": [Function],
+      "clearSearch": [Function],
+      "fetchNextPage": [Function],
+      "products": Array [],
+      "reset": [Function],
+      "searchQuery": "",
+      "searchSuggestions": Array [
+        "Summer Dresses",
+        "Rompers",
+        "Bikinis",
+        "Dolce & Gabbana",
+        "Sandals",
+        "Quay Sunglasses",
+        "Fenty x Puma",
+      ],
+    }
+  }
+>
+  <Component
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <StatusBar
+      animated={false}
+      barStyle="dark-content"
+      showHideTransition="fade"
+    />
+    <Component
+      style={
+        Object {
+          "backgroundColor": "#FFFFFF",
+        }
+      }
+    >
+      <withNavigation(inject-CategoryList)
+        style={
+          Object {
+            "paddingTop": 75,
+          }
+        }
+      />
+      <AnimatedComponent
+        pointerEvents="box-none"
+        style={
+          Object {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          }
+        }
+      >
+        <inject-SearchInputBox />
+      </AnimatedComponent>
+    </Component>
+  </Component>
+</Provider>
+`;

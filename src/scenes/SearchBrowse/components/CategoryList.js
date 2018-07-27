@@ -14,10 +14,12 @@ import { withNavigation } from "react-navigation";
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 import { paramsAction, randInt } from "localyyz/helpers";
+import { GA } from "localyyz/global";
 
 // local
 import CategoryBar from "./CategoryBar";
 import CategoryButton from "./CategoryButton";
+import { CategoryListPlaceholder } from "./placeholders";
 
 // constants
 const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
@@ -67,6 +69,7 @@ export class CategoryList extends React.Component {
 
   onChangeCategory(category) {
     // this dispatches the changed category to product list store
+    GA.trackEvent("category", category.id);
     this.props.navigation.dispatch(
       paramsAction(
         CATEGORY_PRODUCT_LIST_KEY,
@@ -108,10 +111,19 @@ export class CategoryList extends React.Component {
           showsHorizontalScrollIndicator={false}
           data={category.values.slice() || []}
           renderItem={this.renderSubcategory}
+          initialNumToRender={3}
           contentContainerStyle={styles.category}
           keyExtractor={(c, i) =>
             `${this._keySeed}-cat${category.id}-row${i}-subcat${c.id}`
           }/>
+      </View>
+    );
+  }
+
+  get placeholder() {
+    return (
+      <View style={styles.placeholder}>
+        <CategoryListPlaceholder />
       </View>
     );
   }
@@ -124,7 +136,9 @@ export class CategoryList extends React.Component {
         showsVerticalScrollIndicator={false}
         data={this.props.categories}
         renderItem={this.renderCategory}
+        initialNumToRender={4}
         contentContainerStyle={[styles.container, this.props.style]}
+        ListEmptyComponent={this.placeholder}
         keyExtractor={(c, i) => `${this._keySeed}-row${i}-cat${c.id}`}/>
     );
   }

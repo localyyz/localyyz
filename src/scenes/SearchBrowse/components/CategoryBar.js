@@ -64,7 +64,7 @@ export default class CategoryBar extends React.Component {
   isSelected: stores.categoryComponent.selectedCategory === props.id
 }))
 @observer
-class CategoryBarItem extends React.Component {
+export class CategoryBarItem extends React.Component {
   constructor(props) {
     super(props);
 

@@ -6,10 +6,10 @@ import { Provider, observer } from "mobx-react/native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { ProductList } from "localyyz/scenes";
 import { capitalizeSentence } from "localyyz/helpers";
 
 // local
+import ProductList from "../ProductList";
 import { CategoryList, SearchInputBox } from "./components";
 import Store from "./store";
 
