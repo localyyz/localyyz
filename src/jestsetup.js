@@ -39,3 +39,15 @@ jest.mock("react-native-google-analytics-bridge", () => {
 jest.mock("react-native-video", () => {
   return "Video";
 });
+
+jest.mock("react-native-branch", () => {
+  return {
+    AddToCartEvent: "Add To Cart",
+    // etc.
+
+    subscribe: cb => {
+      cb({ params: {}, error: null });
+    }
+    // and for createBranchUniversalObject, etc.
+  };
+});
