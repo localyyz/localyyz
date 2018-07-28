@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchInputBox should render properly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#FFFFFF",
+      "borderBottomColor": "#999999",
+      "borderBottomWidth": 0.5,
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+      "marginBottom": 111.16666666666667,
+      "marginLeft": 15,
+      "paddingBottom": 7.5,
+      "paddingTop": 30,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={false}
+    ellipsizeMode="tail"
+    style={
+      Array [
+        Object {
+          "color": "rgb(30, 30, 30)",
+          "fontSize": 16,
+        },
+        undefined,
+        Object {
+          "fontFamily": "Material Icons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+      ]
+    }
+  >
+    
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    autoCorrect={false}
+    onChangeText={[Function]}
+    onSubmitEditing={[Function]}
+    placeholder="Search from over 1000+ products"
+    returnKeyType="search"
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "#000000",
+        "flex": 1,
+        "fontSize": 14,
+        "fontWeight": "600",
+        "paddingHorizontal": 7.5,
+      }
+    }
+    underlineColorAndroid="rgba(255, 255, 255, 0)"
+    value=""
+  />
+</View>
+`;

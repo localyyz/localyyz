@@ -35,6 +35,9 @@ const RECOMMENDED_BROWSING_SPEED = 0;
 // allows hack to work without making the header visible on load
 const SCROLL_OFFSET = 1;
 
+// manually synced with top status bar to avoid onLayout
+const STATUS_BAR_HEIGHT = 30 + Sizes.ScreenTop;
+
 export class Header extends React.Component {
   get headerComponent() {
     return this.props.image ? ConstrainedAspectImage : View;
@@ -88,6 +91,7 @@ export class Header extends React.Component {
 }
 
 export default class ContentCoverSlider extends React.Component {
+  static STATUS_BAR_HEIGHT = STATUS_BAR_HEIGHT;
   static Header = Header;
 
   static createStore() {

@@ -2,9 +2,13 @@ import { runInAction, action, observable, computed, reaction } from "mobx";
 import { ApiInstance as api } from "localyyz/global";
 import { capitalize } from "localyyz/helpers";
 
+// constants
+// inconsistency between user settings and filters from API
+const GENDER_MAPPING = { male: "man", female: "woman" };
+
 export default class FilterStore {
   // sorting
-  @observable sortBy;
+  @observable sortBy = "created_at";
 
   // price filter
   @observable priceMin;
@@ -14,7 +18,7 @@ export default class FilterStore {
   @observable discountMin;
 
   // gender filter
-  @observable gender = "woman";
+  @observable _gender;
 
   // category filters
   @observable category;
@@ -34,15 +38,35 @@ export default class FilterStore {
   // ui
   @observable scrollEnabled;
 
-  constructor(searchStore) {
+  constructor(searchStore, userStore, defaultGender) {
     // requires .reset(params) and .numProducts
     this.searchStore = searchStore;
 
     // bindings
+    this.refresh = this.refresh.bind(this);
+    this.asyncFetch = this.asyncFetch.bind(this);
+
+    this.fetchColors = this.fetchColors.bind(this);
+    this.fetchSizes = this.fetchSizes.bind(this);
+    this.fetchCategories = this.fetchCategories.bind(this);
+    this.fetchBrands = this.fetchBrands.bind(this);
+
+    this.setCategoryFilter = this.setCategoryFilter.bind(this);
+    this.clearCategoryFilter = this.clearCategoryFilter.bind(this);
+    this.setSizeFilter = this.setSizeFilter.bind(this);
+    this.setColorFilter = this.setColorFilter.bind(this);
+    this.setGenderFilter = this.setGenderFilter.bind(this);
+    this.setBrandFilter = this.setBrandFilter.bind(this);
     this.setPriceFilter = this.setPriceFilter.bind(this);
     this.setDiscountFilter = this.setDiscountFilter.bind(this);
     this.setSortBy = this.setSortBy.bind(this);
     this.setScrollEnabled = this.setScrollEnabled.bind(this);
+
+    // set gender from settings on mount, can be
+    // overrided
+    let gender = defaultGender || (userStore && userStore.gender);
+    gender = GENDER_MAPPING[gender];
+    gender && this.setGenderFilter(gender);
 
     // initial
     this.scrollEnabled = true;
@@ -69,11 +93,11 @@ export default class FilterStore {
   );
 
   @action
-  refresh = () => {
-    if (this.isSearchSupported){
-      this.searchStore.reset(this.fetchParams)
+  refresh() {
+    if (this.isSearchSupported) {
+      this.searchStore.reset(this.fetchParams);
     }
-  };
+  }
 
   // asyncFetch recursively fetches the available filters
   // for example:
@@ -82,14 +106,14 @@ export default class FilterStore {
   //
   // /products/categories?filters=brand,val=gucci
   //
-  asyncFetch = (filterBy = "") => {
+  asyncFetch(filterBy = "") {
     const fetchPath = this.searchStore.fetchPath || "products";
     // console.log(fetchPath, filterBy, this.fetchParams);
     return api.get(`${fetchPath}/${filterBy}`, this.fetchParams);
-  };
+  }
 
   @action
-  fetchColors = () => {
+  fetchColors() {
     // if top level category is set, fetch subcategory
     this.colors.clear();
     this.asyncFetch("colors").then(response => {
@@ -97,10 +121,10 @@ export default class FilterStore {
         this.colors = (response && response.data) || [];
       });
     });
-  };
+  }
 
   @action
-  fetchSizes = () => {
+  fetchSizes() {
     // if top level category is set, fetch subcategory
     this.sizes.clear();
     this.asyncFetch("sizes").then(response => {
@@ -108,10 +132,10 @@ export default class FilterStore {
         this.sizes = (response && response.data) || [];
       });
     });
-  };
+  }
 
   @action
-  fetchCategories = () => {
+  fetchCategories() {
     // if top level category is set, fetch subcategory
     this.categories.clear();
     let fetchPath = this.category ? "subcategories" : "categories";
@@ -123,62 +147,52 @@ export default class FilterStore {
         }));
       });
     });
-  };
+  }
 
   @action
-  fetchBrands = () => {
+  fetchBrands() {
     this.brands.clear();
     this.asyncFetch("brands").then(response => {
       runInAction("[ACTION] fetch brands", () => {
         this.brands = (response && response.data) || [];
       });
     });
-  };
+  }
 
   @action
-  setCategoryFilter = val => {
+  setCategoryFilter(val) {
     // TODO: this is pretty magical. clean it up
     this.category ? (this.subcategory = val) : (this.category = val);
-  };
+  }
 
   @action
-  clearCategoryFilter = () => {
+  clearCategoryFilter() {
     // TODO: probably should separate this out..
     //
     // clear subcategory if it's set, else clear category
     this.subcategory ? (this.subcategory = "") : (this.category = "");
-  };
-
-  @computed
-  get numProducts() {
-    return (this.searchStore && this.searchStore.numProducts) || 0;
-  }
-
-  @computed
-  get isLoading() {
-    return (this.searchStore && this.searchStore.isLoading) || false;
   }
 
   @action
-  setSizeFilter = val => {
+  setSizeFilter(val) {
     this.size = val;
-  };
+  }
 
   @action
-  setColorFilter = val => {
+  setColorFilter(val) {
     this.color = val;
-  };
+  }
 
   @action
-  setGenderFilter = val => {
-    this.gender = val;
-  };
+  setGenderFilter(val) {
+    this._gender = val;
+  }
 
   @action
-  setBrandFilter = val => {
+  setBrandFilter(val) {
     this.brand = val;
     this.brands.clear();
-  };
+  }
 
   @action
   setPriceFilter(min, max) {
@@ -202,19 +216,27 @@ export default class FilterStore {
     this.scrollEnabled = enabled;
   }
 
-  get isSearchSupported() {
-    return !!this.searchStore && !!this.searchStore.reset;
+  @computed
+  get numProducts() {
+    return Math.max(
+      0,
+      this.searchStore.numProducts || 0,
+      this.searchStore.products.length
+    );
   }
 
   @computed
-  get params() {
-    return {
-      sortBy: this.sortBy,
-      priceMin: this.priceMin,
-      priceMax: this.priceMax,
-      discountMin: this.discountMin,
-      gender: this.gender
-    };
+  get isLoading() {
+    return (this.searchStore && this.searchStore.isLoading) || false;
+  }
+
+  @computed
+  get gender() {
+    return this._gender;
+  }
+
+  get isSearchSupported() {
+    return !!this.searchStore && !!this.searchStore.reset;
   }
 
   @computed
@@ -223,29 +245,19 @@ export default class FilterStore {
       ...(this.sortBy && {
         sort: this.sortBy
       }),
-      ...(this.priceMin || this.priceMax || this.discountMin || this.gender
-        ? {
-            filter: [
-              ...(this.priceMin !== undefined
-                ? [`price,min=${this.priceMin}`]
-                : []),
-              ...(this.priceMax !== undefined
-                ? [`price,max=${this.priceMax}`]
-                : []),
-              ...(this.discountMin !== undefined
-                ? [`discount,min=${this.discountMin}`]
-                : []),
-              ...(this.gender ? [`gender,val=${this.gender}`] : []),
-              ...(this.category ? [`categoryType,val=${this.category}`] : []),
-              ...(this.subcategory
-                ? [`categoryValue,val=${this.subcategory}`]
-                : []),
-              ...(this.brand ? [`brand,val=${this.brand}`] : []),
-              ...(this.color ? [`color,val=${this.color}`] : []),
-              ...(this.size ? [`size,val=${this.size}`] : [])
-            ]
-          }
-        : null)
+      filter: [
+        ...(this.priceMin !== undefined ? [`price,min=${this.priceMin}`] : []),
+        ...(this.priceMax !== undefined ? [`price,max=${this.priceMax}`] : []),
+        ...(this.discountMin !== undefined
+          ? [`discount,min=${this.discountMin}`]
+          : []),
+        ...(this.gender ? [`gender,val=${this.gender}`] : []),
+        ...(this.category ? [`categoryType,val=${this.category}`] : []),
+        ...(this.subcategory ? [`categoryValue,val=${this.subcategory}`] : []),
+        ...(this.brand ? [`brand,val=${this.brand}`] : []),
+        ...(this.color ? [`color,val=${this.color}`] : []),
+        ...(this.size ? [`size,val=${this.size}`] : [])
+      ]
     };
   }
 }

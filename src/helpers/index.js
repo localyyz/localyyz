@@ -10,24 +10,12 @@ import getSymbolFromCurrency from "currency-symbol-map";
 export { default as isCssColor } from "./csscolor";
 export { default as linkParser } from "./linkparser";
 
-// gets the current screen from navigation state
-export const getActiveRoute = navigationState => {
-  if (!navigationState) {
-    return null;
-  }
-  const route = navigationState.routes[navigationState.index];
-  // dive into nested navigators
-  // return route if no children routes
-  // else, recurse
-  return route.routes ? getActiveRoute(route) : route;
-};
-
 // usage:
 // - instead of the typical `@observable x;`
 // pattern used by mobx, wrap the prop by
 // `@box x;`
 // it will now inherit the custom getter and setter functions
-export const box = (target, name, descriptor) => {
+export function box(target, name, descriptor) {
   const privateName = `_${name}`;
   observable(target, privateName, descriptor);
   return computed(target, name, {
@@ -38,14 +26,26 @@ export const box = (target, name, descriptor) => {
       this[privateName] = value;
     }
   });
-};
+}
 
-export const paramsAction = (key, params = {}) => {
+// gets the current screen from navigation state
+export function getActiveRoute(navigationState) {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  // dive into nested navigators
+  // return route if no children routes
+  // else, recurse
+  return route.routes ? getActiveRoute(route) : route;
+}
+
+export function paramsAction(key, params = {}) {
   return NavigationActions.setParams({
     params: params,
     key: key
   });
-};
+}
 
 export function randInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -90,10 +90,22 @@ export function onlyIfLoggedIn({ hasSession }, action, navigation) {
   }
 }
 
-export function toPriceString(price, currency = "USD", avoidFree = false) {
+export function toPriceString(
+  price,
+  currency = "USD",
+  avoidFree = false,
+  round = true
+) {
+  let base = round ? 1 : 100;
   return price != null && (price > 0 || !avoidFree)
     ? price > 0
-      ? `${getSymbolFromCurrency(currency) || "$"}${price.toFixed(2)}`
+      ? `${getSymbolFromCurrency(currency) || "$"}${(
+          Math.round(price * base) / base
+        ).toFixed(`${base}`.length - 1)}`
       : "Free"
     : "";
+}
+
+export function withCommas(number) {
+  return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0";
 }

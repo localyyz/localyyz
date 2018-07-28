@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
   },
 
   products: {
-    marginVertical: Sizes.InnerFrame / 2,
-    padding: Sizes.InnerFrame / 2,
     paddingVertical: Sizes.InnerFrame
   }
 });

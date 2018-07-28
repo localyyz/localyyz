@@ -18,6 +18,7 @@ import DeviceInfo from "react-native-device-info";
 //scenes
 import {
   Home,
+  SearchBrowse,
   Product,
   ProductList,
   Login,
@@ -44,7 +45,6 @@ class AppView extends React.Component {
     this.state = {
       hasMinVersion: this.isMinVersion
     };
-
     // initialize api instance with API_URL from User defined vars
     ApiInstance.initialize(
       Config.DEV_USE_REMOTE_API ? DEV_REMOTE_API : props.API_URL
@@ -75,7 +75,10 @@ class AppView extends React.Component {
           [
             {
               text: "OK",
-              onPress: () => Linking.openURL("https://appstore.com/localyyz")
+              onPress: () =>
+                Linking.openURL(
+                  "itms-apps://itunes.apple.com/us/app/id1185735010?mt=8"
+                )
             }
           ],
           { cancelable: false }
@@ -207,6 +210,7 @@ const TabNavigator = createTabNavigator(
   {
     Root: { screen: AppNavigator },
     Deals: { screen: Deals },
+    SearchBrowse: { screen: SearchBrowse },
     Settings: { screen: Settings }
   },
   {

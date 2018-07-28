@@ -1,0 +1,619 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoryList should build params properly 1`] = `
+Object {
+  "fetchPath": "categories/activewear/products",
+  "gender": undefined,
+  "hideCategories": true,
+  "hideGenderFilter": true,
+  "listHeader": <CategoryBar
+    id="activewear"
+    onChangeCategory={[Function]}
+  />,
+  "title": "Activewear",
+}
+`;
+
+exports[`CategoryList should render category properly 1`] = `
+<Component>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <Component
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "padding": 15,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "#000000",
+            "fontSize": 22,
+            "fontWeight": "700",
+          }
+        }
+      >
+        Apparel
+      </Text>
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#DEEFF5",
+            "borderRadius": 15,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingHorizontal": 15,
+            "paddingVertical": 3.75,
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "#000000",
+              "fontSize": 12,
+              "fontWeight": "600",
+            }
+          }
+        >
+          View
+        </Text>
+      </Component>
+    </Component>
+  </TouchableOpacity>
+  <FlatList
+    contentContainerStyle={
+      Object {
+        "paddingHorizontal": 15,
+      }
+    }
+    data={
+      Array [
+        Object {
+          "id": "activewear",
+          "imageUrl": "https://cdn.shopify.com/s/files/1/1825/3189/products/1589d1c85bfdd70a943bbcc2c75374d6.jpg",
+          "title": "Activewear",
+          "type": "activewear",
+          "values": Array [],
+        },
+      ]
+    }
+    disableVirtualization={false}
+    horizontal={true}
+    initialNumToRender={3}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</Component>
+`;
+
+exports[`CategoryList should render properly 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+      "paddingTop": 55,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "padding": 15,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "borderRadius": 15,
+                "justifyContent": "center",
+                "paddingHorizontal": 16.666666666666668,
+                "paddingVertical": 3.75,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "#000000",
+                "fontSize": 16,
+                "fontWeight": "600",
+              }
+            }
+          >
+            Woman
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "borderRadius": 15,
+                "justifyContent": "center",
+                "paddingHorizontal": 16.666666666666668,
+                "paddingVertical": 3.75,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "#000000",
+                "fontSize": 16,
+                "fontWeight": "600",
+              }
+            }
+          >
+            Man
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <RCTScrollView
+    ListEmptyComponent={
+      <Component>
+        <CategoryListPlaceholder
+          limit={5}
+        />
+      </Component>
+    }
+    contentContainerStyle={
+      Array [
+        Object {
+          "paddingBottom": 73,
+        },
+        undefined,
+      ]
+    }
+    data={
+      Array [
+        Object {
+          "id": "apparel",
+          "title": "Apparel",
+          "type": "apparel",
+          "values": Array [
+            Object {
+              "id": "activewear",
+              "imageUrl": "https://cdn.shopify.com/s/files/1/1825/3189/products/1589d1c85bfdd70a943bbcc2c75374d6.jpg",
+              "title": "Activewear",
+              "type": "activewear",
+              "values": Array [],
+            },
+          ],
+        },
+      ]
+    }
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={false}
+    initialNumToRender={4}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    renderItem={[Function]}
+    scrollEventThrottle={16}
+    showsVerticalScrollIndicator={false}
+    stickyHeaderIndices={Array []}
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View>
+          <View
+            accessible={true}
+            isTVSelectable={true}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "padding": 15,
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "color": "#000000",
+                    "fontSize": 22,
+                    "fontWeight": "700",
+                  }
+                }
+              >
+                Apparel
+              </Text>
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#DEEFF5",
+                    "borderRadius": 15,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "paddingHorizontal": 15,
+                    "paddingVertical": 3.75,
+                  }
+                }
+              >
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "#000000",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                    }
+                  }
+                >
+                  View
+                </Text>
+              </View>
+            </View>
+          </View>
+          <RCTScrollView
+            contentContainerStyle={
+              Object {
+                "paddingHorizontal": 15,
+              }
+            }
+            data={
+              Array [
+                Object {
+                  "id": "activewear",
+                  "imageUrl": "https://cdn.shopify.com/s/files/1/1825/3189/products/1589d1c85bfdd70a943bbcc2c75374d6.jpg",
+                  "title": "Activewear",
+                  "type": "activewear",
+                  "values": Array [],
+                },
+              ]
+            }
+            disableVirtualization={false}
+            getItem={[Function]}
+            getItemCount={[Function]}
+            horizontal={true}
+            initialNumToRender={3}
+            keyExtractor={[Function]}
+            maxToRenderPerBatch={10}
+            numColumns={1}
+            onContentSizeChange={[Function]}
+            onEndReachedThreshold={2}
+            onLayout={[Function]}
+            onMomentumScrollEnd={[Function]}
+            onScroll={[Function]}
+            onScrollBeginDrag={[Function]}
+            onScrollEndDrag={[Function]}
+            renderItem={[Function]}
+            scrollEventThrottle={50}
+            showsHorizontalScrollIndicator={false}
+            stickyHeaderIndices={Array []}
+            updateCellsBatchingPeriod={50}
+            viewabilityConfigCallbackPairs={Array []}
+            windowSize={21}
+          >
+            <View>
+              <View
+                onLayout={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "flexDirection": "row",
+                    },
+                    null,
+                  ]
+                }
+              >
+                <View
+                  accessible={true}
+                  isTVSelectable={true}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "backgroundColor": "#000000",
+                          "height": 187.5,
+                          "marginRight": 7.5,
+                          "width": 250,
+                        },
+                        undefined,
+                      ]
+                    }
+                  >
+                    <Image
+                      resizeMode="cover"
+                      source={
+                        Object {
+                          "uri": "https://cdn.shopify.com/s/files/1/1825/3189/products/1589d1c85bfdd70a943bbcc2c75374d6.jpg",
+                        }
+                      }
+                      style={
+                        Array [
+                          Object {
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "right": 0,
+                            "top": 0,
+                          },
+                          Object {
+                            "height": undefined,
+                            "width": undefined,
+                          },
+                          undefined,
+                        ]
+                      }
+                    />
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "flex-start",
+                          "backgroundColor": "rgba(0, 0, 0, 0.6)",
+                          "flex": 1,
+                          "justifyContent": "space-between",
+                          "padding": 7.5,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        numberOfLines={2}
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "borderBottomColor": "#FFFFFF",
+                            "color": "#FFFFFF",
+                            "fontSize": 16,
+                            "fontWeight": "600",
+                          }
+                        }
+                      >
+                        Activewear
+                      </Text>
+                      <Image
+                        source={
+                          Object {
+                            "testUri": "../../../src/assets/icons/categories/activewear.png",
+                          }
+                        }
+                        style={
+                          Object {
+                            "height": 25,
+                            "width": 25,
+                          }
+                        }
+                      />
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </RCTScrollView>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;
+
+exports[`CategoryList should render subcategory properly 1`] = `
+<Component>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <Component
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "padding": 15,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "#000000",
+            "fontSize": 22,
+            "fontWeight": "700",
+          }
+        }
+      >
+        Activewear
+      </Text>
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#DEEFF5",
+            "borderRadius": 15,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingHorizontal": 15,
+            "paddingVertical": 3.75,
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "#000000",
+              "fontSize": 12,
+              "fontWeight": "600",
+            }
+          }
+        >
+          View
+        </Text>
+      </Component>
+    </Component>
+  </TouchableOpacity>
+  <FlatList
+    contentContainerStyle={
+      Object {
+        "paddingHorizontal": 15,
+      }
+    }
+    data={Array []}
+    disableVirtualization={false}
+    horizontal={true}
+    initialNumToRender={3}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</Component>
+`;

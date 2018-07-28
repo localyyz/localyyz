@@ -88,6 +88,11 @@ export default class ProductTile extends React.PureComponent {
             <View style={styles.price}>
               <PriceTag ref="productTilePrice" product={this.props.product} />
             </View>
+            {this.props.product.place.hasFreeShipping ? (
+              <View style={styles.shipping}>
+                <Text style={styles.shippingLabel}>Free shipping</Text>
+              </View>
+            ) : null}
             <View style={styles.details}>
               <Text numberOfLines={1} style={styles.label}>
                 {this.isOnSale ? (
@@ -145,5 +150,15 @@ const styles = StyleSheet.create({
     ...Styles.TinyText,
     ...Styles.Subdued,
     marginHorizontal: Sizes.InnerFrame
+  },
+
+  shipping: {
+    marginBottom: Sizes.InnerFrame / 4
+  },
+
+  shippingLabel: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
+    ...Styles.TinyText
   }
 });

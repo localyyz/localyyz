@@ -63,7 +63,7 @@ exports[`CartField CartField: should render properly 1`] = `
             Array [
               Object {
                 "color": "rgb(30, 30, 30)",
-                "fontSize": 12.5,
+                "fontSize": 10,
               },
               undefined,
               Object {

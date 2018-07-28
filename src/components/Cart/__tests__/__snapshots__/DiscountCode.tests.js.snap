@@ -155,7 +155,7 @@ exports[`DiscountCode DiscountCode: should be able to enter valid discount code 
           Array [
             Object {
               "color": "#9013FE",
-              "fontSize": 12.5,
+              "fontSize": 10,
             },
             Object {
               "marginRight": 6,

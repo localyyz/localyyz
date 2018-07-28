@@ -12,7 +12,6 @@ exports[`Gender filter should render to snapshot 1`] = `
   onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "marginVertical": 7.5,
       "opacity": 1,
     }
   }
@@ -27,49 +26,27 @@ exports[`Gender filter should render to snapshot 1`] = `
       }
     }
   >
-    <View
+    <Text
+      accessible={true}
+      allowFontScaling={false}
+      ellipsizeMode="tail"
       style={
-        Object {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "flex-start",
-        }
+        Array [
+          Object {
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+          },
+          undefined,
+          Object {
+            "fontFamily": "Material Design Icons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+        ]
       }
     >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-        style={
-          Object {
-            "marginRight": 7.5,
-          }
-        }
-      >
-        Man
-      </Text>
-      <Text
-        accessible={true}
-        allowFontScaling={false}
-        ellipsizeMode="tail"
-        style={
-          Array [
-            Object {
-              "color": "rgb(30, 30, 30)",
-              "fontSize": 16,
-            },
-            undefined,
-            Object {
-              "fontFamily": "Material Icons",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            },
-          ]
-        }
-      >
-        
-      </Text>
-    </View>
+      
+    </Text>
   </View>
 </View>
 `;

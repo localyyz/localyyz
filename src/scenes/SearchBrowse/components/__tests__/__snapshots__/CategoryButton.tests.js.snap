@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoryButton should render properly (isSmall) 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#000000",
+        "height": 187.5,
+        "marginRight": 7.5,
+        "width": 250,
+      },
+      Object {
+        "height": 68.18181818181819,
+        "marginRight": 3.75,
+      },
+    ]
+  }
+>
+  <Image
+    resizeMode="cover"
+    source={
+      Object {
+        "uri": "https://cdn.shopify.com/s/files/1/1825/3189/products/1589d1c85bfdd70a943bbcc2c75374d6.jpg",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "height": undefined,
+          "width": undefined,
+        },
+        undefined,
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "backgroundColor": "rgba(0, 0, 0, 0.6)",
+        "flex": 1,
+        "justifyContent": "space-between",
+        "padding": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      numberOfLines={1}
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontSize": 16,
+          "fontWeight": "600",
+        }
+      }
+    >
+      Activewear
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`CategoryButton should render properly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#000000",
+        "height": 187.5,
+        "marginRight": 7.5,
+        "width": 250,
+      },
+      undefined,
+    ]
+  }
+>
+  <Image
+    resizeMode="cover"
+    source={
+      Object {
+        "uri": "https://cdn.shopify.com/s/files/1/1825/3189/products/1589d1c85bfdd70a943bbcc2c75374d6.jpg",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "height": undefined,
+          "width": undefined,
+        },
+        undefined,
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "backgroundColor": "rgba(0, 0, 0, 0.6)",
+        "flex": 1,
+        "justifyContent": "space-between",
+        "padding": 7.5,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      numberOfLines={2}
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontSize": 16,
+          "fontWeight": "600",
+        }
+      }
+    >
+      Activewear
+    </Text>
+    <Image
+      source={
+        Object {
+          "testUri": "../../../src/assets/icons/categories/activewear.png",
+        }
+      }
+      style={
+        Object {
+          "height": 25,
+          "width": 25,
+        }
+      }
+    />
+  </View>
+</View>
+`;

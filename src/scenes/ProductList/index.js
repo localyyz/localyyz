@@ -1,94 +1,58 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import PropTypes from "prop-types";
+import { StyleSheet, View, SectionList } from "react-native";
 
 // custom
 import {
   ProductList,
   Filter,
-  FilterPopupButton,
-  BrowsePopupButton,
+  FilterBar,
   ContentCoverSlider,
   ReactiveSpacer
 } from "localyyz/components";
-import { Styles, Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
+import { Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
-import { Provider, observer, inject } from "mobx-react/native";
-import LinearGradient from "react-native-linear-gradient";
+import { Provider, inject } from "mobx-react/native";
 
 // local
 import Store from "./store";
 
 @inject(stores => ({
-  contentCoverStore: stores.contentCoverStore,
-  products:
-    stores.productListStore && stores.productListStore.listData
-      ? stores.productListStore.listData.slice()
-      : []
+  userStore: stores.userStore
 }))
-@observer
-class Content extends React.Component {
-  static propTypes = {
-    products: PropTypes.array
-  };
-
-  static defaultProps = {
-    products: []
-  };
-
-  get spacer() {
-    return (
-      <ReactiveSpacer
-        store={this.props.contentCoverStore}
-        heightProp="headerHeight"/>
-    );
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.products.length !== this.props.products.length
-      // order has changed, based on id's concat'ed (for order string)
-      || (nextProps.products
-        && this.props.products
-        && nextProps.products.length > 0
-        && this.props.products.length > 0
-        && nextProps.products.map(product => product.id).join(",")
-          !== this.props.products.map(product => product.id).join(","))
-    );
-  }
-
-  render() {
-    return (
-      <ProductList
-        {...this.props}
-        header={this.spacer}
-        products={this.props.products}
-        backgroundColor={Colours.Foreground}/>
-    );
-  }
-}
-
 export default class ProductListScene extends React.Component {
   constructor(props) {
     super(props);
 
     // stores
-    this.settings = props.navigation.state.params || {};
-    this.store = new Store(this.settings);
+    this.store = this.settings.store || new Store(this.settings);
     this.contentCoverStore = ContentCoverSlider.createStore();
-    this.filterStore = Filter.getNewStore(this.store);
-    this.state = {
-      // when navigating to productList, is the filter popup visible?
-      isFilterVisible: this.settings.isFilterVisible
-    };
+    this.filterStore = Filter.getNewStore(
+      this.store,
+      this.props.userStore,
+      this.settings.gender
+    );
 
     // bindings
     this.onScroll = this.onScroll.bind(this);
+    this.fetchMore = this.fetchMore.bind(this);
+    this.renderSectionHeader = this.renderSectionHeader.bind(this);
+    this.renderList = this.renderList.bind(this);
   }
 
-  componentDidMount() {
-    this.store.fetchNextPage();
+  componentDidUpdate(prevProps) {
+    if (this.settings.fetchPath != prevProps.fetchPath) {
+      this.store.reset && this.store.reset({}, this.settings.fetchPath);
+    }
+  }
+
+  get settings() {
+    return (
+      (this.props.navigation
+        && this.props.navigation.state
+        && this.props.navigation.state.params)
+      || this.props
+    );
   }
 
   get sliderRef() {
@@ -98,52 +62,96 @@ export default class ProductListScene extends React.Component {
   get header() {
     return (
       <View onLayout={this.contentCoverStore.onLayout}>
-        <ContentCoverSlider.Header {...this.settings || {}} />
+        {!this.settings.hideHeader ? (
+          <ContentCoverSlider.Header {...this.settings || {}} />
+        ) : null}
       </View>
     );
+  }
+
+  get spacer() {
+    return (
+      <ReactiveSpacer
+        store={this.contentCoverStore}
+        heightProp="headerHeight"
+        offset={ContentCoverSlider.STATUS_BAR_HEIGHT}/>
+    );
+  }
+
+  get listHeader() {
+    return (
+      <View style={styles.header}>
+        {this.settings.listHeader}
+        <FilterBar hideGenderFilter={this.settings.hideGenderFilter} />
+      </View>
+    );
+  }
+
+  get sections() {
+    return [
+      { title: "spacer", data: [[{}]], renderItem: () => this.spacer },
+      {
+        title: "content",
+        data: [[{}]]
+      }
+    ];
   }
 
   onScroll(evt) {
     this.sliderRef && this.sliderRef.onScroll(evt);
   }
 
+  fetchMore({ distanceFromEnd }) {
+    if (distanceFromEnd > 0) {
+      this.store.fetchNextPage();
+    }
+  }
+
+  renderSectionHeader({ section: { title } }) {
+    return (title === "content" && this.listHeader) || <View />;
+  }
+
+  renderList() {
+    return (
+      <ProductList backgroundColor={Colours.Accented} style={styles.list} />
+    );
+  }
+
   render() {
     return (
-      <Provider
-        productListStore={this.store}
-        contentCoverStore={this.contentCoverStore}>
+      <Provider productListStore={this.store} filterStore={this.filterStore}>
         <View style={styles.container}>
           <ContentCoverSlider
             ref="slider"
             title={this.settings.title}
-            backAction={this.props.navigation.goBack}
-            backColor={Colours.AlternateText}
-            idleStatusBarStatus="light-content"
-            background={this.header}>
-            <Content
-              fetchPath={this.store.fetchPath}
+            idleStatusBarStatus={this.settings.idleStatusBarStatus}
+            iconType={this.settings.iconType}
+            backColor={
+              this.settings.backColor
+              || (this.settings.image ? Colours.AlternateText : Colours.Text)
+            }
+            backAction={this.settings.onBack || this.props.navigation.goBack}
+            background={this.header}
+            fadeHeight={
+              (this.settings.image && this.settings.image.height / 4)
+              || undefined
+            }>
+            <SectionList
+              keyboardShouldPersistTaps="always"
+              sections={this.sections}
+              keyExtractor={(e, i) =>
+                `list-${this._keySeed}-row-${i}-id-${e.id}`
+              }
+              onEndReached={this.fetchMore}
+              onEndReachedThreshold={1}
               onScroll={this.onScroll}
-              onEndReached={() => this.store.fetchNextPage()}
-              paddingBottom={NAVBAR_HEIGHT}/>
+              scrollEventThrottle={16}
+              renderSectionHeader={this.renderSectionHeader}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              renderItem={this.renderList}
+              contentContainerStyle={styles.sectionList}/>
           </ContentCoverSlider>
-          <View style={styles.filter} pointerEvents="box-none">
-            <LinearGradient
-              colors={[Colours.WhiteTransparent, Colours.Transparent]}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 0, y: 0 }}
-              style={styles.gradient}
-              pointerEvents="box-none">
-              <View style={styles.buttons}>
-                <BrowsePopupButton
-                  text={"Categories"}
-                  store={this.filterStore}
-                  isInitialVisible={this.state.isFilterVisible}/>
-                <FilterPopupButton
-                  store={this.filterStore}
-                  isInitialVisible={false}/>
-              </View>
-            </LinearGradient>
-          </View>
         </View>
       </Provider>
     );
@@ -152,26 +160,20 @@ export default class ProductListScene extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingBottom: NAVBAR_HEIGHT
+    flex: 1
   },
 
-  filter: {
-    ...Styles.Overlay,
-    bottom: NAVBAR_HEIGHT,
-    justifyContent: "flex-end"
+  header: {
+    paddingVertical: Sizes.InnerFrame,
+    backgroundColor: Colours.Foreground
   },
 
-  gradient: {
-    alignItems: "center",
-    justifyContent: "flex-end",
-    height: Sizes.Height / 7,
-    width: Sizes.Width
+  sectionList: {
+    marginTop: ContentCoverSlider.STATUS_BAR_HEIGHT,
+    paddingBottom: NAVBAR_HEIGHT * 3
   },
 
-  buttons: {
-    ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    justifyContent: "center"
+  list: {
+    padding: Sizes.InnerFrame / 2
   }
 });

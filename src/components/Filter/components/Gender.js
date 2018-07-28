@@ -1,16 +1,18 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
+import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
 // custom
-import { Sizes } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 import { SloppyView } from "localyyz/components";
 
-// local
-import ExpandableHeader from "./ExpandableHeader";
+// constants
+const GENDERS = ["unknown", "man", "woman"];
+const GENDER_ICON = ["human-male-female", "human-male", "human-female"];
 
 @inject(stores => ({
   gender: stores.filterStore.gender,
@@ -19,36 +21,37 @@ import ExpandableHeader from "./ExpandableHeader";
 @observer
 export default class Gender extends React.Component {
   static propTypes = {
-    label: PropTypes.string,
-    value: PropTypes.string,
-
     // mobx
-    setFilter: PropTypes.func.isRequired,
-    gender: PropTypes.string
+    gender: PropTypes.string,
+    setFilter: PropTypes.func.isRequired
   };
 
-  onPress = () => {
-    this.props.setFilter(this.props.value);
-  };
+  constructor(props) {
+    super(props);
+
+    // bindings
+    this.onPress = this.onPress.bind(this);
+  }
+
+  get selectedIndex() {
+    let index = GENDERS.findIndex(gender => gender === this.props.gender);
+    return index >= 0 ? index : 0;
+  }
+
+  onPress() {
+    this.props.setFilter(GENDERS[(this.selectedIndex + 1) % GENDERS.length]);
+  }
 
   render() {
     return (
-      <TouchableOpacity onPress={this.onPress} style={styles.container}>
+      <TouchableOpacity onPress={this.onPress}>
         <SloppyView>
-          <ExpandableHeader
-            hideCollapse
-            isOpen={this.props.gender === this.props.value}
-            enabled={true}>
-            {this.props.label}
-          </ExpandableHeader>
+          <MaterialCommunityIcon
+            name={GENDER_ICON[this.selectedIndex]}
+            size={Sizes.Text}
+            color={Colours.Text}/>
         </SloppyView>
       </TouchableOpacity>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginVertical: Sizes.InnerFrame / 2
-  }
-});
