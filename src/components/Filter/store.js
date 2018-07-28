@@ -4,7 +4,7 @@ import { capitalize } from "localyyz/helpers";
 
 // constants
 // inconsistency between user settings and filters from API
-const GENDER_MAPPING = { male: "man", female: "woman", unisex: "unisex" };
+const GENDER_MAPPING = { male: "man", female: "woman" };
 
 export default class FilterStore {
   // sorting
