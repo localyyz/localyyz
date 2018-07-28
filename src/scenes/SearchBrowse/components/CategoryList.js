@@ -19,6 +19,7 @@ import { GA } from "localyyz/global";
 // local
 import CategoryBar from "./CategoryBar";
 import CategoryButton from "./CategoryButton";
+import CategoryGender from "./CategoryGender";
 import { CategoryListPlaceholder } from "./placeholders";
 
 // constants
@@ -27,6 +28,7 @@ const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
 @inject(stores => ({
   store: stores.searchStore,
   fetch: stores.searchStore.fetchCategories,
+  gender: stores.searchStore.gender && stores.searchStore.gender.id,
   categories:
     stores.searchStore.categories && stores.searchStore.categories.slice()
 }))
@@ -58,6 +60,8 @@ export class CategoryList extends React.Component {
       fetchPath: `categories/${id}/products`,
       title: title,
       hideCategories: true,
+      hideGenderFilter: true,
+      gender: this.props.gender,
       listHeader: (
         <CategoryBar
           id={parentId || id}
@@ -130,16 +134,19 @@ export class CategoryList extends React.Component {
 
   render() {
     return (
-      <FlatList
-        scrollEventThrottle={16}
-        onScroll={this.props.onScroll}
-        showsVerticalScrollIndicator={false}
-        data={this.props.categories}
-        renderItem={this.renderCategory}
-        initialNumToRender={4}
-        contentContainerStyle={[styles.container, this.props.style]}
-        ListEmptyComponent={this.placeholder}
-        keyExtractor={(c, i) => `${this._keySeed}-row${i}-cat${c.id}`}/>
+      <View style={styles.container}>
+        <CategoryGender />
+        <FlatList
+          scrollEventThrottle={16}
+          onScroll={this.props.onScroll}
+          showsVerticalScrollIndicator={false}
+          data={this.props.categories}
+          renderItem={this.renderCategory}
+          initialNumToRender={4}
+          contentContainerStyle={[styles.list, this.props.style]}
+          ListEmptyComponent={this.placeholder}
+          keyExtractor={(c, i) => `${this._keySeed}-row${i}-cat${c.id}`}/>
+      </View>
     );
   }
 }
@@ -148,6 +155,11 @@ export default withNavigation(CategoryList);
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    paddingTop: Sizes.ScreenTop + Sizes.OuterFrame
+  },
+
+  list: {
     paddingBottom: NAVBAR_HEIGHT + Sizes.OuterFrame
   },
 

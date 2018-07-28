@@ -52,7 +52,7 @@ export default class CategoryBar extends React.Component {
               data={categories}
               renderItem={this.renderItem}
               contentContainerStyle={styles.list}
-              keyExtractor={cat => cat.id}/>
+              keyExtractor={(cat, i) => `${cat.id}-${i}`}/>
           ) : null}
         </View>
       </Provider>

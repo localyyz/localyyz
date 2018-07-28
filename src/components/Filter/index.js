@@ -17,8 +17,8 @@ export { ProductCount } from "./components";
 
 export default class Filter extends React.Component {
   static Gender = Gender;
-  static getNewStore(searchStore, userStore) {
-    return new FilterStore(searchStore, userStore);
+  static getNewStore(...params) {
+    return new FilterStore(...params);
   }
 
   render() {
