@@ -22,7 +22,10 @@ const GENDER_MAPPING = Object.assign(
 @inject((stores, props) => ({
   gender: (stores.searchStore || props).gender,
   setGender: (stores.searchStore || props).setGender,
-  userGender: stores.userStore ? stores.userStore.user.gender : props.userGender
+  userGender:
+    stores.userStore && stores.userStore.user
+      ? stores.userStore.user.gender
+      : props.userGender
 }))
 @observer
 export default class CategoryGender extends React.Component {
