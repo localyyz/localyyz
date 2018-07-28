@@ -71,9 +71,14 @@ export class CategoryList extends React.Component {
     };
   }
 
+  // this changes the category from the top category bar
   onChangeCategory(category) {
     // this dispatches the changed category to product list store
-    GA.trackEvent("category", category.id);
+    GA.trackEvent(
+      "category",
+      "change category",
+      `${this.props.gender}-${category.id}`
+    );
     this.props.navigation.dispatch(
       paramsAction(
         CATEGORY_PRODUCT_LIST_KEY,
@@ -82,7 +87,13 @@ export class CategoryList extends React.Component {
     );
   }
 
+  // this selects a category from the main search browse screen
   onSelectCategory(category) {
+    GA.trackEvent(
+      "category",
+      "select category",
+      `${this.props.gender}-${category.id}`
+    );
     this._parentCategoryId = category.id;
     this.props.navigation.navigate({
       params: this.buildParams(category),

@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 import { Filter, SloppyView } from "localyyz/components";
 import { withCommas } from "localyyz/helpers";
+import { GA } from "localyyz/global";
 
 // third party
 import { observer, inject } from "mobx-react/native";
@@ -152,8 +153,11 @@ class SortOption extends React.Component {
   onPress() {
     if (!this.isSelected) {
       this.props.setSortBy(this.props.value);
+      GA.trackEvent("filter/sort", `sort by ${this.props.value}`);
     } else if (this.props.hasDirection) {
-      this.props.setSortBy(!this.isDescending ? `-${this.props.value}` : null);
+      const sortBy = !this.isDescending ? `-${this.props.value}` : null;
+      this.props.setSortBy(sortBy);
+      GA.trackEvent("filter/sort", `sort by ${sortBy}`);
     } else {
       this.props.setSortBy();
     }
