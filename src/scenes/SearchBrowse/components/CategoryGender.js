@@ -11,18 +11,18 @@ import { capitalize } from "localyyz/helpers";
 // constants
 const GENDERS = [
   { id: "female", label: "Woman", filterId: "woman" },
-  { id: "male", label: "Man", filterId: "man" },
-  { id: "unisex", label: "Unisex", filterId: "unisex" }
+  { id: "male", label: "Man", filterId: "man" }
 ];
 const GENDER_MAPPING = Object.assign(
   {},
   ...GENDERS.map(gender => ({ [gender.id]: gender }))
 );
 
-@inject(stores => ({
-  gender: stores.searchStore.gender,
-  setGender: stores.searchStore.setGender,
-  userGender: stores.userStore.gender
+// NOTE: props is a work around for testing.
+@inject((stores, props) => ({
+  gender: (stores.searchStore || props).gender,
+  setGender: (stores.searchStore || props).setGender,
+  userGender: stores.userStore ? stores.userStore.user.gender : props.userGender
 }))
 @observer
 export default class CategoryGender extends React.Component {
