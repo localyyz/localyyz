@@ -37,6 +37,19 @@ class UserAddress {
   }
 
   @computed
+  get isComplete() {
+    return (
+      this.id
+      && this.firstName
+      && this.lastName
+      && this.address
+      && this.city
+      && this.province
+      && this.country
+    );
+  }
+
+  @computed
   get fullName() {
     let n = this.firstName;
     if (this.lastName) {

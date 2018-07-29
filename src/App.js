@@ -22,12 +22,11 @@ import {
   Product,
   ProductListStack,
   Login,
-  CartSummary,
+  Cart,
   Deeplink,
   Information,
   Brands,
   Modal,
-  Checkout,
   Settings,
   Deals,
 
@@ -188,9 +187,7 @@ const AppNavigator = createStackNavigator(
   {
     Home: { screen: Home },
     Product: { screen: Product },
-    ProductList: { screen: ProductListStack },
-    Checkout: { screen: Checkout },
-    CartSummary: { screen: CartSummary },
+    ProductListStack: { screen: ProductListStack },
     Information: { screen: Information },
     Brands: { screen: Brands },
 
@@ -211,7 +208,8 @@ const TabNavigator = createTabNavigator(
     Root: { screen: AppNavigator },
     Deals: { screen: Deals },
     SearchBrowse: { screen: SearchBrowse },
-    Settings: { screen: Settings }
+    Settings: { screen: Settings },
+    Cart: { screen: Cart }
   },
   {
     tabBarComponent: NavBar,

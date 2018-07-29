@@ -2,7 +2,7 @@
 import { Forms } from "localyyz/scenes";
 
 // third party
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 
 import { ProductListStack } from "localyyz/scenes";
 
@@ -10,15 +10,15 @@ import { ProductListStack } from "localyyz/scenes";
 import { Menu as Settings, Addresses, Orders, History } from "./scenes";
 import ProductScene from "../Product";
 
-export const SettingsNavigator = StackNavigator(
+export const SettingsNavigator = createStackNavigator(
   {
-    Settings: { screen: Settings },
-    Addresses: { screen: Addresses },
-    AddressForm: { screen: Forms.AddressForm },
-    Orders: { screen: Orders },
+    Settings: Settings,
+    Addresses: Addresses,
+    AddressForm: Forms.AddressForm,
+    Orders: Orders,
     Favourite: { screen: ProductListStack },
-    History: { screen: History },
-    Product: { screen: ProductScene }
+    History: History,
+    Product: ProductScene
   },
   {
     initialRouteName: "Settings",

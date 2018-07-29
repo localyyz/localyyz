@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartItems should render properly to snapshot 1`] = `
+<FlatList
+  data={
+    Array [
+      Object {
+        "hasError": false,
+        "id": "first",
+        "product": Object {
+          "associatedPhotos": Array [
+            Object {
+              "height": 100,
+              "imageUrl": "picture.gif",
+              "width": 100,
+            },
+          ],
+          "brand": "Nike",
+          "previousPrice": 120,
+          "price": 100,
+          "title": "Roshe One",
+        },
+        "variant": Object {
+          "description": "Some shoes",
+        },
+      },
+      Object {
+        "hasError": true,
+        "id": "second",
+        "product": Object {
+          "associatedPhotos": Array [
+            Object {
+              "height": 100,
+              "imageUrl": "picture.gif",
+              "width": 100,
+            },
+          ],
+          "brand": "Nike",
+          "previousPrice": 60,
+          "price": 50,
+          "title": "Roshe One - Blue",
+        },
+        "variant": Object {
+          "description": "Some shoes",
+        },
+      },
+    ]
+  }
+  disableVirtualization={false}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  numColumns={1}
+  onEndReachedThreshold={2}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  updateCellsBatchingPeriod={50}
+  windowSize={21}
+/>
+`;

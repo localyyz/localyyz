@@ -20,12 +20,11 @@ import TearLines from "react-native-tear-lines";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { ifIphoneX } from "react-native-iphone-x-helper";
 
+// TODO: inject via cart ui store?
 @inject(stores => ({
   hideNavbar: () => stores.navbarStore.hide(),
   showNavbar: () => stores.navbarStore.show(),
-  showPullup: () => stores.navbarStore.togglePullup(true),
-  onShowSummary: () => stores.cartStore.onShowSummary(),
-  finalize: () => stores.cartStore.finalize({}),
+  onShowSummary: () => stores.expressCartStore.onShowSummary(),
   amountDiscount: stores.cartStore.amountDiscount,
   paymentLastFour: stores.cartStore.paymentLastFour,
   hasSession: stores.userStore.model.hasSession,
@@ -36,9 +35,7 @@ export default class CartSummaryScene extends React.Component {
   static propTypes = {
     hideNavbar: PropTypes.func.isRequired,
     showNavbar: PropTypes.func.isRequired,
-    showPullup: PropTypes.func.isRequired,
     onShowSummary: PropTypes.func.isRequired,
-    finalize: PropTypes.func.isRequired,
     amountDiscount: PropTypes.number,
     paymentLastFour: PropTypes.string
   };
@@ -106,7 +103,6 @@ export default class CartSummaryScene extends React.Component {
     this.props.showNavbar();
 
     // and show the cart if coming back from cancelling
-    showCart && this.props.showPullup();
     this.props.navigation.goBack();
   }
 
@@ -124,16 +120,8 @@ export default class CartSummaryScene extends React.Component {
   }
 
   onConfirm() {
-    // timeout to allow animations show through even
-    // if payment takes less time
-    this.props
-      .finalize()
-      .then(wasSuccessful =>
-        setTimeout(() => this.clearExploder(!!wasSuccessful), 1000)
-      )
-      .catch(() => {
-        this.clearExploder(false);
-      });
+    // NOTE: this is deprecated.
+    // this componenent is NOT used for cart completion anymore.
   }
 
   get contentRef() {
@@ -339,6 +327,7 @@ export default class CartSummaryScene extends React.Component {
   }
 
   onCompletion(scene) {
+    // <- TODO: NOTE: is this correct?
     this.onBack();
     this.props.navigation.navigate(scene);
   }

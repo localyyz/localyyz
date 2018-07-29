@@ -86,6 +86,7 @@
     "react-native-payments": "https://github.com/localyyz/react-native-payments#b9230f5228d780caa521b6e41871c6d43222ba31",
     "react-native-photo-view": "^1.5.2",
     "react-native-snap-carousel": "^3.7.0",
+    "react-native-swipeout": "^2.3.4",
     "react-native-tear-lines": "^1.0.3",
     "react-native-vector-icons": "^4.6.0",
     "react-native-video": "^2.3.1",

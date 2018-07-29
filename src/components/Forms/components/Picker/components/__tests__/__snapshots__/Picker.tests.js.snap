@@ -41,7 +41,7 @@ exports[`PickerProvider Test - Form PickerProvider Test - Form: should render pr
     ease="ease-out"
     style={
       Object {
-        "backgroundColor": "rgba(0, 0, 0, 0.8)",
+        "backgroundColor": "rgba(0, 0, 0, 0.9)",
         "bottom": 0,
         "justifyContent": "flex-end",
         "left": 0,

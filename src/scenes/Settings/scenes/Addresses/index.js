@@ -20,6 +20,8 @@ export default class Addresses extends React.Component {
 
     // bindings
     this.renderItem = this.renderItem.bind(this);
+    this.onPress = this.onPress.bind(this);
+    this.onSelect = this.onSelect.bind(this);
     this.addAddress = this.addAddress.bind(this);
     this.updateAddress = this.updateAddress.bind(this);
     this.fetch = this.fetch.bind(this);
@@ -42,12 +44,30 @@ export default class Addresses extends React.Component {
     return (
       <Forms.BaseField
         label={address.address}
-        onPress={() => this.updateAddress(address)}/>
+        onPress={() => this.onPress(address)}/>
     );
   }
 
+  onPress(address) {
+    !this.onSelect(address) && this.updateAddress(address);
+  }
+
+  onSelect(address) {
+    if (this.settings.onSelect) {
+      this.settings.onSelect(address);
+
+      // and out
+      this.props.navigation.goBack(null);
+
+      // help skip updateAddress on onPress
+      return true;
+    }
+  }
+
   addAddress() {
-    return this.props.navigation.navigate("AddressForm");
+    return this.props.navigation.navigate("AddressForm", {
+      onSubmit: this.onSelect
+    });
   }
 
   updateAddress(address) {
@@ -55,6 +75,16 @@ export default class Addresses extends React.Component {
       shouldUpdate: true,
       address: address
     });
+  }
+
+  get footer() {
+    return (
+      <View style={styles.footer}>
+        <Forms.Button isEnabled onPress={() => this.addAddress()}>
+          Add a new address
+        </Forms.Button>
+      </View>
+    );
   }
 
   render() {
@@ -65,12 +95,8 @@ export default class Addresses extends React.Component {
             scrollEnabled={false}
             data={this.props.addresses && this.props.addresses.slice()}
             keyExtractor={address => `${address.id}`}
-            renderItem={this.renderItem}/>
-          <View style={styles.footer}>
-            <Forms.Button isEnabled onPress={() => this.addAddress()}>
-              Add a new address
-            </Forms.Button>
-          </View>
+            renderItem={this.renderItem}
+            ListFooterComponent={this.footer}/>
         </View>
       </BaseScene>
     );

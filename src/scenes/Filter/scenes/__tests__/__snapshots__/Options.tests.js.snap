@@ -2,6 +2,16 @@
 
 exports[`Filter Options should match snapshot 1`] = `
 <RCTScrollView
+  ListFooterComponent={
+    <Component
+      style={
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "padding": 7.5,
+        }
+      }
+    />
+  }
   ccs={
     Object {
       "headerHeight": 0,
@@ -110,7 +120,7 @@ exports[`Filter Options should match snapshot 1`] = `
               "paddingLeft": 15,
             },
             Object {
-              "paddingVertical": 15,
+              "paddingTop": 15,
             },
           ]
         }
@@ -160,6 +170,19 @@ exports[`Filter Options should match snapshot 1`] = `
       onLayout={[Function]}
       style={null}
     />
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "padding": 7.5,
+          }
+        }
+      />
+    </View>
   </View>
 </RCTScrollView>
 `;

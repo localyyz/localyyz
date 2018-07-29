@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProcessingOverlay should not render when not processing 1`] = `null`;
+
+exports[`ProcessingOverlay should render properly to snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#44179E",
+      "bottom": 0,
+      "justifyContent": "center",
+      "left": 0,
+      "opacity": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+      "transform": Array [
+        Object {
+          "translateY": 100,
+        },
+      ],
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "marginHorizontal": 75,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontSize": 32,
+          "fontWeight": "700",
+          "lineHeight": 38.4,
+        }
+      }
+    >
+      Just a minute
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "borderBottomColor": "#FFFFFF",
+          "color": "#FFFFFF",
+          "fontFamily": "Menlo-Regular",
+          "fontSize": 16,
+          "fontWeight": "300",
+          "marginBottom": 75,
+          "marginTop": 15,
+        }
+      }
+    >
+      We're trying to process your payment right now
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "transform": Array [
+          Object {
+            "scale": 1,
+          },
+        ],
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 64,
+        }
+      }
+    >
+      💸
+    </Text>
+  </View>
+</View>
+`;

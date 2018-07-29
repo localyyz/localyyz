@@ -40,16 +40,17 @@ const SIZE_APPEAR_INTERVAL = 100;
   // regular checkout (add)
   product: stores.productStore.product,
   selectedVariant: stores.productStore.selectedVariant,
-  onAdd: (productId, color, size) =>
-    stores.cartStore.addItem({
-      productId: productId,
+
+  onAdd: (_, color, size) => {
+    stores.productStore.addToCart({
       color: color,
       size: size
-    }),
+    });
+  },
 
   // express checkout
   onExpressCheckout: (productId, color, size) =>
-    stores.cartStore.onExpressCheckout({
+    stores.expressCartStore.onExpressCheckout({
       productId: productId,
       color: color,
       size: size
