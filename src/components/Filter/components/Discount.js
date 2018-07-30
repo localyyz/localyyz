@@ -148,6 +148,8 @@ const styles = StyleSheet.create({
   },
 
   filterHeader: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
     marginBottom: Sizes.InnerFrame
   },
 
@@ -157,8 +159,7 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    ...Styles.Text,
-    ...Styles.TinyText
+    ...Styles.Text
   },
 
   sliderSelected: {

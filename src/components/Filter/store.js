@@ -115,7 +115,7 @@ export default class FilterStore {
   @action
   fetchColors() {
     // if top level category is set, fetch subcategory
-    this.colors.clear();
+    // this.colors.clear();
     this.asyncFetch("colors").then(response => {
       runInAction("[ACTION] fetch colors", () => {
         this.colors = (response && response.data) || [];
@@ -126,7 +126,6 @@ export default class FilterStore {
   @action
   fetchSizes() {
     // if top level category is set, fetch subcategory
-    this.sizes.clear();
     this.asyncFetch("sizes").then(response => {
       runInAction("[ACTION] fetch sizes", () => {
         this.sizes = (response && response.data) || [];
@@ -137,7 +136,6 @@ export default class FilterStore {
   @action
   fetchCategories() {
     // if top level category is set, fetch subcategory
-    this.categories.clear();
     let fetchPath = this.category ? "subcategories" : "categories";
     this.asyncFetch(fetchPath).then(response => {
       runInAction("[ACTION] fetch categories", () => {
@@ -151,7 +149,6 @@ export default class FilterStore {
 
   @action
   fetchBrands() {
-    this.brands.clear();
     this.asyncFetch("brands").then(response => {
       runInAction("[ACTION] fetch brands", () => {
         this.brands = (response && response.data) || [];
@@ -203,7 +200,8 @@ export default class FilterStore {
   @action
   setDiscountFilter(min) {
     var multiplier = Math.pow(10, 2);
-    this.discountMin = Math.round(min * multiplier) / multiplier;
+    this.discountMin
+      = min != null ? Math.round(min * multiplier) / multiplier : null;
   }
 
   @action

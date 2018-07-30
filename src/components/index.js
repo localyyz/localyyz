@@ -31,11 +31,7 @@ export { default as ReactiveSpacer } from "./ReactiveSpacer";
 export { default as SloppyView } from "./SloppyView";
 export { default as BlurView } from "./BlurView";
 export { default as Filter } from "./Filter";
-export {
-  default as FilterPopup,
-  FilterPopupButton,
-  FilterBar
-} from "./FilterPopup";
+export { default as FilterPopup, FilterPopupButton } from "./FilterPopup";
 export { default as Forms } from "./Forms";
 export { default as BaseScene } from "./BaseScene";
 export { default as BaseForm } from "./BaseForm";

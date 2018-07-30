@@ -55,7 +55,7 @@ export class List extends React.Component {
         <ProductTile
           backgroundColor={this.props.backgroundColor}
           onPress={() =>
-            this.props.navigation.navigate("Product", {
+            this.props.navigation.push("Product", {
               product: product
             })
           }

@@ -7,6 +7,7 @@ import { Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
 import { Product } from "localyyz/models";
 import { ContentCoverSlider, PhotoDetails } from "localyyz/components";
 import { box } from "localyyz/helpers";
+import { NavigationActions } from "react-navigation";
 
 // third party
 import PropTypes from "prop-types";
@@ -133,7 +134,7 @@ class ProductScene extends React.Component {
   }
 
   onBack() {
-    this.props.navigation.goBack();
+    this.props.navigation.dispatch(NavigationActions.back());
     this.settings.onBack && this.settings.onBack();
   }
 
