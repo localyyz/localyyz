@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 
 // local
 import ExpandableSection from "../ExpandableSection";
-import { ExpandedDescription, SizeChart, UsedIndicator } from "./components";
+import { ExpandedDescription, UsedIndicator } from "./components";
 
 // third party
 import PropTypes from "prop-types";
@@ -15,13 +15,6 @@ import { observer, inject, Provider } from "mobx-react/native";
   description:
     stores.productStore.product
     && stores.productStore.product.truncatedDescription,
-  isSizeChartSupported:
-    stores.productStore.product
-    && stores.productStore.product.isSizeChartSupported,
-  sizeChartType:
-    stores.productStore.product
-    && stores.productStore.product.category
-    && stores.productStore.product.category.value,
   productStore: stores.productStore
 }))
 @observer
@@ -61,18 +54,6 @@ export class ProductDetails extends React.Component {
               title: "Product information",
               content: this.expandedDescriptionComponent
             })
-          }/>
-        <ExpandableSection
-          title="Sizing and fit"
-          content="Fits true to size"
-          onExpand={
-            this.props.isSizeChartSupported
-              ? () =>
-                  this.props.navigation.push("Information", {
-                    title: "Sizing and fit",
-                    content: <SizeChart type={this.props.sizeChartType} />
-                  })
-              : null
           }/>
         <UsedIndicator />
       </View>

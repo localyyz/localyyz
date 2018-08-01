@@ -5,15 +5,16 @@ import { withNavigation } from "react-navigation";
 // custom
 import { Sizes, IS_DEALS_SUPPORTED } from "localyyz/constants";
 import { Cart, CartHeaderSummary } from "localyyz/components";
-import Pullup from "./components/Pullup";
-import TabBar from "./components/TabBar";
-import CartUIStore from "./cartUiStore";
 import { onlyIfLoggedIn } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
 import * as Animatable from "react-native-animatable";
 import { inject, observer, Provider } from "mobx-react/native";
+
+// local
+import { Pullup, TabBar, Toggler } from "./components";
+import CartUIStore from "./cartUiStore";
 
 // offset tabbar, manually calc'ed and synced via onLayout
 // by hand when layout changes
@@ -29,6 +30,7 @@ export const NAVBAR_HEIGHT = 48 + Sizes.ScreenBottom;
 @observer
 export class NavBar extends React.Component {
   static HEIGHT = NAVBAR_HEIGHT;
+  static Toggler = Toggler;
   static propTypes = {
     // mobx injected
     userStore: PropTypes.object.isRequired,

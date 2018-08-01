@@ -13,6 +13,7 @@ import LoginStore from "./LoginStore";
 import { userStore } from "./UserStore";
 import DeviceStore from "./DeviceStore";
 import NavbarStore from "./NavbarStore";
+import SupportStore from "./SupportStore";
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -24,6 +25,7 @@ export const cartStore = new CartStore();
 export const historyStore = new HistoryStore();
 export const deviceStore = new DeviceStore();
 export const navbarStore = new NavbarStore();
+export const supportStore = new SupportStore();
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -35,5 +37,6 @@ export const stores = {
   loginStore: loginStore,
   userStore: userStore,
   deviceStore: deviceStore,
-  navbarStore: navbarStore
+  navbarStore: navbarStore,
+  supportStore: supportStore
 };

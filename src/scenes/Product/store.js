@@ -5,7 +5,6 @@ import { Product } from "localyyz/models";
 
 import { facebook as Facebook } from "localyyz/effects";
 import { ApiInstance } from "localyyz/global";
-import { BRANCH_UUID } from "localyyz/constants";
 import branch from "react-native-branch";
 
 class ProductUIStore {
@@ -31,18 +30,22 @@ class ProductUIStore {
 
     // bindings
     this.toggleAddedSummary = this.toggleAddedSummary.bind(this);
+    this.onSelectVariant = this.onSelectVariant.bind(this);
+
+    // initialize the default variant
+    this.onSelectVariant(this.product.selectedVariant);
   }
 
   // added summary
   @action
   toggleAddedSummary(visible) {
-    this.isAddedSummaryVisible =
-      visible != null ? visible : !this.isAddedSummaryVisible;
+    this.isAddedSummaryVisible
+      = visible != null ? visible : !this.isAddedSummaryVisible;
   }
 
   // select variant syncs selected variant across components
   @action
-  onSelectVariant = variant => {
+  onSelectVariant(variant) {
     // track product viewing
     Facebook.logEvent("fb_mobile_content_view", variant.price || 0, {
       fb_content_type: this.isDeepLinked ? "product_deeplink" : "product",
@@ -51,7 +54,7 @@ class ProductUIStore {
     });
 
     this.selectedVariant = variant;
-  };
+  }
 
   @action
   fetchProduct = async productId => {

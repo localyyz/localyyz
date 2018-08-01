@@ -19,7 +19,6 @@ import { withNavigation } from "react-navigation";
 // local component
 import {
   ProductBuy,
-  ProductVariantSelector,
   RelatedProducts,
   ProductDetails,
   MerchantDetails,
@@ -110,7 +109,6 @@ export class Content extends React.Component {
                 start={{ y: 0, x: 1 }}
                 end={{ y: 1, x: 0 }}>
                 <ProductBuy />
-                <ProductVariantSelector />
                 {this.props.isDeal ? (
                   <DealSection navigation={this.props.navigation} />
                 ) : null}
@@ -151,7 +149,5 @@ const styles = StyleSheet.create({
   },
 
   // options
-  optionsGradient: {
-    paddingTop: Sizes.OuterFrame
-  }
+  optionsGradient: {}
 });
