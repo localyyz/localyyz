@@ -7,7 +7,7 @@ import mockMoment from "moment";
 import { renderWithLayout } from "localyyz/tests";
 
 // local
-import UpcomingCard from "../UpcomingCard";
+import UpcomingCard from "../UpcomingCard/index";
 const Component = UpcomingCard;
 
 // constants

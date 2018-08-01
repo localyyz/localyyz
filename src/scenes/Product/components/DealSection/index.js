@@ -12,41 +12,54 @@ import { Timer, ProgressBar } from "localyyz/components";
 @inject(stores => ({
   now: stores.dealStore && stores.dealStore.now,
   product: stores.productStore.product,
+  fetch: () => stores.activeDealStore.fetch(),
   progress: stores.activeDealStore && stores.activeDealStore.progress,
   deal: stores.activeDealStore && stores.activeDealStore.deal
 }))
 @observer
 export default class DealSection extends React.Component {
   get isActive() {
-    return Moment(this.props.deal.endAt).diff(this.props.now) > 0;
+    return Moment(this.props.deal.startAt).diff(this.props.now) < 0;
   }
 
   render() {
     return this.props.deal ? (
       <View style={styles.container}>
-        <ProgressBar
-          padding={Sizes.InnerFrame}
-          percentage={this.props.deal.percentageClaimed}
-          progress={this.props.progress}/>
+        {this.isActive ? (
+          <ProgressBar
+            padding={Sizes.InnerFrame}
+            percentage={this.props.deal.percentageClaimed}
+            progress={this.props.progress}/>
+        ) : null}
         <View style={styles.content}>
           <View style={styles.header}>
-            <Text style={styles.title}>{"Today's deal"}</Text>
+            <Text style={styles.title}>
+              {this.isActive ? "Today's deal" : "Upcoming deal"}
+            </Text>
             <View style={styles.stats}>
               <Text style={[styles.title, styles.subTitle]}>
-                <Text>ending in </Text>
-                {this.props.deal.endAt ? (
-                  <Timer
-                    target={Moment(this.props.deal.endAt).toArray()}
-                    onComplete={() =>
-                      this.props.navigation && this.props.navigation.goBack()
-                    }/>
+                <Text>{this.isActive ? "ending in " : "starting in "}</Text>
+                {this.isActive ? (
+                  this.props.deal.endAt ? (
+                    <Timer
+                      target={Moment(this.props.deal.endAt).toArray()}
+                      onComplete={() =>
+                        this.props.navigation && this.props.navigation.goBack()
+                      }/>
+                  ) : (
+                    "soon"
+                  )
+                ) : this.props.deal.startAt ? (
+                  <Timer target={Moment(this.props.deal.startAt).toArray()} onComplete={this.props.fetch()}/>
                 ) : (
                   "soon"
                 )}
               </Text>
               <Text style={[styles.title, styles.subTitle]}>
                 {this.props.deal.quantityAvailable
-                  ? `${this.props.deal.quantityAvailable} left`
+                  ? this.isActive
+                    ? `${this.props.deal.quantityAvailable} left`
+                    : `${this.props.deal.quantityAvailable} available`
                   : "sold out"}
               </Text>
             </View>
