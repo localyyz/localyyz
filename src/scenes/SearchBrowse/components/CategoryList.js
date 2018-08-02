@@ -99,11 +99,16 @@ export class CategoryList extends React.Component {
       `${this.props.gender}-${category.id}`
     );
     this._parentCategoryId = category.id;
-    this.props.navigation.navigate({
-      params: this.buildParams(category),
-      routeName: "ProductList",
-      key: this.sceneKey
-    });
+    this.props.navigation.navigate(
+      "ProductList",
+      {},
+      {
+        type: "Navigate",
+        params: this.buildParams(category),
+        routeName: "ProductList",
+        key: this.sceneKey
+      }
+    );
   }
 
   renderSubcategory({ item: category }) {

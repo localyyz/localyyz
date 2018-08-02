@@ -20,17 +20,12 @@ export default class FilterStore {
   // gender filter
   @observable _gender;
 
-  // category filters
-  @observable category;
-  @observable subcategory;
-
   // other filters
   @observable brand;
   @observable size;
   @observable color;
 
   // lists
-  @observable categories = [];
   @observable brands = [];
   @observable colors = [];
   @observable sizes = [];
@@ -43,16 +38,14 @@ export default class FilterStore {
     this.searchStore = searchStore;
 
     // bindings
+    this.reset = this.reset.bind(this);
     this.refresh = this.refresh.bind(this);
     this.asyncFetch = this.asyncFetch.bind(this);
 
     this.fetchColors = this.fetchColors.bind(this);
     this.fetchSizes = this.fetchSizes.bind(this);
-    this.fetchCategories = this.fetchCategories.bind(this);
     this.fetchBrands = this.fetchBrands.bind(this);
 
-    this.setCategoryFilter = this.setCategoryFilter.bind(this);
-    this.clearCategoryFilter = this.clearCategoryFilter.bind(this);
     this.setSizeFilter = this.setSizeFilter.bind(this);
     this.setColorFilter = this.setColorFilter.bind(this);
     this.setGenderFilter = this.setGenderFilter.bind(this);
@@ -76,26 +69,23 @@ export default class FilterStore {
   // parent store
   filterReaction = reaction(
     () => this.fetchParams,
-    params => {
-      if (this.isSearchSupported) {
-        // TODO: offload this to APPLY press. -> backend will have to passback
-        // # of products on filter calls
-        this.searchStore.reset(params);
-      }
-      // refetch filters based on the current filter params
-      // only if nothing is selected for that filter
-      //this.brand ? null : this.fetchBrands();
-      //this.color ? null : this.fetchColors();
-      //this.size ? null : this.fetchSizes();
-
-      this.fetchCategories();
-    }
+    params => this.refresh(null, params)
   );
 
-  @action
-  refresh() {
+  reset(fetchPath) {
+    this.setSizeFilter();
+    this.setBrandFilter();
+    this.setColorFilter();
+    this.setDiscountFilter();
+    this.setPriceFilter();
+
+    // and update based on reset filters
+    this.refresh(fetchPath);
+  }
+
+  refresh(fetchPath, params) {
     if (this.isSearchSupported) {
-      this.searchStore.reset(this.fetchParams);
+      this.searchStore.reset(params || this.fetchParams, fetchPath || "");
     }
   }
 
@@ -134,40 +124,12 @@ export default class FilterStore {
   }
 
   @action
-  fetchCategories() {
-    // if top level category is set, fetch subcategory
-    let fetchPath = this.category ? "subcategories" : "categories";
-    this.asyncFetch(fetchPath).then(response => {
-      runInAction("[ACTION] fetch categories", () => {
-        this.categories = response.data.map(value => ({
-          title: capitalize(value),
-          value: value
-        }));
-      });
-    });
-  }
-
-  @action
   fetchBrands() {
     this.asyncFetch("brands").then(response => {
       runInAction("[ACTION] fetch brands", () => {
         this.brands = (response && response.data) || [];
       });
     });
-  }
-
-  @action
-  setCategoryFilter(val) {
-    // TODO: this is pretty magical. clean it up
-    this.category ? (this.subcategory = val) : (this.category = val);
-  }
-
-  @action
-  clearCategoryFilter() {
-    // TODO: probably should separate this out..
-    //
-    // clear subcategory if it's set, else clear category
-    this.subcategory ? (this.subcategory = "") : (this.category = "");
   }
 
   @action
@@ -193,15 +155,15 @@ export default class FilterStore {
 
   @action
   setPriceFilter(min, max) {
-    this.priceMin = min;
-    this.priceMax = max;
+    this.priceMin = min || undefined;
+    this.priceMax = max || undefined;
   }
 
   @action
   setDiscountFilter(min) {
     var multiplier = Math.pow(10, 2);
     this.discountMin
-      = min != null ? Math.round(min * multiplier) / multiplier : null;
+      = min != null ? Math.round(min * multiplier) / multiplier : undefined;
   }
 
   @action
@@ -250,8 +212,6 @@ export default class FilterStore {
           ? [`discount,min=${this.discountMin}`]
           : []),
         ...(this.gender ? [`gender,val=${this.gender}`] : []),
-        ...(this.category ? [`categoryType,val=${this.category}`] : []),
-        ...(this.subcategory ? [`categoryValue,val=${this.subcategory}`] : []),
         ...(this.brand ? [`brand,val=${this.brand}`] : []),
         ...(this.color ? [`color,val=${this.color}`] : []),
         ...(this.size ? [`size,val=${this.size}`] : [])

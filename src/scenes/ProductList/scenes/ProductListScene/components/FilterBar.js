@@ -27,7 +27,8 @@ const SORT_BY = [
 ];
 
 @inject(stores => ({
-  store: stores.filterStore
+  store: stores.filterStore,
+  numProducts: stores.filterStore.numProducts
 }))
 @observer
 export class FilterBar extends React.Component {

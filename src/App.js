@@ -20,7 +20,7 @@ import {
   Home,
   SearchBrowse,
   Product,
-  ProductList,
+  ProductListStack,
   Login,
   CartSummary,
   Deeplink,
@@ -188,7 +188,7 @@ const AppNavigator = createStackNavigator(
   {
     Home: { screen: Home },
     Product: { screen: Product },
-    ProductList: { screen: ProductList },
+    ProductList: { screen: ProductListStack },
     Checkout: { screen: Checkout },
     CartSummary: { screen: CartSummary },
     Information: { screen: Information },

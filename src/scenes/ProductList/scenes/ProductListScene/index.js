@@ -39,20 +39,26 @@ export default class ProductListScene extends React.Component {
     this.fetchMore = this.fetchMore.bind(this);
     this.renderSectionHeader = this.renderSectionHeader.bind(this);
     this.renderList = this.renderList.bind(this);
+    this.getSettings = this.getSettings.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.settings.fetchPath != prevProps.fetchPath) {
-      this.store.reset && this.store.reset({}, this.settings.fetchPath);
+    // category change, reflect it down into store
+    if (this.settings.title != this.getSettings(prevProps).title) {
+      this.filterStore.reset && this.filterStore.reset(this.settings.fetchPath);
     }
   }
 
   get settings() {
+    return this.getSettings(this.props);
+  }
+
+  getSettings(props) {
     return (
-      (this.props.navigation
-        && this.props.navigation.state
-        && this.props.navigation.state.params)
-      || this.props
+      (props.navigation
+        && props.navigation.state
+        && props.navigation.state.params)
+      || props
     );
   }
 

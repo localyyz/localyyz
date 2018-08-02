@@ -5,7 +5,7 @@ import { StackNavigator } from "react-navigation";
 import {
   Product,
   Information,
-  ProductList,
+  ProductListStack,
   CartSummary
 } from "localyyz/scenes";
 
@@ -19,7 +19,7 @@ export const DealsNavigator = StackNavigator(
     MissedDeal: { screen: MissedDeal },
     Product: { screen: Product },
     Information: { screen: Information },
-    ProductList: { screen: ProductList },
+    ProductList: { screen: ProductListStack },
     CartSummary: { screen: CartSummary }
   },
   {

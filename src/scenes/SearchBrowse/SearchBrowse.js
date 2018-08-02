@@ -9,7 +9,7 @@ import { Colours, Styles } from "localyyz/constants";
 import { capitalizeSentence } from "localyyz/helpers";
 
 // local
-import { ProductListScene } from "../ProductList/scenes";
+import { ProductList } from "../ProductList/scenes";
 import { CategoryList, SearchInputBox } from "./components";
 import Store from "./store";
 
@@ -35,7 +35,7 @@ export default class Search extends React.Component {
               </Animated.View>
             </View>
           ) : (
-            <ProductListScene
+            <ProductList
               store={this.store}
               title={capitalizeSentence(this.store.searchQuery)}
               onBack={this.store.clearSearch}

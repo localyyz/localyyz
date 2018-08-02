@@ -7,11 +7,11 @@ import Filter from "../Filter";
 import Information from "../Information";
 
 // local
-import { ProductListScene } from "./scenes";
+import { ProductList } from "./scenes";
 
 const ProductListStack = createStackNavigator(
   {
-    ProductList: { screen: ProductListScene },
+    ProductList: { screen: ProductList },
     Product: { screen: Product },
     Information: { screen: Information },
     Filter: { screen: Filter }

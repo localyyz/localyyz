@@ -1,1 +1,1 @@
-export { default as ProductListScene } from "./ProductListScene";
+export { default as ProductList } from "./ProductListScene";
