@@ -81,11 +81,19 @@ export default class DealsScene extends React.Component {
       this.store.refresh(10);
       this.store.isFocused = true;
     });
+    this.blurListener = this.props.navigation.addListener("willBlur", () => {
+      // blurring, stop fetching deals
+      this.store.clearTimeout();
+      this.store.isFocused = false;
+    });
   }
 
   componentDidMount() {
     this.store.fetch();
     this.activateDeal();
+
+    this.blurListener && this.blurListener.remove();
+    this.blurListener = null;
   }
 
   componentDidUpdate(prevProps) {

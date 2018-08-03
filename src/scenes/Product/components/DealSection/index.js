@@ -18,7 +18,7 @@ import { Timer, ProgressBar } from "localyyz/components";
 @observer
 export default class DealSection extends React.Component {
   get isActive() {
-    return Moment(this.props.deal.startAt).diff(this.props.now) < 0;
+    return Moment(this.props.deal.startAt).diff(this.props.now) < 0 && Moment(this.props.deal.endAt).diff(this.props.now) > 0;
   }
 
   render() {
