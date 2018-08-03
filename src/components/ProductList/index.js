@@ -54,14 +54,8 @@ export class ProductList extends React.Component {
         <ProductTile
           style={styles.tileComponent}
           onPress={() =>
-            // NOTE: specify the navigation `key` here
-            // to force a "pushey" navigation
-            this.props.navigation.navigate({
-              routeName: "Product",
-              key: `prouct${product.id}`,
-              params: {
-                product: product
-              }
+            this.props.navigation.push("Product", {
+              product: product
             })
           }
           backgroundColor={this.props.backgroundColor}

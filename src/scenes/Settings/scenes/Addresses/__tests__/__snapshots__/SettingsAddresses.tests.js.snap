@@ -194,9 +194,13 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
             />
             <View
               style={
-                Object {
-                  "marginBottom": 100,
-                }
+                Array [
+                  Object {
+                    "minHeight": 1334,
+                    "paddingBottom": NaN,
+                  },
+                  undefined,
+                ]
               }
             >
               <View

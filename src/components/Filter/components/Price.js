@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Styles, Sizes, Colours } from "localyyz/constants";
-import {toPriceString} from "localyyz/helpers";
+import { toPriceString } from "localyyz/helpers";
 import { GA } from "localyyz/global";
 
 // third party
@@ -51,7 +51,9 @@ export default class Price extends React.Component {
     this.state = {
       isActive: false,
       width: 0,
-      isAtMax: this.props.priceMax ? this.props.priceMax === Price.defaultProps.max : true
+      isAtMax: this.props.priceMax
+        ? this.props.priceMax === Price.defaultProps.max
+        : true
     };
 
     // bindings
@@ -126,7 +128,9 @@ export default class Price extends React.Component {
               {this.priceMin ? `$${this.priceMin.toFixed(2)}` : "Free"}
             </Text>
             <Text style={styles.label}>
-              {`${toPriceString(this.priceMax)}${this.state.isAtMax ? "+" : ""}`}
+              {`${toPriceString(this.priceMax)}${
+                this.state.isAtMax ? "+" : ""
+              }`}
             </Text>
           </Animatable.View>
         </View>
@@ -173,6 +177,8 @@ const styles = StyleSheet.create({
   },
 
   filterHeader: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
     marginBottom: Sizes.InnerFrame
   },
 
@@ -182,8 +188,7 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    ...Styles.Text,
-    ...Styles.TinyText
+    ...Styles.Text
   },
 
   sliderSelected: {

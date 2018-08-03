@@ -29,7 +29,7 @@ export class RelatedItem extends React.Component {
       <TouchableOpacity
         onPress={() => {
           this.props.closeAddedSummary();
-          this.props.navigation.navigate("Product", {
+          this.props.navigation.push("Product", {
             product: this.props.product
           });
         }}>

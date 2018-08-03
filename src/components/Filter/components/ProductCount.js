@@ -3,6 +3,9 @@ import { View, StyleSheet, Text } from "react-native";
 import PropTypes from "prop-types";
 import { Styles } from "localyyz/constants";
 
+// custom
+import { withCommas } from "localyyz/helpers";
+
 // third party
 import { observer, inject } from "mobx-react/native";
 
@@ -20,7 +23,9 @@ export default class ProductCount extends React.Component {
     return this.props.count != null ? (
       <View style={styles.container}>
         <Text style={[styles.label, this.props.labelStyle]}>
-          Show {this.props.count < 2000 ? this.props.count : "2000+"} products
+          Show{" "}
+          {this.props.count < 2000 ? withCommas(this.props.count) : "2,000+"}{" "}
+          products
         </Text>
       </View>
     ) : null;

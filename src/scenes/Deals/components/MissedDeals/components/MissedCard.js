@@ -42,7 +42,7 @@ export default class MissedCard extends React.Component {
 
   onPress() {
     this.props.deal
-      && this.props.navigation.navigate("MissedDeal", {
+      && this.props.navigation.push("MissedDeal", {
         deal: this.props.deal
       });
   }

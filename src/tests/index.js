@@ -6,21 +6,18 @@
 export { renderWithLayout, DEFAULT_TEST_LAYOUT } from "./renderWithLayout";
 
 export const findById = (tree, testID) => {
-  if (tree.testID === testID) {
+  if (!tree) {
+    return;
+  } else if (
+    tree.testID === testID
+    || (tree.props && tree.props.testID === testID)
+  ) {
     return tree;
-  }
-
-  if (tree.props && tree.props.testID === testID) {
-    return tree;
-  }
-
-  if (tree.props && typeof tree.props.children === "object") {
+  } else if (tree.props && typeof tree.props.children === "object") {
     return findById(tree.props.children, testID);
-  }
-
-  if (Array.isArray(tree)) {
-    for (let i in tree) {
-      let item = findById(tree[i], testID);
+  } else if (Array.isArray(tree)) {
+    for (let node of tree) {
+      let item = findById(node, testID);
       if (typeof item !== "undefined") {
         return item;
       }

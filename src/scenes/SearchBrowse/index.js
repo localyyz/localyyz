@@ -1,16 +1,18 @@
 // third party
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 
 // local
 import SearchBrowse from "./SearchBrowse";
-import ProductList from "../ProductList";
+import ProductListStack from "../ProductList";
 import Product from "../Product";
+import Filter from "../Filter";
 
-const SearchBrowseStack = StackNavigator(
+const SearchBrowseStack = createStackNavigator(
   {
     SearchBrowse: { screen: SearchBrowse },
-    ProductList: { screen: ProductList },
-    Product: { screen: Product }
+    ProductList: { screen: ProductListStack },
+    Product: { screen: Product },
+    Filter: { screen: Filter }
   },
   {
     initialRouteName: "SearchBrowse",

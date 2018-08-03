@@ -62,7 +62,7 @@ exports[`CategoryGender should render properly 1`] = `
             }
           }
         >
-          Woman
+          Women
         </Text>
       </View>
     </View>
@@ -118,7 +118,7 @@ exports[`CategoryGender should render properly 1`] = `
             }
           }
         >
-          Man
+          Men
         </Text>
       </View>
     </View>
@@ -188,7 +188,7 @@ exports[`CategoryGender should render properly with selected gender 1`] = `
             }
           }
         >
-          Woman
+          Women
         </Text>
       </View>
     </View>
@@ -244,7 +244,7 @@ exports[`CategoryGender should render properly with selected gender 1`] = `
             }
           }
         >
-          Man
+          Men
         </Text>
       </View>
     </View>
@@ -314,7 +314,7 @@ exports[`CategoryGender should render properly with user gender 1`] = `
             }
           }
         >
-          Woman
+          Women
         </Text>
       </View>
     </View>
@@ -370,7 +370,7 @@ exports[`CategoryGender should render properly with user gender 1`] = `
             }
           }
         >
-          Man
+          Men
         </Text>
       </View>
     </View>

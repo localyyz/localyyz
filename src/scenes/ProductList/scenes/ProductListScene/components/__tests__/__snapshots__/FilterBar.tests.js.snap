@@ -1,0 +1,1052 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterBar should render to snapshot 1`] = `
+<Component
+  style={
+    Object {
+      "backgroundColor": "#FFFFFF",
+    }
+  }
+  testID="hello"
+>
+  <FlatList
+    ListHeaderComponent={
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <Component
+          style={Object {}}
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "color": "#999999",
+              }
+            }
+          >
+            Filter by
+          </Text>
+        </Component>
+        <TouchableOpacity
+          activeOpacity={0.2}
+          onPress={[Function]}
+        >
+          <SloppyView>
+            <Component
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#DEEFF5",
+                  "borderRadius": 15,
+                  "height": 30,
+                  "justifyContent": "center",
+                  "marginHorizontal": 7.5,
+                  "width": 30,
+                }
+              }
+            >
+              <Icon
+                allowFontScaling={false}
+                color="rgb(30, 30, 30)"
+                name="playlist-add"
+                size={16}
+              />
+            </Component>
+          </SloppyView>
+        </TouchableOpacity>
+        <Component
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#DEEFF5",
+              "borderRadius": 15,
+              "height": 30,
+              "justifyContent": "center",
+              "marginHorizontal": 7.5,
+              "width": 30,
+            }
+          }
+          testID="gender"
+        >
+          <inject-Gender />
+        </Component>
+        <Component
+          style={Object {}}
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "color": "#999999",
+              }
+            }
+          >
+            Sort by
+          </Text>
+        </Component>
+      </Component>
+    }
+    contentContainerStyle={
+      Object {
+        "alignItems": "center",
+        "paddingHorizontal": 15,
+      }
+    }
+    data={
+      Array [
+        Object {
+          "label": "What's new",
+          "value": "created_at",
+        },
+        Object {
+          "hasDirection": true,
+          "label": "Price",
+          "value": "price",
+        },
+        Object {
+          "label": "Discount (% off)",
+          "value": "discount",
+        },
+      ]
+    }
+    disableVirtualization={false}
+    horizontal={true}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "#999999",
+        "fontSize": 14,
+        "fontWeight": "600",
+        "paddingHorizontal": 15,
+        "paddingTop": 7.5,
+      }
+    }
+  >
+    100 products
+  </Text>
+</Component>
+`;
+
+exports[`FilterBar should show brand filter 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Filter by
+    </Text>
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+    >
+      <SloppyView>
+        <Component
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderRadius": 15,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "marginTop": 1,
+                "paddingHorizontal": 3.75,
+                "paddingVertical": 3.75,
+              },
+              Object {
+                "backgroundColor": "#DEEFF5",
+                "marginHorizontal": 3.75,
+                "paddingHorizontal": 15,
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {},
+              ]
+            }
+            testID="brand"
+          >
+            Only Supreme
+          </Text>
+        </Component>
+      </SloppyView>
+    </TouchableOpacity>
+  </Component>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <SloppyView>
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#DEEFF5",
+            "borderRadius": 15,
+            "height": 30,
+            "justifyContent": "center",
+            "marginHorizontal": 7.5,
+            "width": 30,
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          color="rgb(30, 30, 30)"
+          name="playlist-add"
+          size={16}
+        />
+      </Component>
+    </SloppyView>
+  </TouchableOpacity>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#DEEFF5",
+        "borderRadius": 15,
+        "height": 30,
+        "justifyContent": "center",
+        "marginHorizontal": 7.5,
+        "width": 30,
+      }
+    }
+    testID="gender"
+  >
+    <inject-Gender />
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Sort by
+    </Text>
+  </Component>
+</Component>
+`;
+
+exports[`FilterBar should show color filter 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Filter by
+    </Text>
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+    >
+      <SloppyView>
+        <Component
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderRadius": 15,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "marginTop": 1,
+                "paddingHorizontal": 3.75,
+                "paddingVertical": 3.75,
+              },
+              Object {
+                "backgroundColor": "#DEEFF5",
+                "marginHorizontal": 3.75,
+                "paddingHorizontal": 15,
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {},
+              ]
+            }
+            testID="color"
+          >
+            Only Black
+          </Text>
+        </Component>
+      </SloppyView>
+    </TouchableOpacity>
+  </Component>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <SloppyView>
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#DEEFF5",
+            "borderRadius": 15,
+            "height": 30,
+            "justifyContent": "center",
+            "marginHorizontal": 7.5,
+            "width": 30,
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          color="rgb(30, 30, 30)"
+          name="playlist-add"
+          size={16}
+        />
+      </Component>
+    </SloppyView>
+  </TouchableOpacity>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#DEEFF5",
+        "borderRadius": 15,
+        "height": 30,
+        "justifyContent": "center",
+        "marginHorizontal": 7.5,
+        "width": 30,
+      }
+    }
+    testID="gender"
+  >
+    <inject-Gender />
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Sort by
+    </Text>
+  </Component>
+</Component>
+`;
+
+exports[`FilterBar should show discount filter 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Filter by
+    </Text>
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+    >
+      <SloppyView>
+        <Component
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderRadius": 15,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "marginTop": 1,
+                "paddingHorizontal": 3.75,
+                "paddingVertical": 3.75,
+              },
+              Object {
+                "backgroundColor": "#DEEFF5",
+                "marginHorizontal": 3.75,
+                "paddingHorizontal": 15,
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {},
+              ]
+            }
+            testID="discount"
+          >
+            At Least 50% Off
+          </Text>
+        </Component>
+      </SloppyView>
+    </TouchableOpacity>
+  </Component>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <SloppyView>
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#DEEFF5",
+            "borderRadius": 15,
+            "height": 30,
+            "justifyContent": "center",
+            "marginHorizontal": 7.5,
+            "width": 30,
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          color="rgb(30, 30, 30)"
+          name="playlist-add"
+          size={16}
+        />
+      </Component>
+    </SloppyView>
+  </TouchableOpacity>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#DEEFF5",
+        "borderRadius": 15,
+        "height": 30,
+        "justifyContent": "center",
+        "marginHorizontal": 7.5,
+        "width": 30,
+      }
+    }
+    testID="gender"
+  >
+    <inject-Gender />
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Sort by
+    </Text>
+  </Component>
+</Component>
+`;
+
+exports[`FilterBar should show gender filter when no gender is given 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Filter by
+    </Text>
+  </Component>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <SloppyView>
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#DEEFF5",
+            "borderRadius": 15,
+            "height": 30,
+            "justifyContent": "center",
+            "marginHorizontal": 7.5,
+            "width": 30,
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          color="rgb(30, 30, 30)"
+          name="playlist-add"
+          size={16}
+        />
+      </Component>
+    </SloppyView>
+  </TouchableOpacity>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#DEEFF5",
+        "borderRadius": 15,
+        "height": 30,
+        "justifyContent": "center",
+        "marginHorizontal": 7.5,
+        "width": 30,
+      }
+    }
+    testID="gender"
+  >
+    <inject-Gender />
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Sort by
+    </Text>
+  </Component>
+</Component>
+`;
+
+exports[`FilterBar should show price filter 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Filter by
+    </Text>
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+    >
+      <SloppyView>
+        <Component
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderRadius": 15,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "marginTop": 1,
+                "paddingHorizontal": 3.75,
+                "paddingVertical": 3.75,
+              },
+              Object {
+                "backgroundColor": "#DEEFF5",
+                "marginHorizontal": 3.75,
+                "paddingHorizontal": 15,
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {},
+              ]
+            }
+            testID="price"
+          >
+            Under $100
+          </Text>
+        </Component>
+      </SloppyView>
+    </TouchableOpacity>
+  </Component>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <SloppyView>
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#DEEFF5",
+            "borderRadius": 15,
+            "height": 30,
+            "justifyContent": "center",
+            "marginHorizontal": 7.5,
+            "width": 30,
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          color="rgb(30, 30, 30)"
+          name="playlist-add"
+          size={16}
+        />
+      </Component>
+    </SloppyView>
+  </TouchableOpacity>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#DEEFF5",
+        "borderRadius": 15,
+        "height": 30,
+        "justifyContent": "center",
+        "marginHorizontal": 7.5,
+        "width": 30,
+      }
+    }
+    testID="gender"
+  >
+    <inject-Gender />
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Sort by
+    </Text>
+  </Component>
+</Component>
+`;
+
+exports[`FilterBar should show size filter 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+    }
+  }
+>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Filter by
+    </Text>
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+    >
+      <SloppyView>
+        <Component
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderRadius": 15,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "marginTop": 1,
+                "paddingHorizontal": 3.75,
+                "paddingVertical": 3.75,
+              },
+              Object {
+                "backgroundColor": "#DEEFF5",
+                "marginHorizontal": 3.75,
+                "paddingHorizontal": 15,
+              },
+            ]
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                },
+                Object {},
+              ]
+            }
+            testID="size"
+          >
+            Only Large
+          </Text>
+        </Component>
+      </SloppyView>
+    </TouchableOpacity>
+  </Component>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <SloppyView>
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#DEEFF5",
+            "borderRadius": 15,
+            "height": 30,
+            "justifyContent": "center",
+            "marginHorizontal": 7.5,
+            "width": 30,
+          }
+        }
+      >
+        <Icon
+          allowFontScaling={false}
+          color="rgb(30, 30, 30)"
+          name="playlist-add"
+          size={16}
+        />
+      </Component>
+    </SloppyView>
+  </TouchableOpacity>
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#DEEFF5",
+        "borderRadius": 15,
+        "height": 30,
+        "justifyContent": "center",
+        "marginHorizontal": 7.5,
+        "width": 30,
+      }
+    }
+    testID="gender"
+  >
+    <inject-Gender />
+  </Component>
+  <Component
+    style={Object {}}
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#999999",
+        }
+      }
+    >
+      Sort by
+    </Text>
+  </Component>
+</Component>
+`;
+
+exports[`SortOption should render to snapshot 1`] = `
+<View
+  style={Object {}}
+>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      hitSlop={
+        Object {
+          "bottom": 15,
+          "left": 15,
+          "right": 15,
+          "top": 15,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "borderRadius": 15,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "marginTop": 1,
+              "paddingHorizontal": 3.75,
+              "paddingVertical": 3.75,
+            },
+            Object {
+              "backgroundColor": "#DEEFF5",
+              "marginHorizontal": 3.75,
+              "paddingHorizontal": 15,
+            },
+          ]
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Array [
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "#000000",
+                "fontSize": 14,
+                "fontWeight": "600",
+              },
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "#000000",
+                "fontSize": 14,
+                "fontWeight": "600",
+              },
+              Object {},
+            ]
+          }
+        >
+          What's New
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

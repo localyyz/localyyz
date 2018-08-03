@@ -23,8 +23,8 @@ const GENDER_MAPPING = Object.assign(
   gender: (stores.searchStore || props).gender,
   setGender: (stores.searchStore || props).setGender,
   userGender:
-    stores.userStore && stores.userStore.user
-      ? stores.userStore.user.gender
+    stores.userStore && stores.userStore
+      ? stores.userStore.gender
       : props.userGender
 }))
 @observer

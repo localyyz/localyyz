@@ -9,7 +9,7 @@ import { Colours, Styles } from "localyyz/constants";
 import { capitalizeSentence } from "localyyz/helpers";
 
 // local
-import ProductList from "../ProductList";
+import { ProductList } from "../ProductList/scenes";
 import { CategoryList, SearchInputBox } from "./components";
 import Store from "./store";
 

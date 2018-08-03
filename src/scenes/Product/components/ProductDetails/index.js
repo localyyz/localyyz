@@ -57,7 +57,7 @@ export class ProductDetails extends React.Component {
           title="Details"
           content={this.props.description}
           onExpand={() =>
-            this.props.navigation.navigate("Information", {
+            this.props.navigation.push("Information", {
               title: "Product information",
               content: this.expandedDescriptionComponent
             })
@@ -68,7 +68,7 @@ export class ProductDetails extends React.Component {
           onExpand={
             this.props.isSizeChartSupported
               ? () =>
-                  this.props.navigation.navigate("Information", {
+                  this.props.navigation.push("Information", {
                     title: "Sizing and fit",
                     content: <SizeChart type={this.props.sizeChartType} />
                   })

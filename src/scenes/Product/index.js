@@ -133,7 +133,7 @@ class ProductScene extends React.Component {
   }
 
   onBack() {
-    this.props.navigation.goBack();
+    this.props.navigation.goBack(null);
     this.settings.onBack && this.settings.onBack();
   }
 

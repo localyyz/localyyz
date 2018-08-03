@@ -7,9 +7,8 @@ import {
 } from "react-native";
 
 // custom
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 import { ReactiveSpacer } from "localyyz/components";
-import { NAVBAR_HEIGHT } from "../../components/NavBar";
 
 // third party
 import PropTypes from "prop-types";
