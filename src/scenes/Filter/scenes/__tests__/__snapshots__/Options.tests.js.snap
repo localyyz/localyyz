@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filter Options should match snapshot 1`] = `
+<RCTScrollView
+  ccs={
+    Object {
+      "headerHeight": 0,
+    }
+  }
+  contentContainerStyle={
+    Object {
+      "paddingBottom": 48,
+    }
+  }
+  data={
+    Array [
+      Object {
+        "data": Array [
+          Object {},
+        ],
+        "renderItem": [Function],
+      },
+      Object {
+        "data": Array [
+          Object {},
+        ],
+        "renderItem": [Function],
+      },
+    ]
+  }
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  maxToRenderPerBatch={10}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  renderSectionHeader={[Function]}
+  scrollEventThrottle={16}
+  sections={
+    Array [
+      Object {
+        "data": Array [
+          Object {},
+        ],
+        "renderItem": [Function],
+      },
+      Object {
+        "data": Array [
+          Object {},
+        ],
+        "renderItem": [Function],
+      },
+    ]
+  }
+  showsHorizontalScrollIndicator={false}
+  showsVerticalScrollIndicator={false}
+  stickyHeaderIndices={
+    Array [
+      0,
+      3,
+    ]
+  }
+  stickySectionHeadersEnabled={true}
+  updateCellsBatchingPeriod={50}
+  windowSize={21}
+>
+  <View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    />
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          Object {
+            "paddingTop": 0,
+          }
+        }
+      />
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    />
+    <View
+      onLayout={[Function]}
+      style={null}
+    />
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "paddingLeft": 15,
+            },
+            Object {
+              "paddingVertical": 15,
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          isTVSelectable={true}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "paddingVertical": 7.5,
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 16,
+                  "fontWeight": "600",
+                }
+              }
+            >
+              Show All
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    />
+  </View>
+</RCTScrollView>
+`;

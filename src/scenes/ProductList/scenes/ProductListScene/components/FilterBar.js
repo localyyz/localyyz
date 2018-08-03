@@ -48,7 +48,6 @@ export class FilterBar extends React.Component {
     // bindings
     this.openFilter = this.openFilter.bind(this);
     this.renderItem = this.renderItem.bind(this);
-    this.renderSelectedOption = this.renderSelectedOption.bind(this);
   }
 
   componentDidMount() {
@@ -64,53 +63,15 @@ export class FilterBar extends React.Component {
   }
 
   renderItem({ item: sorter }) {
-    return (
-      <SortOption
-        {...sorter}
-        renderSelectedOption={this.renderSelectedOption}/>
-    );
+    return <SortOption {...sorter} />;
   }
 
   get genderFilter() {
     return !this.props.hideGenderFilter ? (
-      <View style={styles.circle}>
+      <View style={styles.circle} testID="gender">
         <Filter.Gender />
       </View>
     ) : null;
-  }
-
-  renderSelectedOption(
-    label,
-    onPress,
-    isSelected = false,
-    hasDirection = false,
-    isDescending = false
-  ) {
-    return (
-      <View style={styles.optionContainer}>
-        <TouchableOpacity onPress={onPress}>
-          <SloppyView>
-            <View style={[styles.option, isSelected && styles.selectedOption]}>
-              <Text
-                style={[
-                  styles.optionLabel,
-                  styles.optionLabel,
-                  isSelected && styles.selectedOptionLabel
-                ]}>
-                {capitalize(label)}
-              </Text>
-              {hasDirection && isSelected ? (
-                <View style={styles.optionDirection}>
-                  <MaterialIcon
-                    name={isDescending ? "arrow-downward" : "arrow-upward"}
-                    size={Sizes.TinyText}/>
-                </View>
-              ) : null}
-            </View>
-          </SloppyView>
-        </TouchableOpacity>
-      </View>
-    );
   }
 
   get priceFilter() {
@@ -126,50 +87,65 @@ export class FilterBar extends React.Component {
     }
 
     return label
-      ? this.renderSelectedOption(
+      ? renderSelectedOption(
           label,
           () => this.props.store.setPriceFilter(),
-          true
+          true,
+          undefined,
+          undefined,
+          "price"
         )
       : null;
   }
 
   get discountFilter() {
     return this.props.store.discountMin
-      ? this.renderSelectedOption(
+      ? renderSelectedOption(
           `At least ${Math.round(this.props.store.discountMin * 100)}% off`,
           () => this.props.store.setDiscountFilter(),
-          true
+          true,
+          undefined,
+          undefined,
+          "discount"
         )
       : null;
   }
 
   get brandFilter() {
     return this.props.store.brand
-      ? this.renderSelectedOption(
+      ? renderSelectedOption(
           `Only ${this.props.store.brand}`,
           () => this.props.store.setBrandFilter(),
-          true
+          true,
+          undefined,
+          undefined,
+          "brand"
         )
       : null;
   }
 
   get colorFilter() {
     return this.props.store.color
-      ? this.renderSelectedOption(
+      ? renderSelectedOption(
           `Only ${this.props.store.color}`,
           () => this.props.store.setColorFilter(),
-          true
+          true,
+          undefined,
+          undefined,
+          "color"
         )
       : null;
   }
 
   get sizeFilter() {
     return this.props.store.size
-      ? this.renderSelectedOption(
+      ? renderSelectedOption(
           `Only ${this.props.store.size}`,
           () => this.props.store.setSizeFilter(),
-          true
+          true,
+          undefined,
+          undefined,
+          "size"
         )
       : null;
   }
@@ -205,7 +181,7 @@ export class FilterBar extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} testID="hello">
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -228,7 +204,7 @@ export class FilterBar extends React.Component {
   setSortBy: stores.filterStore.setSortBy
 }))
 @observer
-class SortOption extends React.Component {
+export class SortOption extends React.Component {
   constructor(props) {
     super(props);
 
@@ -263,7 +239,7 @@ class SortOption extends React.Component {
   }
 
   render() {
-    return this.props.renderSelectedOption(
+    return renderSelectedOption(
       this.props.label,
       this.onPress,
       this.isSelected,
@@ -271,6 +247,43 @@ class SortOption extends React.Component {
       this.isDescending
     );
   }
+}
+
+// helpers
+function renderSelectedOption(
+  label,
+  onPress,
+  isSelected = false,
+  hasDirection = false,
+  isDescending = false,
+  id
+) {
+  return (
+    <View style={styles.optionContainer}>
+      <TouchableOpacity onPress={onPress}>
+        <SloppyView>
+          <View style={[styles.option, isSelected && styles.selectedOption]}>
+            <Text
+              style={[
+                styles.optionLabel,
+                styles.optionLabel,
+                isSelected && styles.selectedOptionLabel
+              ]}
+              testID={id}>
+              {capitalize(label)}
+            </Text>
+            {hasDirection && isSelected ? (
+              <View style={styles.optionDirection}>
+                <MaterialIcon
+                  name={isDescending ? "arrow-downward" : "arrow-upward"}
+                  size={Sizes.TinyText}/>
+              </View>
+            ) : null}
+          </View>
+        </SloppyView>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 export default withNavigation(FilterBar);

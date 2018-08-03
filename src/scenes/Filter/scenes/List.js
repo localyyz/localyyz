@@ -96,7 +96,7 @@ export default class FilterList extends React.Component {
   data: stores.filterStore[props.id] || []
 }))
 @observer
-class Options extends React.Component {
+export class Options extends React.Component {
   constructor(props) {
     super(props);
 
