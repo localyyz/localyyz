@@ -12,7 +12,6 @@ import { Timer, ProgressBar } from "localyyz/components";
 @inject(stores => ({
   now: stores.dealStore && stores.dealStore.now,
   product: stores.productStore.product,
-  fetch: () => stores.activeDealStore.fetch(),
   progress: stores.activeDealStore && stores.activeDealStore.progress,
   deal: stores.activeDealStore && stores.activeDealStore.deal
 }))
@@ -50,7 +49,7 @@ export default class DealSection extends React.Component {
                     "soon"
                   )
                 ) : this.props.deal.startAt ? (
-                  <Timer target={Moment(this.props.deal.startAt).toArray()} onComplete={this.props.fetch()}/>
+                  <Timer target={Moment(this.props.deal.startAt).toArray()}/>
                 ) : (
                   "soon"
                 )}

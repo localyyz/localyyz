@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Animated
+} from "react-native";
 
 // third party
 import Moment from "moment";
@@ -8,20 +14,12 @@ import { inject, observer } from "mobx-react/native";
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { ConstrainedAspectImage } from "localyyz/components";
-import UpcomingDealUIStore from "./store";
 
 @inject(stores => ({
   dealStore: stores.dealStore
 }))
 @observer
 export default class UpcomingCard extends React.Component {
-
-  constructor(props){
-    super(props);
-    // so it starts pulling in the percentage claimed when the deal becomes active
-    this.store = new UpcomingDealUIStore(this.props.deal);
-  }
-
   render() {
     let cardWidth = Sizes.Width - Sizes.InnerFrame * 2;
     return this.props.deal ? (
@@ -32,7 +30,10 @@ export default class UpcomingCard extends React.Component {
             // used for now timer sync
             dealStore: this.props.dealStore,
             // deal data itself
-            activeDealStore: this.store
+            activeDealStore: {
+              deal: this.props.deal,
+              progress: new Animated.Value(0)
+            }
           })
         }>
         <View>
@@ -45,9 +46,15 @@ export default class UpcomingCard extends React.Component {
           ) : null}
           <View style={[styles.cardContainer, styles.card]}>
             <Text style={styles.title}>
-              {this.dayDifference === 0 ? "Today" : this.dayDifference === 1 ? "Tomorrow"  : `In ${this.dayDifference} days`}
+              {this.dayDifference === 0
+                ? "Today"
+                : this.dayDifference === 1
+                  ? "Tomorrow"
+                  : `In ${this.dayDifference} days`}
             </Text>
-            <Text style={styles.text}>{this.props.deal.description}</Text>
+            {this.props.deal.description ? (
+              <Text style={styles.text}>{this.props.deal.description}</Text>
+            ) : null}
           </View>
         </View>
       </TouchableOpacity>
@@ -55,11 +62,11 @@ export default class UpcomingCard extends React.Component {
   }
 
   get product() {
-    return this.props.deal.products[0]
+    return this.props.deal.products[0];
   }
 
-  get dayDifference(){
-    return Moment(this.props.deal.startAt).diff(this.props.now, "d")
+  get dayDifference() {
+    return Moment(this.props.deal.startAt).diff(this.props.now, "d");
   }
 }
 

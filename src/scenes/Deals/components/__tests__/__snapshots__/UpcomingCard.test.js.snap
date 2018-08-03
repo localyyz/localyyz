@@ -77,7 +77,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly 1`] = `
           }
         }
       >
-        In -212 days
+        In -214 days
       </Text>
       <Text
         accessible={true}
@@ -91,7 +91,9 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly 1`] = `
             "fontWeight": "300",
           }
         }
-      />
+      >
+        Test Description
+      </Text>
     </View>
   </View>
 </View>
