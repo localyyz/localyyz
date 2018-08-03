@@ -90,6 +90,10 @@ export function onlyIfLoggedIn({ hasSession }, action, navigation) {
   }
 }
 
+export function withCommas(number) {
+  return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0";
+}
+
 export function toPriceString(
   price,
   currency = "USD",
@@ -99,13 +103,9 @@ export function toPriceString(
   let base = round ? 1 : 100;
   return price != null && (price > 0 || !avoidFree)
     ? price > 0
-      ? `${getSymbolFromCurrency(currency) || "$"}${(
-          Math.round(price * base) / base
-        ).toFixed(`${base}`.length - 1)}`
+      ? `${getSymbolFromCurrency(currency) || "$"}${withCommas(
+          (Math.round(price * base) / base).toFixed(`${base}`.length - 1)
+        )}`
       : "Free"
     : "";
-}
-
-export function withCommas(number) {
-  return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0";
 }

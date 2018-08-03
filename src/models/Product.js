@@ -189,6 +189,20 @@ export default class Product {
     return variant;
   }
 
+  get associatedSizes() {
+    let selectedVariant = this.selectedVariant;
+
+    // need to return only sizes that exist with this current color
+    let _associatedSizes = this.variants
+      .filter(variant => variant.etc.color === selectedVariant.etc.color)
+      .map(variant => variant.etc.size);
+
+    // retain backend ordering of the sizes
+    return this.sizes.filter(
+      size => _associatedSizes.findIndex(_s => _s === size) >= 0
+    );
+  }
+
   // photos associated with this color
   get associatedPhotos() {
     let photoGroups = this.photoGroups;
