@@ -67,7 +67,7 @@ class DealWaitingContent extends React.Component {
   render() {
     return (
       <View style={[styles.content, styles.centered]}>
-        <Text style={[styles.title, styles.header]}>Today at noon</Text>
+        <Text style={[styles.title, styles.header]}>Today</Text>
         <Text style={styles.title}>sale starts in</Text>
         <Text style={styles.title}>
           <Timer
@@ -99,7 +99,7 @@ class DealMissedContent extends React.Component {
     return (
       <View style={[styles.content, styles.centered]}>
         <Text style={[styles.title, styles.header]}>You missed it today</Text>
-        <Text style={styles.title}>next deal tomorrow at noon</Text>
+        <Text style={styles.title}>next deal</Text>
         <Text style={styles.title}>
           <Timer
             target={this.props.target}
@@ -115,9 +115,9 @@ class DealExpiredContent extends React.Component {
     return (
       <View style={[styles.content, styles.centered]}>
         <Text style={[styles.title, styles.header]}>{".. and it's over"}</Text>
-        <Text style={[styles.title, styles.compressed]}>
-          next deal tomorrow at noon
-        </Text>
+        {/*<Text style={[styles.title, styles.compressed]}>*/}
+          {/*next deal tomorrow*/}
+        {/*</Text>*/}
       </View>
     );
   }

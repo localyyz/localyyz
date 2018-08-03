@@ -91,6 +91,9 @@ export default class DealsScene extends React.Component {
   componentDidMount() {
     this.store.fetch();
     this.activateDeal();
+
+    this.blurListener && this.blurListener.remove();
+    this.blurListener = null;
   }
 
   componentDidUpdate(prevProps) {
@@ -107,9 +110,6 @@ export default class DealsScene extends React.Component {
     // unsubscribe to listeners
     this.focusListener && this.focusListener.remove();
     this.focusListener = null;
-
-    this.blurListener && this.blurListener.remove();
-    this.blurListener = null;
   }
 
   activateDeal = () => {

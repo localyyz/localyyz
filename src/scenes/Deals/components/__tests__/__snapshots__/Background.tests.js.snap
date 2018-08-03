@@ -241,29 +241,6 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Ex
     >
       .. and it's over
     </Text>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail"
-      style={
-        Array [
-          Object {
-            "backgroundColor": "rgba(255, 255, 255, 0)",
-            "borderBottomColor": "#FFFFFF",
-            "color": "#FFFFFF",
-            "fontSize": 22,
-            "fontWeight": "700",
-            "marginHorizontal": 25,
-            "textAlign": "center",
-          },
-          Object {
-            "marginHorizontal": 187.5,
-          },
-        ]
-      }
-    >
-      next deal tomorrow at noon
-    </Text>
   </View>
 </View>
 `;
@@ -390,7 +367,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Mi
         }
       }
     >
-      next deal tomorrow at noon
+      next deal
     </Text>
     <Text
       accessible={true}
@@ -525,7 +502,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Wa
         ]
       }
     >
-      Today at noon
+      Today
     </Text>
     <Text
       accessible={true}

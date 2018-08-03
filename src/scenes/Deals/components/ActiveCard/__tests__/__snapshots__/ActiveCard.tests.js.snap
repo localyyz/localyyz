@@ -190,7 +190,7 @@ exports[`Deals/ActiveCard Deals/ActiveCard: should render properly 1`] = `
                   }
                 }
               >
-                Buy — $7
+                View — $7
               </Text>
             </View>
           </View>
