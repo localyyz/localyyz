@@ -76,7 +76,7 @@ export default class FilterMain extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: Sizes.ScreenBottom + NAVBAR_HEIGHT
+    marginBottom: Sizes.OuterFrame + Sizes.ScreenBottom
   },
 
   content: {

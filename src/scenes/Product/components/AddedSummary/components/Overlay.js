@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
 
   footer: {
     padding: Sizes.OuterFrame,
+    paddingBottom: Sizes.OuterFrame + Sizes.ScreenBottom,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Colours.DarkTransparent
