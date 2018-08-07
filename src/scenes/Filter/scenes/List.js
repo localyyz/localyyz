@@ -187,6 +187,7 @@ export class Options extends React.Component {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
+        ListFooterComponent={<View style={styles.footer} />}
         contentContainerStyle={styles.container}/>
     );
   }
@@ -232,7 +233,7 @@ class Option extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: Sizes.ScreenBottom + NAVBAR_HEIGHT
+    paddingBottom: NAVBAR_HEIGHT
   },
 
   option: {
@@ -245,8 +246,7 @@ const styles = StyleSheet.create({
   },
 
   sectionHeader: {
-    paddingTop: Sizes.InnerFrame,
-    paddingBottom: Sizes.InnerFrame / 2,
+    paddingVertical: Sizes.InnerFrame / 2,
     marginBottom: Sizes.InnerFrame,
     borderBottomWidth: Sizes.Spacer,
     borderBottomColor: Colours.SubduedText
@@ -263,6 +263,11 @@ const styles = StyleSheet.create({
   },
 
   topWrapper: {
-    paddingVertical: Sizes.InnerFrame
+    paddingTop: Sizes.InnerFrame
+  },
+
+  footer: {
+    padding: Sizes.InnerFrame / 2,
+    backgroundColor: Colours.Foreground
   }
 });

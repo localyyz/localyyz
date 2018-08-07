@@ -119,7 +119,7 @@ export default class Discount extends React.Component {
           markerContainerStyle={styles.markerContainer}
           trackStyle={styles.track}
           markerOffsetX={-13}
-          markerOffsetY={-5.5}
+          markerOffsetY={-6}
           unselectedStyle={styles.sliderSelected}
           selectedStyle={styles.sliderUnselected}
           values={[this.discountMin]}

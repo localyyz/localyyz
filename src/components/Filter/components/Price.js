@@ -148,7 +148,7 @@ export default class Price extends React.Component {
           markerContainerStyle={styles.markerContainer}
           trackStyle={styles.track}
           markerOffsetX={-13}
-          markerOffsetY={-5.5}
+          markerOffsetY={-6}
           unselectedStyle={styles.sliderUnselected}
           selectedStyle={styles.sliderSelected}
           values={[this.priceMin, this.priceMax]}
