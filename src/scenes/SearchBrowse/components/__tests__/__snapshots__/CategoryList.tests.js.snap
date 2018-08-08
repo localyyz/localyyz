@@ -5,7 +5,7 @@ Object {
   "fetchPath": "categories/activewear/products",
   "gender": undefined,
   "hideCategories": true,
-  "hideGenderFilter": true,
+  "hideGenderFilter": false,
   "listHeader": <CategoryBar
     id="activewear"
     onChangeCategory={[Function]}
@@ -179,7 +179,7 @@ exports[`CategoryList should render properly 1`] = `
               }
             }
           >
-            Woman
+            Women
           </Text>
         </View>
       </View>
@@ -235,7 +235,7 @@ exports[`CategoryList should render properly 1`] = `
               }
             }
           >
-            Man
+            Men
           </Text>
         </View>
       </View>

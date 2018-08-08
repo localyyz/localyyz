@@ -11,16 +11,13 @@ import PropTypes from "prop-types";
 // custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
 import { Filter, SloppyView } from "localyyz/components";
-import { withCommas } from "localyyz/helpers";
+import { withCommas, toPriceString, capitalize } from "localyyz/helpers";
 import { GA } from "localyyz/global";
 
 // third party
 import { observer, inject } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-
-// local
-import Popup from "./Popup";
 
 // constants
 const SORT_BY = [
@@ -31,11 +28,7 @@ const SORT_BY = [
 
 @inject(stores => ({
   store: stores.filterStore,
-  numProducts: Math.max(
-    0,
-    stores.productListStore.numProducts || 0,
-    stores.productListStore.products.length
-  )
+  numProducts: stores.filterStore.numProducts
 }))
 @observer
 export class FilterBar extends React.Component {
@@ -64,8 +57,8 @@ export class FilterBar extends React.Component {
   openFilter() {
     this.props.onPress
       ? this.props.onPress()
-      : this.props.navigation.navigate("Modal", {
-          component: <Popup {...this.props} />
+      : this.props.navigation.push("Filter", {
+          store: this.props.store
         });
   }
 
@@ -75,22 +68,104 @@ export class FilterBar extends React.Component {
 
   get genderFilter() {
     return !this.props.hideGenderFilter ? (
-      <View style={{ marginLeft: Sizes.InnerFrame }}>
-        <View style={styles.circle}>
-          <Filter.Gender />
-        </View>
+      <View style={styles.circle} testID="gender">
+        <Filter.Gender />
       </View>
     ) : null;
+  }
+
+  get priceFilter() {
+    let label;
+    if (this.props.store.priceMax >= 300) {
+      label = `Over ${toPriceString(this.props.store.priceMin)}`;
+    } else if (this.props.store.priceMin && this.props.store.priceMax) {
+      label = `${toPriceString(this.props.store.priceMin)} - ${toPriceString(
+        this.props.store.priceMax
+      )}`;
+    } else if (this.props.store.priceMax) {
+      label = `Under ${toPriceString(this.props.store.priceMax)}`;
+    }
+
+    return label
+      ? renderSelectedOption(
+          label,
+          () => this.props.store.setPriceFilter(),
+          true,
+          undefined,
+          undefined,
+          "price"
+        )
+      : null;
+  }
+
+  get discountFilter() {
+    return this.props.store.discountMin
+      ? renderSelectedOption(
+          `At least ${Math.round(this.props.store.discountMin * 100)}% off`,
+          () => this.props.store.setDiscountFilter(),
+          true,
+          undefined,
+          undefined,
+          "discount"
+        )
+      : null;
+  }
+
+  get brandFilter() {
+    return this.props.store.brand
+      ? renderSelectedOption(
+          `Only ${this.props.store.brand}`,
+          () => this.props.store.setBrandFilter(),
+          true,
+          undefined,
+          undefined,
+          "brand"
+        )
+      : null;
+  }
+
+  get colorFilter() {
+    return this.props.store.color
+      ? renderSelectedOption(
+          `Only ${this.props.store.color}`,
+          () => this.props.store.setColorFilter(),
+          true,
+          undefined,
+          undefined,
+          "color"
+        )
+      : null;
+  }
+
+  get sizeFilter() {
+    return this.props.store.size
+      ? renderSelectedOption(
+          `Only ${this.props.store.size}`,
+          () => this.props.store.setSizeFilter(),
+          true,
+          undefined,
+          undefined,
+          "size"
+        )
+      : null;
   }
 
   get header() {
     return (
       <View style={Styles.Horizontal}>
+        <View style={styles.optionContainer}>
+          <Text style={styles.optionHeader}>Filter by</Text>
+        </View>
+        {this.priceFilter}
+        {this.discountFilter}
+        {this.brandFilter}
+        {this.colorFilter}
+        {this.sizeFilter}
         <TouchableOpacity onPress={this.openFilter}>
           <SloppyView>
             <View style={styles.circle}>
               <MaterialIcon
-                name="sort"
+                name="playlist-add"
                 size={Sizes.Text}
                 color={Colours.Text}/>
             </View>
@@ -106,7 +181,7 @@ export class FilterBar extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} testID="hello">
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -129,7 +204,7 @@ export class FilterBar extends React.Component {
   setSortBy: stores.filterStore.setSortBy
 }))
 @observer
-class SortOption extends React.Component {
+export class SortOption extends React.Component {
   constructor(props) {
     super(props);
 
@@ -164,33 +239,51 @@ class SortOption extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.optionContainer}>
-        <TouchableOpacity onPress={this.onPress}>
-          <SloppyView>
-            <View
-              style={[styles.option, this.isSelected && styles.selectedOption]}>
-              <Text
-                style={[
-                  styles.optionLabel,
-                  styles.optionLabel,
-                  this.isSelected && styles.selectedOptionLabel
-                ]}>
-                {this.props.label}
-              </Text>
-              {this.props.hasDirection && this.isSelected ? (
-                <View style={styles.optionDirection}>
-                  <MaterialIcon
-                    name={this.isDescending ? "arrow-downward" : "arrow-upward"}
-                    size={Sizes.TinyText}/>
-                </View>
-              ) : null}
-            </View>
-          </SloppyView>
-        </TouchableOpacity>
-      </View>
+    return renderSelectedOption(
+      this.props.label,
+      this.onPress,
+      this.isSelected,
+      this.props.hasDirection,
+      this.isDescending
     );
   }
+}
+
+// helpers
+function renderSelectedOption(
+  label,
+  onPress,
+  isSelected = false,
+  hasDirection = false,
+  isDescending = false,
+  id
+) {
+  return (
+    <View style={styles.optionContainer}>
+      <TouchableOpacity onPress={onPress}>
+        <SloppyView>
+          <View style={[styles.option, isSelected && styles.selectedOption]}>
+            <Text
+              style={[
+                styles.optionLabel,
+                styles.optionLabel,
+                isSelected && styles.selectedOptionLabel
+              ]}
+              testID={id}>
+              {capitalize(label)}
+            </Text>
+            {hasDirection && isSelected ? (
+              <View style={styles.optionDirection}>
+                <MaterialIcon
+                  name={isDescending ? "arrow-downward" : "arrow-upward"}
+                  size={Sizes.TinyText}/>
+              </View>
+            ) : null}
+          </View>
+        </SloppyView>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 export default withNavigation(FilterBar);
@@ -206,7 +299,7 @@ const styles = StyleSheet.create({
   },
 
   optionContainer: {
-    marginLeft: Sizes.InnerFrame / 2
+    // marginLeft: Sizes.InnerFrame / 2
   },
 
   option: {
@@ -229,13 +322,13 @@ const styles = StyleSheet.create({
   },
 
   optionHeader: {
-    ...Styles.Subdued,
-    marginLeft: Sizes.InnerFrame / 2
+    ...Styles.Subdued
   },
 
   selectedOption: {
     backgroundColor: Colours.Action,
-    paddingHorizontal: Sizes.InnerFrame
+    paddingHorizontal: Sizes.InnerFrame,
+    marginHorizontal: Sizes.InnerFrame / 4
   },
 
   selectedOptionLabel: {},
@@ -255,6 +348,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: Sizes.InnerFrame,
-    backgroundColor: Colours.Action
+    backgroundColor: Colours.Action,
+    marginHorizontal: Sizes.InnerFrame / 2
   }
 });

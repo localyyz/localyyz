@@ -82,7 +82,7 @@ export default class ActiveCard extends React.Component {
             }>
             <View style={styles.button}>
               <Text style={styles.buttonLabel}>
-                {`Buy — ${toPriceString(
+                {`View — ${toPriceString(
                   product.price,
                   product.place.currency
                 )}`}

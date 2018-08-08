@@ -15,6 +15,9 @@ const HEIGHT
       - ExtraDimensions.get("SOFT_MENU_BAR_HEIGHT")
       - ExtraDimensions.get("SMART_BAR_HEIGHT");
 
+// font scaling amount
+const FONT_SCALING = WIDTH > 320 ? 1 : 0.8;
+
 export const Sizes = {
   Width: WIDTH,
   Height: HEIGHT,
@@ -28,11 +31,11 @@ export const Sizes = {
   InnerFrame: 15,
 
   // text
-  Oversized: 32,
-  H1: 24,
-  H2: 22,
-  H3: 18,
-  Text: 16,
+  Oversized: 32 * FONT_SCALING,
+  H1: 24 * FONT_SCALING,
+  H2: 22 * FONT_SCALING,
+  H3: 18 * FONT_SCALING,
+  Text: 16 * FONT_SCALING,
   SmallText: 14,
   TinyText: 12,
 

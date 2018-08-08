@@ -1,24 +1,15 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  Share
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
 // custom
 //import { applePayButton } from "localyyz/assets";
-import { onlyIfLoggedIn, toPriceString } from "localyyz/helpers";
+import { toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { ExplodingButton, SloppyView, PriceTag } from "localyyz/components";
+import { SloppyView, PriceTag } from "localyyz/components";
 import { capitalize } from "localyyz/helpers";
-import { GA } from "localyyz/global";
 
 // third party
-import { ApplePayButton } from "react-native-payments";
 import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
@@ -38,34 +29,13 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   placeName:
     stores.productStore.product && stores.productStore.product.place.name,
   placeId: stores.productStore.product && stores.productStore.product.place.id,
+
+  // variants
   selectedVariant: stores.productStore.selectedVariant,
-  toggleVariantSelector: forceShow =>
-    (stores.productStore.isVariantSelectorVisible
-      = forceShow != null
-        ? forceShow
-        : !stores.productStore.isVariantSelectorVisible),
-
-  // regular checkout (add)
-  onAdd: (productId, color, size) =>
-    stores.cartStore.addItem({
-      productId: productId,
-      color: color,
-      size: size
-    }),
-
-  // express checkout
-  onExpressCheckout: (productId, color, size) =>
-    stores.cartStore.onExpressCheckout({
-      productId: productId,
-      color: color,
-      size: size
-    }),
+  onSelectVariant: stores.productStore.onSelectVariant,
 
   // added summary mobx exploder
-  isExploded: stores.productStore.isAddedSummaryVisible,
-  explode: async () => stores.productStore.toggleAddedSummary(true),
-  showNavbar: () => stores.navbarStore.show(),
-  hideNavbar: () => stores.navbarStore.hide(),
+  openAddSummary: async () => stores.productStore.toggleAddedSummary(true),
 
   // today's deal
   isDeal: !!stores.dealStore
@@ -78,13 +48,7 @@ export class ProductBuy extends React.Component {
 
     // mobx injected store props
     hasSession: PropTypes.bool,
-    isExpressSupported: PropTypes.bool,
-    hideNavbar: PropTypes.func.isRequired,
-    showNavbar: PropTypes.func.isRequired,
-
-    // checkout from mobx
-    onAdd: PropTypes.func.isRequired,
-    onExpressCheckout: PropTypes.func.isRequired
+    isExpressSupported: PropTypes.bool
   };
 
   static defaultProps = {
@@ -96,55 +60,11 @@ export class ProductBuy extends React.Component {
     super(props);
 
     // bindings
-    this.onOutOfStock = this.onOutOfStock.bind(this);
-    this._onAdd = this._onAdd.bind(this);
-    this._onExpressCheckout = this._onExpressCheckout.bind(this);
+    this.onPress = this.onPress.bind(this);
   }
 
-  onOutOfStock() {
-    GA.trackEvent(
-      "cart",
-      "add to cart - item out of stock",
-      String(this.props.product.id)
-    );
-    Alert.alert(
-      "Out of stock",
-      "The product with your selected options is currently not in stock",
-      [{ text: "OK", onPress: () => this.props.toggleVariantSelector(true) }]
-    );
-  }
-
-  _onAdd() {
-    GA.trackEvent(
-      "cart",
-      "add to cart - success",
-      String(this.props.product.id)
-    );
-    this.props.product
-      && this.props.selectedVariant
-      && this.props.onAdd(
-        this.props.product.id,
-        this.props.selectedVariant.etc.color,
-        this.props.selectedVariant.etc.size
-      );
-  }
-
-  _onExpressCheckout() {
-    this.props.product
-      && this.props.selectedVariant
-      && this.props
-        .onExpressCheckout(
-          this.props.product.id,
-          this.props.selectedVariant.etc.color,
-          this.props.selectedVariant.etc.size
-        )
-        .then(response => {
-          if (response && response.wasSuccessful) {
-            this.props.navigation.navigate("CartSummary", response);
-          } else if (response && !response.wasAborted) {
-            Alert.alert(response.title, response.message, response.buttons);
-          }
-        });
+  onPress() {
+    this.isInStock && this.props.openAddSummary();
   }
 
   get isInStock() {
@@ -163,113 +83,58 @@ export class ProductBuy extends React.Component {
         };
   }
 
+  get buttonLabel() {
+    return this.isInStock ? "Add to cart" : "Out of stock";
+  }
+
+  get buttonIcon() {
+    return this.isInStock ? "add-shopping-cart" : "error";
+  }
+
   render() {
-    const { hasSession } = this.props;
     return (
       <View style={styles.container}>
-        <PriceTag size={Sizes.H1} product={this.props.product} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate(
-              "ProductList",
-              this.productListParams
-            )
-          }>
-          <SloppyView>
-            <Text numberOfLines={1} style={styles.subtitle}>
-              {this.props.isOnSale ? (
-                <Text>
-                  <Text style={styles.previousPrice}>
-                    {toPriceString(
-                      this.props.previousPrice,
-                      this.props.product.place.currency
-                    )}
+        <View style={styles.details}>
+          <PriceTag size={Sizes.H1} product={this.props.product} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate(
+                "ProductList",
+                this.productListParams
+              )
+            }>
+            <SloppyView>
+              <Text numberOfLines={1} style={styles.subtitle}>
+                {this.props.isOnSale ? (
+                  <Text>
+                    <Text style={styles.previousPrice}>
+                      {toPriceString(
+                        this.props.previousPrice,
+                        this.props.product.place.currency
+                      )}
+                    </Text>
+                    <Text> · </Text>
                   </Text>
-                  <Text> · </Text>
-                </Text>
-              ) : null}
+                ) : null}
 
-              <Text style={styles.brand}>
-                {this.props.product.brand || this.props.placeName}
+                <Text style={styles.brand}>
+                  {this.props.product.brand || this.props.placeName}
+                </Text>
               </Text>
-            </Text>
-          </SloppyView>
-        </TouchableOpacity>
-        {this.props.isExpressSupported ? (
-          <View style={styles.buttons}>
-            <TouchableOpacity>
-              <ApplePayButton
-                width={Sizes.InnerFrame * 10}
-                height={Sizes.InnerFrame * 2}
-                onPress={() => {
-                  this.isInStock
-                    ? this._onExpressCheckout()
-                    : this.onOutOfStock();
-                }}
-                style="black"
-                type="buy"/>
-            </TouchableOpacity>
-            {!this.props.isDeal ? (
-              <ExplodingButton
-                isExploded={this.props.isExploded}
-                explode={async () =>
-                  this.isInStock
-                  && onlyIfLoggedIn(
-                    { hasSession },
-                    this.props.explode,
-                    this.props.navigation
-                  )
-                }
-                shouldExplode={this.props.hasSession && this.isInStock}
-                color={Colours.Foreground}
-                onPress={() =>
-                  this.isInStock ? this._onAdd() : this.onOutOfStock()
-                }
-                onExplosion={() => {
-                  this.props.navigation.setParams({ gesturesEnabled: false });
-                  this.props.hideNavbar();
-                }}
-                onExplosionCleared={() => {
-                  this.props.navigation.setParams({ gesturesEnabled: true });
-                  this.props.showNavbar();
-                }}>
-                <View style={styles.button}>
-                  <MaterialIcon
-                    name="add-shopping-cart"
-                    color={Colours.Text}
-                    size={Sizes.H3}/>
-                </View>
-              </ExplodingButton>
-            ) : null}
-          </View>
-        ) : (
-          <View style={styles.buttons}>
-            <ExplodingButton
-              navigation={this.props.navigation}
-              isExploded={this.props.isExploded}
-              explode={async () =>
-                this.isInStock
-                && onlyIfLoggedIn(
-                  { hasSession },
-                  this.props.explode,
-                  this.props.navigation
-                )
-              }
-              shouldExplode={this.props.hasSession && this.isInStock}
-              color={Colours.MenuBackground}
-              onPress={() =>
-                this.isInStock ? this._onAdd() : this.onOutOfStock()
-              }>
-              <View style={styles.expressButton}>
-                <MaterialIcon
-                  name="add-shopping-cart"
-                  color={Colours.AlternateText}
-                  size={Sizes.H3}/>
-                <Text style={styles.addButtonLabel}>Add to cart</Text>
-              </View>
-            </ExplodingButton>
-          </View>
-        )}
+            </SloppyView>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttons}>
+          <TouchableOpacity onPress={this.onPress}>
+            <View style={styles.button}>
+              <MaterialIcon
+                name={this.buttonIcon}
+                color={Colours.AlternateText}
+                size={Sizes.Text}/>
+              <Text style={styles.addButtonLabel}>{this.buttonLabel}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -279,25 +144,23 @@ export default withNavigation(ProductBuy);
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "flex-start",
-    paddingHorizontal: Sizes.InnerFrame
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
+    paddingHorizontal: Sizes.InnerFrame,
+    paddingVertical: Sizes.OuterFrame
   },
 
   subtitle: {
     ...Styles.Text,
-    ...Styles.SmallText
+    ...Styles.SmallText,
+    marginTop: Sizes.InnerFrame / 4
   },
 
   previousPrice: {
     textDecorationLine: "line-through"
   },
 
-  buttons: {
-    ...Styles.Horizontal,
-    marginVertical: Sizes.InnerFrame
-  },
-
-  expressButton: {
+  button: {
     ...Styles.Horizontal,
     height: Sizes.InnerFrame * 2,
     width: Sizes.InnerFrame * 10,
@@ -308,22 +171,17 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
 
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: Sizes.InnerFrame * 2,
-    marginHorizontal: Sizes.InnerFrame / 2,
-    paddingHorizontal: Sizes.InnerFrame,
-    borderRadius: Sizes.InnerFrame * 2 / 3,
-    backgroundColor: Colours.Foreground,
-    marginRight: Sizes.InnerFrame / 4
-  },
-
   addButtonLabel: {
     ...Styles.Text,
     ...Styles.SmallText,
     ...Styles.Emphasized,
     ...Styles.Alternate,
     marginLeft: Sizes.InnerFrame / 2
+  },
+
+  details: {
+    flex: 1,
+    alignItems: "flex-start",
+    marginRight: Sizes.InnerFrame
   }
 });

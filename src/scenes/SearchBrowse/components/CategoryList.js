@@ -55,12 +55,16 @@ export class CategoryList extends React.Component {
     this.props.fetch();
   }
 
+  get sceneKey() {
+    return `${CATEGORY_PRODUCT_LIST_KEY}-${this._keySeed}`;
+  }
+
   buildParams({ title, id }, parentId) {
     return {
       fetchPath: `categories/${id}/products`,
       title: title,
       hideCategories: true,
-      hideGenderFilter: true,
+      hideGenderFilter: !!this.props.gender,
       gender: this.props.gender,
       listHeader: (
         <CategoryBar
@@ -81,7 +85,7 @@ export class CategoryList extends React.Component {
     );
     this.props.navigation.dispatch(
       paramsAction(
-        CATEGORY_PRODUCT_LIST_KEY,
+        this.sceneKey,
         this.buildParams(category, this._parentCategoryId)
       )
     );
@@ -95,11 +99,16 @@ export class CategoryList extends React.Component {
       `${this.props.gender}-${category.id}`
     );
     this._parentCategoryId = category.id;
-    this.props.navigation.navigate({
-      params: this.buildParams(category),
-      routeName: "ProductList",
-      key: CATEGORY_PRODUCT_LIST_KEY
-    });
+    this.props.navigation.navigate(
+      "ProductList",
+      {},
+      {
+        type: "Navigate",
+        params: this.buildParams(category),
+        routeName: "ProductList",
+        key: this.sceneKey
+      }
+    );
   }
 
   renderSubcategory({ item: category }) {

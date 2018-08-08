@@ -56,7 +56,7 @@ export class RelatedProducts extends React.Component {
           <MoreTile
             onPress={() =>
               this.props.placeId
-              && this.props.navigation.navigate("ProductList", {
+              && this.props.navigation.push("ProductList", {
                 fetchPath: `places/${this.props.placeId}/products`,
                 title: `${this.props.placeName}`,
                 subtitle: "Here's some related products from this merchant"

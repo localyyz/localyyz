@@ -14,6 +14,10 @@ export const Styles = {
     fontWeight: Sizes.Medium
   },
 
+  Underlined: {
+    textDecorationLine: "underline"
+  },
+
   Emphasized: {
     fontWeight: Sizes.Bold,
     color: Colours.EmphasizedText

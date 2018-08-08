@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 
 // custom
-import { Sizes, Colours } from "localyyz/constants";
+import { Sizes, Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 import { ContentCoverSlider, ReactiveSpacer } from "localyyz/components";
 
 export default class BaseScene extends React.Component {
@@ -78,7 +78,9 @@ export default class BaseScene extends React.Component {
               scrollEventThrottle={16}
               onScroll={this.onScroll}>
               {this.spacer}
-              <View style={styles.content}>{this.props.children}</View>
+              <View style={[styles.content, this.props.style]}>
+                {this.props.children}
+              </View>
             </ScrollView>
           </View>
         </ContentCoverSlider>
@@ -90,5 +92,5 @@ export default class BaseScene extends React.Component {
 const styles = StyleSheet.create({
   container: { flex: 1 },
 
-  content: { marginBottom: Sizes.OuterFrame * 4 }
+  content: { paddingBottom: NAVBAR_HEIGHT * 2, minHeight: Sizes.Height }
 });

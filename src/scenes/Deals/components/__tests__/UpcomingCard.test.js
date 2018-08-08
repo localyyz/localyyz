@@ -19,7 +19,8 @@ const PROPS = {
     imageWidth: 100,
     imageHeight: 100,
     name: "Deal",
-    startAt: "2018-01-01T00:00:00.6083Z"
+    startAt: "2018-01-01T00:00:00.6083Z",
+    description: "Test Description"
   }
 };
 

@@ -4,6 +4,7 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
 import Button from "./Button";
+import Notifications from "./Notifications";
 import { onlyIfLoggedIn } from "localyyz/helpers";
 
 // third party
@@ -83,6 +84,7 @@ export class TabBar extends React.Component {
 
     return (
       <View style={styles.container} pointerEvents="auto">
+        <Notifications />
         <Animatable.View
           animation={this.isVisible ? "slideInUp" : "slideOutDown"}
           duration={200}

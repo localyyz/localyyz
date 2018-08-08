@@ -116,7 +116,7 @@ export class MerchantDetails extends React.Component {
           <View style={styles.bannerHeader}>
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate("ProductList", {
+                this.props.navigation.push("ProductList", {
                   fetchPath: `places/${this.props.placeId}/products`,
                   title: capitalize(this.props.placeName)
                 })
@@ -132,7 +132,7 @@ export class MerchantDetails extends React.Component {
           {this.props.placeLogo ? (
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate("ProductList", {
+                this.props.navigation.push("ProductList", {
                   fetchPath: `places/${this.props.placeId}/products`,
                   title: capitalize(this.props.placeName)
                 })

@@ -3,27 +3,14 @@
 exports[`Filter should render to snapshot - search:false 1`] = `
 <Component
   style={
-    Object {
-      "flex": 1,
-    }
+    Array [
+      Object {
+        "flex": 1,
+      },
+      undefined,
+    ]
   }
 >
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={
-      Object {
-        "backgroundColor": "rgba(255, 255, 255, 0)",
-        "color": "rgb(30, 30, 30)",
-        "fontSize": 22,
-        "fontWeight": "700",
-        "marginBottom": 15,
-      }
-    }
-  >
-    Filters
-  </Text>
   <inject-Price />
   <inject-Discount />
   <inject-Brands
@@ -41,27 +28,14 @@ exports[`Filter should render to snapshot - search:false 1`] = `
 exports[`Filter should render to snapshot - search:true 1`] = `
 <Component
   style={
-    Object {
-      "flex": 1,
-    }
+    Array [
+      Object {
+        "flex": 1,
+      },
+      undefined,
+    ]
   }
 >
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={
-      Object {
-        "backgroundColor": "rgba(255, 255, 255, 0)",
-        "color": "rgb(30, 30, 30)",
-        "fontSize": 22,
-        "fontWeight": "700",
-        "marginBottom": 15,
-      }
-    }
-  >
-    Filters
-  </Text>
   <inject-Price />
   <inject-Discount />
   <inject-Brands

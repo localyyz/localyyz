@@ -42,7 +42,7 @@ export class HistoryItem extends React.Component {
 
   onPress() {
     this.product.price > 0
-      && this.props.navigation.navigate("Product", {
+      && this.props.navigation.push("Product", {
         product: this.product
       });
   }

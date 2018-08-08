@@ -7,9 +7,8 @@ import {
 } from "react-native";
 
 // custom
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 import { ReactiveSpacer } from "localyyz/components";
-import { NAVBAR_HEIGHT } from "../../components/NavBar";
 
 // third party
 import PropTypes from "prop-types";
@@ -20,7 +19,6 @@ import { withNavigation } from "react-navigation";
 // local component
 import {
   ProductBuy,
-  ProductVariantSelector,
   RelatedProducts,
   ProductDetails,
   MerchantDetails,
@@ -111,7 +109,6 @@ export class Content extends React.Component {
                 start={{ y: 0, x: 1 }}
                 end={{ y: 1, x: 0 }}>
                 <ProductBuy />
-                <ProductVariantSelector />
                 {this.props.isDeal ? (
                   <DealSection navigation={this.props.navigation} />
                 ) : null}
@@ -152,7 +149,5 @@ const styles = StyleSheet.create({
   },
 
   // options
-  optionsGradient: {
-    paddingTop: Sizes.OuterFrame
-  }
+  optionsGradient: {}
 });

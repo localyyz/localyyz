@@ -18,8 +18,8 @@ import Content from "./content";
 
 // constants
 // should be manually sync'ed whenever the CTA header changes in layout
-const CTA_HEIGHT = 183;
-const DEAL_HEIGHT = 107.5;
+const CTA_HEIGHT = 100;
+const DEAL_HEIGHT = 0;
 
 @inject(stores => ({
   logToHistory: product => stores.historyStore.log(product),
@@ -133,7 +133,7 @@ class ProductScene extends React.Component {
   }
 
   onBack() {
-    this.props.navigation.goBack();
+    this.props.navigation.goBack(null);
     this.settings.onBack && this.settings.onBack();
   }
 
@@ -158,11 +158,11 @@ class ProductScene extends React.Component {
               onPressImage={this.onPressImage}
               onScroll={this.onScroll}/>
           </ContentCoverSlider>
-          <AddedSummary />
+          <ProductShare />
           <PhotoDetails
             navigation={this.props.navigation}
             ref={this.photoDetailsRef}/>
-          <ProductShare />
+          {this.store.isAddedSummaryVisible ? <AddedSummary /> : null}
         </View>
       </Provider>
     ) : null;
