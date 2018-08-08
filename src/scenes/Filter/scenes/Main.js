@@ -76,7 +76,7 @@ export default class FilterMain extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: Sizes.OuterFrame + Sizes.ScreenBottom
+    marginBottom: NAVBAR_HEIGHT
   },
 
   content: {
@@ -91,9 +91,7 @@ const styles = StyleSheet.create({
     right: 0
   },
 
-  gradient: {
-    paddingBottom: Sizes.ScreenBottom
-  },
+  gradient: {},
 
   toggle: {
     alignItems: "center"
