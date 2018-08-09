@@ -1,5 +1,5 @@
 // custom
-import { Product } from "localyyz/models";
+import { Product } from "localyyz/stores";
 import { ApiInstance, GA } from "localyyz/global";
 import { assistantStore } from "localyyz/stores";
 import { box, capitalize } from "localyyz/helpers";

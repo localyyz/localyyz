@@ -1,7 +1,8 @@
 import { observable, action, runInAction } from "mobx";
-import { Product } from "localyyz/models";
 import { box } from "localyyz/helpers";
 import { ApiInstance } from "localyyz/global";
+
+import { Product } from "localyyz/stores";
 
 // API: products, numProducts, fetchNextPage(params), reset(params)
 class Store {

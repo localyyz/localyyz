@@ -1,5 +1,5 @@
 // custom
-import { Product } from "localyyz/models";
+import { Product } from "localyyz/stores";
 import { ApiInstance } from "localyyz/global";
 import { box, randInt } from "localyyz/helpers";
 

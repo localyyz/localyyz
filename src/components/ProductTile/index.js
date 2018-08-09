@@ -1,17 +1,17 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
+// third party
+import PropTypes from "prop-types";
+import { PropTypes as mobxPropTypes } from "mobx-react/native";
+
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { ConstrainedAspectImage, PriceTag } from "localyyz/components";
 import { capitalize } from "localyyz/helpers";
 
-// third party
-import PropTypes from "prop-types";
-import { PropTypes as mobxPropTypes } from "mobx-react/native";
-
 // local
-import { ProductTilePlaceholder } from "./components";
+import { Favorite, ProductTilePlaceholder } from "./components";
 
 export default class ProductTile extends React.PureComponent {
   static Placeholder = ProductTilePlaceholder;
@@ -112,6 +112,16 @@ export default class ProductTile extends React.PureComponent {
                       || this.props.product.truncatedTitle}
                 </Text>
               </Text>
+            </View>
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0
+              }}>
+              <Favorite
+                onPress={this.props.product.toggleFavorite}
+                active={this.props.product.isFavourite}/>
             </View>
           </View>
         </View>
