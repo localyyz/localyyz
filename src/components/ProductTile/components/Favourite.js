@@ -4,7 +4,7 @@ import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import PropTypes from "prop-types";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
-export default class Favorite extends React.PureComponent {
+export default class Favourite extends React.PureComponent {
   static propTypes = {
     active: PropTypes.bool.isRequired,
     onPress: PropTypes.func.isRequired

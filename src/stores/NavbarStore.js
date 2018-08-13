@@ -71,7 +71,7 @@ export default class NavbarStore {
   notify(
     message,
     actionLabel = "View",
-    onPress = () => {},
+    onPress,
     duration = DEFAULT_NOTIFICATION_DURATION,
     backgroundColor = Colours.MenuBackground,
     textColor = Colours.AlternateText,

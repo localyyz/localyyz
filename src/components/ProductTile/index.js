@@ -11,7 +11,7 @@ import { ConstrainedAspectImage, PriceTag } from "localyyz/components";
 import { capitalize } from "localyyz/helpers";
 
 // local
-import { Favorite, ProductTilePlaceholder } from "./components";
+import { Favourite, ProductTilePlaceholder } from "./components";
 
 export default class ProductTile extends React.PureComponent {
   static Placeholder = ProductTilePlaceholder;
@@ -113,14 +113,9 @@ export default class ProductTile extends React.PureComponent {
                 </Text>
               </Text>
             </View>
-            <View
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0
-              }}>
-              <Favorite
-                onPress={this.props.product.toggleFavorite}
+            <View style={styles.favouriteButton}>
+              <Favourite
+                onPress={this.props.product.toggleFavourite}
                 active={this.props.product.isFavourite}/>
             </View>
           </View>
@@ -135,6 +130,12 @@ const styles = StyleSheet.create({
     marginVertical: Sizes.InnerFrame / 4,
     paddingVertical: Sizes.InnerFrame / 2,
     backgroundColor: Colours.Foreground
+  },
+
+  favouriteButton: {
+    position: "absolute",
+    top: 0,
+    right: 0
   },
 
   photoContainer: {
