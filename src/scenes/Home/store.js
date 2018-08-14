@@ -1,5 +1,4 @@
 // custom
-import { Product } from "localyyz/models";
 import { ApiInstance } from "localyyz/global";
 import { box, randInt } from "localyyz/helpers";
 
@@ -11,24 +10,6 @@ export default class HomeStore {
   constructor() {
     this.api = ApiInstance;
   }
-
-  _listProducts = listData => {
-    return (
-      (listData || [])
-        .map(
-          p =>
-            new Product({
-              ...p,
-              description: p.noTagDescription,
-              titleWordsLength: 3,
-              descriptionWordsLength: 10
-            })
-        )
-
-        // only with photos and variant available
-        .filter(p => p.associatedPhotos.length > 0 && p.selectedVariant.price)
-    );
-  };
 
   /////////////////////////////////// shared UI states below
 
@@ -44,7 +25,14 @@ export default class HomeStore {
 
   // blocks horizontal scroller and blocks registry
   // all blocks have the following min props: type
-  @observable blocks = [];
+  @observable
+  blocks = [
+    {
+      type: "productList",
+      path: "products/feed",
+      title: "Just for you"
+    }
+  ];
   @observable currentBlock;
 
   filterBlocks(blocks, type) {

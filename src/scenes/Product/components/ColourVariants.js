@@ -4,7 +4,7 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
 import { ProductTile } from "localyyz/components";
-import { Product } from "localyyz/models";
+import { Product } from "localyyz/stores";
 
 // third party
 import { withNavigation } from "react-navigation";

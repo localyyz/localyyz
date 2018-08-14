@@ -15,6 +15,8 @@ import DeviceStore from "./DeviceStore";
 import NavbarStore from "./NavbarStore";
 import SupportStore from "./SupportStore";
 
+export { default as Product } from "./ProductStore";
+
 //////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////// INITIATE STORES HERE

@@ -1,7 +1,7 @@
 // custom
 import { ApiInstance } from "localyyz/global";
 
-import { Product } from "localyyz/models";
+import { Product } from "localyyz/stores";
 
 // third party
 import { observable, runInAction, computed } from "mobx";

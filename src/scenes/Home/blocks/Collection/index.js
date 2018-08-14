@@ -2,7 +2,7 @@ import React from "react";
 
 // custom
 import { ApiInstance } from "localyyz/global";
-import { Product } from "localyyz/models";
+import { Product } from "localyyz/stores";
 import { Colours } from "localyyz/constants";
 import { box } from "localyyz/helpers";
 

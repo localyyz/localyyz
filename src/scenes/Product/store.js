@@ -1,7 +1,7 @@
 import { action, runInAction, observable } from "mobx";
 
 import { box } from "localyyz/helpers";
-import { Product } from "localyyz/models";
+import { Product } from "localyyz/stores";
 
 import { facebook as Facebook } from "localyyz/effects";
 import { ApiInstance } from "localyyz/global";

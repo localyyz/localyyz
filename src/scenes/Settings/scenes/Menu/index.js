@@ -97,6 +97,13 @@ export default class SettingsMenu extends React.Component {
             <Forms.BaseField
               label="Browsing history"
               onPress={() => this.props.navigation.navigate("History")}/>
+            <Forms.BaseField
+              label="Favourites"
+              onPress={() => {
+                this.props.navigation.navigate("Favourite", {
+                  fetchPath: "products/favourite"
+                });
+              }}/>
             {this.props.hasSession ? (
               <View>
                 <Forms.BaseField
