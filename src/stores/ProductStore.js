@@ -1,7 +1,7 @@
 import { runInAction } from "mobx";
 
 // custom
-import { ApiInstance } from "localyyz/global";
+import { GA, ApiInstance } from "localyyz/global";
 import { Product as ProductModel } from "localyyz/models";
 import { Colours } from "localyyz/constants";
 
@@ -15,6 +15,7 @@ export default class ProductStore extends ProductModel {
   addFavourite = async () => {
     const resolve = await ApiInstance.post(`products/${this.id}/favourite`);
     if (!resolve.error) {
+      GA.trackEvent("favourite", "add", `${this.id}`, this.price);
       runInAction("[ACTION] add product to favourite", () => {
         this.isFavourite = true;
         navbarStore.notify(
@@ -33,6 +34,7 @@ export default class ProductStore extends ProductModel {
 
   removeFavourite = async () => {
     const resolve = await ApiInstance.delete(`products/${this.id}/favourite`);
+    GA.trackEvent("favourite", "remove", `${this.id}`, this.price);
     if (!resolve.error) {
       runInAction("[ACTION] remove product to favourite", () => {
         this.isFavourite = false;

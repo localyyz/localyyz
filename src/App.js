@@ -141,7 +141,7 @@ class AppView extends React.Component {
             "product",
             "view",
             currentScreen.params.product.title,
-            currentScreen.params.product.id
+            currentScreen.params.product.price
           );
           GA.trackScreen("product");
           break;
