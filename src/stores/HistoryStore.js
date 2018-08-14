@@ -1,6 +1,6 @@
 import { action, runInAction, observable, computed } from "mobx";
 import { storage } from "localyyz/effects";
-import { Product } from "localyyz/models";
+import { Product } from "localyyz/stores";
 import { ApiInstance } from "localyyz/global";
 
 // third party

@@ -94,9 +94,9 @@ export default class CartStore {
   }
 
   /*
-  * Computed values
-  *
-  */
+* Computed values
+*
+*/
 
   // cart conveniences
   @computed
@@ -291,9 +291,9 @@ export default class CartStore {
   };
 
   /*
-  * Cart Items
-  *
-  */
+* Cart Items
+*
+*/
 
   @action
   addItem = async ({
@@ -355,9 +355,9 @@ export default class CartStore {
   };
 
   /*
-  * Cart General
-  *
-  */
+* Cart General
+*
+*/
 
   @action
   destroy = async ({ cartId } = {}) => {
@@ -424,9 +424,9 @@ export default class CartStore {
   };
 
   /*
-  * Cart Checkout
-  *
-  */
+* Cart Checkout
+*
+*/
 
   @action
   checkoutWithReject = async cartId => {

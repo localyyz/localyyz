@@ -38,6 +38,7 @@ export default class Product {
 
   @observable sizes = [];
   @observable colors = [];
+  @observable isFavourite = false;
 
   // not part of api product object, but to create separate virtual products
   // based on different colors

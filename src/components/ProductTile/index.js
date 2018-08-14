@@ -1,17 +1,17 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
+// third party
+import PropTypes from "prop-types";
+import { PropTypes as mobxPropTypes } from "mobx-react/native";
+
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { ConstrainedAspectImage, PriceTag } from "localyyz/components";
 import { capitalize } from "localyyz/helpers";
 
-// third party
-import PropTypes from "prop-types";
-import { PropTypes as mobxPropTypes } from "mobx-react/native";
-
 // local
-import { ProductTilePlaceholder } from "./components";
+import { Favourite, ProductTilePlaceholder } from "./components";
 
 export default class ProductTile extends React.PureComponent {
   static Placeholder = ProductTilePlaceholder;
@@ -113,6 +113,11 @@ export default class ProductTile extends React.PureComponent {
                 </Text>
               </Text>
             </View>
+            <View style={styles.favouriteButton}>
+              <Favourite
+                onPress={this.props.product.toggleFavourite}
+                active={this.props.product.isFavourite}/>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -125,6 +130,12 @@ const styles = StyleSheet.create({
     marginVertical: Sizes.InnerFrame / 4,
     paddingVertical: Sizes.InnerFrame / 2,
     backgroundColor: Colours.Foreground
+  },
+
+  favouriteButton: {
+    position: "absolute",
+    top: 0,
+    right: 0
   },
 
   photoContainer: {
