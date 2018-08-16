@@ -23,16 +23,24 @@ export default class HomeStore {
   @box searchActive = false;
   @box searchFocused = false;
 
-  // blocks horizontal scroller and blocks registry
-  // all blocks have the following min props: type
-  @observable
-  blocks = [
+  defaultBlocks = [
     {
+      id: "header",
+      position: 0,
+      type: "header"
+    },
+    {
+      id: "feed",
+      position: 1,
       type: "productList",
       path: "products/feed",
       title: "Just for you"
     }
   ];
+
+  // blocks horizontal scroller and blocks registry
+  // all blocks have the following min props: type
+  @observable blocks = [];
   @observable currentBlock;
 
   filterBlocks(blocks, type) {
@@ -65,14 +73,23 @@ export default class HomeStore {
           + (insertBlockIndex + 2);
       }
 
+      for (let b of this.defaultBlocks) {
+        blocks.splice(b.position, 0, b);
+      }
+
       // update blocks layout with inserted collections scattered randomly
       // and header
-      return await runInAction(
+      runInAction(
         "[ACTION] appending category blocks randomly to layout",
         () => {
           this.blocks = blocks;
         }
       );
+    } else {
+      // if no collections are returned// FOR NOW. clean up later
+      runInAction("[ACTION] add default blocks", () => {
+        this.blocks = this.defaultBlocks;
+      });
     }
   }
 
