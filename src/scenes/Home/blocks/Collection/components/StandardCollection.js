@@ -17,12 +17,14 @@ export default class StandardCollection extends React.Component {
     return (
       <View style={this.props.noMargin ? null : styles.container}>
         {this.props.showImage && this.props.imageUrl ? (
-          <ConstrainedAspectImage
-            source={{ uri: this.props.imageUrl }}
-            sourceWidth={this.props.imageWidth || null}
-            sourceHeight={this.props.imageHeight || null}
-            constrainWidth={Sizes.Width}/>
+          <Image
+            style={{
+              width: this.props.imageWidth,
+              height: this.props.imageHeight
+            }}
+            source={{ uri: this.props.imageUrl }}/>
         ) : null}
+
         <List {...this.props} fetchPath={this.props.fetchFrom} />
       </View>
     );
