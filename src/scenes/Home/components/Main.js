@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, StatusBar } from "react-native";
 
 // custom
 import { NAVBAR_HEIGHT, Colours, Sizes } from "localyyz/constants";
@@ -95,6 +95,7 @@ export class Main extends React.Component {
         component = (
           <ReactiveSpacer
             id={i}
+            offset={Sizes.StatusBar}
             store={this.props.homeStore}
             heightProp="headerHeight"/>
         );
@@ -146,6 +147,7 @@ export class Main extends React.Component {
   render() {
     return this.state.isLayoutReady ? (
       <View style={styles.container}>
+        <View style={styles.statusBar} />
         <View style={styles.contentContainer}>{this.renderBlocks}</View>
         <View pointerEvents="box-none" style={styles.filter}>
           <LinearGradient
@@ -166,7 +168,13 @@ export default withNavigation(Main);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colours.Foreground
+  },
+
+  statusBar: {
+    height: Sizes.StatusBar,
+    backgroundColor: Colours.Foreground
   },
 
   gradient: {

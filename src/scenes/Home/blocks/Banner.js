@@ -1,10 +1,9 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Sizes } from "localyyz/constants";
+import { View, Image, TouchableWithoutFeedback } from "react-native";
 
 // custom
-import ParallaxPhoto from "./ParallaxPhoto";
 import { capitalize } from "localyyz/helpers";
+import { Colours, Sizes } from "localyyz/constants";
 
 // third party
 import { withNavigation } from "react-navigation";
@@ -26,16 +25,19 @@ export class Banner extends React.Component {
   }
 
   render() {
-    return (
-      <TouchableOpacity onPress={this.onPress}>
-        <ParallaxPhoto
-          id={this.props.id}
-          source={{ uri: this.props.imageUri }}
-          constrainWidth={Sizes.Width}
-          sourceWidth={this.props.imageWidth}
-          sourceHeight={this.props.imageHeight}
-          startFrom={this.props.id > 1 ? Sizes.Height / 8 : -Sizes.Height / 8}/>
-      </TouchableOpacity>
+    return this.props.imageUri ? (
+      <TouchableWithoutFeedback
+        style={{ backgroundColor: Colours.Foreground }}
+        onPress={this.onPress}>
+        <Image
+          source={{
+            uri: this.props.imageUri,
+            width: Sizes.getSizeForScreen(this.props.imageWidth),
+            height: Sizes.getSizeForScreen(this.props.imageHeight)
+          }}/>
+      </TouchableWithoutFeedback>
+    ) : (
+      <View />
     );
   }
 }

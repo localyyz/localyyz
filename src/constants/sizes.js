@@ -1,4 +1,4 @@
-import { Dimensions, Platform, PixelRatio } from "react-native";
+import { StatusBar, Dimensions, Platform, PixelRatio } from "react-native";
 import ExtraDimensions from "react-native-extra-dimensions-android";
 import { isIphoneX } from "react-native-iphone-x-helper";
 
@@ -21,10 +21,12 @@ const FONT_SCALING = WIDTH > 320 ? 1 : 0.8;
 export const Sizes = {
   Width: WIDTH,
   Height: HEIGHT,
+  Ratio: 1 / PixelRatio.get(1),
 
   // device specific
   ScreenTop: isIphoneX() ? 44 : 30,
   ScreenBottom: isIphoneX() ? 34 : 0,
+  StatusBar: Platform.OS === "ios" ? 20 : StatusBar.currentHeight,
 
   // margins
   OuterFrame: 25,
@@ -64,7 +66,15 @@ export const Sizes = {
   TabBarText: 10,
 
   // spacer
-  Spacer: 1 / PixelRatio.get()
+  Spacer: 1 / PixelRatio.get(),
+
+  // helper
+  getSizeForScreen: px => {
+    const screenWidth = WIDTH;
+    const pxx = px / PixelRatio.get(1);
+
+    return pxx > screenWidth ? pxx : screenWidth;
+  }
 };
 
 export default Sizes;
