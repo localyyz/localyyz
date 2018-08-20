@@ -17,7 +17,7 @@ export class Banner extends React.Component {
   }
 
   onPress() {
-    this.props.navigation.push("ProductList", {
+    this.props.navigation.push("ProductListStack", {
       fetchPath: this.props.path,
       title: capitalize(this.props.title),
       description: this.props.description

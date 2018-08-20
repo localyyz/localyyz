@@ -96,7 +96,7 @@ export default class AddressForm extends React.Component {
       if (this.settings.onComplete) {
         this.settings.onComplete();
       } else {
-        this.props.navigation.goBack();
+        this.props.navigation.goBack(null);
       }
     } catch (err) {
       DEBUG && console.log("AddressForm: Failed to set address.", err);

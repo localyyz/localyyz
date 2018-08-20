@@ -1,0 +1,1109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PaymentContent should not show next button on incomplete card 1`] = `
+<Provider
+  formStore={
+    FormUIStore {
+      "_data": Object {
+        "cvc": Object {
+          "error": null,
+          "id": "cvc",
+          "isRequired": true,
+          "mask": null,
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": null,
+        },
+        "expiry": Object {
+          "error": null,
+          "id": "expiry",
+          "isRequired": true,
+          "mask": [Function],
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": null,
+        },
+        "number": Object {
+          "error": null,
+          "id": "number",
+          "isRequired": true,
+          "mask": [Function],
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": null,
+        },
+      },
+      "addCallback": [Function],
+      "getError": [Function],
+      "merge": [Function],
+      "onValueChange": [Function],
+      "update": [Function],
+    }
+  }
+>
+  <CartBaseContent>
+    <Component
+      style={
+        Object {
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <inject-Field
+          contentStyle={
+            Object {
+              "flex": undefined,
+            }
+          }
+          field="number"
+          inputStyle={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "rgb(30, 30, 30)",
+              "flex": 1,
+              "fontSize": 32,
+              "fontWeight": "700",
+              "lineHeight": 38.4,
+            }
+          }
+          keyboardType="numeric"
+          label="Card number"
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+          wrapperStyle={
+            Object {
+              "paddingHorizontal": undefined,
+              "paddingVertical": undefined,
+            }
+          }
+        />
+      </Component>
+      <Component
+        style={
+          Object {
+            "height": 25,
+          }
+        }
+      />
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <inject-Field
+          contentStyle={
+            Object {
+              "flex": undefined,
+            }
+          }
+          field="expiry"
+          inputStyle={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "rgb(30, 30, 30)",
+              "flex": 1,
+              "fontSize": 32,
+              "fontWeight": "700",
+              "lineHeight": 38.4,
+            }
+          }
+          keyboardType="numeric"
+          label="Expiry"
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+          wrapperStyle={
+            Object {
+              "paddingHorizontal": undefined,
+              "paddingVertical": undefined,
+            }
+          }
+        />
+        <inject-Field
+          contentStyle={
+            Object {
+              "flex": undefined,
+            }
+          }
+          field="cvc"
+          inputStyle={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "rgb(30, 30, 30)",
+              "flex": 1,
+              "fontSize": 32,
+              "fontWeight": "700",
+              "lineHeight": 38.4,
+            }
+          }
+          keyboardType="numeric"
+          label="CVV (Back 3 digits)"
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+          wrapperStyle={
+            Object {
+              "paddingHorizontal": undefined,
+              "paddingVertical": undefined,
+            }
+          }
+        />
+      </Component>
+      <Component
+        style={
+          Object {
+            "height": 25,
+          }
+        }
+      />
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <BaseField
+          contentStyle={
+            Object {
+              "flex": undefined,
+            }
+          }
+          hasError={false}
+          isHorizontal={false}
+          label="Billing address"
+          onPress={[Function]}
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+          wrapperStyle={
+            Object {
+              "paddingHorizontal": undefined,
+              "paddingVertical": undefined,
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+            style={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "#000000",
+                "fontSize": 14,
+                "fontWeight": "600",
+              }
+            }
+          >
+            Select an address
+          </Text>
+        </BaseField>
+      </Component>
+    </Component>
+  </CartBaseContent>
+</Provider>
+`;
+
+exports[`PaymentContent should render properly to snapshot 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "height": 874.3333333333334,
+        "marginHorizontal": 15,
+        "marginTop": 15,
+        "padding": 15,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flexBasis": 150,
+            },
+            Object {
+              "flex": 1,
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "paddingHorizontal": 15,
+                "paddingVertical": 10,
+              },
+              Object {
+                "paddingHorizontal": undefined,
+                "paddingVertical": undefined,
+              },
+              false,
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginRight": 15,
+              }
+            }
+          >
+            <View
+              style={Object {}}
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "rgb(30, 30, 30)",
+                      "fontSize": 14,
+                      "fontWeight": "300",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                Card number
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+                Object {
+                  "flex": undefined,
+                },
+              ]
+            }
+          >
+            <TextInput
+              allowFontScaling={true}
+              contentStyle={
+                Object {
+                  "flex": undefined,
+                }
+              }
+              field="number"
+              inputStyle={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "flex": 1,
+                  "fontSize": 32,
+                  "fontWeight": "700",
+                  "lineHeight": 38.4,
+                }
+              }
+              isRequired={true}
+              keyboardType="numeric"
+              label="Card number"
+              onChangeText={[Function]}
+              onValueChange={[Function]}
+              placeholder="required"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "color": "#000000",
+                    "flex": 1,
+                    "fontSize": 14,
+                  },
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "color": "rgb(30, 30, 30)",
+                    "flex": 1,
+                    "fontSize": 32,
+                    "fontWeight": "700",
+                    "lineHeight": 38.4,
+                  },
+                ]
+              }
+              validators={
+                Array [
+                  [Function],
+                  [Function],
+                  [Function],
+                ]
+              }
+              value={null}
+              wrapperStyle={
+                Object {
+                  "paddingHorizontal": undefined,
+                  "paddingVertical": undefined,
+                }
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "height": 25,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flexBasis": 150,
+            },
+            Object {
+              "flex": 1,
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "paddingHorizontal": 15,
+                "paddingVertical": 10,
+              },
+              Object {
+                "paddingHorizontal": undefined,
+                "paddingVertical": undefined,
+              },
+              false,
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginRight": 15,
+              }
+            }
+          >
+            <View
+              style={Object {}}
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "rgb(30, 30, 30)",
+                      "fontSize": 14,
+                      "fontWeight": "300",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                Expiry
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+                Object {
+                  "flex": undefined,
+                },
+              ]
+            }
+          >
+            <TextInput
+              allowFontScaling={true}
+              contentStyle={
+                Object {
+                  "flex": undefined,
+                }
+              }
+              field="expiry"
+              inputStyle={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "flex": 1,
+                  "fontSize": 32,
+                  "fontWeight": "700",
+                  "lineHeight": 38.4,
+                }
+              }
+              isRequired={true}
+              keyboardType="numeric"
+              label="Expiry"
+              onChangeText={[Function]}
+              onValueChange={[Function]}
+              placeholder="required"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "color": "#000000",
+                    "flex": 1,
+                    "fontSize": 14,
+                  },
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "color": "rgb(30, 30, 30)",
+                    "flex": 1,
+                    "fontSize": 32,
+                    "fontWeight": "700",
+                    "lineHeight": 38.4,
+                  },
+                ]
+              }
+              validators={
+                Array [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ]
+              }
+              value={null}
+              wrapperStyle={
+                Object {
+                  "paddingHorizontal": undefined,
+                  "paddingVertical": undefined,
+                }
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexBasis": 150,
+            },
+            Object {
+              "flex": 1,
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "paddingHorizontal": 15,
+                "paddingVertical": 10,
+              },
+              Object {
+                "paddingHorizontal": undefined,
+                "paddingVertical": undefined,
+              },
+              false,
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginRight": 15,
+              }
+            }
+          >
+            <View
+              style={Object {}}
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "rgb(30, 30, 30)",
+                      "fontSize": 14,
+                      "fontWeight": "300",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                CVV (Back 3 digits)
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+                Object {
+                  "flex": undefined,
+                },
+              ]
+            }
+          >
+            <TextInput
+              allowFontScaling={true}
+              contentStyle={
+                Object {
+                  "flex": undefined,
+                }
+              }
+              field="cvc"
+              inputStyle={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "flex": 1,
+                  "fontSize": 32,
+                  "fontWeight": "700",
+                  "lineHeight": 38.4,
+                }
+              }
+              isRequired={true}
+              keyboardType="numeric"
+              label="CVV (Back 3 digits)"
+              onChangeText={[Function]}
+              onValueChange={[Function]}
+              placeholder="required"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "color": "#000000",
+                    "flex": 1,
+                    "fontSize": 14,
+                  },
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "color": "rgb(30, 30, 30)",
+                    "flex": 1,
+                    "fontSize": 32,
+                    "fontWeight": "700",
+                    "lineHeight": 38.4,
+                  },
+                ]
+              }
+              validators={
+                Array [
+                  [Function],
+                  [Function],
+                  [Function],
+                ]
+              }
+              value={null}
+              wrapperStyle={
+                Object {
+                  "paddingHorizontal": undefined,
+                  "paddingVertical": undefined,
+                }
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "height": 25,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "flex-start",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "flex": 1,
+            "flexBasis": 150,
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "paddingHorizontal": 15,
+                "paddingVertical": 10,
+              },
+              Object {
+                "paddingHorizontal": undefined,
+                "paddingVertical": undefined,
+              },
+              false,
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginRight": 15,
+              }
+            }
+          >
+            <View
+              style={Object {}}
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "rgb(30, 30, 30)",
+                      "fontSize": 14,
+                      "fontWeight": "300",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                Billing address
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flex": 1,
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                },
+                Object {
+                  "flex": undefined,
+                },
+              ]
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              style={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                }
+              }
+            >
+              Select an address
+            </Text>
+            <View
+              style={
+                Object {
+                  "alignItems": "flex-end",
+                  "flex": 1,
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={false}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "color": "#999999",
+                      "fontSize": 16,
+                    },
+                    undefined,
+                    Object {
+                      "fontFamily": "Material Icons",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                  ]
+                }
+              >
+                
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`PaymentContent should show next button on complete card 1`] = `
+<Provider
+  formStore={
+    FormUIStore {
+      "_data": Object {
+        "cvc": Object {
+          "error": null,
+          "id": "cvc",
+          "isRequired": true,
+          "mask": null,
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": "999",
+        },
+        "expiry": Object {
+          "error": null,
+          "id": "expiry",
+          "isRequired": true,
+          "mask": [Function],
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": "11/99",
+        },
+        "number": Object {
+          "error": null,
+          "id": "number",
+          "isRequired": true,
+          "mask": [Function],
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": "4242 4242 4242 4242",
+        },
+      },
+      "addCallback": [Function],
+      "getError": [Function],
+      "merge": [Function],
+      "onValueChange": [Function],
+      "update": [Function],
+    }
+  }
+>
+  <CartBaseContent>
+    <Component
+      style={
+        Object {
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <inject-Field
+          contentStyle={
+            Object {
+              "flex": undefined,
+            }
+          }
+          field="number"
+          inputStyle={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "rgb(30, 30, 30)",
+              "flex": 1,
+              "fontSize": 32,
+              "fontWeight": "700",
+              "lineHeight": 38.4,
+            }
+          }
+          keyboardType="numeric"
+          label="Card number"
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+          wrapperStyle={
+            Object {
+              "paddingHorizontal": undefined,
+              "paddingVertical": undefined,
+            }
+          }
+        />
+      </Component>
+      <Component
+        style={
+          Object {
+            "height": 25,
+          }
+        }
+      />
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <inject-Field
+          contentStyle={
+            Object {
+              "flex": undefined,
+            }
+          }
+          field="expiry"
+          inputStyle={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "rgb(30, 30, 30)",
+              "flex": 1,
+              "fontSize": 32,
+              "fontWeight": "700",
+              "lineHeight": 38.4,
+            }
+          }
+          keyboardType="numeric"
+          label="Expiry"
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+          wrapperStyle={
+            Object {
+              "paddingHorizontal": undefined,
+              "paddingVertical": undefined,
+            }
+          }
+        />
+        <inject-Field
+          contentStyle={
+            Object {
+              "flex": undefined,
+            }
+          }
+          field="cvc"
+          inputStyle={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "rgb(30, 30, 30)",
+              "flex": 1,
+              "fontSize": 32,
+              "fontWeight": "700",
+              "lineHeight": 38.4,
+            }
+          }
+          keyboardType="numeric"
+          label="CVV (Back 3 digits)"
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+          wrapperStyle={
+            Object {
+              "paddingHorizontal": undefined,
+              "paddingVertical": undefined,
+            }
+          }
+        />
+      </Component>
+      <Component
+        style={
+          Object {
+            "height": 25,
+          }
+        }
+      />
+      <Component
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <BaseField
+          contentStyle={
+            Object {
+              "flex": undefined,
+            }
+          }
+          hasError={false}
+          isHorizontal={false}
+          label="Billing address"
+          onPress={[Function]}
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+          wrapperStyle={
+            Object {
+              "paddingHorizontal": undefined,
+              "paddingVertical": undefined,
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+            style={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "#000000",
+                "fontSize": 14,
+                "fontWeight": "600",
+              }
+            }
+          >
+            Select an address
+          </Text>
+        </BaseField>
+      </Component>
+    </Component>
+    <Component
+      style={
+        Object {
+          "marginHorizontal": 15,
+        }
+      }
+      testID="next"
+    >
+      <inject-Button
+        onPress={[Function]}
+      >
+        Next
+      </inject-Button>
+    </Component>
+  </CartBaseContent>
+</Provider>
+`;

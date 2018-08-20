@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartBaseContent should render properly to snapshot 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "height": 874.3333333333334,
+        "marginHorizontal": 15,
+        "marginTop": 15,
+        "padding": 15,
+      },
+      undefined,
+    ]
+  }
+/>
+`;

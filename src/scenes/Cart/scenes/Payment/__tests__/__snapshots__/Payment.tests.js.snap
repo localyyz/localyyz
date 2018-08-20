@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Payment should render properly to snapshot 1`] = `
+<inject-CartBaseScene
+  activeSceneId="PaymentScene"
+  keySeed="test"
+>
+  <inject-PaymentContent />
+</inject-CartBaseScene>
+`;

@@ -1,0 +1,343 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartBaseScene should render properly to snapshot 1`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <ContentCoverSlider
+    backAction={[Function]}
+    backColor="rgb(30, 30, 30)"
+    background={
+      <Component
+        onLayout={[Function]}
+      >
+        <Header
+          activeSceneId="second"
+          keySeed="test"
+          navigation={Object {}}
+          scenes={
+            Array [
+              Object {
+                "id": "first",
+                "label": "First scene",
+              },
+              Object {
+                "id": "second",
+                "label": "Second scene",
+              },
+              Object {
+                "id": "third",
+                "isHidden": true,
+                "label": "Third scene",
+              },
+              Object {
+                "id": "fourth",
+                "label": "Fourth scene",
+              },
+            ]
+          }
+          title="Checkout"
+        />
+      </Component>
+    }
+    title="Checkout"
+  >
+    <Component
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <FlatList
+        ListFooterComponent={
+          <ReactiveSpacer
+            heightProp="footerHeight"
+            offset={0}
+            store={
+              CartBaseScene {
+                "_ccs": ContentCoverSliderUIStore {
+                  "onLayout": [Function],
+                },
+                "_keySeed": "test",
+                "_onScroll": [Function],
+                "context": Object {},
+                "props": Object {
+                  "activeSceneId": "second",
+                  "keySeed": "test",
+                  "navigation": Object {},
+                  "scenes": Array [
+                    Object {
+                      "id": "first",
+                      "label": "First scene",
+                    },
+                    Object {
+                      "id": "second",
+                      "label": "Second scene",
+                    },
+                    Object {
+                      "id": "third",
+                      "isHidden": true,
+                      "label": "Third scene",
+                    },
+                    Object {
+                      "id": "fourth",
+                      "label": "Fourth scene",
+                    },
+                  ],
+                },
+                "refs": Object {},
+                "setFooterHeight": [Function],
+                "state": null,
+                "updater": Updater {
+                  "_callbacks": Array [],
+                  "_renderer": ReactShallowRenderer {
+                    "_context": Object {},
+                    "_element": <CartBaseScene
+                      activeSceneId="second"
+                      keySeed="test"
+                      navigation={Object {}}
+                      scenes={
+                        Array [
+                          Object {
+                            "id": "first",
+                            "label": "First scene",
+                          },
+                          Object {
+                            "id": "second",
+                            "label": "Second scene",
+                          },
+                          Object {
+                            "id": "third",
+                            "isHidden": true,
+                            "label": "Third scene",
+                          },
+                          Object {
+                            "id": "fourth",
+                            "label": "Fourth scene",
+                          },
+                        ]
+                      }
+                    />,
+                    "_forcedUpdate": false,
+                    "_instance": [Circular],
+                    "_newState": null,
+                    "_rendered": <Component
+                      style={
+                        Object {
+                          "flex": 1,
+                        }
+                      }
+                    >
+                      <ContentCoverSlider
+                        backAction={[Function]}
+                        backColor="rgb(30, 30, 30)"
+                        background={
+                          <Component
+                            onLayout={[Function]}
+                          >
+                            <Header
+                              activeSceneId="second"
+                              keySeed="test"
+                              navigation={Object {}}
+                              scenes={
+                                Array [
+                                  Object {
+                                    "id": "first",
+                                    "label": "First scene",
+                                  },
+                                  Object {
+                                    "id": "second",
+                                    "label": "Second scene",
+                                  },
+                                  Object {
+                                    "id": "third",
+                                    "isHidden": true,
+                                    "label": "Third scene",
+                                  },
+                                  Object {
+                                    "id": "fourth",
+                                    "label": "Fourth scene",
+                                  },
+                                ]
+                              }
+                              title="Checkout"
+                            />
+                          </Component>
+                        }
+                        title="Checkout"
+                      >
+                        <Component
+                          style={
+                            Object {
+                              "flex": 1,
+                            }
+                          }
+                        >
+                          <FlatList
+                            ListFooterComponent={
+                              <ReactiveSpacer
+                                heightProp="footerHeight"
+                                offset={0}
+                                store={[Circular]}
+                              />
+                            }
+                            data={
+                              Array [
+                                <ReactiveSpacer
+                                  heightProp="headerHeight"
+                                  offset={0}
+                                  store={
+                                    ContentCoverSliderUIStore {
+                                      "onLayout": [Function],
+                                    }
+                                  }
+                                />,
+                                <Component
+                                  style={
+                                    Object {
+                                      "marginHorizontal": 15,
+                                    }
+                                  }
+                                >
+                                  <Progress
+                                    activeSceneId="second"
+                                    navigation={Object {}}
+                                    scenes={
+                                      Array [
+                                        Object {
+                                          "id": "first",
+                                          "label": "First scene",
+                                        },
+                                        Object {
+                                          "id": "second",
+                                          "label": "Second scene",
+                                        },
+                                        Object {
+                                          "id": "third",
+                                          "isHidden": true,
+                                          "label": "Third scene",
+                                        },
+                                        Object {
+                                          "id": "fourth",
+                                          "label": "Fourth scene",
+                                        },
+                                      ]
+                                    }
+                                  />
+                                </Component>,
+                              ]
+                            }
+                            disableVirtualization={false}
+                            horizontal={false}
+                            initialNumToRender={10}
+                            keyExtractor={[Function]}
+                            maxToRenderPerBatch={10}
+                            numColumns={1}
+                            onEndReachedThreshold={2}
+                            onScroll={[Function]}
+                            renderItem={[Function]}
+                            scrollEventThrottle={16}
+                            showsVerticalScrollIndicator={false}
+                            updateCellsBatchingPeriod={50}
+                            windowSize={21}
+                          />
+                        </Component>
+                      </ContentCoverSlider>
+                      <Component
+                        style={
+                          Object {
+                            "padding": 15,
+                            "paddingBottom": 15,
+                          }
+                        }
+                      >
+                        <inject-Totals />
+                      </Component>
+                    </Component>,
+                    "_rendering": false,
+                    "_updater": [Circular],
+                  },
+                },
+              }
+            }
+          />
+        }
+        data={
+          Array [
+            <ReactiveSpacer
+              heightProp="headerHeight"
+              offset={0}
+              store={
+                ContentCoverSliderUIStore {
+                  "onLayout": [Function],
+                }
+              }
+            />,
+            <Component
+              style={
+                Object {
+                  "marginHorizontal": 15,
+                }
+              }
+            >
+              <Progress
+                activeSceneId="second"
+                navigation={Object {}}
+                scenes={
+                  Array [
+                    Object {
+                      "id": "first",
+                      "label": "First scene",
+                    },
+                    Object {
+                      "id": "second",
+                      "label": "Second scene",
+                    },
+                    Object {
+                      "id": "third",
+                      "isHidden": true,
+                      "label": "Third scene",
+                    },
+                    Object {
+                      "id": "fourth",
+                      "label": "Fourth scene",
+                    },
+                  ]
+                }
+              />
+            </Component>,
+          ]
+        }
+        disableVirtualization={false}
+        horizontal={false}
+        initialNumToRender={10}
+        keyExtractor={[Function]}
+        maxToRenderPerBatch={10}
+        numColumns={1}
+        onEndReachedThreshold={2}
+        onScroll={[Function]}
+        renderItem={[Function]}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+        updateCellsBatchingPeriod={50}
+        windowSize={21}
+      />
+    </Component>
+  </ContentCoverSlider>
+  <Component
+    style={
+      Object {
+        "padding": 15,
+        "paddingBottom": 15,
+      }
+    }
+  >
+    <inject-Totals />
+  </Component>
+</Component>
+`;

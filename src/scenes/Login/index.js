@@ -52,7 +52,7 @@ export default class Login extends React.Component {
       loginFailed: false,
       alertTitle: null,
       alertMessage: null,
-      username: "",
+      username: this.props.navigation.getParam("email", ""),
       password: "",
       verifyPassword: "",
       name: "",
@@ -350,10 +350,11 @@ export default class Login extends React.Component {
               <View style={[Styles.Card, styles.card]}>
                 <InputField
                   ref="username"
-                  autoFocus
+                  autoFocus={!this.state.username}
                   autoCorrect={false}
                   autoCapitalize="none"
                   keyboardType="email-address"
+                  value={this.state.username}
                   onChangeText={username =>
                     this.setState(
                       {
@@ -366,6 +367,7 @@ export default class Login extends React.Component {
                   placeholder="Email address"/>
                 <InputField
                   ref="password"
+                  autoFocus={this.state.username}
                   secureTextEntry
                   clearTextOnFocus
                   autoCapitalize="none"

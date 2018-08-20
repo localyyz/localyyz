@@ -92,5 +92,8 @@ export default class BaseScene extends React.Component {
 const styles = StyleSheet.create({
   container: { flex: 1 },
 
-  content: { paddingBottom: NAVBAR_HEIGHT * 2, minHeight: Sizes.Height }
+  content: {
+    paddingBottom: NAVBAR_HEIGHT * 2,
+    minHeight: Sizes.Height
+  }
 });

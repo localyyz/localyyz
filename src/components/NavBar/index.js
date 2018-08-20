@@ -1,20 +1,18 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { withNavigation } from "react-navigation";
 
 // custom
 import { Sizes, IS_DEALS_SUPPORTED } from "localyyz/constants";
-import { Cart, CartHeaderSummary } from "localyyz/components";
+import TabBar from "./components/TabBar";
 import { onlyIfLoggedIn } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
-import * as Animatable from "react-native-animatable";
-import { inject, observer, Provider } from "mobx-react/native";
+import { inject, observer } from "mobx-react/native";
 
 // local
-import { Pullup, TabBar, Toggler } from "./components";
-import CartUIStore from "./cartUiStore";
+import { Toggler } from "./components";
 
 // offset tabbar, manually calc'ed and synced via onLayout
 // by hand when layout changes
@@ -56,9 +54,6 @@ export class NavBar extends React.Component {
     // bindings
     this.onPress = this.onPress.bind(this);
     this.onPullupClose = this.onPullupClose.bind(this);
-
-    // stores
-    this.uiStore = new CartUIStore();
   }
 
   componentDidMount() {
@@ -134,7 +129,8 @@ export class NavBar extends React.Component {
         id: "cart",
         icon: "shopping-basket",
         iconType: "entypo",
-        label: "Cart"
+        label: "Cart",
+        tabKey: "Cart"
       }
     ];
   }
@@ -142,27 +138,13 @@ export class NavBar extends React.Component {
   render() {
     return (
       this.props.isVisible && (
-        <Animatable.View
-          animation={this.props.isVisible ? "fadeIn" : "fadeOut"}
-          duration={200}
-          delay={300}
-          pointerEvents="box-none"
-          style={styles.container}>
-          <Provider cartUiStore={this.uiStore}>
-            <Pullup
-              ref="pullup"
-              navBarHeight={NAVBAR_HEIGHT}
-              onClose={this.onPullupClose}
-              header={<CartHeaderSummary />}>
-              <Cart onCheckout={this.onPress} />
-            </Pullup>
-          </Provider>
+        <View style={styles.container} pointerEvents="box-none">
           <TabBar
             height={NAVBAR_HEIGHT}
             tabs={this.tabs}
             onPress={this.onPress}
             activeButton={this.state.activeButton}/>
-        </Animatable.View>
+        </View>
       )
     );
   }

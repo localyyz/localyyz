@@ -1,0 +1,260 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Progress should render progress items properly 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "borderBottomColor": "rgb(30, 30, 30)",
+      "borderBottomWidth": 1,
+      "flex": 1,
+      "opacity": 1,
+      "paddingLeft": 7.5,
+      "paddingRight": 7.5,
+      "paddingVertical": 3.75,
+    }
+  }
+  testID="second"
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Array [
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "rgb(30, 30, 30)",
+          "fontSize": 14,
+          "fontWeight": "300",
+        },
+        Object {
+          "color": "#000000",
+          "fontWeight": "600",
+        },
+      ]
+    }
+  >
+    Second scene
+  </Text>
+</View>
+`;
+
+exports[`Progress should render properly to snapshot 1`] = `
+<View
+  style={Object {}}
+>
+  <RCTScrollView
+    data={
+      Array [
+        Object {
+          "id": "first",
+          "label": "First scene",
+        },
+        Object {
+          "id": "second",
+          "label": "Second scene",
+        },
+        Object {
+          "id": "fourth",
+          "label": "Fourth scene",
+        },
+      ]
+    }
+    disableVirtualization={false}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={true}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={2}
+    onLayout={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    renderItem={[Function]}
+    scrollEnabled={false}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    stickyHeaderIndices={Array []}
+    updateCellsBatchingPeriod={50}
+    viewabilityConfigCallbackPairs={Array []}
+    windowSize={21}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          isTVSelectable={true}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "borderBottomColor": "rgb(30, 30, 30)",
+              "borderBottomWidth": 1,
+              "flex": 1,
+              "opacity": 1,
+              "paddingRight": 7.5,
+              "paddingVertical": 3.75,
+            }
+          }
+          testID="first"
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "fontSize": 14,
+                  "fontWeight": "300",
+                },
+                Object {
+                  "color": "#000000",
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            First scene
+          </Text>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          isTVSelectable={true}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "borderBottomColor": "rgb(30, 30, 30)",
+              "borderBottomWidth": 1,
+              "flex": 1,
+              "opacity": 1,
+              "paddingLeft": 7.5,
+              "paddingRight": 7.5,
+              "paddingVertical": 3.75,
+            }
+          }
+          testID="second"
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "fontSize": 14,
+                  "fontWeight": "300",
+                },
+                Object {
+                  "color": "#000000",
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            Second scene
+          </Text>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          onPress={[Function]}
+          style={
+            Array [
+              Object {
+                "borderBottomColor": "rgb(30, 30, 30)",
+                "borderBottomWidth": 0.5,
+                "flex": 1,
+                "paddingVertical": 3.75,
+              },
+              Object {
+                "paddingLeft": 7.5,
+              },
+              false,
+              false,
+            ]
+          }
+          testID="fourth"
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "fontSize": 14,
+                  "fontWeight": "300",
+                },
+                false,
+              ]
+            }
+          >
+            Fourth scene
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

@@ -1,0 +1,387 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer should display discount 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "rgb(30, 30, 30)",
+        "fontSize": 14,
+        "fontWeight": "300",
+      },
+      Object {
+        "color": "#50E3C2",
+        "fontSize": 18,
+        "fontWeight": "600",
+      },
+    ]
+  }
+  testID="You saved"
+>
+  $50
+</Text>
+`;
+
+exports[`Footer should display shipping 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "rgb(30, 30, 30)",
+        "fontSize": 14,
+        "fontWeight": "300",
+      },
+      undefined,
+    ]
+  }
+  testID="Shipping"
+>
+  $20
+</Text>
+`;
+
+exports[`Footer should display subtotal 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "rgb(30, 30, 30)",
+        "fontSize": 14,
+        "fontWeight": "300",
+      },
+      undefined,
+    ]
+  }
+  testID="Subtotal"
+>
+  $10
+</Text>
+`;
+
+exports[`Footer should display taxes 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "rgb(30, 30, 30)",
+        "fontSize": 14,
+        "fontWeight": "300",
+      },
+      undefined,
+    ]
+  }
+  testID="Taxes"
+>
+  $30
+</Text>
+`;
+
+exports[`Footer should display total 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "backgroundColor": "rgba(255, 255, 255, 0)",
+        "color": "rgb(30, 30, 30)",
+        "fontSize": 14,
+        "fontWeight": "300",
+      },
+      Object {
+        "color": "#000000",
+        "fontSize": 18,
+        "fontWeight": "600",
+      },
+    ]
+  }
+  testID="Total"
+>
+  $40
+</Text>
+`;
+
+exports[`Footer should render properly to snapshot 1`] = `
+<View
+  style={
+    Object {
+      "padding": 15,
+      "paddingBottom": 15,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginVertical": 1.875,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      Subtotal
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+      testID="Subtotal"
+    >
+      $10
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginVertical": 1.875,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      Shipping
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+      testID="Shipping"
+    >
+      $20
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginVertical": 1.875,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+    >
+      Taxes
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          undefined,
+        ]
+      }
+      testID="Taxes"
+    >
+      $30
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginVertical": 1.875,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          Object {
+            "color": "#000000",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+        ]
+      }
+    >
+      Total
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          Object {
+            "color": "#000000",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+        ]
+      }
+      testID="Total"
+    >
+      $40
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginVertical": 1.875,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          Object {
+            "color": "#50E3C2",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+        ]
+      }
+    >
+      You saved
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 14,
+            "fontWeight": "300",
+          },
+          Object {
+            "color": "#50E3C2",
+            "fontSize": 18,
+            "fontWeight": "600",
+          },
+        ]
+      }
+      testID="You saved"
+    >
+      $50
+    </Text>
+  </View>
+</View>
+`;

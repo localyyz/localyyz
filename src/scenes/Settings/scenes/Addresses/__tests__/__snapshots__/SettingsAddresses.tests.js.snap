@@ -211,6 +211,24 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
                 }
               >
                 <RCTScrollView
+                  ListFooterComponent={
+                    <Component
+                      style={
+                        Object {
+                          "alignItems": "center",
+                          "marginHorizontal": 25,
+                          "marginVertical": 15,
+                        }
+                      }
+                    >
+                      <inject-Button
+                        isEnabled={true}
+                        onPress={[Function]}
+                      >
+                        Add a new address
+                      </inject-Button>
+                    </Component>
+                  }
                   data={
                     Array [
                       Object {
@@ -275,6 +293,7 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
                                 "paddingHorizontal": 15,
                                 "paddingVertical": 10,
                               },
+                              undefined,
                               Object {
                                 "alignItems": "center",
                                 "flexDirection": "row",
@@ -316,9 +335,15 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
                           </View>
                           <View
                             style={
-                              Object {
-                                "flex": 1,
-                              }
+                              Array [
+                                Object {
+                                  "alignItems": "center",
+                                  "flex": 1,
+                                  "flexDirection": "row",
+                                  "justifyContent": "space-between",
+                                },
+                                undefined,
+                              ]
                             }
                           >
                             <View
@@ -384,6 +409,7 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
                                 "paddingHorizontal": 15,
                                 "paddingVertical": 10,
                               },
+                              undefined,
                               Object {
                                 "alignItems": "center",
                                 "flexDirection": "row",
@@ -425,9 +451,15 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
                           </View>
                           <View
                             style={
-                              Object {
-                                "flex": 1,
-                              }
+                              Array [
+                                Object {
+                                  "alignItems": "center",
+                                  "flex": 1,
+                                  "flexDirection": "row",
+                                  "justifyContent": "space-between",
+                                },
+                                undefined,
+                              ]
                             }
                           >
                             <View
@@ -465,81 +497,86 @@ exports[`Settings Addresses Settings Addresses: should render properly 1`] = `
                         </View>
                       </View>
                     </View>
-                  </View>
-                </RCTScrollView>
-                <View
-                  style={
-                    Object {
-                      "alignItems": "center",
-                      "marginHorizontal": 25,
-                      "marginVertical": 15,
-                    }
-                  }
-                >
-                  <View
-                    style={
-                      Object {
-                        "alignItems": "center",
-                        "marginTop": 15,
-                      }
-                    }
-                  >
                     <View
-                      accessible={true}
-                      isTVSelectable={true}
-                      onResponderGrant={[Function]}
-                      onResponderMove={[Function]}
-                      onResponderRelease={[Function]}
-                      onResponderTerminate={[Function]}
-                      onResponderTerminationRequest={[Function]}
-                      onStartShouldSetResponder={[Function]}
-                      style={
-                        Object {
-                          "opacity": 1,
-                        }
-                      }
+                      onLayout={[Function]}
+                      style={null}
                     >
                       <View
                         style={
-                          Array [
-                            Object {
-                              "alignItems": "center",
-                              "backgroundColor": "#9013FE",
-                              "borderRadius": 15,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 30,
-                              "paddingVertical": 7.5,
-                            },
-                            false,
-                            undefined,
-                          ]
+                          Object {
+                            "alignItems": "center",
+                            "marginHorizontal": 25,
+                            "marginVertical": 15,
+                          }
                         }
                       >
-                        <Text
-                          accessible={true}
-                          allowFontScaling={true}
-                          ellipsizeMode="tail"
+                        <View
                           style={
-                            Array [
-                              Object {
-                                "backgroundColor": "rgba(255, 255, 255, 0)",
-                                "borderBottomColor": "#FFFFFF",
-                                "color": "#FFFFFF",
-                                "fontSize": 16,
-                                "fontWeight": "600",
-                              },
-                              false,
-                              undefined,
-                            ]
+                            Object {
+                              "alignItems": "center",
+                              "marginTop": 15,
+                            }
                           }
                         >
-                          Add a new address
-                        </Text>
+                          <View
+                            accessible={true}
+                            isTVSelectable={true}
+                            onResponderGrant={[Function]}
+                            onResponderMove={[Function]}
+                            onResponderRelease={[Function]}
+                            onResponderTerminate={[Function]}
+                            onResponderTerminationRequest={[Function]}
+                            onStartShouldSetResponder={[Function]}
+                            style={
+                              Object {
+                                "opacity": 1,
+                              }
+                            }
+                          >
+                            <View
+                              style={
+                                Array [
+                                  Object {
+                                    "alignItems": "center",
+                                    "backgroundColor": "#9013FE",
+                                    "borderRadius": 15,
+                                    "flexDirection": "row",
+                                    "justifyContent": "center",
+                                    "paddingHorizontal": 30,
+                                    "paddingVertical": 7.5,
+                                  },
+                                  false,
+                                  undefined,
+                                ]
+                              }
+                            >
+                              <Text
+                                accessible={true}
+                                allowFontScaling={true}
+                                ellipsizeMode="tail"
+                                style={
+                                  Array [
+                                    Object {
+                                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                                      "borderBottomColor": "#FFFFFF",
+                                      "color": "#FFFFFF",
+                                      "fontSize": 16,
+                                      "fontWeight": "600",
+                                    },
+                                    false,
+                                    undefined,
+                                  ]
+                                }
+                              >
+                                Add a new address
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
                       </View>
                     </View>
                   </View>
-                </View>
+                </RCTScrollView>
               </View>
             </View>
           </View>

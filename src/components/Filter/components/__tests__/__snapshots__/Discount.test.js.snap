@@ -146,7 +146,7 @@ exports[`Discount filter should render to snapshot 1`] = `
             },
             Object {
               "left": -37,
-              "top": -29.5,
+              "top": -30,
             },
             Object {
               "height": 50,

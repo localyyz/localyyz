@@ -34,7 +34,9 @@ export default class AddressStore {
     // send and update address list
     const response = await this.api.post("/users/me/address", address);
 
-    return response && response.status < 400 ? await this.fetch() : response;
+    return response && response.status < 400
+      ? (await this.fetch()) && response.data
+      : response;
   };
 
   @action
@@ -44,13 +46,17 @@ export default class AddressStore {
       address
     );
 
-    return response && response.status < 400 ? await this.fetch() : response;
+    return response && response.status < 400
+      ? (await this.fetch()) && response.data
+      : response;
   };
 
   @action
   remove = async addressId => {
     const response = await this.api.delete(`/users/me/address/${addressId}`);
 
-    return response && response.status < 400 ? await this.fetch() : response;
+    return response && response.status < 400
+      ? (await this.fetch()) && response
+      : response;
   };
 }

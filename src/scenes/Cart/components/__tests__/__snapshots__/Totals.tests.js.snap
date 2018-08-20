@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Totals should render properly to snapshot 1`] = `
+<View
+  style={Object {}}
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "#000000",
+            "fontSize": 16,
+            "fontWeight": "600",
+          },
+          undefined,
+        ]
+      }
+    >
+      Total
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "#000000",
+            "fontSize": 16,
+            "fontWeight": "600",
+          },
+          Object {
+            "textAlign": "right",
+          },
+          undefined,
+        ]
+      }
+      testID="price"
+    >
+      $100
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "#000000",
+            "fontSize": 16,
+            "fontWeight": "600",
+          },
+          Object {
+            "textAlign": "right",
+          },
+          Object {
+            "color": "#50E3C2",
+          },
+          undefined,
+        ]
+      }
+    >
+      You saved
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "#000000",
+            "fontSize": 16,
+            "fontWeight": "600",
+          },
+          Object {
+            "textAlign": "right",
+          },
+          Object {
+            "color": "#50E3C2",
+          },
+          undefined,
+        ]
+      }
+      testID="discount"
+    >
+      $300
+    </Text>
+  </View>
+</View>
+`;

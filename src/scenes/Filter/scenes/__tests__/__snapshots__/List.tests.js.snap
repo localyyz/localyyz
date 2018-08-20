@@ -163,6 +163,16 @@ exports[`Filter List should match snapshot 1`] = `
     }
   >
     <RCTScrollView
+      ListFooterComponent={
+        <Component
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "padding": 7.5,
+            }
+          }
+        />
+      }
       ccs={
         ContentCoverSliderUIStore {
           "headerHeight": 1334,
@@ -274,7 +284,7 @@ exports[`Filter List should match snapshot 1`] = `
                   "paddingLeft": 15,
                 },
                 Object {
-                  "paddingVertical": 15,
+                  "paddingTop": 15,
                 },
               ]
             }
@@ -324,6 +334,19 @@ exports[`Filter List should match snapshot 1`] = `
           onLayout={[Function]}
           style={null}
         />
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 7.5,
+              }
+            }
+          />
+        </View>
       </View>
     </RCTScrollView>
   </View>
@@ -367,11 +390,6 @@ exports[`Filter List should match snapshot 1`] = `
           "marginLeft": 15,
           "marginTop": 29.9,
           "opacity": 0,
-          "transform": Array [
-            Object {
-              "scale": 0.3,
-            },
-          ],
         }
       }
     >
