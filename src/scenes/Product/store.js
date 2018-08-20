@@ -4,7 +4,7 @@ import { box } from "localyyz/helpers";
 import { Product } from "localyyz/stores";
 
 import { facebook as Facebook } from "localyyz/effects";
-import { GA, ApiInstance } from "localyyz/global";
+import { ApiInstance } from "localyyz/global";
 import branch from "react-native-branch";
 
 class ProductUIStore {
@@ -17,9 +17,8 @@ class ProductUIStore {
   // deep linking
   isDeepLinked = false;
 
-  constructor({ product }, historyStore) {
+  constructor({ product }) {
     this.api = ApiInstance;
-    this.history = historyStore;
 
     if (product) {
       this.product = product;
@@ -114,35 +113,6 @@ class ProductUIStore {
 
     return url;
   }
-
-  // add product to the cart
-  @action
-  addToCart = async ({ color, size, quantity = 1 }) => {
-    // TODO: should embed cartStore
-    const response = await ApiInstance.post("/carts/default/items", {
-      productId: this.product.id,
-      color: color,
-      size: size,
-      quantity: quantity
-    });
-
-    // log data of product add and update store
-    if (response && response.status < 400 && response.data) {
-      // facebook analytics
-      GA.trackEvent(
-        "cart",
-        "add to cart - success",
-        `${this.product.id}`,
-        this.product.price
-      );
-
-      // TODO: return promise accept?
-      return response.data;
-    }
-
-    // TODO: return promise reject?
-    return response;
-  };
 }
 
 export default ProductUIStore;

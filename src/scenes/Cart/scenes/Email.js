@@ -53,7 +53,7 @@ export default class Email extends React.Component {
   }
 
   onBack() {
-    return this.props.navigation.getScreenProps().close();
+    return this.props.navigation.goBack(null);
   }
 
   render() {

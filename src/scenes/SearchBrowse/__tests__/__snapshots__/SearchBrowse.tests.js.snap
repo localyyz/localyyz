@@ -12,7 +12,7 @@ exports[`SearchBrowse should render properly 1`] = `
         "_client": [Function],
         "alertActive": false,
         "apiUrl": undefined,
-        "lastAlerted": 2018-08-20T14:46:32.365Z,
+        "lastAlerted": 2018-08-20T20:23:11.487Z,
         "registerPlayerId": [Function],
       },
       "categories": Array [],

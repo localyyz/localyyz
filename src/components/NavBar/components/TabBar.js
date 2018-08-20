@@ -7,14 +7,18 @@ import Button from "./Button";
 import Notifications from "./Notifications";
 
 // third party
-import { withNavigation } from "react-navigation";
+import {
+  withNavigation,
+  StackActions,
+  NavigationActions
+} from "react-navigation";
 import { inject, observer } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({
   hasSession: stores.userStore.model.hasSession,
   isVisible: stores.navbarStore.isVisible,
-  numItems: stores.cartStore.numItems
+  numItems: stores.cartStore.numCartItems
 }))
 @observer
 export class TabBar extends React.Component {
@@ -23,6 +27,9 @@ export class TabBar extends React.Component {
     this.state = {
       keyboardVisible: false
     };
+
+    // bindings
+    this.onPress = this.onPress.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +57,16 @@ export class TabBar extends React.Component {
     return !this.state.keyboardVisible && this.props.isVisible;
   }
 
+  onPress(tab) {
+    let isDoublePress = this.props.activeButton === tab.id;
+    return this.props.onPress(tab.id, () => {
+      this.props.navigation.navigate({
+        routeName: tab.tabKey,
+        action: isDoublePress ? StackActions.popToTop() : undefined
+      });
+    });
+  }
+
   render() {
     const tabs = this.props.tabs.map((t, i) => {
       return React.createElement(Button, {
@@ -60,10 +77,7 @@ export class TabBar extends React.Component {
             : null,
         key: `tab${i}`,
         activeButton: this.props.activeButton,
-        onPress: () =>
-          this.props.onPress(t.id, () =>
-            this.props.navigation.navigate(t.tabKey)
-          )
+        onPress: () => this.onPress(t)
       });
     });
 

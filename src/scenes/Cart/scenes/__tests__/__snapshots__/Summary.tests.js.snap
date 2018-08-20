@@ -217,7 +217,7 @@ We've also sent you an email confirmation for record keeping.
                   Array [
                     Object {
                       "minHeight": 1334,
-                      "paddingBottom": NaN,
+                      "paddingBottom": 63,
                     },
                     undefined,
                   ]

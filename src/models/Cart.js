@@ -154,7 +154,7 @@ export default class Cart {
   // internally used, but available publicly
   @action
   addItem(item) {
-    this.items.push(item);
+    this.items.push(new CartItem(item));
   }
 
   @action

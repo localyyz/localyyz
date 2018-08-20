@@ -72,6 +72,61 @@ exports[`ProductTile ProductTile: should render properly(snapshot) 1`] = `
           </View>
         </View>
       </View>
+      <View
+        style={
+          Object {
+            "bottom": 0,
+            "position": "absolute",
+            "right": 0,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#DEEFF5",
+              "borderRadius": 12.5,
+              "height": 25,
+              "justifyContent": "center",
+              "marginRight": 7.5,
+              "width": 25,
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={false}
+            ellipsizeMode="tail"
+            style={
+              Array [
+                Object {
+                  "color": "#FFFFFF",
+                  "fontSize": 15,
+                },
+                Object {
+                  "marginLeft": 1,
+                  "marginTop": 4,
+                },
+                Object {
+                  "fontFamily": "Entypo",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+      </View>
     </View>
     <View
       style={
@@ -172,57 +227,6 @@ exports[`ProductTile ProductTile: should render properly(snapshot) 1`] = `
             
           </Text>
         </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          }
-        }
-      >
-        <View
-          accessible={true}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          styles={
-            Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "flex-start",
-              "padding": 8,
-            }
-          }
-        >
-          <Text
-            accessible={true}
-            allowFontScaling={false}
-            ellipsizeMode="tail"
-            style={
-              Array [
-                Object {
-                  "color": "black",
-                  "fontSize": 30,
-                },
-                Object {
-                  "marginRight": 10,
-                },
-                Object {
-                  "fontFamily": "Entypo",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                },
-              ]
-            }
-          >
-            
-          </Text>
-        </View>
       </View>
     </View>
   </View>

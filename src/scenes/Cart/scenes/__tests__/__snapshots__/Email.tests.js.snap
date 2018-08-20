@@ -14,6 +14,7 @@ exports[`Email should not show next button if no email 1`] = `
           "validators": Array [
             [Function],
             [Function],
+            [Function],
           ],
           "value": null,
         },
@@ -103,6 +104,7 @@ exports[`Email should render properly to snapshot 1`] = `
           "validators": Array [
             [Function],
             [Function],
+            [Function],
           ],
           "value": null,
         },
@@ -190,6 +192,7 @@ exports[`Email should show next button if email given 1`] = `
           "mask": null,
           "onValueChange": null,
           "validators": Array [
+            [Function],
             [Function],
             [Function],
           ],
