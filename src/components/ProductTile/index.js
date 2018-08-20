@@ -83,6 +83,11 @@ export default class ProductTile extends React.PureComponent {
                 constrainWidth={this.state.photoSize}
                 constrainHeight={Sizes.Height / 4}/>
             ) : null}
+            <View style={styles.favouriteButton}>
+              <Favourite
+                onPress={this.props.product.toggleFavourite}
+                active={this.props.product.isFavourite}/>
+            </View>
           </View>
           <View style={styles.content}>
             <View style={styles.price}>
@@ -113,11 +118,6 @@ export default class ProductTile extends React.PureComponent {
                 </Text>
               </Text>
             </View>
-            <View style={styles.favouriteButton}>
-              <Favourite
-                onPress={this.props.product.toggleFavourite}
-                active={this.props.product.isFavourite}/>
-            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
 
   favouriteButton: {
     position: "absolute",
-    top: 0,
+    bottom: 0,
     right: 0
   },
 

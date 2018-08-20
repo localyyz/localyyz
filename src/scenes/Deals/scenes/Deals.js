@@ -31,9 +31,9 @@ import DealsUIStore from "../store";
 const MESSENGER_URI = "https://m.me/localyyz";
 const FAQ = [
   {
-    title: "What's #DOTD?",
+    title: "How does this work?",
     description:
-      "Deal of the Day.\n\nEveryday at 12PM (EST), we'll heavily discount a product to $30 (USD) for one hour until it sells out."
+      "Everyday, we'll heavily discount a product for one hour until it sells out."
   },
   {
     title: "What did I miss?",
@@ -53,7 +53,7 @@ const FAQ = [
   {
     title: "What's the return policy?",
     description:
-      "14 days as long as the product is undamaged and unworn. No returns on intimates, swimwear, and accessories."
+      "We accept returns or refunds within 7 days after delivery date (the date you received the package). Return delivery is free for items that are either delivered damaged or are incorrect. All other items are returnable however the buyer must cover the cost of return shipping.\n\nThe following items cannot be returned or exchanged: bodysuits, lingerie & sleepwear, swimwear, jewelry and accessories (except scarves and bags)"
   },
   {
     title: "Questions?",
@@ -150,7 +150,7 @@ export default class DealsScene extends React.Component {
         <View style={styles.wrapper}>
           <View style={styles.overlay} pointerEvents="box-none">
             <BaseScene
-              title="#DOTD"
+              title="Deal of the day"
               header={this.renderHeader()}
               idleStatusBarStatus="light-content">
               <View style={styles.container}>

@@ -7,6 +7,7 @@
 import { Platform } from "react-native";
 
 // other exports
+import Sizes from "./sizes";
 export { default as Sizes } from "./sizes";
 export { default as Colours } from "./colours";
 export { default as Styles } from "./styles";
@@ -57,7 +58,7 @@ export const SEARCH_SUGGESTIONS_FEMALE = [
 ];
 
 // sizes
-export { NAVBAR_HEIGHT } from "../components/NavBar";
+export const NAVBAR_HEIGHT = 48 + Sizes.ScreenBottom;
 
 // toggles
 export const IS_DEALS_SUPPORTED = Platform.OS === "ios";
