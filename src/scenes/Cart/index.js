@@ -43,29 +43,13 @@ const CheckoutNavigator = createStackNavigator(
 );
 
 class CheckoutStack extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.close = this.close.bind(this);
-  }
-
-  close() {
-    return this.props.navigation.goBack(null);
-  }
-
-  get screenProps() {
-    return {
-      ...this.props.screenProps,
-      close: this.close
-    };
-  }
+  static router = CheckoutNavigator.router;
 
   render() {
     return (
       <View style={styles.container}>
         <NavBar.Toggler />
-        <CheckoutNavigator screenProps={this.screenProps} />
+        <CheckoutNavigator navigation={this.props.navigation} />
       </View>
     );
   }
@@ -87,12 +71,15 @@ const CartNavigator = createStackNavigator(
 
 @inject(stores => ({
   cartStore: stores.cartStore,
+  addressStore: stores.addressStore,
   fetchFromDb: stores.cartStore.fetchFromDb
 }))
 export default class CartStack extends React.Component {
+  static router = CartNavigator.router;
+
   constructor(props) {
     super(props);
-    this.cartUiStore = new CartUiStore(props.cartStore);
+    this.cartUiStore = new CartUiStore(props.cartStore, props.addressStore);
   }
 
   componentDidMount() {
@@ -125,7 +112,9 @@ export default class CartStack extends React.Component {
   render() {
     return (
       <Provider cartUiStore={this.cartUiStore}>
-        <CartNavigator screenProps={this.screenProps} />
+        <CartNavigator
+          navigation={this.props.navigation}
+          screenProps={this.screenProps}/>
       </Provider>
     );
   }

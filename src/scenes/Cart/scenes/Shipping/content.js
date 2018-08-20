@@ -48,7 +48,10 @@ export default class ShippingContent extends React.Component {
     await this.props.fetch();
 
     // TODO: select the first one or prompt new address if nothing selected
-    if (!this.props.isShippingAddressComplete) {
+    if (
+      !this.props.isShippingAddressComplete
+      || this.props.addresses.length <= 0
+    ) {
       if (this.props.addresses.length > 0) {
         this.onSelect(this.props.addresses[0]);
       } else {

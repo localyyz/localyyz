@@ -211,7 +211,7 @@ exports[`Settings Menu Settings Menu: should render properly user is logged in 1
                     Array [
                       Object {
                         "minHeight": 1334,
-                        "paddingBottom": NaN,
+                        "paddingBottom": 63,
                       },
                       undefined,
                     ]
@@ -1722,7 +1722,7 @@ exports[`Settings Menu Settings Menu: should render properly when user is not lo
                     Array [
                       Object {
                         "minHeight": 1334,
-                        "paddingBottom": NaN,
+                        "paddingBottom": 63,
                       },
                       undefined,
                     ]

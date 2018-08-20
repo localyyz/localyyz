@@ -21,6 +21,7 @@ export default class CartStore extends Cart {
     this.updatePayment = this.updatePayment.bind(this);
     this.fetchFromDb = this.fetchFromDb.bind(this);
     this.syncToDb = this.syncToDb.bind(this);
+    this.addProduct = this.addProduct.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.applyDiscountCode = this.applyDiscountCode.bind(this);
     this.checkout = this.checkout.bind(this);
@@ -86,6 +87,26 @@ export default class CartStore extends Cart {
     const onSuccess = cart => {
       this.update(cart);
       GA.trackEvent("cart", "update");
+    };
+
+    return this._handleResponse(response, onSuccess);
+  }
+
+  async addProduct({ product, variantId, quantity = 1 }) {
+    const response = await ApiInstance.post(`/carts/${this.resolvedId}/items`, {
+      productId: product.id,
+      variantId: variantId,
+      quantity: quantity
+    });
+
+    const onSuccess = cartItem => {
+      this.addItem(cartItem);
+      GA.trackEvent(
+        "cart",
+        "add to cart - success",
+        `${product.id}`,
+        product.price
+      );
     };
 
     return this._handleResponse(response, onSuccess);

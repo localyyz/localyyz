@@ -96,7 +96,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly - Deal Ac
         }
       }
     >
-      #DOTD is live!
+      It's live!
     </Text>
     <Text
       accessible={true}

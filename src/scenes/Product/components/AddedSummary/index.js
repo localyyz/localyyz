@@ -38,15 +38,9 @@ const SIZE_APPEAR_INTERVAL = 100;
         : !stores.productStore.isVariantSelectorVisible),
 
   // regular checkout (add)
+  addProduct: stores.cartStore.addProduct,
   product: stores.productStore.product,
   selectedVariant: stores.productStore.selectedVariant,
-
-  onAdd: (_, color, size) => {
-    stores.productStore.addToCart({
-      color: color,
-      size: size
-    });
-  },
 
   // express checkout
   onExpressCheckout: (productId, color, size) =>
@@ -109,30 +103,27 @@ export class AddedSummary extends React.Component {
     callback && callback();
   }
 
-  onAdd() {
-    GA.trackEvent(
-      "cart",
-      "add to cart - success",
-      String(this.props.product.id)
-    );
-    this.props.product
+  async onAdd() {
+    let response
+      = this.props.product
       && this.props.selectedVariant
-      && this.props.onAdd(
-        this.props.product.id,
-        this.props.selectedVariant.etc.color,
-        this.props.selectedVariant.etc.size
-      );
+      && (await this.props.addProduct({
+        product: this.props.product,
+        variantId: this.props.selectedVariant.id
+      }));
 
     // trigger notification
-    this.props.notify(
-      `Scored ${this.props.product.title}`,
-      "Proceed to checkout?",
-      undefined,
-      undefined,
-      Colours.Accented,
-      undefined,
-      "arrow-downward"
-    );
+    if (!response.error) {
+      this.props.notify(
+        `Scored ${this.props.product.title}`,
+        "Proceed to checkout?",
+        undefined,
+        undefined,
+        Colours.Accented,
+        undefined,
+        "arrow-downward"
+      );
+    }
 
     // now close the screen and reset for next time
     this.onDismiss();

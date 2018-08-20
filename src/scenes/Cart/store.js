@@ -6,7 +6,7 @@ export default class CartUIStore {
   @observable discountCode;
   @observable nextSceneIsReady = true;
 
-  constructor(cartStore) {
+  constructor(cartStore, addressStore) {
     // bindings
     this.setNextReady = this.setNextReady.bind(this);
     this.completeCheckout = this.completeCheckout.bind(this);
@@ -15,6 +15,7 @@ export default class CartUIStore {
 
     // transport layer cartstore used to update and submit cart data to server
     this.cart = cartStore;
+    this.addresses = addressStore;
 
     // scene info, order matters
     this.scenes = [
@@ -26,7 +27,9 @@ export default class CartUIStore {
       {
         id: "ShippingScene",
         label: "Shipping",
-        isComplete: () => this.cart.isShippingAddressComplete
+        isComplete: () =>
+          this.cart.isShippingAddressComplete
+          && this.addresses.addresses.length > 0
       },
       {
         id: "PaymentScene",

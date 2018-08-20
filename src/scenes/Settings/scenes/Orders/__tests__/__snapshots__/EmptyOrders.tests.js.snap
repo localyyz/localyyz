@@ -4,7 +4,7 @@ exports[`EmptyOrders EmptyOrders: should render without failure 1`] = `
 <View
   style={
     Object {
-      "marginHorizontal": 25,
+      "marginHorizontal": 15,
     }
   }
 >
