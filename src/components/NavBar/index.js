@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { withNavigation } from "react-navigation";
 
 // custom
-import { Sizes, IS_DEALS_SUPPORTED } from "localyyz/constants";
+import { IS_DEALS_SUPPORTED, NAVBAR_HEIGHT } from "localyyz/constants";
 import TabBar from "./components/TabBar";
 import { onlyIfLoggedIn } from "localyyz/helpers";
 
@@ -13,10 +13,6 @@ import { inject, observer } from "mobx-react/native";
 
 // local
 import { Toggler } from "./components";
-
-// offset tabbar, manually calc'ed and synced via onLayout
-// by hand when layout changes
-export const NAVBAR_HEIGHT = 48 + Sizes.ScreenBottom;
 
 @inject(stores => ({
   userStore: stores.userStore,
@@ -113,7 +109,7 @@ export class NavBar extends React.Component {
               id: "deals",
               icon: "bolt",
               iconType: "fontAwesome",
-              label: "#DOTD",
+              label: "Flash",
               tabKey: "Deals"
             }
           ]

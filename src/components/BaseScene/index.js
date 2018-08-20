@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
 
   content: {
-    paddingBottom: NAVBAR_HEIGHT * 2,
+    paddingBottom: NAVBAR_HEIGHT + Sizes.InnerFrame,
     minHeight: Sizes.Height
   }
 });

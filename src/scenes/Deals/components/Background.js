@@ -83,7 +83,7 @@ class DealActiveContent extends React.Component {
   render() {
     return (
       <View style={[styles.content, styles.centered]}>
-        <Text style={styles.title}>{"#DOTD is live!"}</Text>
+        <Text style={styles.title}>{"It's live!"}</Text>
         <Text style={[styles.title, styles.header]}>
           <Timer
             target={this.props.target}
@@ -115,9 +115,6 @@ class DealExpiredContent extends React.Component {
     return (
       <View style={[styles.content, styles.centered]}>
         <Text style={[styles.title, styles.header]}>{".. and it's over"}</Text>
-        {/*<Text style={[styles.title, styles.compressed]}>*/}
-          {/*next deal tomorrow*/}
-        {/*</Text>*/}
       </View>
     );
   }
@@ -149,10 +146,6 @@ const styles = StyleSheet.create({
   header: {
     ...Styles.Oversized,
     marginVertical: Sizes.InnerFrame
-  },
-
-  compressed: {
-    marginHorizontal: Sizes.Width / 4
   },
 
   title: {

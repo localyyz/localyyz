@@ -367,7 +367,7 @@ export default class Login extends React.Component {
                   placeholder="Email address"/>
                 <InputField
                   ref="password"
-                  autoFocus={this.state.username}
+                  autoFocus={!!this.state.username}
                   secureTextEntry
                   clearTextOnFocus
                   autoCapitalize="none"
@@ -426,8 +426,9 @@ const styles = StyleSheet.create({
   title: {
     ...Styles.Text,
     ...Styles.Emphasized,
-    ...Styles.SectionTitle,
-    ...Styles.Alternate
+    ...Styles.Title,
+    ...Styles.Alternate,
+    marginLeft: Sizes.InnerFrame
   },
 
   alert: {
