@@ -13,6 +13,10 @@ import { Forms } from "localyyz/components";
 import CartBaseScene from "../components/CartBaseScene";
 import Button from "../components/Button";
 
+// constants
+const DEBUG = false;
+const DEBUG_EMAIL = "test@localyyz.com";
+
 @inject(stores => ({
   email: stores.cartUiStore.cart.email || stores.userStore.email,
   updateEmail: stores.cartUiStore.cart.updateEmail,
@@ -36,7 +40,7 @@ export default class Email extends React.Component {
     // data
     this.store = new Forms.Store({
       id: "email",
-      value: this.props.email || null,
+      value: DEBUG ? DEBUG_EMAIL : this.props.email || null,
       validators: [
         "isRequired",
         email =>
@@ -63,6 +67,7 @@ export default class Email extends React.Component {
           keySeed={this.props.keySeed}
           navigation={this.props.navigation}
           activeSceneId="EmailScene"
+          iconType="close"
           backAction={this.onBack}>
           <CartBaseScene.Content>
             <View style={styles.container}>

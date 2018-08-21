@@ -18,7 +18,7 @@ import * as Animatable from "react-native-animatable";
 import TearLines from "react-native-tear-lines";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import LinearGradient from "react-native-linear-gradient";
-import { StackActions } from "react-navigation";
+import { StackActions, NavigationActions } from "react-navigation";
 
 // local
 import Button from "../components/Button";
@@ -63,12 +63,42 @@ export default class CartSummaryScene extends React.Component {
   }
 
   onCompletion(scene, params) {
-    // top of checkout
-    this.props.navigation.popToTop();
-
-    // and finally, out of checkout
-    this.props.navigation.pop();
-    scene && this.props.navigation.navigate(scene, params);
+    // first, top of checkout (popToTop)
+    // second, out of checkout and into cart (pop)
+    // last, navigate to scene (navigate)
+    let topAction;
+    switch (scene) {
+      case "Login":
+        // Login is sibling scene of App.
+        topAction = NavigationActions.navigate({
+          routeName: scene,
+          params: params
+        });
+        break;
+      default:
+        // ... everything else can be nested in the App stack
+        topAction = NavigationActions.navigate({
+          routeName: "App",
+          action: NavigationActions.navigate({
+            routeName: scene,
+            params: params
+          })
+        });
+        break;
+    }
+    this.props.navigation.dispatch(
+      StackActions.reset({
+        index: 1,
+        key: null,
+        actions: [
+          // bottom of the stack is always app.
+          NavigationActions.navigate({
+            routeName: "App"
+          }),
+          topAction
+        ]
+      })
+    );
   }
 
   async loginWithFacebook() {

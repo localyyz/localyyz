@@ -3,7 +3,6 @@ import { observable, computed, action } from "mobx";
 import Moment from "moment";
 
 export default class CartUIStore {
-  @observable discountCode;
   @observable nextSceneIsReady = true;
 
   constructor(cartStore, addressStore) {

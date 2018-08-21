@@ -44,6 +44,7 @@ export default class Cart {
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.update = this.update.bind(this);
+    this.setDiscountCode = this.setDiscountCode.bind(this);
     this.toJS = this.toJS.bind(this);
 
     // init
@@ -160,6 +161,11 @@ export default class Cart {
   @action
   removeItem(item) {
     this.items.remove(item);
+  }
+
+  @action
+  setDiscountCode(code) {
+    this.discountCode = code;
   }
 
   @action
