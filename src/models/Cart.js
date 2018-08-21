@@ -99,15 +99,15 @@ export default class Cart {
 
   @computed
   get subtotalPreviousPriceDollars() {
-    return this.cartItems.reduce(
-      (s, p) => s + (p.product.previousPrice || p.product.price),
-      0
-    );
+    return this.cartItems.reduce((s, p) => s + (p.previousPrice || p.price), 0);
   }
 
   @computed
   get subtotalDiscountDollars() {
-    return this.subtotalPreviousPriceDollars - this.subtotalPriceDollars;
+    return Math.max(
+      0,
+      this.subtotalPreviousPriceDollars - this.subtotalPriceDollars
+    );
   }
 
   @computed

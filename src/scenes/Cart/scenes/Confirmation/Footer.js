@@ -21,9 +21,8 @@ import Button from "../../components/Button";
   // totals
   totalPrice:
     stores.cartStore.totalPriceDollars || stores.cartStore.subtotalPriceDollars,
-  totalDiscount:
-    stores.cartStore.totalDiscountDollars
-    || stores.cartStore.subtotalDiscountDollars,
+  totalDiscount: stores.cartStore.subtotalDiscountDollars,
+  totalCoupon: stores.cartStore.totalDiscountDollars,
 
   // exploder
   isProcessing: stores.confirmationUiStore.isProcessing,
@@ -136,6 +135,12 @@ export default class Footer extends React.Component {
         {this.renderRow(
           "You saved",
           this.props.totalDiscount,
+          false,
+          styles.saved
+        )}
+        {this.renderRow(
+          "Extra coupon savings",
+          this.props.totalCoupon,
           false,
           styles.saved
         )}

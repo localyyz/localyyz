@@ -33,6 +33,7 @@ export default class Discount extends React.Component {
 
     // bindings
     this.onNext = this.onNext.bind(this);
+    this.onFocus = this.onFocus.bind(this);
 
     // data
     this.store = new Forms.Store({
@@ -56,6 +57,11 @@ export default class Discount extends React.Component {
     this.props.setNextReady(true);
   }
 
+  onFocus() {
+    // clear errors on focus
+    this.setState({ error: null });
+  }
+
   render() {
     return (
       <Provider formStore={this.store}>
@@ -70,6 +76,7 @@ export default class Discount extends React.Component {
                   field="discount"
                   label="Coupon code"
                   error={this.state.error}
+                  onFocus={this.onFocus}
                   autoCapitalize="none"
                   autoCorrect={false}
                   style={styles.field}
@@ -78,7 +85,7 @@ export default class Discount extends React.Component {
                   wrapperStyle={styles.fieldWrapper}/>
               </View>
             </View>
-            {this.store.isComplete ? (
+            {this.store.isComplete && !this.state.error ? (
               <View style={styles.buttons}>
                 <Button onPress={this.onNext}>Add coupon</Button>
               </View>
