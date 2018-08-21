@@ -6,6 +6,21 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import { toPriceString } from "localyyz/helpers";
 
 export default class PriceTag extends React.Component {
+  get priceTag() {
+    return this.props.product.minPrice >= this.props.product.maxPrice
+      ? toPriceString(
+          this.props.product.price,
+          this.props.product.place && this.props.product.place.currency
+        )
+      : `${toPriceString(
+          this.props.product.minPrice,
+          this.props.product.place && this.props.product.place.currency
+        )}—${toPriceString(
+          this.props.product.maxPrice,
+          this.props.product.place && this.props.product.place.currency
+        )}`;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -23,10 +38,7 @@ export default class PriceTag extends React.Component {
               marginHorizontal: Sizes.InnerFrame / 3
             }
           ]}>
-          {toPriceString(
-            this.props.product.price,
-            this.props.product.place && this.props.product.place.currency
-          )}
+          {this.priceTag}
         </Text>
       </View>
     );

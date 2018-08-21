@@ -160,14 +160,6 @@ export class AddedSummary extends React.Component {
     );
   }
 
-  renderItem({ item: size }) {
-    return (
-      <View style={styles.size}>
-        <Text style={styles.sizeLabel}>{`${size}`.toUpperCase()}</Text>
-      </View>
-    );
-  }
-
   openSizeChart() {
     return this.props.navigation.navigate("Information", {
       title: "Sizing and fit",
@@ -215,7 +207,7 @@ export class AddedSummary extends React.Component {
                     <Text style={styles.addButtonLabel}>Add to cart</Text>
                     <View style={styles.addButtonDetails}>
                       <Text style={styles.addButtonLabel}>
-                        {toPriceString(this.props.product.price)}
+                        {toPriceString(this.props.selectedVariant.price)}
                       </Text>
                       <MaterialIcon
                         name="add-shopping-cart"

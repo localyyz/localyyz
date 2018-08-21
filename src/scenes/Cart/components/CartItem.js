@@ -109,7 +109,7 @@ export default class CartItem extends React.Component {
                     </Text>
                   </View>
                   <Text testID="price" style={[styles.title, styles.value]}>
-                    {toPriceString(this.props.item.product.price)}
+                    {toPriceString(this.props.item.price)}
                   </Text>
                 </View>
                 <View style={styles.row}>

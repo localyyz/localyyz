@@ -18,8 +18,6 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   isOnSale:
     stores.productStore.product
     && stores.productStore.product.previousPrice > 0,
-  price:
-    (stores.productStore.product && stores.productStore.product.price) || 0,
   previousPrice:
     stores.productStore.product && stores.productStore.product.previousPrice,
   discount: stores.productStore.product && stores.productStore.product.discount,

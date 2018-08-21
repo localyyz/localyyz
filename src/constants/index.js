@@ -26,7 +26,7 @@ export const PRIVACY_POLICY_URI
   = "https://localyyz.com/business/privacy-policy-businesses.html";
 export const TERMS_AND_CONDITIONS_URI
   = "https://localyyz.com/business/terms-and-conditions-businesses.html";
-export const DEV_REMOTE_API = "https://api.localyyz.com";
+export const DEV_REMOTE_API = "https://api-staging.localyyz.com";
 
 // form labels
 export const DEFAULT_ADDRESS = "required";
