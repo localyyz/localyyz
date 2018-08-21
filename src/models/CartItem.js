@@ -23,4 +23,8 @@ export default class CartItem {
       }
     }
   }
+
+  get previousPrice() {
+    return this.variant.prevPrice;
+  }
 }

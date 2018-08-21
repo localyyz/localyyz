@@ -71,8 +71,7 @@ const CartNavigator = createStackNavigator(
 
 @inject(stores => ({
   cartStore: stores.cartStore,
-  addressStore: stores.addressStore,
-  fetchFromDb: stores.cartStore.fetchFromDb
+  addressStore: stores.addressStore
 }))
 export default class CartStack extends React.Component {
   static router = CartNavigator.router;
@@ -80,24 +79,6 @@ export default class CartStack extends React.Component {
   constructor(props) {
     super(props);
     this.cartUiStore = new CartUiStore(props.cartStore, props.addressStore);
-  }
-
-  componentDidMount() {
-    this.focusListener = this.props.navigation.addListener(
-      "didFocus",
-      async () => {
-        GA.trackScreen("cart");
-        const resolved = await this.props.fetchFromDb();
-        resolved.error
-          && Alert.alert("Couldn't load your cart", resolved.error);
-      }
-    );
-  }
-
-  componentWillUnmount() {
-    // unsubscribe to listeners
-    this.focusListener && this.focusListener.remove();
-    this.focusListener = null;
   }
 
   get screenProps() {

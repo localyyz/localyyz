@@ -26,6 +26,7 @@ export default class CartStore extends Cart {
     this.applyDiscountCode = this.applyDiscountCode.bind(this);
     this.checkout = this.checkout.bind(this);
     this.completePayment = this.completePayment.bind(this);
+    this.onInvalidCartLoad = this.onInvalidCartLoad.bind(this);
     this._handleError = this._handleError.bind(this);
     this._handleResponse = this._handleResponse.bind(this);
 
@@ -74,8 +75,13 @@ export default class CartStore extends Cart {
       this.update(cart);
       GA.trackEvent("cart", "fetch", `${this.resolvedId}`);
     };
+    const onError = this.onInvalidCartLoad;
 
-    return this._handleResponse(response, onSuccess);
+    return this._handleResponse(response, onSuccess, onError);
+  }
+
+  onInvalidCartLoad({ status }) {
+    status === 404 && this.clear();
   }
 
   async syncToDb() {
@@ -172,20 +178,20 @@ export default class CartStore extends Cart {
   }
 
   // internally used
-  _handleError({ status, details }) {
+  _handleError({ status, details, onError }) {
     GA.trackEvent("cart", "error", details);
-    return Promise.resolve({
-      error: details,
-      status: status
-    });
+    let error = { error: details, status: status };
+    onError && onError(error);
+
+    return Promise.resolve(error);
   }
 
-  _handleResponse(response, onSuccess) {
+  _handleResponse(response, onSuccess, onError) {
     if (response && response.data) {
       onSuccess && onSuccess(response.data);
       return Promise.resolve({ success: true });
     }
 
-    return this._handleError(response.error);
+    return this._handleError({ ...response.error, onError: onError });
   }
 }

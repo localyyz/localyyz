@@ -9,11 +9,8 @@ import { Colours, Styles } from "localyyz/constants";
 import { toPriceString } from "localyyz/helpers";
 
 @inject(stores => ({
-  totalPrice:
-    stores.cartStore.totalPriceDollars || stores.cartStore.subtotalPriceDollars,
-  totalDiscount:
-    stores.cartStore.totalDiscountDollars
-    || stores.cartStore.subtotalDiscountDollars
+  totalPrice: stores.cartStore.subtotalPriceDollars,
+  totalDiscount: stores.cartStore.subtotalDiscountDollars
 }))
 @observer
 export default class Totals extends React.Component {

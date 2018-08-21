@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, StyleSheet, Alert } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 
 // third party
 import LinearGradient from "react-native-linear-gradient";
@@ -39,6 +39,7 @@ export default class Cart extends React.Component {
     this.ccs = ContentCoverSlider.createStore();
 
     // bindings
+    this.fetch = this.fetch.bind(this);
     this.onScroll = this.onScroll.bind(this);
     this.onNext = this.onNext.bind(this);
     this.renderItem = this.renderItem.bind(this);
@@ -47,12 +48,19 @@ export default class Cart extends React.Component {
   componentDidMount() {
     this.focusListener = this.props.navigation.addListener(
       "didFocus",
-      async () => {
-        const resolved = await this.props.fetchFromDb();
-        resolved.error
-          && Alert.alert("Couldn't load your cart", resolved.error);
-      }
+      this.fetch
     );
+  }
+
+  async fetch() {
+    let resolved = await this.props.fetchFromDb();
+
+    // recursively try again until it works
+    if (resolved.error) {
+      resolved = await this.fetch();
+    }
+
+    return resolved;
   }
 
   componentWillUnmount() {
