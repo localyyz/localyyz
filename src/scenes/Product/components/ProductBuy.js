@@ -124,13 +124,20 @@ export class ProductBuy extends React.Component {
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity onPress={this.onPress}>
-            <View style={styles.button}>
+            <SloppyView
+              style={styles.button}
+              hitSlop={{
+                top: Sizes.InnerFrame * 2,
+                bottom: Sizes.InnerFrame * 2,
+                left: Sizes.InnerFrame,
+                right: Sizes.InnerFrame
+              }}>
               <MaterialIcon
                 name={this.buttonIcon}
                 color={Colours.AlternateText}
                 size={Sizes.Text}/>
               <Text style={styles.addButtonLabel}>{this.buttonLabel}</Text>
-            </View>
+            </SloppyView>
           </TouchableOpacity>
         </View>
       </View>
