@@ -142,8 +142,8 @@ export default class CartStore extends Cart {
       discountCode: discountCode
     });
 
-    const onSuccess = cart => {
-      this.update({ ...cart, discountCode: discountCode });
+    const onSuccess = () => {
+      this.setDiscountCode(discountCode);
       GA.trackEvent("cart", "enter discount code", discountCode);
     };
 

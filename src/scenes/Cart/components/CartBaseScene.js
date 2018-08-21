@@ -134,6 +134,7 @@ export default class CartBaseScene extends React.Component {
           title={this.title}
           backColor={Colours.Text}
           backAction={this.props.backAction || this.onBack}
+          iconType={this.props.iconType}
           background={this.header}>
           <View style={styles.container}>
             <FlatList

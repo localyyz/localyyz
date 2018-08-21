@@ -23,6 +23,10 @@ import ConfirmationUIStore from "./store";
   numCartItems: stores.cartStore.numCartItems
 }))
 export default class Confirmation extends React.Component {
+  static navigationOptions = {
+    gesturesEnabled: false
+  };
+
   constructor(props) {
     super(props);
     this.store = new ConfirmationUIStore(
@@ -40,7 +44,8 @@ export default class Confirmation extends React.Component {
 
   onRemove() {
     if (this.props.numCartItems <= 0) {
-      this.props.navigation.getScreenProps().close();
+      this.props.navigation.popToTop();
+      this.props.navigation.goBack(null);
     }
   }
 
@@ -55,6 +60,7 @@ export default class Confirmation extends React.Component {
           <CartBaseScene
             keySeed={this.props.keySeed}
             navigation={this.props.navigation}
+            iconType="close"
             activeSceneId="ConfirmationScene"
             footer={this.expandedFooter}>
             <SummarySection navigation={this.props.navigation} />

@@ -14,6 +14,12 @@ import { PaymentCard } from "localyyz/models";
 import CartBaseScene from "../../components/CartBaseScene";
 import Button from "../../components/Button";
 
+// constants
+const DEBUG = false;
+const DEBUG_CARD = "4242 4242 4242 4242";
+const DEBUG_EXPIRY = "11/23";
+const DEBUG_CVC = "444";
+
 @inject(stores => ({
   card: stores.cartStore.paymentDetails,
   updateCard: stores.cartStore.updatePayment,
@@ -42,8 +48,9 @@ export default class PaymentContent extends React.Component {
     this.store = new Forms.Store(
       {
         id: "number",
-        value:
-          this.props.card && this.props.card.isComplete
+        value: DEBUG
+          ? DEBUG_CARD
+          : this.props.card && this.props.card.isComplete
             ? this.props.card.number
             : null,
         validators: ["isRequired", this.validateNumberValid],
@@ -51,8 +58,9 @@ export default class PaymentContent extends React.Component {
       },
       {
         id: "expiry",
-        value:
-          this.props.card && this.props.card.isComplete
+        value: DEBUG
+          ? DEBUG_EXPIRY
+          : this.props.card && this.props.card.isComplete
             ? `${this.props.card.expiryMonth}/${this.props.card.expiryYear}`
             : null,
         validators: [
@@ -64,8 +72,9 @@ export default class PaymentContent extends React.Component {
       },
       {
         id: "cvc",
-        value:
-          this.props.card && this.props.card.isComplete
+        value: DEBUG
+          ? DEBUG_CVC
+          : this.props.card && this.props.card.isComplete
             ? this.props.card.cvc
             : null,
         validators: ["isRequired", this.validateCvcValid]

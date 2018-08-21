@@ -1,6 +1,6 @@
 // third party
 import React from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { inject, Provider } from "mobx-react/native";
 
@@ -8,7 +8,6 @@ import { inject, Provider } from "mobx-react/native";
 import { NavBar } from "localyyz/components";
 import Forms from "../Forms";
 import { Addresses } from "../Settings/scenes";
-import { GA } from "localyyz/global";
 
 // local
 import ProductScene from "../Product";
@@ -62,9 +61,9 @@ const CartNavigator = createStackNavigator(
     Product: ProductScene
   },
   {
-    navigationOptions: ({ navigation: { state } }) => ({
+    navigationOptions: () => ({
       header: null,
-      gesturesEnabled: state.params && state.params.gesturesEnabled
+      gesturesEnabled: false
     })
   }
 );
@@ -81,21 +80,10 @@ export default class CartStack extends React.Component {
     this.cartUiStore = new CartUiStore(props.cartStore, props.addressStore);
   }
 
-  get screenProps() {
-    return {
-      ...this.props.screenProps,
-
-      // provide screens top level navigation
-      navigate: this.props.navigation.navigate
-    };
-  }
-
   render() {
     return (
       <Provider cartUiStore={this.cartUiStore}>
-        <CartNavigator
-          navigation={this.props.navigation}
-          screenProps={this.screenProps}/>
+        <CartNavigator navigation={this.props.navigation} />
       </Provider>
     );
   }
