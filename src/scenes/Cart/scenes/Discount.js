@@ -50,7 +50,7 @@ export default class Discount extends React.Component {
     if (response.error) {
       this.setState({ error: response.error });
     } else {
-      this.props.navigateNext(this.props.navigation);
+      await this.props.navigateNext(this.props.navigation);
     }
 
     // and finally signal ready
