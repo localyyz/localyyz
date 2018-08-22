@@ -31,15 +31,17 @@ export default class BaseField extends React.Component {
 
   get renderContent() {
     return (
-      this.props.children
-      || (this.props.onPress ? (
-        <View style={styles.arrow}>
-          <MaterialIcon
-            name="keyboard-arrow-right"
-            size={Sizes.Text}
-            color={Colours.SubduedText}/>
-        </View>
-      ) : null)
+      <View style={[styles.content, this.props.contentStyle]}>
+        {this.props.children}
+        {this.props.onPress ? (
+          <View style={styles.arrow}>
+            <MaterialIcon
+              name="keyboard-arrow-right"
+              size={Sizes.Text}
+              color={Colours.SubduedText}/>
+          </View>
+        ) : null}
+      </View>
     );
   }
 
@@ -55,6 +57,7 @@ export default class BaseField extends React.Component {
         <View
           style={[
             styles.wrapper,
+            this.props.wrapperStyle,
             (this.props.isHorizontal || !this.props.children)
               && styles.horizontal
           ]}>
@@ -65,7 +68,7 @@ export default class BaseField extends React.Component {
               <Error>{this.props.error}</Error>
             )}
           </View>
-          <View style={styles.content}>{this.renderContent}</View>
+          {this.renderContent}
         </View>
       </this.container>
     );
@@ -74,7 +77,7 @@ export default class BaseField extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexBasis: Math.min(Sizes.Width / 2, Sizes.InnerFrame * 10)
+    flexBasis: Math.min(Sizes.Width * 3 / 8, Sizes.InnerFrame * 10)
   },
 
   containerMargin: {
@@ -97,6 +100,8 @@ const styles = StyleSheet.create({
   },
 
   content: {
+    ...Styles.Horizontal,
+    ...Styles.EqualColumns,
     flex: 1
   },
 

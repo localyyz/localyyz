@@ -5,18 +5,20 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 // custom
 import Button from "./Button";
 import Notifications from "./Notifications";
-import { onlyIfLoggedIn } from "localyyz/helpers";
 
 // third party
-import { withNavigation } from "react-navigation";
+import {
+  withNavigation,
+  StackActions,
+  NavigationActions
+} from "react-navigation";
 import { inject, observer } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({
   hasSession: stores.userStore.model.hasSession,
   isVisible: stores.navbarStore.isVisible,
-  numItems: stores.cartStore.numItems,
-  togglePullup: visible => stores.navbarStore.togglePullup(visible)
+  numItems: stores.cartStore.numCartItems
 }))
 @observer
 export class TabBar extends React.Component {
@@ -25,6 +27,9 @@ export class TabBar extends React.Component {
     this.state = {
       keyboardVisible: false
     };
+
+    // bindings
+    this.onPress = this.onPress.bind(this);
   }
 
   componentDidMount() {
@@ -52,43 +57,36 @@ export class TabBar extends React.Component {
     return !this.state.keyboardVisible && this.props.isVisible;
   }
 
+  onPress(tab) {
+    let isDoublePress = this.props.activeButton === tab.id;
+    return this.props.onPress(tab.id, () => {
+      this.props.navigation.navigate({
+        routeName: tab.tabKey,
+        action: isDoublePress ? StackActions.popToTop() : undefined
+      });
+    });
+  }
+
   render() {
     const tabs = this.props.tabs.map((t, i) => {
-      let onPress;
-      let badge;
-      if (t.id == "cart") {
-        // special case for cart tab
-        onPress = () =>
-          onlyIfLoggedIn(
-            { hasSession: this.props.hasSession },
-            () =>
-              this.props.onPress("cart", this.props.togglePullup, false, true),
-            this.props.navigation
-          );
-        badge = this.props.numItems > 0 ? `${this.props.numItems}` : null;
-      } else {
-        onPress = () =>
-          this.props.onPress(t.id, () =>
-            this.props.navigation.navigate(t.tabKey)
-          );
-      }
-
       return React.createElement(Button, {
         ...t,
-        badge: badge,
+        badge:
+          t.id === "cart"
+            ? this.props.numItems > 0 ? `${this.props.numItems}` : null
+            : null,
         key: `tab${i}`,
         activeButton: this.props.activeButton,
-        onPress: onPress
+        onPress: () => this.onPress(t)
       });
     });
 
     return (
       <View style={styles.container} pointerEvents="auto">
-        <Notifications />
+        {this.props.activeButton !== "cart" ? <Notifications /> : null}
         <Animatable.View
           animation={this.isVisible ? "slideInUp" : "slideOutDown"}
           duration={200}
-          delay={400}
           style={[
             styles.bar,
             this.props.activeButton === "deals" && styles.deals,

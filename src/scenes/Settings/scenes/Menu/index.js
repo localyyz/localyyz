@@ -20,7 +20,8 @@ import MenuUIStore from "./store";
 @inject(stores => ({
   logout: stores.loginStore.logout,
   hasSession: stores.userStore.model.hasSession,
-  userStore: stores.userStore
+  userStore: stores.userStore,
+  gender: stores.userStore.gender
 }))
 @observer
 export default class SettingsMenu extends React.Component {
@@ -38,7 +39,7 @@ export default class SettingsMenu extends React.Component {
     this.formStore = new BaseForm.Store(
       {
         id: "gender",
-        value: this.store.userGender || undefined,
+        value: this.props.gender || undefined,
         validators: ["isRequired"],
         options: {
           male: { label: "Male fashion" },
@@ -54,6 +55,12 @@ export default class SettingsMenu extends React.Component {
         }
       }
     );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.gender != prevProps.gender) {
+      this.formStore.update("gender", this.props.gender);
+    }
   }
 
   updateGender(gender) {
@@ -101,7 +108,8 @@ export default class SettingsMenu extends React.Component {
               label="Favourites"
               onPress={() => {
                 this.props.navigation.navigate("Favourite", {
-                  fetchPath: "products/favourite"
+                  fetchPath: "products/favourite",
+                  title: "Your favourites"
                 });
               }}/>
             {this.props.hasSession ? (

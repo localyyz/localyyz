@@ -23,7 +23,6 @@ const DEAL_HEIGHT = 0;
 
 @inject(stores => ({
   logToHistory: product => stores.historyStore.log(product),
-  hideNavbar: () => stores.navbarStore.hide(),
   write: message => stores.assistantStore(message, 10000, true),
   getWrite: message => stores.assistantStore.get(message)
 }))
@@ -35,8 +34,7 @@ class ProductScene extends React.Component {
     navigation: PropTypes.object.isRequired,
 
     // mobx injected
-    logToHistory: PropTypes.func.isRequired,
-    hideNavbar: PropTypes.func.isRequired
+    logToHistory: PropTypes.func.isRequired
   };
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -122,9 +120,8 @@ class ProductScene extends React.Component {
     return (
       this.photoDetailsRef
       && this.photoDetailsRef.current
-      && this.photoDetailsRef.current.wrappedInstance
-      && this.photoDetailsRef.current.wrappedInstance.toggle
-      && this.photoDetailsRef.current.wrappedInstance.toggle(true, imageUrl)
+      && this.photoDetailsRef.current.toggle
+      && this.photoDetailsRef.current.toggle(true, imageUrl)
     );
   }
 
@@ -154,6 +151,10 @@ class ProductScene extends React.Component {
             fadeHeight={this.backgroundPosition / 3}
             background={this.productHeader}>
             <Content
+              isBrowsingDisabled={this.props.navigation.getParam(
+                "isBrowsingDisabled",
+                false
+              )}
               settings={this.settings}
               onPressImage={this.onPressImage}
               onScroll={this.onScroll}/>

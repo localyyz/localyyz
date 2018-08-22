@@ -19,8 +19,6 @@ const PAGE_ONE = 1;
 // fetchNextPage(params), reset(params)
 export default class Store {
   constructor() {
-    this.api = ApiInstance;
-
     // bindings
     this.changeGenderSuggestions = this.changeGenderSuggestions.bind(this);
     this.clearSearch = this.clearSearch.bind(this);
@@ -114,12 +112,11 @@ export default class Store {
     }
 
     this._processing = true;
-    this.api
-      .post(
-        (this._nextSearch && this._nextSearch.url) || "search",
-        { query: this.searchQuery },
-        { ...params, limit: PAGE_LIMIT }
-      )
+    ApiInstance.post(
+      (this._nextSearch && this._nextSearch.url) || "search",
+      { query: this.searchQuery },
+      { ...params, limit: PAGE_LIMIT }
+    )
       .then(response => {
         if (response && response.status < 400 && response.data.length > 0) {
           GA.trackEvent("search", "view search result", this.searchQuery);
@@ -179,7 +176,7 @@ export default class Store {
 
   @action
   fetchCategories = async () => {
-    let response = await this.api.get(
+    let response = await ApiInstance.get(
       "categories",
       this.fetchCategoriesParams,
       true

@@ -77,7 +77,7 @@ exports[`Deals/UpcomingCard Deals/UpcomingCard: should render properly 1`] = `
           }
         }
       >
-        In -214 days
+        In -233 days
       </Text>
       <Text
         accessible={true}

@@ -22,7 +22,7 @@ export class MoreFooter extends React.Component {
   }
 
   onPress() {
-    this.props.navigation.push("ProductList", {
+    this.props.navigation.push("ProductListStack", {
       fetchPath: this.props.fetchPath,
       title: capitalize(this.props.title),
       description: this.props.description,

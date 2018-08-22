@@ -21,6 +21,7 @@ exports[`Order Order: should render the flatlist properly 1`] = `
             "paddingHorizontal": 15,
             "paddingVertical": 10,
           },
+          undefined,
           Object {
             "alignItems": "center",
             "flexDirection": "row",
@@ -62,9 +63,15 @@ exports[`Order Order: should render the flatlist properly 1`] = `
       </View>
       <View
         style={
-          Object {
-            "flex": 1,
-          }
+          Array [
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+            },
+            undefined,
+          ]
         }
       />
     </View>

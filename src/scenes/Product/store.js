@@ -17,9 +17,8 @@ class ProductUIStore {
   // deep linking
   isDeepLinked = false;
 
-  constructor({ product }, historyStore) {
+  constructor({ product }) {
     this.api = ApiInstance;
-    this.history = historyStore;
 
     if (product) {
       this.product = product;

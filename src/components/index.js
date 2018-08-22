@@ -10,10 +10,6 @@ export { default as Badge } from "./Badge";
 export { default as OptionsBar } from "./OptionsBar";
 export { default as ExplodingButton } from "./ExplodingButton";
 export { default as NavBar } from "./NavBar";
-export { default as Cart } from "./Cart";
-export {
-  default as CartHeaderSummary
-} from "./Cart/components/CartHeaderSummary";
 export { default as LiquidImage } from "./LiquidImage";
 export { default as PhotoDetails } from "./PhotoDetails";
 export { default as ProductTile } from "./ProductTile";

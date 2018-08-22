@@ -18,7 +18,7 @@ export default class EmptyOrders extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: Sizes.OuterFrame
+    marginHorizontal: Sizes.InnerFrame
   },
 
   label: {

@@ -1,0 +1,1367 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartSummaryScene should render properly to snapshot 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#EEEEEE",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#000000",
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "zIndex": 2,
+            },
+            Object {
+              "opacity": 0,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "marginBottom": 15,
+              "marginTop": 30,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "paddingHorizontal": 75,
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "rgba(255, 255, 255, 0)",
+                    "borderBottomColor": "#FFFFFF",
+                    "color": "#FFFFFF",
+                    "fontFamily": "Menlo-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "300",
+                  },
+                  Object {
+                    "opacity": 0,
+                  },
+                ]
+              }
+            >
+              THANK YOU!
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flex": 1,
+            },
+            Object {
+              "opacity": 1,
+            },
+          ]
+        }
+      >
+        <View
+          onLayout={[Function]}
+        >
+          <View
+            style={
+              Object {
+                "marginTop": 50,
+                "padding": 15,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "opacity": 0,
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={false}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "color": "#50E3C2",
+                      "fontSize": 20,
+                    },
+                    undefined,
+                    Object {
+                      "fontFamily": "FontAwesome",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                  ]
+                }
+              >
+                
+              </Text>
+            </View>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "fontSize": 22,
+                  "fontWeight": "700",
+                  "marginVertical": 7.5,
+                }
+              }
+            >
+              Thank you!
+            </Text>
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "rgb(30, 30, 30)",
+                  "fontSize": 16,
+                  "fontWeight": "300",
+                }
+              }
+            >
+              Your payment was processed successfully by the merchant and will be delivered out shortly.
+
+We've also sent you an email confirmation for record keeping.
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+            "transform": Array [
+              Object {
+                "translateY": 100,
+              },
+            ],
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+            }
+          }
+        >
+          <RCTScrollView
+            onScroll={[Function]}
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
+          >
+            <View>
+              <View
+                style={
+                  Object {
+                    "paddingTop": 1334,
+                  }
+                }
+              />
+              <View
+                style={
+                  Array [
+                    Object {
+                      "minHeight": 1334,
+                      "paddingBottom": 63,
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "flex": 1,
+                      "marginVertical": 15,
+                      "paddingBottom": 175,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "alignSelf": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "flex-start",
+                          "zIndex": -1,
+                        },
+                        Object {
+                          "marginBottom": -7.5,
+                        },
+                        undefined,
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#CCCCCC",
+                            "height": 15,
+                            "width": 10,
+                            "zIndex": 100,
+                          },
+                          undefined,
+                          undefined,
+                          Object {
+                            "backgroundColor": "#EEEEEE",
+                          },
+                          Object {
+                            "marginRight": -0,
+                          },
+                        ]
+                      }
+                    />
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#CCCCCC",
+                            "height": 15,
+                            "width": 10,
+                            "zIndex": 100,
+                          },
+                          undefined,
+                          undefined,
+                          Object {
+                            "backgroundColor": "#EEEEEE",
+                          },
+                          Object {
+                            "marginLeft": -0,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                  <View
+                    onLayout={[Function]}
+                    style={
+                      Object {
+                        "backgroundColor": "#FFFFFF",
+                        "marginHorizontal": 15,
+                        "padding": 25,
+                      }
+                    }
+                  >
+                    <View>
+                      <View
+                        style={
+                          Object {
+                            "alignItems": "center",
+                            "marginBottom": 25,
+                          }
+                        }
+                      >
+                        <View
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "height": 75,
+                              "overflow": "hidden",
+                              "width": 75,
+                            }
+                          }
+                        >
+                          <Image
+                            constrainHeight={75}
+                            constrainWidth={75}
+                            onError={[Function]}
+                            resizeMode="contain"
+                            shouldPinHeight={false}
+                            shouldPinWidth={false}
+                            source={
+                              Object {
+                                "uri": "http://test.com/test.jpg",
+                              }
+                            }
+                            style={
+                              Array [
+                                Object {
+                                  "height": 75,
+                                  "width": 75,
+                                },
+                              ]
+                            }
+                            testID="logo"
+                          />
+                        </View>
+                      </View>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                        testID="name"
+                      >
+                        Shipping to test
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                        testID="shippingAddress"
+                      >
+                        test street
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                        testID="shippingRegion"
+                      >
+                        test city, test region 00000
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                        testID="shippingCountry"
+                      >
+                        test country
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "marginTop": 15,
+                            },
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "color": "#000000",
+                              "fontWeight": "600",
+                            },
+                          ]
+                        }
+                      >
+                        via Standard
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "color": "#000000",
+                              "fontWeight": "600",
+                            },
+                          ]
+                        }
+                      >
+                        tomorrow
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "backgroundColor": "rgb(30, 30, 30)",
+                          "height": 0.5,
+                          "left": 0,
+                          "marginRight": 375,
+                          "marginVertical": 30,
+                          "right": 0,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "flex-start",
+                          "flexDirection": "row",
+                          "justifyContent": "flex-start",
+                          "marginVertical": 3.75,
+                        }
+                      }
+                      testID="item-1"
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                      >
+                        1 x
+                      </Text>
+                      <View
+                        style={
+                          Object {
+                            "flex": 1,
+                            "marginHorizontal": 15,
+                          }
+                        }
+                      >
+                        <Text
+                          accessible={true}
+                          allowFontScaling={true}
+                          ellipsizeMode="tail"
+                          style={
+                            Array [
+                              Object {
+                                "backgroundColor": "rgba(255, 255, 255, 0)",
+                                "color": "rgb(30, 30, 30)",
+                                "fontFamily": "Menlo-Regular",
+                                "fontSize": 16,
+                                "fontWeight": "300",
+                                "marginVertical": 3.75,
+                              },
+                              Object {
+                                "color": "#000000",
+                                "fontWeight": "600",
+                              },
+                            ]
+                          }
+                        >
+                          test
+                        </Text>
+                        <Text
+                          accessible={true}
+                          allowFontScaling={true}
+                          ellipsizeMode="tail"
+                          style={
+                            Array [
+                              Object {
+                                "backgroundColor": "rgba(255, 255, 255, 0)",
+                                "color": "rgb(30, 30, 30)",
+                                "fontFamily": "Menlo-Regular",
+                                "fontSize": 16,
+                                "fontWeight": "300",
+                                "marginVertical": 3.75,
+                              },
+                              undefined,
+                            ]
+                          }
+                        >
+                          test
+                        </Text>
+                      </View>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                      >
+                        $1
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "backgroundColor": "rgb(30, 30, 30)",
+                          "height": 0.5,
+                          "left": 0,
+                          "marginRight": 375,
+                          "marginVertical": 30,
+                          "right": 0,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "flex-start",
+                          "flexDirection": "row",
+                          "justifyContent": "flex-start",
+                          "marginVertical": 3.75,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "flex": 1,
+                              "marginHorizontal": 15,
+                            },
+                          ]
+                        }
+                      >
+                        SUBTOTAL
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                        testID="subtotal"
+                      >
+                        $1
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "flex-start",
+                          "flexDirection": "row",
+                          "justifyContent": "flex-start",
+                          "marginVertical": 3.75,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "flex": 1,
+                              "marginHorizontal": 15,
+                            },
+                          ]
+                        }
+                      >
+                        TAXES
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                        testID="taxes"
+                      >
+                        $3
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "flex-start",
+                          "flexDirection": "row",
+                          "justifyContent": "flex-start",
+                          "marginVertical": 3.75,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "flex": 1,
+                              "marginHorizontal": 15,
+                            },
+                          ]
+                        }
+                      >
+                        DISCOUNTS
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "color": "#000000",
+                              "fontWeight": "600",
+                            },
+                          ]
+                        }
+                        testID="discount"
+                      >
+                        ($4)
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "flex-start",
+                          "flexDirection": "row",
+                          "justifyContent": "flex-start",
+                          "marginVertical": 3.75,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "flex": 1,
+                              "marginHorizontal": 15,
+                            },
+                          ]
+                        }
+                      >
+                        SHIPPING
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                        testID="shipping"
+                      >
+                        $2
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "alignItems": "flex-start",
+                          "flexDirection": "row",
+                          "justifyContent": "flex-start",
+                          "marginVertical": 3.75,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "flex": 1,
+                              "marginHorizontal": 15,
+                            },
+                            Object {
+                              "color": "#000000",
+                              "fontWeight": "600",
+                            },
+                          ]
+                        }
+                      >
+                        GRAND TOTAL
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Array [
+                            Object {
+                              "backgroundColor": "rgba(255, 255, 255, 0)",
+                              "color": "rgb(30, 30, 30)",
+                              "fontFamily": "Menlo-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "300",
+                              "marginVertical": 3.75,
+                            },
+                            Object {
+                              "color": "#000000",
+                              "fontWeight": "600",
+                            },
+                          ]
+                        }
+                        testID="total"
+                      >
+                        $5
+                      </Text>
+                    </View>
+                    <View
+                      style={Object {}}
+                    >
+                      <View
+                        style={
+                          Object {
+                            "backgroundColor": "rgb(30, 30, 30)",
+                            "height": 0.5,
+                            "left": 0,
+                            "marginRight": 375,
+                            "marginVertical": 30,
+                            "right": 0,
+                          }
+                        }
+                      />
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "alignItems": "flex-start",
+                              "flexDirection": "row",
+                              "justifyContent": "flex-start",
+                              "marginVertical": 3.75,
+                            },
+                            undefined,
+                          ]
+                        }
+                      >
+                        <Text
+                          accessible={true}
+                          allowFontScaling={true}
+                          ellipsizeMode="tail"
+                          style={
+                            Array [
+                              Object {
+                                "alignItems": "flex-start",
+                                "flexDirection": "row",
+                                "justifyContent": "flex-start",
+                                "marginVertical": 3.75,
+                              },
+                              Object {
+                                "backgroundColor": "rgba(255, 255, 255, 0)",
+                                "color": "rgb(30, 30, 30)",
+                                "flex": 1,
+                                "fontFamily": "Menlo-Regular",
+                                "fontSize": 16,
+                                "fontWeight": "300",
+                              },
+                            ]
+                          }
+                        >
+                          Payment charged to
+                        </Text>
+                        <View
+                          style={
+                            Object {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "flex-start",
+                            }
+                          }
+                        >
+                          <Text
+                            accessible={true}
+                            allowFontScaling={false}
+                            ellipsizeMode="tail"
+                            style={
+                              Array [
+                                Object {
+                                  "color": undefined,
+                                  "fontSize": 16,
+                                },
+                                Object {
+                                  "marginTop": 2,
+                                },
+                                Object {
+                                  "fontFamily": "FontAwesome",
+                                  "fontStyle": "normal",
+                                  "fontWeight": "normal",
+                                },
+                              ]
+                            }
+                          >
+                            
+                          </Text>
+                          <Text
+                            accessible={true}
+                            allowFontScaling={true}
+                            ellipsizeMode="tail"
+                            style={
+                              Object {
+                                "backgroundColor": "rgba(255, 255, 255, 0)",
+                                "color": "#000000",
+                                "fontFamily": "Menlo-Regular",
+                                "fontSize": 16,
+                                "fontWeight": "600",
+                                "marginLeft": 7.5,
+                              }
+                            }
+                            testID="payment"
+                          >
+                            0000
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View
+                      style={
+                        Object {
+                          "backgroundColor": "rgb(30, 30, 30)",
+                          "height": 0.5,
+                          "left": 0,
+                          "marginRight": 375,
+                          "marginVertical": 30,
+                          "right": 0,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "alignItems": "center",
+                            "marginBottom": 25,
+                          },
+                          Object {
+                            "marginTop": 25,
+                          },
+                        ]
+                      }
+                    >
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontFamily": "Menlo-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                            "marginVertical": 3.75,
+                          }
+                        }
+                      >
+                        Thank you!
+                      </Text>
+                      <Text
+                        accessible={true}
+                        allowFontScaling={true}
+                        ellipsizeMode="tail"
+                        style={
+                          Object {
+                            "backgroundColor": "rgba(255, 255, 255, 0)",
+                            "color": "rgb(30, 30, 30)",
+                            "fontSize": 16,
+                            "fontWeight": "300",
+                          }
+                        }
+                      >
+                        🙏
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "alignSelf": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "flex-start",
+                          "zIndex": -1,
+                        },
+                        Object {
+                          "marginTop": -7.5,
+                        },
+                        undefined,
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#CCCCCC",
+                            "height": 15,
+                            "width": 10,
+                            "zIndex": 100,
+                          },
+                          undefined,
+                          undefined,
+                          Object {
+                            "backgroundColor": "#EEEEEE",
+                          },
+                          Object {
+                            "marginRight": -0,
+                          },
+                        ]
+                      }
+                    />
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#CCCCCC",
+                            "height": 15,
+                            "width": 10,
+                            "zIndex": 100,
+                          },
+                          undefined,
+                          undefined,
+                          Object {
+                            "backgroundColor": "#EEEEEE",
+                          },
+                          Object {
+                            "marginLeft": -0,
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </RCTScrollView>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    pointerEvents="box-none"
+    style={
+      Object {
+        "bottom": 0,
+        "justifyContent": "flex-end",
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  >
+    <BVLinearGradient
+      colors={
+        Array [
+          4294967295,
+          4294967295,
+          16777215,
+        ]
+      }
+      endPoint={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      locations={null}
+      pointerEvents="box-none"
+      startPoint={
+        Object {
+          "x": 0,
+          "y": 1,
+        }
+      }
+      style={
+        Object {
+          "padding": 15,
+          "paddingBottom": 15,
+          "paddingTop": 125,
+        }
+      }
+    >
+      <View
+        pointerEvents="box-none"
+        style={
+          Object {
+            "alignItems": "center",
+            "opacity": 0,
+            "transform": Array [
+              Object {
+                "translateY": 100,
+              },
+            ],
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+            }
+          }
+          testID="newUser"
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "rgb(30, 30, 30)",
+                "fontSize": 16,
+                "fontWeight": "300",
+                "marginBottom": 7.5,
+                "marginHorizontal": 25,
+                "textAlign": "center",
+              }
+            }
+          >
+            Track the status of this order by logging in with your account
+          </Text>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginHorizontal": 15,
+                "marginVertical": 7.5,
+              }
+            }
+          >
+            <View
+              accessible={true}
+              isTVSelectable={true}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "rgb(59, 89, 153)",
+                    "borderRadius": 15,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "marginHorizontal": 3.75,
+                    "opacity": 0,
+                    "paddingHorizontal": 30,
+                    "paddingVertical": 7.5,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "flex-start",
+                    }
+                  }
+                >
+                  <Text
+                    accessible={true}
+                    allowFontScaling={false}
+                    ellipsizeMode="tail"
+                    style={
+                      Array [
+                        Object {
+                          "color": "#FFFFFF",
+                          "fontSize": 16,
+                        },
+                        Object {
+                          "marginRight": 7.5,
+                        },
+                        Object {
+                          "fontFamily": "FontAwesome",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                      ]
+                    }
+                  >
+                    
+                  </Text>
+                  <Text
+                    accessible={true}
+                    allowFontScaling={true}
+                    ellipsizeMode="tail"
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(255, 255, 255, 0)",
+                        "borderBottomColor": "#FFFFFF",
+                        "color": "#FFFFFF",
+                        "fontSize": 16,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    Facebook
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              accessible={true}
+              isTVSelectable={true}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#000000",
+                    "borderRadius": 15,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "marginHorizontal": 3.75,
+                    "opacity": 0,
+                    "paddingHorizontal": 30,
+                    "paddingVertical": 7.5,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "justifyContent": "flex-start",
+                    }
+                  }
+                >
+                  <Text
+                    accessible={true}
+                    allowFontScaling={true}
+                    ellipsizeMode="tail"
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(255, 255, 255, 0)",
+                        "borderBottomColor": "#FFFFFF",
+                        "color": "#FFFFFF",
+                        "fontSize": 16,
+                        "fontWeight": "600",
+                      }
+                    }
+                  >
+                    Email
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            accessible={true}
+            isTVSelectable={true}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={true}
+              ellipsizeMode="tail"
+              style={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "color": "#000000",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                }
+              }
+            >
+              No thanks—continue browsing
+            </Text>
+          </View>
+        </View>
+      </View>
+    </BVLinearGradient>
+  </View>
+</View>
+`;

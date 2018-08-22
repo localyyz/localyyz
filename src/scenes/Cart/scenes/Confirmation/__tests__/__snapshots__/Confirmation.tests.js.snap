@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Confirmation should render properly to snapshot 1`] = `
+<Provider
+  confirmationUiStore={
+    ConfirmationUIStore {
+      "checkoutError": undefined,
+      "isProcessing": false,
+      "paymentError": undefined,
+      "setCheckoutError": [Function],
+      "setPaymentError": [Function],
+      "toggleProcessing": [Function],
+    }
+  }
+>
+  <Component
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "flex": 1,
+      }
+    }
+  >
+    <inject-CartBaseScene
+      activeSceneId="ConfirmationScene"
+      footer={
+        <inject-Footer
+          navigation={
+            Object {
+              "getParam": [Function],
+            }
+          }
+        />
+      }
+      iconType="close"
+      keySeed="test"
+      navigation={
+        Object {
+          "getParam": [Function],
+        }
+      }
+    >
+      <inject-SummarySection
+        navigation={
+          Object {
+            "getParam": [Function],
+          }
+        }
+      />
+      <inject-CartItems
+        itemStyle={
+          Object {
+            "marginBottom": 7.5,
+            "marginHorizontal": 7.5,
+          }
+        }
+        navigation={
+          Object {
+            "getParam": [Function],
+          }
+        }
+        onRemove={[Function]}
+      />
+      <inject-CouponSection
+        navigation={
+          Object {
+            "getParam": [Function],
+          }
+        }
+      />
+    </inject-CartBaseScene>
+    <inject-ProcessingOverlay />
+  </Component>
+</Provider>
+`;

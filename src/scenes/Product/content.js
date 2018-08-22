@@ -42,11 +42,13 @@ export class Content extends React.Component {
     backgroundPosition: PropTypes.number,
     product: PropTypes.object.isRequired,
     onScroll: PropTypes.func.isRequired,
-    onPressImage: PropTypes.func.isRequired
+    onPressImage: PropTypes.func.isRequired,
+    isBrowsingDisabled: PropTypes.bool
   };
 
   static defaultProps = {
-    backgroundPosition: 0
+    backgroundPosition: 0,
+    isBrowsingDisabled: false
   };
 
   constructor(props) {
@@ -108,7 +110,8 @@ export class Content extends React.Component {
                 style={styles.optionsGradient}
                 start={{ y: 0, x: 1 }}
                 end={{ y: 1, x: 0 }}>
-                <ProductBuy />
+                <ProductBuy
+                  isBrowsingDisabled={this.props.isBrowsingDisabled}/>
                 {this.props.isDeal ? (
                   <DealSection navigation={this.props.navigation} />
                 ) : null}
@@ -122,9 +125,9 @@ export class Content extends React.Component {
         <Photos onPress={this.props.onPressImage} />
         <ColourVariants />
         <View style={styles.card}>
-          <MerchantDetails />
+          <MerchantDetails isBrowsingDisabled={this.props.isBrowsingDisabled} />
         </View>
-        <RelatedProducts />
+        {!this.props.isBrowsingDisabled ? <RelatedProducts /> : null}
       </ScrollView>
     );
   }

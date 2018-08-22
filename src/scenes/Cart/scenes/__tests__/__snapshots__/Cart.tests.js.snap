@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cart should render properly to snapshot 1`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+      "marginBottom": 48,
+      "paddingBottom": 75,
+    }
+  }
+  testID="cart"
+>
+  <ContentCoverSlider
+    backAction={false}
+    background={
+      <Component
+        onLayout={[Function]}
+      >
+        <Header
+          title="Your cart"
+        />
+      </Component>
+    }
+    title="Your cart"
+  >
+    <FlatList
+      data={
+        Array [
+          Object {
+            "renderItem": <ReactiveSpacer
+              heightProp="headerHeight"
+              offset={0}
+              store={
+                ContentCoverSliderUIStore {
+                  "onLayout": [Function],
+                }
+              }
+            />,
+          },
+          Object {
+            "renderItem": <inject-CartItems
+              onProductPress={[Function]}
+              onScroll={[Function]}
+            />,
+          },
+        ]
+      }
+      disableVirtualization={false}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      onScroll={[Function]}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </ContentCoverSlider>
+  <Component
+    pointerEvents="box-none"
+    style={
+      Object {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": undefined,
+      }
+    }
+  >
+    <LinearGradient
+      colors={
+        Array [
+          "#FFFFFF",
+          "#FFFFFF",
+          "rgba(255, 255, 255, 0)",
+        ]
+      }
+      end={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      pointerEvents="box-none"
+      start={
+        Object {
+          "x": 0,
+          "y": 1,
+        }
+      }
+      style={
+        Object {
+          "paddingTop": 50,
+        }
+      }
+    >
+      <Component
+        style={
+          Object {
+            "padding": 15,
+          }
+        }
+      >
+        <inject-Totals />
+        <Component
+          style={
+            Object {
+              "height": 15,
+            }
+          }
+        />
+        <inject-Button
+          onPress={[Function]}
+        >
+          Proceed to checkout
+        </inject-Button>
+      </Component>
+    </LinearGradient>
+  </Component>
+</Component>
+`;
+
+exports[`Cart should show cart if items present 1`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+      "marginBottom": 48,
+      "paddingBottom": 75,
+    }
+  }
+  testID="cart"
+>
+  <ContentCoverSlider
+    backAction={false}
+    background={
+      <Component
+        onLayout={[Function]}
+      >
+        <Header
+          title="Your cart"
+        />
+      </Component>
+    }
+    title="Your cart"
+  >
+    <FlatList
+      data={
+        Array [
+          Object {
+            "renderItem": <ReactiveSpacer
+              heightProp="headerHeight"
+              offset={0}
+              store={
+                ContentCoverSliderUIStore {
+                  "onLayout": [Function],
+                }
+              }
+            />,
+          },
+          Object {
+            "renderItem": <inject-CartItems
+              onProductPress={[Function]}
+              onScroll={[Function]}
+            />,
+          },
+        ]
+      }
+      disableVirtualization={false}
+      horizontal={false}
+      initialNumToRender={10}
+      keyExtractor={[Function]}
+      maxToRenderPerBatch={10}
+      numColumns={1}
+      onEndReachedThreshold={2}
+      onScroll={[Function]}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      updateCellsBatchingPeriod={50}
+      windowSize={21}
+    />
+  </ContentCoverSlider>
+  <Component
+    pointerEvents="box-none"
+    style={
+      Object {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": undefined,
+      }
+    }
+  >
+    <LinearGradient
+      colors={
+        Array [
+          "#FFFFFF",
+          "#FFFFFF",
+          "rgba(255, 255, 255, 0)",
+        ]
+      }
+      end={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      pointerEvents="box-none"
+      start={
+        Object {
+          "x": 0,
+          "y": 1,
+        }
+      }
+      style={
+        Object {
+          "paddingTop": 50,
+        }
+      }
+    >
+      <Component
+        style={
+          Object {
+            "padding": 15,
+          }
+        }
+      >
+        <inject-Totals />
+        <Component
+          style={
+            Object {
+              "height": 15,
+            }
+          }
+        />
+        <inject-Button
+          onPress={[Function]}
+        >
+          Proceed to checkout
+        </inject-Button>
+      </Component>
+    </LinearGradient>
+  </Component>
+</Component>
+`;
+
+exports[`Cart should show empty if no items 1`] = `<inject-EmptyCart />`;

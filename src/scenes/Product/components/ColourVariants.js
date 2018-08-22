@@ -39,7 +39,7 @@ export class ColourVariants extends React.Component {
           isVariant
           product={product}
           onPress={() =>
-            this.props.navigation.navigate("Product", {
+            this.props.navigation.push("Product", {
               product: product,
 
               // used for now timer sync

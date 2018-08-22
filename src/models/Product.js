@@ -94,6 +94,22 @@ export default class Product {
     return this.title ? this.title.split(" ").length : 0;
   }
 
+  get instockVariants() {
+    return this.variants.filter(variant => variant.limits > 0);
+  }
+
+  get maxPrice() {
+    return this.associatedVariants.length > 0
+      ? Math.max(...this.associatedVariants.map(variant => variant.price || 0))
+      : this.price;
+  }
+
+  get minPrice() {
+    return this.associatedVariants.length > 0
+      ? Math.min(...this.associatedVariants.map(variant => variant.price || 0))
+      : this.price;
+  }
+
   // not actually selected variant, but used for a virtual instance to get
   // prices, etc for the current color product variant
   get selectedVariant() {
@@ -190,13 +206,18 @@ export default class Product {
     return variant;
   }
 
-  get associatedSizes() {
+  get associatedVariants() {
     let selectedVariant = this.selectedVariant;
 
-    // need to return only sizes that exist with this current color
-    let _associatedSizes = this.variants
-      .filter(variant => variant.etc.color === selectedVariant.etc.color)
-      .map(variant => variant.etc.size);
+    return this.instockVariants.filter(
+      variant => variant.etc.color === selectedVariant.etc.color
+    );
+  }
+
+  get associatedSizes() {
+    let _associatedSizes = this.associatedVariants.map(
+      variant => variant.etc.size
+    );
 
     // retain backend ordering of the sizes
     return this.sizes.filter(

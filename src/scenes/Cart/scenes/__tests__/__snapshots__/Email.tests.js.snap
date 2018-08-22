@@ -1,0 +1,288 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Email should not show next button if no email 1`] = `
+<Provider
+  formStore={
+    FormUIStore {
+      "_data": Object {
+        "email": Object {
+          "error": null,
+          "id": "email",
+          "isRequired": true,
+          "mask": null,
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": null,
+        },
+      },
+      "addCallback": [Function],
+      "getError": [Function],
+      "merge": [Function],
+      "onValueChange": [Function],
+      "update": [Function],
+    }
+  }
+>
+  <inject-CartBaseScene
+    activeSceneId="EmailScene"
+    backAction={[Function]}
+    iconType="close"
+    keySeed="test"
+  >
+    <CartBaseContent>
+      <Component
+        style={
+          Object {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Component
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+            }
+          }
+        >
+          <inject-Field
+            autoCapitalize="none"
+            autoCorrect={false}
+            contentStyle={
+              Object {
+                "flex": undefined,
+              }
+            }
+            field="email"
+            inputStyle={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "rgb(30, 30, 30)",
+                "flex": 1,
+                "fontSize": 32,
+                "fontWeight": "700",
+                "lineHeight": 38.4,
+              }
+            }
+            keyboardType="email-address"
+            label="Email address"
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+            wrapperStyle={
+              Object {
+                "paddingHorizontal": undefined,
+                "paddingVertical": undefined,
+              }
+            }
+          />
+        </Component>
+      </Component>
+    </CartBaseContent>
+  </inject-CartBaseScene>
+</Provider>
+`;
+
+exports[`Email should render properly to snapshot 1`] = `
+<Provider
+  formStore={
+    FormUIStore {
+      "_data": Object {
+        "email": Object {
+          "error": null,
+          "id": "email",
+          "isRequired": true,
+          "mask": null,
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": null,
+        },
+      },
+      "addCallback": [Function],
+      "getError": [Function],
+      "merge": [Function],
+      "onValueChange": [Function],
+      "update": [Function],
+    }
+  }
+>
+  <inject-CartBaseScene
+    activeSceneId="EmailScene"
+    backAction={[Function]}
+    iconType="close"
+    keySeed="test"
+  >
+    <CartBaseContent>
+      <Component
+        style={
+          Object {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Component
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+            }
+          }
+        >
+          <inject-Field
+            autoCapitalize="none"
+            autoCorrect={false}
+            contentStyle={
+              Object {
+                "flex": undefined,
+              }
+            }
+            field="email"
+            inputStyle={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "rgb(30, 30, 30)",
+                "flex": 1,
+                "fontSize": 32,
+                "fontWeight": "700",
+                "lineHeight": 38.4,
+              }
+            }
+            keyboardType="email-address"
+            label="Email address"
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+            wrapperStyle={
+              Object {
+                "paddingHorizontal": undefined,
+                "paddingVertical": undefined,
+              }
+            }
+          />
+        </Component>
+      </Component>
+    </CartBaseContent>
+  </inject-CartBaseScene>
+</Provider>
+`;
+
+exports[`Email should show next button if email given 1`] = `
+<Provider
+  formStore={
+    FormUIStore {
+      "_data": Object {
+        "email": Object {
+          "error": null,
+          "id": "email",
+          "isRequired": true,
+          "mask": null,
+          "onValueChange": null,
+          "validators": Array [
+            [Function],
+            [Function],
+            [Function],
+          ],
+          "value": "ken@kenma.ca",
+        },
+      },
+      "addCallback": [Function],
+      "getError": [Function],
+      "merge": [Function],
+      "onValueChange": [Function],
+      "update": [Function],
+    }
+  }
+>
+  <inject-CartBaseScene
+    activeSceneId="EmailScene"
+    backAction={[Function]}
+    iconType="close"
+    keySeed="test"
+  >
+    <CartBaseContent>
+      <Component
+        style={
+          Object {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Component
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+            }
+          }
+        >
+          <inject-Field
+            autoCapitalize="none"
+            autoCorrect={false}
+            contentStyle={
+              Object {
+                "flex": undefined,
+              }
+            }
+            field="email"
+            inputStyle={
+              Object {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "color": "rgb(30, 30, 30)",
+                "flex": 1,
+                "fontSize": 32,
+                "fontWeight": "700",
+                "lineHeight": 38.4,
+              }
+            }
+            keyboardType="email-address"
+            label="Email address"
+            style={
+              Object {
+                "flex": 1,
+              }
+            }
+            wrapperStyle={
+              Object {
+                "paddingHorizontal": undefined,
+                "paddingVertical": undefined,
+              }
+            }
+          />
+        </Component>
+      </Component>
+      <Component
+        style={
+          Object {
+            "marginHorizontal": 15,
+          }
+        }
+        testID="next"
+      >
+        <inject-Button
+          onPress={[Function]}
+        >
+          Next
+        </inject-Button>
+      </Component>
+    </CartBaseContent>
+  </inject-CartBaseScene>
+</Provider>
+`;

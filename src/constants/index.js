@@ -7,6 +7,7 @@
 import { Platform } from "react-native";
 
 // other exports
+import Sizes from "./sizes";
 export { default as Sizes } from "./sizes";
 export { default as Colours } from "./colours";
 export { default as Styles } from "./styles";
@@ -25,7 +26,7 @@ export const PRIVACY_POLICY_URI
   = "https://localyyz.com/business/privacy-policy-businesses.html";
 export const TERMS_AND_CONDITIONS_URI
   = "https://localyyz.com/business/terms-and-conditions-businesses.html";
-export const DEV_REMOTE_API = "https://api.localyyz.com";
+export const DEV_REMOTE_API = "https://api-staging.localyyz.com";
 
 // form labels
 export const DEFAULT_ADDRESS = "required";
@@ -57,7 +58,7 @@ export const SEARCH_SUGGESTIONS_FEMALE = [
 ];
 
 // sizes
-export { NAVBAR_HEIGHT } from "../components/NavBar";
+export const NAVBAR_HEIGHT = 48 + Sizes.ScreenBottom;
 
 // toggles
 export const IS_DEALS_SUPPORTED = Platform.OS === "ios";

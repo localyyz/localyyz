@@ -101,8 +101,8 @@ export function toPriceString(
   round = true
 ) {
   let base = round ? 1 : 100;
-  return price != null && (price > 0 || !avoidFree)
-    ? price > 0
+  return price != null
+    ? price > 0 || avoidFree
       ? `${getSymbolFromCurrency(currency) || "$"}${withCommas(
           (Math.round(price * base) / base).toFixed(`${base}`.length - 1)
         )}`

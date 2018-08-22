@@ -1,0 +1,266 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartItem should render properly to snapshot 1`] = `
+<View>
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#dbddde",
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      onLayout={[Function]}
+      onMoveShouldSetResponder={[Function]}
+      onMoveShouldSetResponderCapture={[Function]}
+      onResponderEnd={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderReject={[Function]}
+      onResponderRelease={[Function]}
+      onResponderStart={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onStartShouldSetResponderCapture={[Function]}
+      style={
+        Array [
+          Object {},
+          Object {
+            "left": 0,
+          },
+        ]
+      }
+    >
+      <View
+        onPress={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#FFFFFF",
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "flex-start",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "width": 150,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "rgba(255, 255, 255, 0)",
+                  "height": 100,
+                  "overflow": "hidden",
+                  "width": 100,
+                }
+              }
+            >
+              <Image
+                constrainWidth={150}
+                onError={[Function]}
+                resizeMode="contain"
+                shouldPinHeight={false}
+                shouldPinWidth={false}
+                source={
+                  Object {
+                    "uri": "picture.gif",
+                  }
+                }
+                sourceHeight={100}
+                sourceWidth={100}
+                style={
+                  Array [
+                    Object {
+                      "height": 100,
+                      "width": 100,
+                    },
+                  ]
+                }
+                testID="photo"
+              />
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "padding": 15,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "#000000",
+                      "fontSize": 16,
+                      "fontWeight": "600",
+                    }
+                  }
+                  testID="title"
+                >
+                  Roshe One
+                </Text>
+              </View>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "#000000",
+                      "fontSize": 16,
+                      "fontWeight": "600",
+                    },
+                    Object {
+                      "marginLeft": 15,
+                    },
+                  ]
+                }
+                testID="price"
+              >
+                $100
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "rgb(30, 30, 30)",
+                      "fontSize": 14,
+                      "fontWeight": "300",
+                    }
+                  }
+                  testID="brand"
+                >
+                  Nike
+                </Text>
+              </View>
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "rgb(30, 30, 30)",
+                      "fontSize": 14,
+                      "fontWeight": "300",
+                    },
+                    Object {
+                      "marginLeft": 15,
+                    },
+                    Object {
+                      "textDecorationLine": "line-through",
+                    },
+                  ]
+                }
+                testID="previousPrice"
+              >
+                $120
+              </Text>
+            </View>
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                  },
+                  Object {
+                    "marginTop": 7.5,
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flex": 1,
+                  }
+                }
+              >
+                <Text
+                  accessible={true}
+                  allowFontScaling={true}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(255, 255, 255, 0)",
+                      "color": "rgb(30, 30, 30)",
+                      "fontSize": 14,
+                      "fontWeight": "300",
+                    }
+                  }
+                  testID="variant"
+                >
+                  Some shoes
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View />
+    <View />
+  </View>
+</View>
+`;

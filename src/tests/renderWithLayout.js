@@ -36,6 +36,10 @@ export const renderWithLayout = (
     && componentInternals.props.onLayout
     && componentInternals.props.onLayout(mockNativeEvent);
 
-  // re-render
-  return component;
+  // re-render and polyfill adapters for ShallowRenderer to match Renderer API
+  return {
+    ...component,
+    getInstance: component.getInstance || (() => ({})),
+    toJSON: component.toJSON || (() => component)
+  };
 };

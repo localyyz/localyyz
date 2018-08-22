@@ -4,6 +4,10 @@ import mockMoment from "moment";
 const NAME = "Deals";
 
 jest.mock("localyyz/global", () => ({
+  GA: {
+    trackEvent: jest.fn,
+    trackScreen: jest.fn
+  },
   ApiInstance: {
     get: endpoint => {
       if (endpoint == "deals/active") {

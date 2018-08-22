@@ -18,8 +18,6 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   isOnSale:
     stores.productStore.product
     && stores.productStore.product.previousPrice > 0,
-  price:
-    (stores.productStore.product && stores.productStore.product.price) || 0,
   previousPrice:
     stores.productStore.product && stores.productStore.product.previousPrice,
   discount: stores.productStore.product && stores.productStore.product.discount,
@@ -45,6 +43,7 @@ export class ProductBuy extends React.Component {
   static propTypes = {
     selectedVariant: PropTypes.object,
     product: PropTypes.object,
+    isBrowsingDisabled: PropTypes.bool,
 
     // mobx injected store props
     hasSession: PropTypes.bool,
@@ -52,6 +51,7 @@ export class ProductBuy extends React.Component {
   };
 
   static defaultProps = {
+    isBrowsingDisabled: false,
     hasSession: false,
     isExpressSupported: false
   };
@@ -91,12 +91,16 @@ export class ProductBuy extends React.Component {
     return this.isInStock ? "add-shopping-cart" : "error";
   }
 
+  get touchableComponent() {
+    return this.props.isBrowsingDisabled ? View : TouchableOpacity;
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.details}>
           <PriceTag size={Sizes.H1} product={this.props.product} />
-          <TouchableOpacity
+          <this.touchableComponent
             onPress={() =>
               this.props.navigation.navigate(
                 "ProductList",
@@ -122,17 +126,24 @@ export class ProductBuy extends React.Component {
                 </Text>
               </Text>
             </SloppyView>
-          </TouchableOpacity>
+          </this.touchableComponent>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity onPress={this.onPress}>
-            <View style={styles.button}>
+            <SloppyView
+              style={styles.button}
+              hitSlop={{
+                top: Sizes.InnerFrame * 2,
+                bottom: Sizes.InnerFrame * 2,
+                left: Sizes.InnerFrame,
+                right: Sizes.InnerFrame
+              }}>
               <MaterialIcon
                 name={this.buttonIcon}
                 color={Colours.AlternateText}
                 size={Sizes.Text}/>
               <Text style={styles.addButtonLabel}>{this.buttonLabel}</Text>
-            </View>
+            </SloppyView>
           </TouchableOpacity>
         </View>
       </View>

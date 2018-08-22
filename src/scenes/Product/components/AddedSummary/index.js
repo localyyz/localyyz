@@ -38,18 +38,13 @@ const SIZE_APPEAR_INTERVAL = 100;
         : !stores.productStore.isVariantSelectorVisible),
 
   // regular checkout (add)
+  addProduct: stores.cartStore.addProduct,
   product: stores.productStore.product,
   selectedVariant: stores.productStore.selectedVariant,
-  onAdd: (productId, color, size) =>
-    stores.cartStore.addItem({
-      productId: productId,
-      color: color,
-      size: size
-    }),
 
   // express checkout
   onExpressCheckout: (productId, color, size) =>
-    stores.cartStore.onExpressCheckout({
+    stores.expressCartStore.onExpressCheckout({
       productId: productId,
       color: color,
       size: size
@@ -108,30 +103,27 @@ export class AddedSummary extends React.Component {
     callback && callback();
   }
 
-  onAdd() {
-    GA.trackEvent(
-      "cart",
-      "add to cart - success",
-      String(this.props.product.id)
-    );
-    this.props.product
+  async onAdd() {
+    let response
+      = this.props.product
       && this.props.selectedVariant
-      && this.props.onAdd(
-        this.props.product.id,
-        this.props.selectedVariant.etc.color,
-        this.props.selectedVariant.etc.size
-      );
+      && (await this.props.addProduct({
+        product: this.props.product,
+        variantId: this.props.selectedVariant.id
+      }));
 
     // trigger notification
-    this.props.notify(
-      `Scored ${this.props.product.title}`,
-      "Proceed to checkout?",
-      undefined,
-      undefined,
-      Colours.Accented,
-      undefined,
-      "arrow-downward"
-    );
+    if (!response.error) {
+      this.props.notify(
+        `Scored ${this.props.product.title}`,
+        "Proceed to checkout?",
+        undefined,
+        undefined,
+        Colours.Accented,
+        undefined,
+        "arrow-downward"
+      );
+    }
 
     // now close the screen and reset for next time
     this.onDismiss();
@@ -165,14 +157,6 @@ export class AddedSummary extends React.Component {
       "Out of stock",
       "The product with your selected options is currently not in stock",
       [{ text: "OK" }]
-    );
-  }
-
-  renderItem({ item: size }) {
-    return (
-      <View style={styles.size}>
-        <Text style={styles.sizeLabel}>{`${size}`.toUpperCase()}</Text>
-      </View>
     );
   }
 
@@ -223,7 +207,7 @@ export class AddedSummary extends React.Component {
                     <Text style={styles.addButtonLabel}>Add to cart</Text>
                     <View style={styles.addButtonDetails}>
                       <Text style={styles.addButtonLabel}>
-                        {toPriceString(this.props.product.price)}
+                        {toPriceString(this.props.selectedVariant.price)}
                       </Text>
                       <MaterialIcon
                         name="add-shopping-cart"

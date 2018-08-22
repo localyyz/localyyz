@@ -8,8 +8,8 @@ import { Colours } from "localyyz/constants";
 import { navbarStore } from "localyyz/stores";
 
 export default class ProductStore extends ProductModel {
-  constructor(props) {
-    super(props);
+  constructor(product, selectedColor) {
+    super(product, selectedColor);
   }
 
   addFavourite = async () => {

@@ -8,9 +8,6 @@ exports[`SearchBrowse should render properly 1`] = `
       "_currentSuggestion": 0,
       "_listProducts": [Function],
       "_numProducts": 0,
-      "api": Api {
-        "registerPlayerId": [Function],
-      },
       "categories": Array [],
       "changeGenderSuggestions": [Function],
       "clearSearch": [Function],

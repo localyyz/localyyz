@@ -49,12 +49,15 @@ exports[`Field test - form Field test - form: should properly display errors whe
       }
     }
     style={
-      Object {
-        "backgroundColor": "rgba(255, 255, 255, 0)",
-        "color": "#000000",
-        "flex": 1,
-        "fontSize": 14,
-      }
+      Array [
+        Object {
+          "backgroundColor": "rgba(255, 255, 255, 0)",
+          "color": "#000000",
+          "flex": 1,
+          "fontSize": 14,
+        },
+        undefined,
+      ]
     }
     validators={
       Array [
@@ -89,6 +92,7 @@ exports[`Field test - form Field test - form: should render properly isRequired:
           "paddingHorizontal": 15,
           "paddingVertical": 10,
         },
+        undefined,
         false,
       ]
     }
@@ -126,9 +130,15 @@ exports[`Field test - form Field test - form: should render properly isRequired:
     </View>
     <View
       style={
-        Object {
-          "flex": 1,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+          },
+          undefined,
+        ]
       }
     >
       <TextInput
@@ -137,12 +147,15 @@ exports[`Field test - form Field test - form: should render properly isRequired:
         onChangeText={[Function]}
         onValueChange={[MockFunction]}
         style={
-          Object {
-            "backgroundColor": "rgba(255, 255, 255, 0)",
-            "color": "#000000",
-            "flex": 1,
-            "fontSize": 14,
-          }
+          Array [
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "#000000",
+              "flex": 1,
+              "fontSize": 14,
+            },
+            undefined,
+          ]
         }
         validators={Array []}
         value="sample value"
@@ -174,6 +187,7 @@ exports[`Field test - form Field test - form: should render properly isRequired:
           "paddingHorizontal": 15,
           "paddingVertical": 10,
         },
+        undefined,
         false,
       ]
     }
@@ -211,9 +225,15 @@ exports[`Field test - form Field test - form: should render properly isRequired:
     </View>
     <View
       style={
-        Object {
-          "flex": 1,
-        }
+        Array [
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+          },
+          undefined,
+        ]
       }
     >
       <TextInput
@@ -224,12 +244,15 @@ exports[`Field test - form Field test - form: should render properly isRequired:
         onValueChange={[MockFunction]}
         placeholder="required"
         style={
-          Object {
-            "backgroundColor": "rgba(255, 255, 255, 0)",
-            "color": "#000000",
-            "flex": 1,
-            "fontSize": 14,
-          }
+          Array [
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0)",
+              "color": "#000000",
+              "flex": 1,
+              "fontSize": 14,
+            },
+            undefined,
+          ]
         }
         validators={Array []}
         value="sample value"

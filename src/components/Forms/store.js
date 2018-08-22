@@ -22,6 +22,7 @@ export default class FormUIStore {
     // { id: str,
     //   value?: any,
     //   validators?: [ built-in validator str name or value => returning true or an error message, .. ],
+    //   mask?: value => applied mask to value,
     //   onValueChange?: value => callback if value passed validators and changed
     // }
 
@@ -64,6 +65,9 @@ export default class FormUIStore {
           .map(field => ({
             value: null,
             validators: [],
+
+            // applies a mask to the value change event
+            mask: null,
 
             // can be either null, single func, or array of func
             onValueChange: null,
@@ -115,14 +119,15 @@ export default class FormUIStore {
   @action
   update(k, v) {
     if (this._data[k] != undefined) {
-      this._data[k].value = v;
+      this._data[k].value = this._data[k].mask ? this._data[k].mask(v) : v;
 
       // clears external error message on change (usually when typing)
       this.clearError(k);
 
       // and trigger callback if given
-      this._data[k].validators.every(validator => validator(v) === true)
-        && this.onValueChange(k, v);
+      this._data[k].validators.every(
+        validator => validator(this._data[k].value) === true
+      ) && this.onValueChange(k, v);
     }
   }
 

@@ -195,7 +195,7 @@ export default class ContentCoverSlider extends React.Component {
             style={styles.back}
             pointerEvents="box-none">
             <Animatable.View
-              animation="bounceIn"
+              animation="fadeIn"
               delay={200}
               style={styles.backButton}>
               <TouchableOpacity

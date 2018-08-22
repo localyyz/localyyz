@@ -1,21 +1,14 @@
-import { observable, action, computed } from "mobx";
-import { Sizes } from "localyyz/constants";
+import { observable, action } from "mobx";
 
 // custom
 import { Colours } from "localyyz/constants";
-import { NavBar } from "localyyz/components";
-import { HEIGHT_THRESHOLDS } from "../components/NavBar/components/Pullup";
 
 // constants
 const DEFAULT_NOTIFICATION_DURATION = 10000;
 
 export default class NavbarStore {
   @observable isVisible = true;
-
-  // pullup
-  @observable isPullupVisible = false;
-  @observable _pullupHeight = HEIGHT_THRESHOLDS[0];
-  @observable _pullupClosestHeight = HEIGHT_THRESHOLDS[0];
+  @observable activeTogglerId;
 
   // used currently for notifications on products added event
   // TODO: really don't like this here, as cart add event shouldn't be
@@ -26,8 +19,8 @@ export default class NavbarStore {
     // bindings
     this.show = this.show.bind(this);
     this.hide = this.hide.bind(this);
-    this.togglePullup = this.togglePullup.bind(this);
-    this.setPullupHeight = this.setPullupHeight.bind(this);
+    this.releaseToggler = this.releaseToggler.bind(this);
+    this.setToggler = this.setToggler.bind(this);
     this.notify = this.notify.bind(this);
 
     // timeout
@@ -35,36 +28,30 @@ export default class NavbarStore {
   }
 
   @action
-  show() {
-    this.isVisible = true;
+  show(togglerId) {
+    this.isVisible
+      = !this.activeTogglerId || togglerId === this.activeTogglerId
+        ? true
+        : this.isVisible;
   }
 
   @action
-  hide() {
-    this.isVisible = false;
-    this.togglePullup(false);
+  hide(togglerId) {
+    this.isVisible
+      = !this.activeTogglerId || togglerId === this.activeTogglerId
+        ? false
+        : this.isVisible;
   }
 
   @action
-  togglePullup(forceOpen) {
-    this.isPullupVisible
-      = forceOpen != null ? forceOpen : !this.isPullupVisible;
+  releaseToggler(togglerId) {
+    this.activeTogglerId
+      = togglerId === this.activeTogglerId ? null : this.activeTogglerId;
   }
 
   @action
-  setPullupHeight(height, closest) {
-    this._pullupHeight = height || this._pullupHeight;
-    this._pullupClosestHeight = closest || this._pullupClosestHeight;
-  }
-
-  @computed
-  get pullupHeight() {
-    return this._pullupHeight - NavBar.HEIGHT - Sizes.OuterFrame;
-  }
-
-  @computed
-  get pullupClosestHeight() {
-    return this._pullupClosestHeight - NavBar.HEIGHT - Sizes.OuterFrame;
+  setToggler(togglerId) {
+    this.activeTogglerId = togglerId;
   }
 
   @action

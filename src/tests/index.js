@@ -15,6 +15,8 @@ export const findById = (tree, testID) => {
     return tree;
   } else if (tree.props && typeof tree.props.children === "object") {
     return findById(tree.props.children, testID);
+  } else if (typeof tree.children === "object") {
+    return findById(tree.children, testID);
   } else if (Array.isArray(tree)) {
     for (let node of tree) {
       let item = findById(node, testID);
