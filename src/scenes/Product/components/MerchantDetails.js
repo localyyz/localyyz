@@ -42,6 +42,8 @@ import ExpandableSection from "./ExpandableSection";
 @observer
 export class MerchantDetails extends React.Component {
   static propTypes = {
+    isBrowsingDisabled: PropTypes.bool,
+
     // mobx injected
     placeName: PropTypes.string,
     placeLogo: PropTypes.string,
@@ -53,6 +55,7 @@ export class MerchantDetails extends React.Component {
   };
 
   static defaultProps = {
+    isBrowsingDisabled: false,
     placeName: "",
     isSocial: false
   };
@@ -106,6 +109,10 @@ export class MerchantDetails extends React.Component {
     ) : null;
   }
 
+  get touchableComponent() {
+    return this.props.isBrowsingDisabled ? View : TouchableOpacity;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -114,7 +121,7 @@ export class MerchantDetails extends React.Component {
         </View>
         <View style={styles.banner}>
           <View style={styles.bannerHeader}>
-            <TouchableOpacity
+            <this.touchableComponent
               onPress={() =>
                 this.props.navigation.push("ProductList", {
                   fetchPath: `places/${this.props.placeId}/products`,
@@ -126,11 +133,11 @@ export class MerchantDetails extends React.Component {
                   {this.props.placeName}
                 </Text>
               </SloppyView>
-            </TouchableOpacity>
+            </this.touchableComponent>
             {this.renderSocial}
           </View>
           {this.props.placeLogo ? (
-            <TouchableOpacity
+            <this.touchableComponent
               onPress={() =>
                 this.props.navigation.push("ProductList", {
                   fetchPath: `places/${this.props.placeId}/products`,
@@ -143,7 +150,7 @@ export class MerchantDetails extends React.Component {
                   constrainWidth={Sizes.Width / 3}
                   source={{ uri: this.props.placeLogo }}/>
               </SloppyView>
-            </TouchableOpacity>
+            </this.touchableComponent>
           ) : null}
         </View>
         {this.renderShippingPolicy}

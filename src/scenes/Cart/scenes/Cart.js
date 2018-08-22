@@ -43,6 +43,7 @@ export default class Cart extends React.Component {
     this.fetch = this.fetch.bind(this);
     this.onScroll = this.onScroll.bind(this);
     this.onNext = this.onNext.bind(this);
+    this.onProductPress = this.onProductPress.bind(this);
     this.renderItem = this.renderItem.bind(this);
   }
 
@@ -70,6 +71,13 @@ export default class Cart extends React.Component {
     this.focusListener = null;
   }
 
+  onProductPress(product) {
+    this.props.navigation.navigate("Product", {
+      product: product,
+      isBrowsingDisabled: true
+    });
+  }
+
   get spacer() {
     return <ReactiveSpacer store={this.ccs} heightProp="headerHeight" />;
   }
@@ -88,7 +96,9 @@ export default class Cart extends React.Component {
 
   get cartItems() {
     return (
-      <CartItems navigation={this.props.navigation} onScroll={this.onScroll} />
+      <CartItems
+        onProductPress={this.onProductPress}
+        onScroll={this.onScroll}/>
     );
   }
 

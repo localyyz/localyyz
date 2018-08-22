@@ -48,7 +48,7 @@ class CheckoutStack extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <NavBar.Toggler />
+        <NavBar.Toggler hasPriority />
         <CheckoutNavigator navigation={this.props.navigation} />
       </View>
     );
