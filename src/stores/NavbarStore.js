@@ -8,6 +8,7 @@ const DEFAULT_NOTIFICATION_DURATION = 10000;
 
 export default class NavbarStore {
   @observable isVisible = true;
+  @observable activeTogglerId;
 
   // used currently for notifications on products added event
   // TODO: really don't like this here, as cart add event shouldn't be
@@ -18,6 +19,7 @@ export default class NavbarStore {
     // bindings
     this.show = this.show.bind(this);
     this.hide = this.hide.bind(this);
+    this.setToggler = this.setToggler.bind(this);
     this.notify = this.notify.bind(this);
 
     // timeout
@@ -25,13 +27,24 @@ export default class NavbarStore {
   }
 
   @action
-  show() {
-    this.isVisible = true;
+  show(togglerId) {
+    this.isVisible
+      = !this.activeTogglerId || togglerId === this.activeTogglerId
+        ? true
+        : this.isVisible;
   }
 
   @action
-  hide() {
-    this.isVisible = false;
+  hide(togglerId) {
+    this.isVisible
+      = !this.activeTogglerId || togglerId === this.activeTogglerId
+        ? false
+        : this.isVisible;
+  }
+
+  @action
+  setToggler(togglerId) {
+    this.activeTogglerId = togglerId;
   }
 
   @action
