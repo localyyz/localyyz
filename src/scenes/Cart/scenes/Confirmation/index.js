@@ -5,7 +5,7 @@ import { View, StyleSheet } from "react-native";
 import { Provider, inject } from "mobx-react/native";
 
 // custom
-import { Sizes } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 import { GA } from "localyyz/global";
 
 // local
@@ -89,7 +89,8 @@ export default class Confirmation extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colours.Foreground
   },
 
   items: {

@@ -163,7 +163,9 @@ export default class CartBaseScene extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1
+  },
 
   header: {
     marginHorizontal: Sizes.InnerFrame
