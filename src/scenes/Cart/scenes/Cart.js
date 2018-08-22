@@ -18,7 +18,8 @@ import EmptyCart from "./EmptyCart";
 
 @inject(stores => ({
   isEmpty: stores.cartStore.isEmpty,
-  fetchFromDb: stores.cartStore.fetchFromDb
+  fetchFromDb: stores.cartStore.fetchFromDb,
+  scrollEnabled: stores.cartUiStore.scrollEnabled
 }))
 @observer
 export default class Cart extends React.Component {
@@ -131,6 +132,7 @@ export default class Cart extends React.Component {
           <FlatList
             data={this.data}
             onScroll={this.onScroll}
+            scrollEnabled={this.props.scrollEnabled}
             renderItem={this.renderItem}
             keyExtractor={(e, i) => `row-${i}`}/>
         </ContentCoverSlider>

@@ -1,9 +1,8 @@
-import { action } from "mobx";
-
 // custom
 import { GA, ApiInstance } from "localyyz/global";
 import { Cart } from "localyyz/models";
 import { userStore } from "localyyz/stores";
+import { CART_STATUS_INPROGRESS } from "localyyz/constants";
 
 // constant
 const DEFAULT_CART = "default";
@@ -125,7 +124,7 @@ export default class CartStore extends Cart {
 
     if (response && response.status == 204) {
       // remove item from cart items
-      action(() => super.removeItem(cartItem))();
+      super.removeItem(cartItem);
 
       // track on GA
       GA.trackEvent("cart", "remove item", `${cartItem.productId}`);

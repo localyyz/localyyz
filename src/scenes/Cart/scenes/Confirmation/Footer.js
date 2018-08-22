@@ -34,6 +34,7 @@ import Button from "../../components/Button";
 
   // cart
   setNextReady: stores.cartUiStore.setNextReady,
+  nextSceneIsReady: stores.cartUiStore.nextSceneIsReady,
 
   // checkout
   completeCheckout: stores.cartUiStore.completeCheckout,
@@ -120,6 +121,10 @@ export default class Footer extends React.Component {
     ) : null;
   }
 
+  get touchableComponent() {
+    return this.props.nextSceneIsReady ? ExplodingButton : View;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -145,15 +150,16 @@ export default class Footer extends React.Component {
           styles.saved
         )}
         {!this.props.isTesting ? (
-          <ExplodingButton
+          <this.touchableComponent
             color={Colours.PositiveButton}
             isExploded={this.props.isProcessing}
             explode={this.onExplode}
-            onPress={this.onNext}>
+            onPress={this.onNext}
+            style={styles.buttonWrapper}>
             <Button backgroundColour={Colours.Accented} style={styles.button}>
               Confirm & pay
             </Button>
-          </ExplodingButton>
+          </this.touchableComponent>
         ) : null}
       </View>
     );
@@ -186,6 +192,11 @@ const styles = StyleSheet.create({
     ...Styles.Emphasized,
     fontSize: Sizes.H3,
     color: Colours.Accented
+  },
+
+  buttonWrapper: {
+    alignItems: "center",
+    justifyContent: "center"
   },
 
   button: {

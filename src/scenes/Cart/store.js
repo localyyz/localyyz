@@ -4,6 +4,7 @@ import Moment from "moment";
 
 export default class CartUIStore {
   @observable nextSceneIsReady = true;
+  @observable scrollEnabled = true;
 
   constructor(cartStore, addressStore) {
     // bindings
@@ -11,6 +12,7 @@ export default class CartUIStore {
     this.completeCheckout = this.completeCheckout.bind(this);
     this.completePayment = this.completePayment.bind(this);
     this.navigateNext = this.navigateNext.bind(this);
+    this.setScrollEnabled = this.setScrollEnabled.bind(this);
 
     // transport layer cartstore used to update and submit cart data to server
     this.cart = cartStore;
@@ -88,6 +90,11 @@ export default class CartUIStore {
       this.setNextReady(true)
       || navigation.navigate(this.nextScene, error && { checkoutError: error })
     );
+  }
+
+  @action
+  setScrollEnabled(enabled) {
+    this.scrollEnabled = enabled;
   }
 
   get nextScene() {

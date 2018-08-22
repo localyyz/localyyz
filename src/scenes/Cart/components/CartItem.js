@@ -16,7 +16,8 @@ import Swipeout from "react-native-swipeout";
 const MAX_PHOTO_SIZE = Sizes.Width / 5;
 
 @inject(stores => ({
-  removeItem: stores.cartStore.removeItem
+  removeItem: stores.cartStore.removeItem,
+  setScrollEnabled: stores.cartUiStore.setScrollEnabled
 }))
 export default class CartItem extends React.Component {
   static propTypes = {
@@ -71,7 +72,7 @@ export default class CartItem extends React.Component {
   render() {
     return (
       <View style={this.props.style}>
-        <Swipeout right={this.options}>
+        <Swipeout right={this.options} scroll={this.props.setScrollEnabled}>
           <TouchableOpacity onPress={this.onPress}>
             <View style={styles.container}>
               <View style={styles.photo}>

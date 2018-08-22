@@ -20,7 +20,11 @@ import ConfirmationUIStore from "./store";
 @inject(stores => ({
   setNextReady: stores.cartUiStore.setNextReady,
   navigateNext: stores.cartUiStore.navigateNext,
-  numCartItems: stores.cartStore.numCartItems
+  scrollEnabled: stores.cartUiStore.scrollEnabled,
+  numCartItems: stores.cartStore.numCartItems,
+
+  // used for removal to recalc totals
+  completeCheckout: stores.cartUiStore.completeCheckout
 }))
 export default class Confirmation extends React.Component {
   static navigationOptions = {
@@ -42,11 +46,16 @@ export default class Confirmation extends React.Component {
     GA.trackScreen("cart", "show summary");
   }
 
-  onRemove() {
+  async onRemove() {
+    this.props.setNextReady(false);
     if (this.props.numCartItems <= 0) {
       this.props.navigation.popToTop();
       this.props.navigation.goBack(null);
     }
+
+    // update the cart
+    await this.props.completeCheckout();
+    this.props.setNextReady(true);
   }
 
   get expandedFooter() {
@@ -59,6 +68,7 @@ export default class Confirmation extends React.Component {
         <View style={styles.container}>
           <CartBaseScene
             keySeed={this.props.keySeed}
+            scrollEnabled={this.props.scrollEnabled}
             navigation={this.props.navigation}
             iconType="close"
             activeSceneId="ConfirmationScene"

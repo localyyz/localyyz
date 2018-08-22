@@ -139,6 +139,7 @@ export default class CartBaseScene extends React.Component {
           <View style={styles.container}>
             <FlatList
               showsVerticalScrollIndicator={false}
+              scrollEnabled={this.props.scrollEnabled}
               scrollEventThrottle={16}
               onScroll={this._onScroll}
               data={this.data}
