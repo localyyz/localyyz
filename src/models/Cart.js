@@ -27,7 +27,7 @@ export default class Cart {
 
   // not saved or returned by server, created and stored locally
   // per session
-  @observable paymentDetails = new PaymentCard();
+  @observable paymentDetails;
   @observable discountCode;
 
   // errors
@@ -49,6 +49,10 @@ export default class Cart {
 
     // init
     this.update(cart);
+
+    // init front end values
+    this.updatePayment();
+    this.setDiscountCode();
   }
 
   // setters
