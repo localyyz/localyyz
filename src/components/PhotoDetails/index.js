@@ -1,26 +1,17 @@
 import React from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
+
+// custom
+import { NavBar } from "localyyz/components";
 import { Colours, Sizes } from "localyyz/constants";
 
 // third party
-import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 import PhotoView from "react-native-photo-view";
 import LinearGradient from "react-native-linear-gradient";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
-@inject(stores => ({
-  hideNav: stores.navbarStore.hide,
-  showNav: stores.navbarStore.show
-}))
-@observer
 export default class PhotoDetails extends React.Component {
-  static propTypes = {
-    hideNav: PropTypes.func.isRequired,
-    showNav: PropTypes.func.isRequired
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -44,9 +35,6 @@ export default class PhotoDetails extends React.Component {
       () => {
         this.props.navigation.setParams({ gesturesEnabled: !shouldShow });
 
-        // hide NavBar
-        shouldShow ? this.props.hideNav() : this.props.showNav();
-
         // callback if specified
         this.props.onDismiss && shouldShow === false && this.props.onDismiss();
       }
@@ -61,6 +49,7 @@ export default class PhotoDetails extends React.Component {
           duration={500}
           style={styles.container}>
           <View style={styles.overlay}>
+            <NavBar.Toggler />
             <PhotoView
               source={{ uri: this.state.source }}
               minimumZoomScale={0.9}

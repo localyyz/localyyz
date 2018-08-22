@@ -43,6 +43,7 @@ export class ProductBuy extends React.Component {
   static propTypes = {
     selectedVariant: PropTypes.object,
     product: PropTypes.object,
+    isBrowsingDisabled: PropTypes.bool,
 
     // mobx injected store props
     hasSession: PropTypes.bool,
@@ -50,6 +51,7 @@ export class ProductBuy extends React.Component {
   };
 
   static defaultProps = {
+    isBrowsingDisabled: false,
     hasSession: false,
     isExpressSupported: false
   };
@@ -89,12 +91,16 @@ export class ProductBuy extends React.Component {
     return this.isInStock ? "add-shopping-cart" : "error";
   }
 
+  get touchableComponent() {
+    return this.props.isBrowsingDisabled ? View : TouchableOpacity;
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.details}>
           <PriceTag size={Sizes.H1} product={this.props.product} />
-          <TouchableOpacity
+          <this.touchableComponent
             onPress={() =>
               this.props.navigation.navigate(
                 "ProductList",
@@ -120,7 +126,7 @@ export class ProductBuy extends React.Component {
                 </Text>
               </Text>
             </SloppyView>
-          </TouchableOpacity>
+          </this.touchableComponent>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity onPress={this.onPress}>

@@ -24,7 +24,8 @@ export default class CartItem extends React.Component {
     item: PropTypes.object.isRequired,
     removeItem: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
-    onRemove: PropTypes.func
+    onRemove: PropTypes.func,
+    onPress: PropTypes.func
   };
 
   constructor(props) {
@@ -39,10 +40,7 @@ export default class CartItem extends React.Component {
   }
 
   onPress() {
-    // forward out to product page
-    this.props.navigation.navigate("Product", {
-      product: this.props.item.product
-    });
+    this.props.onPress && this.props.onPress(this.props.item.product);
   }
 
   onRemove() {
@@ -65,6 +63,10 @@ export default class CartItem extends React.Component {
     ]);
   }
 
+  get touchableComponent() {
+    return this.props.onPress ? TouchableOpacity : View;
+  }
+
   get options() {
     return [{ text: "Remove", type: "delete", onPress: this.onRemove }];
   }
@@ -73,7 +75,7 @@ export default class CartItem extends React.Component {
     return (
       <View style={this.props.style}>
         <Swipeout right={this.options} scroll={this.props.setScrollEnabled}>
-          <TouchableOpacity onPress={this.onPress}>
+          <this.touchableComponent onPress={this.onPress}>
             <View style={styles.container}>
               <View style={styles.photo}>
                 <ConstrainedAspectImage
@@ -146,7 +148,7 @@ export default class CartItem extends React.Component {
                 </View>
               </View>
             </View>
-          </TouchableOpacity>
+          </this.touchableComponent>
         </Swipeout>
       </View>
     );
