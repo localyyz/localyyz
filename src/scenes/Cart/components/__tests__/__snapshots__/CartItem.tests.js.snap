@@ -37,19 +37,7 @@ exports[`CartItem should render properly to snapshot 1`] = `
       }
     >
       <View
-        accessible={true}
-        isTVSelectable={true}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "opacity": 1,
-          }
-        }
+        onPress={[Function]}
       >
         <View
           style={

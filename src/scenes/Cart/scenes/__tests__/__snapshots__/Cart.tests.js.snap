@@ -40,11 +40,7 @@ exports[`Cart should render properly to snapshot 1`] = `
           },
           Object {
             "renderItem": <inject-CartItems
-              navigation={
-                Object {
-                  "addListener": [MockFunction],
-                }
-              }
+              onProductPress={[Function]}
               onScroll={[Function]}
             />,
           },
@@ -169,11 +165,7 @@ exports[`Cart should show cart if items present 1`] = `
           },
           Object {
             "renderItem": <inject-CartItems
-              navigation={
-                Object {
-                  "addListener": [MockFunction],
-                }
-              }
+              onProductPress={[Function]}
               onScroll={[Function]}
             />,
           },

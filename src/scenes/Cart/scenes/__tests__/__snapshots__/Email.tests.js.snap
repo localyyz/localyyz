@@ -30,6 +30,7 @@ exports[`Email should not show next button if no email 1`] = `
   <inject-CartBaseScene
     activeSceneId="EmailScene"
     backAction={[Function]}
+    iconType="close"
     keySeed="test"
   >
     <CartBaseContent>
@@ -120,6 +121,7 @@ exports[`Email should render properly to snapshot 1`] = `
   <inject-CartBaseScene
     activeSceneId="EmailScene"
     backAction={[Function]}
+    iconType="close"
     keySeed="test"
   >
     <CartBaseContent>
@@ -210,6 +212,7 @@ exports[`Email should show next button if email given 1`] = `
   <inject-CartBaseScene
     activeSceneId="EmailScene"
     backAction={[Function]}
+    iconType="close"
     keySeed="test"
   >
     <CartBaseContent>

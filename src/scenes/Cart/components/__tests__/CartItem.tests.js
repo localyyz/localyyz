@@ -20,7 +20,8 @@ const DEFAULT_PROPS = {
     hasError: false,
     variant: {
       description: "Some shoes"
-    }
+    },
+    price: 100
   },
   removeItem: jest.fn(),
   navigation: {}
@@ -40,7 +41,7 @@ describe(Component.name, () => {
     let layout = c.toJSON();
 
     expect(findById(layout, "price").children[0]).toBe(
-      toPriceString(DEFAULT_PROPS.item.product.price)
+      toPriceString(DEFAULT_PROPS.item.price)
     );
   });
 
