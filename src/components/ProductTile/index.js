@@ -23,13 +23,19 @@ export default class ProductTile extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      doubleTap: this.props.product.isFavourite
+    };
 
     // update title length
     this.props.product && this.props.product.changeTitleWordsLength(4);
 
     // bindings
     this.onLayout = this.onLayout.bind(this);
+    this.onPress = this.onPress.bind(this);
+
+    this.firstPress = true;
+    this.timer = null;
   }
 
   onLayout(e) {
@@ -48,11 +54,35 @@ export default class ProductTile extends React.PureComponent {
     );
   }
 
+  /*
+    DOUBLE TAP only allows to like -> not unlike
+    unliking is done by pressing the icon
+    when the user clicks on it the first time it sets firstPress to false and starts a timer
+    if the user doesn't click again the timer finishes and moves to the product page setting firstPress back to true
+    if the user clicks immediately again(before the timer executes) firstPress is false -> it cancels the timer and calls toggleFavourite()
+    the state variable doubleTap is used to communicate to child component <Favourite />
+   */
+  onPress() {
+    if (this.firstPress) {
+      this.firstPress = false;
+      this.timer = setTimeout(() => {
+        this.props.onPress();
+        this.firstPress = true;
+      }, 200);
+    } else {
+      clearTimeout(this.timer);
+      this.props.product.toggleFavourite();
+      this.firstPress = true;
+      // invert doubleTap to so it re-renders
+      this.setState({doubleTap: !this.state.doubleTap});
+    }
+  }
+
   render() {
     return (
       <TouchableOpacity
         ref="productTileTouchable"
-        onPress={this.props.onPress}
+        onPress={this.onPress}
         onLayout={this.onLayout}>
         <View style={styles.container}>
           <View
@@ -69,8 +99,8 @@ export default class ProductTile extends React.PureComponent {
                 ref="productTileImage"
                 source={{
                   uri:
-                    this.props.product.associatedPhotos[0]
-                    && this.props.product.associatedPhotos[0].imageUrl
+                  this.props.product.associatedPhotos[0]
+                  && this.props.product.associatedPhotos[0].imageUrl
                 }}
                 sourceWidth={
                   this.props.product.associatedPhotos[0]
@@ -86,7 +116,8 @@ export default class ProductTile extends React.PureComponent {
             <View style={styles.favouriteButton}>
               <Favourite
                 onPress={this.props.product.toggleFavourite}
-                active={this.props.product.isFavourite}/>
+                active={this.props.product.isFavourite}
+                doubleTap={this.state.doubleTap}/>
             </View>
           </View>
           <View style={styles.content}>
@@ -114,7 +145,7 @@ export default class ProductTile extends React.PureComponent {
                   {this.props.isVariant && this.props.product.selectedColor
                     ? capitalize(this.props.product.selectedColor)
                     : this.props.product.brand
-                      || this.props.product.truncatedTitle}
+                    || this.props.product.truncatedTitle}
                 </Text>
               </Text>
             </View>
