@@ -11,13 +11,15 @@ import PropTypes from "prop-types";
 @inject(stores => ({
   hideNavbar: stores.navbarStore.hide,
   showNavbar: stores.navbarStore.show,
-  setToggler: stores.navbarStore.setToggler
+  setToggler: stores.navbarStore.setToggler,
+  releaseToggler: stores.navbarStore.releaseToggler
 }))
 export default class Toggler extends React.Component {
   static propTypes = {
     hideNavbar: PropTypes.func.isRequired,
     showNavbar: PropTypes.func.isRequired,
     setToggler: PropTypes.func.isRequired,
+    releaseToggler: PropTypes.func.isRequired,
     hasPriority: PropTypes.bool
   };
 
@@ -41,6 +43,9 @@ export default class Toggler extends React.Component {
 
   componentWillUnmount() {
     this.props.showNavbar(this.id);
+
+    // leaving, so release the toggler if possible and was hasPriority
+    this.props.hasPriority && this.props.releaseToggler(this.id);
   }
 
   render() {
