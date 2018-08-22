@@ -19,6 +19,7 @@ export default class NavbarStore {
     // bindings
     this.show = this.show.bind(this);
     this.hide = this.hide.bind(this);
+    this.releaseToggler = this.releaseToggler.bind(this);
     this.setToggler = this.setToggler.bind(this);
     this.notify = this.notify.bind(this);
 
@@ -40,6 +41,12 @@ export default class NavbarStore {
       = !this.activeTogglerId || togglerId === this.activeTogglerId
         ? false
         : this.isVisible;
+  }
+
+  @action
+  releaseToggler(togglerId) {
+    this.activeTogglerId
+      = togglerId === this.activeTogglerId ? null : this.activeTogglerId;
   }
 
   @action
