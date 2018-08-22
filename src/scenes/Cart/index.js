@@ -5,6 +5,7 @@ import { createStackNavigator } from "react-navigation";
 import { inject, Provider } from "mobx-react/native";
 
 // custom
+import Information from "../Information";
 import { NavBar } from "localyyz/components";
 import Forms from "../Forms";
 import { Addresses } from "../Settings/scenes";
@@ -58,7 +59,8 @@ const CartNavigator = createStackNavigator(
   {
     CartScene: CartScene,
     CheckoutStack: CheckoutStack,
-    Product: ProductScene
+    Product: ProductScene,
+    Information: Information
   },
   {
     navigationOptions: () => ({
