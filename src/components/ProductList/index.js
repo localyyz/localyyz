@@ -41,7 +41,7 @@ class ProductListItem extends React.Component {
 }
 
 @inject((stores, props) => ({
-  products: (stores.productListStore || props).products || []
+  products: (stores.productListStore || props).products.slice() || []
 }))
 @observer
 export class ProductList extends React.Component {
@@ -77,7 +77,7 @@ export class ProductList extends React.Component {
     return (
       <View style={[styles.list, this.props.style]}>
         <FlatList
-          data={this.props.products.slice()}
+          data={this.props.products}
           numColumns={2}
           keyExtractor={i => i.id}
           renderItem={this.renderItem}
