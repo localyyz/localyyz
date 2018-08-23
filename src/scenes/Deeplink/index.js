@@ -1,6 +1,6 @@
 import React from "react";
 
-import ProductStore from "../Product/store";
+import { Product as ProductStore } from "localyyz/stores";
 
 import branch from "react-native-branch";
 import { inject } from "mobx-react/native";
@@ -35,9 +35,12 @@ export default class Deeplink extends React.Component {
   }
 
   getDeeplinkProduct = async productID => {
-    let store = new ProductStore({}, this.props.historyStore);
-    await store.fetchProduct(productID);
-    return store.product;
+    const resolve = await ProductStore.fetch(productID);
+    if (!resolve.error) {
+      return resolve.product;
+    }
+    // TODO: what do we do here?
+    return resolve;
   };
 
   /*
