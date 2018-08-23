@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
-import { PropTypes as mobxPropTypes, observer } from "mobx-react/native";
+import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
@@ -13,8 +13,7 @@ import { capitalize } from "localyyz/helpers";
 // local
 import { Favourite, ProductTilePlaceholder } from "./components";
 
-@observer
-export default class ProductTile extends React.Component {
+export default class ProductTile extends React.PureComponent {
   static Placeholder = ProductTilePlaceholder;
 
   static propTypes = {
@@ -68,10 +67,14 @@ export default class ProductTile extends React.Component {
         this.firstPress = true;
       }, 200);
     } else {
-      clearTimeout(this.timer);
+      this.timer && clearTimeout(this.timer);
       this.props.product.addFavourite();
       this.firstPress = true;
     }
+  }
+
+  componentWillUnmount(){
+    this.timer && clearTimeout(this.timer);
   }
 
   render() {
@@ -111,8 +114,7 @@ export default class ProductTile extends React.Component {
             ) : null}
             <View style={styles.favouriteButton}>
               <Favourite
-                onPress={this.props.product.toggleFavourite}
-                active={this.props.product.isFavourite}/>
+                product={this.props.product}/>
             </View>
           </View>
           <View style={styles.content}>
