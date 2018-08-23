@@ -186,9 +186,9 @@ export default class Store {
         this.categories = response.data.map(category => ({
           ...category,
           id: category.type,
-          title: capitalize(category.type),
+          title: capitalize(category.title || category.type),
           values: [
-            { id: category.type, title: `All ${capitalize(category.type)}` },
+            //{ id: category.type, title: `All ${capitalize(category.type)}` },
 
             // backwards compatible with values as strings instead
             // of cat objs
@@ -198,7 +198,7 @@ export default class Store {
                   ? {
                       ...v,
                       id: v.type,
-                      title: capitalize(v.type)
+                      title: capitalize(v.title || v.type)
                     }
                   : {
                       id: v,

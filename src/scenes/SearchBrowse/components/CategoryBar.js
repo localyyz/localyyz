@@ -37,19 +37,22 @@ export default class CategoryBar extends React.Component {
     );
   }
 
-  render() {
-    const categories = this.props.store.categories
+  get categories() {
+    return this.props.store.categories
       .filter(cat => cat.id === this.props.id)
-      .map(cat => cat.values)[0];
+      .map(cat => cat.values)[0]
+      .slice();
+  }
 
+  render() {
     return (
       <Provider categoryComponent={this}>
         <View style={styles.container}>
-          {categories && categories.length > 0 ? (
+          {this.categories && this.categories.length > 0 ? (
             <FlatList
               horizontal
               showsHorizontalScrollIndicator={false}
-              data={categories}
+              data={this.categories}
               renderItem={this.renderItem}
               contentContainerStyle={styles.list}
               keyExtractor={(cat, i) => `${cat.id}-${i}`}/>

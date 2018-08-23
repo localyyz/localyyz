@@ -60,18 +60,23 @@ export class CategoryList extends React.Component {
   }
 
   buildParams({ title, id }, parentId) {
+    const categories = this.props.categories
+      .filter(cat => cat.id === id || parentId)
+      .map(cat => cat.values)[0];
+
     return {
       fetchPath: `categories/${id}/products`,
       title: title,
       hideCategories: true,
       hideGenderFilter: !!this.props.gender,
       gender: this.props.gender,
-      listHeader: (
-        <CategoryBar
-          id={parentId || id}
-          onChangeCategory={this.onChangeCategory}
-          store={this.props.store}/>
-      )
+      listHeader:
+        categories && categories.length ? (
+          <CategoryBar
+            id={parentId || id}
+            onChangeCategory={this.onChangeCategory}
+            store={this.props.store}/>
+        ) : null
     };
   }
 
@@ -124,22 +129,23 @@ export class CategoryList extends React.Component {
       <View style={styles.row}>
         <TouchableOpacity onPress={() => this.onSelectCategory(category)}>
           <View style={styles.header}>
-            <Text style={styles.title}>{category.title}</Text>
+            <Text style={styles.title}>{category.title.toUpperCase()}</Text>
             <View style={styles.button}>
-              <Text style={styles.buttonLabel}>View</Text>
+              <Text style={styles.buttonLabel}>View all</Text>
             </View>
           </View>
         </TouchableOpacity>
         <FlatList
           horizontal
+          initialNumToRender={3}
           showsHorizontalScrollIndicator={false}
           data={category.values.slice() || []}
           renderItem={this.renderSubcategory}
-          initialNumToRender={3}
           contentContainerStyle={styles.category}
           keyExtractor={(c, i) =>
             `${this._keySeed}-cat${category.id}-row${i}-subcat${c.id}`
           }/>
+        <View style={styles.separator} />
       </View>
     );
   }
@@ -157,13 +163,13 @@ export class CategoryList extends React.Component {
       <View style={styles.container}>
         <CategoryGender />
         <FlatList
-          scrollEventThrottle={16}
           onScroll={this.props.onScroll}
-          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
           data={this.props.categories}
+          contentContainerStyle={[styles.list, this.props.style]}
+          showsVerticalScrollIndicator={false}
           renderItem={this.renderCategory}
           initialNumToRender={4}
-          contentContainerStyle={[styles.list, this.props.style]}
           ListEmptyComponent={this.placeholder}
           keyExtractor={(c, i) => `${this._keySeed}-row${i}-cat${c.id}`}/>
       </View>
@@ -183,6 +189,13 @@ const styles = StyleSheet.create({
     paddingBottom: NAVBAR_HEIGHT + Sizes.OuterFrame
   },
 
+  separator: {
+    padding: Sizes.InnerFrame,
+    marginHorizontal: Sizes.InnerFrame,
+    borderColor: Colours.Background,
+    borderBottomWidth: 1
+  },
+
   header: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
@@ -190,9 +203,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    ...Styles.Title
+    ...Styles.Text
   },
 
   button: {
