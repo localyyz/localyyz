@@ -18,4 +18,5 @@ const FilterStack = StackNavigator(
   }
 );
 
+export { FilterList } from "./scenes";
 export default FilterStack;

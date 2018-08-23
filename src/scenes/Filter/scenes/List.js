@@ -76,7 +76,7 @@ export default class FilterList extends React.Component {
         filterStore={this.settings.filterStore}>
         <ContentCoverSlider
           ref="slider"
-          title={this.title}
+          title={capitalize(this.title)}
           background={this.header}
           backColor={Colours.Text}
           backAction={this.close}>
@@ -148,7 +148,8 @@ export class Options extends React.Component {
       ..."abcdefghijklmnopqrstuvwxyz"
         .toUpperCase()
         .split("")
-        .map(letter => ({ [letter]: [] }))
+        .map(letter => ({ [letter]: [] })),
+      ..."0123456789".split("").map(num => ({ [num]: [] }))
     );
 
     // add options appropriately by first letter
@@ -213,12 +214,18 @@ class Option extends React.Component {
   }
 
   render() {
-    return (
-      <View
-        style={[
-          styles.wrapper,
-          this.props.option == SHOW_ALL_LABEL ? styles.topWrapper : null
-        ]}>
+    return this.props.option === SHOW_ALL_LABEL ? (
+      <View style={[styles.wrapper, styles.topWrapper]}>
+        <TouchableOpacity onPress={this.onSelect}>
+          <View style={styles.topOption}>
+            <Text style={styles.topOptionLabel}>
+              {capitalize(this.props.option)}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    ) : (
+      <View style={[styles.wrapper]}>
         <TouchableOpacity onPress={this.onSelect}>
           <View style={styles.option}>
             <Text style={styles.optionLabel}>
@@ -237,7 +244,10 @@ const styles = StyleSheet.create({
   },
 
   option: {
-    paddingVertical: Sizes.InnerFrame / 2
+    paddingVertical: Sizes.InnerFrame / 2,
+    borderBottomWidth: Sizes.Hairline,
+    borderColor: Colours.Border,
+    marginHorizontal: Sizes.InnerFrame
   },
 
   optionLabel: {
@@ -259,11 +269,25 @@ const styles = StyleSheet.create({
 
   wrapper: {
     paddingLeft: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame / 4,
     backgroundColor: Colours.Foreground
   },
 
+  topOption: {
+    borderWidth: 1,
+    marginRight: Sizes.InnerFrame,
+    height: Sizes.InnerFrame * 3,
+    justifyContent: "center"
+  },
+
   topWrapper: {
-    paddingTop: Sizes.InnerFrame
+    paddingTop: Sizes.InnerFrame,
+    justifyContent: "center"
+  },
+
+  topOptionLabel: {
+    ...Styles.Emphasized,
+    textAlign: "center"
   },
 
   footer: {
