@@ -54,5 +54,7 @@ export default class ProductStore extends ProductModel {
     return resolve;
   };
 
-  toggleFavourite = this.isFavourite ? this.removeFavourite : this.addFavourite;
+  toggleFavourite = () => {
+    this.isFavourite ? this.removeFavourite() : this.addFavourite();
+  };
 }
