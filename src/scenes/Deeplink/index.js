@@ -60,7 +60,7 @@ export default class Deeplink extends React.Component {
         case "product":
           this.props.navigation.navigate({
             routeName: "Product",
-            key: `prouct${params.destination_id}`,
+            key: `product${params.destination_id}`,
             params: {
               product: await this.getDeeplinkProduct(params.destination_id)
             }
