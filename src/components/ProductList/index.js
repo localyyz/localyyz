@@ -49,13 +49,11 @@ export class ProductList extends React.Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    products: PropTypes.any,
-    showFooter: PropTypes.bool
+    products: PropTypes.any
   };
 
   static defaultProps = {
-    products: [],
-    showFooter: true
+    products: []
   };
 
   constructor(props) {
@@ -83,7 +81,7 @@ export class ProductList extends React.Component {
           numColumns={2}
           keyExtractor={i => i.id}
           renderItem={this.renderItem}
-          ListFooterComponent={this.props.showFooter ? this.placeholder : null}
+          ListFooterComponent={this.placeholder}
           initialNumToRender={6}/>
       </View>
     );
