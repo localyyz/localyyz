@@ -18,14 +18,7 @@ class ProductUIStore {
   isDeepLinked = false;
 
   constructor({ product }) {
-    this.api = ApiInstance;
-
-    if (product) {
-      this.product = product;
-
-      // ping out for stats logging
-      this.api.get(`products/${product.id}`);
-    }
+    this.product = product;
 
     // bindings
     this.toggleAddedSummary = this.toggleAddedSummary.bind(this);
@@ -57,7 +50,7 @@ class ProductUIStore {
 
   @action
   fetchProduct = async productId => {
-    const response = await this.api.get(`products/${productId}`);
+    const response = await ApiInstance.get(`products/${productId}`);
     if (response && response.data) {
       runInAction("fetch product", () => {
         this.product = new Product(response.data);
@@ -71,7 +64,7 @@ class ProductUIStore {
   @action
   fetchRelatedProduct = async () => {
     let params = { limit: 10 };
-    const response = await this.api.get(
+    const response = await ApiInstance.get(
       `/products/${this.product.id}/related`,
       params
     );

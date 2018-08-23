@@ -8,6 +8,17 @@ import { Colours } from "localyyz/constants";
 import { navbarStore } from "localyyz/stores";
 
 export default class ProductStore extends ProductModel {
+  static fetch = async productId => {
+    const resolve = await ApiInstance.get(`products/${productId}`);
+    if (!resolve.error) {
+      GA.trackEvent("product", "view", `${productId}`);
+      return new Promise.resolve({
+        product: new ProductStore(resolve.data)
+      });
+    }
+    return resolve;
+  };
+
   constructor(product, selectedColor) {
     super(product, selectedColor);
   }
