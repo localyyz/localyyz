@@ -29,11 +29,7 @@ export default class Favourite extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // if the user double tapped and it was previously inActive set to Active
-    if (this.props.doubleTap === true && prevState.isActive === false) {
-      this.setState({isActive: true})
-      // edge case -> user double taps twice on a product to like -> unlike using icon -> like again
-    } else if (this.props.doubleTap === false && prevProps.doubleTap === true && prevState.isActive === false){
+    if (!prevState.isActive && this.props.active){
       this.setState({isActive: true})
     }
   }

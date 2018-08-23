@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
-import { PropTypes as mobxPropTypes } from "mobx-react/native";
+import { PropTypes as mobxPropTypes, observer } from "mobx-react/native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
@@ -13,7 +13,8 @@ import { capitalize } from "localyyz/helpers";
 // local
 import { Favourite, ProductTilePlaceholder } from "./components";
 
-export default class ProductTile extends React.PureComponent {
+@observer
+export default class ProductTile extends React.Component {
   static Placeholder = ProductTilePlaceholder;
 
   static propTypes = {
@@ -23,9 +24,7 @@ export default class ProductTile extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      doubleTap: this.props.product.isFavourite
-    };
+    this.state = {};
 
     // update title length
     this.props.product && this.props.product.changeTitleWordsLength(4);
@@ -60,7 +59,6 @@ export default class ProductTile extends React.PureComponent {
     when the user clicks on it the first time it sets firstPress to false and starts a timer
     if the user doesn't click again the timer finishes and moves to the product page setting firstPress back to true
     if the user clicks immediately again(before the timer executes) firstPress is false -> it cancels the timer and calls toggleFavourite()
-    the state variable doubleTap is used to communicate to child component <Favourite />
    */
   onPress() {
     if (this.firstPress) {
@@ -71,10 +69,8 @@ export default class ProductTile extends React.PureComponent {
       }, 200);
     } else {
       clearTimeout(this.timer);
-      this.props.product.toggleFavourite();
+      this.props.product.addFavourite();
       this.firstPress = true;
-      // invert doubleTap to so it re-renders
-      this.setState({doubleTap: !this.state.doubleTap});
     }
   }
 
@@ -116,8 +112,7 @@ export default class ProductTile extends React.PureComponent {
             <View style={styles.favouriteButton}>
               <Favourite
                 onPress={this.props.product.toggleFavourite}
-                active={this.props.product.isFavourite}
-                doubleTap={this.state.doubleTap}/>
+                active={this.props.product.isFavourite}/>
             </View>
           </View>
           <View style={styles.content}>
