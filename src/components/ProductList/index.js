@@ -4,7 +4,6 @@ import { View, StyleSheet, FlatList } from "react-native";
 // custom
 import { Colours, Sizes } from "localyyz/constants";
 import { ProductTile } from "localyyz/components";
-import { randInt } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
@@ -14,9 +13,35 @@ import { inject, observer } from "mobx-react/native";
 // local
 import { ProductListPlaceholder } from "./components";
 
+class ProductListItem extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  shouldComponentUpdate() {
+    // OPTIMIZATION: do not rerender list items
+    return false;
+  }
+
+  render() {
+    return (
+      <View style={styles.tile}>
+        <ProductTile
+          style={styles.tileComponent}
+          onPress={() =>
+            this.props.navigation.push("Product", {
+              product: this.props.product
+            })
+          }
+          backgroundColor={this.props.backgroundColor}
+          product={this.props.product}/>
+      </View>
+    );
+  }
+}
+
 @inject((stores, props) => ({
-  products: ((stores.productListStore || props).products || []).slice(),
-  isLoading: stores.productListStore && stores.productListStore.isLoading
+  products: (stores.productListStore || props).products || []
 }))
 @observer
 export class ProductList extends React.Component {
@@ -24,18 +49,13 @@ export class ProductList extends React.Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    products: PropTypes.array,
-
-    // mobx injected
-    isFilterSupported: PropTypes.bool,
-    isLoading: PropTypes.bool
+    products: PropTypes.any,
+    showFooter: PropTypes.bool
   };
 
   static defaultProps = {
     products: [],
-
-    // mobx
-    isLoading: false
+    showFooter: true
   };
 
   constructor(props) {
@@ -43,42 +63,28 @@ export class ProductList extends React.Component {
 
     // bindings
     this.renderItem = this.renderItem.bind(this);
-
-    // pseudo-unique (law of large numbers) key seed
-    this._keySeed = randInt(10000000) + 1;
-  }
-
-  renderItem({ item: product }) {
-    return (
-      <View style={styles.tile}>
-        <ProductTile
-          style={styles.tileComponent}
-          onPress={() =>
-            this.props.navigation.push("Product", {
-              product: product
-            })
-          }
-          backgroundColor={this.props.backgroundColor}
-          product={product}/>
-      </View>
-    );
   }
 
   get placeholder() {
-    return this.props.isLoading ? <ProductListPlaceholder limit={2} /> : null;
+    return <ProductListPlaceholder limit={2} />;
   }
+
+  renderItem = ({ item: product }) => {
+    return (
+      <ProductListItem product={product} navigation={this.props.navigation} />
+    );
+  };
 
   render() {
     return (
       <View style={[styles.list, this.props.style]}>
         <FlatList
-          data={this.props.products}
+          data={this.props.products.slice()}
           numColumns={2}
-          keyExtractor={(e, i) => `list-${this._keySeed}-row-${i}-id-${e.id}`}
-          renderSectionHeader={this.renderSectionHeader}
-          ListEmptyComponent={this.placeholder}
-          initialNumToRender={6}
-          renderItem={this.renderItem}/>
+          keyExtractor={i => i.id}
+          renderItem={this.renderItem}
+          ListFooterComponent={this.props.showFooter ? this.placeholder : null}
+          initialNumToRender={6}/>
       </View>
     );
   }

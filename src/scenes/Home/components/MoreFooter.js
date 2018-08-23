@@ -17,10 +17,6 @@ export class MoreFooter extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
-  get numProducts() {
-    return this.props.numProducts > 1000 ? "1000+" : this.props.numProducts;
-  }
-
   onPress() {
     this.props.navigation.push("ProductListStack", {
       fetchPath: this.props.fetchPath,
@@ -32,7 +28,7 @@ export class MoreFooter extends React.Component {
   }
 
   render() {
-    return this.props.numProducts && this.props.numProducts > 0 ? (
+    return (
       <TouchableOpacity onPress={this.props.onPress || this.onPress}>
         <View style={styles.container}>
           <View style={styles.button}>
@@ -40,13 +36,11 @@ export class MoreFooter extends React.Component {
               name="chevron-small-down"
               color={Colours.Text}
               size={Sizes.SmallText}/>
-            <Text style={styles.label}>{`expand to see ${
-              this.numProducts
-            } more`}</Text>
+            <Text style={styles.label}>{"expand to see more"}</Text>
           </View>
         </View>
       </TouchableOpacity>
-    ) : null;
+    );
   }
 }
 
@@ -67,7 +61,7 @@ const styles = StyleSheet.create({
 
   label: {
     ...Styles.Text,
-    ...Styles.SmallText,
+    fontSize: Sizes.H2,
     marginLeft: Sizes.InnerFrame / 2,
     paddingBottom: Sizes.SmallText / 4
   }

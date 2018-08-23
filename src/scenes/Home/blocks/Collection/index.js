@@ -4,24 +4,26 @@ import React from "react";
 import { ApiInstance } from "localyyz/global";
 import { Product } from "localyyz/stores";
 import { Colours } from "localyyz/constants";
-import { box } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
-import { observable, reaction } from "mobx";
+import { observable, runInAction } from "mobx";
 import { observer, inject } from "mobx-react/native";
-import { lazyObservable } from "mobx-utils";
 
 // local
 import { StandardCollection } from "./components";
 
 @inject(stores => ({
-  wasLoginSuccessful: stores.loginStore._wasLoginSuccessful
+  wasLoginSuccessful: stores.loginStore._wasLoginSuccessful,
+  genderFilter:
+    stores.userStore.gender === "male"
+      ? "man"
+      : stores.userStore.gender === "female" ? "woman" : null
 }))
 @observer
 export default class Collection extends React.Component {
-  @observable products;
-  @box numProducts = 0;
+  @observable products = [];
+  @observable numProducts = 0;
 
   static propTypes = {
     fetchFrom: PropTypes.string.isRequired,
@@ -38,44 +40,23 @@ export default class Collection extends React.Component {
     backgroundColor: Colours.Background
   };
 
-  componentWillMount() {
+  componentDidMount() {
     // setup the items
-    this.products = lazyObservable(sink =>
-      ApiInstance.get(this.props.fetchFrom, { limit: this.props.limit }).then(
-        response => {
+    ApiInstance.get(this.props.fetchFrom, {
+      filter: this.props.genderFilter
+        ? `gender,val=${this.props.genderFilter}`
+        : null,
+      limit: this.props.limit
+    }).then(resolved => {
+      if (!resolved.error) {
+        runInAction("[ACTION] fetch collection", () => {
           this.numProducts
-            = (response
-              && response.headers
-              && parseInt(response.headers["x-item-total"]))
+            = (resolved.headers && parseInt(resolved.headers["x-item-total"]))
             || 0;
-
-          return sink(
-            (response.data || [])
-              .filter(p => p.images && p.images.length > 0)
-              .map(
-                p =>
-                  new Product({
-                    ...p,
-                    description: p.noTagDescription,
-                    titleWordsLength: 3,
-                    descriptionWordsLength: 10
-                  })
-              )
-          );
-        }
-      )
-    );
-
-    this.reactLogin = reaction(
-      () => {
-        return this.props.wasLoginSuccessful;
-      },
-      success => {
-        if (success) {
-          this.products && this.products.refresh();
-        }
+          this.products = (resolved.data || []).map(p => new Product(p));
+        });
       }
-    );
+    });
   }
 
   render() {

@@ -27,10 +27,6 @@ import Store from "./store";
 const FADE_HEIGHT = 50;
 const POP_HEIGHT = Sizes.Height / 4;
 
-// NOTE: there's an issue with setState after component is unmounted
-//  here we throttle the speed to navigate back to 200ms
-const RECOMMENDED_BROWSING_SPEED = 0;
-
 // NOTE: there's also an issue with scrollviews not rendering photos, so
 // allows hack to work without making the header visible on load
 const SCROLL_OFFSET = 1;
@@ -113,9 +109,7 @@ export default class ContentCoverSlider extends React.Component {
     const y = event.nativeEvent.contentOffset.y - SCROLL_OFFSET;
 
     // allow going back on swipe down
-    y > -(this.props.popHeight || POP_HEIGHT)
-      ? this.setState({ y: y })
-      : this.props.backAction && this.props.backAction();
+    y > -(this.props.popHeight || POP_HEIGHT) ? this.setState({ y: y }) : null; // this.props.backAction && this.props.backAction();
   }
 
   renderBackground() {
@@ -198,17 +192,14 @@ export default class ContentCoverSlider extends React.Component {
               animation="fadeIn"
               delay={200}
               style={styles.backButton}>
-              <TouchableOpacity
-                onPress={() => {
-                  // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
-                  // for clarification on why this is needed
-                  this.props.backActionThrottle
-                    ? setTimeout(() => {
-                        this.props.backAction();
-                      }, RECOMMENDED_BROWSING_SPEED)
-                    : this.props.backAction();
-                }}>
-                <SloppyView>
+              <TouchableOpacity onPress={this.props.backAction}>
+                <SloppyView
+                  hitSlop={{
+                    top: Sizes.InnerFrame * 2,
+                    bottom: Sizes.InnerFrame * 2,
+                    left: Sizes.InnerFrame * 2,
+                    right: Sizes.InnerFrame * 2
+                  }}>
                   <Icon
                     name={this.props.iconType || "arrow-back"}
                     size={Sizes.NavLeft}
@@ -218,15 +209,7 @@ export default class ContentCoverSlider extends React.Component {
                         ? Colours.AlternateText
                         : this.props.backColor || Colours.AlternateText
                     }
-                    onPress={() => {
-                      // NOTE: read comments on RECOMMENDED_BROWSING_SPEED
-                      // for clarification on why this is needed
-                      this.props.backActionThrottle
-                        ? setTimeout(() => {
-                            this.props.backAction();
-                          }, RECOMMENDED_BROWSING_SPEED)
-                        : this.props.backAction();
-                    }}
+                    onPress={this.props.backAction}
                     underlayColor={Colours.Transparent}/>
                 </SloppyView>
               </TouchableOpacity>
