@@ -3,7 +3,7 @@ import { Animated, View, StyleSheet, StatusBar } from "react-native";
 
 // third party
 import { withNavigation } from "react-navigation";
-import { inject } from "mobx-react/native";
+import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 // custom
@@ -21,6 +21,7 @@ const FADE_DISTANCE = [START_FADE_DISTANCE, END_FADE_DISTANCE];
     stores.homeStore.headerHeight = height;
   }
 }))
+@observer
 export class Header extends React.Component {
   onLayout = ({ nativeEvent: { layout: { height } } }) => {
     this.props.setHeaderHeight(height);
@@ -30,6 +31,11 @@ export class Header extends React.Component {
     const bkgColorAnimate = this.props.scrollAnimate.interpolate({
       inputRange: FADE_DISTANCE,
       outputRange: ["white", Colours.Transparent],
+      extrapolate: "clamp"
+    });
+    const bkgHeightAnimate = this.props.scrollAnimate.interpolate({
+      inputRange: FADE_DISTANCE,
+      outputRange: [Sizes.InnerFrame * 2.5, 0],
       extrapolate: "clamp"
     });
     const tintColorAnimate = {
@@ -44,7 +50,10 @@ export class Header extends React.Component {
         onLayout={this.onLayout}
         style={[styles.container, { backgroundColor: bkgColorAnimate }]}>
         <Animated.View
-          style={[styles.search, { backgroundColor: bkgColorAnimate }]}>
+          style={[
+            styles.search,
+            { backgroundColor: bkgColorAnimate, height: bkgHeightAnimate }
+          ]}>
           <View style={styles.idleContainer}>
             <Animatable.View animation="fadeInDown" duration={800} delay={200}>
               <Animated.Image
@@ -70,7 +79,6 @@ const styles = StyleSheet.create({
 
   search: {
     marginTop: Sizes.ScreenTop,
-    height: Sizes.InnerFrame * 2.5,
     overflow: "hidden"
   },
 

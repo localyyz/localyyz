@@ -68,7 +68,7 @@ export default class SearchInputBox extends React.Component {
           onChangeText={this.onChangeText}
           onSubmitEditing={this.onSubmitEditing}
           underlineColorAndroid={Colours.Transparent}
-          placeholder="Search"
+          placeholder="Search over 200,000 products"
           style={styles.input}/>
       </View>
     );
