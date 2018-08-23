@@ -13,25 +13,23 @@ export default class ProductStore extends ProductModel {
   }
 
   addFavourite = async () => {
-    if (!this.isFavourite) {
-      const resolve = await ApiInstance.post(`products/${this.id}/favourite`);
-      if (!resolve.error) {
-        GA.trackEvent("favourite", "add", `${this.id}`, this.price);
-        runInAction("[ACTION] add product to favourite", () => {
-          this.isFavourite = true;
-          navbarStore.notify(
-            "Added to favourites!",
-            undefined,
-            undefined,
-            2000, // 2 seconds
-            Colours.Accented,
-            undefined,
-            undefined
-          );
-        });
-      }
-      return resolve;
+    const resolve = await ApiInstance.post(`products/${this.id}/favourite`);
+    if (!resolve.error) {
+      GA.trackEvent("favourite", "add", `${this.id}`, this.price);
+      runInAction("[ACTION] add product to favourite", () => {
+        this.isFavourite = true;
+        navbarStore.notify(
+          "Added to favourites!",
+          undefined,
+          undefined,
+          2000, // 2 seconds
+          Colours.Accented,
+          undefined,
+          undefined
+        );
+      });
     }
+    return resolve;
   };
 
   removeFavourite = async () => {
@@ -47,5 +45,5 @@ export default class ProductStore extends ProductModel {
 
   toggleFavourite = () => {
     this.isFavourite ? this.removeFavourite() : this.addFavourite();
-  }
+  };
 }

@@ -4,15 +4,11 @@ import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 // third party
 import PropTypes from "prop-types";
 import EntypoIcon from "react-native-vector-icons/Entypo";
-import {
-  inject,
-  observer,
-} from "mobx-react/native";
+import { observer } from "mobx-react/native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
 
-@inject((props) => {props.product})
 @observer
 export default class Favourite extends React.Component {
   static propTypes = {
@@ -29,7 +25,11 @@ export default class Favourite extends React.Component {
         <View style={styles.container}>
           <EntypoIcon
             style={styles.icon}
-            color={this.props.product.isFavourite ? Colours.Text : Colours.AlternateText}
+            color={
+              this.props.product.isFavourite
+                ? Colours.Text
+                : Colours.AlternateText
+            }
             name="heart"
             size={Sizes.InnerFrame}/>
         </View>
