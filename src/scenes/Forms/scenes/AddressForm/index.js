@@ -203,7 +203,7 @@ export default class AddressForm extends React.Component {
               </View>
             )}
             <View style={styles.buttons}>
-              {!this.state.manual ? (
+              {!this.store.data.address && !this.state.manual ? (
                 <Forms.Button
                   isEnabled
                   onPress={() => this.setState({ manual: true })}>
