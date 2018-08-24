@@ -4,7 +4,6 @@ import { View, StyleSheet, StatusBar } from "react-native";
 // custom
 import Store from "./store";
 import { Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
-import { Product } from "localyyz/models";
 import { ContentCoverSlider, PhotoDetails } from "localyyz/components";
 import { box } from "localyyz/helpers";
 
@@ -51,11 +50,6 @@ class ProductScene extends React.Component {
     super(props);
     this.settings = this.props.navigation.state.params;
 
-    // product creation if not provided
-    if (this.settings.product && !(this.settings.product instanceof Product)) {
-      this.settings.product = new Product(this.settings.product);
-    }
-
     // data
     this.store = new Store(props.navigation.state.params);
 
@@ -82,7 +76,8 @@ class ProductScene extends React.Component {
   get shouldCrop() {
     return this.store.product
       ? this.store.product.category
-          && this.store.product.category.type === "shoes"
+          && (this.store.product.category.type === "shoes"
+            || this.store.product.category.type === "sneakers")
       : false;
   }
 
@@ -146,7 +141,6 @@ class ProductScene extends React.Component {
           <ContentCoverSlider
             ref={this.containerRef}
             title={this.store.product.truncatedTitle}
-            backActionThrottle
             backAction={this.onBack}
             fadeHeight={this.backgroundPosition / 3}
             background={this.productHeader}>

@@ -4,6 +4,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 // custom
 import { Styles, Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
 import { BaseScene, Filter } from "localyyz/components";
+import { capitalize } from "localyyz/helpers";
 
 // temp (TODO: move this into its own component lib)
 import { ProductCount } from "../../../components/Filter";
@@ -47,7 +48,7 @@ export default class FilterMain extends React.Component {
           <BaseScene
             iconType="close"
             backAction={this.close}
-            title="Filter"
+            title={capitalize(this.settings.title || "filter")}
             style={styles.content}>
             <Filter style={styles.filter} />
           </BaseScene>

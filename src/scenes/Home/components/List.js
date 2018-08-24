@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { ProductTile, ProductList } from "localyyz/components";
+import { ProductList } from "localyyz/components";
 
 // third party
 import { observer } from "mobx-react/native";
@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import { PropTypes as mobxPropTypes } from "mobx-react/native";
 
 // local
+import ListItem from "./ListItem";
 import ListHeader from "./ListHeader";
 import MoreFooter from "./MoreFooter";
 
@@ -50,25 +51,13 @@ export class List extends React.Component {
   }
 
   renderItem = ({ item: product }) => {
-    return (
-      <View style={styles.tile}>
-        <ProductTile
-          backgroundColor={this.props.backgroundColor}
-          onPress={() =>
-            this.props.navigation.push("Product", {
-              product: product
-            })
-          }
-          product={product}/>
-      </View>
-    );
+    return <ListItem product={product} />;
   };
 
   render() {
     // TODO: _position animation
     // TODO: _motion animation
     const { listData, withMargin, ...rest } = this.props;
-
     return (
       <View>
         {!this.props.hideHeader ? <ListHeader {...rest} /> : null}
@@ -76,11 +65,7 @@ export class List extends React.Component {
           <FlatList
             keyExtractor={item => `product-${item.id}`}
             renderItem={this.renderItem}
-            data={
-              listData && listData.current() && listData.current().length > 0
-                ? listData.current().slice()
-                : []
-            }
+            data={listData && listData.slice()}
             numColumns={2}
             ListEmptyComponent={
               <ProductList.Placeholder limit={this.props.limit} />
@@ -98,10 +83,5 @@ const styles = StyleSheet.create({
   listWrapper: {
     padding: Sizes.InnerFrame / 2,
     backgroundColor: Colours.Foreground
-  },
-
-  tile: {
-    flex: 1,
-    paddingHorizontal: Sizes.InnerFrame / 2
   }
 });

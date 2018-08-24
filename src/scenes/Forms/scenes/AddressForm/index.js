@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Alert } from "react-native";
 
 // third party
 import { Provider, observer, inject } from "mobx-react/native";
@@ -59,6 +59,7 @@ export default class AddressForm extends React.Component {
         }
       }
     );
+    this.state = { manual: false };
 
     // bindings
     this.submit = this.submit.bind(this);
@@ -170,7 +171,7 @@ export default class AddressForm extends React.Component {
       <View style={styles.container}>
         <Provider formStore={this.store}>
           <BaseForm
-            backAction={this.props.navigation.goBack}
+            backAction={() => this.props.navigation.goBack(null)}
             title={this.title}>
             <View style={Styles.Horizontal}>
               <Forms.Field field="firstName" label="First name" />
@@ -179,7 +180,7 @@ export default class AddressForm extends React.Component {
                 label="Last name"
                 style={styles.largerField}/>
             </View>
-            {!this.store.data.address ? (
+            {!this.store.data.address && !this.state.manual ? (
               <Forms.Address field="address" />
             ) : (
               <View>
@@ -202,6 +203,15 @@ export default class AddressForm extends React.Component {
               </View>
             )}
             <View style={styles.buttons}>
+              {!this.store.data.address && !this.state.manual ? (
+                <Forms.Button
+                  isEnabled
+                  onPress={() => this.setState({ manual: true })}>
+                  Enter address manually
+                </Forms.Button>
+              ) : (
+                <View />
+              )}
               <Forms.Button onPress={() => this.submit()}>
                 {this.submitButton}
               </Forms.Button>

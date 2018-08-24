@@ -43,7 +43,7 @@ exports[`SearchInputBox should render properly 1`] = `
     autoCorrect={false}
     onChangeText={[Function]}
     onSubmitEditing={[Function]}
-    placeholder="Search from over 2,000+ products"
+    placeholder="Search"
     returnKeyType="search"
     style={
       Object {

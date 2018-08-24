@@ -6,10 +6,7 @@ Object {
   "gender": undefined,
   "hideCategories": true,
   "hideGenderFilter": false,
-  "listHeader": <CategoryBar
-    id="activewear"
-    onChangeCategory={[Function]}
-  />,
+  "listHeader": null,
   "title": "Activewear",
 }
 `;
@@ -37,13 +34,13 @@ exports[`CategoryList should render category properly 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(255, 255, 255, 0)",
-            "color": "#000000",
-            "fontSize": 22,
-            "fontWeight": "700",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+            "fontWeight": "300",
           }
         }
       >
-        Apparel
+        APPAREL
       </Text>
       <Component
         style={
@@ -71,7 +68,7 @@ exports[`CategoryList should render category properly 1`] = `
             }
           }
         >
-          View
+          View all
         </Text>
       </Component>
     </Component>
@@ -105,6 +102,16 @@ exports[`CategoryList should render category properly 1`] = `
     showsHorizontalScrollIndicator={false}
     updateCellsBatchingPeriod={50}
     windowSize={21}
+  />
+  <Component
+    style={
+      Object {
+        "borderBottomWidth": 1,
+        "borderColor": "#EEEEEE",
+        "marginHorizontal": 15,
+        "padding": 15,
+      }
+    }
   />
 </Component>
 `;
@@ -179,7 +186,7 @@ exports[`CategoryList should render properly 1`] = `
               }
             }
           >
-            Women
+            WOMEN
           </Text>
         </View>
       </View>
@@ -235,7 +242,7 @@ exports[`CategoryList should render properly 1`] = `
               }
             }
           >
-            Men
+            MEN
           </Text>
         </View>
       </View>
@@ -336,13 +343,13 @@ exports[`CategoryList should render properly 1`] = `
                 style={
                   Object {
                     "backgroundColor": "rgba(255, 255, 255, 0)",
-                    "color": "#000000",
-                    "fontSize": 22,
-                    "fontWeight": "700",
+                    "color": "rgb(30, 30, 30)",
+                    "fontSize": 16,
+                    "fontWeight": "300",
                   }
                 }
               >
-                Apparel
+                APPAREL
               </Text>
               <View
                 style={
@@ -370,7 +377,7 @@ exports[`CategoryList should render properly 1`] = `
                     }
                   }
                 >
-                  View
+                  View all
                 </Text>
               </View>
             </View>
@@ -447,9 +454,11 @@ exports[`CategoryList should render properly 1`] = `
                       Array [
                         Object {
                           "backgroundColor": "#000000",
-                          "height": 187.5,
+                          "borderRadius": 10,
+                          "height": 300,
                           "marginRight": 7.5,
-                          "width": 250,
+                          "overflow": "hidden",
+                          "width": 300,
                         },
                         undefined,
                       ]
@@ -482,11 +491,13 @@ exports[`CategoryList should render properly 1`] = `
                     <View
                       style={
                         Object {
-                          "alignItems": "flex-start",
-                          "backgroundColor": "rgba(0, 0, 0, 0.6)",
+                          "alignItems": "center",
+                          "backgroundColor": "rgba(0, 0, 0, 0.2)",
+                          "borderRadius": 10,
                           "flex": 1,
                           "justifyContent": "space-between",
-                          "padding": 7.5,
+                          "overflow": "hidden",
+                          "padding": 15,
                         }
                       }
                     >
@@ -500,32 +511,30 @@ exports[`CategoryList should render properly 1`] = `
                             "backgroundColor": "rgba(255, 255, 255, 0)",
                             "borderBottomColor": "#FFFFFF",
                             "color": "#FFFFFF",
-                            "fontSize": 16,
+                            "fontSize": 22,
                             "fontWeight": "600",
+                            "textAlign": "center",
                           }
                         }
                       >
                         Activewear
                       </Text>
-                      <Image
-                        source={
-                          Object {
-                            "testUri": "../../../src/assets/icons/categories/activewear.png",
-                          }
-                        }
-                        style={
-                          Object {
-                            "height": 25,
-                            "width": 25,
-                          }
-                        }
-                      />
                     </View>
                   </View>
                 </View>
               </View>
             </View>
           </RCTScrollView>
+          <View
+            style={
+              Object {
+                "borderBottomWidth": 1,
+                "borderColor": "#EEEEEE",
+                "marginHorizontal": 15,
+                "padding": 15,
+              }
+            }
+          />
         </View>
       </View>
     </View>
@@ -556,13 +565,13 @@ exports[`CategoryList should render subcategory properly 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(255, 255, 255, 0)",
-            "color": "#000000",
-            "fontSize": 22,
-            "fontWeight": "700",
+            "color": "rgb(30, 30, 30)",
+            "fontSize": 16,
+            "fontWeight": "300",
           }
         }
       >
-        Activewear
+        ACTIVEWEAR
       </Text>
       <Component
         style={
@@ -590,7 +599,7 @@ exports[`CategoryList should render subcategory properly 1`] = `
             }
           }
         >
-          View
+          View all
         </Text>
       </Component>
     </Component>
@@ -614,6 +623,16 @@ exports[`CategoryList should render subcategory properly 1`] = `
     showsHorizontalScrollIndicator={false}
     updateCellsBatchingPeriod={50}
     windowSize={21}
+  />
+  <Component
+    style={
+      Object {
+        "borderBottomWidth": 1,
+        "borderColor": "#EEEEEE",
+        "marginHorizontal": 15,
+        "padding": 15,
+      }
+    }
   />
 </Component>
 `;

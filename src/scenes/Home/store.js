@@ -25,16 +25,48 @@ export default class HomeStore {
 
   defaultBlocks = [
     {
-      id: "header",
-      position: 0,
-      type: "header"
-    },
-    {
       id: "feed",
-      position: 1,
+      position: 0,
       type: "productList",
       path: "products/feed",
       title: "Just for you"
+    },
+    {
+      id: "trend",
+      position: 1,
+      type: "productList",
+      path: "products/trend",
+      title: "Trending",
+      limit: 10
+    },
+    {
+      id: "discount",
+      position: 2,
+      type: "collectionList",
+      collections: [
+        {
+          id: "70off",
+          type: "productList",
+          title: "70%+ Off",
+          path: "categories/70% OFF/products",
+          limit: 2
+        },
+        {
+          id: "50off",
+          type: "productList",
+          title: "50% - 70% Off",
+          path: "categories/50% OFF/products",
+          limit: 2
+        },
+        {
+          id: "20off",
+          type: "productList",
+          title: "20% - 50% Off",
+          path: "categories/20% OFF/products",
+          limit: 2
+        }
+      ],
+      title: "Discounts"
     }
   ];
 

@@ -4,37 +4,32 @@ import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 // third party
 import PropTypes from "prop-types";
 import EntypoIcon from "react-native-vector-icons/Entypo";
+import { observer } from "mobx-react/native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
 
-export default class Favourite extends React.PureComponent {
+@observer
+export default class Favourite extends React.Component {
   static propTypes = {
-    active: PropTypes.bool.isRequired,
-    onPress: PropTypes.func.isRequired
+    product: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      isActive: props.active
-    };
-
-    // bindings
-    this.onPress = this.onPress.bind(this);
-  }
-
-  onPress() {
-    this.setState({ isActive: !this.state.isActive }, this.props.onPress);
   }
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
+      <TouchableWithoutFeedback onPress={this.props.product.toggleFavourite}>
         <View style={styles.container}>
           <EntypoIcon
             style={styles.icon}
-            color={this.state.isActive ? Colours.Text : Colours.AlternateText}
+            color={
+              this.props.product.isFavourite
+                ? Colours.Text
+                : Colours.AlternateText
+            }
             name="heart"
             size={Sizes.InnerFrame}/>
         </View>

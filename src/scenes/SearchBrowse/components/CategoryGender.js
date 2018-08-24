@@ -10,8 +10,8 @@ import { capitalize } from "localyyz/helpers";
 
 // constants
 const GENDERS = [
-  { id: "female", label: "Women", filterId: "woman" },
-  { id: "male", label: "Men", filterId: "man" }
+  { id: "female", label: "WOMEN", filterId: "woman" },
+  { id: "male", label: "MEN", filterId: "man" }
 ];
 const GENDER_MAPPING = Object.assign(
   {},
