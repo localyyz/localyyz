@@ -89,7 +89,7 @@ export default class SettingsMenu extends React.Component {
   render() {
     return (
       <Provider formStore={this.formStore}>
-        <BaseForm backAction={false} title="Settings">
+        <BaseForm title="Settings">
           {this.props.hasSession ? (
             <Forms.Section label="Orders">
               <Forms.BaseField

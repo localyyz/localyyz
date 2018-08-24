@@ -181,7 +181,7 @@ export default class ContentCoverSlider extends React.Component {
           style={styles.content}>
           {this.props.children}
         </Animatable.View>
-        {this.props.backAction != false && (
+        {this.props.backAction && (
           <LinearGradient
             colors={[Colours.LightDarkShadow, Colours.BlackTransparent]}
             start={{ y: 0, x: 0 }}
