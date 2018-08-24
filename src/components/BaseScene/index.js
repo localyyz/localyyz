@@ -67,7 +67,7 @@ export default class BaseScene extends React.Component {
           ref="slider"
           title={this.props.title}
           backColor={this.props.backColor || Colours.Text}
-          backAction={this.onBack()}
+          backAction={() => this.props.backAction && this.props.backAction()}
           background={this.header}
           iconType={this.props.iconType}
           idleStatusBarStatus={this.props.idleStatusBarStatus}>

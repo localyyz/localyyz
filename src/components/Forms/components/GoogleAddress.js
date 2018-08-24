@@ -128,6 +128,9 @@ export default class GoogleAddress extends React.Component {
       <BaseField label="Address">
         <GooglePlacesAutocomplete
           fetchDetails
+          listViewDisplayed
+          currentLocation={true}
+          currentLocationLabel="Use current location"
           minLength={2}
           debounce={200}
           returnKeyType="search"
