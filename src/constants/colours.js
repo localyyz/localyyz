@@ -57,6 +57,9 @@ export const Colours = {
   Highlight: Highlight,
   Alert: LightYellow,
 
+  // border
+  Border: SterlingGrey,
+
   // buttons
   PositiveButton: UltraViolet,
   NegativeButton: Red,

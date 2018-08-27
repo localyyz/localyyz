@@ -73,7 +73,7 @@ export default class Button extends React.Component {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <SloppyView style={styles.container}>
+        <View key={this.props.label} style={styles.container}>
           <this.icon
             name={this.props.icon}
             size={Sizes.IconButton}
@@ -88,7 +88,7 @@ export default class Button extends React.Component {
               </View>
             </View>
           ) : null}
-        </SloppyView>
+        </View>
       </TouchableOpacity>
     );
   }

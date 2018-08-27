@@ -3,18 +3,18 @@ import { View, StyleSheet, StatusBar, Animated } from "react-native";
 
 // third party
 import { Provider, observer } from "mobx-react/native";
+import { withNavigation } from "react-navigation";
 
 // custom
 import { Colours, Styles } from "localyyz/constants";
 import { capitalizeSentence } from "localyyz/helpers";
 
 // local
-import { ProductList } from "../ProductList/scenes";
 import { CategoryList, SearchInputBox } from "./components";
 import Store from "./store";
 
 @observer
-export default class Search extends React.Component {
+export class Search extends React.Component {
   constructor(props) {
     super(props);
 
@@ -22,31 +22,31 @@ export default class Search extends React.Component {
     this.store = new Store();
   }
 
+  onSubmitSearch = () => {
+    this.props.navigation.push("ProductList", {
+      store: this.store,
+      title: capitalizeSentence(this.store.searchQuery)
+    });
+  };
+
   render() {
     return (
       <Provider searchStore={this.store}>
         <View style={styles.container}>
           <StatusBar barStyle="dark-content" />
-          {!this.store.searchQuery ? (
-            <View style={styles.landing}>
-              <CategoryList />
-              <Animated.View style={styles.overlay} pointerEvents="box-none">
-                <SearchInputBox />
-              </Animated.View>
-            </View>
-          ) : (
-            <ProductList
-              store={this.store}
-              title={capitalizeSentence(this.store.searchQuery)}
-              onBack={this.store.clearSearch}
-              iconType="close"
-              backColor={Colours.Text}/>
-          )}
+          <View style={styles.landing}>
+            <CategoryList />
+            <Animated.View style={styles.overlay} pointerEvents="box-none">
+              <SearchInputBox onSubmit={this.onSubmitSearch} />
+            </Animated.View>
+          </View>
         </View>
       </Provider>
     );
   }
 }
+
+export default withNavigation(Search);
 
 const styles = StyleSheet.create({
   container: {

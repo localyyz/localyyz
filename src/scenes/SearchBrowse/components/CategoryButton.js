@@ -1,9 +1,8 @@
 import React from "react";
-import { View, StyleSheet, Text, ImageBackground, Image } from "react-native";
+import { View, StyleSheet, Text, ImageBackground } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { getCategoryIcon } from "localyyz/assets";
 
 // constants
 const DEBUG = false;
@@ -29,21 +28,20 @@ export default class CategoryButton extends React.Component {
 
   render() {
     return (
-      <this.container
-        source={{ uri: this.imageUrl }}
-        resizeMode="cover"
-        style={[styles.photo, this.props.isSmall && styles.small]}>
-        <View style={styles.container}>
-          <Text
-            numberOfLines={this.props.isSmall ? 1 : 2}
-            style={[
-              styles.label,
-              this.props.isSelected ? styles.selected : null
-            ]}>
-            {this.props.title}
-          </Text>
-        </View>
-      </this.container>
+      <View style={styles.container}>
+        <this.container
+          source={{ uri: this.imageUrl }}
+          resizeMode="cover"
+          style={[styles.photo, this.props.isSmall && styles.small]}/>
+        <Text
+          numberOfLines={this.props.isSmall ? 1 : 2}
+          style={[
+            styles.label,
+            this.props.isSelected ? styles.selected : null
+          ]}>
+          {this.props.title}
+        </Text>
+      </View>
     );
   }
 }
@@ -53,8 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
-    padding: Sizes.InnerFrame,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    padding: Sizes.InnerFrame / 5,
     overflow: "hidden",
     borderRadius: 10
   },
@@ -65,7 +62,9 @@ const styles = StyleSheet.create({
     marginRight: RIGHT_MARGIN,
     backgroundColor: Colours.MenuBackground,
     overflow: "hidden",
-    borderRadius: 10
+    borderRadius: 10,
+    borderWidth: Sizes.Hairline,
+    borderColor: Colours.Border
   },
 
   small: {
@@ -77,8 +76,6 @@ const styles = StyleSheet.create({
   label: {
     ...Styles.Text,
     ...Styles.Emphasized,
-    ...Styles.Alternate,
-    fontSize: Sizes.H2,
     textAlign: "center"
   },
 

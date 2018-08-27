@@ -127,14 +127,18 @@ export default class Store {
                 = parseInt(response.headers["x-item-total"]) || 0;
             }
 
-            this.products = [
-              ...this.products.slice(),
-              ...this._listProducts(response.data)
-            ];
-          });
+            this._nextSearch = response.link.next;
+            this._selfSearch = response.link.self;
 
-          this._nextSearch = response.link.next;
-          this._selfSearch = response.link.self;
+            // NOTE/TODO: make this better
+            if (this._selfSearch && this._selfSearch.page == 1) {
+              this.products = response.data.map(p => new Product(p));
+            } else {
+              response.data.forEach(p => {
+                this.products.push(new Product(p));
+              });
+            }
+          });
         } else {
           // TODO: backend should sendback a http status hinting no results
           if (

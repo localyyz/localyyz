@@ -1,4 +1,10 @@
-import { StatusBar, Dimensions, Platform, PixelRatio } from "react-native";
+import {
+  StatusBar,
+  Dimensions,
+  Platform,
+  PixelRatio,
+  StyleSheet
+} from "react-native";
 import ExtraDimensions from "react-native-extra-dimensions-android";
 import { isIphoneX } from "react-native-iphone-x-helper";
 
@@ -22,6 +28,7 @@ export const Sizes = {
   Width: WIDTH,
   Height: HEIGHT,
   Ratio: 1 / PixelRatio.get(1),
+  Hairline: StyleSheet.hairlineWidth,
 
   // device specific
   ScreenTop: isIphoneX() ? 44 : 30,

@@ -27,6 +27,10 @@ import Store from "./store";
 const FADE_HEIGHT = 50;
 const POP_HEIGHT = Sizes.Height / 4;
 
+// NOTE: there's an issue with setState after component is unmounted
+//  here we throttle the speed to navigate back to 200ms
+const RECOMMENDED_BROWSING_SPEED = 0;
+
 // NOTE: there's also an issue with scrollviews not rendering photos, so
 // allows hack to work without making the header visible on load
 const SCROLL_OFFSET = 1;
@@ -192,14 +196,8 @@ export default class ContentCoverSlider extends React.Component {
               animation="fadeIn"
               delay={200}
               style={styles.backButton}>
-              <TouchableOpacity onPress={this.props.backAction}>
-                <SloppyView
-                  hitSlop={{
-                    top: Sizes.InnerFrame * 2,
-                    bottom: Sizes.InnerFrame * 2,
-                    left: Sizes.InnerFrame * 2,
-                    right: Sizes.InnerFrame * 2
-                  }}>
+              <TouchableOpacity onPress={() => this.props.backAction()}>
+                <SloppyView>
                   <Icon
                     name={this.props.iconType || "arrow-back"}
                     size={Sizes.NavLeft}
@@ -209,7 +207,9 @@ export default class ContentCoverSlider extends React.Component {
                         ? Colours.AlternateText
                         : this.props.backColor || Colours.AlternateText
                     }
-                    onPress={this.props.backAction}
+                    onPress={() => {
+                      this.props.backAction();
+                    }}
                     underlayColor={Colours.Transparent}/>
                 </SloppyView>
               </TouchableOpacity>

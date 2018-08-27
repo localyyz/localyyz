@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
 
   label: {
     ...Styles.Text,
-    ...Styles.Emphasized,
-    ...Styles.PillText
+    ...Styles.Emphasized
   }
 });

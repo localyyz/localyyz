@@ -71,9 +71,17 @@ export const Styles = {
     fontSize: Sizes.TinyText
   },
 
+  PillText: {
+    fontSize: Sizes.H2
+  },
+
   TabBarText: {
     fontSize: Sizes.TabBarText,
     fontWeight: Sizes.Normal
+  },
+
+  FilterBarText: {
+    fontSize: Sizes.H2
   },
 
   Alternate: {
