@@ -5,7 +5,6 @@ import { createStackNavigator } from "react-navigation";
 import SearchBrowse from "./SearchBrowse";
 import ProductListStack from "../ProductList";
 import Product from "../Product";
-import Filter, { FilterList } from "../Filter";
 import Information from "../Information";
 
 const SearchBrowseStack = createStackNavigator(
@@ -13,9 +12,7 @@ const SearchBrowseStack = createStackNavigator(
     SearchBrowse: { screen: SearchBrowse },
     ProductList: { screen: ProductListStack },
     Product: { screen: Product },
-    Information: { screen: Information },
-    Filter: { screen: Filter },
-    FilterList: { screen: FilterList }
+    Information: { screen: Information }
   },
   {
     initialRouteName: "SearchBrowse",

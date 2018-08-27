@@ -198,6 +198,7 @@ const AppNavigator = createStackNavigator(
     initialRouteName: "Home",
     navigationOptions: ({ navigation: { state } }) => ({
       header: null,
+      headerTintColor: Colours.DarkTransparent,
       gesturesEnabled: state.params && state.params.gesturesEnabled
     })
   }

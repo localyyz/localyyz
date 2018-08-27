@@ -53,11 +53,14 @@ class Store {
   @action
   async fetchNextPage(params = {}) {
     if (this.isLoading || (this.self && !this.next)) {
-      console.log(
-        `skip page fetch already loading or reached end. l:${
-          this.isLoading
-        } n:${this.next}`
-      );
+      /*global __DEV__:true*/
+      __DEV__
+        ? console.log(
+            `skip page fetch already loading or reached end. l:${
+              this.isLoading
+            } n:${this.next}`
+          )
+        : null;
       return;
     }
     this.isLoading = true;
@@ -76,21 +79,13 @@ class Store {
 
         this.next = response.link.next;
         this.self = response.link.self;
+
+        // NOTE/TODO: make this better
         if (this.self && this.self.page == 1) {
-          // only valid products used
-          this.products = response.data
-            .map(p => new Product(p))
-            .filter(
-              p => p.associatedPhotos.length > 0 && p.selectedVariant.price
-            );
+          this.products = response.data.map(p => new Product(p));
         } else {
           response.data.forEach(p => {
-            let product = new Product(p);
-
-            // only valid products used
-            product.associatedPhotos.length > 0
-              && product.selectedVariant.price
-              && this.products.push(product);
+            this.products.push(new Product(p));
           });
         }
       });

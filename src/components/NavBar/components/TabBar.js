@@ -16,7 +16,6 @@ import { inject, observer } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 @inject(stores => ({
-  hasSession: stores.userStore.model.hasSession,
   isVisible: stores.navbarStore.isVisible,
   numItems: stores.cartStore.numCartItems
 }))

@@ -2,7 +2,7 @@
 import { action, observable, computed } from "mobx";
 
 // constants
-const FREE_SHIPPING_IDS = { 4164: true };
+const FREE_SHIPPING_IDS = {};
 
 export default class Place {
   @observable id = 0;
