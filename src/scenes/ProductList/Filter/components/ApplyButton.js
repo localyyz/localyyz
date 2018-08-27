@@ -18,7 +18,8 @@ export class Button extends React.Component {
   }
 
   close = () => {
-    this.props.navigation.popToTop();
+    // popout of category + and filter menu
+    this.props.navigation.pop(2);
   };
 
   // Filter Main scene embeds the Filter component
@@ -68,10 +69,5 @@ const styles = StyleSheet.create({
     margin: Sizes.InnerFrame,
     paddingHorizontal: Sizes.OuterFrame * 2,
     backgroundColor: Colours.Action
-  },
-
-  label: {
-    ...Styles.Text,
-    ...Styles.Emphasized
   }
 });
