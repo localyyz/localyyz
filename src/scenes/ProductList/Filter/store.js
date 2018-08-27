@@ -36,6 +36,7 @@ export default class FilterStore {
   @observable merchant;
 
   // lists
+  @observable genders = ["man", "woman"];
   @observable
   sortBys = [
     { label: "Recommended" },

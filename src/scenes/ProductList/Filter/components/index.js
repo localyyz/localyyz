@@ -1,6 +1,5 @@
 export { default as ProductCount } from "./ProductCount";
 
-export { default as GenderCategories } from "./GenderCategories";
-export { default as Gender } from "./Gender";
 export { default as FilterBar } from "./Bar";
+export { default as ApplyButton } from "./ApplyButton";
 export * from "./Types";

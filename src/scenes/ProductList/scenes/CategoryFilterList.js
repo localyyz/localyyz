@@ -18,6 +18,8 @@ import IonIcon from "react-native-vector-icons/Ionicons";
 import { capitalize } from "localyyz/helpers";
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 
+import { ApplyButton } from "../Filter";
+
 class Item extends React.Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.item.selected !== this.props.item.selected;
@@ -76,7 +78,6 @@ class Content extends React.Component {
     const hasParentSelected = keys(this.props.store.categories).some(
       key => this.props.store.category === key
     );
-
     return keys(this.props.store.categories)
       .filter(key => !hasParentSelected || this.props.store.category === key)
       .map(key => {
@@ -93,7 +94,11 @@ class Content extends React.Component {
             .slice()
             .filter(
               subkey =>
-                !hasChildSelected || this.props.store.subcategory === subkey
+                // show all children if
+                //  - category is selected (ie. apparel, accessories) AND
+                //  - no sub category is selected
+                (hasParentSelected && !hasChildSelected)
+                || this.props.store.subcategory === subkey
             )
             .map(subkey => ({
               key: subkey,
@@ -138,6 +143,7 @@ class Content extends React.Component {
         sections={this.categorySections}
         keyExtractor={(e, i) => `filter-category-${e}${i}`}
         ListHeaderComponent={this.renderHeader}
+        ListFooterComponent={this.renderFooter}
         renderSectionHeader={this.renderSectionHeader}
         renderItem={this.renderItem}
         showsVerticalScrollIndicator={false}
@@ -173,12 +179,18 @@ export default class CategoryFilterList extends React.Component {
   }
 
   render() {
-    return <Content store={this.store} />;
+    return (
+      <View style={styles.container}>
+        <Content store={this.store} />
+        <ApplyButton store={this.store} />
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: Colours.Foreground
   },
 

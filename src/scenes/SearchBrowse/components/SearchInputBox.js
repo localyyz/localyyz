@@ -44,6 +44,9 @@ export default class SearchInputBox extends React.Component {
 
     // trigger the search
     this.props.submit();
+
+    // callback from parent
+    this.props.onSubmit && this.props.onSubmit();
   }
 
   onChangeText(text) {

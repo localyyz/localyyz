@@ -66,7 +66,7 @@ export default class HomeStore {
           limit: 2
         }
       ],
-      title: "Discounts"
+      title: "Designer SALE"
     }
   ];
 

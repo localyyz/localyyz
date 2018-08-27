@@ -141,6 +141,19 @@ export class Colors extends React.Component {
 }
 
 @inject(stores => ({
+  asyncFetch: () => {},
+  setFilter: stores.filterStore.setGenderFilter,
+  clearFilter: () => {},
+  selected: stores.filterStore.gender
+}))
+@observer
+export class Gender extends React.Component {
+  render() {
+    return <Common title="gender" id="genders" {...this.props} />;
+  }
+}
+
+@inject(stores => ({
   asyncFetch: stores.filterStore.fetchSizes,
   setFilter: stores.filterStore.setSizeFilter,
   clearFilter: () => stores.filterStore.setSizeFilter(),

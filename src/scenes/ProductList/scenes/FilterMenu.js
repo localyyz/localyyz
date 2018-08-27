@@ -6,7 +6,8 @@ import { Provider } from "mobx-react/native";
 import LinearGradient from "react-native-linear-gradient";
 
 // custom
-import { Styles, Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
+import { NavBar } from "localyyz/components";
+import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // local
 import {
@@ -17,7 +18,8 @@ import {
   Colors,
   Categories,
   ProductCount,
-  Merchants
+  Merchants,
+  Gender
 } from "../Filter";
 
 export default class FilterMenu extends React.Component {
@@ -60,7 +62,9 @@ export default class FilterMenu extends React.Component {
     return (
       <Provider filterStore={this.settings.store}>
         <View style={styles.container}>
+          <NavBar.Toggler hasPriority />
           <View style={styles.filter}>
+            <Gender />
             <Categories />
             <SizesFilter />
             <Price />
@@ -94,7 +98,6 @@ export default class FilterMenu extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: NAVBAR_HEIGHT,
     backgroundColor: Colours.Foreground
   },
 
