@@ -13,6 +13,7 @@ export { default as Colours } from "./colours";
 export { default as Styles } from "./styles";
 export { default as Event } from "./postMessage";
 export { default as Config } from "./config";
+export { default as Icons } from "./icons";
 
 // keys
 export const GOOGLE_PLACES_KEY = "AIzaSyCyDtar76vRMUbDlv6uvTai9b_8F7_UBWE";

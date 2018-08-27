@@ -17,9 +17,7 @@ import { Toggler } from "./components";
 @inject(stores => ({
   userStore: stores.userStore,
   fetch: () => stores.cartStore.fetch(),
-  isVisible: stores.navbarStore.isVisible,
-  isPullupVisible: stores.navbarStore.isPullupVisible,
-  togglePullup: visible => stores.navbarStore.togglePullup(visible)
+  isVisible: stores.navbarStore.isVisible
 }))
 @observer
 export class NavBar extends React.Component {
@@ -29,13 +27,11 @@ export class NavBar extends React.Component {
     // mobx injected
     userStore: PropTypes.object.isRequired,
     fetch: PropTypes.func.isRequired,
-    isVisible: PropTypes.bool,
-    isPullupVisible: PropTypes.bool
+    isVisible: PropTypes.bool
   };
 
   static defaultProps = {
-    isVisible: true,
-    isPullupVisible: false
+    isVisible: true
   };
 
   constructor(props) {
@@ -49,19 +45,12 @@ export class NavBar extends React.Component {
 
     // bindings
     this.onPress = this.onPress.bind(this);
-    this.onPullupClose = this.onPullupClose.bind(this);
   }
 
   componentDidMount() {
     onlyIfLoggedIn({ hasSession: this.props.hasSession }, () =>
       this.props.fetch()
     );
-  }
-
-  onPullupClose() {
-    this.setState({
-      activeButton: this.state.lastNontoggleableButton
-    });
   }
 
   onPress(button, callback, closePullup = true, toggleable = false) {
@@ -81,11 +70,6 @@ export class NavBar extends React.Component {
       // TODO: optimization, callback navigation rerenders
       () => callback && callback()
     );
-
-    // handle closing the cart if previously open and requested close
-    if (this.props.isPullupVisible && closePullup) {
-      this.props.togglePullup(false);
-    }
 
     // chaining
     return true;
@@ -134,7 +118,7 @@ export class NavBar extends React.Component {
   render() {
     return (
       this.props.isVisible && (
-        <View style={styles.container} pointerEvents="box-none">
+        <View pointerEvents="box-none">
           <TabBar
             height={NAVBAR_HEIGHT}
             tabs={this.tabs}
@@ -147,13 +131,3 @@ export class NavBar extends React.Component {
 }
 
 export default withNavigation(NavBar);
-
-const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    left: 0,
-    bottom: 0,
-    right: 0,
-    top: 0
-  }
-});

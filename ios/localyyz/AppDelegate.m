@@ -7,7 +7,7 @@
 
 #import "AppDelegate.h"
 
-//#import <React/RCTBundleURLProvider.h>
+#import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
 // Branch
@@ -27,13 +27,27 @@
   NSURL *jsCodeLocation;
 
   if (RCT_DEBUG == 1) {
-    //jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-    jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.bundle?platform=ios&dev=true"];
+    if (TARGET_IPHONE_SIMULATOR == 1) {
+      jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.bundle?platform=ios&dev=true"];
+    } else {
+      jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+    }
   } else {
     jsCodeLocation = [CodePush bundleURL];
   }
-
-  NSString *apiUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"API_URL"];
+  
+  NSString *apiUrl;
+  if (RCT_DEBUG == 1) {
+    NSString *ipGuess;
+    NSString *ipPath = [[NSBundle mainBundle] pathForResource:@"ip" ofType:@"txt"];
+    ipGuess = [[NSString stringWithContentsOfFile:ipPath encoding:NSUTF8StringEncoding error:nil]
+               stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    
+    apiUrl = ipGuess ? [NSString stringWithFormat:@"http://%@:5331", ipGuess] : @"http://localhost:5331";
+  } else {
+    apiUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"API_URL"];
+  }
+  
   NSString *GA = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GOOGLE_ANALYTICS_KEY"];
   NSString *oneSignalAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ONESIGNAL_APPID"];
   NSDictionary *props = @{@"ONESIGNAL_APPID": oneSignalAppId, @"API_URL" : apiUrl, @"GOOGLE_ANALYTICS_KEY": GA};
