@@ -36,9 +36,9 @@ const CheckoutNavigator = createStackNavigator(
   },
   {
     navigationOptions: ({ navigation: { state } }) => ({
-      header: null,
       gesturesEnabled: state.params && state.params.gesturesEnabled
-    })
+    }),
+    headerMode: "none"
   }
 );
 
@@ -64,9 +64,9 @@ const CartNavigator = createStackNavigator(
   },
   {
     navigationOptions: () => ({
-      header: null,
       gesturesEnabled: false
-    })
+    }),
+    headerMode: "none"
   }
 );
 

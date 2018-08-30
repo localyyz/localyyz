@@ -31,10 +31,10 @@ const ProductListStack = createStackNavigator(
     initialRouteName: "ProductList",
     navigationOptions: ({ navigation: { state }, navigationOptions }) => ({
       ...navigationOptions,
-      header: null,
       gesturesEnabled: state.params && state.params.gesturesEnabled,
       headerTintColor: Colours.DarkTransparent
-    })
+    }),
+    headerMode: "none"
   }
 );
 

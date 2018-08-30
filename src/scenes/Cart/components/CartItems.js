@@ -55,6 +55,7 @@ export default class CartItems extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Sizes.InnerFrame / 2
+    paddingHorizontal: Sizes.InnerFrame / 2,
+    paddingBottom: Sizes.InnerFrame / 4
   }
 });

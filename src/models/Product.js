@@ -49,6 +49,8 @@ export default class Product {
   @observable views = 0;
   @observable purchased = 0;
 
+  @observable freeShipping = {};
+
   // extra non observables
   place = {};
 
@@ -164,7 +166,14 @@ export default class Product {
 
   get returnPolicy() {
     return this.place.returnPolicy && this.place.returnPolicy.desc.length > 0
-      ? this.place.returnPolicy
+      ? {
+          ...this.place.returnPolicy,
+          desc: truncate(
+            this.place.returnPolicy.desc,
+            MAX_DESCRIPTION_WORD_LENGTH
+          ),
+          full: this.place.returnPolicy.desc
+        }
       : {
           desc: "All sales are final"
         };

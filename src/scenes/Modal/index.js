@@ -3,6 +3,7 @@ import { StatusBar, StyleSheet, View } from "react-native";
 
 // custom
 import { Colours } from "localyyz/constants";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 export default class Modal extends React.Component {
   render() {
@@ -18,6 +19,15 @@ export default class Modal extends React.Component {
       <View style={styles.container}>
         <StatusBar hidden />
         {Component}
+        <View style={styles.close}>
+          <MaterialIcon.Button
+            name="close"
+            size={30}
+            underlayColor={Colours.Transparent}
+            backgroundColor={Colours.Transparent}
+            color={Colours.EmphasizedText}
+            onPress={() => this.props.navigation.goBack()}/>
+        </View>
       </View>
     );
   }
@@ -27,5 +37,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colours.Background
+  },
+
+  close: {
+    position: "absolute",
+    top: 5,
+    left: 5
   }
 });

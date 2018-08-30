@@ -187,7 +187,7 @@ const AppNavigator = createStackNavigator(
   {
     Home: { screen: Home },
     Product: { screen: Product },
-    ProductListStack: { screen: ProductListStack },
+    ProductList: { screen: ProductListStack },
     Information: { screen: Information },
     Brands: { screen: Brands },
 

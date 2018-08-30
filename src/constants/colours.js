@@ -73,6 +73,7 @@ export const Colours = {
   EmphasizedText: Black,
   SubduedText: LightGrey,
   OnSale: Red,
+  ButtonLabel: Foreground,
 
   // debug
   Facebook: "rgb(59, 89, 153)",
