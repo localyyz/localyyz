@@ -3,10 +3,6 @@ import { Product } from "localyyz/stores";
 import { ApiInstance, GA } from "localyyz/global";
 import { assistantStore } from "localyyz/stores";
 import { box, capitalize } from "localyyz/helpers";
-import {
-  SEARCH_SUGGESTIONS_FEMALE,
-  SEARCH_SUGGESTIONS_MALE
-} from "localyyz/constants";
 
 // third party
 import { observable, action, runInAction, computed } from "mobx";
@@ -18,40 +14,17 @@ const PAGE_ONE = 1;
 // API (interchangable with ProductListStore): products, numProducts,
 // fetchNextPage(params), reset(params)
 export default class Store {
+  // NOTE: filterPath is needed by filterStore to know
+  // where to fetch filter values from
+  fetchPath = "search";
+  fetchMethod = ApiInstance.Post;
+
   constructor() {
     // bindings
-    this.changeGenderSuggestions = this.changeGenderSuggestions.bind(this);
     this.clearSearch = this.clearSearch.bind(this);
     this.reset = this.reset.bind(this);
   }
 
-  _listProducts = listData => {
-    return (
-      (listData || [])
-        .map(
-          p =>
-            new Product({
-              ...p,
-              description: p.noTagDescription,
-              titleWordsLength: 3,
-              descriptionWordsLength: 10
-            })
-        )
-
-        // only with photos and variant available
-        .filter(p => p.associatedPhotos.length > 0 && p.selectedVariant.price)
-    );
-  };
-
-  /////////////////////////////////// search suggestion observables
-  @box currentSuggestion = 0;
-  @observable searchSuggestions = SEARCH_SUGGESTIONS_FEMALE;
-
-  @action
-  changeGenderSuggestions(gender) {
-    this.searchSuggestions
-      = gender === "male" ? SEARCH_SUGGESTIONS_MALE : SEARCH_SUGGESTIONS_FEMALE;
-  }
   /////////////////////////////////// search observables
 
   @observable searchQuery = "";
@@ -101,6 +74,16 @@ export default class Store {
     );
   }
 
+  fetch = (filterBy = "", params = {}) => {
+    const fetchPath = (this._nextSearch && this._nextSearch.url) || "search";
+
+    return ApiInstance.post(
+      filterBy !== "" ? `search/${filterBy}` : fetchPath,
+      { query: this.searchQuery },
+      { ...params, limit: PAGE_LIMIT }
+    );
+  };
+
   fetchNextPage = params => {
     if (this._processing || (this._selfSearch && !this._nextSearch)) {
       console.log(
@@ -112,11 +95,7 @@ export default class Store {
     }
 
     this._processing = true;
-    ApiInstance.post(
-      (this._nextSearch && this._nextSearch.url) || "search",
-      { query: this.searchQuery },
-      { ...params, limit: PAGE_LIMIT }
-    )
+    this.fetch("", params)
       .then(response => {
         if (response && response.status < 400 && response.data.length > 0) {
           GA.trackEvent("search", "view search result", this.searchQuery);
