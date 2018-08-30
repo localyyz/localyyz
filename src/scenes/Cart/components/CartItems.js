@@ -15,8 +15,7 @@ export default class CartItems extends React.Component {
   static propTypes = {
     items: PropTypes.array,
     onRemove: PropTypes.func,
-    onProductPress: PropTypes.func,
-    navigation: PropTypes.object.isRequired
+    onProductPress: PropTypes.func
   };
 
   static defaultProps = {

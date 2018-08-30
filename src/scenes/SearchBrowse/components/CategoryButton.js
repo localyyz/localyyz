@@ -37,16 +37,14 @@ export default class CategoryButton extends React.Component {
           style={[styles.photo, this.props.isSmall && styles.small]}>
           <View style={styles.overlay} />
         </this.container>
-        <View style={styles.content}>
-          <Text
-            numberOfLines={this.props.isSmall ? 1 : 2}
-            style={[
-              styles.label,
-              this.props.isSelected ? styles.selected : null
-            ]}>
-            {this.props.title}
-          </Text>
-        </View>
+        <Text
+          numberOfLines={this.props.isSmall ? 1 : 2}
+          style={[
+            styles.label,
+            this.props.isSelected ? styles.selected : null
+          ]}>
+          {this.props.title}
+        </Text>
       </View>
     );
   }
@@ -62,21 +60,11 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
 
-  content: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    left: 0,
-    bottom: 0,
-    paddingBottom: HEIGHT / 5,
-    backgroundColor: "transparent",
-    justifyContent: "flex-end"
-  },
-
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     width: WIDTH,
-    height: HEIGHT
+    height: HEIGHT,
+    opacity: 0.5
   },
 
   photo: {
@@ -99,22 +87,10 @@ const styles = StyleSheet.create({
   label: {
     ...Styles.Text,
     ...Styles.Emphasized,
-    color: "white",
-    fontSize: Sizes.H3,
     textAlign: "center"
   },
 
   selected: {
     textDecorationLine: "underline"
-  },
-
-  icon: {
-    width: Sizes.OuterFrame,
-    height: Sizes.OuterFrame
-  },
-
-  smallIcon: {
-    width: Sizes.InnerFrame,
-    height: Sizes.InnerFrame
   }
 });
