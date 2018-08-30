@@ -25,7 +25,6 @@ import {
 export default class FilterMenu extends React.Component {
   static navigationOptions = ({ navigationOptions }) => ({
     ...navigationOptions,
-    header: undefined,
     title: "Filter"
   });
 

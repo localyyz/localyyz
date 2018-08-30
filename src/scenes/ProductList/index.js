@@ -16,16 +16,29 @@ import {
   CategoryFilterList
 } from "./scenes";
 
-const ProductListStack = createStackNavigator(
+const FilterStack = createStackNavigator(
   {
-    ProductList: { screen: ProductList },
-    Product: { screen: Product },
-    Information: { screen: Information },
     Filter: { screen: Filter },
     FilterList: { screen: FilterList },
     FilterPriceList: { screen: PriceFilterList },
     FilterDiscountList: { screen: DiscountFilterList },
     FilterCategoryList: { screen: CategoryFilterList }
+  },
+  {
+    navigationOptions: ({ navigation: { state }, navigationOptions }) => ({
+      ...navigationOptions,
+      gesturesEnabled: state.params && state.params.gesturesEnabled,
+      headerTintColor: Colours.DarkTransparent
+    })
+  }
+);
+
+const ProductListStack = createStackNavigator(
+  {
+    ProductList: { screen: ProductList },
+    Product: { screen: Product },
+    Information: { screen: Information },
+    Filter: { screen: FilterStack }
   },
   {
     initialRouteName: "ProductList",

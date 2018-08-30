@@ -200,7 +200,8 @@ const AppNavigator = createStackNavigator(
       header: null,
       headerTintColor: Colours.DarkTransparent,
       gesturesEnabled: state.params && state.params.gesturesEnabled
-    })
+    }),
+    headerMode: "none"
   }
 );
 
