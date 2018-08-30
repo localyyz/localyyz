@@ -2,6 +2,7 @@ import React from "react";
 
 // third party
 import { inject, observer } from "mobx-react/native";
+import { NavigationActions } from "react-navigation";
 
 // common component types
 import Common from "./Common";
@@ -122,8 +123,35 @@ export class Price extends React.Component {
 }))
 @observer
 export class Brands extends React.Component {
+  onPress = () => {
+    this.props.navigation.dispatch(
+      NavigationActions.navigate({
+        routeName: "Filter",
+        params: {
+          title: "Filter",
+          store: this.props.store
+        },
+        action: NavigationActions.navigate({
+          routeName: "FilterList",
+          params: {
+            ...this.props,
+            id: "brands",
+            title: "brand",
+            filterStore: this.props.store
+          }
+        })
+      })
+    );
+  };
+
   render() {
-    return <Common title="brand" id="brands" {...this.props} />;
+    return (
+      <Common
+        title="brand"
+        id="brands"
+        onPress={this.props.isButton ? this.onPress : null}
+        {...this.props}/>
+    );
   }
 }
 

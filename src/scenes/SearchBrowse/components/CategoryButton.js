@@ -1,6 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Text, ImageBackground } from "react-native";
 
+import LinearGradient from "react-native-linear-gradient";
+
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
@@ -32,7 +34,9 @@ export default class CategoryButton extends React.Component {
         <this.container
           source={{ uri: this.imageUrl }}
           resizeMode="cover"
-          style={[styles.photo, this.props.isSmall && styles.small]}/>
+          style={[styles.photo, this.props.isSmall && styles.small]}>
+          <View style={styles.overlay} />
+        </this.container>
         <Text
           numberOfLines={this.props.isSmall ? 1 : 2}
           style={[
@@ -54,6 +58,13 @@ const styles = StyleSheet.create({
     padding: Sizes.InnerFrame / 5,
     overflow: "hidden",
     borderRadius: 10
+  },
+
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    width: WIDTH,
+    height: HEIGHT,
+    opacity: 0.5
   },
 
   photo: {
@@ -81,15 +92,5 @@ const styles = StyleSheet.create({
 
   selected: {
     textDecorationLine: "underline"
-  },
-
-  icon: {
-    width: Sizes.OuterFrame,
-    height: Sizes.OuterFrame
-  },
-
-  smallIcon: {
-    width: Sizes.InnerFrame,
-    height: Sizes.InnerFrame
   }
 });

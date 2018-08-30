@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
-import { ContentCoverSlider, ReactiveSpacer } from "localyyz/components";
 
 // local
 import CartItems from "../components/CartItems";
@@ -18,8 +17,7 @@ import EmptyCart from "./EmptyCart";
 
 @inject(stores => ({
   isEmpty: stores.cartStore.isEmpty,
-  fetchFromDb: stores.cartStore.fetchFromDb,
-  scrollEnabled: stores.cartUiStore.scrollEnabled
+  fetchFromDb: stores.cartStore.fetchFromDb
 }))
 @observer
 export default class Cart extends React.Component {
@@ -36,12 +34,8 @@ export default class Cart extends React.Component {
   constructor(props) {
     super(props);
 
-    // data
-    this.ccs = ContentCoverSlider.createStore();
-
     // bindings
     this.fetch = this.fetch.bind(this);
-    this.onScroll = this.onScroll.bind(this);
     this.onNext = this.onNext.bind(this);
     this.onProductPress = this.onProductPress.bind(this);
     this.renderItem = this.renderItem.bind(this);
@@ -78,51 +72,12 @@ export default class Cart extends React.Component {
     });
   }
 
-  get spacer() {
-    return <ReactiveSpacer store={this.ccs} heightProp="headerHeight" />;
-  }
-
-  get sliderRef() {
-    return this.refs.slider;
-  }
-
-  get header() {
-    return (
-      <View onLayout={this.ccs.onLayout}>
-        <ContentCoverSlider.Header title={this.title} />
-      </View>
-    );
-  }
-
   get cartItems() {
-    return (
-      <CartItems
-        onProductPress={this.onProductPress}
-        onScroll={this.onScroll}/>
-    );
-  }
-
-  get data() {
-    return [
-      {
-        renderItem: this.spacer
-      },
-      {
-        renderItem: this.cartItems
-      }
-    ];
-  }
-
-  get title() {
-    return "Your cart";
-  }
-
-  onScroll(evt) {
-    return this.sliderRef && this.sliderRef.onScroll(evt);
+    return <CartItems onProductPress={this.onProductPress} />;
   }
 
   onNext() {
-    this.props.navigation.navigate("CheckoutStack");
+    this.props.navigation.navigate("CheckoutStack", {});
   }
 
   renderItem({ item }) {
@@ -134,18 +89,13 @@ export default class Cart extends React.Component {
       <EmptyCart />
     ) : (
       <View testID="cart" style={styles.container}>
-        <ContentCoverSlider
-          ref="slider"
-          title={this.title}
-          backAction={false}
-          background={this.header}>
-          <FlatList
-            data={this.data}
-            onScroll={this.onScroll}
-            scrollEnabled={this.props.scrollEnabled}
-            renderItem={this.renderItem}
-            keyExtractor={(e, i) => `row-${i}`}/>
-        </ContentCoverSlider>
+        <FlatList
+          data={[{ renderItem: this.cartItems }]}
+          alwaysBounceVertical={false}
+          contentContainerStyle={styles.content}
+          renderItem={this.renderItem}
+          style={{ flex: 1 }}
+          keyExtractor={(e, i) => `row-${i}`}/>
         <View style={styles.footer} pointerEvents="box-none">
           <LinearGradient
             colors={[
@@ -174,6 +124,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: NAVBAR_HEIGHT,
     paddingBottom: Sizes.OuterFrame * 3
+  },
+
+  content: {
+    marginTop: Sizes.ScreenTop
   },
 
   footer: {

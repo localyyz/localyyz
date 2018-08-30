@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   Linking,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
@@ -20,6 +21,7 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 
 // local
 import ExpandableSection from "./ExpandableSection";
+import ShippingPolicy from "./ShippingPolicy";
 
 @inject(stores => ({
   placeName:
@@ -64,18 +66,22 @@ export class MerchantDetails extends React.Component {
     return this.props.isSocial ? (
       <View style={styles.socialContainer}>
         {this.props.facebookUrl ? (
-          <EntypoIcon
+          <EntypoIcon.Button
             name="facebook-with-circle"
             color={Colours.Secondary}
-            size={Sizes.IconButton}
+            backgroundColor={Colours.Transparent}
+            underlayColor={Colours.Transparent}
+            size={Sizes.SocialButton}
             onPress={() => Linking.openURL(this.props.facebookUrl)}
             style={styles.socialIcon}/>
         ) : null}
         {this.props.instagramUrl ? (
-          <EntypoIcon
+          <EntypoIcon.Button
             name="instagram-with-circle"
             color={Colours.Primary}
-            size={Sizes.IconButton}
+            backgroundColor={Colours.Transparent}
+            underlayColor={Colours.Transparent}
+            size={Sizes.SocialButton}
             onPress={() => Linking.openURL(this.props.instagramUrl)}
             style={styles.socialIcon}/>
         ) : null}
@@ -84,28 +90,69 @@ export class MerchantDetails extends React.Component {
   }
 
   get renderShippingPolicy() {
-    return this.props.shippingPolicy ? (
+    return (
       <ExpandableSection
         title="Shipping"
-        content={this.props.shippingPolicy.desc}
-        onExpand={
-          this.props.shippingPolicy.url
-            ? () => Linking.openURL(this.props.shippingPolicy.url)
-            : null
-        }/>
-    ) : null;
+        content={"View Shipping Info"}
+        onExpand={() => {
+          this.props.navigation.navigate("Modal", {
+            component: <ShippingPolicy placeId={this.props.placeId} />
+          });
+        }}/>
+    );
   }
 
   get renderReturnPolicy() {
+    const returnPolicyFn = () => {
+      this.props.returnPolicy && this.props.returnPolicy.desc.length > 0
+        ? this.props.navigation.navigate("Modal", {
+            component: (
+              <ScrollView
+                contentContainerStyle={{
+                  padding: Sizes.OuterFrame,
+                  paddingTop: Sizes.ScreenTop,
+                  marginBottom: Sizes.ScreenBottom
+                }}>
+                <View>
+                  <Text>{this.props.returnPolicy.full}</Text>
+                  {this.props.returnPolicy.url ? (
+                    <TouchableOpacity
+                      onPress={() =>
+                        Linking.openURL(this.props.returnPolicy.url)
+                      }>
+                      <View
+                        style={{
+                          ...Styles.RoundedButton,
+                          marginTop: Sizes.InnerFrame,
+                          height: Sizes.InnerFrame * 2,
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}>
+                        <Text
+                          style={[
+                            styles.Text,
+                            styles.Emphasized,
+                            { color: Colours.ButtonLabel }
+                          ]}>
+                          Read more
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
+              </ScrollView>
+            )
+          })
+        : this.props.returnPolicy.url
+          ? () => Linking.openURL(this.props.returnPolicy.url)
+          : null;
+    };
+
     return this.props.returnPolicy ? (
       <ExpandableSection
         title="Return policy"
         content={this.props.returnPolicy.desc}
-        onExpand={
-          this.props.returnPolicy.url
-            ? () => Linking.openURL(this.props.returnPolicy.url)
-            : null
-        }/>
+        onExpand={returnPolicyFn}/>
     ) : null;
   }
 
@@ -198,7 +245,5 @@ const styles = StyleSheet.create({
     ...Styles.Horizontal
   },
 
-  socialIcon: {
-    marginRight: Sizes.InnerFrame / 2
-  }
+  socialIcon: {}
 });

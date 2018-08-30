@@ -19,7 +19,7 @@ export class Button extends React.Component {
 
   close = () => {
     // popout of category + and filter menu
-    this.props.navigation.pop(2);
+    this.props.navigation.navigate("ProductList");
   };
 
   // Filter Main scene embeds the Filter component

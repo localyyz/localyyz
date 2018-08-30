@@ -16,31 +16,22 @@ import SortBy from "./SortBy";
 }))
 @observer
 export class Bar extends React.Component {
-  // options to display on the filter bar
-  BarOptions = [
-    // TODO: gender?
-    { id: "brands", label: "Brands", value: "/brands", component: Brands },
-    { id: "sortBy", label: "Sort By", value: "", component: SortBy },
-    {
-      id: "filterAll",
-      label: "Filter",
-      value: "filter all",
-      component: withNavigation(FilterButton)
-    }
-  ];
-
-  renderItem = ({ item }) => {
-    return <item.component {...item} isButton />;
-  };
-
   render() {
     return (
       <View style={styles.container}>
-        {this.BarOptions.map(b => {
-          return (
-            <b.component key={b.id} {...b} store={this.props.store} isButton />
-          );
-        })}
+        <Brands
+          id="brands"
+          label="Brands"
+          value="/brands"
+          {...this.props}
+          isButton/>
+        <SortBy id="sortBy" label="Sort By" value="" {...this.props} isButton />
+        <FilterButton
+          id="filterAll"
+          label="Filter"
+          value="filter all"
+          {...this.props}
+          isButton/>
       </View>
     );
   }

@@ -15,8 +15,7 @@ export default class CartItems extends React.Component {
   static propTypes = {
     items: PropTypes.array,
     onRemove: PropTypes.func,
-    onProductPress: PropTypes.func,
-    navigation: PropTypes.object.isRequired
+    onProductPress: PropTypes.func
   };
 
   static defaultProps = {
@@ -55,6 +54,7 @@ export default class CartItems extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Sizes.InnerFrame / 2
+    paddingHorizontal: Sizes.InnerFrame / 2,
+    paddingBottom: Sizes.InnerFrame / 4
   }
 });

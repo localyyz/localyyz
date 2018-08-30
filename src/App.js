@@ -187,7 +187,7 @@ const AppNavigator = createStackNavigator(
   {
     Home: { screen: Home },
     Product: { screen: Product },
-    ProductListStack: { screen: ProductListStack },
+    ProductList: { screen: ProductListStack },
     Information: { screen: Information },
     Brands: { screen: Brands },
 
@@ -200,7 +200,8 @@ const AppNavigator = createStackNavigator(
       header: null,
       headerTintColor: Colours.DarkTransparent,
       gesturesEnabled: state.params && state.params.gesturesEnabled
-    })
+    }),
+    headerMode: "none"
   }
 );
 

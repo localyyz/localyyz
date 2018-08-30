@@ -10,8 +10,6 @@ import { Styles, Sizes, Colours } from "localyyz/constants";
 
 @inject(stores => ({
   searchQuery: stores.searchStore.searchQuery,
-  searchSuggestions: stores.searchStore.searchSuggestions,
-  currentSuggestion: stores.searchStore.currentSuggestion,
   setQuery: stores.searchStore.clearSearch,
   submit: stores.searchStore.reset,
   hasResults: stores.searchStore.hasResults,
@@ -36,11 +34,7 @@ export default class SearchInputBox extends React.Component {
     //
     // -> setting searchQuery is will trigger a mobx reaction
     // NOTE: see store for detail
-    this.props.setQuery(
-      this.state.query && this.state.query.length > 0
-        ? this.state.query
-        : this.props.searchSuggestions[this.props.currentSuggestion]
-    );
+    this.props.setQuery(this.state.query);
 
     // trigger the search
     this.props.submit();

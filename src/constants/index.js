@@ -40,24 +40,6 @@ export const DEFAULT_DISCOUNT_CODE = "optional";
 export const CART_STATUS_INPROGRESS = "inprogress";
 export const CART_STATUS_PAYMENT_SUCCESS = "payment_success";
 
-// search suggestions
-export const SEARCH_SUGGESTIONS_MALE = [
-  "Dress Shirts",
-  "Wingtip Shoes",
-  "Shorts",
-  "Dolce & Gabbana",
-  "Kiton"
-];
-export const SEARCH_SUGGESTIONS_FEMALE = [
-  "Summer Dresses",
-  "Rompers",
-  "Bikinis",
-  "Dolce & Gabbana",
-  "Sandals",
-  "Quay Sunglasses",
-  "Fenty x Puma"
-];
-
 // sizes
 export const NAVBAR_HEIGHT = 48 + Sizes.ScreenBottom;
 

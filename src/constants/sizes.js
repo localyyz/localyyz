@@ -43,15 +43,15 @@ export const Sizes = {
   Oversized: 32 * FONT_SCALING,
   H1: 24 * FONT_SCALING,
   H2: 22 * FONT_SCALING,
-  H3: 18 * FONT_SCALING,
-  Text: 16 * FONT_SCALING,
-  SmallText: 14,
-  TinyText: 12,
+  H3: 20 * FONT_SCALING,
+  Text: 18 * FONT_SCALING,
+  SmallText: 16,
+  TinyText: 14,
 
   // weights
   Obese: "800",
   Heavy: "700",
-  Bold: "600",
+  Bold: "bold",
   Medium: "500",
   Normal: "300",
   Light: "100",
@@ -66,6 +66,7 @@ export const Sizes = {
   SquareButton: 75,
   IconButton: 20,
   Avatar: 40,
+  SocialButton: 30,
   NavLeft: Platform.OS == "ios" ? 18 : 36,
 
   // apple specific

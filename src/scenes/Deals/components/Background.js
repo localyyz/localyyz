@@ -41,8 +41,8 @@ export default class Background extends React.Component {
       <View style={styles.container}>
         <Video
           muted
-          repeat
-          playWhenInactive
+          volume={0.0}
+          repeat={false}
           paused={!this.props.isDealFocused}
           resizeMode="cover"
           source={this.content.video}

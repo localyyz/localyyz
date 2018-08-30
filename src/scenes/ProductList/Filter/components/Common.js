@@ -50,11 +50,13 @@ export class Common extends React.Component {
 
   onSelect() {
     GA.trackEvent("filter/sort", "filter by " + this.props.title);
-    this.props.navigation.push(this.props.scene || "FilterList", {
-      ...this.props,
-      title: this.props.title || this.props.label,
-      filterStore: this.props.filterStore
-    });
+    this.props.onPress
+      ? this.props.onPress()
+      : this.props.navigation.push(this.props.scene || "FilterList", {
+          ...this.props,
+          title: this.props.title || this.props.label,
+          filterStore: this.props.filterStore
+        });
   }
 
   get renderSelectedOption() {
@@ -71,7 +73,7 @@ export class Common extends React.Component {
     return this.props.isButton ? (
       <TouchableOpacity
         style={{ flex: 1 }}
-        onPress={this.props.onPress ? this.props.onPress : this.onSelect}
+        onPress={this.onSelect}
         hitSlop={{
           top: Sizes.InnerFrame * 2,
           bottom: Sizes.InnerFrame * 2,
