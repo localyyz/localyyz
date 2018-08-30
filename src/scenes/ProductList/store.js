@@ -9,6 +9,9 @@ class Store {
   @observable products = [];
   @box numProducts = 0;
   @box isLoading = false;
+  // NOTE: fetch path is needed by filterStore to
+  // know where to fetch filter data from
+  fetchPath = "products";
 
   constructor(props) {
     this.fetchPath = props.fetchPath;

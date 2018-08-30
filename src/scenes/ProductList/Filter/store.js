@@ -7,7 +7,7 @@ import {
   get,
   set
 } from "mobx";
-import { GA, ApiInstance as api } from "localyyz/global";
+import { GA, ApiInstance } from "localyyz/global";
 
 // constants
 // inconsistency between user settings and filters from API
@@ -163,10 +163,10 @@ export default class FilterStore {
   //
   asyncFetch(filterBy = "", params = {}) {
     const fetchPath = this.searchStore.fetchPath || "products";
-    return api.get(`${fetchPath}/${filterBy}`, {
-      ...this.fetchParams,
-      ...params
-    });
+    const fetchParams = { ...params, ...this.fetchParams };
+    return this.searchStore.fetch
+      ? this.searchStore.fetch(filterBy, fetchParams)
+      : ApiInstance.get(`${fetchPath}/${filterBy}`, fetchParams);
   }
 
   @action

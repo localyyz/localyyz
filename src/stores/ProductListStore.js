@@ -8,7 +8,6 @@ import Product from "./Product";
 
 export default class ProductListStore {
   @observable list = [];
-  @observable brands = [];
   @observable totalItems;
 
   _next;
@@ -24,16 +23,6 @@ export default class ProductListStore {
     return this.next ? this.next.url : this.initialPath;
   }
 
-  fetchBrands = async () => {
-    const resolved = await ApiInstance.get(`${this.path}/brands`, null);
-    if (!resolved.error) {
-      runInAction("[ACTION] fetch product brands", () => {
-        this.brands = [...this.brands, resolved.data.map(b => new b())];
-      });
-    }
-    return resolved;
-  };
-
   fetchNext = async () => {
     const resolved = await ApiInstance.get(this.fetchPath, this.params);
     if (!resolved.error) {
@@ -41,7 +30,9 @@ export default class ProductListStore {
       this._self = resolved.link.self;
       runInAction("[ACTION] fetch products", () => {
         // optimization. push or replace the list of products
-        this.list = [...this.list, resolved.data.map(p => new Product(p))];
+        resolved.data.forEach(p => {
+          this.list.push(new Product(p));
+        });
       });
     }
     return resolved;
