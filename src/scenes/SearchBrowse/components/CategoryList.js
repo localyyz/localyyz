@@ -106,7 +106,9 @@ export class CategoryList extends React.Component {
     this._parentCategoryId = category.id;
     this.props.navigation.navigate(
       "ProductList",
-      {},
+      {
+        title: category.title
+      },
       {
         type: "Navigate",
         params: this.buildParams(category),

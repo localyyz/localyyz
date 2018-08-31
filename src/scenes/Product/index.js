@@ -42,7 +42,8 @@ class ProductScene extends React.Component {
 
     return {
       ...navigationOptions,
-      headerTitle: product && product.brand
+      headerTitle: product && product.brand,
+      header: null
     };
   };
 

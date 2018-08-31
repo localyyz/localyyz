@@ -3,7 +3,6 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { ProductList } from "localyyz/components";
 
 // third party
 import { observer } from "mobx-react/native";
@@ -66,10 +65,7 @@ export class List extends React.Component {
             keyExtractor={item => `product-${item.id}`}
             renderItem={this.renderItem}
             data={listData && listData.slice()}
-            numColumns={2}
-            ListEmptyComponent={
-              <ProductList.Placeholder limit={this.props.limit} />
-            }/>
+            numColumns={2}/>
         </View>
         {this.renderMoreButton}
       </View>
