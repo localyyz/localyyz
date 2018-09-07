@@ -91,8 +91,6 @@ export default class FilterStore {
     this.searchStore = searchStore;
 
     // bindings
-    this.reset = this.reset.bind(this);
-    this.refresh = this.refresh.bind(this);
     this.asyncFetch = this.asyncFetch.bind(this);
 
     this.fetchColors = this.fetchColors.bind(this);
@@ -127,15 +125,7 @@ export default class FilterStore {
     return count;
   }
 
-  // filter reaction catches filter changes and refetches the
-  // parent store
-  filterReaction = reaction(
-    () => this.fetchParams,
-    params => this.refresh(null, params),
-    { delay: 500 }
-  );
-
-  reset(fetchPath) {
+  reset = fetchPath => {
     this.setSizeFilter();
     this.setBrandFilter();
     this.setColorFilter();
@@ -146,13 +136,11 @@ export default class FilterStore {
 
     // and update based on reset filters
     this.refresh(fetchPath);
-  }
+  };
 
-  refresh(fetchPath, params) {
-    if (this.isSearchSupported) {
-      this.searchStore.reset(params || this.fetchParams, fetchPath || "");
-    }
-  }
+  refresh = (fetchPath, params) => {
+    this.searchStore.reset(params || this.fetchParams, fetchPath || "");
+  };
 
   // asyncFetch recursively fetches the available filters
   // for example:

@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, SectionList } from "react-native";
+import { reaction } from "mobx";
 
 // custom
 import { ProductList } from "localyyz/components";
@@ -53,10 +54,13 @@ export default class ProductListScene extends React.Component {
   }
 
   componentDidMount() {
-    // NOTE: don't fetch on mount. filter store
-    // does a RESET action on initialization with
-    // the correct fetching params
-    //this.store.fetchNextPage();
+    // filter reaction catches filter changes and refetches the
+    // parent store
+    this.filterReaction = reaction(
+      () => this.filterStore.fetchParams,
+      params => this.filterStore.refresh(null, params),
+      { fireImmediately: true, delay: 500 }
+    );
   }
 
   get settings() {
