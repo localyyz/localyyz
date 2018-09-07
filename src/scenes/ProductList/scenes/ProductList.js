@@ -53,7 +53,10 @@ export default class ProductListScene extends React.Component {
   }
 
   componentDidMount() {
-    this.store.fetchNextPage();
+    // NOTE: don't fetch on mount. filter store
+    // does a RESET action on initialization with
+    // the correct fetching params
+    //this.store.fetchNextPage();
   }
 
   get settings() {

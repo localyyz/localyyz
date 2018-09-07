@@ -48,21 +48,21 @@ export default class HomeStore {
           id: "70off",
           type: "productList",
           title: "70%+ Off",
-          path: "categories/70% OFF/products",
+          path: "categories/13/products",
           limit: 2
         },
         {
           id: "50off",
           type: "productList",
           title: "50% - 70% Off",
-          path: "categories/50% OFF/products",
+          path: "categories/12/products",
           limit: 2
         },
         {
           id: "20off",
           type: "productList",
           title: "20% - 50% Off",
-          path: "categories/20% OFF/products",
+          path: "categories/11/products",
           limit: 2
         }
       ],

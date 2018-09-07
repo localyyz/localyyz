@@ -171,23 +171,19 @@ export default class Store {
           id: category.type,
           title: capitalize(category.title || category.type),
           values: [
-            //{ id: category.type, title: `All ${capitalize(category.type)}` },
-
-            // backwards compatible with values as strings instead
-            // of cat objs
-            ...(category.categories || category.values || []).map(
-              v =>
-                v.type
-                  ? {
-                      ...v,
-                      id: v.type,
-                      title: capitalize(v.title || v.type)
-                    }
-                  : {
-                      id: v,
-                      title: capitalize(v)
-                    }
-            )
+            ...(category.values || []).filter(v => v.imageUrl).map(v => ({
+              ...v,
+              id: v.type,
+              title: capitalize(v.title || v.type),
+              values: [
+                ...(v.values || []).filter(vv => vv.imageUrl).map(vv => ({
+                  ...vv,
+                  id: v.type,
+                  title: capitalize(v.title || v.type),
+                  values: []
+                }))
+              ]
+            }))
           ]
         }));
       });
