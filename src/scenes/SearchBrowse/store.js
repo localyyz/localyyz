@@ -1,7 +1,7 @@
 // custom
 import { Product } from "localyyz/stores";
 import { ApiInstance, GA } from "localyyz/global";
-import { assistantStore } from "localyyz/stores";
+import { userStore, assistantStore } from "localyyz/stores";
 import { box, capitalize } from "localyyz/helpers";
 
 // third party
@@ -23,6 +23,15 @@ export default class Store {
     // bindings
     this.clearSearch = this.clearSearch.bind(this);
     this.reset = this.reset.bind(this);
+
+    // default: female
+    //  or respect user choices
+    this.gender
+      = userStore && userStore.gender
+        ? userStore.gender === "male"
+          ? { id: "male", filterId: "man" }
+          : { id: "female", filterId: "woman" }
+        : { id: "female", filterId: "woman" };
   }
 
   /////////////////////////////////// search observables
@@ -151,7 +160,7 @@ export default class Store {
   @action
   setGender = gender => {
     // if same, then toggle off
-    this.gender = !this.gender || gender.id != this.gender.id ? gender : null;
+    this.gender = gender;
 
     // trigger refresh of categories
     this.fetchCategories();

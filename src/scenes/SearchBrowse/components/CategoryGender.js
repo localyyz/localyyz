@@ -21,23 +21,10 @@ const GENDER_MAPPING = Object.assign(
 // NOTE: props is a work around for testing.
 @inject((stores, props) => ({
   gender: (stores.searchStore || props).gender,
-  setGender: (stores.searchStore || props).setGender,
-  userGender:
-    stores.userStore && stores.userStore
-      ? stores.userStore.gender
-      : props.userGender
+  setGender: (stores.searchStore || props).setGender
 }))
 @observer
 export default class CategoryGender extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // auto select gender if not given from user settings
-    !props.gender
-      && GENDER_MAPPING[props.userGender]
-      && props.setGender(GENDER_MAPPING[props.userGender]);
-  }
-
   render() {
     return (
       <View style={styles.container}>
