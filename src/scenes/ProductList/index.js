@@ -29,7 +29,8 @@ const FilterStack = createStackNavigator(
       ...navigationOptions,
       gesturesEnabled: state.params && state.params.gesturesEnabled,
       headerTintColor: Colours.DarkTransparent
-    })
+    }),
+    headerMode: "none"
   }
 );
 
@@ -46,8 +47,7 @@ const ProductListStack = createStackNavigator(
       ...navigationOptions,
       gesturesEnabled: state.params && state.params.gesturesEnabled,
       headerTintColor: Colours.DarkTransparent
-    }),
-    headerMode: "none"
+    })
   }
 );
 

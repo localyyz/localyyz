@@ -1,16 +1,14 @@
 import React from "react";
 import { StyleSheet, View, SectionList } from "react-native";
+import { reaction } from "mobx";
 
 // custom
-import {
-  ProductList,
-  ContentCoverSlider,
-  ReactiveSpacer
-} from "localyyz/components";
+import { ProductList } from "localyyz/components";
 import { Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
 import { Provider, inject } from "mobx-react/native";
+import { HeaderBackButton } from "react-navigation";
 
 // local
 import { FilterStore, FilterBar } from "../Filter";
@@ -20,12 +18,21 @@ import Store from "../store";
   userStore: stores.userStore
 }))
 export default class ProductListScene extends React.Component {
+  static navigationOptions = ({ navigation, navigationOptions }) => ({
+    ...navigationOptions,
+    title: navigation.getParam("title", ""),
+    headerLeft: (
+      <HeaderBackButton
+        tintColor={navigationOptions.headerTintColor}
+        onPress={() => navigation.goBack(null)}/>
+    )
+  });
+
   constructor(props) {
     super(props);
 
     // stores
     this.store = this.settings.store || new Store(this.settings);
-    this.contentCoverStore = ContentCoverSlider.createStore();
     this.filterStore = new FilterStore(
       this.store,
       this.props.userStore,
@@ -33,7 +40,6 @@ export default class ProductListScene extends React.Component {
     );
 
     // bindings
-    this.onScroll = this.onScroll.bind(this);
     this.fetchMore = this.fetchMore.bind(this);
     this.renderSectionHeader = this.renderSectionHeader.bind(this);
     this.renderList = this.renderList.bind(this);
@@ -45,6 +51,16 @@ export default class ProductListScene extends React.Component {
     if (this.settings.title != this.getSettings(prevProps).title) {
       this.filterStore.reset && this.filterStore.reset(this.settings.fetchPath);
     }
+  }
+
+  componentDidMount() {
+    // filter reaction catches filter changes and refetches the
+    // parent store
+    this.filterReaction = reaction(
+      () => this.filterStore.fetchParams,
+      params => this.filterStore.refresh(null, params),
+      { fireImmediately: true, delay: 500 }
+    );
   }
 
   get settings() {
@@ -64,25 +80,6 @@ export default class ProductListScene extends React.Component {
     return this.refs.slider;
   }
 
-  get header() {
-    return (
-      <View onLayout={this.contentCoverStore.onLayout}>
-        {!this.settings.hideHeader ? (
-          <ContentCoverSlider.Header {...this.settings || {}} />
-        ) : null}
-      </View>
-    );
-  }
-
-  get spacer() {
-    return (
-      <ReactiveSpacer
-        store={this.contentCoverStore}
-        heightProp="headerHeight"
-        offset={ContentCoverSlider.STATUS_BAR_HEIGHT}/>
-    );
-  }
-
   get listHeader() {
     return (
       <View style={styles.header}>
@@ -90,20 +87,6 @@ export default class ProductListScene extends React.Component {
         <FilterBar />
       </View>
     );
-  }
-
-  get sections() {
-    return [
-      { title: "spacer", data: [[{}]], renderItem: () => this.spacer },
-      {
-        title: "content",
-        data: [[{}]]
-      }
-    ];
-  }
-
-  onScroll(evt) {
-    this.sliderRef && this.sliderRef.onScroll(evt);
   }
 
   fetchMore({ distanceFromEnd }) {
@@ -126,40 +109,24 @@ export default class ProductListScene extends React.Component {
     return (
       <Provider productListStore={this.store} filterStore={this.filterStore}>
         <View style={styles.container}>
-          <ContentCoverSlider
-            ref="slider"
-            title={this.settings.title}
-            idleStatusBarStatus={this.settings.idleStatusBarStatus}
-            iconType={this.settings.iconType}
-            backColor={
-              this.settings.backColor
-              || (this.settings.image ? Colours.AlternateText : Colours.Text)
-            }
-            backAction={
-              this.settings.onBack || (() => this.props.navigation.goBack(null))
-            }
-            background={this.header}
-            fadeHeight={
-              (this.settings.image && this.settings.image.height / 4)
-              || undefined
-            }>
-            <SectionList
-              keyboardShouldPersistTaps="always"
-              sections={this.sections}
-              keyExtractor={(e, i) =>
-                `list-${this._keySeed}-row-${i}-id-${e.id}`
+          <SectionList
+            keyboardShouldPersistTaps="always"
+            sections={[
+              {
+                title: "content",
+                data: [[{}]]
               }
-              onEndReached={this.fetchMore}
-              onEndReachedThreshold={1}
-              onScroll={this.onScroll}
-              scrollEventThrottle={16}
-              renderSectionHeader={this.renderSectionHeader}
-              stickySectionHeadersEnabled={false}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-              renderItem={this.renderList}
-              contentContainerStyle={styles.sectionList}/>
-          </ContentCoverSlider>
+            ]}
+            keyExtractor={(e, i) => `productList${i}${e.id}`}
+            onEndReached={this.fetchMore}
+            onEndReachedThreshold={1}
+            scrollEventThrottle={16}
+            renderSectionHeader={this.renderSectionHeader}
+            stickySectionHeadersEnabled={false}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            renderItem={this.renderList}
+            contentContainerStyle={styles.sectionList}/>
         </View>
       </Provider>
     );
@@ -177,7 +144,6 @@ const styles = StyleSheet.create({
   },
 
   sectionList: {
-    marginTop: ContentCoverSlider.STATUS_BAR_HEIGHT,
     paddingBottom: NAVBAR_HEIGHT * 3
   },
 
