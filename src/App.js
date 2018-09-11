@@ -24,7 +24,6 @@ import {
   Login,
   Cart,
   Deeplink,
-  Information,
   Brands,
   Modal,
   Settings,
@@ -188,7 +187,6 @@ const AppNavigator = createStackNavigator(
     Home: { screen: Home },
     Product: { screen: Product },
     ProductList: { screen: ProductListStack },
-    Information: { screen: Information },
     Brands: { screen: Brands },
 
     // forms

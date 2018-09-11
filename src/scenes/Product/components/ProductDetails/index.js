@@ -49,12 +49,11 @@ export class ProductDetails extends React.Component {
         <ExpandableSection
           title="Details"
           content={this.props.description}
-          onExpand={() =>
-            this.props.navigation.push("Information", {
-              title: "Product information",
-              content: this.expandedDescriptionComponent
-            })
-          }/>
+          onExpand={() => {
+            this.props.navigation.navigate("Modal", {
+              component: this.expandedDescriptionComponent
+            });
+          }}/>
         <UsedIndicator />
       </View>
     );

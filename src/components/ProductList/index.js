@@ -41,7 +41,8 @@ class ProductListItem extends React.Component {
 }
 
 @inject((stores, props) => ({
-  products: (stores.productListStore || props).products.slice() || []
+  products: (stores.productListStore || props).products.slice() || [],
+  isLoading: (stores.productListStore || props).isLoading
 }))
 @observer
 export class ProductList extends React.Component {
@@ -64,7 +65,7 @@ export class ProductList extends React.Component {
   }
 
   get placeholder() {
-    return <ProductListPlaceholder limit={2} />;
+    return this.props.isLoading ? <ProductListPlaceholder limit={2} /> : null;
   }
 
   renderItem = ({ item: product }) => {

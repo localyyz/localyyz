@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, WebView } from "react-native";
-import { Sizes } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 
 // third party
 import { inject, observer } from "mobx-react/native";
@@ -72,6 +72,9 @@ export default class ExpandedDescription extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: Sizes.Height
+    height: Sizes.Height,
+    paddingVertical: Sizes.OuterFrame,
+    paddingHorizontal: Sizes.InnerFrame,
+    backgroundColor: Colours.Foreground
   }
 });
