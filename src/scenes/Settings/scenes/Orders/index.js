@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 
 // third party
 import { observer } from "mobx-react/native";
@@ -22,13 +22,9 @@ export default class Orders extends React.Component {
     this.store.fetch();
   }
 
-  renderItem({ item: order }) {
-    return (
-      <TouchableOpacity>
-        <Order {...order} />
-      </TouchableOpacity>
-    );
-  }
+  renderItem = ({ item: order }) => {
+    return <Order {...order} />;
+  };
 
   get renderEmpty() {
     return <EmptyOrders />;
@@ -42,7 +38,7 @@ export default class Orders extends React.Component {
         <View style={styles.content}>
           <FlatList
             scrollEnabled={false}
-            data={this.store.orders && this.store.orders.slice()}
+            data={this.store.orders.slice()}
             keyExtractor={order => `${order.id}`}
             ListEmptyComponent={this.renderEmpty}
             renderItem={this.renderItem}/>

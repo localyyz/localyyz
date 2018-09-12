@@ -116,13 +116,13 @@ export default class CartStore extends Cart {
   applyDiscountCode = async discountCode => {
     // TODO: simplified version at the time, future improvements include adding
     // discount code per merchant
+    GA.trackEvent("cart", "enter discount code", discountCode);
     const response = await ApiInstance.put(`/carts/${this.resolvedId}`, {
       discountCode: discountCode
     });
 
     const onSuccess = () => {
       this.setDiscountCode(discountCode);
-      GA.trackEvent("cart", "enter discount code", discountCode);
     };
 
     return this._handleResponse(response, onSuccess);

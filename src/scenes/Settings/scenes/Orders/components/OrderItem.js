@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 // third party
-import Moment from "moment";
+//import Moment from "moment";
 
 // custom
 import { Sizes, Styles, Colours } from "localyyz/constants";
@@ -19,7 +19,7 @@ export default class OrderItem extends React.Component {
   get status() {
     switch (this.statusCode) {
       case 2:
-        return `Shipped out ${Moment().from(this.order.updatedAt, true)} ago`;
+        return "Order completed. Check your email for status.";
       case 1:
         return "Order processing";
       default:
@@ -54,7 +54,7 @@ export default class OrderItem extends React.Component {
             constrainHeight={Sizes.Width / 4}/>
         </View>
         <View style={styles.content}>
-          <Text style={styles.label}>{this.product.brand}</Text>
+          <Text style={styles.label}>{this.product.title}</Text>
           <View
             style={[
               styles.status,
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   },
 
   content: {
+    flex: 1,
     marginVertical: Sizes.InnerFrame,
     marginLeft: Sizes.InnerFrame
   },
