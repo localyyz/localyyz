@@ -13,7 +13,6 @@ import { withNavigation } from "react-navigation";
 
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
-import { paramsAction, randInt } from "localyyz/helpers";
 import { GA } from "localyyz/global";
 
 // local
@@ -34,123 +33,85 @@ const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
 }))
 @observer
 export class CategoryList extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // data
-    this._parentCategoryId;
-
-    // pseudo-unique (law of large numbers) key seed
-    this._keySeed = randInt(10000000) + 1;
-
-    // bindings
-    this.onChangeCategory = this.onChangeCategory.bind(this);
-    this.onSelectCategory = this.onSelectCategory.bind(this);
-    this.renderCategory = this.renderCategory.bind(this);
-    this.renderSubcategory = this.renderSubcategory.bind(this);
-    this.buildParams = this.buildParams.bind(this);
-  }
-
   componentDidMount() {
     this.props.fetch();
   }
 
-  get sceneKey() {
-    return `${CATEGORY_PRODUCT_LIST_KEY}-${this._keySeed}`;
-  }
-
-  buildParams({ title, id }, parentId) {
-    const categories = this.props.categories
-      .filter(cat => cat.id === id || parentId)
-      .map(cat => cat.values)[0];
-
+  buildParams = ({ title, id, values }) => {
     return {
       fetchPath: `categories/${id}/products`,
       title: title,
       hideCategories: true,
       hideGenderFilter: !!this.props.gender,
       gender: this.props.gender,
-      listHeader:
-        categories && categories.length ? (
-          <CategoryBar
-            id={parentId || id}
-            onChangeCategory={this.onChangeCategory}
-            store={this.props.store}/>
-        ) : null
+      listHeader: (
+        <CategoryBar
+          categories={values}
+          onChangeCategory={this.onChangeCategory}
+          store={this.props.store}/>
+      )
     };
-  }
+  };
 
   // this changes the category from the top category bar
-  onChangeCategory(category) {
+  onChangeCategory = category => {
     // this dispatches the changed category to product list store
     GA.trackEvent(
       "category",
       "change category",
-      `${this.props.gender}-${category.id}`
+      `${this.props.gender}-${category.title}`
     );
-    this.props.navigation.dispatch(
-      paramsAction(
-        this.sceneKey,
-        this.buildParams(category, this._parentCategoryId)
-      )
-    );
-  }
+    this.props.navigation.navigate({
+      routeName: "ProductList",
+      params: this.buildParams(category),
+      key: `${CATEGORY_PRODUCT_LIST_KEY}-${category.id}`
+    });
+  };
 
   // this selects a category from the main search browse screen
-  onSelectCategory(category) {
+  onSelectCategory = category => {
     GA.trackEvent(
       "category",
       "select category",
-      `${this.props.gender}-${category.id}`
+      `${this.props.gender}-${category.title}`
     );
-    this._parentCategoryId = category.id;
-    this.props.navigation.navigate(
-      "ProductList",
-      {
-        title: category.title
-      },
-      {
-        type: "Navigate",
-        params: this.buildParams(category),
-        routeName: "ProductList",
-        key: this.sceneKey
-      }
-    );
-  }
+    this.props.navigation.navigate({
+      routeName: "ProductList",
+      params: this.buildParams(category)
+    });
+  };
 
-  renderSubcategory({ item: category }) {
+  renderSubcategory = ({ item: category }) => {
     return (
-      <TouchableOpacity onPress={() => this.onSelectCategory(category)}>
-        <CategoryButton {...category} />
-      </TouchableOpacity>
+      <CategoryButton
+        {...category}
+        onPress={() => this.onSelectCategory(category)}/>
     );
-  }
+  };
 
-  renderCategory({ item: category }) {
+  renderCategory = ({ item: category }) => {
     return (
-      <View style={styles.row}>
-        <TouchableOpacity onPress={() => this.onSelectCategory(category)}>
-          <View style={styles.header}>
-            <Text style={styles.title}>{category.title.toUpperCase()}</Text>
-            <View style={styles.button}>
-              <Text style={styles.buttonLabel}>View all</Text>
+      <FlatList
+        bounces={false}
+        numColumns={2}
+        showsHorizontalScrollIndicator={false}
+        data={category.values.slice() || []}
+        renderItem={this.renderSubcategory}
+        ListHeaderComponent={
+          <TouchableOpacity onPress={() => this.onSelectCategory(category)}>
+            <View style={styles.header}>
+              <Text style={styles.title}>{category.title.toUpperCase()}</Text>
+              <View style={styles.button}>
+                <Text style={styles.buttonLabel}>View all</Text>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-        <FlatList
-          horizontal
-          initialNumToRender={3}
-          showsHorizontalScrollIndicator={false}
-          data={category.values.slice() || []}
-          renderItem={this.renderSubcategory}
-          contentContainerStyle={styles.category}
-          keyExtractor={(c, i) =>
-            `${this._keySeed}-cat${category.id}-row${i}-subcat${c.id}`
-          }/>
-        <View style={styles.separator} />
-      </View>
+          </TouchableOpacity>
+        }
+        ListFooterComponent={<View style={styles.separator} />}
+        columnWrapperStyle={styles.category}
+        keyExtractor={c => `category${c.id}`}/>
     );
-  }
+  };
 
   get placeholder() {
     return (
@@ -163,7 +124,6 @@ export class CategoryList extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <CategoryGender />
         <FlatList
           onScroll={this.props.onScroll}
           scrollEventThrottle={16}
@@ -172,6 +132,7 @@ export class CategoryList extends React.Component {
           showsVerticalScrollIndicator={false}
           renderItem={this.renderCategory}
           initialNumToRender={4}
+          ListHeaderComponent={<CategoryGender />}
           ListEmptyComponent={this.placeholder}
           keyExtractor={(c, i) => `${this._keySeed}-row${i}-cat${c.id}`}/>
       </View>
@@ -222,6 +183,7 @@ const styles = StyleSheet.create({
   },
 
   category: {
-    paddingHorizontal: Sizes.InnerFrame
+    justifyContent: "space-around",
+    paddingBottom: Sizes.InnerFrame
   }
 });

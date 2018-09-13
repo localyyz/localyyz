@@ -36,9 +36,9 @@ export class Search extends React.Component {
           <StatusBar barStyle="dark-content" />
           <View style={styles.landing}>
             <CategoryList />
-            <Animated.View style={styles.overlay} pointerEvents="box-none">
+            <View style={styles.overlay} pointerEvents="box-none">
               <SearchInputBox onSubmit={this.onSubmitSearch} />
-            </Animated.View>
+            </View>
           </View>
         </View>
       </Provider>

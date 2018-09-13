@@ -166,6 +166,16 @@ export default class Store {
     this.fetchCategories();
   };
 
+  parseCategoryValues = (values = []) => {
+    return values.filter(v => v.imageUrl).map(v => ({
+      ...v,
+      id: v.type,
+      title: capitalize(v.title || v.type),
+      values:
+        (v.values || []).length > 0 ? this.parseCategoryValues(v.values) : []
+    }));
+  };
+
   @action
   fetchCategories = async () => {
     let response = await ApiInstance.get(
@@ -179,21 +189,7 @@ export default class Store {
           ...category,
           id: category.type,
           title: capitalize(category.title || category.type),
-          values: [
-            ...(category.values || []).filter(v => v.imageUrl).map(v => ({
-              ...v,
-              id: v.type,
-              title: capitalize(v.title || v.type),
-              values: [
-                ...(v.values || []).filter(vv => vv.imageUrl).map(vv => ({
-                  ...vv,
-                  id: v.type,
-                  title: capitalize(v.title || v.type),
-                  values: []
-                }))
-              ]
-            }))
-          ]
+          values: this.parseCategoryValues(category.values)
         }));
       });
     }
