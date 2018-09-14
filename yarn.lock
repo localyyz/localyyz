@@ -6632,6 +6632,12 @@ react-native-schemes-manager@^1.0.4:
     xcode "^0.9.1"
     yargs "^6.6.0"
 
+react-native-search-box@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/react-native-search-box/-/react-native-search-box-0.0.19.tgz#19a7baef309341a507bee89802df90218d4cc0a4"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-snap-carousel@^3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.7.0.tgz#7d2794339c661d3e1f8ec4786b6335ae7cb23262"

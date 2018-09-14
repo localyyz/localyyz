@@ -18,15 +18,22 @@ import Store from "../store";
   userStore: stores.userStore
 }))
 export default class ProductListScene extends React.Component {
-  static navigationOptions = ({ navigation, navigationOptions }) => ({
-    ...navigationOptions,
-    title: navigation.getParam("title", ""),
-    headerLeft: (
-      <HeaderBackButton
-        tintColor={navigationOptions.headerTintColor}
-        onPress={() => navigation.goBack(null)}/>
-    )
-  });
+  static navigationOptions = ({ navigation, navigationOptions }) => {
+    let opt = {
+      ...navigationOptions,
+      title: navigation.getParam("title", ""),
+      headerLeft: (
+        <HeaderBackButton
+          tintColor={navigationOptions.headerTintColor}
+          onPress={() => navigation.goBack(null)}/>
+      )
+    };
+    const header = navigation.getParam("header");
+    if (header) {
+      opt.header = header;
+    }
+    return opt;
+  };
 
   constructor(props) {
     super(props);

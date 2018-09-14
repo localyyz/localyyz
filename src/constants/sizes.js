@@ -43,6 +43,9 @@ export const Sizes = {
   ScreenBottom: isIphoneX() ? 34 : 0,
   StatusBar: Platform.OS === "ios" ? 20 : StatusBar.currentHeight,
 
+  // search
+  SearchBarHeight: 36,
+
   // margins
   OuterFrame: 25,
   InnerFrame: 15,

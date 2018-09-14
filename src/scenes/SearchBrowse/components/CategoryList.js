@@ -27,7 +27,9 @@ const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
   store: stores.searchStore,
   fetch: stores.searchStore.fetchCategories,
   gender: stores.searchStore.gender && stores.searchStore.gender.id,
-  categories: stores.searchStore.categories.slice()
+  categories: stores.searchStore.categories
+    ? stores.searchStore.categories.slice()
+    : []
 }))
 @observer
 export class CategoryList extends React.Component {
@@ -130,8 +132,8 @@ export default withNavigation(CategoryList);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: Sizes.ScreenTop + Sizes.OuterFrame
+    flex: 1
+    //paddingTop: Sizes.ScreenTop + Sizes.OuterFrame
   },
 
   list: {
@@ -172,9 +174,5 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Emphasized,
     ...Styles.TinyText
-  },
-
-  section: {
-    paddingBottom: BUTTON_PADDING
   }
 });
