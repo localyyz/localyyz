@@ -11,7 +11,8 @@ export default class ProductStore extends ProductModel {
   static fetch = async productId => {
     const resolve = await ApiInstance.get(`products/${productId}`);
     if (!resolve.error) {
-      GA.trackEvent("product", "view", `${productId}`);
+      // app.js trackScreen is also handling product view events
+      // GA.trackEvent("product", "view", `${productId}`);
       return new Promise.resolve({
         product: new ProductStore(resolve.data)
       });

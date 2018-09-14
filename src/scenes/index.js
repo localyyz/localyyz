@@ -12,7 +12,6 @@ export { default as Brands } from "./Brands";
 export { default as CartSummary } from "./CartSummary";
 export { default as Cart } from "./Cart";
 export { default as Deeplink } from "./Deeplink";
-export { default as Information } from "./Information";
 export { default as Modal } from "./Modal";
 export { default as Forms } from "./Forms";
 export { SettingsNavigator as Settings } from "./Settings";

@@ -50,10 +50,8 @@ export default class ExpressCartStore {
           ready: true
         }
       : {};
-    this.cart = new Cart({
-      id: EXPRESS_CART,
-      items: []
-    });
+
+    this.clear();
   }
 
   /*
@@ -220,6 +218,13 @@ export default class ExpressCartStore {
   }
 
   // cart actions
+  @action
+  clear = () => {
+    this.cart = new Cart({
+      id: EXPRESS_CART,
+      items: []
+    });
+  };
 
   @action
   replace = cart => {
@@ -228,7 +233,7 @@ export default class ExpressCartStore {
   };
 
   @action
-  fetch = async ({ cartId } = {}) => {
+  fetch = async () => {
     const response = await this._api.get(`/carts/${EXPRESS_CART}`);
 
     // instantiate the cart if succeeded
@@ -699,7 +704,7 @@ export default class ExpressCartStore {
     assistantStore.cancel(message);
 
     // clear the current cart and refetch
-    this.cart.clear();
+    this.clear();
     this.fetch();
 
     // only close if user aborted failure
@@ -795,7 +800,7 @@ export default class ExpressCartStore {
 
         // revert the cart.
         // TODO: this needs to be cleaned up
-        this.cart.clear();
+        this.clear();
 
         // and finally pass out completion summary object for caller to present
         return completionSummary;

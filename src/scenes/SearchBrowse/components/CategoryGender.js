@@ -28,9 +28,11 @@ export default class CategoryGender extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {GENDERS.map((gender, i) => (
-          <View style={styles.button} key={`gender-${gender.id}-${i}`}>
-            <TouchableOpacity onPress={() => this.props.setGender(gender)}>
+        {GENDERS.map(gender => (
+          <TouchableOpacity
+            key={`gender-${gender.id}`}
+            onPress={() => this.props.setGender(gender)}>
+            <View style={styles.button}>
               <View
                 style={[
                   styles.option,
@@ -40,8 +42,8 @@ export default class CategoryGender extends React.Component {
                 ]}>
                 <Text style={styles.label}>{capitalize(gender.label)}</Text>
               </View>
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         ))}
       </View>
     );
@@ -52,11 +54,12 @@ const styles = StyleSheet.create({
   container: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
-    padding: Sizes.InnerFrame
+    padding: Sizes.InnerFrame,
+    width: Sizes.Width,
+    justifyContent: "space-around"
   },
 
   button: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },

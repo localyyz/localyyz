@@ -3,7 +3,6 @@ import { createStackNavigator } from "react-navigation";
 
 // custom
 import Product from "../Product";
-import Information from "../Information";
 import { Colours } from "localyyz/constants";
 
 // local
@@ -38,7 +37,6 @@ const ProductListStack = createStackNavigator(
   {
     ProductList: { screen: ProductList },
     Product: { screen: Product },
-    Information: { screen: Information },
     Filter: { screen: FilterStack }
   },
   {

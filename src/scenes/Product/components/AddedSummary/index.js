@@ -161,9 +161,8 @@ export class AddedSummary extends React.Component {
   }
 
   openSizeChart() {
-    return this.props.navigation.navigate("Information", {
-      title: "Sizing and fit",
-      content: <SizeChart type={this.props.sizeChartType} />
+    return this.props.navigation.navigate("Modal", {
+      component: <SizeChart type={this.props.sizeChartType} />
     });
   }
 

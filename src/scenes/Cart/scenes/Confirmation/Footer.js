@@ -17,6 +17,7 @@ import Button from "../../components/Button";
   subtotal: stores.cartStore.subtotalPriceDollars,
   shipping: stores.cartStore.totalShippingDollars,
   taxes: stores.cartStore.totalTaxDollars,
+  currency: stores.cartStore.currency,
 
   // totals
   totalPrice:

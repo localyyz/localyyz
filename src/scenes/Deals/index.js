@@ -2,12 +2,7 @@
 import { StackNavigator } from "react-navigation";
 
 // custom
-import {
-  Product,
-  Information,
-  ProductListStack,
-  CartSummary
-} from "localyyz/scenes";
+import { Product, ProductListStack, CartSummary } from "localyyz/scenes";
 
 // local
 import { DealsScene, History, MissedDeal } from "./scenes";
@@ -18,7 +13,6 @@ export const DealsNavigator = StackNavigator(
     History: { screen: History },
     MissedDeal: { screen: MissedDeal },
     Product: { screen: Product },
-    Information: { screen: Information },
     ProductList: { screen: ProductListStack },
     CartSummary: { screen: CartSummary }
   },

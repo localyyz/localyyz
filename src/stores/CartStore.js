@@ -2,7 +2,6 @@
 import { GA, ApiInstance } from "localyyz/global";
 import { Cart } from "localyyz/models";
 import { userStore } from "localyyz/stores";
-import { CART_STATUS_INPROGRESS } from "localyyz/constants";
 
 // constant
 const DEFAULT_CART = "default";
@@ -10,65 +9,45 @@ const DEFAULT_CART = "default";
 export default class CartStore extends Cart {
   constructor() {
     super({ id: DEFAULT_CART, email: userStore.email });
-
-    // bindings
-    this.update = this.update.bind(this);
-    this.clear = this.clear.bind(this);
-    this.updateEmail = this.updateEmail.bind(this);
-    this.updateShipping = this.updateShipping.bind(this);
-    this.updateBilling = this.updateBilling.bind(this);
-    this.updatePayment = this.updatePayment.bind(this);
-    this.fetchFromDb = this.fetchFromDb.bind(this);
-    this.syncToDb = this.syncToDb.bind(this);
-    this.addProduct = this.addProduct.bind(this);
-    this.removeItem = this.removeItem.bind(this);
-    this.applyDiscountCode = this.applyDiscountCode.bind(this);
-    this.checkout = this.checkout.bind(this);
-    this.completePayment = this.completePayment.bind(this);
-    this.onInvalidCartLoad = this.onInvalidCartLoad.bind(this);
-    this._handleError = this._handleError.bind(this);
-    this._handleResponse = this._handleResponse.bind(this);
-
-    // init
     this.fetchFromDb();
   }
 
-  update(cart) {
+  update = cart => {
     // offload to parent
     return super.update(cart);
-  }
+  };
 
-  clear() {
+  clear = () => {
     this.constructor();
-  }
+  };
 
   // actions
-  updateEmail(...params) {
+  updateEmail = (...params) => {
     GA.trackEvent("cart", "enter email");
     return super.updateEmail(...params);
-  }
+  };
 
-  updateShipping(...params) {
+  updateShipping = (...params) => {
     GA.trackEvent("cart", "enter shipping address");
     return super.updateShipping(...params);
-  }
+  };
 
-  updateBilling(...params) {
+  updateBilling = (...params) => {
     GA.trackEvent("cart", "enter billing address");
     return super.updateBilling(...params);
-  }
+  };
 
-  updatePayment(...params) {
+  updatePayment = (...params) => {
     GA.trackEvent("cart", "enter payment details");
     return super.updatePayment(...params);
-  }
+  };
 
   get resolvedId() {
     return this.id || DEFAULT_CART;
   }
 
   // api layer
-  async fetchFromDb() {
+  fetchFromDb = async () => {
     const response = await ApiInstance.get(`/carts/${this.resolvedId}`);
     const onSuccess = cart => {
       this.update(cart);
@@ -77,13 +56,13 @@ export default class CartStore extends Cart {
     const onError = this.onInvalidCartLoad;
 
     return this._handleResponse(response, onSuccess, onError);
-  }
+  };
 
-  onInvalidCartLoad({ status }) {
+  onInvalidCartLoad = ({ status }) => {
     status === 404 && this.clear();
-  }
+  };
 
-  async syncToDb() {
+  syncToDb = async () => {
     const response = await ApiInstance.put(`/carts/${this.resolvedId}`, {
       shippingAddress: this.shippingAddress,
       billingAddress: this.billingAddress,
@@ -95,9 +74,9 @@ export default class CartStore extends Cart {
     };
 
     return this._handleResponse(response, onSuccess);
-  }
+  };
 
-  async addProduct({ product, variantId, quantity = 1 }) {
+  addProduct = async ({ product, variantId, quantity = 1 }) => {
     const response = await ApiInstance.post(`/carts/${this.resolvedId}/items`, {
       productId: product.id,
       variantId: variantId,
@@ -115,9 +94,9 @@ export default class CartStore extends Cart {
     };
 
     return this._handleResponse(response, onSuccess);
-  }
+  };
 
-  async removeItem(cartItem) {
+  removeItem = async cartItem => {
     const response = await ApiInstance.delete(
       `/carts/${this.resolvedId}/items/${cartItem.id}`
     );
@@ -132,24 +111,24 @@ export default class CartStore extends Cart {
     }
 
     return this._handleError(response.error);
-  }
+  };
 
-  async applyDiscountCode(discountCode) {
+  applyDiscountCode = async discountCode => {
     // TODO: simplified version at the time, future improvements include adding
     // discount code per merchant
+    GA.trackEvent("cart", "enter discount code", discountCode);
     const response = await ApiInstance.put(`/carts/${this.resolvedId}`, {
       discountCode: discountCode
     });
 
     const onSuccess = () => {
       this.setDiscountCode(discountCode);
-      GA.trackEvent("cart", "enter discount code", discountCode);
     };
 
     return this._handleResponse(response, onSuccess);
-  }
+  };
 
-  async checkout() {
+  checkout = async () => {
     const response = await ApiInstance.post(
       `/carts/${this.resolvedId}/checkout`
     );
@@ -160,9 +139,9 @@ export default class CartStore extends Cart {
     };
 
     return this._handleResponse(response, onSuccess);
-  }
+  };
 
-  async completePayment() {
+  completePayment = async () => {
     const response = await ApiInstance.post(`/carts/${this.resolvedId}/pay`, {
       payment: this.paymentDetails.toServerCard,
       billingAddress: this.billingAddress
@@ -174,23 +153,23 @@ export default class CartStore extends Cart {
     };
 
     return this._handleResponse(response, onSuccess);
-  }
+  };
 
   // internally used
-  _handleError({ status, details, onError }) {
+  _handleError = ({ status, details, onError }) => {
     GA.trackEvent("cart", "error", details);
     let error = { error: details, status: status };
     onError && onError(error);
 
     return Promise.resolve(error);
-  }
+  };
 
-  _handleResponse(response, onSuccess, onError) {
+  _handleResponse = (response, onSuccess, onError) => {
     if (response && response.data) {
       onSuccess && onSuccess(response.data);
       return Promise.resolve({ success: true });
     }
 
     return this._handleError({ ...response.error, onError: onError });
-  }
+  };
 }

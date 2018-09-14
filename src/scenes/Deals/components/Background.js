@@ -39,14 +39,7 @@ export default class Background extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Video
-          muted
-          volume={0.0}
-          repeat={false}
-          paused={!this.props.isDealFocused}
-          resizeMode="cover"
-          source={this.content.video}
-          style={styles.video}/>
+        <View style={styles.video} />
         <View style={styles.content}>
           <LinearGradient
             colors={[Colours.MenuBackground, Colours.BlackTransparent]}

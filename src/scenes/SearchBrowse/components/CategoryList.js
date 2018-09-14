@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  FlatList
+  SectionList
 } from "react-native";
 
 // third party
@@ -13,14 +13,12 @@ import { withNavigation } from "react-navigation";
 
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
-import { paramsAction, randInt } from "localyyz/helpers";
 import { GA } from "localyyz/global";
 
 // local
 import CategoryBar from "./CategoryBar";
-import CategoryButton from "./CategoryButton";
+import CategoryButton, { BUTTON_PADDING } from "./CategoryButton";
 import CategoryGender from "./CategoryGender";
-import { CategoryListPlaceholder } from "./placeholders";
 
 // constants
 const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
@@ -29,151 +27,102 @@ const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
   store: stores.searchStore,
   fetch: stores.searchStore.fetchCategories,
   gender: stores.searchStore.gender && stores.searchStore.gender.id,
-  categories:
-    stores.searchStore.categories && stores.searchStore.categories.slice()
+  categories: stores.searchStore.categories
+    ? stores.searchStore.categories.slice()
+    : []
 }))
 @observer
 export class CategoryList extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // data
-    this._parentCategoryId;
-
-    // pseudo-unique (law of large numbers) key seed
-    this._keySeed = randInt(10000000) + 1;
-
-    // bindings
-    this.onChangeCategory = this.onChangeCategory.bind(this);
-    this.onSelectCategory = this.onSelectCategory.bind(this);
-    this.renderCategory = this.renderCategory.bind(this);
-    this.renderSubcategory = this.renderSubcategory.bind(this);
-    this.buildParams = this.buildParams.bind(this);
-  }
-
   componentDidMount() {
     this.props.fetch();
   }
 
-  get sceneKey() {
-    return `${CATEGORY_PRODUCT_LIST_KEY}-${this._keySeed}`;
-  }
-
-  buildParams({ title, id }, parentId) {
-    const categories = this.props.categories
-      .filter(cat => cat.id === id || parentId)
-      .map(cat => cat.values)[0];
-
+  buildParams = ({ title, id, data }) => {
     return {
       fetchPath: `categories/${id}/products`,
       title: title,
       hideCategories: true,
       hideGenderFilter: !!this.props.gender,
       gender: this.props.gender,
-      listHeader:
-        categories && categories.length ? (
-          <CategoryBar
-            id={parentId || id}
-            onChangeCategory={this.onChangeCategory}
-            store={this.props.store}/>
-        ) : null
+      listHeader: (
+        <CategoryBar
+          categories={data}
+          onChangeCategory={this.onChangeCategory}
+          store={this.props.store}/>
+      )
     };
-  }
+  };
 
   // this changes the category from the top category bar
-  onChangeCategory(category) {
+  onChangeCategory = category => {
     // this dispatches the changed category to product list store
     GA.trackEvent(
       "category",
       "change category",
-      `${this.props.gender}-${category.id}`
+      `${this.props.gender}-${category.title}`
     );
-    this.props.navigation.dispatch(
-      paramsAction(
-        this.sceneKey,
-        this.buildParams(category, this._parentCategoryId)
-      )
-    );
-  }
+    this.props.navigation.navigate({
+      routeName: "ProductList",
+      params: this.buildParams(category),
+      key: `${CATEGORY_PRODUCT_LIST_KEY}-${category.id}`
+    });
+  };
 
   // this selects a category from the main search browse screen
-  onSelectCategory(category) {
+  onSelectCategory = category => {
     GA.trackEvent(
       "category",
       "select category",
-      `${this.props.gender}-${category.id}`
+      `${this.props.gender}-${category.title}`
     );
-    this._parentCategoryId = category.id;
-    this.props.navigation.navigate(
-      "ProductList",
-      {
-        title: category.title
-      },
-      {
-        type: "Navigate",
-        params: this.buildParams(category),
-        routeName: "ProductList",
-        key: this.sceneKey
-      }
-    );
-  }
+    this.props.navigation.navigate({
+      routeName: "ProductList",
+      params: this.buildParams(category)
+    });
+  };
 
-  renderSubcategory({ item: category }) {
+  renderItem = ({ item: category }) => {
     return (
-      <TouchableOpacity onPress={() => this.onSelectCategory(category)}>
-        <CategoryButton {...category} />
+      <CategoryButton
+        {...category}
+        onPress={() => this.onSelectCategory(category)}/>
+    );
+  };
+
+  renderSectionHeader = ({ section: category }) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => this.onSelectCategory(category)}>
+        <View style={styles.header}>
+          <Text style={styles.title}>{category.title.toUpperCase()}</Text>
+          <View style={styles.button}>
+            <Text style={styles.buttonLabel}>View all</Text>
+          </View>
+        </View>
       </TouchableOpacity>
     );
-  }
+  };
 
-  renderCategory({ item: category }) {
-    return (
-      <View style={styles.row}>
-        <TouchableOpacity onPress={() => this.onSelectCategory(category)}>
-          <View style={styles.header}>
-            <Text style={styles.title}>{category.title.toUpperCase()}</Text>
-            <View style={styles.button}>
-              <Text style={styles.buttonLabel}>View all</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <FlatList
-          horizontal
-          initialNumToRender={3}
-          showsHorizontalScrollIndicator={false}
-          data={category.values.slice() || []}
-          renderItem={this.renderSubcategory}
-          contentContainerStyle={styles.category}
-          keyExtractor={(c, i) =>
-            `${this._keySeed}-cat${category.id}-row${i}-subcat${c.id}`
-          }/>
-        <View style={styles.separator} />
-      </View>
-    );
-  }
-
-  get placeholder() {
-    return (
-      <View style={styles.placeholder}>
-        <CategoryListPlaceholder />
-      </View>
-    );
-  }
+  renderSectionFooter = () => {
+    return <View style={styles.separator} />;
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <CategoryGender />
-        <FlatList
-          onScroll={this.props.onScroll}
+        <SectionList
+          sections={this.props.categories}
+          ListHeaderComponent={<CategoryGender />}
+          renderItem={this.renderItem}
+          renderSectionHeader={this.renderSectionHeader}
+          renderSectionFooter={this.renderSectionFooter}
           scrollEventThrottle={16}
-          data={this.props.categories}
-          contentContainerStyle={[styles.list, this.props.style]}
-          showsVerticalScrollIndicator={false}
-          renderItem={this.renderCategory}
-          initialNumToRender={4}
-          ListEmptyComponent={this.placeholder}
-          keyExtractor={(c, i) => `${this._keySeed}-row${i}-cat${c.id}`}/>
+          initialNumToRender={8}
+          numColumns={2}
+          contentContainerStyle={styles.list}
+          style={{ marginHorizontal: BUTTON_PADDING }}
+          keyExtractor={c => `cat${c.id}`}/>
       </View>
     );
   }
@@ -183,25 +132,31 @@ export default withNavigation(CategoryList);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: Sizes.ScreenTop + Sizes.OuterFrame
+    flex: 1
+    //paddingTop: Sizes.ScreenTop + Sizes.OuterFrame
   },
 
   list: {
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
     paddingBottom: NAVBAR_HEIGHT + Sizes.OuterFrame
   },
 
   separator: {
-    padding: Sizes.InnerFrame,
-    marginHorizontal: Sizes.InnerFrame,
+    paddingTop: BUTTON_PADDING,
+    paddingBottom: Sizes.InnerFrame,
     borderColor: Colours.Background,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    width: Sizes.Width
   },
 
   header: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
-    padding: Sizes.InnerFrame
+    padding: Sizes.InnerFrame,
+    backgroundColor: Colours.Foreground,
+    width: Sizes.Width
   },
 
   title: {
@@ -219,9 +174,5 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Emphasized,
     ...Styles.TinyText
-  },
-
-  category: {
-    paddingHorizontal: Sizes.InnerFrame
   }
 });
