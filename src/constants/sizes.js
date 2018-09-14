@@ -21,8 +21,16 @@ const HEIGHT
       - ExtraDimensions.get("SOFT_MENU_BAR_HEIGHT")
       - ExtraDimensions.get("SMART_BAR_HEIGHT");
 
+const BASE_WIDTH = 375; // constant, 375 is standard width of iphone 6 / 7 / 8
+
 // font scaling amount
 const FONT_SCALING = WIDTH > 320 ? 1 : 0.8;
+
+export const ResponsiveFontSize = size => {
+  // get ratio based on your standard scale
+  const ratio = size / BASE_WIDTH;
+  return Math.round(ratio * WIDTH);
+};
 
 export const Sizes = {
   Width: WIDTH,
@@ -44,7 +52,7 @@ export const Sizes = {
   H1: 24 * FONT_SCALING,
   H2: 22 * FONT_SCALING,
   H3: 20 * FONT_SCALING,
-  Text: 18 * FONT_SCALING,
+  Text: ResponsiveFontSize(20),
   SmallText: 16,
   TinyText: 14,
 

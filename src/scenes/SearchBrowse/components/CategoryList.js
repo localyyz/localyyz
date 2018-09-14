@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  FlatList
+  SectionList
 } from "react-native";
 
 // third party
@@ -17,9 +17,8 @@ import { GA } from "localyyz/global";
 
 // local
 import CategoryBar from "./CategoryBar";
-import CategoryButton from "./CategoryButton";
+import CategoryButton, { BUTTON_PADDING } from "./CategoryButton";
 import CategoryGender from "./CategoryGender";
-import { CategoryListPlaceholder } from "./placeholders";
 
 // constants
 const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
@@ -28,8 +27,7 @@ const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
   store: stores.searchStore,
   fetch: stores.searchStore.fetchCategories,
   gender: stores.searchStore.gender && stores.searchStore.gender.id,
-  categories:
-    stores.searchStore.categories && stores.searchStore.categories.slice()
+  categories: stores.searchStore.categories.slice()
 }))
 @observer
 export class CategoryList extends React.Component {
@@ -37,7 +35,7 @@ export class CategoryList extends React.Component {
     this.props.fetch();
   }
 
-  buildParams = ({ title, id, values }) => {
+  buildParams = ({ title, id, data }) => {
     return {
       fetchPath: `categories/${id}/products`,
       title: title,
@@ -46,7 +44,7 @@ export class CategoryList extends React.Component {
       gender: this.props.gender,
       listHeader: (
         <CategoryBar
-          categories={values}
+          categories={data}
           onChangeCategory={this.onChangeCategory}
           store={this.props.store}/>
       )
@@ -81,7 +79,7 @@ export class CategoryList extends React.Component {
     });
   };
 
-  renderSubcategory = ({ item: category }) => {
+  renderItem = ({ item: category }) => {
     return (
       <CategoryButton
         {...category}
@@ -89,52 +87,40 @@ export class CategoryList extends React.Component {
     );
   };
 
-  renderCategory = ({ item: category }) => {
+  renderSectionHeader = ({ section: category }) => {
     return (
-      <FlatList
-        bounces={false}
-        numColumns={2}
-        showsHorizontalScrollIndicator={false}
-        data={category.values.slice() || []}
-        renderItem={this.renderSubcategory}
-        ListHeaderComponent={
-          <TouchableOpacity onPress={() => this.onSelectCategory(category)}>
-            <View style={styles.header}>
-              <Text style={styles.title}>{category.title.toUpperCase()}</Text>
-              <View style={styles.button}>
-                <Text style={styles.buttonLabel}>View all</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        }
-        ListFooterComponent={<View style={styles.separator} />}
-        columnWrapperStyle={styles.category}
-        keyExtractor={c => `category${c.id}`}/>
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => this.onSelectCategory(category)}>
+        <View style={styles.header}>
+          <Text style={styles.title}>{category.title.toUpperCase()}</Text>
+          <View style={styles.button}>
+            <Text style={styles.buttonLabel}>View all</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
     );
   };
 
-  get placeholder() {
-    return (
-      <View style={styles.placeholder}>
-        <CategoryListPlaceholder />
-      </View>
-    );
-  }
+  renderSectionFooter = () => {
+    return <View style={styles.separator} />;
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
-          onScroll={this.props.onScroll}
-          scrollEventThrottle={16}
-          data={this.props.categories}
-          contentContainerStyle={[styles.list, this.props.style]}
-          showsVerticalScrollIndicator={false}
-          renderItem={this.renderCategory}
-          initialNumToRender={4}
+        <SectionList
+          sections={this.props.categories}
           ListHeaderComponent={<CategoryGender />}
-          ListEmptyComponent={this.placeholder}
-          keyExtractor={(c, i) => `${this._keySeed}-row${i}-cat${c.id}`}/>
+          renderItem={this.renderItem}
+          renderSectionHeader={this.renderSectionHeader}
+          renderSectionFooter={this.renderSectionFooter}
+          scrollEventThrottle={16}
+          initialNumToRender={8}
+          numColumns={2}
+          contentContainerStyle={styles.list}
+          style={{ marginHorizontal: BUTTON_PADDING }}
+          keyExtractor={c => `cat${c.id}`}/>
       </View>
     );
   }
@@ -149,20 +135,26 @@ const styles = StyleSheet.create({
   },
 
   list: {
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
     paddingBottom: NAVBAR_HEIGHT + Sizes.OuterFrame
   },
 
   separator: {
-    padding: Sizes.InnerFrame,
-    marginHorizontal: Sizes.InnerFrame,
+    paddingTop: BUTTON_PADDING,
+    paddingBottom: Sizes.InnerFrame,
     borderColor: Colours.Background,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    width: Sizes.Width
   },
 
   header: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
-    padding: Sizes.InnerFrame
+    padding: Sizes.InnerFrame,
+    backgroundColor: Colours.Foreground,
+    width: Sizes.Width
   },
 
   title: {
@@ -182,8 +174,7 @@ const styles = StyleSheet.create({
     ...Styles.TinyText
   },
 
-  category: {
-    justifyContent: "space-around",
-    paddingBottom: Sizes.InnerFrame
+  section: {
+    paddingBottom: BUTTON_PADDING
   }
 });

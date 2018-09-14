@@ -11,9 +11,9 @@ import {
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // constants
-export const WIDTH = 2 * Sizes.Width / 5;
-export const HEIGHT = 2 * Sizes.Width / 5;
-export const RIGHT_MARGIN = Sizes.InnerFrame / 2;
+export const BUTTON_PADDING = 5;
+const WIDTH = Sizes.Width / 2 - 2 * BUTTON_PADDING;
+const HEIGHT = 2 * Sizes.Width / 5;
 const SMALL_WIDTH = Sizes.Width / 3;
 const SMALL_HEIGHT = Sizes.Width / 6;
 const SMALL_RIGHT_MARGIN = Sizes.InnerFrame / 4;
@@ -21,22 +21,30 @@ const SMALL_RIGHT_MARGIN = Sizes.InnerFrame / 4;
 export default class CategoryButton extends React.Component {
   render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress}>
+      <TouchableOpacity activeOpacity={1} onPress={this.props.onPress}>
         <View style={styles.container}>
           <ImageBackground
             source={{ uri: this.props.imageUrl }}
             resizeMode="cover"
             style={[styles.photo, this.props.isSmall && styles.small]}>
             <View style={styles.overlay} />
+            {this.props.isSmall ? null : (
+              <View style={styles.labelBackground}>
+                <Text
+                  numberOfLines={2}
+                  style={[styles.label, styles.labelLarge]}>
+                  {this.props.title}
+                </Text>
+              </View>
+            )}
           </ImageBackground>
-          <Text
-            numberOfLines={this.props.isSmall ? 1 : 2}
-            style={[
-              styles.label,
-              this.props.isSelected ? styles.selected : null
-            ]}>
-            {this.props.title}
-          </Text>
+          {this.props.isSmall ? (
+            <View style={{ width: SMALL_WIDTH }}>
+              <Text numberOfLines={1} style={[styles.label, styles.labelSmall]}>
+                {this.props.title}
+              </Text>
+            </View>
+          ) : null}
         </View>
       </TouchableOpacity>
     );
@@ -47,26 +55,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "space-between",
-    padding: Sizes.InnerFrame / 5,
-    overflow: "hidden",
-    borderRadius: 10
+    justifyContent: "space-between"
   },
 
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     width: WIDTH,
     height: HEIGHT,
-    opacity: 0.5
+    position: "absolute"
   },
 
   photo: {
     width: WIDTH,
     height: HEIGHT,
-    marginRight: RIGHT_MARGIN,
     backgroundColor: Colours.MenuBackground,
     overflow: "hidden",
-    borderRadius: 10,
     borderWidth: Sizes.Hairline,
     borderColor: Colours.Border
   },
@@ -74,7 +77,8 @@ const styles = StyleSheet.create({
   small: {
     height: SMALL_HEIGHT,
     width: SMALL_WIDTH,
-    marginRight: SMALL_RIGHT_MARGIN
+    marginRight: SMALL_RIGHT_MARGIN,
+    borderRadius: 10
   },
 
   label: {
@@ -83,7 +87,20 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
 
-  selected: {
-    textDecorationLine: "underline"
+  labelSmall: {
+    flex: 1,
+    fontSize: Sizes.TinyText
+  },
+
+  labelLarge: {
+    color: "white",
+    textAlign: "center"
+  },
+
+  labelBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: WIDTH / 6
   }
 });

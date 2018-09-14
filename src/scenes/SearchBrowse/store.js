@@ -171,7 +171,7 @@ export default class Store {
       ...v,
       id: v.type,
       title: capitalize(v.title || v.type),
-      values:
+      data:
         (v.values || []).length > 0 ? this.parseCategoryValues(v.values) : []
     }));
   };
@@ -189,7 +189,9 @@ export default class Store {
           ...category,
           id: category.type,
           title: capitalize(category.title || category.type),
-          values: this.parseCategoryValues(category.values)
+          data: this.parseCategoryValues(
+            category.values.slice().filter(v => v.imageUrl)
+          )
         }));
       });
     }
