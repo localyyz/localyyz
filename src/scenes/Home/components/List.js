@@ -1,8 +1,14 @@
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback
+} from "react-native";
 
 // custom
-import { Colours, Sizes } from "localyyz/constants";
+import { Colours, Styles, Sizes } from "~/src/constants";
 
 // third party
 import { observer } from "mobx-react/native";
@@ -30,7 +36,7 @@ export class List extends React.Component {
     limit: PropTypes.number,
 
     // more button
-    fetchPath: PropTypes.string.isRequired,
+    fetchPath: PropTypes.string,
     numProducts: PropTypes.number
   };
 
@@ -42,7 +48,9 @@ export class List extends React.Component {
   };
 
   get renderMoreButton() {
-    return <MoreFooter {...this.props} />;
+    return this.props.listData.length > 0 ? (
+      <MoreFooter {...this.props} />
+    ) : null;
   }
 
   shouldComponentUpdate(nextProps) {
@@ -51,6 +59,42 @@ export class List extends React.Component {
 
   renderItem = ({ item: product }) => {
     return <ListItem product={product} />;
+  };
+
+  gotoOnboarding = () => {
+    this.props.navigation.navigate("Onboarding", {
+      onFinish: this.props.navigation.goBack
+    });
+  };
+
+  // TODO: this really shouldn't be abstracted here. but until
+  // home is completely redone. let's leave it here for now.
+  renderEmptyComponent = () => {
+    return (
+      <View style={styles.emptyContainer}>
+        {this.props.id === "feed" ? (
+          <TouchableWithoutFeedback onPress={this.gotoOnboarding}>
+            <View>
+              <Text style={styles.emptyText}>Nothing in your feed yet!</Text>
+              <Text style={styles.emptyText}>
+                Help us personalize Localyyz for you.
+              </Text>
+              <View
+                style={[
+                  Styles.RoundedButton,
+                  { marginVertical: Sizes.InnerFrame }
+                ]}>
+                <Text style={Styles.RoundedButtonText}>Start Onboarding</Text>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        ) : (
+          <Text style={styles.emptyText}>
+            Nothing here yet. Try again later.
+          </Text>
+        )}
+      </View>
+    );
   };
 
   render() {
@@ -64,10 +108,11 @@ export class List extends React.Component {
           <FlatList
             keyExtractor={item => `product-${item.id}`}
             renderItem={this.renderItem}
+            ListFooterComponent={this.renderMoreButton}
+            ListEmptyComponent={this.renderEmptyComponent}
             data={listData && listData.slice()}
             numColumns={2}/>
         </View>
-        {this.renderMoreButton}
       </View>
     );
   }
@@ -79,5 +124,18 @@ const styles = StyleSheet.create({
   listWrapper: {
     padding: Sizes.InnerFrame / 2,
     backgroundColor: Colours.Foreground
+  },
+
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: Sizes.InnerFrame
+  },
+
+  emptyText: {
+    ...Styles.Text,
+    ...Styles.EmphasizedText,
+    textAlign: "center"
   }
 });

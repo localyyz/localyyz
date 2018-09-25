@@ -8,7 +8,7 @@ import { Colours } from "localyyz/constants";
 import PropTypes from "prop-types";
 
 // local
-import Collection from "../Collection";
+import Collection from "./Collection";
 
 export default class CollectionList extends React.Component {
   static propTypes = {

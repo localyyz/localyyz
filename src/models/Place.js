@@ -1,9 +1,6 @@
 // third party
 import { action, observable, computed } from "mobx";
 
-// constants
-const FREE_SHIPPING_IDS = {};
-
 export default class Place {
   @observable id = 0;
   @observable distance = 0.0;
@@ -16,7 +13,7 @@ export default class Place {
   @observable createdAt = "";
 
   @observable productCount = 0;
-  @observable following = false;
+  @observable isFavourite = false;
 
   constructor(place) {
     this.update(place);
@@ -34,6 +31,6 @@ export default class Place {
 
   @computed
   get hasFreeShipping() {
-    return !!FREE_SHIPPING_IDS[this.id];
+    return false;
   }
 }

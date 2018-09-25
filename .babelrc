@@ -5,7 +5,13 @@
   "env": {
     "development": {
       "plugins": [
-        "transform-react-jsx-source"
+        ["babel-plugin-root-import"],
+        ["transform-react-jsx-source"],
+      ]
+    },
+    "production": {
+      "plugins": [
+        ["babel-plugin-root-import"],
       ]
     }
   }

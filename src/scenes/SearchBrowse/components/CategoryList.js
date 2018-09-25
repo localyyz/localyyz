@@ -27,6 +27,7 @@ const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
   store: stores.searchStore,
   fetch: stores.searchStore.fetchCategories,
   gender: stores.searchStore.gender && stores.searchStore.gender.id,
+  setGender: stores.searchStore.setGender,
   categories: stores.searchStore.categories
     ? stores.searchStore.categories.slice()
     : []
@@ -108,22 +109,29 @@ export class CategoryList extends React.Component {
     return <View style={styles.separator} />;
   };
 
+  renderHeader = () => {
+    return (
+      <CategoryGender
+        key={`gender-${this.props.gender.id}`}
+        setGender={this.props.setGender}
+        gender={this.props.gender}/>
+    );
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <SectionList
-          sections={this.props.categories}
-          ListHeaderComponent={<CategoryGender />}
-          renderItem={this.renderItem}
-          renderSectionHeader={this.renderSectionHeader}
-          renderSectionFooter={this.renderSectionFooter}
-          scrollEventThrottle={16}
-          initialNumToRender={8}
-          numColumns={2}
-          contentContainerStyle={styles.list}
-          style={{ marginHorizontal: BUTTON_PADDING }}
-          keyExtractor={c => `cat${c.id}`}/>
-      </View>
+      <SectionList
+        sections={this.props.categories}
+        ListHeaderComponent={this.renderHeader}
+        renderItem={this.renderItem}
+        renderSectionHeader={this.renderSectionHeader}
+        renderSectionFooter={this.renderSectionFooter}
+        scrollEventThrottle={16}
+        initialNumToRender={8}
+        numColumns={2}
+        contentContainerStyle={styles.list}
+        style={styles.container}
+        keyExtractor={c => `cat${c.id}`}/>
     );
   }
 }
@@ -132,7 +140,8 @@ export default withNavigation(CategoryList);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginHorizontal: BUTTON_PADDING
     //paddingTop: Sizes.ScreenTop + Sizes.OuterFrame
   },
 

@@ -8,7 +8,6 @@ import { Sizes } from "localyyz/constants";
 import Banner from "./Banner";
 import CollectionList from "./CollectionList";
 import Collection from "./Collection";
-import Brands from "./Brands";
 
 export default class BlockItem extends React.Component {
   // props
@@ -53,16 +52,6 @@ export default class BlockItem extends React.Component {
       case "collectionList":
         // nested collections.
         component = <CollectionList {...block} id={i} />;
-        break;
-      case "brand":
-        component = (
-          <Brands
-            {...block}
-            id={i}
-            limit={12}
-            type={block.brandType}
-            shouldShowName={!!block.shouldShowName}/>
-        );
         break;
     }
 

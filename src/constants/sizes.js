@@ -51,13 +51,13 @@ export const Sizes = {
   InnerFrame: 15,
 
   // text
-  Oversized: 32 * FONT_SCALING,
-  H1: 24 * FONT_SCALING,
-  H2: 22 * FONT_SCALING,
-  H3: 20 * FONT_SCALING,
+  Oversized: ResponsiveFontSize(32),
+  H1: ResponsiveFontSize(24),
+  H2: ResponsiveFontSize(22),
+  H3: ResponsiveFontSize(21),
   Text: ResponsiveFontSize(20),
-  SmallText: 16,
-  TinyText: 14,
+  SmallText: ResponsiveFontSize(16),
+  TinyText: ResponsiveFontSize(14),
 
   // weights
   Obese: "800",
@@ -78,6 +78,7 @@ export const Sizes = {
   IconButton: 20,
   Avatar: 40,
   SocialButton: 30,
+  ActionButton: ResponsiveFontSize(30),
   NavLeft: Platform.OS == "ios" ? 18 : 36,
 
   // apple specific

@@ -2,7 +2,7 @@ import React from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 
 // custom
-import { Colours } from "localyyz/constants";
+import { Sizes, Colours } from "~/src/constants";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 export default class Modal extends React.Component {
@@ -22,7 +22,7 @@ export default class Modal extends React.Component {
         <View style={styles.close}>
           <MaterialIcon.Button
             name="close"
-            size={30}
+            size={Sizes.ActionButton}
             underlayColor={Colours.Transparent}
             backgroundColor={Colours.Transparent}
             color={Colours.EmphasizedText}

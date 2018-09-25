@@ -11,7 +11,7 @@ import { observable, runInAction } from "mobx";
 import { observer, inject } from "mobx-react/native";
 
 // local
-import { StandardCollection } from "./components";
+import { List } from "../components";
 
 @inject(stores => ({
   wasLoginSuccessful: stores.loginStore._wasLoginSuccessful,
@@ -61,10 +61,10 @@ export default class Collection extends React.Component {
 
   render() {
     return (
-      <StandardCollection
+      <List
         {...this.props}
         listData={this.products}
-        imageUrl={this.props.imageUrl}
+        fetchPath={this.props.fetchFrom}
         numProducts={this.numProducts}
         backgroundColor={
           this.props.withMargin ? Colours.Foreground : Colours.Background
