@@ -37,7 +37,7 @@ export default class Store {
   ];
   @observable selected = observable.map({});
   @observable merchants = [];
-  isLoading = false;
+  @observable isLoading = false;
 
   @computed
   get selectedCount() {

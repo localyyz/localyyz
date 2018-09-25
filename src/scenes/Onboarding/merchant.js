@@ -4,7 +4,8 @@ import {
   Text,
   TouchableWithoutFeedback,
   StyleSheet,
-  FlatList
+  FlatList,
+  ActivityIndicator
 } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import {
@@ -163,7 +164,13 @@ class Merchant extends React.Component {
             backgroundColor={Colours.Transparent}
             onPress={this.onPressPreview}
             size={Sizes.ActionButton}
-            color={Colours.EmphasizedText}/>
+            color={Colours.EmphasizedText}
+            hitSlop={{
+              top: Sizes.InnerFrame,
+              bottom: Sizes.OuterFrame,
+              left: Sizes.OuterFrame,
+              right: Sizes.OuterFrame
+            }}/>
         </View>
         <FlatList
           data={this.state.products}
@@ -280,6 +287,16 @@ export class Merchants extends React.Component {
     );
   };
 
+  renderFooter = () => {
+    //Second view makes sure we don't unnecessarily change height of the list on this event. That might cause indicator to remain invisible
+    //The empty view can be removed once you've fetched all the data
+    return this.store.isLoading ? (
+      <ActivityIndicator style={{ margin: 10 }} size="large" color={"black"} />
+    ) : (
+      <View style={{ height: 60 }} />
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -288,12 +305,13 @@ export class Merchants extends React.Component {
             directionalLockEnabled: true,
             scrollEventThrottle: 16
           }}
-          style={styles.container}
+          style={styles.list}
           dataProvider={this._dataProvider.cloneWithRows(
             this.store.merchants.slice()
           )}
           layoutProvider={this._layoutProvider}
           rowRenderer={this.renderItem}
+          renderFooter={this.renderFooter}
           onEndReached={this.onEndReached}/>
         <View pointerEvents="box-none" style={styles.footer}>
           {this.renderNextButton()}
@@ -313,6 +331,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colours.Foreground,
     paddingTop: Sizes.ScreenTop
+  },
+
+  list: {
+    flex: 1,
+    backgroundColor: Colours.Foreground
   },
 
   name: {
