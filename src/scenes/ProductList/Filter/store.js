@@ -106,7 +106,7 @@ export default class FilterStore {
 
     // set gender from settings on mount, can be
     // overrided
-    let gender = defaultGender || (userStore && userStore.gender);
+    let gender = defaultGender; //|| (userStore && userStore.gender);
     gender = GENDER_MAPPING[gender];
     gender && this.setGenderFilter(gender);
   }

@@ -222,7 +222,12 @@ const RootNavigator = createStackNavigator(
     Deeplink: { screen: Deeplink },
     Login: { screen: Login },
     Modal: { screen: Modal },
-    Onboarding: { screen: Onboarding },
+    Onboarding: {
+      screen: Onboarding,
+      navigationOptions: {
+        gesturesEnabled: false
+      }
+    },
     App: { screen: TabNavigator }
   },
   {

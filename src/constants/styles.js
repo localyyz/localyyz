@@ -36,7 +36,7 @@ export const Styles = {
   },
 
   Title: {
-    fontSize: Sizes.H2,
+    fontSize: Sizes.H1,
     fontWeight: Sizes.Heavy
   },
 

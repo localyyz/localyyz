@@ -67,8 +67,10 @@ export class List extends React.Component {
     });
   };
 
-  // TODO: this really shouldn't be abstracted here. but until
-  // home is completely redone. let's leave it here for now.
+  // TODO make home into three parts:
+  // - feed
+  // - discover
+  // - sale
   renderEmptyComponent = () => {
     return (
       <View style={styles.emptyContainer}>

@@ -17,6 +17,8 @@ import { Colours, Sizes, Styles } from "~/src/constants";
 export const BUTTON_PADDING = 5;
 const WIDTH = Sizes.Width / 2 - BUTTON_PADDING;
 const HEIGHT = 2 * Sizes.Width / 5;
+export const BUTTON_HEIGHT = HEIGHT;
+export const BUTTON_WIDTH = WIDTH;
 const ANIMATION_DURATION = 100;
 
 class Heart extends React.Component {
@@ -40,7 +42,7 @@ class Heart extends React.Component {
       <Animated.View style={[{ transform: [{ scale: this.state.scale }] }]}>
         <EntypoIcon
           color={Colours.Foreground}
-          name="heart"
+          name="check"
           size={Sizes.SocialButton}/>
       </Animated.View>
     );
@@ -51,6 +53,10 @@ export default class Button extends React.Component {
   constructor(props) {
     super(props);
     this._animated = new Animated.Value(0);
+
+    this.state = {
+      selected: props.selected
+    };
   }
 
   componentDidMount() {
@@ -61,31 +67,38 @@ export default class Button extends React.Component {
     }).start();
   }
 
+  onPress = () => {
+    this.setState({ selected: !this.state.selected }, () => {
+      this.props.onPress && this.props.onPress();
+    });
+  };
+
   render() {
     const animatedTransform = [{ opacity: this._animated }];
+    const BackgroundComponent = this.props.imageUrl ? ImageBackground : View;
 
     return (
-      <TouchableOpacity activeOpacity={1} onPress={this.props.onPress}>
+      <TouchableOpacity activeOpacity={1} onPress={this.onPress}>
         <Animated.View style={[styles.container, animatedTransform]}>
-          <ImageBackground
+          <BackgroundComponent
             source={{ uri: this.props.imageUrl }}
             resizeMode="cover"
-            style={styles.photo}>
+            style={styles.background}>
             <View
               style={[
                 styles.overlay,
-                this.props.selected
-                  ? { backgroundColor: "rgba(0, 0, 0, 1)" }
+                this.state.selected
+                  ? { backgroundColor: "rgba(0, 0, 0, 0.8)" }
                   : {}
               ]}>
-              {this.props.selected ? <Heart /> : null}
+              {this.state.selected ? <Heart /> : null}
             </View>
             <View style={styles.labelBackground}>
               <Text numberOfLines={2} style={styles.label}>
                 {this.props.label}
               </Text>
             </View>
-          </ImageBackground>
+          </BackgroundComponent>
         </Animated.View>
       </TouchableOpacity>
     );
@@ -109,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end"
   },
 
-  photo: {
+  background: {
     width: WIDTH,
     height: HEIGHT,
     backgroundColor: "pink",

@@ -191,11 +191,17 @@ class Merchant extends React.Component {
     );
   }
 }
+
 @inject(stores => ({
   onboardingStore: stores.onboardingStore
 }))
 @observer
 export class Merchants extends React.Component {
+  static navigationOptions = ({ navigationOptions }) => ({
+    ...navigationOptions,
+    gesturesEnabled: false
+  });
+
   constructor(props) {
     super(props);
     this.store = props.onboardingStore;
@@ -233,17 +239,18 @@ export class Merchants extends React.Component {
   }
 
   onEndReached = () => {
-    this.store.fetchMerchants();
+    this.store.fetchNextPage();
   };
 
   renderItem = (type, data) => {
-    return (
-      <Merchant merchant={data} categories={this.store.selectedCategories} />
-    );
+    return <Merchant merchant={data} categories={this.store.selectedOptions} />;
   };
 
   onNext = () => {
-    this.setState({ isProcessing: true });
+    this.setState({
+      isProcessing: true,
+      processingSubtitle: "Putting together your feed..."
+    });
 
     // save the users category
     this.store.storeUserCategory().then(resolved => {
@@ -271,29 +278,67 @@ export class Merchants extends React.Component {
     });
   };
 
+  onBack = () => {
+    this.props.navigation.popToTop();
+  };
+
   renderNextButton = () => {
-    return this.store.favouriteCount >= MinFollowCount ? (
-      <TouchableWithoutFeedback onPress={this.onNext}>
-        <View style={Styles.RoundedButton}>
-          <Text style={Styles.RoundedButtonText}>Next</Text>
-        </View>
-      </TouchableWithoutFeedback>
-    ) : (
-      <View style={Styles.RoundedButton}>
-        <Text style={Styles.RoundedButtonText}>
-          Follow {MinFollowCount - this.store.favouriteCount} More
-        </Text>
+    return (
+      <View
+        pointerEvents="box-none"
+        style={{
+          alignItems: "center",
+          width: Sizes.Width
+        }}>
+        {this.store.favouriteCount >= MinFollowCount ? (
+          <TouchableWithoutFeedback onPress={this.onNext}>
+            <View
+              style={{
+                width: Sizes.Width,
+                backgroundColor: Colours.PositiveButton,
+                alignItems: "center",
+                paddingVertical: Sizes.InnerFrame
+              }}>
+              <Text style={Styles.RoundedButtonText}>Finish</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        ) : (
+          <View style={{ flexDirection: "row", width: Sizes.Width }}>
+            <TouchableWithoutFeedback onPress={this.onBack}>
+              <View
+                style={{
+                  width: Sizes.Width / 4,
+                  backgroundColor: Colours.SubduedForeground,
+                  alignItems: "center",
+                  paddingVertical: Sizes.InnerFrame
+                }}>
+                <Text style={Styles.RoundedButtonText}>Back</Text>
+              </View>
+            </TouchableWithoutFeedback>
+            <View
+              style={{
+                width: 3 * Sizes.Width / 4,
+                backgroundColor: Colours.PositiveButton,
+                alignItems: "center",
+                paddingVertical: Sizes.InnerFrame
+              }}>
+              <Text style={Styles.RoundedButtonText}>
+                Follow {MinFollowCount - this.store.favouriteCount} More
+              </Text>
+            </View>
+          </View>
+        )}
       </View>
     );
   };
 
   renderFooter = () => {
-    //Second view makes sure we don't unnecessarily change height of the list on this event. That might cause indicator to remain invisible
-    //The empty view can be removed once you've fetched all the data
-    return this.store.isLoading ? (
-      <ActivityIndicator style={{ margin: 10 }} size="large" color={"black"} />
-    ) : (
-      <View style={{ height: 60 }} />
+    return (
+      <ActivityIndicator
+        animating={this.store.isLoading}
+        size="large"
+        style={{ height: 60, width: Sizes.Width }}
+        color={"black"}/>
     );
   };
 
@@ -360,7 +405,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: Sizes.ScreenBottom + Sizes.OuterFrame,
+    bottom: Sizes.ScreenBottom,
     alignItems: "center",
     justifyContent: "flex-end"
   }

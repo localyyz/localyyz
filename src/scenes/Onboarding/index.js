@@ -9,18 +9,18 @@ import ProductListStack from "~/src/scenes/ProductList";
 
 // local
 import Store from "./store";
-import Category from "./category";
+import Question from "./question";
 import Merchant from "./merchant";
 
 const OnboardingStack = createStackNavigator(
   {
-    PickCategory: { screen: Category },
+    Question: { screen: Question },
     PickMerchant: { screen: Merchant },
     Product: { screen: ProductScene },
     ProductList: { screen: ProductListStack }
   },
   {
-    initialRouteName: "PickCategory",
+    initialRouteName: "Question",
     navigationOptions: ({ navigation: navigationOptions }) => ({
       ...navigationOptions,
       header: null
