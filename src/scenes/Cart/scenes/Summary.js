@@ -24,7 +24,7 @@ import { StackActions, NavigationActions } from "react-navigation";
 import Button from "../components/Button";
 
 @inject((stores, props) => ({
-  hasSession: stores.userStore.model.hasSession,
+  hasSession: stores.userStore.hasSession,
   loginWithFacebook: () => stores.loginStore.login("facebook"),
 
   // take passed in cached copy

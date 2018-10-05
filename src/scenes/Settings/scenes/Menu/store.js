@@ -21,7 +21,7 @@ export default class MenuUIStore {
   async setGender(gender) {
     let response = await this.api.put("users/me", { gender: gender });
     if (response && response.status < 400 && response.data) {
-      this.user.model.update(response.data);
+      this.user.update(response.data);
     }
   }
 }

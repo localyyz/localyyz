@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
 // custom
-//import { applePayButton } from "localyyz/assets";
 import { toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { SloppyView, PriceTag } from "localyyz/components";
@@ -21,7 +20,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
   previousPrice:
     stores.productStore.product && stores.productStore.product.previousPrice,
   discount: stores.productStore.product && stores.productStore.product.discount,
-  hasSession: stores.userStore.model.hasSession,
+  hasSession: stores.userStore.hasSession,
   isExpressSupported: stores.deviceStore.applePaySupported,
   product: stores.productStore.product,
   placeName:

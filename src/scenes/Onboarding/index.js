@@ -3,24 +3,16 @@ import React from "react";
 import { createStackNavigator } from "react-navigation";
 import { Provider } from "mobx-react/native";
 
-// localyyz
-import ProductScene from "~/src/scenes/Product";
-import ProductListStack from "~/src/scenes/ProductList";
-
 // local
 import Store from "./store";
-import Question from "./question";
-import Merchant from "./merchant";
+import QuestionScene from "./questions";
 
 const OnboardingStack = createStackNavigator(
   {
-    Question: { screen: Question },
-    PickMerchant: { screen: Merchant },
-    Product: { screen: ProductScene },
-    ProductList: { screen: ProductListStack }
+    Personalize: { screen: QuestionScene }
   },
   {
-    initialRouteName: "Question",
+    initialRouteName: "Personalize",
     navigationOptions: ({ navigation: navigationOptions }) => ({
       ...navigationOptions,
       header: null

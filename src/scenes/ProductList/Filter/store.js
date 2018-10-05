@@ -10,8 +10,6 @@ import {
 import { GA, ApiInstance } from "localyyz/global";
 
 // constants
-// inconsistency between user settings and filters from API
-const GENDER_MAPPING = { male: "man", female: "woman" };
 
 export default class FilterStore {
   // sorting
@@ -106,8 +104,7 @@ export default class FilterStore {
 
     // set gender from settings on mount, can be
     // overrided
-    let gender = defaultGender; //|| (userStore && userStore.gender);
-    gender = GENDER_MAPPING[gender];
+    let gender = userStore.genderPreference || defaultGender;
     gender && this.setGenderFilter(gender);
   }
 

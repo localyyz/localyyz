@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
@@ -7,28 +8,30 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 
-// custom
-import { Colours, Styles, Sizes } from "~/src/constants";
-
 // third party
-import { observer } from "mobx-react/native";
+import { observable, runInAction } from "mobx";
+import { observer, inject } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import PropTypes from "prop-types";
-import { PropTypes as mobxPropTypes } from "mobx-react/native";
+
+// custom
+import { ApiInstance } from "localyyz/global";
+import { Product } from "localyyz/stores";
+import { box } from "~/src/helpers";
+import { Colours, Styles, Sizes } from "~/src/constants";
 
 // local
 import ListItem from "./ListItem";
 import ListHeader from "./ListHeader";
 import MoreFooter from "./MoreFooter";
 
+@inject(stores => ({
+  wasLoginSuccessful: stores.loginStore._wasLoginSuccessful,
+  genderFilter: stores.userStore.genderPreference
+}))
 @observer
 export class List extends React.Component {
   static propTypes = {
-    // listData input type take a look at home store
-    //  fetchFeaturedProducts
-    //  fetchDiscountedProducts
-    // and https://github.com/mobxjs/mobx-utils#lazyobservable
-    listData: mobxPropTypes.objectOrObservableObject,
     title: PropTypes.string.isRequired,
     hideHeader: PropTypes.bool,
     description: PropTypes.string,
@@ -37,8 +40,32 @@ export class List extends React.Component {
 
     // more button
     fetchPath: PropTypes.string,
-    numProducts: PropTypes.number
+    fetchFrom: PropTypes.string
   };
+
+  @box isLoading = true;
+  @observable products = [];
+
+  componentDidMount() {
+    // setup the items
+    ApiInstance.get(this.props.fetchFrom, {
+      filter: this.props.genderFilter
+        ? `gender,val=${this.props.genderFilter}`
+        : null,
+      limit: this.props.limit
+    })
+      .then(resolved => {
+        if (!resolved.error) {
+          runInAction("[ACTION] fetch collection", () => {
+            this.products = (resolved.data || []).map(p => new Product(p));
+          });
+        }
+        this.isLoading = false;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  }
 
   static defaultProps = {
     title: "",
@@ -48,13 +75,7 @@ export class List extends React.Component {
   };
 
   get renderMoreButton() {
-    return this.props.listData.length > 0 ? (
-      <MoreFooter {...this.props} />
-    ) : null;
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.numProducts !== this.props.numProducts;
+    return this.products.length > 0 ? <MoreFooter {...this.props} /> : null;
   }
 
   renderItem = ({ item: product }) => {
@@ -67,29 +88,37 @@ export class List extends React.Component {
     });
   };
 
+  renderOnboardingPrompt = () => {
+    return (
+      <TouchableWithoutFeedback onPress={this.gotoOnboarding}>
+        <View>
+          <Text style={styles.emptyText}>Nothing in your feed yet!</Text>
+          <Text style={styles.emptyText}>
+            Help us personalize Localyyz for you.
+          </Text>
+          <View
+            style={[
+              Styles.RoundedButton,
+              { marginVertical: Sizes.InnerFrame }
+            ]}>
+            <Text style={Styles.RoundedButtonText}>Start Personalizing</Text>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  };
+
   // TODO make home into three parts:
   // - feed
   // - discover
   // - sale
   renderEmptyComponent = () => {
-    return (
+    return this.isLoading ? (
+      <ActivityIndicator size="large" />
+    ) : (
       <View style={styles.emptyContainer}>
         {this.props.id === "feed" ? (
-          <TouchableWithoutFeedback onPress={this.gotoOnboarding}>
-            <View>
-              <Text style={styles.emptyText}>Nothing in your feed yet!</Text>
-              <Text style={styles.emptyText}>
-                Help us personalize Localyyz for you.
-              </Text>
-              <View
-                style={[
-                  Styles.RoundedButton,
-                  { marginVertical: Sizes.InnerFrame }
-                ]}>
-                <Text style={Styles.RoundedButtonText}>Start Onboarding</Text>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
+          this.renderOnboardingPrompt()
         ) : (
           <Text style={styles.emptyText}>
             Nothing here yet. Try again later.
@@ -102,7 +131,7 @@ export class List extends React.Component {
   render() {
     // TODO: _position animation
     // TODO: _motion animation
-    const { listData, withMargin, ...rest } = this.props;
+    const { withMargin, ...rest } = this.props;
     return (
       <View>
         {!this.props.hideHeader ? <ListHeader {...rest} /> : null}
@@ -110,9 +139,10 @@ export class List extends React.Component {
           <FlatList
             keyExtractor={item => `product-${item.id}`}
             renderItem={this.renderItem}
+            extraData={{ isLoading: this.isLoading }}
             ListFooterComponent={this.renderMoreButton}
             ListEmptyComponent={this.renderEmptyComponent}
-            data={listData && listData.slice()}
+            data={this.products.slice()}
             numColumns={2}/>
         </View>
       </View>
