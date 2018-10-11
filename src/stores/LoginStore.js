@@ -6,7 +6,6 @@ import { ApiInstance, GA } from "localyyz/global";
 
 export default class LoginStore {
   @observable _loggedInSince;
-  @observable _wasLoginSkipped;
 
   constructor(userStore) {
     this.api = ApiInstance;
@@ -32,8 +31,8 @@ export default class LoginStore {
       const resp = await this.api.post("signup", user);
 
       await storage.save("session", resp.data);
-      this.user.model.update(resp.data);
-      const token = `BEARER ${this.user.model.token}`;
+      this.user.update(resp.data);
+      const token = `BEARER ${this.user.token}`;
 
       // update the global api instance with the user's login token
       this.api.setAuth(token);
@@ -52,7 +51,7 @@ export default class LoginStore {
 
   logout = async () => {
     await storage.remove("session");
-    this.user.model.reset();
+    this.user.reset();
     this.api.setAuth("");
 
     // and finally, unset _loggedInSince
@@ -89,7 +88,7 @@ export default class LoginStore {
         //  that may trigger network calls across other components
         //
         //  ie home and cart
-        this.user.model.update(response.data);
+        this.user.update(response.data);
 
         this._loginSuccess("email");
       }
@@ -117,7 +116,7 @@ export default class LoginStore {
         //  that may trigger network calls across other components
         //
         //  ie home and cart
-        this.user.model.update(response.data);
+        this.user.update(response.data);
         this._loginSuccess("fb");
 
         // log facebook event
@@ -136,7 +135,7 @@ export default class LoginStore {
     if (session) {
       // update the global api instance with the user's login token
       this.api.setAuth(`BEARER ${session.jwt}`);
-      this.user.model.update(session);
+      this.user.update(session);
 
       //check with server if we need to bust cache
       await this.api
@@ -149,21 +148,23 @@ export default class LoginStore {
                 ...me.data,
                 jwt: session.jwt
               });
-              this.user.model.update(me.data);
+              this.user.update(me.data);
             });
           }
         });
 
       this._loginSuccess("storage");
     } else {
-      // try to find if the user skipped login already
-      // if no session + no skipLogin, return early
-      const skipLogin = await storage.load("skipLogin");
-      if (skipLogin && skipLogin.value) {
-        runInAction("[ACTION] skipped login", () => {
-          this._wasLoginSkipped = true;
-        });
-      }
+      // backend should've created an user session the first time
+      // we hit the api. sync it.
+      this.api.get("/users/me").then(async resolved => {
+        if (resolved && resolved.data) {
+          storage.save("session", {
+            ...resolved.data
+          });
+          this.user.update(resolved.data);
+        }
+      });
     }
   };
 

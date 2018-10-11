@@ -8,7 +8,7 @@ import { Colours } from "localyyz/constants";
 import PropTypes from "prop-types";
 
 // local
-import Collection from "./Collection";
+import List from "../components/List";
 
 export default class CollectionList extends React.Component {
   static propTypes = {
@@ -24,7 +24,7 @@ export default class CollectionList extends React.Component {
 
   renderItem = ({ item }) => {
     return (
-      <Collection
+      <List
         {...item}
         withMargin
         fetchFrom={item.path}

@@ -5,9 +5,9 @@ import { View, StyleSheet } from "react-native";
 import { Sizes } from "localyyz/constants";
 
 // local
+import List from "../components/List";
 import Banner from "./Banner";
 import CollectionList from "./CollectionList";
-import Collection from "./Collection";
 
 export default class BlockItem extends React.Component {
   // props
@@ -25,7 +25,7 @@ export default class BlockItem extends React.Component {
     switch (block.type) {
       case "productList":
         component = (
-          <Collection
+          <List
             {...block}
             withMargin
             hideHeader
@@ -39,7 +39,7 @@ export default class BlockItem extends React.Component {
           <View
             style={i > 0 ? styles.blockContainer : styles.firstBlockContainer}>
             <Banner {...block} id={i} imageUri={block.imageUrl} />
-            <Collection
+            <List
               {...block}
               withMargin
               noMargin

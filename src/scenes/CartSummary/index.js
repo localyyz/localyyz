@@ -27,7 +27,7 @@ import { ifIphoneX } from "react-native-iphone-x-helper";
   onShowSummary: () => stores.expressCartStore.onShowSummary(),
   amountDiscount: stores.cartStore.amountDiscount,
   paymentLastFour: stores.cartStore.paymentLastFour,
-  hasSession: stores.userStore.model.hasSession,
+  hasSession: stores.userStore.hasSession,
   loginWithFacebook: () => stores.loginStore.login("facebook")
 }))
 @observer

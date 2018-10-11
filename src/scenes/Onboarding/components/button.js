@@ -3,25 +3,28 @@ import {
   View,
   StyleSheet,
   Text,
-  ImageBackground,
   TouchableOpacity,
   Animated
 } from "react-native";
 
+import PropTypes from "prop-types";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
 // custom
+import { capitalize } from "~/src/helpers";
 import { Colours, Sizes, Styles } from "~/src/constants";
+
+import { ProgressiveImage } from "~/src/components";
 
 // constants
 export const BUTTON_PADDING = 5;
-const WIDTH = Sizes.Width / 2 - BUTTON_PADDING;
+const HALF_WIDTH = Sizes.Width / 2 - BUTTON_PADDING - BUTTON_PADDING / 2;
 const HEIGHT = 2 * Sizes.Width / 5;
+const FULL_WIDTH = Sizes.Width - 2 * BUTTON_PADDING;
 export const BUTTON_HEIGHT = HEIGHT;
-export const BUTTON_WIDTH = WIDTH;
-const ANIMATION_DURATION = 100;
+export const BUTTON_WIDTH = HALF_WIDTH;
 
-class Heart extends React.Component {
+class Selected extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,21 +53,19 @@ class Heart extends React.Component {
 }
 
 export default class Button extends React.Component {
+  static propTypes = {
+    fullWidth: PropTypes.bool
+  };
+
+  static defaultProps = {
+    fullWidth: false
+  };
+
   constructor(props) {
     super(props);
-    this._animated = new Animated.Value(0);
-
     this.state = {
       selected: props.selected
     };
-  }
-
-  componentDidMount() {
-    Animated.timing(this._animated, {
-      toValue: 1,
-      duration: ANIMATION_DURATION,
-      delay: this.props.batchIdx * ANIMATION_DURATION
-    }).start();
   }
 
   onPress = () => {
@@ -74,16 +75,20 @@ export default class Button extends React.Component {
   };
 
   render() {
-    const animatedTransform = [{ opacity: this._animated }];
-    const BackgroundComponent = this.props.imageUrl ? ImageBackground : View;
+    const BackgroundComponent = this.props.imageUrl ? ProgressiveImage : View;
+    const componentWidth = this.props.fullWidth ? FULL_WIDTH : HALF_WIDTH;
+    const imageStyle = StyleSheet.flatten([
+      styles.background,
+      { width: componentWidth, height: HEIGHT }
+    ]);
 
     return (
       <TouchableOpacity activeOpacity={1} onPress={this.onPress}>
-        <Animated.View style={[styles.container, animatedTransform]}>
+        <View style={styles.container}>
           <BackgroundComponent
             source={{ uri: this.props.imageUrl }}
             resizeMode="cover"
-            style={styles.background}>
+            style={imageStyle}>
             <View
               style={[
                 styles.overlay,
@@ -91,15 +96,18 @@ export default class Button extends React.Component {
                   ? { backgroundColor: "rgba(0, 0, 0, 0.8)" }
                   : {}
               ]}>
-              {this.state.selected ? <Heart /> : null}
+              {this.state.selected ? <Selected /> : null}
             </View>
             <View style={styles.labelBackground}>
               <Text numberOfLines={2} style={styles.label}>
-                {this.props.label}
+                {capitalize(this.props.label)}
+              </Text>
+              <Text numberOfLines={4} style={styles.description}>
+                {this.props.description}
               </Text>
             </View>
           </BackgroundComponent>
-        </Animated.View>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -123,9 +131,7 @@ const styles = StyleSheet.create({
   },
 
   background: {
-    width: WIDTH,
-    height: HEIGHT,
-    backgroundColor: "pink",
+    backgroundColor: Colours.Background,
     overflow: "hidden",
     borderWidth: Sizes.Hairline,
     borderColor: Colours.Border
@@ -134,14 +140,17 @@ const styles = StyleSheet.create({
   label: {
     ...Styles.Text,
     ...Styles.Emphasized,
-    textAlign: "center",
+    color: "white",
+    paddingBottom: Sizes.InnerFrame
+  },
+
+  description: {
+    ...Styles.SmallText,
     color: "white"
   },
 
   labelBackground: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: WIDTH / 6
+    padding: Sizes.InnerFrame
   }
 });

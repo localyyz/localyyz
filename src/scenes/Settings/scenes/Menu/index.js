@@ -19,7 +19,7 @@ import MenuUIStore from "./store";
 
 @inject(stores => ({
   logout: stores.loginStore.logout,
-  hasSession: stores.userStore.model.hasSession,
+  hasSession: stores.userStore.hasSession,
   userStore: stores.userStore,
   gender: stores.userStore.gender
 }))

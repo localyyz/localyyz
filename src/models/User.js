@@ -8,6 +8,7 @@ export default class User {
   @observable avatarUrl = "";
   @observable network = "";
   @observable etc;
+  @observable prf;
   @observable gender;
   @observable inviteCode;
 
@@ -48,6 +49,26 @@ export default class User {
       }
     }
     this.gender = user.etc.gender;
+  }
+
+  @computed
+  get genderPreference() {
+    if (this.prf && this.prf.gender) {
+      return this.prf.gender[0];
+    }
+
+    if (this.etc) {
+      switch (this.etc.gender) {
+        case "male":
+          return "man";
+        case "female":
+          return "woman";
+        default:
+          return null;
+      }
+    }
+
+    return null;
   }
 
   @action
