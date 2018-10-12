@@ -33,7 +33,7 @@ export default class ProgressiveImage extends React.Component {
 
   render() {
     const { source, style, children, ...props } = this.props;
-    const thumbnailSource = shopifyImageUrl(source.uri, "medium");
+    const thumbnailSource = shopifyImageUrl(source.uri, "small");
 
     return (
       <View style={styles.container}>

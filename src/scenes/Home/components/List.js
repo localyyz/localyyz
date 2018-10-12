@@ -67,6 +67,7 @@ export class List extends React.Component {
   };
 
   @box isLoading = true;
+  @observable productCount;
   @observable products = [];
 
   componentDidMount() {
@@ -81,6 +82,7 @@ export class List extends React.Component {
         if (!resolved.error) {
           runInAction("[ACTION] fetch collection", () => {
             this.products = (resolved.data || []).map(p => new Product(p));
+            this.productCount = resolved.headers["x-item-total"];
           });
         }
         this.isLoading = false;
@@ -98,7 +100,11 @@ export class List extends React.Component {
   };
 
   get renderMoreButton() {
-    return this.products.length > 0 ? <MoreFooter {...this.props} /> : null;
+    return this.products.length > 0 ? (
+      <View style={styles.footer}>
+        <MoreFooter {...this.props} count={this.productCount} />
+      </View>
+    ) : null;
   }
 
   renderItem = ({ item: product, index }) => {
@@ -201,5 +207,9 @@ const styles = StyleSheet.create({
   tileOdd: {
     paddingLeft: PADDING / 2,
     paddingRight: PADDING
+  },
+
+  footer: {
+    marginHorizontal: PADDING
   }
 });

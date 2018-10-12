@@ -37,14 +37,18 @@ const ProductListStack = createStackNavigator(
   {
     ProductList: { screen: ProductList },
     Product: { screen: Product },
-    Filter: { screen: FilterStack }
+    Filter: {
+      screen: FilterStack,
+      navigationOptions: { header: undefined }
+    }
   },
   {
     initialRouteName: "ProductList",
     navigationOptions: ({ navigation: { state }, navigationOptions }) => ({
       ...navigationOptions,
       gesturesEnabled: state.params && state.params.gesturesEnabled,
-      headerTintColor: Colours.DarkTransparent
+      headerTintColor: Colours.DarkTransparent,
+      header: null
     })
   }
 );

@@ -19,6 +19,7 @@ export default class ProductListScene extends React.Component {
     let opt = {
       ...navigationOptions,
       title: navigation.getParam("title", ""),
+      header: undefined,
       headerLeft: (
         <HeaderBackButton
           tintColor={navigationOptions.headerTintColor}

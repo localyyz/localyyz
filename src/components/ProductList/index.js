@@ -64,7 +64,9 @@ export class ProductList extends React.Component {
         numColumns={2}
         keyExtractor={i => i.id}
         renderItem={this.renderItem}
-        ListFooterComponent={<ActivityIndicator size="large" animating />}
+        ListFooterComponent={
+          <ActivityIndicator size="large" animating={this.props.isLoading} />
+        }
         ListHeaderComponent={this.props.ListHeaderComponent}
         onEndReachedThreshold={1}
         onEndReached={this.props.onEndReached}

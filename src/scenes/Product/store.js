@@ -1,7 +1,7 @@
 import { action, runInAction, observable } from "mobx";
 
 import { box } from "localyyz/helpers";
-import { Product } from "localyyz/stores";
+import { historyStore, Product } from "localyyz/stores";
 
 import { facebook as Facebook } from "localyyz/effects";
 import { ApiInstance } from "localyyz/global";
@@ -26,6 +26,9 @@ class ProductUIStore {
 
     // initialize the default variant
     this.onSelectVariant(this.product.selectedVariant);
+
+    // log to history
+    historyStore.log(product);
   }
 
   // added summary
