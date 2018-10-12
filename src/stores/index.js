@@ -11,17 +11,19 @@ import CartStore from "./CartStore";
 import ExpressCartStore from "./ExpressCartStore";
 import HistoryStore from "./HistoryStore";
 import LoginStore from "./LoginStore";
-import userStoreInstance from "./UserStore";
+import UserStore from "./UserStore";
 import DeviceStore from "./DeviceStore";
 import NavbarStore from "./NavbarStore";
 import SupportStore from "./SupportStore";
 
 export { default as Product } from "./ProductStore";
+export { default as Merchant } from "./MerchantStore";
 
 //////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////// INITIATE STORES HERE
-export const loginStore = new LoginStore(userStoreInstance);
+export const userStore = new UserStore();
+export const loginStore = new LoginStore(userStore);
 export const addressStore = new AddressStore();
 export const assistantStore = new AssistantStore();
 export const historyStore = new HistoryStore();
@@ -30,7 +32,6 @@ export const navbarStore = new NavbarStore();
 export const supportStore = new SupportStore();
 export const expressCartStore = new ExpressCartStore();
 export const cartStore = new CartStore();
-export { default as userStore } from "./UserStore";
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +42,7 @@ export const stores = {
   expressCartStore: expressCartStore,
   historyStore: historyStore,
   loginStore: loginStore,
-  userStore: userStoreInstance,
+  userStore: userStore,
   deviceStore: deviceStore,
   navbarStore: navbarStore,
   supportStore: supportStore

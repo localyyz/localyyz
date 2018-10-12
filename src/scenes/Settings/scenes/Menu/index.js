@@ -19,7 +19,7 @@ import MenuUIStore from "./store";
 
 @inject(stores => ({
   logout: stores.loginStore.logout,
-  hasSession: stores.userStore.model.hasSession,
+  hasSession: stores.userStore.hasSession,
   userStore: stores.userStore,
   gender: stores.userStore.gender
 }))
@@ -111,6 +111,11 @@ export default class SettingsMenu extends React.Component {
                   fetchPath: "products/favourite",
                   title: "Your favourites"
                 });
+              }}/>
+            <Forms.BaseField
+              label="Personalize"
+              onPress={() => {
+                this.props.navigation.navigate("Onboarding");
               }}/>
             {this.props.hasSession ? (
               <View>

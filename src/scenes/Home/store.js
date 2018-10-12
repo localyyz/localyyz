@@ -16,9 +16,6 @@ export default class HomeStore {
   // UI states shared between components
   // NOTE: updated by Header component onLayout
   @box headerHeight = 0;
-  // determines if the search results UI is visible
-  @box scrollAnimate = new Animated.Value(0);
-  _previousScrollAnimate = 0;
 
   @box searchActive = false;
   @box searchFocused = false;
@@ -28,8 +25,9 @@ export default class HomeStore {
       id: "feed",
       position: 0,
       type: "productList",
-      path: "products/feed",
-      title: "Just for you"
+      path: "products/feedv2",
+      title: "Just for you",
+      limit: 15
     },
     {
       id: "trend",

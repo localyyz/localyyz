@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
   },
 
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    opacity: 0.5,
+    backgroundColor: "#000",
     width: WIDTH,
     height: HEIGHT,
     position: "absolute"

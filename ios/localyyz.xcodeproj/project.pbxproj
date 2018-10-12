@@ -48,6 +48,7 @@
 		BF05EC062078224600EF35B3 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF05EC032078223C00EF35B3 /* libCodePush.a */; };
 		BF05EC10207822EE00EF35B3 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF05EC0D207822E800EF35B3 /* libRNBlur.a */; };
 		BF05EC1A2079076B00EF35B3 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF05EC172079076700EF35B3 /* libBVLinearGradient.a */; };
+		BF4FBCA0216F99FB0008F740 /* Personalization.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4FBC9F216F99FB0008F740 /* Personalization.xcassets */; };
 		BF5DC3932075327500CE540C /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5DC38E2075327400CE540C /* FBSDKLoginKit.framework */; };
 		BF5DC3942075327500CE540C /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5DC38F2075327500CE540C /* FBSDKShareKit.framework */; };
 		BF5DC3952075327500CE540C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5DC3902075327500CE540C /* Bolts.framework */; };
@@ -139,13 +140,6 @@
 			remoteGlobalIDString = 3DBE0D001F3B181A0099AA32;
 			remoteInfo = fishhook;
 		};
-		2D16E6851FA4F8DC00B85C8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3DBE0D0D1F3B181C0099AA32;
-			remoteInfo = "fishhook-tvOS";
-		};
 		2DF0FFDE2056DD460020B375 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -236,13 +230,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A287B1D9B048500D4039D;
 			remoteInfo = "RCTText-tvOS";
-		};
-		3DAD3E981DF850E9000B6D8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2D2A28881D9B049200D4039D;
-			remoteInfo = "RCTWebSocket-tvOS";
 		};
 		3DAD3EA21DF850E9000B6D8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -506,6 +493,7 @@
 		BF05EBFD2078223C00EF35B3 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		BF05EC07207822E800EF35B3 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		BF05EC112079076600EF35B3 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
+		BF4FBC9F216F99FB0008F740 /* Personalization.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Personalization.xcassets; path = localyyz/Personalization.xcassets; sourceTree = "<group>"; };
 		BF5DC38E2075327400CE540C /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Frameworks/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		BF5DC38F2075327500CE540C /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Frameworks/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		BF5DC3902075327500CE540C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
@@ -644,9 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				139FDEF41B06529B00C62182 /* libRCTWebSocket.a */,
-				3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */,
 				2D16E6841FA4F8DC00B85C8A /* libfishhook.a */,
-				2D16E6861FA4F8DC00B85C8A /* libfishhook-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -654,6 +640,7 @@
 		13B07FAE1A68108700A75B9A /* localyyz */ = {
 			isa = PBXGroup;
 			children = (
+				BF4FBC9F216F99FB0008F740 /* Personalization.xcassets */,
 				BF05EBE2207820CD00EF35B3 /* localyyz.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -978,7 +965,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 827TP59MXR;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 1;
@@ -1183,13 +1170,6 @@
 			remoteRef = 2D16E6831FA4F8DC00B85C8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		2D16E6861FA4F8DC00B85C8A /* libfishhook-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libfishhook-tvOS.a";
-			remoteRef = 2D16E6851FA4F8DC00B85C8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		2DF0FFDF2056DD460020B375 /* libjsinspector.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1279,13 +1259,6 @@
 			fileType = archive.ar;
 			path = "libRCTText-tvOS.a";
 			remoteRef = 3DAD3E931DF850E9000B6D8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRCTWebSocket-tvOS.a";
-			remoteRef = 3DAD3E981DF850E9000B6D8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3EA31DF850E9000B6D8A /* libReact.a */ = {
@@ -1489,6 +1462,7 @@
 				0FD27D8D0A2E466698BEEFFF /* Entypo.ttf in Resources */,
 				CD0F336D99C2492D99120153 /* EvilIcons.ttf in Resources */,
 				423999D971BE4BCEA4C74F9E /* Feather.ttf in Resources */,
+				BF4FBCA0216F99FB0008F740 /* Personalization.xcassets in Resources */,
 				5ED86C4FC8C94AFCB69A68B7 /* FontAwesome.ttf in Resources */,
 				F0BEE2673344407797A2983D /* Foundation.ttf in Resources */,
 				2F9DE2FDE04D45D3BED80B8C /* Ionicons.ttf in Resources */,

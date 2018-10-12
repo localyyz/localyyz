@@ -729,6 +729,7 @@ export default class ExpressCartStore {
       title: response._failureTitle || "Payment Failed",
       message:
         response._failureMessage
+        || message
         || "We couldn't complete your purchase at this time",
       buttons: [{ text: "OK" }]
     };
@@ -772,6 +773,12 @@ export default class ExpressCartStore {
 
       // update cart before presenting apple pay sheet
       await this.fetch({ cartId: "express" });
+      if (this.cart.stripeAccountId === "") {
+        return this._onExpressCheckoutFailure(
+          {},
+          "This merchant does not support apple pay. Please add item to your cart"
+        );
+      }
       response = await this._launchExpressPayment();
 
       // sheet ready, so reveal and close assistant

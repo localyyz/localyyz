@@ -36,7 +36,7 @@ export const Styles = {
   },
 
   Title: {
-    fontSize: Sizes.H2,
+    fontSize: Sizes.H1,
     fontWeight: Sizes.Heavy
   },
 
@@ -153,6 +153,11 @@ export const Styles = {
     backgroundColor: Colours.PositiveButton
   },
 
+  RoundedButtonText: {
+    color: Colours.Foreground,
+    fontWeight: Sizes.Bold
+  },
+
   RoundedSubButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -170,6 +175,14 @@ export const Styles = {
     right: 0,
     height: 0.5,
     backgroundColor: Colours.Text
+  },
+
+  Separator: {
+    paddingTop: Sizes.InnerFrame,
+    paddingBottom: Sizes.OuterFrame,
+    borderColor: Colours.Background,
+    borderBottomWidth: 1,
+    width: Sizes.Width
   },
 
   Overlay: {

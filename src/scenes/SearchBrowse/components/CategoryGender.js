@@ -13,16 +13,7 @@ const GENDERS = [
   { id: "female", label: "WOMEN", filterId: "woman" },
   { id: "male", label: "MEN", filterId: "man" }
 ];
-const GENDER_MAPPING = Object.assign(
-  {},
-  ...GENDERS.map(gender => ({ [gender.id]: gender }))
-);
 
-// NOTE: props is a work around for testing.
-@inject((stores, props) => ({
-  gender: (stores.searchStore || props).gender,
-  setGender: (stores.searchStore || props).setGender
-}))
 @observer
 export default class CategoryGender extends React.Component {
   render() {
@@ -37,7 +28,7 @@ export default class CategoryGender extends React.Component {
                 style={[
                   styles.option,
                   this.props.gender
-                    && this.props.gender.id == gender.id
+                    && this.props.gender == gender.id
                     && styles.active
                 ]}>
                 <Text style={styles.label}>{capitalize(gender.label)}</Text>

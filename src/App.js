@@ -17,6 +17,7 @@ import DeviceInfo from "react-native-device-info";
 
 //scenes
 import {
+  Onboarding,
   Home,
   SearchBrowse,
   Product,
@@ -24,7 +25,6 @@ import {
   Login,
   Cart,
   Deeplink,
-  Brands,
   Modal,
   Settings,
   Deals,
@@ -56,7 +56,7 @@ class AppView extends React.Component {
   get isMinVersion() {
     return (
       Platform.OS !== "ios"
-      || (Platform.OS === "ios" && parseInt(DeviceInfo.getBuildNumber()) > 250)
+      || (Platform.OS === "ios" && parseInt(DeviceInfo.getBuildNumber()) >= 290)
     );
   }
 
@@ -187,7 +187,6 @@ const AppNavigator = createStackNavigator(
     Home: { screen: Home },
     Product: { screen: Product },
     ProductList: { screen: ProductListStack },
-    Brands: { screen: Brands },
 
     // forms
     AddressForm: { screen: Forms.AddressForm }
@@ -223,6 +222,12 @@ const RootNavigator = createStackNavigator(
     Deeplink: { screen: Deeplink },
     Login: { screen: Login },
     Modal: { screen: Modal },
+    Onboarding: {
+      screen: Onboarding,
+      navigationOptions: {
+        gesturesEnabled: false
+      }
+    },
     App: { screen: TabNavigator }
   },
   {
