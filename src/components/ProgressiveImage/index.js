@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Animated,
-  StyleSheet,
-  Image,
-  ImageBackground,
-  View
-} from "react-native";
+import { Animated, StyleSheet, Image, View } from "react-native";
 
 import { Colours } from "~/src/constants";
 
@@ -39,7 +33,7 @@ export default class ProgressiveImage extends React.Component {
 
   render() {
     const { source, style, children, ...props } = this.props;
-    const thumbnailSource = shopifyImageUrl(source.uri, "large");
+    const thumbnailSource = shopifyImageUrl(source.uri, "medium");
 
     return (
       <View style={styles.container}>

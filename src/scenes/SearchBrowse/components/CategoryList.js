@@ -82,11 +82,33 @@ export class CategoryList extends React.Component {
     });
   };
 
-  renderItem = ({ item: category }) => {
+  renderItem = ({ section, index }) => {
+    // NOTE: this is a hack version of numcolumns = 2 with sectioned list
+
+    // skip the odd number columns because it was
+    // already handled by even numbered once
+    if (index % 2 > 0) return null;
+
+    const rowItems = [section.data[index]];
+    if (index + 1 < section.data.length) {
+      rowItems.push(section.data[index + 1]);
+    }
+
     return (
-      <CategoryButton
-        {...category}
-        onPress={() => this.onSelectCategory(category)}/>
+      <View
+        key={"row-" + rowItems.map(d => d.id).join("-")}
+        style={{
+          paddingBottom: BUTTON_PADDING,
+          flexDirection: "row",
+          justifyContent: "space-between"
+        }}>
+        {rowItems.map(d => (
+          <CategoryButton
+            key={`cat-${d.id}`}
+            {...d}
+            onPress={() => this.onSelectCategory(d)}/>
+        ))}
+      </View>
     );
   };
 
@@ -128,10 +150,8 @@ export class CategoryList extends React.Component {
         renderSectionFooter={this.renderSectionFooter}
         scrollEventThrottle={16}
         initialNumToRender={8}
-        numColumns={2}
         contentContainerStyle={styles.list}
-        style={styles.container}
-        keyExtractor={c => `cat${c.id}`}/>
+        style={styles.container}/>
     );
   }
 }
@@ -140,15 +160,14 @@ export default withNavigation(CategoryList);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginHorizontal: BUTTON_PADDING
+    flex: 1
+    //marginHorizontal: BUTTON_PADDING
     //paddingTop: Sizes.ScreenTop + Sizes.OuterFrame
   },
 
   list: {
-    flexWrap: "wrap",
-    flexDirection: "row",
     justifyContent: "center",
+    paddingHorizontal: BUTTON_PADDING,
     paddingBottom: NAVBAR_HEIGHT + Sizes.OuterFrame
   },
 

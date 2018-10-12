@@ -18,12 +18,35 @@ import PropTypes from "prop-types";
 import { ApiInstance } from "localyyz/global";
 import { Product } from "localyyz/stores";
 import { box } from "~/src/helpers";
-import { Colours, Styles, Sizes } from "~/src/constants";
+import { Styles, Sizes } from "~/src/constants";
+import ProductTileV2, { PADDING } from "~/src/components/ProductTileV2";
 
 // local
-import ListItem from "./ListItem";
 import ListHeader from "./ListHeader";
 import MoreFooter from "./MoreFooter";
+
+@withNavigation
+class ListItem extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  shouldComponentUpdate() {
+    return false;
+  }
+
+  render() {
+    return (
+      <ProductTileV2
+        onPress={() =>
+          this.props.navigation.push("Product", {
+            product: this.props.product
+          })
+        }
+        product={this.props.product}/>
+    );
+  }
+}
 
 @inject(stores => ({
   wasLoginSuccessful: stores.loginStore._wasLoginSuccessful,
@@ -78,8 +101,13 @@ export class List extends React.Component {
     return this.products.length > 0 ? <MoreFooter {...this.props} /> : null;
   }
 
-  renderItem = ({ item: product }) => {
-    return <ListItem product={product} />;
+  renderItem = ({ item: product, index }) => {
+    const tileStyle = index % 2 == 0 ? styles.tileEven : styles.tileOdd;
+    return (
+      <View style={tileStyle}>
+        <ListItem product={product} />
+      </View>
+    );
   };
 
   gotoOnboarding = () => {
@@ -131,20 +159,19 @@ export class List extends React.Component {
   render() {
     // TODO: _position animation
     // TODO: _motion animation
-    const { withMargin, ...rest } = this.props;
+    const { ...rest } = this.props;
     return (
       <View>
         {!this.props.hideHeader ? <ListHeader {...rest} /> : null}
-        <View style={withMargin ? styles.listWrapper : {}}>
-          <FlatList
-            keyExtractor={item => `product-${item.id}`}
-            renderItem={this.renderItem}
-            extraData={{ isLoading: this.isLoading }}
-            ListFooterComponent={this.renderMoreButton}
-            ListEmptyComponent={this.renderEmptyComponent}
-            data={this.products.slice()}
-            numColumns={2}/>
-        </View>
+        <FlatList
+          keyExtractor={item => `product-${item.id}`}
+          renderItem={this.renderItem}
+          extraData={{ isLoading: this.isLoading }}
+          ListFooterComponent={this.renderMoreButton}
+          ListEmptyComponent={this.renderEmptyComponent}
+          contentContainerStyle={styles.content}
+          data={this.products.slice()}
+          numColumns={2}/>
       </View>
     );
   }
@@ -153,11 +180,6 @@ export class List extends React.Component {
 export default withNavigation(List);
 
 const styles = StyleSheet.create({
-  listWrapper: {
-    padding: Sizes.InnerFrame / 2,
-    backgroundColor: Colours.Foreground
-  },
-
   emptyContainer: {
     flex: 1,
     justifyContent: "center",
@@ -169,5 +191,15 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.EmphasizedText,
     textAlign: "center"
+  },
+
+  tileEven: {
+    paddingLeft: PADDING,
+    paddingRight: PADDING / 2
+  },
+
+  tileOdd: {
+    paddingLeft: PADDING / 2,
+    paddingRight: PADDING
   }
 });
