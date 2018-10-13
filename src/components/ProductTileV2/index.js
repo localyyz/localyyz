@@ -12,7 +12,7 @@ import { PriceTag, ProgressiveImage } from "~/src/components";
 // local
 import Favourite from "./Favourite";
 
-export const PADDING = 5;
+export const PADDING = Sizes.InnerFrame;
 export const ProductTileWidth = Sizes.Width / 2 - PADDING - PADDING / 2;
 export const ProductTileHeight = Sizes.Height / 3;
 

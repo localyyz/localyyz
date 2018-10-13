@@ -11,6 +11,7 @@ import { Provider } from "mobx-react/native";
 import { HeaderBackButton } from "react-navigation";
 
 // local
+import CollectionHeader from "../collectionHeader";
 import { FilterStore, FilterBar } from "../Filter";
 import Store from "../store";
 
@@ -74,6 +75,9 @@ export default class ProductListScene extends React.Component {
   get listHeader() {
     return (
       <View style={styles.header}>
+        {this.settings.collection && (
+          <CollectionHeader {...this.settings.collection} />
+        )}
         {this.settings.listHeader ? this.settings.listHeader : <View />}
         <FilterBar />
       </View>

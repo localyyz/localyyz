@@ -147,7 +147,7 @@ export class Brands extends React.Component {
   render() {
     return (
       <Common
-        title="brand"
+        title="brands"
         id="brands"
         onPress={this.props.isButton ? this.onPress : null}
         {...this.props}/>
