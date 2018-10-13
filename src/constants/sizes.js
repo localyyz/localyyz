@@ -80,6 +80,7 @@ export const Sizes = {
   SocialButton: 30,
   ActionButton: ResponsiveFontSize(30),
   NavLeft: Platform.OS == "ios" ? 18 : 36,
+  Button: 44,
 
   // apple specific
   TabBarButton: 23,

@@ -129,10 +129,9 @@ const styles = StyleSheet.create({
 
     flex: 1,
     //width: Sizes.Width / 4,
-    height: Sizes.Width / 8,
+    height: Sizes.Button,
     marginHorizontal: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame / 4,
-    paddingVertical: Sizes.InnerFrame / 4,
     backgroundColor: Colours.Action
   },
 
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
 
     width: Sizes.Width / 4,
-    height: Sizes.Width / 8
+    height: Sizes.Button
   },
 
   optionLabel: {

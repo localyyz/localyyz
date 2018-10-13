@@ -1,5 +1,11 @@
 import React from "react";
-import { ActivityIndicator, View, StyleSheet, FlatList } from "react-native";
+import {
+  Animated,
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  FlatList
+} from "react-native";
 
 // third party
 import PropTypes from "prop-types";
@@ -12,6 +18,8 @@ import ProductTileV2, {
   ProductTileHeight,
   PADDING as ProductTilePadding
 } from "~/src/components/ProductTileV2";
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 class ProductListItem extends React.Component {
   shouldComponentUpdate() {
@@ -45,7 +53,8 @@ export class ProductList extends React.Component {
 
   static defaultProps = {
     products: [],
-    onEndReached: () => {}
+    onEndReached: () => {},
+    containerStyle: {}
   };
 
   renderItem = ({ item: product, index }) => {
@@ -59,7 +68,8 @@ export class ProductList extends React.Component {
 
   render() {
     return (
-      <FlatList
+      <AnimatedFlatList
+        {...this.props}
         data={this.props.products}
         numColumns={2}
         keyExtractor={i => i.id}
@@ -67,14 +77,12 @@ export class ProductList extends React.Component {
         ListFooterComponent={
           <ActivityIndicator size="large" animating={this.props.isLoading} />
         }
-        ListHeaderComponent={this.props.ListHeaderComponent}
         onEndReachedThreshold={1}
-        onEndReached={this.props.onEndReached}
         scrollEventThrottle={16}
         initialNumToRender={6}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}/>
+        contentContainerStyle={[this.props.containerStyle, styles.content]}/>
     );
   }
 }
