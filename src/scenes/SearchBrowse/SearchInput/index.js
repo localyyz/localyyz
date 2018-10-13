@@ -46,7 +46,6 @@ export default class SearchInputBox extends React.Component {
           {...this.props}
           onSearch={this.onSubmitEditing}
           inputStyle={styles.input}
-          inputHeight={Sizes.SearchBarHeight}
           cancelButtonTextStyle={styles.cancel}
           backgroundColor={Colours.Foreground}/>;
       </View>

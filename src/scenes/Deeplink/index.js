@@ -1,6 +1,9 @@
 import React from "react";
 
-import { Product as ProductStore } from "localyyz/stores";
+import {
+  Product as ProductStore,
+  Collection as CollectionStore
+} from "~/src/stores";
 
 import branch from "react-native-branch";
 import { inject } from "mobx-react/native";
@@ -12,7 +15,6 @@ import { inject } from "mobx-react/native";
 export default class Deeplink extends React.Component {
   constructor(props) {
     super(props);
-    this.getDeeplinkProduct = this.getDeeplinkProduct.bind(this);
   }
 
   componentDidMount() {
@@ -34,13 +36,12 @@ export default class Deeplink extends React.Component {
     return null;
   }
 
+  getDeeplinkCollection = async collectionID => {
+    return await CollectionStore.fetch(collectionID);
+  };
+
   getDeeplinkProduct = async productID => {
-    const resolve = await ProductStore.fetch(productID);
-    if (!resolve.error) {
-      return resolve.product;
-    }
-    // TODO: what do we do here?
-    return resolve;
+    return await ProductStore.fetch(productID);
   };
 
   /*
@@ -58,24 +59,35 @@ export default class Deeplink extends React.Component {
     } else if (params) {
       switch (params.destination) {
         case "product":
-          this.props.navigation.navigate({
-            routeName: "Product",
-            key: `product${params.destination_id}`,
-            params: {
-              product: await this.getDeeplinkProduct(params.destination_id)
+          this.getDeeplinkProduct(params.destination_id).then(resolved => {
+            if (!resolved.error) {
+              this.props.navigation.navigate({
+                routeName: "Product",
+                key: `product${params.destination_id}`,
+                params: {
+                  product: resolved.product
+                }
+              });
             }
           });
+
           break;
         case "collection":
-          this.props.navigation.navigate({
-            routeName: "ProductList",
-            key: `collection${params.destination_id}`,
-            params: {
-              fetchPath: "collections/" + params.destination_id + "/products",
-              title: params.title,
-              subtitle: params.description
+          this.getDeeplinkCollection(params.destination_id).then(resolved => {
+            if (!resolved.error) {
+              this.props.navigation.navigate({
+                routeName: "ProductList",
+                key: `collection${params.destination_id}`,
+                params: {
+                  fetchPath: `collections/${params.destination_id}/products`,
+                  collection: resolved.collection,
+                  title: resolved.collection.name,
+                  subtitle: resolved.collection.description
+                }
+              });
             }
           });
+
           break;
         case "place":
           this.props.navigation.navigate({

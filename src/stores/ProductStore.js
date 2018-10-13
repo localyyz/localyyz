@@ -17,7 +17,7 @@ export default class ProductStore extends ProductModel {
         product: new ProductStore(resolve.data)
       });
     }
-    return resolve;
+    return new Promise.resolve({ error: resolve.error });
   };
 
   constructor(product, selectedColor) {

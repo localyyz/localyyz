@@ -20,20 +20,12 @@ import Content from "./content";
 const CTA_HEIGHT = 100;
 const DEAL_HEIGHT = 0;
 
-@inject(stores => ({
-  logToHistory: product => stores.historyStore.log(product),
-  write: message => stores.assistantStore(message, 10000, true),
-  getWrite: message => stores.assistantStore.get(message)
-}))
 @observer
 class ProductScene extends React.Component {
   @box backgroundPosition = 0;
 
   static propTypes = {
-    navigation: PropTypes.object.isRequired,
-
-    // mobx injected
-    logToHistory: PropTypes.func.isRequired
+    navigation: PropTypes.object.isRequired
   };
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -63,11 +55,6 @@ class ProductScene extends React.Component {
     this.onPressImage = this.onPressImage.bind(this);
     this.onScroll = this.onScroll.bind(this);
     this.onBack = this.onBack.bind(this);
-  }
-
-  componentDidMount() {
-    // internal history logging
-    this.store.product && this.props.logToHistory(this.store.product);
   }
 
   onVariantChange(variant) {

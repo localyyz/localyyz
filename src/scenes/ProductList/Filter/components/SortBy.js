@@ -67,8 +67,8 @@ export default class SortBy extends React.Component {
 
 const styles = StyleSheet.create({
   option: {
-    borderWidth: 1,
-    borderColor: Colours.Border,
+    borderRadius: Sizes.RoundedBorders,
+
     marginTop: 1,
     justifyContent: "space-around",
 
@@ -78,15 +78,15 @@ const styles = StyleSheet.create({
     marginHorizontal: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame / 4,
     paddingVertical: Sizes.InnerFrame / 4,
-    backgroundColor: Colours.Transparent
+    backgroundColor: Colours.Action
   },
 
   optionLabel: {
-    ...Styles.Text
+    ...Styles.SmallText
   },
 
   optionValue: {
-    ...Styles.Text,
+    ...Styles.SmallText,
     ...Styles.Emphasized
   }
 });

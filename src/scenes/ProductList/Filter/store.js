@@ -1,13 +1,7 @@
-import {
-  runInAction,
-  action,
-  observable,
-  computed,
-  reaction,
-  get,
-  set
-} from "mobx";
-import { GA, ApiInstance } from "localyyz/global";
+import { runInAction, action, observable, computed, get, set } from "mobx";
+
+import { GA, ApiInstance } from "~/src/global";
+import { userStore } from "~/src/stores";
 
 // constants
 
@@ -84,7 +78,7 @@ export default class FilterStore {
   //  new sales
   //  deals -> free shipping
 
-  constructor(searchStore, userStore, defaultGender) {
+  constructor(searchStore, defaultGender) {
     // requires .reset(params) and .numProducts
     this.searchStore = searchStore;
 
@@ -102,9 +96,10 @@ export default class FilterStore {
     this.setPriceFilter = this.setPriceFilter.bind(this);
     this.setDiscountFilter = this.setDiscountFilter.bind(this);
 
-    // set gender from settings on mount, can be
-    // overrided
-    let gender = userStore.genderPreference || defaultGender;
+    // set gender from settings on mount, can be overrided
+    // NOTE: defaultGender for example can be passed in from search browse
+    // as a navigation param. TODO: let's fix this.
+    let gender = defaultGender || userStore.genderPreference;
     gender && this.setGenderFilter(gender);
   }
 

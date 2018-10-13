@@ -16,6 +16,7 @@ import DeviceStore from "./DeviceStore";
 import NavbarStore from "./NavbarStore";
 import SupportStore from "./SupportStore";
 
+export { default as Collection } from "./CollectionStore";
 export { default as Product } from "./ProductStore";
 export { default as Merchant } from "./MerchantStore";
 

@@ -3,21 +3,13 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 
 // third party
 import { withNavigation } from "react-navigation";
-import EntypoIcon from "react-native-vector-icons/Entypo";
 
 // custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
 import { capitalize } from "localyyz/helpers";
 
 export class MoreFooter extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.onPress = this.onPress.bind(this);
-  }
-
-  onPress() {
+  onPress = () => {
     this.props.navigation.push("ProductList", {
       fetchPath: this.props.fetchFrom,
       title: capitalize(this.props.title),
@@ -25,18 +17,16 @@ export class MoreFooter extends React.Component {
       categories: this.props.categories,
       basePath: this.props.basePath
     });
-  }
+  };
 
   render() {
+    const count = this.props.count > 2000 ? "2000+" : this.props.count;
+
     return (
       <TouchableOpacity onPress={this.props.onPress || this.onPress}>
         <View style={styles.container}>
           <View style={styles.button}>
-            <EntypoIcon
-              name="chevron-small-down"
-              color={Colours.Text}
-              size={Sizes.SmallText}/>
-            <Text style={styles.label}>{"expand to see more"}</Text>
+            <Text style={styles.label}>Show all ({count})</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -50,6 +40,9 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
+    borderWidth: 1,
+    borderColor: Colours.PositiveButton,
+    borderRadius: Sizes.RoundedBorders,
     paddingVertical: Sizes.InnerFrame / 2
   },
 
@@ -61,8 +54,9 @@ const styles = StyleSheet.create({
 
   label: {
     ...Styles.Text,
+    ...Styles.EmphasizedText,
+    fontWeight: "bold",
     fontSize: Sizes.H2,
-    marginLeft: Sizes.InnerFrame / 2,
-    paddingBottom: Sizes.SmallText / 4
+    color: Colours.PositiveButton
   }
 });

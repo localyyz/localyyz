@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Image,
-  View,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback
-} from "react-native";
+import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 
 // third party
 import { withNavigation } from "react-navigation";
@@ -13,13 +7,14 @@ import PropTypes from "prop-types";
 
 // custom
 import { Colours, Sizes, Styles } from "~/src/constants";
-import { PriceTag } from "~/src/components";
+import { PriceTag, ProgressiveImage } from "~/src/components";
 
 // local
 import Favourite from "./Favourite";
 
-export const IMAGE_WIDTH = Sizes.Width / 3;
-export const IMAGE_HEIGHT = 4 * Sizes.Width / 9;
+export const PADDING = Sizes.InnerFrame;
+export const ProductTileWidth = Sizes.Width / 2 - PADDING - PADDING / 2;
+export const ProductTileHeight = Sizes.Height / 3;
 
 export class ProductTileV2 extends React.Component {
   static propTypes = {
@@ -37,13 +32,13 @@ export class ProductTileV2 extends React.Component {
       <TouchableWithoutFeedback onPress={this.onPress}>
         <View style={styles.container}>
           <View style={styles.photoContainer}>
-            <Image
+            <ProgressiveImage
               source={{
                 uri:
                   this.props.product.associatedPhotos[0]
                   && this.props.product.associatedPhotos[0].imageUrl
               }}
-              style={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}/>
+              style={{ width: ProductTileWidth, height: ProductTileHeight }}/>
           </View>
           <View style={styles.content}>
             <View style={{ maxWidth: Sizes.Width / 3 }}>
