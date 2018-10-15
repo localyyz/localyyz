@@ -79,17 +79,20 @@ export default class Field extends React.Component {
   }
 
   render() {
+    const hasError = !!this.props.error || !this.isValid;
+    const value = hasError ? "" : this.value;
+
     return (
       <BaseField
         {...this.props}
-        hasError={!!this.props.error || !this.isValid}
+        hasError={hasError}
         label={this.props.label}
         error={this.props.error || this.errorMessage}
         style={this.props.style}>
         <TextInput
           {...this.props}
           placeholder={this.props.isRequired ? REQUIRED_LABEL : undefined}
-          value={this.value}
+          value={value}
           onChangeText={this.onUpdate}
           style={[styles.input, this.props.inputStyle]}/>
       </BaseField>
