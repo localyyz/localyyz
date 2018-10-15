@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   },
 
   photoContainer: {
+    backgroundColor: Colours.Background,
     alignItems: "center",
     justifyContent: "center"
   },

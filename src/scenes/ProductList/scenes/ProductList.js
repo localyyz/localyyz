@@ -13,8 +13,15 @@ import { HeaderBackButton } from "react-navigation";
 // local
 import CollectionHeader from "../collectionHeader";
 import { FilterStore } from "../Filter";
-import FilterBar, { BAR_HEIGHT } from "../Filter/components/Bar";
+import CategoryHeader, {
+  BAR_HEIGHT as CategoryBarHeight
+} from "../categoryHeader";
+import FilterBar, {
+  BAR_HEIGHT as FilterBarHeight
+} from "../Filter/components/Bar";
 import Store from "../store";
+
+const BAR_HEIGHT = CategoryBarHeight + FilterBarHeight;
 
 export default class ProductListScene extends React.Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -122,7 +129,6 @@ export default class ProductListScene extends React.Component {
         {this.settings.collection && (
           <CollectionHeader {...this.settings.collection} />
         )}
-        {this.settings.listHeader ? this.settings.listHeader : <View />}
       </View>
     );
   }
@@ -153,8 +159,7 @@ export default class ProductListScene extends React.Component {
 
     Animated.timing(this.state.offsetAnim, {
       toValue,
-      duration: 350,
-      useNativeDriver: true
+      duration: 350
     }).start();
   };
 
@@ -166,17 +171,29 @@ export default class ProductListScene extends React.Component {
       outputRange: [0, -BAR_HEIGHT],
       extrapolate: "clamp"
     });
+    const filterbarHeightAnimate = this.state.scrollAnim.interpolate({
+      inputRange: [0, CategoryBarHeight],
+      outputRange: [BAR_HEIGHT, FilterBarHeight],
+      extrapolate: "clamp"
+    });
+    const categoryBarHeightAnimate = this.state.scrollAnim.interpolate({
+      inputRange: [0, CategoryBarHeight],
+      outputRange: [CategoryBarHeight, 0],
+      extrapolate: "clamp"
+    });
+    const categoryBarOpacityAnimate = this.state.scrollAnim.interpolate({
+      inputRange: [0, CategoryBarHeight],
+      outputRange: [1, 0],
+      extrapolate: "clamp"
+    });
 
     return (
       <Provider productListStore={this.store} filterStore={this.filterStore}>
         <View>
           <ProductList
-            onScroll={Animated.event(
-              [
-                { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } }
-              ],
-              { useNativeDriver: true }
-            )}
+            onScroll={Animated.event([
+              { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } }
+            ])}
             onMomentumScrollBegin={this._onMomentumScrollBegin}
             onMomentumScrollEnd={this._onMomentumScrollEnd}
             onScrollEndDrag={this._onScrollEndDrag}
@@ -186,8 +203,18 @@ export default class ProductListScene extends React.Component {
           <Animated.View
             style={[
               styles.filterBar,
-              { transform: [{ translateY: filterbarTranslate }] }
+              {
+                transform: [{ translateY: filterbarTranslate }],
+                height: filterbarHeightAnimate
+              }
             ]}>
+            <Animated.View
+              style={{
+                height: categoryBarHeightAnimate,
+                opacity: categoryBarOpacityAnimate
+              }}>
+              <CategoryHeader category={this.settings.category} />
+            </Animated.View>
             <FilterBar />
           </Animated.View>
         </View>
@@ -205,8 +232,7 @@ const styles = StyleSheet.create({
 
     borderBottomColor: Colours.Border,
     borderBottomWidth: 1,
-    backgroundColor: Colours.Foreground,
-    height: BAR_HEIGHT // for border
+    backgroundColor: Colours.Foreground
   },
 
   header: {
