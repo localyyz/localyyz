@@ -42,7 +42,7 @@ export default class EmptyCart extends React.Component {
             <Text style={styles.subtitle}>
               {"Here's some recently viewed products"}
             </Text>
-            <ProductList products={this.props.history} />
+            <ProductList isLoading={false} products={this.props.history} />
           </View>
         </BaseScene>
         <LinearGradient

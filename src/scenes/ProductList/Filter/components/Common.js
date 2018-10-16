@@ -123,18 +123,16 @@ const styles = StyleSheet.create({
   option: {
     ...Styles.Horizontal,
 
-    borderWidth: 1,
-    borderColor: Colours.Border,
+    borderRadius: Sizes.RoundedBorders,
     marginTop: 1,
     justifyContent: "space-around",
 
     flex: 1,
     //width: Sizes.Width / 4,
-    height: Sizes.Width / 8,
+    height: Sizes.Button,
     marginHorizontal: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame / 4,
-    paddingVertical: Sizes.InnerFrame / 4,
-    backgroundColor: Colours.Transparent
+    backgroundColor: Colours.Action
   },
 
   optionContent: {
@@ -142,11 +140,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
 
     width: Sizes.Width / 4,
-    height: Sizes.Width / 8
+    height: Sizes.Button
   },
 
   optionLabel: {
-    ...Styles.Text,
+    ...Styles.SmallText,
     ...Styles.Emphasized
   },
 

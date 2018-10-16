@@ -1,27 +1,27 @@
 import React from "react";
-import { StyleSheet, View, SectionList } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 import { reaction } from "mobx";
 
 // custom
 import { ProductList } from "localyyz/components";
-import { Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 
 // third party
-import { Provider, inject } from "mobx-react/native";
+import { Provider } from "mobx-react/native";
 import { HeaderBackButton } from "react-navigation";
 
 // local
-import { FilterStore, FilterBar } from "../Filter";
+import CollectionHeader from "../collectionHeader";
+import { FilterStore } from "../Filter";
+import FilterBar, { BAR_HEIGHT } from "../Filter/components/Bar";
 import Store from "../store";
 
-@inject(stores => ({
-  userStore: stores.userStore
-}))
 export default class ProductListScene extends React.Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
     let opt = {
       ...navigationOptions,
       title: navigation.getParam("title", ""),
+      header: undefined,
       headerLeft: (
         <HeaderBackButton
           tintColor={navigationOptions.headerTintColor}
@@ -40,17 +40,31 @@ export default class ProductListScene extends React.Component {
 
     // stores
     this.store = this.settings.store || new Store(this.settings);
-    this.filterStore = new FilterStore(
-      this.store,
-      this.props.userStore,
-      this.settings.gender
-    );
+    this.filterStore = new FilterStore(this.store, this.settings.gender);
 
-    // bindings
-    this.fetchMore = this.fetchMore.bind(this);
-    this.renderSectionHeader = this.renderSectionHeader.bind(this);
-    this.renderList = this.renderList.bind(this);
-    this.getSettings = this.getSettings.bind(this);
+    const scrollAnim = new Animated.Value(0);
+    const offsetAnim = new Animated.Value(0);
+    this._clampedScrollValue = 0;
+    this._offsetValue = 0;
+    this._scrollValue = 0;
+
+    this.state = {
+      scrollAnim,
+      offsetAnim,
+      // handle scrolling and clamp filterbar
+      clampedScroll: Animated.diffClamp(
+        Animated.add(
+          scrollAnim.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1],
+            extrapolateLeft: "clamp"
+          }),
+          offsetAnim
+        ),
+        0,
+        BAR_HEIGHT
+      )
+    };
   }
 
   componentDidUpdate(prevProps) {
@@ -68,72 +82,114 @@ export default class ProductListScene extends React.Component {
       params => this.filterStore.refresh(null, params),
       { fireImmediately: true, delay: 500 }
     );
+
+    // calculate clamp values based on scroll
+    this.state.scrollAnim.addListener(({ value }) => {
+      // This is the same calculations that diffClamp does.
+      const diff = value - this._scrollValue;
+      this._scrollValue = value;
+      this._clampedScrollValue = Math.min(
+        Math.max(this._clampedScrollValue + diff, 0),
+        BAR_HEIGHT
+      );
+    });
+    this.state.offsetAnim.addListener(({ value }) => {
+      this._offsetValue = value;
+    });
+  }
+
+  componentWillUnmount() {
+    this.state.scrollAnim.removeAllListeners();
+    this.state.offsetAnim.removeAllListeners();
   }
 
   get settings() {
     return this.getSettings(this.props);
   }
 
-  getSettings(props) {
+  getSettings = props => {
     return (
       (props.navigation
         && props.navigation.state
         && props.navigation.state.params)
       || props
     );
-  }
-
-  get sliderRef() {
-    return this.refs.slider;
-  }
+  };
 
   get listHeader() {
     return (
       <View style={styles.header}>
+        {this.settings.collection && (
+          <CollectionHeader {...this.settings.collection} />
+        )}
         {this.settings.listHeader ? this.settings.listHeader : <View />}
-        <FilterBar />
       </View>
     );
   }
 
-  fetchMore({ distanceFromEnd }) {
+  fetchMore = ({ distanceFromEnd }) => {
     if (distanceFromEnd > 0) {
       this.store.fetchNextPage();
     }
-  }
+  };
 
-  renderSectionHeader({ section: { title } }) {
-    return (title === "content" && this.listHeader) || <View />;
-  }
+  // when user stops scrolling and filterbar is hidden/shown half way
+  // clamp it to either show or hide
+  // from: https://medium.com/appandflow/react-native-collapsible-navbar-e51a049b560a
+  _onScrollEndDrag = () => {
+    this._scrollEndTimer = setTimeout(this._onMomentumScrollEnd, 250);
+  };
 
-  renderList() {
-    return (
-      <ProductList backgroundColor={Colours.Accented} style={styles.list} />
-    );
-  }
+  _onMomentumScrollBegin = () => {
+    clearTimeout(this._scrollEndTimer);
+  };
+
+  _onMomentumScrollEnd = () => {
+    const toValue
+      = this._scrollValue > BAR_HEIGHT
+      && this._clampedScrollValue > BAR_HEIGHT / 2
+        ? this._offsetValue + BAR_HEIGHT
+        : this._offsetValue - BAR_HEIGHT;
+
+    Animated.timing(this.state.offsetAnim, {
+      toValue,
+      duration: 350,
+      useNativeDriver: true
+    }).start();
+  };
 
   render() {
+    const { clampedScroll } = this.state;
+
+    const filterbarTranslate = clampedScroll.interpolate({
+      inputRange: [0, BAR_HEIGHT],
+      outputRange: [0, -BAR_HEIGHT],
+      extrapolate: "clamp"
+    });
+
     return (
       <Provider productListStore={this.store} filterStore={this.filterStore}>
-        <View style={styles.container}>
-          <SectionList
-            keyboardShouldPersistTaps="always"
-            sections={[
-              {
-                title: "content",
-                data: [[{}]]
-              }
-            ]}
-            keyExtractor={(e, i) => `productList${i}${e.id}`}
-            onEndReached={this.fetchMore}
-            onEndReachedThreshold={1}
-            scrollEventThrottle={16}
-            renderSectionHeader={this.renderSectionHeader}
-            stickySectionHeadersEnabled={false}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            renderItem={this.renderList}
-            contentContainerStyle={styles.sectionList}/>
+        <View>
+          <ProductList
+            onScroll={Animated.event(
+              [
+                { nativeEvent: { contentOffset: { y: this.state.scrollAnim } } }
+              ],
+              { useNativeDriver: true }
+            )}
+            onMomentumScrollBegin={this._onMomentumScrollBegin}
+            onMomentumScrollEnd={this._onMomentumScrollEnd}
+            onScrollEndDrag={this._onScrollEndDrag}
+            containerStyle={{ paddingTop: BAR_HEIGHT }}
+            ListHeaderComponent={this.listHeader}
+            onEndReached={this.fetchMore}/>
+          <Animated.View
+            style={[
+              styles.filterBar,
+              { transform: [{ translateY: filterbarTranslate }] }
+            ]}>
+            <FilterBar />
+          </Animated.View>
         </View>
       </Provider>
     );
@@ -141,20 +197,20 @@ export default class ProductListScene extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
+  filterBar: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+
+    borderBottomColor: Colours.Border,
+    borderBottomWidth: 1,
+    backgroundColor: Colours.Foreground,
+    height: BAR_HEIGHT // for border
   },
 
   header: {
     paddingVertical: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
-  },
-
-  sectionList: {
-    paddingBottom: NAVBAR_HEIGHT * 3
-  },
-
-  list: {
-    padding: Sizes.InnerFrame / 2
   }
 });

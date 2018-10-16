@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
@@ -25,7 +25,7 @@ export default class Favourite extends React.Component {
   onPress = () => {
     this.setState(
       { isFavourite: !this.state.isFavourite },
-      this.props.toggleFavourite
+      this.props.product.toggleFavourite
     );
   };
 

@@ -1,23 +1,27 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
-
-// custom
-import { Colours, Sizes } from "localyyz/constants";
-import { ProductTile } from "localyyz/components";
+import {
+  Animated,
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  FlatList
+} from "react-native";
 
 // third party
 import PropTypes from "prop-types";
 import { withNavigation } from "react-navigation";
 import { inject, observer } from "mobx-react/native";
 
-// local
-import { ProductListPlaceholder } from "./components";
+// custom
+import { Colours } from "localyyz/constants";
+import ProductTileV2, {
+  ProductTileHeight,
+  PADDING as ProductTilePadding
+} from "~/src/components/ProductTileV2";
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 class ProductListItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   shouldComponentUpdate() {
     // OPTIMIZATION: do not rerender list items
     return false;
@@ -25,17 +29,13 @@ class ProductListItem extends React.Component {
 
   render() {
     return (
-      <View style={styles.tile}>
-        <ProductTile
-          style={styles.tileComponent}
-          onPress={() =>
-            this.props.navigation.push("Product", {
-              product: this.props.product
-            })
-          }
-          backgroundColor={this.props.backgroundColor}
-          product={this.props.product}/>
-      </View>
+      <ProductTileV2
+        onPress={() =>
+          this.props.navigation.push("Product", {
+            product: this.props.product
+          })
+        }
+        product={this.props.product}/>
     );
   }
 }
@@ -46,45 +46,43 @@ class ProductListItem extends React.Component {
 }))
 @observer
 export class ProductList extends React.Component {
-  static Placeholder = ProductListPlaceholder;
-
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     products: PropTypes.any
   };
 
   static defaultProps = {
-    products: []
+    products: [],
+    onEndReached: () => {},
+    containerStyle: {}
   };
 
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.renderItem = this.renderItem.bind(this);
-  }
-
-  get placeholder() {
-    return this.props.isLoading ? <ProductListPlaceholder limit={2} /> : null;
-  }
-
-  renderItem = ({ item: product }) => {
+  renderItem = ({ item: product, index }) => {
+    const itemStyle = index % 2 == 0 ? styles.itemEven : styles.itemOdd;
     return (
-      <ProductListItem product={product} navigation={this.props.navigation} />
+      <View style={itemStyle}>
+        <ProductListItem product={product} navigation={this.props.navigation} />
+      </View>
     );
   };
 
   render() {
     return (
-      <View style={[styles.list, this.props.style]}>
-        <FlatList
-          data={this.props.products}
-          numColumns={2}
-          keyExtractor={i => i.id}
-          renderItem={this.renderItem}
-          ListFooterComponent={this.placeholder}
-          initialNumToRender={6}/>
-      </View>
+      <AnimatedFlatList
+        {...this.props}
+        data={this.props.products}
+        numColumns={2}
+        keyExtractor={i => i.id}
+        renderItem={this.renderItem}
+        ListFooterComponent={
+          <ActivityIndicator size="large" animating={this.props.isLoading} />
+        }
+        onEndReachedThreshold={1}
+        scrollEventThrottle={16}
+        initialNumToRender={6}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={[this.props.containerStyle, styles.content]}/>
     );
   }
 }
@@ -92,13 +90,18 @@ export class ProductList extends React.Component {
 export default withNavigation(ProductList);
 
 const styles = StyleSheet.create({
-  tile: {
-    flex: 1,
-    paddingHorizontal: Sizes.InnerFrame / 4
+  content: {
+    paddingBottom: ProductTileHeight,
+    backgroundColor: Colours.Foreground
   },
 
-  list: {
-    flex: 1,
-    backgroundColor: Colours.Foreground
+  itemEven: {
+    paddingLeft: ProductTilePadding,
+    paddingRight: ProductTilePadding / 2
+  },
+
+  itemOdd: {
+    paddingLeft: ProductTilePadding / 2,
+    paddingRight: ProductTilePadding
   }
 });

@@ -5,11 +5,13 @@ import { View, StyleSheet } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 
-import { Sizes } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 
 // local
 import { Brands, FilterButton } from "./Types";
 import SortBy from "./SortBy";
+
+export const BAR_HEIGHT = Sizes.Button + Sizes.InnerFrame / 2;
 
 @inject(stores => ({
   store: stores.filterStore
@@ -41,8 +43,9 @@ export default withNavigation(Bar);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "row",
-    marginBottom: Sizes.InnerFrame
+    paddingVertical: Sizes.InnerFrame / 2,
+    height: BAR_HEIGHT,
+    backgroundColor: Colours.Foreground
   }
 });
