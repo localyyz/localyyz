@@ -93,8 +93,8 @@ export class NavBar extends React.Component {
               id: "deals",
               icon: "bolt",
               iconType: "fontAwesome",
-              label: "Flash",
-              tabKey: "Deals"
+              label: "Deals",
+              tabKey: "DiscountsScene"
             }
           ]
         : []),

@@ -14,10 +14,16 @@ export default class Deal {
   @observable id = 0;
   @observable name = "";
   @observable description = "";
+  @observable info = "";
+  @observable productList = [];
   @observable startAt = "";
   @observable endAt = "";
   @observable cap = 0;
+  @observable code = "";
   @observable products = [];
+  @observable dealType = "";
+  @observable dealTab = "";
+  @observable imageUrl = "";
 
   // internally used (not provided by api) to track origin uri
   // for direct fetching

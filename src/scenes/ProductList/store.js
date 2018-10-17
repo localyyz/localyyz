@@ -11,7 +11,7 @@ class Store {
   @box isLoading = false;
   // NOTE: fetch path is needed by filterStore to
   // know where to fetch filter data from
-  fetchPath = "products";
+  fetchPath = "";
 
   constructor(props) {
     this.fetchPath = props.fetchPath;

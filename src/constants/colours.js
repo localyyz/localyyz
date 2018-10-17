@@ -36,6 +36,7 @@ let FadedGrey = "#EEEEEE";
 let LightGrey = "#999999";
 let Yellow = "#FFF200";
 let LightBlue = "#DEEFF5";
+let DarkBlue = "#42a3c6";
 
 export const Colours = {
   // backgrounds
@@ -66,6 +67,7 @@ export const Colours = {
   DisabledButton: LightShadow,
   Clearance: Yellow,
   Action: LightBlue,
+  DarkBlue: DarkBlue,
 
   // text
   Text: Text,

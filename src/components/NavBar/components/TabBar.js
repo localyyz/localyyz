@@ -88,7 +88,6 @@ export class TabBar extends React.Component {
           duration={200}
           style={[
             styles.bar,
-            this.props.activeButton === "deals" && styles.deals,
             this.props.height && { height: this.props.height }
           ]}>
           <View style={styles.buttons}>{tabs}</View>
@@ -111,10 +110,6 @@ const styles = StyleSheet.create({
   bar: {
     paddingBottom: Sizes.ScreenBottom,
     backgroundColor: Colours.Foreground
-  },
-
-  deals: {
-    backgroundColor: Colours.MenuBackground
   },
 
   buttons: {
