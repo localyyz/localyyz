@@ -18,15 +18,18 @@ import Moment from "moment";
 import { inject } from "mobx-react/native";
 import { GA } from "localyyz/global";
 
-const SlideHeight = 2 * Sizes.Height / 5;
-const SlideWidth = 3 * Sizes.Width / 4;
-const itemHorizontalMargin = Sizes.Width / 50;
+// full card width (non carousel items)
+export const CardWidth = Sizes.Width - Sizes.InnerFrame;
+export const CardHeight = 2 * Sizes.Height / 5;
 
-export const sliderWidth = Sizes.Width;
-export const CardHeight = SlideHeight;
-export const itemWidth = SlideWidth + itemHorizontalMargin * 2;
+// carousel card width
+const itemHorizontalMargin = Sizes.Width / 50;
+const slideWidth = 3 * Sizes.Width / 4;
+export const itemWidth = slideWidth + itemHorizontalMargin * 2;
 
 const entryBorderRadius = 8;
+
+const MaxTimerApply = 24; // 24 hours
 
 @inject(stores => ({
   store: stores.dealStore,
@@ -37,6 +40,12 @@ const entryBorderRadius = 8;
 export class DealCard extends React.Component {
   copyCodeButton = async () => {
     await Clipboard.setString(this.props.code);
+    GA.trackEvent(
+      "deals",
+      "copy code",
+      `${this.props.merchant}-${this.props.code}`,
+      0
+    );
     alert("Discount Code Copied to Clipboard!");
   };
 
@@ -75,11 +84,14 @@ export class DealCard extends React.Component {
           borderTopRightRadius: entryBorderRadius
         };
 
+    var now = Moment();
+    var endsAtDiff = Moment.duration(
+      Moment(this.props.endAt).diff(now)
+    ).asHours();
+    var startsAtDiff = Moment.duration(Moment(this.props.startAt).diff(now));
+
     return (
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={this.props.onPress}
-        style={[styles.card, this.props.cardStyle]}>
+      <View style={[styles.card, this.props.cardStyle]}>
         {this.props.imageUrl !== "" ? (
           <View style={styles.imageContainer}>
             {this.image()}
@@ -88,47 +100,47 @@ export class DealCard extends React.Component {
         ) : null}
         <View style={[styles.textContainer, topCornerStyle]}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>{this.props.description}</Text>
-            <View>
-              {this.props.timed == true && this.props.status == "3" ? (
-                <View>
-                  <Text style={styles.timer}>Ends in:</Text>
-                  <Text style={styles.timer}>
-                    <Timer
-                      target={Moment(this.props.endAt).toArray()}
-                      onComplete={() =>
-                        this.props.navigation && this.props.navigation.goBack()
-                      }/>
-                  </Text>
-                </View>
-              ) : this.props.status == "1" ? (
-                <View>
-                  <Text style={styles.timer}>Starting in:</Text>
-                  <Text style={styles.timer}>
-                    <Timer
-                      target={Moment(this.props.startAt).toArray()}
-                      onComplete={() =>
-                        this.props.navigation && this.props.navigation.goBack()
-                      }/>
-                  </Text>
-                </View>
-              ) : null}
+            <View style={{ width: 2 * (itemWidth - Sizes.OuterFrame) / 3 }}>
+              <Text numberOfLines={2} style={styles.title}>
+                {this.props.description}
+              </Text>
             </View>
+            {this.props.timed == true && this.props.status == "3" ? (
+              <View style={{ maxWidth: (itemWidth - Sizes.OuterFrame) / 3 }}>
+                <Text style={styles.timer}>Ends in:</Text>
+                {endsAtDiff > MaxTimerApply ? (
+                  <Text style={styles.timer}>
+                    {Moment(this.props.endAt).fromNow(true)}
+                  </Text>
+                ) : (
+                  <Timer
+                    style={styles.timer}
+                    target={Moment(this.props.endAt).toArray()}/>
+                )}
+              </View>
+            ) : this.props.status == "1" ? (
+              <View style={{ maxWidth: (itemWidth - Sizes.OuterFrame) / 3 }}>
+                <Text style={styles.timer}>Starting in:</Text>
+                {startsAtDiff > MaxTimerApply ? (
+                  <Text style={styles.timer}>
+                    {Moment(this.props.startAt).fromNow(true)}
+                  </Text>
+                ) : (
+                  <Timer
+                    style={styles.timer}
+                    target={Moment(this.props.startAt).toArray()}/>
+                )}
+              </View>
+            ) : null}
           </View>
-          <View>
+          <View style={styles.infoContainer}>
             <Text style={styles.merchant}>
               {this.props.merchant.toUpperCase()}
             </Text>
-          </View>
-          <View>
             {this.props.info !== "" ? (
-              <View>
-                <Text style={styles.info}>{this.props.info}</Text>
-              </View>
+              <Text style={styles.info}>{this.props.info}</Text>
             ) : (
-              <View>
-                <Text numberOfLines={3} />
-              </View>
+              <Text numberOfLines={3} />
             )}
           </View>
           <View style={styles.buttonContainer}>
@@ -144,8 +156,7 @@ export class DealCard extends React.Component {
             </View>
           </View>
         </View>
-        <View style={styles.shadow} />
-      </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -154,22 +165,13 @@ export default withNavigation(DealCard);
 
 const styles = StyleSheet.create({
   card: {
-    paddingHorizontal: itemHorizontalMargin,
-    paddingVertical: 10,
+    paddingBottom: 10,
     shadowColor: "black",
     shadowOpacity: 0.25,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 8,
+    backgroundColor: Colours.Foreground,
     borderRadius: entryBorderRadius
-  },
-
-  titleContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderBottomColor: Colours.Background,
-    borderBottomWidth: 3,
-    alignItems: "center",
-    minHeight: 42
   },
 
   textContainer: {
@@ -177,8 +179,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderBottomLeftRadius: entryBorderRadius,
     borderBottomRightRadius: entryBorderRadius,
-    paddingHorizontal: 16,
     paddingTop: 2
+  },
+
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: Sizes.InnerFrame,
+    borderBottomColor: Colours.Background,
+    borderBottomWidth: 3,
+    alignItems: "center",
+    minHeight: 42
   },
 
   imageContainer: {
@@ -189,7 +200,7 @@ const styles = StyleSheet.create({
 
   image: {
     resizeMode: "cover",
-    height: SlideHeight / 2,
+    height: CardHeight / 2,
     borderRadius: entryBorderRadius,
     borderTopLeftRadius: entryBorderRadius,
     borderTopRightRadius: entryBorderRadius
@@ -221,6 +232,7 @@ const styles = StyleSheet.create({
   },
 
   timer: {
+    width: itemWidth / 3,
     fontWeight: Sizes.Medium,
     fontSize: 17,
     color: Colours.DarkBlue,
@@ -237,6 +249,10 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     paddingTop: 2,
     paddingBottom: 2
+  },
+
+  infoContainer: {
+    paddingHorizontal: Sizes.InnerFrame
   },
 
   merchant: {

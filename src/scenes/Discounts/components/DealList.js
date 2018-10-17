@@ -18,11 +18,9 @@ import { Sizes, Styles, NAVBAR_HEIGHT, Colours } from "localyyz/constants";
 import { GA } from "localyyz/global";
 
 // local
-import DealCard, { CardHeight } from "./DealCard";
+import DealCard, { CardWidth, CardHeight } from "./DealCard";
 import DealType from "./DealType";
 import FeaturedDealsCarousel from "./FeaturedDealsCarousel";
-
-const CardWidth = Sizes.Width - Sizes.InnerFrame;
 
 @inject(stores => ({
   store: stores.dealStore,
@@ -36,14 +34,35 @@ const CardWidth = Sizes.Width - Sizes.InnerFrame;
 }))
 @observer
 export class DealList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.sectionListRef = React.createRef();
+  }
+
   renderItem = ({ item: deal }) => {
     this.dealTab = this.props.dealTab;
     return (
-      <View style={{ paddingHorizontal: Sizes.InnerFrame / 2 }}>
+      <View
+        style={{
+          paddingBottom: Sizes.InnerFrame,
+          paddingHorizontal: Sizes.InnerFrame / 2
+        }}>
         <DealCard {...deal} cardStyle={{ width: CardWidth }} />
       </View>
     );
   };
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (prevProps.dealTab && this.props.dealTab !== prevProps.dealTab) {
+      this.sectionListRef.current.scrollToLocation({
+        animated: true,
+        sectionIndex: 0,
+        itemIndex: 0,
+        viewOffset: 100 // height of section header
+      });
+    }
+  }
 
   fetchMore = ({ distanceFromEnd }) => {
     if (distanceFromEnd > 0) {
@@ -89,6 +108,7 @@ export class DealList extends React.Component {
   render() {
     return (
       <SectionList
+        ref={this.sectionListRef}
         alwaysBounceHorizontal={false}
         showsHorizontalScrollIndicator={false}
         sections={[{ data: this.props.deals }]}

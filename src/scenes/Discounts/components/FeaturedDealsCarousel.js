@@ -7,7 +7,7 @@ import { inject } from "mobx-react/native";
 
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
-import DealCard from "./DealCard";
+import DealCard, { itemWidth } from "./DealCard";
 
 const SLIDER_1_FIRST_ITEM = 1;
 
@@ -43,7 +43,7 @@ export default class FeaturedDealsCarousel extends React.Component {
           ref={c => (this.sliderRef = c)}
           data={this.props.featuredDeals}
           renderItem={this.renderFeaturedItem}
-          sliderWidth={sliderWidth}
+          sliderWidth={Sizes.Width}
           itemWidth={itemWidth}
           containerCustomStyle={styles.slider}
           contentContainerCustomStyle={styles.sliderContentContainer}
@@ -57,13 +57,6 @@ export default class FeaturedDealsCarousel extends React.Component {
     );
   }
 }
-
-const slideWidth = 3 * Sizes.Width / 4;
-const slideHeight = 2 * Sizes.Height / 5;
-const itemHorizontalMargin = Sizes.Width / 50;
-
-export const sliderWidth = Sizes.Width;
-export const itemWidth = slideWidth + itemHorizontalMargin * 2;
 
 const styles = StyleSheet.create({
   slider: {},
