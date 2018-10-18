@@ -94,7 +94,7 @@ export default class CategoryHeader extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colours.Foreground,
-    marginVertical: Sizes.InnerFrame / 2
+    paddingVertical: Sizes.InnerFrame / 2
   },
 
   list: {
