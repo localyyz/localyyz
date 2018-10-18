@@ -121,7 +121,7 @@ export class DealCard extends React.Component {
             ) : this.props.status == "1" ? (
               <View style={{ maxWidth: (itemWidth - Sizes.OuterFrame) / 3 }}>
                 <Text style={styles.timer}>Starting in:</Text>
-                {startsAtDiff > MaxTimerApply ? (
+                {startsAtDiff < MaxTimerApply ? (
                   <Text style={styles.timer}>
                     {Moment(this.props.startAt).fromNow(true)}
                   </Text>
