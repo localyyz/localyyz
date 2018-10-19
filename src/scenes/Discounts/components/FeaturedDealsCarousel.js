@@ -62,12 +62,10 @@ const styles = StyleSheet.create({
   slider: {},
 
   sliderContentContainer: {
-    marginBottom: Sizes.OuterFrame
+    paddingVertical: Sizes.OuterFrame
   },
 
-  carouselContainer: {
-    flex: 1
-  },
+  carouselContainer: {},
 
   title: {
     paddingHorizontal: 30,

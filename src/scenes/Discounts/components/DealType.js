@@ -5,6 +5,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { inject, observer } from "mobx-react/native";
 
 // custom
+import { SloppyView } from "~/src/components";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
 const DEALTAB = [
@@ -41,7 +42,7 @@ export default class DealType extends React.Component {
             <TouchableOpacity
               key={`dealTab-${dealTab.id}`}
               onPress={() => this.props.setDealTab(dealTab)}>
-              <View style={styles.button}>
+              <SloppyView style={styles.button}>
                 <View
                   style={[
                     styles.option,
@@ -51,7 +52,7 @@ export default class DealType extends React.Component {
                   ]}>
                   <Text style={styles.label}>{dealTab.label}</Text>
                 </View>
-              </View>
+              </SloppyView>
             </TouchableOpacity>
           ))}
         </View>

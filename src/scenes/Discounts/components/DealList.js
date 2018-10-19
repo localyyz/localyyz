@@ -3,19 +3,17 @@ import React from "react";
 import {
   ActivityIndicator,
   StyleSheet,
-  FlatList,
   Text,
   View,
   SectionList
 } from "react-native";
 
 // third party
-import { observer, inject, Provider } from "mobx-react/native";
+import { observer, inject } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 
 // custom
-import { Sizes, Styles, NAVBAR_HEIGHT, Colours } from "localyyz/constants";
-import { GA } from "localyyz/global";
+import { Sizes, Styles, Colours } from "localyyz/constants";
 
 // local
 import DealCard, { CardWidth, CardHeight } from "./DealCard";
@@ -44,7 +42,7 @@ export class DealList extends React.Component {
     return (
       <View
         style={{
-          paddingBottom: Sizes.InnerFrame,
+          paddingTop: Sizes.InnerFrame,
           paddingHorizontal: Sizes.InnerFrame / 2
         }}>
         <DealCard {...deal} cardStyle={{ width: CardWidth }} />

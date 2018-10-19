@@ -43,16 +43,16 @@ export class DealCard extends React.Component {
     GA.trackEvent(
       "deals",
       "copy code",
-      `${this.props.merchant}-${this.props.code}`,
+      `${this.props.place.name}-${this.props.code}`,
       0
     );
     alert("Discount Code Copied to Clipboard!");
   };
 
   buildParams = () => {
-    const { title, id, productType, merchantId } = this.props;
+    const { title, id, productType, place } = this.props;
     if (productType === 3) {
-      this.path = `places/${merchantId}/products`;
+      this.path = `places/${place.id}/products`;
     } else {
       this.path = `deals/${id}/products`;
     }
@@ -60,7 +60,8 @@ export class DealCard extends React.Component {
       fetchPath: this.path,
       title: title,
       dealTab: this.props.dealTab,
-      dealType: this.props.dealType
+      dealType: this.props.dealType,
+      gender: this.props.place.genderHint
     };
   };
 
@@ -135,7 +136,7 @@ export class DealCard extends React.Component {
           </View>
           <View style={styles.infoContainer}>
             <Text style={styles.merchant}>
-              {this.props.merchant.toUpperCase()}
+              {this.props.place.name.toUpperCase()}
             </Text>
             {this.props.info !== "" ? (
               <Text style={styles.info}>{this.props.info}</Text>
