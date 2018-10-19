@@ -19,6 +19,7 @@ import SupportStore from "./SupportStore";
 export { default as Collection } from "./CollectionStore";
 export { default as Product } from "./ProductStore";
 export { default as Merchant } from "./MerchantStore";
+export { default as Category } from "./CategoryStore";
 
 //////////////////////////////////////////////////////////////////////////////////
 

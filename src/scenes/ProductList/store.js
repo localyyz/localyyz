@@ -11,7 +11,7 @@ class Store {
   @box isLoading = false;
   // NOTE: fetch path is needed by filterStore to
   // know where to fetch filter data from
-  fetchPath = "products";
+  fetchPath = "";
 
   constructor(props) {
     this.fetchPath = props.fetchPath;
@@ -22,14 +22,10 @@ class Store {
     this.next;
     this.self;
     this.products;
-
-    // bindings
-    this.reset = this.reset.bind(this);
-    this.fetchNextPage = this.fetchNextPage.bind(this);
   }
 
   @action
-  reset(mergeParams = {}, fetchPath = "") {
+  reset = (mergeParams = {}, fetchPath = "") => {
     this.isLoading = null;
     this.next = null;
     this.self = null;
@@ -51,10 +47,10 @@ class Store {
 
     // and finally refetch
     this.fetchNextPage(params);
-  }
+  };
 
   @action
-  async fetchNextPage(params = {}) {
+  fetchNextPage = async (params = {}) => {
     if (this.isLoading || (this.self && !this.next)) {
       /*global __DEV__:true*/
       __DEV__
@@ -97,7 +93,7 @@ class Store {
     }
 
     this.isLoading = false;
-  }
+  };
 }
 
 export default Store;

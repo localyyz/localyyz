@@ -16,7 +16,6 @@ import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 import { GA } from "localyyz/global";
 
 // local
-import CategoryBar from "./CategoryBar";
 import CategoryButton, { BUTTON_PADDING } from "./CategoryButton";
 import CategoryGender from "./CategoryGender";
 
@@ -38,47 +37,26 @@ export class CategoryList extends React.Component {
     this.props.fetch();
   }
 
-  buildParams = ({ title, id, data }) => {
+  buildParams = category => {
     return {
-      fetchPath: `categories/${id}/products`,
-      title: title,
-      hideCategories: true,
-      hideGenderFilter: !!this.props.gender,
+      fetchPath: `categories/${category.id}/products`,
+      title: category.title,
       gender: this.props.gender,
-      listHeader: (
-        <CategoryBar
-          categories={data}
-          onChangeCategory={this.onChangeCategory}
-          store={this.props.store}/>
-      )
+      category: category
     };
-  };
-
-  // this changes the category from the top category bar
-  onChangeCategory = category => {
-    // this dispatches the changed category to product list store
-    GA.trackEvent(
-      "category",
-      "change category",
-      `${this.props.gender}-${category.title}`
-    );
-    this.props.navigation.navigate({
-      routeName: "ProductList",
-      params: this.buildParams(category),
-      key: `${CATEGORY_PRODUCT_LIST_KEY}-${category.id}`
-    });
   };
 
   // this selects a category from the main search browse screen
   onSelectCategory = category => {
     GA.trackEvent(
       "category",
-      "select category",
+      "select",
       `${this.props.gender}-${category.title}`
     );
     this.props.navigation.navigate({
       routeName: "ProductList",
-      params: this.buildParams(category)
+      params: this.buildParams(category),
+      key: `${CATEGORY_PRODUCT_LIST_KEY}-${category.id}`
     });
   };
 

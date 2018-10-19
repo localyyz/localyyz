@@ -28,17 +28,28 @@ export class ProductTileV2 extends React.Component {
   };
 
   render() {
+    const resizeMode
+      = this.props.product.category.type == "shoes"
+      || this.props.product.category.type == "sneakers"
+        ? "contain"
+        : null;
+
     return (
       <TouchableWithoutFeedback onPress={this.onPress}>
         <View style={styles.container}>
           <View style={styles.photoContainer}>
             <ProgressiveImage
+              resizeMode={resizeMode}
               source={{
                 uri:
                   this.props.product.associatedPhotos[0]
                   && this.props.product.associatedPhotos[0].imageUrl
               }}
-              style={{ width: ProductTileWidth, height: ProductTileHeight }}/>
+              style={{
+                width: ProductTileWidth,
+                height: ProductTileHeight,
+                backgroundColor: Colours.Foreground
+              }}/>
           </View>
           <View style={styles.content}>
             <View style={{ maxWidth: Sizes.Width / 3 }}>
@@ -71,6 +82,7 @@ const styles = StyleSheet.create({
   },
 
   photoContainer: {
+    backgroundColor: Colours.Background,
     alignItems: "center",
     justifyContent: "center"
   },

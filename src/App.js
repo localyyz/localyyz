@@ -27,7 +27,7 @@ import {
   Deeplink,
   Modal,
   Settings,
-  Deals,
+  DiscountsScene,
 
   // forms
   Forms
@@ -205,7 +205,7 @@ const AppNavigator = createStackNavigator(
 const TabNavigator = createTabNavigator(
   {
     Root: { screen: AppNavigator },
-    Deals: { screen: Deals },
+    Deals: { screen: DiscountsScene },
     SearchBrowse: { screen: SearchBrowse },
     Settings: { screen: Settings },
     Cart: { screen: Cart }

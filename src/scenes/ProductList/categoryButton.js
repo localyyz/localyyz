@@ -12,25 +12,28 @@ import { Colours, Sizes, Styles } from "~/src/constants";
 import ProgressiveImage from "~/src/components/ProgressiveImage";
 
 // constants
-export const BUTTON_PADDING = 5;
-const WIDTH = Sizes.Width / 2 - BUTTON_PADDING - BUTTON_PADDING / 2;
-const HEIGHT = 2 * Sizes.Width / 5;
+const WIDTH = Sizes.Width / 3;
+const HEIGHT = Sizes.Width / 4;
+export const BUTTON_HEIGHT = HEIGHT + Sizes.InnerFrame;
 
 export default class CategoryButton extends React.Component {
   render() {
+    const isSelected
+      = this.props.selected && this.props.selected.id === this.props.id;
+
     return (
       <TouchableOpacity activeOpacity={1} onPress={this.props.onPress}>
         <View style={styles.container}>
           <ProgressiveImage
             source={{ uri: this.props.imageUrl }}
-            style={styles.photo}>
-            <View style={styles.overlay} />
-            <View style={styles.labelBackground}>
-              <Text numberOfLines={2} style={styles.label}>
-                {this.props.title}
-              </Text>
-            </View>
-          </ProgressiveImage>
+            style={styles.photo}/>
+          <View style={{ width: WIDTH }}>
+            <Text
+              numberOfLines={1}
+              style={[styles.label, isSelected ? styles.selected : {}]}>
+              {this.props.title}
+            </Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -39,41 +42,29 @@ export default class CategoryButton extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "space-between"
-  },
-
-  overlay: {
-    opacity: 0.3,
-    backgroundColor: "#000",
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0
   },
 
   photo: {
     width: WIDTH,
     height: HEIGHT,
-    backgroundColor: Colours.MenuBackground,
     overflow: "hidden",
     borderWidth: Sizes.Hairline,
-    borderColor: Colours.Border
+    borderColor: Colours.Border,
+    marginRight: Sizes.InnerFrame / 4,
+    borderRadius: 10
   },
 
   label: {
     ...Styles.Text,
     ...Styles.Emphasized,
     textAlign: "center",
-    color: "white"
+    fontSize: Sizes.SmallText
   },
 
-  labelBackground: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: WIDTH / 6
+  selected: {
+    textDecorationLine: "underline",
+    fontWeight: "bold"
   }
 });

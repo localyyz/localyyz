@@ -26,6 +26,7 @@ export default class FilterStore {
   @observable category;
   @observable subcategory;
   @observable merchant;
+  @observable categoryV2;
 
   // lists
   @observable genders = ["man", "woman"];
@@ -125,6 +126,7 @@ export default class FilterStore {
     this.setPriceFilter();
     this.setCategoryFilter();
     this.setMerchantFilter();
+    this.setCategoryV2Filter();
 
     // and update based on reset filters
     this.refresh(fetchPath);
@@ -250,6 +252,12 @@ export default class FilterStore {
   };
 
   @action
+  setCategoryV2Filter = category => {
+    GA.trackEvent("filter/sort", "filter by category v2", category.value);
+    this.categoryV2 = category;
+  };
+
+  @action
   setMerchantFilter = val => {
     this.merchant = val;
   };
@@ -312,7 +320,10 @@ export default class FilterStore {
         ...(this.size ? [`size,val=${this.size}`] : []),
         ...(this.category ? [`categoryType,val=${this.category}`] : []),
         ...(this.subcategory ? [`categoryValue,val=${this.subcategory}`] : []),
-        ...(this.merchant ? [`merchant,val=${this.merchant}`] : [])
+        ...(this.merchant ? [`merchant,val=${this.merchant}`] : []),
+        ...(this.categoryV2
+          ? [`categories,val=${JSON.stringify([this.categoryV2])}`]
+          : [])
       ]
     };
   }

@@ -59,9 +59,7 @@ export default class ProgressiveImage extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colours.Background
-  },
+  container: {},
 
   overlay: {
     position: "absolute",

@@ -45,9 +45,7 @@ export default class Button extends React.Component {
   }
 
   get buttonColor() {
-    return this.props.activeButton === "deals"
-      ? Colours.AlternateText
-      : this.state.isActive ? Colours.Text : Colours.SubduedText;
+    return this.state.isActive ? Colours.Text : Colours.SubduedText;
   }
 
   get icon() {
