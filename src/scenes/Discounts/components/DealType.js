@@ -15,19 +15,11 @@ const DEALTAB = [
 ];
 
 @inject((stores, props) => ({
-  fetch: stores.dealStore.fetchFeaturedDeals,
   dealTab: (stores.dealStore || props).dealTab,
-  setDealTab: (stores.dealStore || props).setDealTab,
-  featuredDeals: stores.dealStore.featuredDeals
-    ? stores.dealStore.featuredDeals.slice()
-    : []
+  setDealTab: (stores.dealStore || props).setDealTab
 }))
 @observer
 export default class DealType extends React.Component {
-  componentDidMount() {
-    this.props.setDealTab({ id: "ongoing" });
-  }
-
   render() {
     return (
       <View>
@@ -103,7 +95,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     backgroundColor: Colours.Foreground,
     paddingHorizontal: Sizes.InnerFrame,
-    alignItems: "center",
-    textAlign: "center"
+    alignItems: "center"
   }
 });

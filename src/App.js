@@ -213,7 +213,8 @@ const TabNavigator = createTabNavigator(
   {
     tabBarComponent: NavBar,
     tabBarPosition: "bottom",
-    lazy: true
+    lazy: true,
+    animationEnabled: true
   }
 );
 

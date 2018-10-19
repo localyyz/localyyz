@@ -5,11 +5,13 @@ import {
   StyleSheet,
   Text,
   View,
-  SectionList
+  SectionList,
+  AppState
 } from "react-native";
 
 // third party
 import { observer, inject } from "mobx-react/native";
+import { reaction } from "mobx";
 import { withNavigation } from "react-navigation";
 
 // custom
@@ -23,10 +25,10 @@ import FeaturedDealsCarousel from "./FeaturedDealsCarousel";
 @inject(stores => ({
   store: stores.dealStore,
   fetch: stores.dealStore.fetchDeals,
+  fetchFeatured: stores.dealStore.fetchFeaturedDeals,
   refresh: stores.dealStore.refreshDeals,
   dealTab: stores.dealStore.dealTab && stores.dealStore.dealTab.id,
   deals: stores.dealStore.deals ? stores.dealStore.deals.slice() : [],
-  dealType: stores.dealStore.dealType && stores.dealStore.dealType.id,
   isLoading: stores.dealStore.isLoading,
   isRefreshing: stores.dealStore.isRefreshing
 }))
@@ -35,10 +37,48 @@ export class DealList extends React.Component {
   constructor(props) {
     super(props);
     this.sectionListRef = React.createRef();
+    this.appState = AppState.currentState;
   }
 
+  componentDidMount() {
+    // ON focus, refresh deals
+    this.focusListener = this.props.navigation.addListener(
+      "didFocus",
+      this.refreshDeals
+    );
+    AppState.addEventListener("change", this._appStateListener);
+
+    reaction(
+      () => this.props.dealTab,
+      () => {
+        setTimeout(() => {
+          this.sectionListRef.current.scrollToLocation({
+            animated: true,
+            sectionIndex: 0,
+            itemIndex: 0,
+            viewPosition: 0,
+            viewOffset: Sizes.InnerFrame * 7
+          });
+        }, 1000);
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    // unsubscribe to listeners
+    this.focusListener && this.focusListener.remove();
+    this.focusListener = null;
+    AppState.removeEventListener("change", this._appStateListener);
+  }
+
+  _appStateListener = nextState => {
+    if (this.appState.match(/inactive|background/) && nextState === "active") {
+      this.refreshDeals();
+    }
+    this.appState = nextState;
+  };
+
   renderItem = ({ item: deal }) => {
-    this.dealTab = this.props.dealTab;
     return (
       <View
         style={{
@@ -49,18 +89,6 @@ export class DealList extends React.Component {
       </View>
     );
   };
-
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (prevProps.dealTab && this.props.dealTab !== prevProps.dealTab) {
-      this.sectionListRef.current.scrollToLocation({
-        animated: true,
-        sectionIndex: 0,
-        itemIndex: 0,
-        viewOffset: 100 // height of section header
-      });
-    }
-  }
 
   fetchMore = ({ distanceFromEnd }) => {
     if (distanceFromEnd > 0) {
@@ -103,6 +131,11 @@ export class DealList extends React.Component {
     ) : null;
   };
 
+  refreshDeals = () => {
+    this.props.refresh();
+    this.props.fetchFeatured();
+  };
+
   render() {
     return (
       <SectionList
@@ -120,7 +153,7 @@ export class DealList extends React.Component {
         onEndReached={this.fetchMore}
         onEndReachedThreshold={1}
         refreshing={this.props.isRefreshing}
-        onRefresh={this.props.refresh}
+        onRefresh={this.refreshDeals}
         renderSectionFooter={this.renderEmptyItem}/>
     );
   }
