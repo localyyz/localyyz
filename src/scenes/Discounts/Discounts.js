@@ -4,11 +4,10 @@ import { StyleSheet, View } from "react-native";
 import { Provider } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 // custom
-import { Colours, Sizes } from "localyyz/constants";
+import { Sizes } from "localyyz/constants";
 // local
-import { DealList, Header } from "./components";
+import { DealList } from "./components";
 import DealsUIStore from "./store";
-import { NAVBAR_HEIGHT } from "../../constants";
 
 export class DiscountsScene extends React.Component {
   constructor(props) {

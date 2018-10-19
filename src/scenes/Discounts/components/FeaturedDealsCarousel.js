@@ -5,7 +5,7 @@ import Carousel from "react-native-snap-carousel";
 
 import { inject, observer } from "mobx-react/native";
 
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Sizes } from "localyyz/constants";
 
 import DealCard, { itemWidth } from "./DealCard";
 

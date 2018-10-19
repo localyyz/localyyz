@@ -16,6 +16,10 @@ export default class DealsUIStore {
   @box isRefreshing = false;
   @observable.shallow featuredDeals = [];
 
+  constructor() {
+    this.setDealTab({ id: "ongoing" });
+  }
+
   @action
   setDealTab = dealTab => {
     this.dealTab = dealTab;
@@ -26,7 +30,6 @@ export default class DealsUIStore {
 
   @action
   refreshDeals = async () => {
-    console.log("flatlist started refreshing");
     this.isRefreshing = true;
     this.next = null;
     this.self = null;
@@ -70,12 +73,9 @@ export default class DealsUIStore {
     let origin = `${ENDPOINT}/featured`;
 
     const resolved = await ApiInstance.get(origin);
-
     if (resolved && resolved.data) {
       await runInAction("[ACTION] Fetching deals", () => {
-        this.featuredDeals = resolved.data.map(
-          deal => new Deal({ ...deal, origin: `${origin}/${deal.id}` })
-        );
+        this.featuredDeals = resolved.data.map(deal => new Deal(deal));
       });
     } else {
       console.log(`DealList (${origin}): Failed to fetch next page`);
