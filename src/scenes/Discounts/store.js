@@ -49,8 +49,8 @@ export default class DealsUIStore {
       (this.next && this.next.url) || origin
     );
 
-    if (resolved && resolved.data) {
-      await runInAction("[ACTION] Fetching deals", () => {
+    await runInAction("[ACTION] Fetching deals", () => {
+      if (resolved && resolved.data) {
         this.next = resolved.link.next;
         this.self = resolved.link.self;
 
@@ -61,10 +61,10 @@ export default class DealsUIStore {
             this.deals.push(new Deal(d));
           });
         }
-      });
-    } else {
-      console.log(`DealList (${origin}): Failed to fetch next page`);
-    }
+      } else {
+        console.log(`DealList (${origin}): Failed to fetch deals`);
+      }
+    });
 
     this.isLoading = false;
   };

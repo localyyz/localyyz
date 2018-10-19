@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     backgroundColor: Colours.Foreground,
     paddingHorizontal: Sizes.InnerFrame,
-    alignItems: "center",
-    textAlign: "center"
+    alignItems: "center"
   }
 });

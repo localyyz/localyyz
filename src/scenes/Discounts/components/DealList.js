@@ -11,6 +11,7 @@ import {
 
 // third party
 import { observer, inject } from "mobx-react/native";
+import { reaction } from "mobx";
 import { withNavigation } from "react-navigation";
 
 // custom
@@ -39,18 +40,6 @@ export class DealList extends React.Component {
     this.appState = AppState.currentState;
   }
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (prevProps.dealTab && this.props.dealTab !== prevProps.dealTab) {
-      this.sectionListRef.current.scrollToLocation({
-        animated: true,
-        sectionIndex: 0,
-        itemIndex: 0,
-        viewOffset: 100 // height of section header
-      });
-    }
-  }
-
   componentDidMount() {
     // ON focus, refresh deals
     this.focusListener = this.props.navigation.addListener(
@@ -58,6 +47,21 @@ export class DealList extends React.Component {
       this.refreshDeals
     );
     AppState.addEventListener("change", this._appStateListener);
+
+    reaction(
+      () => this.props.dealTab,
+      () => {
+        setTimeout(() => {
+          this.sectionListRef.current.scrollToLocation({
+            animated: true,
+            sectionIndex: 0,
+            itemIndex: 0,
+            viewPosition: 0,
+            viewOffset: Sizes.InnerFrame * 7
+          });
+        }, 1000);
+      }
+    );
   }
 
   componentWillUnmount() {
