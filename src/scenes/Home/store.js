@@ -1,189 +1,66 @@
 // custom
-import { ApiInstance } from "localyyz/global";
-import { box, randInt } from "localyyz/helpers";
+import { ApiInstance } from "~/src/global";
+import { box } from "~/src/helpers";
+import { Collection } from "~/src/stores";
 
 // third party
-import { observable, action, runInAction, computed } from "mobx";
+import shuffle from "lodash.shuffle";
+import { runInAction, observable, action } from "mobx";
 import { Animated } from "react-native";
 
+import { Product } from "~/src/stores";
+
 export default class HomeStore {
-  constructor() {
-    this.api = ApiInstance;
-  }
+  @observable feed = [];
 
-  /////////////////////////////////// shared UI states below
+  fetchFeed = async () => {
+    let rows = [];
+    let orderedRows = [];
 
-  // UI states shared between components
-  // NOTE: updated by Header component onLayout
-  @box headerHeight = 0;
-
-  @box searchActive = false;
-  @box searchFocused = false;
-
-  defaultBlocks = [
-    {
-      id: "feed",
-      position: 0,
-      type: "productList",
-      path: "products/feedv2",
-      title: "Just for you",
-      limit: 15
-    },
-    {
-      id: "trend",
-      position: 1,
-      type: "productList",
-      path: "products/trend",
-      title: "Trending",
-      limit: 10
-    },
-    {
-      id: "discount",
-      position: 2,
-      type: "collectionList",
-      collections: [
-        {
-          id: "70off",
-          type: "productList",
-          title: "70%+ Off",
-          path: "categories/13/products",
-          limit: 2
-        },
-        {
-          id: "50off",
-          type: "productList",
-          title: "50% - 70% Off",
-          path: "categories/12/products",
-          limit: 2
-        },
-        {
-          id: "20off",
-          type: "productList",
-          title: "20% - 50% Off",
-          path: "categories/11/products",
-          limit: 2
-        }
-      ],
-      title: "Designer SALE"
+    // featured collections is part of feed.
+    let resolved = await Collection.fetchFeatured();
+    if (resolved.collections) {
+      rows = resolved.collections.map(c => ({ ...c, type: "collection" }));
+      console.log(rows);
+      // removes the first element, if exists, put it into orderedRows
+      let topCollection = rows.shift();
+      topCollection && orderedRows.push(topCollection);
     }
-  ];
 
-  // blocks horizontal scroller and blocks registry
-  // all blocks have the following min props: type
-  @observable blocks = [];
-  @observable currentBlock;
-
-  filterBlocks(blocks, type) {
-    return blocks.filter(block => block.type !== type || !block._fetched);
-  }
-
-  @action
-  async fetchCollectionBlocks() {
-    let response = await this.api.get("collections");
-    if (response.status < 400 && response.data && response.data.length > 0) {
-      // first one is always at the top
-      let insertBlockIndex = 0;
-      let blocks = this.filterBlocks(this.blocks.slice(), "collection");
-
-      // insert the remaining ones randomly across the block layout
-      for (let collection of response.data) {
-        blocks.splice(insertBlockIndex, 0, {
-          ...collection,
-          type: "collection",
-          path: `collections/${collection.id}/products`,
-          title: collection.name
-        });
-
-        // starting at second item, since don't want before first and spacer,
-        // and immediately after first
-        //
-        // TODO: don't allow two collections beside each other
-        insertBlockIndex
-          = randInt(blocks.length - (insertBlockIndex + 2))
-          + (insertBlockIndex + 2);
-      }
-
-      for (let b of this.defaultBlocks) {
-        blocks.splice(b.position, 0, b);
-      }
-
-      // update blocks layout with inserted collections scattered randomly
-      // and header
-      runInAction(
-        "[ACTION] appending category blocks randomly to layout",
-        () => {
-          this.blocks = blocks;
-        }
-      );
-    } else {
-      // if no collections are returned// FOR NOW. clean up later
-      runInAction("[ACTION] add default blocks", () => {
-        this.blocks = this.defaultBlocks;
-      });
+    resolved = await ApiInstance.get("/products/feedv3");
+    if (resolved.error) {
+      return Promise.resolve({ error: resolved.error });
     }
-  }
 
-  @computed
-  get trackedBlocks() {
-    return this.blocks
-      .map((block, i) => ({ ...block, actualId: i }))
-      .filter(block => block.title);
-  }
-
-  @computed
-  get currentTrackedBlock() {
-    return (
-      (this.blocks.slice(0, this.currentBlock + 1).filter(block => block.title)
-        .length || 1) - 1
+    rows = rows.concat(
+      resolved.data
+        .map(row => {
+          row = {
+            ...row,
+            products: row.products.map(p => new Product(p))
+          };
+          if (row.order) {
+            orderedRows.push(row);
+            return;
+          }
+          return row;
+        })
+        .filter(r => r)
     );
-  }
 
-  getActualBlockFromTrackedBlock = i => {
-    return this.trackedBlocks[i].actualId;
+    // do the shuffle shuffle
+    rows = shuffle(rows);
+    rows = [...orderedRows, ...rows];
+
+    runInAction("[ACTION] fetch featured collection feed", () => {
+      this.feed.replace(rows);
+    });
+
+    return Promise.resolve({ success: true });
   };
 
-  getBlockPosition = i =>
-    this.blocks
-      .slice(0, i)
-      .map(block => block._height)
-      .filter(height => height && height > 0)
-      .reduce((a, b) => a + b, 0);
-
-  @action
-  updateBlockHeight(i, { nativeEvent: { layout: { height } } }) {
-    this.blocks[i]._height = height;
-  }
-
-  @action
-  onViewableBlockChange = ({ viewableItems }) => {
-    let currentlyVisibleBlock = viewableItems[viewableItems.length - 1];
-
-    // only update if changing
-    if (
-      currentlyVisibleBlock
-      && currentlyVisibleBlock.index !== this.currentBlock
-    ) {
-      this.currentBlock = currentlyVisibleBlock.index;
-
-      // update internal block height for all visible blocks
-      viewableItems.map(blockItem => {
-        this.blocks[blockItem.index]._position = this.getBlockPosition(
-          blockItem.index
-        );
-      });
-
-      runInAction(
-        "[ACTION] updating positions on viewable block change",
-        () => {
-          this.currentBlock = currentlyVisibleBlock.index;
-          this.blocks = this.blocks.slice();
-        }
-      );
-    }
-  };
-
+  // sync up another components scroll with this animated value
   @box scrollAnimate = new Animated.Value(0);
-
   @action
   onScrollAnimate = Animated.event([
     {

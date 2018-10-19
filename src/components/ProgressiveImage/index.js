@@ -1,8 +1,6 @@
 import React from "react";
 import { Animated, StyleSheet, Image, View } from "react-native";
 
-import { Colours } from "~/src/constants";
-
 export default class ProgressiveImage extends React.Component {
   static propTypes = {
     ...Image.propTypes
@@ -29,6 +27,7 @@ export default class ProgressiveImage extends React.Component {
     Animated.timing(this.imageAnimated, {
       toValue: 1
     }).start();
+    this.props.onLoad && this.props.onLoad();
   };
 
   render() {

@@ -167,27 +167,25 @@ export default class Questions extends React.Component {
     });
 
     this.store.saveSelectedOptions().then(resolved => {
-      setTimeout(() => {
-        if (resolved.success) {
-          this.props.navigation.dispatch(
-            StackActions.reset({
-              index: 1,
-              key: null,
-              actions: [
-                NavigationActions.navigate({
-                  routeName: "App"
-                }),
-                NavigationActions.navigate({
-                  routeName: "App",
-                  action: NavigationActions.navigate({
-                    routeName: "Home"
-                  })
+      if (resolved.success) {
+        this.props.navigation.dispatch(
+          StackActions.reset({
+            index: 1,
+            key: null,
+            actions: [
+              NavigationActions.navigate({
+                routeName: "App"
+              }),
+              NavigationActions.navigate({
+                routeName: "App",
+                action: NavigationActions.navigate({
+                  routeName: "Home"
                 })
-              ]
-            })
-          );
-        }
-      }, 4000);
+              })
+            ]
+          })
+        );
+      }
     });
   };
 

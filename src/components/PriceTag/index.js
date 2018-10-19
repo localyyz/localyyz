@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
 
   label: {
     ...Styles.Text,
-    ...Styles.Emphasized,
-    fontSize: Sizes.H3
+    ...Styles.Emphasized
   }
 });

@@ -23,9 +23,6 @@ const HEIGHT
 
 const BASE_WIDTH = 375; // constant, 375 is standard width of iphone 6 / 7 / 8
 
-// font scaling amount
-const FONT_SCALING = WIDTH > 320 ? 1 : 0.8;
-
 export const ResponsiveFontSize = size => {
   // get ratio based on your standard scale
   const ratio = size / BASE_WIDTH;
@@ -43,12 +40,15 @@ export const Sizes = {
   ScreenBottom: isIphoneX() ? 34 : 0,
   StatusBar: Platform.OS === "ios" ? 20 : StatusBar.currentHeight,
 
+  // Tabbar
+  IOSTabBar: 48 + isIphoneX() ? 34 : 0,
+
   // search
   SearchBarHeight: 36,
 
   // margins
-  OuterFrame: 25,
-  InnerFrame: 15,
+  OuterFrame: ResponsiveFontSize(25),
+  InnerFrame: ResponsiveFontSize(15),
 
   // text
   Oversized: ResponsiveFontSize(32),
