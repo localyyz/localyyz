@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 
 import Carousel from "react-native-snap-carousel";
 
-import { inject } from "mobx-react/native";
+import { inject, observer } from "mobx-react/native";
 
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
@@ -17,6 +17,7 @@ const SLIDER_1_FIRST_ITEM = 1;
     ? stores.dealStore.featuredDeals.slice()
     : []
 }))
+@observer
 export default class FeaturedDealsCarousel extends React.Component {
   constructor(props) {
     super(props);

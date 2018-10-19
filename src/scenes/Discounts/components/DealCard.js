@@ -50,7 +50,7 @@ export class DealCard extends React.Component {
   };
 
   buildParams = () => {
-    const { title, id, productType, place } = this.props;
+    const { id, productType, place } = this.props;
     if (productType === 3) {
       this.path = `places/${place.id}/products`;
     } else {
@@ -58,7 +58,7 @@ export class DealCard extends React.Component {
     }
     return {
       fetchPath: this.path,
-      title: title,
+      title: place.name,
       dealTab: this.props.dealTab,
       dealType: this.props.dealType,
       gender: this.props.place.genderHint
@@ -89,7 +89,9 @@ export class DealCard extends React.Component {
     var endsAtDiff = Moment.duration(
       Moment(this.props.endAt).diff(now)
     ).asHours();
-    var startsAtDiff = Moment.duration(Moment(this.props.startAt).diff(now));
+    var startsAtDiff = Moment.duration(
+      Moment(this.props.startAt).diff(now)
+    ).asHours();
 
     return (
       <View style={[styles.card, this.props.cardStyle]}>
@@ -122,7 +124,7 @@ export class DealCard extends React.Component {
             ) : this.props.status == "1" ? (
               <View style={{ maxWidth: (itemWidth - Sizes.OuterFrame) / 3 }}>
                 <Text style={styles.timer}>Starting in:</Text>
-                {startsAtDiff < MaxTimerApply ? (
+                {startsAtDiff > MaxTimerApply ? (
                   <Text style={styles.timer}>
                     {Moment(this.props.startAt).fromNow(true)}
                   </Text>
@@ -147,7 +149,7 @@ export class DealCard extends React.Component {
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
               <TouchableOpacity onPress={this.viewProductsButton}>
-                <Text style={styles.buttonText}>{"View Products"}</Text>
+                <Text style={styles.viewButtonText}>{"View Products"}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.button}>
@@ -248,6 +250,14 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: Sizes.SmallText,
     fontWeight: "300",
+    paddingTop: 2,
+    paddingBottom: 2
+  },
+
+  viewButtonText: {
+    fontSize: Sizes.SmallText,
+    fontWeight: "500",
+    color: Colours.DarkBlue,
     paddingTop: 2,
     paddingBottom: 2
   },

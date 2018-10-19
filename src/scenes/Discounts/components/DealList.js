@@ -23,6 +23,7 @@ import FeaturedDealsCarousel from "./FeaturedDealsCarousel";
 @inject(stores => ({
   store: stores.dealStore,
   fetch: stores.dealStore.fetchDeals,
+  fetchFeatured: stores.dealStore.fetchFeaturedDeals,
   refresh: stores.dealStore.refreshDeals,
   dealTab: stores.dealStore.dealTab && stores.dealStore.dealTab.id,
   deals: stores.dealStore.deals ? stores.dealStore.deals.slice() : [],
@@ -103,6 +104,11 @@ export class DealList extends React.Component {
     ) : null;
   };
 
+  refreshDeals = () => {
+    this.props.refresh();
+    this.props.fetchFeatured();
+  };
+
   render() {
     return (
       <SectionList
@@ -120,7 +126,7 @@ export class DealList extends React.Component {
         onEndReached={this.fetchMore}
         onEndReachedThreshold={1}
         refreshing={this.props.isRefreshing}
-        onRefresh={this.props.refresh}
+        onRefresh={this.refreshDeals}
         renderSectionFooter={this.renderEmptyItem}/>
     );
   }
