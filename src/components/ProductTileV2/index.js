@@ -28,18 +28,12 @@ export class ProductTileV2 extends React.Component {
   };
 
   render() {
-    const resizeMode
-      = this.props.product.category.type == "shoes"
-      || this.props.product.category.type == "sneakers"
-        ? "contain"
-        : null;
-
     return (
       <TouchableWithoutFeedback onPress={this.onPress}>
         <View style={styles.container}>
           <View style={styles.photoContainer}>
             <ProgressiveImage
-              resizeMode={resizeMode}
+              resizeMode={"contain"}
               source={{
                 uri:
                   this.props.product.associatedPhotos[0]
@@ -63,7 +57,7 @@ export class ProductTileV2 extends React.Component {
                 justifyContent: "space-between"
               }}>
               <View style={styles.price}>
-                <PriceTag product={this.props.product} />
+                <PriceTag product={this.props.product} size={Sizes.SmallText} />
               </View>
               <Favourite product={this.props.product} />
             </View>

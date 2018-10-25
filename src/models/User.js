@@ -26,6 +26,11 @@ export default class User {
   }
 
   @computed
+  get shouldOnboard() {
+    return !this.prf;
+  }
+
+  @computed
   get hasSession() {
     return Boolean(this.id);
   }

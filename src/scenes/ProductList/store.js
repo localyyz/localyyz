@@ -4,7 +4,6 @@ import { ApiInstance } from "localyyz/global";
 
 import { Product } from "localyyz/stores";
 
-// API: products, numProducts, fetchNextPage(params), reset(params)
 class Store {
   @observable products = [];
   @box numProducts = 0;

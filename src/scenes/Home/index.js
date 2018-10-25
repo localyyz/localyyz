@@ -1,16 +1,24 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+import { observer, inject } from "mobx-react/native";
 
 // custom
-import { NAVBAR_HEIGHT } from "localyyz/constants";
+import { Colours, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // third party
 import { Provider } from "mobx-react/native";
 
 // local
-import { Main, Header } from "./components";
 import Store from "./store";
 
+import Header from "./header";
+import Feed from "./feed";
+import OnboardPrompt from "./components/onboardPrompt";
+
+@inject(stores => ({
+  shouldOnboard: stores.userStore.shouldOnboard
+}))
+@observer
 export default class Home extends React.Component {
   static navigationOptions = {
     swipeEnabled: false
@@ -25,8 +33,8 @@ export default class Home extends React.Component {
     return (
       <Provider homeStore={this.store}>
         <View style={styles.container}>
-          <Main />
           <Header />
+          {this.props.shouldOnboard ? <OnboardPrompt /> : <Feed />}
         </View>
       </Provider>
     );
@@ -36,6 +44,7 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: NAVBAR_HEIGHT
+    paddingBottom: NAVBAR_HEIGHT,
+    backgroundColor: Colours.Foreground
   }
 });

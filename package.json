@@ -10,7 +10,6 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "babel-preset-stage-2": "^6.24.1",
     "code-push-cli": "^2.1.8",
-    "detox": "^7.4.0",
     "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.7.0",
     "eslint-plugin-react-native": "^3.2.1",
@@ -63,6 +62,7 @@
     "currency-symbol-map": "^4.0.4",
     "lodash.isempty": "^4.4.0",
     "lodash.padstart": "^4.6.1",
+    "lodash.shuffle": "^4.2.0",
     "mobx": "^4.1.1",
     "mobx-react": "^5.0.0",
     "mobx-utils": "^4.0.0",
@@ -103,15 +103,5 @@
     "assets": [
       "./assets/fonts"
     ]
-  },
-  "detox": {
-    "configurations": {
-      "ios.sim.debug": {
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/localyyz.dev.app",
-        "build": "xcodebuild -workspace ios/localyyz.xcworkspace -scheme localyyz -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
-        "type": "ios.simulator",
-        "name": "iPhone 8"
-      }
-    }
   }
 }
