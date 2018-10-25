@@ -21,7 +21,6 @@ export default class HomeStore {
     let resolved = await Collection.fetchFeatured();
     if (resolved.collections) {
       rows = resolved.collections.map(c => ({ ...c, type: "collection" }));
-      console.log(rows);
       // removes the first element, if exists, put it into orderedRows
       let topCollection = rows.shift();
       topCollection && orderedRows.push(topCollection);
