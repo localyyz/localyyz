@@ -93,7 +93,8 @@ export class FeedRow extends React.Component {
             Favorite More Products
           </Text>
           <Text style={[Styles.Subdued, { textAlign: "center" }]}>
-            Recommendations based on you favorite products appears in your feed.
+            Recommendations based on your favorite products will appear in your
+            feed.
           </Text>
         </View>
       );

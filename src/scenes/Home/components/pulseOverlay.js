@@ -16,7 +16,7 @@ export default class ProcessingOverlay extends React.Component {
 
   static defaultProps = {
     title: "Just a minute",
-    subtitle: "Putting together feed for you now..."
+    subtitle: "Putting together your feed..."
   };
 
   render() {
