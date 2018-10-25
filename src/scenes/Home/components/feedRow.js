@@ -116,13 +116,14 @@ export class FeedRow extends React.Component {
       case "recommend":
         typeText = "Recommended based on your style";
         titleEl = (
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.rowTitleSub, { paddingRight: 5 }]}>
-              Latest
-            </Text>
-            <Text style={styles.rowTitle}>{capitalize(this.props.style)}</Text>
-            <Text style={[styles.rowTitle, { paddingLeft: 5 }]}>
-              {capitalize(this.props.category.label)}
+          <View style={styles.title}>
+            <Text style={[styles.rowTitleSub]} numberOfLines={2}>
+              Latest{" "}
+              <Text style={styles.rowTitle}>
+                {`${capitalize(this.props.style)} ${capitalize(
+                  this.props.category.label
+                )}`}
+              </Text>
             </Text>
           </View>
         );
@@ -130,12 +131,15 @@ export class FeedRow extends React.Component {
       case "sale":
         typeText = "Recommended based on your style";
         titleEl = (
-          <View style={{ flexDirection: "row" }}>
-            <Text style={styles.rowTitle}>{capitalize(this.props.style)}</Text>
-            <Text style={[styles.rowTitle, { paddingLeft: 5 }]}>
-              {capitalize(this.props.category.label)}
+          <View style={styles.title}>
+            <Text style={styles.rowTitleSub} numberOfLines={2}>
+              <Text style={styles.rowTitle}>
+                {`${capitalize(this.props.style)} ${capitalize(
+                  this.props.category.label
+                )}`}
+              </Text>{" "}
+              On Sale
             </Text>
-            <Text style={styles.rowTitleSub}> On Sale</Text>
           </View>
         );
         break;
@@ -205,11 +209,17 @@ const styles = StyleSheet.create({
     color: Colours.SubduedText
   },
 
+  title: {
+    flexDirection: "row",
+    maxWidth: Sizes.Width - Sizes.OuterFrame * 2
+  },
+
   rowTitle: {
     fontSize: Sizes.Text,
     fontWeight: "bold",
     maxWidth: 3 * Sizes.Width / 4,
-    fontFamily: "Helvetica"
+    fontFamily: "Helvetica",
+    color: Colours.EmphasizedText
   },
 
   rowTitleSub: {
