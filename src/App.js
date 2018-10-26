@@ -205,8 +205,8 @@ const AppNavigator = createStackNavigator(
 const TabNavigator = createTabNavigator(
   {
     Root: { screen: AppNavigator },
-    Deals: { screen: DiscountsScene },
     SearchBrowse: { screen: SearchBrowse },
+    Deals: { screen: DiscountsScene },
     Settings: { screen: Settings },
     Cart: { screen: Cart }
   },

@@ -67,7 +67,12 @@ export class DealCard extends React.Component {
 
   image = () => {
     const { imageUrl } = this.props;
-    return <Image source={{ uri: imageUrl }} style={styles.image} />;
+    return (
+      <Image
+        resizeMode={"contain"}
+        source={{ uri: imageUrl }}
+        style={styles.image}/>
+    );
   };
 
   viewProductsButton = () => {
@@ -202,7 +207,6 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    resizeMode: "cover",
     height: CardHeight / 2,
     borderRadius: entryBorderRadius,
     borderTopLeftRadius: entryBorderRadius,

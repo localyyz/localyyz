@@ -28,6 +28,9 @@ export default class FilterStore {
   @observable merchant;
   @observable categoryV2;
 
+  // customize personalize filters
+  @observable personalize;
+
   // lists
   @observable genders = ["man", "woman"];
   @observable
@@ -79,12 +82,9 @@ export default class FilterStore {
   //  new sales
   //  deals -> free shipping
 
-  constructor(searchStore, defaultGender) {
+  constructor(searchStore, props) {
     // requires .reset(params) and .numProducts
     this.searchStore = searchStore;
-
-    // bindings
-    this.asyncFetch = this.asyncFetch.bind(this);
 
     this.fetchColors = this.fetchColors.bind(this);
     this.fetchSizes = this.fetchSizes.bind(this);
@@ -92,7 +92,6 @@ export default class FilterStore {
 
     this.setSizeFilter = this.setSizeFilter.bind(this);
     this.setColorFilter = this.setColorFilter.bind(this);
-    this.setGenderFilter = this.setGenderFilter.bind(this);
     this.setBrandFilter = this.setBrandFilter.bind(this);
     this.setPriceFilter = this.setPriceFilter.bind(this);
     this.setDiscountFilter = this.setDiscountFilter.bind(this);
@@ -100,8 +99,17 @@ export default class FilterStore {
     // set gender from settings on mount, can be overrided
     // NOTE: defaultGender for example can be passed in from search browse
     // as a navigation param. TODO: let's fix this.
-    let gender = defaultGender || userStore.genderPreference;
+    let gender = props.gender || userStore.genderPreference;
     gender && this.setGenderFilter(gender);
+
+    // initial settings
+    if (props.filtersort) {
+      props.filtersort.category
+        && this.setCategoryV2Filter(props.filtersort.category);
+      props.filtersort.discountMin
+        && this.setDiscountFilter(props.filtersort.discountMin);
+      this.setPersonalize(props.filtersort);
+    }
   }
 
   @computed
@@ -143,13 +151,13 @@ export default class FilterStore {
   //
   // /products/categories?filters=brand,val=gucci
   //
-  asyncFetch(filterBy = "", params = {}) {
+  asyncFetch = (filterBy = "", params = {}) => {
     const fetchPath = this.searchStore.fetchPath || "products";
     const fetchParams = { ...params, ...this.fetchParams };
     return this.searchStore.fetch
       ? this.searchStore.fetch(filterBy, fetchParams)
       : ApiInstance.get(`${fetchPath}/${filterBy}`, fetchParams);
-  }
+  };
 
   @action
   fetchColors() {
@@ -224,9 +232,9 @@ export default class FilterStore {
   }
 
   @action
-  setGenderFilter(val) {
+  setGenderFilter = val => {
     this._gender = val;
-  }
+  };
 
   @action
   setBrandFilter(val) {
@@ -253,7 +261,7 @@ export default class FilterStore {
 
   @action
   setCategoryV2Filter = category => {
-    GA.trackEvent("filter/sort", "filter by category v2", category.value);
+    GA.trackEvent("filter/sort", "filter by category v2", `${category}`);
     this.categoryV2 = category;
   };
 
@@ -270,6 +278,7 @@ export default class FilterStore {
 
   @action
   setDiscountFilter(min = 0) {
+    GA.trackEvent("filter/sort", "discount", `${min}`);
     this.discountMin = min;
   }
 
@@ -278,6 +287,21 @@ export default class FilterStore {
     GA.trackEvent("filter/sort", "sort", sorter);
     this.sortBy = sorter;
   };
+
+  @action
+  setPersonalize({ style, pricing, gender }) {
+    let p = {};
+    if (style) {
+      p.style = [style];
+    }
+    if (pricing) {
+      p.pricing = [pricing];
+    }
+    if (gender) {
+      p.gender = [gender];
+    }
+    this.personalize = p == {} ? undefined : p;
+  }
 
   @computed
   get numProducts() {
@@ -323,6 +347,9 @@ export default class FilterStore {
         ...(this.merchant ? [`merchant,val=${this.merchant}`] : []),
         ...(this.categoryV2
           ? [`categories,val=${JSON.stringify([this.categoryV2])}`]
+          : []),
+        ...(this.personalize
+          ? [`personalize,val=${JSON.stringify(this.personalize)}`]
           : [])
       ]
     };

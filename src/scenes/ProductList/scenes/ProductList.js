@@ -47,7 +47,7 @@ export default class ProductListScene extends React.Component {
 
     // stores
     this.store = this.settings.store || new Store(this.settings);
-    this.filterStore = new FilterStore(this.store, this.settings.gender);
+    this.filterStore = new FilterStore(this.store, this.settings);
 
     const scrollAnim = new Animated.Value(0);
     const offsetAnim = new Animated.Value(0);
@@ -72,13 +72,6 @@ export default class ProductListScene extends React.Component {
         BAR_HEIGHT
       )
     };
-  }
-
-  componentDidUpdate(prevProps) {
-    // category change, reflect it down into store
-    if (this.settings.title != this.getSettings(prevProps).title) {
-      this.filterStore.reset && this.filterStore.reset(this.settings.fetchPath);
-    }
   }
 
   componentDidMount() {

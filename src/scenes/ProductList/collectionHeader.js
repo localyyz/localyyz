@@ -26,7 +26,7 @@ export default class CollectionHeader extends React.Component {
             flexDirection: "row",
             justifyContent: "flex-end"
           }}>
-          {this.props.collaborators.map(c => (
+          {(this.props.collaborators || []).map(c => (
             <View key={c.id} style={styles.collaborator}>
               <Image source={{ uri: c.avatarUrl }} style={styles.avatar} />
               <Text style={{ textAlign: "center" }}>{c.name}</Text>

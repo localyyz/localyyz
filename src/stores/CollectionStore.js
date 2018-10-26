@@ -5,7 +5,7 @@ export default class CollectionStore extends CollectionModel {
   static fetch = async collectionId => {
     const resolve = await ApiInstance.get(`/collections/${collectionId}`);
     if (!resolve.error) {
-      // app.js trackScreen is also handling product view events
+      GA.trackEvent("collection", "view", this.title);
       return new Promise.resolve({
         collection: new CollectionStore(resolve.data)
       });
@@ -13,8 +13,17 @@ export default class CollectionStore extends CollectionModel {
     return new Promise.resolve({ error: resolve.error });
   };
 
-  constructor(collection) {
-    super(collection);
-    GA.trackEvent("collection", "view", this.title);
+  static fetchFeatured = async () => {
+    const resolve = await ApiInstance.get("/collections/featured");
+    if (!resolve.error) {
+      return new Promise.resolve({
+        collections: resolve.data.map(c => new CollectionStore(c))
+      });
+    }
+    return new Promise.resolve({ error: resolve.error });
+  };
+
+  constructor(props) {
+    super(props);
   }
 }
