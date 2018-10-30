@@ -6,6 +6,7 @@ import {
 } from "~/src/stores";
 
 import branch from "react-native-branch";
+import OneSignal from "react-native-onesignal";
 import { inject } from "mobx-react/native";
 
 @inject(stores => ({
@@ -23,6 +24,8 @@ export default class Deeplink extends React.Component {
     // navigating with key = null will reset the root navigator
     this.props.navigation.replace("App");
     this.branchUnsubscriber = branch.subscribe(this.onBranchDeepLink);
+
+    OneSignal.addEventListener("opened", this.onOpened)
   }
 
   componentWillUnmount = () => {
@@ -30,6 +33,7 @@ export default class Deeplink extends React.Component {
       this.branchUnsubscriber();
       this.branchUnsubscriber = null;
     }
+    OneSignal.removeEventListener("opened", this.onOpened);
   };
 
   render() {
@@ -44,6 +48,60 @@ export default class Deeplink extends React.Component {
     return await ProductStore.fetch(productID);
   };
 
+  navigateTo = ({ destination, destination_id, title }) => {
+    switch (destination) {
+      case "product":
+        this.getDeeplinkProduct(destination_id).then(resolved => {
+          if (!resolved.error) {
+            this.props.navigation.navigate({
+              routeName: "Product",
+              key: `product${destination_id}`,
+              params: {
+                product: resolved.product
+              }
+            });
+          }
+        });
+
+        break;
+      case "collection":
+        this.getDeeplinkCollection(destination_id).then(resolved => {
+          if (!resolved.error) {
+            this.props.navigation.navigate({
+              routeName: "ProductList",
+              key: `collection${destination_id}`,
+              params: {
+                fetchPath: `collections/${destination_id}/products`,
+                collection: resolved.collection,
+                title: resolved.collection.name,
+                subtitle: resolved.collection.description
+              }
+            });
+          }
+        });
+
+        break;
+      case "place":
+        this.props.navigation.navigate({
+          routeName: "ProductList",
+          key: `place${destination_id}`,
+          params: {
+            fetchPath: "places/" + destination_id + "/products",
+            title: title
+          }
+        });
+        break;
+      case "deal":
+        this.props.navigation.navigate({
+          routeName: "Deals"
+        });
+        break;
+      default:
+        // do nothing
+    }
+
+  };
+
   /*
   function is called whenever a branch READ event is triggered
   params = {
@@ -53,62 +111,19 @@ export default class Deeplink extends React.Component {
     description: the description of the object  - only for collection
   }
   */
-  onBranchDeepLink = async ({ error, params }) => {
+  onBranchDeepLink = async ({error, params}) => {
     if (error) {
       console.log("Error: failed to deep link", error);
     } else if (params) {
-      switch (params.destination) {
-        case "product":
-          this.getDeeplinkProduct(params.destination_id).then(resolved => {
-            if (!resolved.error) {
-              this.props.navigation.navigate({
-                routeName: "Product",
-                key: `product${params.destination_id}`,
-                params: {
-                  product: resolved.product
-                }
-              });
-            }
-          });
-
-          break;
-        case "collection":
-          this.getDeeplinkCollection(params.destination_id).then(resolved => {
-            if (!resolved.error) {
-              this.props.navigation.navigate({
-                routeName: "ProductList",
-                key: `collection${params.destination_id}`,
-                params: {
-                  fetchPath: `collections/${params.destination_id}/products`,
-                  collection: resolved.collection,
-                  title: resolved.collection.name,
-                  subtitle: resolved.collection.description
-                }
-              });
-            }
-          });
-
-          break;
-        case "place":
-          this.props.navigation.navigate({
-            routeName: "ProductList",
-            key: `place${params.destination_id}`,
-            params: {
-              fetchPath: "places/" + params.destination_id + "/products",
-              title: params.title
-            }
-          });
-          break;
-        case "deals":
-          this.props.navigation.navigate("DealsScene", {
-            dealId: params.destination_id,
-            startAt: params.startAt,
-            duration: params.duration
-          });
-          break;
-        default:
-        // do nothing
-      }
+      this.navigateTo(params)
     }
   };
+
+  onOpened = (openResult) => {
+    let params = openResult.notification.payload.additionalData;
+    if (params) {
+      this.navigateTo(params)
+    }
+
+  }
 }
