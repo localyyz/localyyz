@@ -25,7 +25,6 @@ export default class Deeplink extends React.Component {
     this.props.navigation.replace("App");
     this.branchUnsubscriber = branch.subscribe(this.onBranchDeepLink);
 
-    this.onOpened = this.onOpened.bind(this);
     OneSignal.addEventListener("opened", this.onOpened)
   }
 
@@ -34,6 +33,7 @@ export default class Deeplink extends React.Component {
       this.branchUnsubscriber();
       this.branchUnsubscriber = null;
     }
+    OneSignal.removeEventListener("opened", this.onOpened);
   };
 
   render() {
@@ -49,7 +49,6 @@ export default class Deeplink extends React.Component {
   };
 
   navigateTo = ({ destination, destination_id, title }) => {
-    console.log(destination, destination_id);
     switch (destination) {
       case "product":
         this.getDeeplinkProduct(destination_id).then(resolved => {
