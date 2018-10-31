@@ -2,7 +2,7 @@
 import { observable, computed, action, runInAction } from "mobx";
 
 // custom
-import { GA, ApiInstance } from "~/src/global";
+import { OS, GA, ApiInstance } from "~/src/global";
 import { userStore, Merchant } from "~/src/stores";
 
 export default class Store {
@@ -124,6 +124,23 @@ export default class Store {
     return params;
   }
 
+  @computed
+  get selectedToParamsOS() {
+    let osParams  = {}
+    let params = this.selectedToParams
+    // iterate over param keys: { "style": [...] } => ["style", "pricing"]
+    for (let key of Object.keys(params)) {
+      // iterate over param values: [ "artsy", "casual", ...]
+      for (let vIndex in params[key]) {
+        // get current value index and make new key => { "style1": "artsy", "style2": "casual" }
+        osParams[`${key}-${params[key][vIndex]}`] = true
+      }
+    }
+
+    console.log(osParams);
+    return osParams;
+  }
+
   @action
   addToSlideIndex = i => {
     this.slideIndex = this.slideIndex + i;
@@ -211,6 +228,7 @@ export default class Store {
   // save preference to user
   saveSelectedOptions = async () => {
     GA.trackEvent("personalize", "finish", "", 0);
+    OS.sendTags(this.selectedToParamsOS);
     return await userStore.savePreferences(this.selectedToParams);
   };
 }
