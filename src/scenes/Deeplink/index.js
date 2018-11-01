@@ -114,7 +114,7 @@ export default class Deeplink extends React.Component {
           params.filtersort.discountMin = 0.5;
         }
 
-        this.props.navigation.navigate("ProductList", params);
+        this.props.navigation.push("ProductList", params);
         break;
       default:
         // do nothing
