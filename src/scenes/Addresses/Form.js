@@ -2,7 +2,6 @@ import React from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
-  SafeAreaView,
   View,
   StyleSheet,
   ScrollView
@@ -334,7 +333,7 @@ export default class AddressForm extends React.Component {
   render() {
     return (
       <Provider formStore={this.store}>
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           {this.store.data.street || this.state.manual ? (
             this.renderManualForm()
           ) : (
@@ -342,7 +341,7 @@ export default class AddressForm extends React.Component {
               field={"address"}
               onPressManual={this.onPressManual}/>
           )}
-        </SafeAreaView>
+        </View>
       </Provider>
     );
   }

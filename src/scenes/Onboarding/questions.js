@@ -4,8 +4,7 @@ import {
   Text,
   Image,
   TouchableWithoutFeedback,
-  StyleSheet,
-  SafeAreaView
+  StyleSheet
 } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import Swiper from "react-native-swiper";
@@ -108,7 +107,7 @@ class ActionButton extends React.Component {
                 : Colours.DisabledButton,
               alignItems: "center",
               paddingTop: Sizes.InnerFrame,
-              paddingBottom: Sizes.ScreenBottom || Sizes.InnerFrame
+              paddingBottom: Sizes.InnerFrame
             }}>
             <Text style={Styles.RoundedButtonText}>Next</Text>
           </View>
@@ -222,7 +221,7 @@ export default class Questions extends React.Component {
     const children = [this.renderIntro(), ...slides];
 
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <Swiper
           ref={ref => (this._swiper = ref)}
           autoplay={false}
@@ -239,7 +238,7 @@ export default class Questions extends React.Component {
         <PulseOverlay
           subtitle={this.state.processingSubtitle}
           isProcessing={this.state.isProcessing}/>
-      </SafeAreaView>
+      </View>
     );
   }
 }

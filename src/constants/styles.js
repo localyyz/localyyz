@@ -166,7 +166,7 @@ export const Styles = {
     paddingHorizontal: Sizes.InnerFrame,
     paddingVertical: Sizes.InnerFrame / 2,
     borderRadius: Sizes.InnerFrame,
-    backgroundColor: Colours.DisabledButton
+    backgroundColor: Colours.SecondaryButton
   },
 
   Divider: {

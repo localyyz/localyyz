@@ -248,7 +248,8 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    ...Styles.RoundedSubButton
+    ...Styles.RoundedSubButton,
+    backgroundColor: "white"
   },
 
   buttonText: {

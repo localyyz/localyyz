@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet } from "react-native";
 // third party
 import { Provider } from "mobx-react/native";
-import { withNavigation } from "react-navigation";
+import { SafeAreaView, withNavigation } from "react-navigation";
 // local
 import { DealList } from "./components";
 import DealsUIStore from "./store";

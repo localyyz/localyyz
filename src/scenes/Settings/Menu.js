@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  SafeAreaView,
   ScrollView,
   View,
   StyleSheet,
@@ -72,7 +71,7 @@ export default class SettingsMenu extends React.Component {
   render() {
     return (
       <Provider formStore={this.formStore}>
-        <SafeAreaView style={styles.wrapper}>
+        <View style={styles.wrapper}>
           <ScrollView contentContainerStyle={styles.container}>
             {this.props.hasSession ? (
               <Forms.Section label="Orders">
@@ -145,7 +144,7 @@ export default class SettingsMenu extends React.Component {
                 }>{`Build ${DeviceInfo.getBuildNumber()}`}</Text>
             </View>
           </ScrollView>
-        </SafeAreaView>
+        </View>
       </Provider>
     );
   }

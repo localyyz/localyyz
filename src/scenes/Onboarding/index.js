@@ -1,5 +1,6 @@
 // third party
 import React from "react";
+import { SafeAreaView } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { Provider } from "mobx-react/native";
 
@@ -31,7 +32,9 @@ export default class Onboarding extends React.Component {
   render() {
     return (
       <Provider onboardingStore={this.store}>
-        <OnboardingStack navigation={this.props.navigation} />
+        <SafeAreaView style={{ flex: 1 }}>
+          <OnboardingStack navigation={this.props.navigation} />
+        </SafeAreaView>
       </Provider>
     );
   }
