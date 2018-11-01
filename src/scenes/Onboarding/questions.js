@@ -96,13 +96,17 @@ class ActionButton extends React.Component {
       <TouchableWithoutFeedback onPress={onNext}>
         <View
           pointerEvents="box-none"
-          style={{ position: "absolute", bottom: 0 }}>
+          style={{
+            position: "absolute",
+            bottom: 0
+          }}>
           <View
             style={{
               width: Sizes.Width,
               backgroundColor: Colours.PositiveButton,
               alignItems: "center",
-              paddingVertical: Sizes.InnerFrame
+              paddingTop: Sizes.InnerFrame,
+              paddingBottom: Sizes.ScreenBottom
             }}>
             <Text style={Styles.RoundedButtonText}>Next</Text>
           </View>

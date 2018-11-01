@@ -102,7 +102,8 @@ export default class Addresses extends React.Component {
 
   addAddress() {
     return this.props.navigation.navigate("AddressForm", {
-      onSubmit: this.onSelect
+      onSubmit: this.onSelect,
+      title: "Add New"
     });
   }
 

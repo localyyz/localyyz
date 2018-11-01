@@ -136,10 +136,11 @@ export default class GoogleAddress extends React.Component {
             break;
           case "locality":
           case "sublocality_level_1":
-            address.set({ city: component.short_name });
+          case "postal_town": // UK
+            address.set({ city: component.long_name });
             break;
           case "administrative_area_level_1":
-            address.set({ province: component.short_name });
+            address.set({ province: component.long_name });
             break;
           case "country":
             address.set({
@@ -147,6 +148,7 @@ export default class GoogleAddress extends React.Component {
               countryCode: component.short_name
             });
             break;
+          case "postal_code_prefix":
           case "postal_code":
             address.set({ zip: component.short_name });
             break;

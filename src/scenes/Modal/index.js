@@ -35,12 +35,12 @@ export default class Modal extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colours.Background
+    backgroundColor: Colours.Foreground
   },
 
   close: {
     position: "absolute",
-    top: 5,
+    top: 5 + Sizes.ScreenTop,
     left: 5
   }
 });

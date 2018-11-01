@@ -282,7 +282,7 @@ export default class AddressForm extends React.Component {
             <View style={Styles.Horizontal}>
               <Forms.Field
                 field="region"
-                label="Province"
+                label="State/Province/Region"
                 onSubmitEditing={this.onSubmitEditing}
                 style={styles.largerField}/>
               <Forms.Field
