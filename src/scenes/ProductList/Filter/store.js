@@ -262,7 +262,7 @@ export default class FilterStore {
   @action
   setCategoryV2Filter = category => {
     GA.trackEvent("filter/sort", "filter by category v2", `${category}`);
-    this.categoryV2 = category;
+    this.categoryV2 = parseInt(category, 10);
   };
 
   @action
