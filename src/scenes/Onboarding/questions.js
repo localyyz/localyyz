@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   Image,
   TouchableWithoutFeedback,
-  StyleSheet
+  StyleSheet,
+  SafeAreaView
 } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import Swiper from "react-native-swiper";
