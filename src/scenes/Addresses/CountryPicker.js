@@ -77,7 +77,6 @@ export default class CountryPicker extends React.Component {
 
   onSelect = value => {
     this.update(value);
-    this.props.navigation.goBack();
   };
 
   renderItem = ({ item: country }) => {
@@ -87,7 +86,12 @@ export default class CountryPicker extends React.Component {
     return (
       <TouchableHighlight
         style={{ width: Sizes.Width }}
-        onPress={() => this.onSelect(country.name)}
+        onPress={() =>
+          this.onSelect({
+            country: country.nativeName,
+            countryCode: country.value
+          })
+        }
         underlayColor={Colours.Background}>
         <View
           style={[styles.row, country.isSuggested ? styles.suggestedRow : {}]}>

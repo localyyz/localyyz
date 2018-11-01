@@ -63,6 +63,7 @@ export default class AddressForm extends React.Component {
         validators: ["isRequired"],
         options: {}
       },
+      { id: "countryCode" },
       {
         id: "address",
 
@@ -192,6 +193,7 @@ export default class AddressForm extends React.Component {
           province: this.store.data.region,
           zip: this.store.data.postal,
           country: this.store.data.country,
+          countryCode: this.store.data.countryCode,
           firstName: this.store.data.firstName,
           lastName: this.store.data.lastName,
           addressOpt: this.store.data.addressOpt
@@ -200,10 +202,18 @@ export default class AddressForm extends React.Component {
   }
 
   pickCountry = () => {
+    // there could be an issue where we keep going
+    // into the country picker. so blur the textinput before we navigate
+    this._countryRef && this._countryRef.blur();
     this.props.navigation.navigate("CountryPicker", {
       field: "country",
       title: "Select a Country",
-      update: value => this.store.update("country", value)
+      update: ({ country, countryCode }) => {
+        this.store.update("country", country);
+        this.store.update("countryCode", countryCode);
+        // navigate back here.
+        this.props.navigation.goBack(null);
+      }
     });
   };
 
@@ -294,7 +304,7 @@ export default class AddressForm extends React.Component {
             <Forms.Field
               inputRef={ref => (this._countryRef = ref)}
               onPress={this.pickCountry}
-              onFocus={this.pickCountry}
+              editable={false}
               field="country"
               label="Country"/>
           </View>

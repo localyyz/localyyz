@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Styles, Sizes, Colours, GOOGLE_PLACES_KEY } from "localyyz/constants";
 import Support from "~/src/components/Support";
 import { UserAddress } from "~/src/models";
-import { userStore } from "~/src/stores";
+import { navbarStore, userStore } from "~/src/stores";
 
 // third party
 import Moment from "moment";
@@ -92,7 +92,9 @@ export default class GoogleAddress extends React.Component {
         }
       },
       error => {
-        alert(error.message);
+        navbarStore.notify(`Couldn't fetch your location ${error.message}.`, {
+          backgroundColor: Colours.Accent
+        });
       },
       options
     );
@@ -241,7 +243,8 @@ export default class GoogleAddress extends React.Component {
           location_type: "ROOFTOP"
         }}
         textInputProps={{
-          onChangeText: this._onChangeText
+          onChangeText: this._onChangeText,
+          autoCorrect: false
         }}
         onPress={this._onAddressSelect}
         placeholderTextColor={Colours.SubduedText}

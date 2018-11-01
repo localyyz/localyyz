@@ -94,6 +94,12 @@ export default class Field extends React.Component {
         <TextInput
           {...this.props}
           ref={this.props.inputRef}
+          pointerEvents={
+            // if onPress is passed in, do not make textfield
+            // pressable. this will allow entire wrap to
+            // be handled by basefield touch
+            this.props.onPress ? "none" : "auto"
+          }
           placeholder={this.props.isRequired ? REQUIRED_LABEL : OPTIONAL_LABEL}
           value={value}
           onChangeText={this.onUpdate}
