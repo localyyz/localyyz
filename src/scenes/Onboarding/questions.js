@@ -92,8 +92,8 @@ class ActionButton extends React.Component {
       hasCurrentAnswer = key in this.props.store.selectedToParams;
     }
 
-    return hasCurrentAnswer ? (
-      <TouchableWithoutFeedback onPress={onNext}>
+    return (
+      <TouchableWithoutFeedback onPress={hasCurrentAnswer ? onNext : () => {}}>
         <View
           pointerEvents="box-none"
           style={{
@@ -103,16 +103,18 @@ class ActionButton extends React.Component {
           <View
             style={{
               width: Sizes.Width,
-              backgroundColor: Colours.PositiveButton,
+              backgroundColor: hasCurrentAnswer
+                ? Colours.PositiveButton
+                : Colours.DisabledButton,
               alignItems: "center",
               paddingTop: Sizes.InnerFrame,
-              paddingBottom: Sizes.ScreenBottom
+              paddingBottom: Sizes.ScreenBottom || Sizes.InnerFrame
             }}>
             <Text style={Styles.RoundedButtonText}>Next</Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
-    ) : null;
+    );
   }
 }
 

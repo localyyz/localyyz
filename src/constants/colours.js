@@ -65,7 +65,7 @@ export const Colours = {
   PositiveButton: UltraViolet,
   NegativeButton: Red,
   SecondaryButton: CokeBottleGreen,
-  DisabledButton: LightShadow,
+  DisabledButton: SterlingGrey,
   Clearance: Yellow,
   Action: LightBlue,
   DarkBlue: DarkBlue,
