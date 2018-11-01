@@ -137,7 +137,6 @@ export default class Store {
       }
     }
 
-    console.log(osParams);
     return osParams;
   }
 
