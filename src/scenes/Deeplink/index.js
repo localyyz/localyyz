@@ -95,10 +95,10 @@ export default class Deeplink extends React.Component {
           routeName: "Deals"
         });
         break;
-      case "touchpoint_collection":
+      case "productlist":
         let params = {
-          fetchPath: "products/feedv3/products",
-          title: data.title,
+          fetchPath: data.fetchPath,
+          title: data.title || "Selected For You",
         };
 
         params.filtersort = {
@@ -107,10 +107,10 @@ export default class Deeplink extends React.Component {
           style: data.style,
           pricing: data.pricing,
           gender: data.gender,
-          discountMin: 0
+          discountMin: data.discountMin || 0
         };
 
-        if (data.filter === "sale") {
+        if (data.filter === "sale" && !data.discountMin) {
           params.filtersort.discountMin = 0.5;
         }
 
