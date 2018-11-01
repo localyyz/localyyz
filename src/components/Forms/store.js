@@ -164,6 +164,16 @@ export default class FormUIStore {
   }
 
   @computed
+  get nextField() {
+    // get the next incomplete field
+    return Object.values(this._data).find(
+      field =>
+        field.isRequired
+        && field.validators.some(validator => validator(field.value) !== true)
+    );
+  }
+
+  @computed
   get data() {
     return Object.assign(
       {},

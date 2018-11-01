@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 
 // custom
 import { Sizes, Colours } from "~/src/constants";
@@ -16,8 +16,7 @@ export default class Modal extends React.Component {
     });
 
     return (
-      <View style={styles.container}>
-        <StatusBar hidden />
+      <SafeAreaView style={styles.container}>
         {Component}
         <View style={styles.close}>
           <MaterialIcon.Button
@@ -28,7 +27,7 @@ export default class Modal extends React.Component {
             color={Colours.EmphasizedText}
             onPress={() => this.props.navigation.goBack()}/>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -36,12 +35,12 @@ export default class Modal extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colours.Background
+    backgroundColor: Colours.Foreground
   },
 
   close: {
     position: "absolute",
-    top: 5,
+    top: 5 + Sizes.ScreenTop,
     left: 5
   }
 });

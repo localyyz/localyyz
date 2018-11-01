@@ -6,7 +6,6 @@ import { Colours, Sizes, Styles } from "localyyz/constants";
 import { observer, inject } from "mobx-react/native";
 
 // custom
-import { BaseScene } from "localyyz/components";
 import HistoryItem from "./components/HistoryItem";
 
 @inject(stores => ({
@@ -16,6 +15,12 @@ import HistoryItem from "./components/HistoryItem";
 }))
 @observer
 export default class HistoryScene extends React.Component {
+  static navigationOptions = ({ navigationOptions }) => ({
+    ...navigationOptions,
+    header: undefined,
+    title: "Browsing History"
+  });
+
   constructor(props) {
     super(props);
 
@@ -60,25 +65,25 @@ export default class HistoryScene extends React.Component {
 
   render() {
     return (
-      <BaseScene
-        title="Browse history"
-        backAction={this.props.navigation.goBack}>
-        <SectionList
-          scrollEventThrottle={16}
-          showsVerticalScrollIndicator={false}
-          sections={_sectionedHistory(this.props.groups)}
-          onScroll={e => this.refs.container.onScroll(e)}
-          renderItem={this.renderItem}
-          renderSectionHeader={this.renderSectionHeader}
-          keyExtractor={(item, i) => `item-${i}`}
-          ListEmptyComponent={this.renderEmptyComponent}
-          ListFooterComponent={<View style={styles.footer} />}/>
-      </BaseScene>
+      <SectionList
+        scrollEventThrottle={16}
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+        sections={_sectionedHistory(this.props.groups)}
+        renderItem={this.renderItem}
+        renderSectionHeader={this.renderSectionHeader}
+        keyExtractor={(item, i) => `item-${i}`}
+        ListEmptyComponent={this.renderEmptyComponent}
+        ListFooterComponent={<View style={styles.footer} />}/>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colours.Foreground
+  },
+
   itemContainer: {
     ...Styles.Horizontal,
     marginHorizontal: Sizes.InnerFrame,

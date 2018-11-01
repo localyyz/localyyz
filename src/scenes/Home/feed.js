@@ -109,7 +109,10 @@ export default class Feed extends React.Component {
       <RecyclerListView
         scrollViewProps={{
           directionalLockEnabled: true,
-          scrollEventThrottle: 16
+          scrollEventThrottle: 16,
+          contentContainerStyle: {
+            paddingBottom: RowH / 3
+          }
         }}
         style={styles.container}
         dataProvider={this._dataProvider.cloneWithRows(this.props.feed)}

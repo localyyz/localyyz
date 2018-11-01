@@ -51,7 +51,7 @@ export default class Button extends React.Component {
           <View
             style={[
               styles.box,
-              this.isDisabled && styles.disabled,
+              this.isDisabled && styles.disabledButton,
               this.props.color && { backgroundColor: this.props.color }
             ]}>
             <Text
@@ -79,8 +79,9 @@ const styles = StyleSheet.create({
     ...Styles.RoundedButton
   },
 
-  disabled: {
-    backgroundColor: Colours.DisabledButton
+  disabledButton: {
+    ...Styles.RoundedButton,
+    backgroundColor: Colours.Background
   },
 
   label: {

@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: Sizes.Height,
-    paddingVertical: Sizes.OuterFrame,
+    paddingTop: Sizes.OuterFrame + Sizes.ScreenTop,
+    paddingBottom: Sizes.OuterFrame + Sizes.ScreenBottom,
     paddingHorizontal: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
   }

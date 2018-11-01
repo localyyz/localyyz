@@ -36,7 +36,7 @@ export default class ProductListScene extends React.Component {
       )
     };
     const header = navigation.getParam("header");
-    if (header) {
+    if (header !== undefined) {
       opt.header = header;
     }
     return opt;

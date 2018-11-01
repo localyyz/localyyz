@@ -30,15 +30,10 @@ export default class ProductStore extends ProductModel {
       GA.trackEvent("favourite", "add", `${this.id}`, this.price);
       runInAction("[ACTION] add product to favourite", () => {
         this.isFavourite = true;
-        navbarStore.notify(
-          "Added to favourites!",
-          undefined,
-          undefined,
-          2000, // 2 seconds
-          Colours.Accented,
-          undefined,
-          undefined
-        );
+        navbarStore.notify("Added to favourites!", {
+          duration: 2000, // 2 seconds
+          backgroundColor: Colours.Accented
+        });
       });
     }
     return resolve;
