@@ -33,7 +33,6 @@ export default class Deeplink extends React.Component {
       this.branchUnsubscriber();
       this.branchUnsubscriber = null;
     }
-    OneSignal.removeEventListener("opened", this.onOpened);
   };
 
   render() {
@@ -48,14 +47,14 @@ export default class Deeplink extends React.Component {
     return await ProductStore.fetch(productID);
   };
 
-  navigateTo = ({ destination, destination_id, title }) => {
-    switch (destination) {
+  navigateTo = ( data ) => {
+    switch (data.destination) {
       case "product":
-        this.getDeeplinkProduct(destination_id).then(resolved => {
+        this.getDeeplinkProduct(data.destination_id).then(resolved => {
           if (!resolved.error) {
             this.props.navigation.navigate({
               routeName: "Product",
-              key: `product${destination_id}`,
+              key: `product${data.destination_id}`,
               params: {
                 product: resolved.product
               }
@@ -65,13 +64,13 @@ export default class Deeplink extends React.Component {
 
         break;
       case "collection":
-        this.getDeeplinkCollection(destination_id).then(resolved => {
+        this.getDeeplinkCollection(data.destination_id).then(resolved => {
           if (!resolved.error) {
             this.props.navigation.navigate({
               routeName: "ProductList",
-              key: `collection${destination_id}`,
+              key: `collection${data.destination_id}`,
               params: {
-                fetchPath: `collections/${destination_id}/products`,
+                fetchPath: `collections/${data.destination_id}/products`,
                 collection: resolved.collection,
                 title: resolved.collection.name,
                 subtitle: resolved.collection.description
@@ -84,10 +83,10 @@ export default class Deeplink extends React.Component {
       case "place":
         this.props.navigation.navigate({
           routeName: "ProductList",
-          key: `place${destination_id}`,
+          key: `place${data.destination_id}`,
           params: {
-            fetchPath: "places/" + destination_id + "/products",
-            title: title
+            fetchPath: "places/" + data.destination_id + "/products",
+            title: data.title
           }
         });
         break;
@@ -95,6 +94,27 @@ export default class Deeplink extends React.Component {
         this.props.navigation.navigate({
           routeName: "Deals"
         });
+        break;
+      case "productlist":
+        let params = {
+          fetchPath: data.fetchPath,
+          title: data.title || "Selected For You",
+        };
+
+        params.filtersort = {
+          filter: data.filter,
+          category: data.categoryID,
+          style: data.style,
+          pricing: data.pricing,
+          gender: data.gender,
+          discountMin: data.discountMin || 0
+        };
+
+        if (data.filter === "sale" && !data.discountMin) {
+          params.filtersort.discountMin = 0.5;
+        }
+
+        this.props.navigation.push("ProductList", params);
         break;
       default:
         // do nothing
