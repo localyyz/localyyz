@@ -33,7 +33,7 @@ export class Header extends React.Component {
     });
     const heightAnimate = this.props.scrollAnimate.interpolate({
       inputRange: FADE_DISTANCE,
-      outputRange: [Sizes.OuterFrame * 3, Sizes.StatusBar],
+      outputRange: [Sizes.InnerFrame * 2, 0],
       extrapolate: "clamp"
     });
     return (
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   container: {},
 
   idleContainer: {
-    paddingTop: Sizes.ScreenTop,
+    paddingTop: Sizes.InnerFrame,
     alignItems: "center",
     justifyContent: "center"
   },

@@ -17,6 +17,7 @@ import BaseField from "./BaseField";
 
 // constants
 const REQUIRED_LABEL = "required";
+const OPTIONAL_LABEL = "(optional)";
 
 @inject((stores, props) => ({
   onValueChange: value =>
@@ -30,7 +31,8 @@ const REQUIRED_LABEL = "required";
   isRequired:
     !!props.field
     && !!stores.formStore._data[props.field]
-    && !!stores.formStore._data[props.field].isRequired
+    && !!stores.formStore._data[props.field].isRequired,
+  isFormComplete: stores.formStore.isComplete
 }))
 @observer
 export default class Field extends React.Component {
@@ -91,9 +93,11 @@ export default class Field extends React.Component {
         style={this.props.style}>
         <TextInput
           {...this.props}
-          placeholder={this.props.isRequired ? REQUIRED_LABEL : undefined}
+          ref={this.props.inputRef}
+          placeholder={this.props.isRequired ? REQUIRED_LABEL : OPTIONAL_LABEL}
           value={value}
           onChangeText={this.onUpdate}
+          returnKeyType={this.props.isFormComplete ? "done" : "next"}
           style={[styles.input, this.props.inputStyle]}/>
       </BaseField>
     );

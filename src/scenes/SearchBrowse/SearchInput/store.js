@@ -1,7 +1,7 @@
 // custom
 import { Product } from "localyyz/stores";
 import { ApiInstance, GA } from "localyyz/global";
-import { userStore, assistantStore } from "localyyz/stores";
+import { userStore } from "localyyz/stores";
 import { box } from "localyyz/helpers";
 
 // third party
@@ -129,10 +129,6 @@ export default class Store {
             && !params
           ) {
             GA.trackEvent("search", "no results found", this.searchQuery);
-            assistantStore.write(
-              `Sorry! I couldn't find any product for "${this.searchQuery}"`,
-              5000
-            );
           }
         }
 

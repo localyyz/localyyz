@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 
 // third party
+import { withNavigation } from "react-navigation";
 import { observer } from "mobx-react/native";
 import Search from "react-native-search-box";
 
@@ -13,7 +14,7 @@ import { capitalizeSentence } from "localyyz/helpers";
 import Store from "./store";
 
 @observer
-export default class SearchInputBox extends React.Component {
+export class SearchInputBox extends React.Component {
   constructor(props) {
     super(props);
     this.store = new Store();
@@ -32,9 +33,9 @@ export default class SearchInputBox extends React.Component {
       title: capitalizeSentence(this.store.searchQuery),
       header: (
         <SearchInputBox
+          navigation={this.props.navigation}
           defaultValue={this.store.searchQuery}
-          onCancel={() => this.props.navigation.goBack(null)}
-          navigation={this.props.navigation}/>
+          onCancel={() => this.props.navigation.goBack(null)}/>
       )
     });
   };
@@ -53,10 +54,14 @@ export default class SearchInputBox extends React.Component {
   }
 }
 
+export default withNavigation(SearchInputBox);
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colours.Foreground,
-    paddingTop: Sizes.ScreenTop
+    // NOTE: we are NOT using safeareaview because there
+    // are some issue with wrapper header component inside it.
+    paddingTop: Sizes.ScreenTop,
+    backgroundColor: Colours.Foreground
   },
 
   cancel: {

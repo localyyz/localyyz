@@ -6,7 +6,6 @@
 /////////////////////////////////////////////////////////////// IMPORT STORES HERE
 
 import AddressStore from "./AddressStore";
-import AssistantStore from "./AssistantStore";
 import CartStore from "./CartStore";
 import ExpressCartStore from "./ExpressCartStore";
 import HistoryStore from "./HistoryStore";
@@ -27,7 +26,6 @@ export { default as Category } from "./CategoryStore";
 export const userStore = new UserStore();
 export const loginStore = new LoginStore(userStore);
 export const addressStore = new AddressStore();
-export const assistantStore = new AssistantStore();
 export const historyStore = new HistoryStore();
 export const deviceStore = new DeviceStore();
 export const navbarStore = new NavbarStore();
@@ -39,7 +37,6 @@ export const cartStore = new CartStore();
 
 export const stores = {
   addressStore: addressStore,
-  assistantStore: assistantStore,
   cartStore: cartStore,
   expressCartStore: expressCartStore,
   historyStore: historyStore,

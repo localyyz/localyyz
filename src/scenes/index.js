@@ -13,6 +13,5 @@ export { default as CartSummary } from "./CartSummary";
 export { default as Cart } from "./Cart";
 export { default as Deeplink } from "./Deeplink";
 export { default as Modal } from "./Modal";
-export { default as Forms } from "./Forms";
-export { SettingsNavigator as Settings } from "./Settings";
+export { default as Settings } from "./Settings";
 export { default as DiscountsScene } from "./Discounts";

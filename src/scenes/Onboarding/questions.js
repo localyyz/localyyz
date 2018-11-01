@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  SafeAreaView,
   View,
   Text,
   Image,
@@ -215,7 +216,7 @@ export default class Questions extends React.Component {
     const children = [this.renderIntro(), ...slides];
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Swiper
           ref={ref => (this._swiper = ref)}
           autoplay={false}
@@ -232,7 +233,7 @@ export default class Questions extends React.Component {
         <PulseOverlay
           subtitle={this.state.processingSubtitle}
           isProcessing={this.state.isProcessing}/>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -240,7 +241,6 @@ export default class Questions extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Sizes.ScreenTop,
     backgroundColor: Colours.Foreground
   },
 

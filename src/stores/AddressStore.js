@@ -1,8 +1,23 @@
+import axios from "axios";
+
 import { UserAddress } from "localyyz/models";
 import { observable, action, runInAction } from "mobx";
 import { ApiInstance } from "localyyz/global";
 
 export default class AddressStore {
+  static fetchCountries = () => {
+    // this fetches from restcountry api a list of all countries and their
+    // alpha2codes
+    const url
+      = "https://restcountries.eu/rest/v2/all?fields=name;alpha2Code;nativeName";
+    return axios.get(url).then(resp => {
+      if (resp.data) {
+        return Promise.resolve({ countries: resp.data });
+      }
+      return Promise.resolve({ error: resp.error, resp: resp });
+    });
+  };
+
   @observable addresses = [];
 
   constructor() {

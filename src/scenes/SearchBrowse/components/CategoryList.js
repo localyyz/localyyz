@@ -138,7 +138,8 @@ export default withNavigation(CategoryList);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colours.Foreground
     //marginHorizontal: BUTTON_PADDING
     //paddingTop: Sizes.ScreenTop + Sizes.OuterFrame
   },

@@ -114,15 +114,11 @@ export class AddedSummary extends React.Component {
 
     // trigger notification
     if (!response.error) {
-      this.props.notify(
-        `Scored ${this.props.product.title}`,
-        "Proceed to checkout?",
-        undefined,
-        undefined,
-        Colours.Accented,
-        undefined,
-        "arrow-downward"
-      );
+      this.props.notify(`Scored ${this.props.product.title}`, {
+        actionLabel: "Proceed to checkout?",
+        backgroundColor: Colours.Accented,
+        icon: "arrow-downward"
+      });
     }
 
     // now close the screen and reset for next time

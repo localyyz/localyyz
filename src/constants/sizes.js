@@ -52,6 +52,7 @@ export const Sizes = {
 
   // text
   Oversized: ResponsiveFontSize(32),
+  LargeInput: ResponsiveFontSize(22),
   H1: ResponsiveFontSize(24),
   H2: ResponsiveFontSize(22),
   H3: ResponsiveFontSize(21),
