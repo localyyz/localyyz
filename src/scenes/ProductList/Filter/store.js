@@ -106,6 +106,10 @@ export default class FilterStore {
     if (props.filtersort) {
       props.filtersort.category
         && this.setCategoryV2Filter(props.filtersort.category);
+      props.filtersort.merchant
+        && this.setMerchantFilter(props.filtersort.merchant);
+      props.filtersort.brand
+        && this.setBrandFilter(props.filtersort.brand);
       props.filtersort.discountMin
         && this.setDiscountFilter(props.filtersort.discountMin);
       this.setPersonalize(props.filtersort);

@@ -102,17 +102,14 @@ export default class Deeplink extends React.Component {
         };
 
         params.filtersort = {
-          filter: data.filter,
           category: data.categoryID,
           style: data.style,
           pricing: data.pricing,
           gender: data.gender,
+          merchant: data.MerchantID,
+          brand: data.brand,
           discountMin: data.discountMin || 0
         };
-
-        if (data.filter === "sale" && !data.discountMin) {
-          params.filtersort.discountMin = 0.5;
-        }
 
         this.props.navigation.push("ProductList", params);
         break;
