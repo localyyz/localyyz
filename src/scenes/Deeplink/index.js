@@ -107,6 +107,7 @@ export default class Deeplink extends React.Component {
           style: data.style,
           pricing: data.pricing,
           gender: data.gender,
+          brand: data.brand,
           discountMin: data.discountMin || 0
         };
 
