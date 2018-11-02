@@ -1,30 +1,39 @@
-// custom
-import { Forms } from "localyyz/scenes";
-
 // third party
+import React from "react";
 import { createStackNavigator } from "react-navigation";
 
-import { ProductListStack } from "localyyz/scenes";
-
 // local
-import { Menu as Settings, Addresses, Orders, History } from "./scenes";
-import ProductScene from "../Product";
+import Addresses from "~/src/scenes/Addresses";
 
-export const SettingsNavigator = createStackNavigator(
+import SettingsMenu from "./Menu";
+import { Orders, History } from "./scenes";
+import ProductScene from "../Product";
+import ProductList from "../ProductList";
+
+const SettingsStack = createStackNavigator(
   {
-    Settings: Settings,
+    Settings: SettingsMenu,
     Addresses: Addresses,
-    AddressForm: Forms.AddressForm,
     Orders: Orders,
-    Favourite: { screen: ProductListStack },
     History: History,
-    Product: ProductScene
+    Product: ProductScene,
+    Favourites: ProductList
   },
   {
     initialRouteName: "Settings",
-    navigationOptions: ({ navigation: { state } }) => ({
-      header: null,
-      gesturesEnabled: state.params && state.params.gesturesEnabled
+    navigationOptions: ({ navigation, navigationOptions }) => ({
+      ...navigationOptions,
+      title: navigation.getParam("title", "Settings"),
+      headerTintColor: "#000",
+      header: null
     })
   }
 );
+
+export default class Settings extends React.Component {
+  static router = SettingsStack.router;
+
+  render() {
+    return <SettingsStack navigation={this.props.navigation} />;
+  }
+}

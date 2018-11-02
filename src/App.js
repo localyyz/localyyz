@@ -1,5 +1,5 @@
 import React from "react";
-import { AppState, Alert, Platform, Linking, View } from "react-native";
+import { AppState, Alert, Platform, Linking } from "react-native";
 import { createStackNavigator, createTabNavigator } from "react-navigation";
 
 // custom
@@ -8,7 +8,6 @@ import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
 import { ApiInstance, GA, OS } from "localyyz/global";
 import { getActiveRoute } from "localyyz/helpers";
-import GlobalAssistant from "./components/NavBar/components/GlobalAssistant";
 
 // third party
 import { observer, Provider } from "mobx-react/native";
@@ -27,10 +26,7 @@ import {
   Deeplink,
   Modal,
   Settings,
-  DiscountsScene,
-
-  // forms
-  Forms
+  DiscountsScene
 } from "localyyz/scenes";
 
 // debug
@@ -173,10 +169,7 @@ class AppView extends React.Component {
 
     return (
       <Provider {...stores} suppressChangedStoreWarning>
-        <View style={{ flex: 1 }}>
-          <RootNavigator onNavigationStateChange={this.trackScreen} />
-          <GlobalAssistant />
-        </View>
+        <RootNavigator onNavigationStateChange={this.trackScreen} />
       </Provider>
     );
   }
@@ -186,10 +179,7 @@ const AppNavigator = createStackNavigator(
   {
     Home: { screen: Home },
     Product: { screen: Product },
-    ProductList: { screen: ProductListStack },
-
-    // forms
-    AddressForm: { screen: Forms.AddressForm }
+    ProductList: { screen: ProductListStack }
   },
   {
     initialRouteName: "Home",

@@ -81,8 +81,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Localyyz uses your current location to autofill your shipping/billing address.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Localyyz uses your current location to autofill your shipping/billing address.</string>
 	<key>ONESIGNAL_APPID</key>

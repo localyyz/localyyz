@@ -41,16 +41,17 @@ export const Styles = {
   },
 
   SectionTitle: {
-    fontSize: Sizes.H2,
-    fontWeight: Sizes.Heavy,
-    marginHorizontal: Sizes.OuterFrame
+    fontSize: Sizes.Text,
+    fontWeight: "bold",
+    maxWidth: 3 * Sizes.Width / 4,
+    fontFamily: "Helvetica",
+    color: Colours.EmphasizedText
   },
 
   SectionSubtitle: {
     fontSize: Sizes.Text,
-    marginTop: Sizes.InnerFrame / 2,
-    marginHorizontal: Sizes.OuterFrame,
-    paddingRight: Sizes.Width / 4
+    fontFamily: "Helvetica",
+    color: Colours.SubduedText
   },
 
   Oversized: {
@@ -135,7 +136,7 @@ export const Styles = {
     flex: 1,
     color: Colours.EmphasizedText,
     backgroundColor: Colours.Transparent,
-    fontSize: Sizes.SmallText
+    fontSize: Sizes.Text
   },
 
   // fix to align indicator with icons
@@ -165,7 +166,7 @@ export const Styles = {
     paddingHorizontal: Sizes.InnerFrame,
     paddingVertical: Sizes.InnerFrame / 2,
     borderRadius: Sizes.InnerFrame,
-    backgroundColor: Colours.DisabledButton
+    backgroundColor: Colours.SecondaryButton
   },
 
   Divider: {

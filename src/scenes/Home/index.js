@@ -1,9 +1,9 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { observer, inject } from "mobx-react/native";
 
 // custom
-import { Colours, NAVBAR_HEIGHT } from "localyyz/constants";
+import { Colours } from "localyyz/constants";
 
 // third party
 import { Provider } from "mobx-react/native";
@@ -32,10 +32,14 @@ export default class Home extends React.Component {
   render() {
     return (
       <Provider homeStore={this.store}>
-        <View style={styles.container}>
-          <Header />
-          {this.props.shouldOnboard ? <OnboardPrompt /> : <Feed />}
-        </View>
+        {this.props.shouldOnboard ? (
+          <OnboardPrompt />
+        ) : (
+          <SafeAreaView style={styles.container}>
+            <Header />
+            <Feed />
+          </SafeAreaView>
+        )}
       </Provider>
     );
   }
@@ -44,7 +48,6 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: NAVBAR_HEIGHT,
     backgroundColor: Colours.Foreground
   }
 });

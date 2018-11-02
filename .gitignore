@@ -7,6 +7,9 @@ android/.idea/
 #
 .DS_Store
 
+# Pods
+*/Pods/**
+
 # xcode
 build/
 *.pbxuser

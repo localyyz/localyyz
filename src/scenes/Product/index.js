@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, StatusBar } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 // custom
 import Store from "./store";
@@ -125,7 +125,6 @@ class ProductScene extends React.Component {
         dealStore={this.settings.dealStore}
         activeDealStore={this.settings.activeDealStore}>
         <View style={styles.productView}>
-          <StatusBar hidden />
           <ContentCoverSlider
             ref={this.containerRef}
             title={this.store.product.truncatedTitle}

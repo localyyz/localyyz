@@ -55,31 +55,28 @@ export default class NavbarStore {
   }
 
   @action
-  notify(
-    message,
-    actionLabel = "View",
-    onPress,
-    duration = DEFAULT_NOTIFICATION_DURATION,
-    backgroundColor = Colours.MenuBackground,
-    textColor = Colours.AlternateText,
-    icon
-  ) {
-    this.notification = message
-      ? {
-          message: message,
-          actionLabel: actionLabel,
-          onPress: onPress,
-          duration: duration,
-          backgroundColor: backgroundColor,
-          textColor: textColor,
-          icon: icon
-        }
-      : undefined;
+  notify(message, opt = {}) {
+    let defaultOpt = {
+      actionLabel: "View",
+      onPress: null,
+      duration: DEFAULT_NOTIFICATION_DURATION,
+      backgroundColor: Colours.MenuBackground,
+      textColor: Colours.AlternateText,
+      icon: null
+    };
+
+    let o = {
+      ...defaultOpt,
+      ...opt,
+      message: message
+    };
+
+    this.notification = message ? o : undefined;
     this._notificationTimeout && clearTimeout(this._notificationTimeout);
 
     // kill the message once duration is over
     if (message) {
-      this._notificationTimeout = setTimeout(() => this.notify(), duration);
+      this._notificationTimeout = setTimeout(() => this.notify(), o.duration);
     }
   }
 }

@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableWithoutFeedback, Text } from "react-native";
 import { withNavigation } from "react-navigation";
 
 // custom
-import { Styles, Sizes } from "localyyz/constants";
+import { Styles, Colours, Sizes } from "localyyz/constants";
 
 class OnboardPrompt extends React.Component {
   gotoOnboarding = () => {
@@ -36,13 +36,13 @@ export default withNavigation(OnboardPrompt);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colours.Foreground,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: Sizes.InnerFrame
   },
   text: {
     ...Styles.Text,
-    ...Styles.EmphasizedText,
     textAlign: "center"
   },
   promptButton: {

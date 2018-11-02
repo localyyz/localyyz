@@ -91,23 +91,29 @@ class ActionButton extends React.Component {
       hasCurrentAnswer = key in this.props.store.selectedToParams;
     }
 
-    return hasCurrentAnswer ? (
-      <TouchableWithoutFeedback onPress={onNext}>
+    return (
+      <TouchableWithoutFeedback onPress={hasCurrentAnswer ? onNext : () => {}}>
         <View
           pointerEvents="box-none"
-          style={{ position: "absolute", bottom: 0 }}>
+          style={{
+            position: "absolute",
+            bottom: 0
+          }}>
           <View
             style={{
               width: Sizes.Width,
-              backgroundColor: Colours.PositiveButton,
+              backgroundColor: hasCurrentAnswer
+                ? Colours.PositiveButton
+                : Colours.DisabledButton,
               alignItems: "center",
-              paddingVertical: Sizes.InnerFrame
+              paddingTop: Sizes.InnerFrame,
+              paddingBottom: Sizes.InnerFrame
             }}>
             <Text style={Styles.RoundedButtonText}>Next</Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
-    ) : null;
+    );
   }
 }
 
@@ -240,7 +246,6 @@ export default class Questions extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Sizes.ScreenTop,
     backgroundColor: Colours.Foreground
   },
 

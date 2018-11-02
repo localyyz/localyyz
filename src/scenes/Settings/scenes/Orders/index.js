@@ -1,18 +1,22 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 
 // third party
 import { observer } from "mobx-react/native";
 
-// custom
-import { BaseScene } from "localyyz/components";
-
 // local
+import { Colours, Sizes } from "~/src/constants";
 import OrdersUIStore from "./store";
 import { Order, EmptyOrders } from "./components";
 
 @observer
 export default class Orders extends React.Component {
+  static navigationOptions = ({ navigationOptions }) => ({
+    ...navigationOptions,
+    header: undefined,
+    title: "Orders"
+  });
+
   constructor(props) {
     super(props);
     this.store = new OrdersUIStore();
@@ -32,24 +36,21 @@ export default class Orders extends React.Component {
 
   render() {
     return (
-      <BaseScene
-        backAction={this.props.navigation.goBack}
-        title="Order history">
-        <View style={styles.content}>
-          <FlatList
-            scrollEnabled={false}
-            data={this.store.orders.slice()}
-            keyExtractor={order => `${order.id}`}
-            ListEmptyComponent={this.renderEmpty}
-            renderItem={this.renderItem}/>
-        </View>
-      </BaseScene>
+      <FlatList
+        scrollEnabled={false}
+        data={this.store.orders.slice()}
+        contentContainerStyle={styles.content}
+        keyExtractor={order => `${order.id}`}
+        ListEmptyComponent={this.renderEmpty}
+        renderItem={this.renderItem}/>
     );
   }
 }
 
 const styles = StyleSheet.create({
   content: {
-    flex: 1
+    flex: 1,
+    paddingTop: Sizes.InnerFrame,
+    backgroundColor: Colours.Foreground
   }
 });
