@@ -49,7 +49,6 @@ export default class PhotoDetails extends React.Component {
           duration={500}
           style={styles.container}>
           <View style={styles.overlay}>
-            <NavBar.Toggler />
             <PhotoView
               source={{ uri: this.state.source }}
               minimumZoomScale={0.9}

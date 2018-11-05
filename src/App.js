@@ -211,6 +211,12 @@ const TabNavigator = createTabNavigator(
     Cart: { screen: Cart }
   },
   {
+    navigationOptions: ({ navigation: { state } }) => {
+      const currentScreen = getActiveRoute(state);
+      return {
+        tabBarVisible: currentScreen.routeName !== "Product"
+      };
+    },
     tabBarComponent: NavBar,
     tabBarPosition: "bottom",
     lazy: true,

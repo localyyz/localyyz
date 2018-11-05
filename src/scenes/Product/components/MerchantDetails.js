@@ -224,7 +224,8 @@ const styles = StyleSheet.create({
 
   title: {
     ...Styles.Text,
-    ...Styles.Emphasized
+    ...Styles.Emphasized,
+    fontSize: Sizes.SmallText
   },
 
   banner: {
@@ -238,10 +239,10 @@ const styles = StyleSheet.create({
   },
 
   bannerHeaderTitle: {
-    ...Styles.Text,
-    ...Styles.Title,
     flexWrap: "wrap",
-    marginBottom: Sizes.InnerFrame
+    marginBottom: Sizes.InnerFrame,
+    fontSize: Sizes.LargeInput,
+    fontWeight: Sizes.Bold
   },
 
   // social

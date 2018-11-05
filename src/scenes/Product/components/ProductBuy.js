@@ -12,6 +12,7 @@ import { capitalize } from "localyyz/helpers";
 import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import AddToCartButton from "./AddToCartButton";
 
 @inject(stores => ({
   isOnSale:
@@ -81,9 +82,14 @@ export class ProductBuy extends React.Component {
           title: capitalize(this.props.placeName)
         };
   }
+  get isOneSize() {
+    return this.props.product && this.props.product.isOneSize;
+  }
 
   get buttonLabel() {
-    return this.isInStock ? "Add to cart" : "Out of stock";
+    return this.isInStock
+      ? this.isOneSize ? "Add to Cart" : "Select Size"
+      : "Out of stock";
   }
 
   get buttonIcon() {
@@ -118,24 +124,7 @@ export class ProductBuy extends React.Component {
             </SloppyView>
           </this.touchableComponent>
         </View>
-        <View style={styles.buttons}>
-          <TouchableOpacity onPress={this.onPress}>
-            <SloppyView
-              style={styles.button}
-              hitSlop={{
-                top: Sizes.InnerFrame * 2,
-                bottom: Sizes.InnerFrame * 2,
-                left: Sizes.InnerFrame,
-                right: Sizes.InnerFrame
-              }}>
-              <MaterialIcon
-                name={this.buttonIcon}
-                color={Colours.AlternateText}
-                size={Sizes.Text}/>
-              <Text style={styles.addButtonLabel}>{this.buttonLabel}</Text>
-            </SloppyView>
-          </TouchableOpacity>
-        </View>
+        <AddToCartButton />
       </View>
     );
   }
@@ -155,29 +144,6 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.SmallText,
     marginTop: Sizes.InnerFrame / 4
-  },
-
-  previousPrice: {
-    textDecorationLine: "line-through"
-  },
-
-  button: {
-    ...Styles.Horizontal,
-    height: Sizes.InnerFrame * 2,
-    width: Sizes.InnerFrame * 10,
-    borderRadius: Sizes.InnerFrame * 2 / 3,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colours.MenuBackground,
-    overflow: "hidden"
-  },
-
-  addButtonLabel: {
-    ...Styles.Text,
-    ...Styles.SmallText,
-    ...Styles.Emphasized,
-    ...Styles.Alternate,
-    marginLeft: Sizes.InnerFrame / 2
   },
 
   details: {

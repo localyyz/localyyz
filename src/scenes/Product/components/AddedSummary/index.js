@@ -185,7 +185,6 @@ export class AddedSummary extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <NavBar.Toggler />
         <ScrollView
           bounces={false}
           style={{ flex: 1 }}
