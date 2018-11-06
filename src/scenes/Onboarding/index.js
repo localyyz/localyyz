@@ -1,16 +1,15 @@
 // third party
 import React from "react";
-import { SafeAreaView } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { Provider } from "mobx-react/native";
 
 // local
 import Store from "./store";
-import QuestionScene from "./questions";
+import OnboardingScene from "./onboarding";
 
 const OnboardingStack = createStackNavigator(
   {
-    Personalize: { screen: QuestionScene }
+    Personalize: { screen: OnboardingScene }
   },
   {
     initialRouteName: "Personalize",
@@ -32,9 +31,7 @@ export default class Onboarding extends React.Component {
   render() {
     return (
       <Provider onboardingStore={this.store}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <OnboardingStack navigation={this.props.navigation} />
-        </SafeAreaView>
+        <OnboardingStack navigation={this.props.navigation} />
       </Provider>
     );
   }

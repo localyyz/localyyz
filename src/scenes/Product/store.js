@@ -3,7 +3,6 @@ import { action, runInAction, observable } from "mobx";
 import { box } from "localyyz/helpers";
 import { historyStore, Product } from "localyyz/stores";
 
-import { facebook as Facebook } from "localyyz/effects";
 import { ApiInstance } from "localyyz/global";
 import branch from "react-native-branch";
 
@@ -20,10 +19,6 @@ class ProductUIStore {
   constructor({ product }) {
     this.product = product;
 
-    // bindings
-    this.toggleAddedSummary = this.toggleAddedSummary.bind(this);
-    this.onSelectVariant = this.onSelectVariant.bind(this);
-
     // initialize the default variant
     this.onSelectVariant(this.product.selectedVariant);
 
@@ -33,23 +28,17 @@ class ProductUIStore {
 
   // added summary
   @action
-  toggleAddedSummary(visible) {
+  toggleAddedSummary = visible => {
     this.isAddedSummaryVisible
       = visible != null ? visible : !this.isAddedSummaryVisible;
-  }
+  };
 
   // select variant syncs selected variant across components
   @action
-  onSelectVariant(variant) {
-    // track product viewing
-    Facebook.logEvent("fb_mobile_content_view", variant.price || 0, {
-      fb_content_type: this.isDeepLinked ? "product_deeplink" : "product",
-      fb_content_id: this.product.id,
-      fb_content: { variant: variant.id }
-    });
-
+  onSelectVariant = variant => {
     this.selectedVariant = variant;
-  }
+    this.product.selectedVariant = variant;
+  };
 
   @action
   fetchProduct = async productId => {

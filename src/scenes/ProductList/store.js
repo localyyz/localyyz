@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from "mobx";
 import { box } from "localyyz/helpers";
-import { ApiInstance } from "localyyz/global";
+import { GA, ApiInstance } from "localyyz/global";
 
 import { Product } from "localyyz/stores";
 
@@ -11,6 +11,7 @@ class Store {
   // NOTE: fetch path is needed by filterStore to
   // know where to fetch filter data from
   fetchPath = "";
+  title = "";
 
   constructor(props) {
     this.fetchPath = props.fetchPath;
@@ -86,6 +87,13 @@ class Store {
             this.products.push(new Product(p));
           });
         }
+
+        GA.trackEvent("product", "list", this.title, 0, {
+          impressionList: this.title,
+          impressionSource: this.fetchPath,
+          impressionProducts: this.products.slice().map(p => p.toGA()),
+          customMetrics: { ...this.defaultParams, ...params }
+        });
       });
     } else {
       console.log(`ProductList (${this.fetchPath}): Failed to fetch next page`);

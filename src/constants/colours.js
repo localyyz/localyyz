@@ -57,6 +57,7 @@ export const Colours = {
   LightShadow: LightShadow,
   Highlight: Highlight,
   Alert: LightYellow,
+  Tint: Black,
 
   // border
   Border: SterlingGrey,
@@ -93,6 +94,7 @@ export const Colours = {
   Primary: PurpleRain,
   Secondary: BlueSteel,
   Accented: CokeBottleGreen,
+  Positive: UltraViolet,
 
   // brand transparencies
   PrimaryTransparent: PurpleRainTransparent,

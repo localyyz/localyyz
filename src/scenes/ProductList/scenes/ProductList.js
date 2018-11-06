@@ -48,6 +48,7 @@ export default class ProductListScene extends React.Component {
     // stores
     this.store = this.settings.store || new Store(this.settings);
     this.filterStore = new FilterStore(this.store, this.settings);
+    this.store.title = this.settings.title;
 
     const scrollAnim = new Animated.Value(0);
     const offsetAnim = new Animated.Value(0);

@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { observer } from "mobx-react/native";
+import * as Animatable from "react-native-animatable";
 
-import { Sizes, Styles } from "~/src/constants";
+import { Colours, Sizes } from "~/src/constants";
 import Button, { BUTTON_PADDING } from "./button";
 
 @observer
@@ -35,16 +36,19 @@ export default class Answer extends React.Component {
     }
   }
 
-  renderAnswer = data => {
+  renderAnswer = (data, index) => {
     return (
-      <View key={`topic${data.id}`} style={{ paddingBottom: BUTTON_PADDING }}>
+      <Animatable.View
+        key={`topic${data.id}`}
+        animation={this.props.active ? "zoomIn" : ""}
+        style={{ marginBottom: 10 }}>
         <Button
           label={data.label}
           description={data.desc}
           imageUrl={data.imageUrl}
           fullWidth={this.state.data.length % 2 !== 0}
           onPress={() => this.props.store.selectOption(data)}/>
-      </View>
+      </Animatable.View>
     );
   };
 
@@ -52,9 +56,11 @@ export default class Answer extends React.Component {
     const { question } = this.props;
 
     return (
-      <ScrollView contentContainerStyle={styles.slide} numColumns={2}>
+      <ScrollView
+        contentContainerStyle={[styles.slide, this.props.slideStyle]}
+        numColumns={2}>
         <Text style={styles.sectionTitle}>{question.label}</Text>
-        {this.state.data.map(d => this.renderAnswer(d))}
+        {this.state.data.map((d, i) => this.renderAnswer(d, i))}
       </ScrollView>
     );
   }
@@ -65,7 +71,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: Sizes.OuterFrame * 3,
     paddingHorizontal: BUTTON_PADDING,
     paddingBottom: Sizes.ScreenBottom + Sizes.Height / 5
   },
@@ -73,6 +78,8 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: Sizes.H2,
     fontWeight: Sizes.Heavy,
+    width: Sizes.Width,
+    textAlign: "center",
     paddingBottom: Sizes.InnerFrame,
     paddingRight: Sizes.OuterFrame
   }

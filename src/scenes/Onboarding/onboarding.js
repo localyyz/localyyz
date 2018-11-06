@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  TouchableWithoutFeedback,
-  StyleSheet
-} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import Swiper from "react-native-swiper";
 import {
@@ -13,10 +7,17 @@ import {
   StackActions,
   NavigationActions
 } from "react-navigation";
+import * as Animatable from "react-native-animatable";
 
 import { Colours, Sizes, Styles } from "~/src/constants";
 import Answer from "./components/answer";
+import ActionButton from "./components/actionButton";
 import PulseOverlay from "./components/pulseOverlay";
+
+// there is an issue with safe area view with react navigation modal
+// and for some reason adding top level padding breaks swiper (probably because
+// it relies on onLayout to do some state calculation)
+const SlidePaddingTop = Sizes.ScreenTop + Sizes.OuterFrame * 3;
 
 class Header extends React.Component {
   render() {
@@ -44,13 +45,12 @@ class Header extends React.Component {
 
     const containerStyle = {
       position: "absolute",
-      top: 0,
+      top: Sizes.ScreenTop,
       left: 0,
       right: 0,
       height: Sizes.OuterFrame * 2 + 10,
       paddingBottom: 10,
-      paddingHorizontal: 10,
-      backgroundColor: Colours.Foreground
+      paddingHorizontal: 10
     };
 
     const paginationStyle = {
@@ -65,7 +65,10 @@ class Header extends React.Component {
 
     return (
       <View style={containerStyle}>
-        <HeaderBackButton title={title} onPress={onBack} tintColor="black" />
+        <HeaderBackButton
+          title={title}
+          onPress={onBack}
+          tintColor={Colours.Tint}/>
         <View pointerEvents="none" style={paginationStyle}>
           {pages}
         </View>
@@ -74,54 +77,11 @@ class Header extends React.Component {
   }
 }
 
-@observer
-class ActionButton extends React.Component {
-  render() {
-    const shouldFinish
-      = this.props.store.slideIndex == this.props.store.questions.length;
-    const onNext = shouldFinish ? this.props.onFinish : this.props.onNext;
-
-    let hasCurrentAnswer;
-    // edge case because first slide index is an intro
-    if (this.props.store.slideIndex == 0) {
-      hasCurrentAnswer = true;
-    } else {
-      //check if the (index)th question has been answered or not
-      let key = this.props.store.questions[this.props.store.slideIndex - 1].id;
-      hasCurrentAnswer = key in this.props.store.selectedToParams;
-    }
-
-    return (
-      <TouchableWithoutFeedback onPress={hasCurrentAnswer ? onNext : () => {}}>
-        <View
-          pointerEvents="box-none"
-          style={{
-            position: "absolute",
-            bottom: 0
-          }}>
-          <View
-            style={{
-              width: Sizes.Width,
-              backgroundColor: hasCurrentAnswer
-                ? Colours.PositiveButton
-                : Colours.DisabledButton,
-              alignItems: "center",
-              paddingTop: Sizes.InnerFrame,
-              paddingBottom: Sizes.InnerFrame
-            }}>
-            <Text style={Styles.RoundedButtonText}>Next</Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  }
-}
-
 @inject(stores => ({
   onboardingStore: stores.onboardingStore
 }))
 @observer
-export default class Questions extends React.Component {
+export default class OnboardingScene extends React.Component {
   constructor(props) {
     super(props);
     this.store = props.onboardingStore;
@@ -135,13 +95,16 @@ export default class Questions extends React.Component {
   renderIntro = () => {
     return (
       <View key="intro" style={styles.intro}>
-        <Text style={styles.h1}>The Style Quiz</Text>
+        <Text style={styles.h1}>Welcome to Localyyz!</Text>
         <Text style={styles.subtitle}>
           Answer the questions on the next few screens to help us know you
           better.
         </Text>
         <View style={{ padding: Sizes.InnerFrame }}>
-          <Image
+          <Animatable.Image
+            animation={
+              this.props.onboardingStore.slideIndex === 0 ? "zoomIn" : ""
+            }
             source={{ uri: "person_foreground" }}
             style={{
               width: Sizes.Width - 2 * Sizes.OuterFrame,
@@ -214,6 +177,7 @@ export default class Questions extends React.Component {
           key={`slide${item.id}`}
           store={this.store}
           question={item}
+          slideStyle={{ paddingTop: SlidePaddingTop }}
           active={
             this.store.slideIndex === index + 1 /* plus 1 for intro slide */
           }/>
@@ -231,10 +195,7 @@ export default class Questions extends React.Component {
           renderPagination={this.renderPagination}>
           {children}
         </Swiper>
-        <ActionButton
-          onNext={this.onNext}
-          onFinish={this.onFinish}
-          store={this.store}/>
+        <ActionButton onNext={this.onNext} onFinish={this.onFinish} />
         <PulseOverlay
           subtitle={this.state.processingSubtitle}
           isProcessing={this.state.isProcessing}/>
@@ -250,12 +211,13 @@ const styles = StyleSheet.create({
   },
 
   intro: {
-    paddingTop: Sizes.OuterFrame * 3,
+    paddingTop: SlidePaddingTop,
     paddingBottom: Sizes.InnerFrame,
     paddingHorizontal: Sizes.OuterFrame,
     justifyContent: "center",
     alignItems: "center",
-    minHeight: Sizes.InnerFrame * 3
+    minHeight: Sizes.InnerFrame * 3,
+    backgroundColor: Colours.Transparent
   },
 
   h1: {

@@ -14,7 +14,7 @@ export default class Store {
   questions = [
     {
       id: "pricing",
-      label: "Q1. What kind of shopper are you?",
+      label: "What kind of shopper are you?",
       data: [
         {
           id: 21,
@@ -50,7 +50,7 @@ export default class Store {
     },
     {
       id: "gender",
-      label: "Q2: Which category would you like to see more of?",
+      label: "Which category would you like to see more of?",
       data: [
         {
           id: 20000,
@@ -72,7 +72,7 @@ export default class Store {
     },
     {
       id: "style",
-      label: "Q3: Which of these styles best describe you?",
+      label: "Which of these styles best describe you?",
       fetchPath: "/categories/styles"
     },
     {
@@ -126,14 +126,14 @@ export default class Store {
 
   @computed
   get selectedToParamsOS() {
-    let osParams  = {}
-    let params = this.selectedToParams
+    let osParams = {};
+    let params = this.selectedToParams;
     // iterate over param keys: { "style": [...] } => ["style", "pricing"]
     for (let key of Object.keys(params)) {
       // iterate over param values: [ "artsy", "casual", ...]
       for (let vIndex in params[key]) {
         // get current value index and make new key => { "style1": "artsy", "style2": "casual" }
-        osParams[`${key}-${params[key][vIndex]}`] = true
+        osParams[`${key}-${params[key][vIndex]}`] = true;
       }
     }
 
@@ -143,7 +143,7 @@ export default class Store {
   @action
   addToSlideIndex = i => {
     this.slideIndex = this.slideIndex + i;
-    if (i > 0) {
+    if (i > 0 && this.slideIndex) {
       GA.trackEvent(
         "personalize",
         "start",

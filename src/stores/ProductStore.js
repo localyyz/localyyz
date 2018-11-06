@@ -12,7 +12,6 @@ export default class ProductStore extends ProductModel {
     const resolve = await ApiInstance.get(`products/${productId}`);
     if (!resolve.error) {
       // app.js trackScreen is also handling product view events
-      // GA.trackEvent("product", "view", `${productId}`);
       return new Promise.resolve({
         product: new ProductStore(resolve.data)
       });
@@ -27,7 +26,14 @@ export default class ProductStore extends ProductModel {
   addFavourite = async () => {
     const resolve = await ApiInstance.post(`products/${this.id}/favourite`);
     if (!resolve.error) {
-      GA.trackEvent("favourite", "add", `${this.id}`, this.price);
+      GA.trackEvent("favourite", "add", `${this.id}`, this.price, {
+        products: [this.toGA()],
+        productAction: {
+          // ecommerce: product click
+          // -> view is for navigating to product scene
+          action: GA.ProductActions.Click
+        }
+      });
       runInAction("[ACTION] add product to favourite", () => {
         this.isFavourite = true;
         navbarStore.notify("Added to favourites!", {

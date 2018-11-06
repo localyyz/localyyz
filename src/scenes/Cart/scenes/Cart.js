@@ -17,7 +17,8 @@ import EmptyCart from "./EmptyCart";
 
 @inject(stores => ({
   isEmpty: stores.cartStore.isEmpty,
-  fetchFromDb: stores.cartStore.fetchFromDb
+  fetchFromDb: stores.cartStore.fetchFromDb,
+  navigateNext: stores.cartUiStore.navigateNext
 }))
 @observer
 export default class Cart extends React.Component {
@@ -77,7 +78,8 @@ export default class Cart extends React.Component {
   }
 
   onNext() {
-    this.props.navigation.navigate("CheckoutStack", {});
+    //this.props.navigation.navigate("CheckoutStack", {});
+    this.props.navigateNext(this.props.navigation);
   }
 
   renderItem({ item }) {

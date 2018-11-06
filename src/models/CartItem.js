@@ -1,4 +1,5 @@
 import { observable } from "mobx";
+import { capitalize } from "~/src/helpers";
 
 import Product from "./Product";
 
@@ -27,4 +28,28 @@ export default class CartItem {
   get previousPrice() {
     return this.variant.prevPrice;
   }
+
+  toGA = () => {
+    return {
+      id: `${this.product.id}`,
+      name: this.product.title,
+      brand: this.product.brand,
+      price: this.variant.price,
+      variant: [this.variant.etc.color, this.variant.etc.size]
+        .filter(v => v)
+        .map(v => capitalize(v))
+        .join("/"),
+      category: this.product.category.type
+        ? [
+            this.product.genderHint,
+            this.product.category.type,
+            this.product.category.value
+          ]
+            .map(c => capitalize(c))
+            .join("/")
+        : "",
+      quantity: 1
+      //couponCode: "APPARELSALE"
+    };
+  };
 }

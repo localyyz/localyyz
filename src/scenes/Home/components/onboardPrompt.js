@@ -22,7 +22,7 @@ class OnboardPrompt extends React.Component {
               Help us personalize Localyyz for you.
             </Text>
             <View style={styles.promptButton}>
-              <Text style={Styles.RoundedButtonText}>Start Personalizing</Text>
+              <Text style={styles.buttonText}>Start Personalizing</Text>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -41,12 +41,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: Sizes.InnerFrame
   },
+
   text: {
     ...Styles.Text,
     textAlign: "center"
   },
+
   promptButton: {
     ...Styles.RoundedButton,
-    marginVertical: Sizes.InnerFrame
+    marginVertical: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame
+  },
+
+  buttonText: {
+    ...Styles.RoundedButtonText,
+    fontSize: Sizes.Text
   }
 });

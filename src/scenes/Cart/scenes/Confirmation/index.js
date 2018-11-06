@@ -6,7 +6,6 @@ import { Provider, inject } from "mobx-react/native";
 
 // custom
 import { Colours, Sizes } from "localyyz/constants";
-import { GA } from "localyyz/global";
 
 // local
 import CartBaseScene from "../../components/CartBaseScene";
@@ -40,10 +39,6 @@ export default class Confirmation extends React.Component {
 
     // bindings
     this.onRemove = this.onRemove.bind(this);
-  }
-
-  componentDidMount() {
-    GA.trackScreen("cart", "show summary");
   }
 
   async onRemove() {
