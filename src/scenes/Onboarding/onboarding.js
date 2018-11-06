@@ -2,80 +2,19 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import Swiper from "react-native-swiper";
-import {
-  HeaderBackButton,
-  StackActions,
-  NavigationActions
-} from "react-navigation";
+import { StackActions, NavigationActions } from "react-navigation";
 import * as Animatable from "react-native-animatable";
 
 import { Colours, Sizes, Styles } from "~/src/constants";
 import Answer from "./components/answer";
 import ActionButton from "./components/actionButton";
 import PulseOverlay from "./components/pulseOverlay";
+import Header from "./components/header";
 
 // there is an issue with safe area view with react navigation modal
 // and for some reason adding top level padding breaks swiper (probably because
 // it relies on onLayout to do some state calculation)
 const SlidePaddingTop = Sizes.ScreenTop + Sizes.OuterFrame * 3;
-
-class Header extends React.Component {
-  render() {
-    const { context, index, total } = this.props;
-
-    const pageWidth = (Sizes.Width - 10) / context.props.children.length;
-    const pageStyle = {
-      backgroundColor: Colours.Background,
-      height: 10,
-      width: pageWidth
-    };
-    const activeStyle = { backgroundColor: Colours.Accented };
-
-    let pages = [];
-    const Page = <View style={pageStyle} />;
-    const ActivePage = <View style={[pageStyle, activeStyle]} />;
-
-    for (let i = 0; i < context.state.total; i++) {
-      pages.push(
-        i <= context.state.index
-          ? React.cloneElement(ActivePage, { key: i })
-          : React.cloneElement(Page, { key: i })
-      );
-    }
-
-    const containerStyle = {
-      position: "absolute",
-      top: Sizes.ScreenTop,
-      left: 0,
-      right: 0,
-      height: Sizes.OuterFrame * 2 + 10,
-      paddingBottom: 10,
-      paddingHorizontal: 10
-    };
-
-    const paginationStyle = {
-      flexDirection: "row",
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"
-    };
-
-    const onBack = index == 0 ? this.props.onExit : this.props.onBack;
-    const title = index == 0 ? "Quit" : "Back";
-
-    return (
-      <View style={containerStyle}>
-        <HeaderBackButton
-          title={title}
-          onPress={onBack}
-          tintColor={Colours.Tint}/>
-        <View pointerEvents="none" style={paginationStyle}>
-          {pages}
-        </View>
-      </View>
-    );
-  }
-}
 
 @inject(stores => ({
   onboardingStore: stores.onboardingStore
@@ -191,7 +130,6 @@ export default class OnboardingScene extends React.Component {
           autoplay={false}
           loop={false}
           scrollEnabled={false}
-          style={styles.list}
           renderPagination={this.renderPagination}>
           {children}
         </Swiper>
