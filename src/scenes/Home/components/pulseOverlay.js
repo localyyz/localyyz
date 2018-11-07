@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "~/src/constants";
@@ -26,11 +26,10 @@ export default class ProcessingOverlay extends React.Component {
         duration={300}
         style={styles.container}>
         <Animatable.View
-          animation="pulse"
-          easing="ease-out"
-          duration={200}
+          animation="rotate"
+          duration={3500}
           iterationCount="infinite">
-          <Text style={styles.icon}>💡</Text>
+          <Image source={{ uri: "logo_no_text" }} style={styles.icon} />
         </Animatable.View>
         <View style={styles.text}>
           <Text style={styles.title}>{this.props.title}</Text>
@@ -50,6 +49,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
+    marginTop: 30,
     marginHorizontal: Sizes.OuterFrame * 3
   },
 
@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    paddingBottom: 30,
-    fontSize: Sizes.Oversized * 2
+    tintColor: "white",
+    height: Sizes.Height / 10,
+    width: Sizes.Height / 10
   }
 });
