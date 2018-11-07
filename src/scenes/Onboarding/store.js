@@ -84,7 +84,7 @@ export default class Store {
     },
     {
       id: "sort",
-      label: "Q4: Are you also interested...",
+      label: "How would you like to prioritize your feed?",
       data: [
         {
           id: 30000,

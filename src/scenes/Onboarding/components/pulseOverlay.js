@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     ...Styles.Overlay,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Colours.Primary
+    backgroundColor: Colours.Accented
   },
 
   text: {
