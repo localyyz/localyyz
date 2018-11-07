@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { HeaderBackButton } from "react-navigation";
 
 import { Colours, Sizes } from "~/src/constants";
@@ -47,6 +47,13 @@ export default class Header extends React.Component {
       alignItems: "center"
     };
 
+    const percentage = {
+      //position: "absolute",
+      //top: 0,
+      //left: 0,
+      //right: 0,
+    };
+
     const onBack = index == 0 ? this.props.onExit : this.props.onBack;
     const title = index == 0 ? "Quit" : "Back";
 
@@ -59,6 +66,10 @@ export default class Header extends React.Component {
         <View pointerEvents="none" style={paginationStyle}>
           {pages}
         </View>
+        {/*
+        <View style={percentage}>
+          <Text>{index * 100 / context.state.total}%</Text>
+          </View> */}
       </View>
     );
   }

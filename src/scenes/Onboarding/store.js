@@ -2,6 +2,7 @@
 import { observable, computed, action, runInAction } from "mobx";
 
 // custom
+import { box } from "~/src/helpers";
 import { OS, GA, ApiInstance } from "~/src/global";
 import { userStore, Merchant } from "~/src/stores";
 
@@ -11,7 +12,13 @@ export default class Store {
   @observable isLoading = false;
   @observable slideIndex = 0;
 
+  // can finish is controlled by the "outro"
+  // check the component for details
+  // => this shows/hides the action button
+  @box canFinish = false;
+
   questions = [
+    { id: "intro" },
     {
       id: "pricing",
       label: "What kind of shopper are you?",
@@ -108,7 +115,8 @@ export default class Store {
           desc: "Show me the best deals first."
         }
       ]
-    }
+    },
+    { id: "outro" }
   ];
 
   get favouriteCount() {
@@ -206,12 +214,6 @@ export default class Store {
   selectOption = option => {
     if (this.selected.get(option.id)) {
       this.selected.delete(option.id);
-      GA.trackEvent(
-        "personalize",
-        "remove",
-        `${option.key} - ${option.value}`,
-        0
-      );
     } else {
       // select the current category
       GA.trackEvent(

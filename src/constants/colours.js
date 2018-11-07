@@ -30,6 +30,7 @@ let CokeBottleGreen = "#50E3C2";
 let SterlingGrey = "#D8D8D8";
 let GhostGrey = "#FAFAFA";
 let IntoTheGrey = "#313131";
+let IceBlue = "#e4f1f3";
 
 // ken's choice of colours
 let FadedGrey = "#EEEEEE";
@@ -42,6 +43,7 @@ export const Colours = {
   // backgrounds
   Background: FadedGrey,
   Foreground: Foreground,
+  BackgroundAccent: IceBlue,
   Accent: Pink,
   DarkGold: DarkGold,
   SubduedForeground: Grey,

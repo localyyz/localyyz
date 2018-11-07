@@ -10,6 +10,7 @@ import Answer from "./components/answer";
 import ActionButton from "./components/actionButton";
 import PulseOverlay from "./components/pulseOverlay";
 import Header from "./components/header";
+import Outro from "./components/outro";
 
 // there is an issue with safe area view with react navigation modal
 // and for some reason adding top level padding breaks swiper (probably because
@@ -109,19 +110,23 @@ export default class OnboardingScene extends React.Component {
   };
 
   render() {
-    const slides = this.store.questions
-      .slice()
-      .map((item, index) => (
-        <Answer
-          key={`slide${item.id}`}
-          store={this.store}
-          question={item}
-          slideStyle={{ paddingTop: SlidePaddingTop }}
-          active={
-            this.store.slideIndex === index + 1 /* plus 1 for intro slide */
-          }/>
-      ));
-    const children = [this.renderIntro(), ...slides];
+    const slides = this.store.questions.map((item, index) => {
+      switch (item.id) {
+        case "intro":
+          return this.renderIntro();
+        case "outro":
+          return <Outro />;
+        default:
+          return (
+            <Answer
+              key={`slide${item.id}`}
+              store={this.store}
+              question={item}
+              slideStyle={{ paddingTop: SlidePaddingTop }}
+              active={this.store.slideIndex === index}/>
+          );
+      }
+    });
 
     return (
       <View style={styles.container}>
@@ -131,7 +136,7 @@ export default class OnboardingScene extends React.Component {
           loop={false}
           scrollEnabled={false}
           renderPagination={this.renderPagination}>
-          {children}
+          {slides}
         </Swiper>
         <ActionButton onNext={this.onNext} onFinish={this.onFinish} />
         <PulseOverlay

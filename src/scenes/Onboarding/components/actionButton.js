@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { inject, observer } from "mobx-react/native";
-import * as Animatable from "react-native-animatable";
 
 import { Colours, Sizes, Styles } from "~/src/constants";
 
@@ -12,16 +11,16 @@ import { Colours, Sizes, Styles } from "~/src/constants";
 export default class ActionButton extends React.Component {
   render() {
     const shouldFinish
-      = this.props.store.slideIndex == this.props.store.questions.length;
+      = this.props.store.slideIndex === this.props.store.questions.length - 1;
     const onNext = shouldFinish ? this.props.onFinish : this.props.onNext;
 
     let hasCurrentAnswer;
     // edge case because first slide index is an intro
-    if (this.props.store.slideIndex == 0) {
+    if (this.props.store.slideIndex == 0 || shouldFinish) {
       hasCurrentAnswer = true;
     } else {
       //check if the (index)th question has been answered or not
-      let key = this.props.store.questions[this.props.store.slideIndex - 1].id;
+      let key = this.props.store.questions[this.props.store.slideIndex].id;
       hasCurrentAnswer = key in this.props.store.selectedToParams;
     }
 
@@ -32,17 +31,21 @@ export default class ActionButton extends React.Component {
           bottom: Sizes.ScreenBottom ? Sizes.ScreenBottom : Sizes.InnerFrame,
           marginHorizontal: Sizes.OuterFrame
         }}>
-        <TouchableOpacity onPress={hasCurrentAnswer ? onNext : () => {}}>
-          <View style={hasCurrentAnswer ? styles.actionButton : {}}>
-            <Text
-              style={[
-                Styles.RoundedButtonText,
-                hasCurrentAnswer ? {} : { color: Colours.Tint }
-              ]}>
-              {hasCurrentAnswer ? "Next" : "Please select your answer"}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {!shouldFinish || (shouldFinish && this.props.store.canFinish) ? (
+          <TouchableOpacity onPress={hasCurrentAnswer ? onNext : () => {}}>
+            <View style={hasCurrentAnswer ? styles.actionButton : {}}>
+              <Text
+                style={[
+                  Styles.RoundedButtonText,
+                  hasCurrentAnswer ? {} : { color: Colours.Tint }
+                ]}>
+                {shouldFinish
+                  ? "Finish"
+                  : hasCurrentAnswer ? "Next" : "Please select your answer"}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ) : null}
       </View>
     );
   }

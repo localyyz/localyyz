@@ -36,12 +36,9 @@ export default class Answer extends React.Component {
     }
   }
 
-  renderAnswer = (data, index) => {
+  renderAnswer = data => {
     return (
-      <Animatable.View
-        key={`topic${data.id}`}
-        animation={this.props.active ? "zoomIn" : ""}
-        style={{ marginBottom: 10 }}>
+      <Animatable.View key={`topic${data.id}`} style={{ marginBottom: 10 }}>
         <Button
           label={data.label}
           description={data.desc}

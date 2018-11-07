@@ -25,7 +25,7 @@ export default class Deeplink extends React.Component {
     this.props.navigation.replace("App");
     this.branchUnsubscriber = branch.subscribe(this.onBranchDeepLink);
 
-    OneSignal.addEventListener("opened", this.onOpened)
+    OneSignal.addEventListener("opened", this.onOpened);
   }
 
   componentWillUnmount = () => {
@@ -47,7 +47,7 @@ export default class Deeplink extends React.Component {
     return await ProductStore.fetch(productID);
   };
 
-  navigateTo = ( data ) => {
+  navigateTo = data => {
     switch (data.destination) {
       case "product":
         this.getDeeplinkProduct(data.destination_id).then(resolved => {
@@ -96,27 +96,26 @@ export default class Deeplink extends React.Component {
         });
         break;
       case "productlist":
-        let params = {
+        this.props.navigation.push("ProductList", {
           fetchPath: data.fetchPath,
           title: data.title || "Selected For You",
-        };
-
-        params.filtersort = {
-          category: data.categoryID,
-          style: data.style,
-          pricing: data.pricing,
-          gender: data.gender,
-          merchant: data.MerchantID,
-          brand: data.brand,
-          discountMin: data.discountMin || 0
-        };
-
-        this.props.navigation.push("ProductList", params);
+          filtersort: {
+            category: data.categoryID,
+            style: data.style,
+            pricing: data.pricing,
+            gender: data.gender,
+            merchant: data.MerchantID,
+            brand: data.brand,
+            discountMin: data.discountMin || 0
+          }
+        });
+        break;
+      case "onboarding":
+        this.props.navigation.push("Onboarding");
         break;
       default:
-        // do nothing
+      // do nothing
     }
-
   };
 
   /*
@@ -128,19 +127,18 @@ export default class Deeplink extends React.Component {
     description: the description of the object  - only for collection
   }
   */
-  onBranchDeepLink = async ({error, params}) => {
+  onBranchDeepLink = async ({ error, params }) => {
     if (error) {
       console.log("Error: failed to deep link", error);
     } else if (params) {
-      this.navigateTo(params)
+      this.navigateTo(params);
     }
   };
 
-  onOpened = (openResult) => {
+  onOpened = openResult => {
     let params = openResult.notification.payload.additionalData;
     if (params) {
-      this.navigateTo(params)
+      this.navigateTo(params);
     }
-
-  }
+  };
 }
