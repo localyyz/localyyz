@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
 // third party
-//import EntypoIcon from "react-native-vector-icons/Entypo";
+import EntypoIcon from "react-native-vector-icons/Entypo";
 import { observer } from "mobx-react/native";
 
 // custom
@@ -14,7 +14,8 @@ export const BadgeType = {
   New: 2,
   Trend: 3,
   BestSell: 4,
-  Feature: 9
+  Feature: 9,
+  Unknown: 99
 };
 
 @observer
@@ -38,22 +39,37 @@ export default class Badge extends React.Component {
     }
   }
 
+  get badgeIcon() {
+    switch (this.props.badgeType) {
+      case BadgeType.Unknown:
+        return "help";
+    }
+  }
+
   render() {
     return (
-      <View style={styles.icon}>
+      <View style={styles.badge}>
         <Text style={styles.text}>{this.badgeText}</Text>
+        {this.badgeIcon ? (
+          <EntypoIcon name={this.badgeIcon} style={styles.icon} />
+        ) : null}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  icon: {
+  badge: {
     ...Styles.RoundedButton,
+    flexDirection: "row",
     paddingHorizontal: 8,
     paddingVertical: 5
   },
   text: {
+    ...Styles.RoundedButtonText,
+    fontSize: Sizes.TinyText
+  },
+  icon: {
     ...Styles.RoundedButtonText,
     fontSize: Sizes.TinyText
   }
