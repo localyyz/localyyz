@@ -14,6 +14,14 @@ class OnboardPrompt extends React.Component {
     });
   };
 
+  componentDidMount() {
+    if (this.props.shouldOnboardRightAway) {
+      // every other user that needs onboarding will be presented
+      //  be redirect directly to onboarding.
+      this.gotoOnboarding();
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>

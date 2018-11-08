@@ -16,7 +16,9 @@ import Feed from "./feed";
 import OnboardPrompt from "./components/onboardPrompt";
 
 @inject(stores => ({
-  shouldOnboard: stores.userStore.shouldOnboard
+  shouldOnboard: stores.userStore.shouldOnboard,
+  shouldOnboardRightAway: stores.userStore.shouldOnboardRightAway,
+  userId: stores.userStore.id
 }))
 @observer
 export default class Home extends React.Component {
@@ -33,7 +35,9 @@ export default class Home extends React.Component {
     return (
       <Provider homeStore={this.store}>
         {this.props.shouldOnboard ? (
-          <OnboardPrompt />
+          <OnboardPrompt
+            key={this.props.userId}
+            shouldOnboardRightAway={this.props.shouldOnboardRightAway}/>
         ) : (
           <SafeAreaView style={styles.container}>
             <Header />

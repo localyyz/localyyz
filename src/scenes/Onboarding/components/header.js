@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { HeaderBackButton } from "react-navigation";
 
 import { Colours, Sizes } from "~/src/constants";
@@ -11,7 +11,7 @@ export default class Header extends React.Component {
     const pageWidth = (Sizes.Width - 10) / context.props.children.length;
     const pageStyle = {
       backgroundColor: Colours.Background,
-      height: 10,
+      height: 6,
       width: pageWidth
     };
     const activeStyle = { backgroundColor: Colours.Accented };

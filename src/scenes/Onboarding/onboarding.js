@@ -115,7 +115,7 @@ export default class OnboardingScene extends React.Component {
         case "intro":
           return this.renderIntro();
         case "outro":
-          return <Outro />;
+          return <Outro key="outro" />;
         default:
           return (
             <Answer

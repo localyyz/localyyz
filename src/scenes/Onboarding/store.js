@@ -160,7 +160,7 @@ export default class Store {
       GA.trackEvent(
         "personalize",
         "start",
-        this.questions[this.slideIndex - 1].id,
+        this.questions[this.slideIndex].id,
         0
       );
     }
