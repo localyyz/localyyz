@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, Image } from "react-native";
 // third party
 import { observer, inject } from "mobx-react/native";
 import LinearGradient from "react-native-linear-gradient";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
@@ -35,36 +36,41 @@ export default class EmptyCart extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <BaseScene title="Your cart" header={this.header}>
-          <View style={styles.content}>
-            <Text style={styles.title}>Your cart is empty</Text>
-            <Text style={styles.subtitle}>
-              {"Here's some recently viewed products"}
-            </Text>
-            <ProductList isLoading={false} products={this.props.history} />
-          </View>
-        </BaseScene>
-        <LinearGradient
-          colors={[Colours.Foreground, Colours.Transparent]}
-          start={{ y: 1, x: 0 }}
-          end={{ y: 0, x: 0 }}
-          style={styles.overlay}
-          pointerEvents="none"/>
-      </View>
+      <BaseScene
+        title="Your cart"
+        backgroundColor={Colours.Foreground}
+        style={{ minHeight: Sizes.Height / 2 }}
+        header={this.header}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Your cart is empty</Text>
+          {this.props.history.length ? (
+            <View>
+              <Text style={styles.subtitle}>
+                {"Here's some recently viewed products"}
+              </Text>
+              <Ionicons
+                name="ios-arrow-down"
+                style={styles.subtitle}
+                size={Sizes.ActionButton}
+                underlayColor={Colours.Transparent}
+                backgroundColor={Colours.Transparent}/>
+              <ProductList isLoading={false} products={this.props.history} />
+              <LinearGradient
+                colors={[Colours.Foreground, Colours.Transparent]}
+                start={{ y: 1, x: 0 }}
+                end={{ y: 0, x: 0 }}
+                style={styles.overlay}
+                pointerEvents="none"/>
+            </View>
+          ) : null}
+        </View>
+      </BaseScene>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingBottom: NAVBAR_HEIGHT,
-    backgroundColor: Colours.Foreground
-  },
-
   content: {
-    marginHorizontal: Sizes.InnerFrame,
     paddingBottom: Sizes.OuterFrame * 2
   },
 
@@ -72,7 +78,16 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Emphasized,
     ...Styles.Oversized,
-    marginRight: Sizes.Width / 3
+    maxWidth: 2 * Sizes.Width / 3,
+    paddingHorizontal: Sizes.InnerFrame
+  },
+
+  subtitle: {
+    ...Styles.Text,
+    ...Styles.Emphasized,
+    fontSize: Sizes.H3,
+    marginVertical: Sizes.InnerFrame / 2,
+    paddingHorizontal: Sizes.InnerFrame
   },
 
   logoContainer: {
@@ -85,13 +100,6 @@ const styles = StyleSheet.create({
   logo: {
     height: Sizes.Height / 2,
     width: Sizes.Height / 2
-  },
-
-  subtitle: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    fontSize: Sizes.H3,
-    marginVertical: Sizes.InnerFrame / 2
   },
 
   overlay: {

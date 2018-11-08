@@ -4,6 +4,8 @@ import { withNavigation } from "react-navigation";
 
 // custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
+import { Placeholder as ProductTilePlaceholder } from "~/src/components/ProductTileV2";
+import { BadgeType } from "~/src/components/ProductTileV2/Badge";
 
 class OnboardPrompt extends React.Component {
   gotoOnboarding = () => {
@@ -12,17 +14,26 @@ class OnboardPrompt extends React.Component {
     });
   };
 
+  componentDidMount() {
+    if (this.props.shouldOnboardRightAway) {
+      // every other user that needs onboarding will be presented
+      //  be redirect directly to onboarding.
+      this.gotoOnboarding();
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <ProductTilePlaceholder scale={0.9} badgeType={BadgeType.Unknown} />
         <TouchableWithoutFeedback onPress={this.gotoOnboarding}>
           <View>
-            <Text style={styles.text}>Nothing in your feed yet!</Text>
-            <Text style={styles.text}>
+            <Text style={styles.text}>Nothing in your feed just yet!</Text>
+            <Text style={styles.subtext}>
               Help us personalize Localyyz for you.
             </Text>
             <View style={styles.promptButton}>
-              <Text style={Styles.RoundedButtonText}>Start Personalizing</Text>
+              <Text style={styles.buttonText}>Start Personalizing</Text>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -41,12 +52,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: Sizes.InnerFrame
   },
+
   text: {
     ...Styles.Text,
+    ...Styles.Emphasized,
+    textAlign: "center",
+    padding: 8
+  },
+
+  subtext: {
+    ...Styles.SmallText,
     textAlign: "center"
   },
+
   promptButton: {
     ...Styles.RoundedButton,
-    marginVertical: Sizes.InnerFrame
+    marginVertical: Sizes.InnerFrame,
+    paddingVertical: Sizes.InnerFrame
+  },
+
+  buttonText: {
+    ...Styles.RoundedButtonText,
+    fontSize: Sizes.Text
   }
 });

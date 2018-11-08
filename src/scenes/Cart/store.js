@@ -2,6 +2,8 @@
 import { observable, computed, action } from "mobx";
 import Moment from "moment";
 
+import { GA } from "~/src/global";
+
 export default class CartUIStore {
   @observable nextSceneIsReady = true;
   @observable scrollEnabled = true;
@@ -23,25 +25,39 @@ export default class CartUIStore {
       {
         id: "EmailScene",
         label: "Email",
-        isComplete: () => this.cart.isEmailComplete
+        isComplete: () => {
+          this.trackGACheckout("Email", 1);
+          return this.cart.isEmailComplete;
+        }
       },
       {
         id: "ShippingScene",
         label: "Shipping",
-        isComplete: () =>
-          this.cart.isShippingAddressComplete
-          && this.addresses.addresses.length > 0
+        isComplete: () => {
+          this.trackGACheckout("Shipping", 2);
+          return (
+            this.cart.isShippingAddressComplete
+            && this.addresses.addresses.length > 0
+          );
+        }
       },
       {
         id: "PaymentScene",
         label: "Payment",
-        isComplete: () =>
-          this.cart.isBillingAddressComplete
-          && this.cart.isPaymentDetailsComplete
+        isComplete: () => {
+          this.trackGACheckout("Payment", 3);
+          return (
+            this.cart.isBillingAddressComplete
+            && this.cart.isPaymentDetailsComplete
+          );
+        }
       },
       {
         id: "ConfirmationScene",
-        label: "Confirmation"
+        label: "Confirmation",
+        isComplete: () => {
+          this.trackGACheckout("Confirmation", 4);
+        }
       },
       {
         id: "DiscountScene",
@@ -73,6 +89,16 @@ export default class CartUIStore {
     let resolved = await this.cart.completePayment();
     return resolved;
   }
+
+  trackGACheckout = (step, index) => {
+    GA.trackEvent("checkout", step, null, 0, {
+      products: this.cart.cartItems.map(ci => ci.product.toGA()),
+      productAction: {
+        action: GA.ProductActions.Checkout,
+        checkoutStep: index
+      }
+    });
+  };
 
   // responsible for routing to the first scene that's not complete
   async navigateNext(navigation) {

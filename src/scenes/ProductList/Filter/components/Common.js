@@ -62,8 +62,10 @@ export class Common extends React.Component {
   get renderSelectedOption() {
     return (
       <View style={[styles.optionContent, styles.selectedOption]}>
-        <Text style={[styles.optionLabel, styles.selectedOptionLabel]}>
-          Only {capitalize(this.props.selected)}
+        <Text
+          style={[styles.optionLabel, styles.selectedOptionLabel]}
+          numberOfLines={1}>
+          {capitalize(this.props.selected)}
         </Text>
       </View>
     );
@@ -81,7 +83,10 @@ export class Common extends React.Component {
           right: Sizes.InnerFrame
         }}>
         <View style={[styles.option]}>
-          <Text style={[styles.optionLabel]} testID={`filter${this.props.id}`}>
+          <Text
+            style={[styles.optionLabel]}
+            testID={`filter${this.props.id}`}
+            numberOfLines={1}>
             {this.props.selected
               ? this.renderSelectedOption
               : capitalize(this.props.title)}
@@ -128,7 +133,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
 
     flex: 1,
-    //width: Sizes.Width / 4,
     height: Sizes.Button,
     marginHorizontal: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame / 4,
@@ -149,7 +153,16 @@ const styles = StyleSheet.create({
   },
 
   selectedOption: {
-    backgroundColor: Colours.Action
+    ...Styles.Horizontal,
+    justifyContent: "center",
+
+    width: Sizes.Width / 4,
+    height: Sizes.Button
+  },
+
+  selectedOptionLabel: {
+    ...Styles.SmallText,
+    ...Styles.Emphasized
   },
 
   headerLabel: {

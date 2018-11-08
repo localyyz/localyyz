@@ -1,4 +1,5 @@
 import { computed, observable, action, toJS } from "mobx";
+import Moment from "moment";
 
 export default class User {
   @observable id;
@@ -28,6 +29,19 @@ export default class User {
   @computed
   get shouldOnboard() {
     return !this.prf;
+  }
+
+  @computed
+  get shouldOnboardRightAway() {
+    // if the user id is even and
+    // was created in the last 5 min.
+    // onboard them right away
+    return (
+      this.id
+      && this.shouldOnboard
+      && this.id % 2 !== 0
+      && Moment().unix() - Moment(this.createdAt).unix() < 120
+    );
   }
 
   @computed

@@ -1,7 +1,7 @@
 // custom
 import { GA, ApiInstance } from "localyyz/global";
 import { Cart } from "localyyz/models";
-import { userStore } from "localyyz/stores";
+import { navbarStore, userStore } from "localyyz/stores";
 
 // constant
 const DEFAULT_CART = "default";
@@ -23,22 +23,18 @@ export default class CartStore extends Cart {
 
   // actions
   updateEmail = (...params) => {
-    GA.trackEvent("cart", "enter email");
     return super.updateEmail(...params);
   };
 
   updateShipping = (...params) => {
-    GA.trackEvent("cart", "enter shipping address");
     return super.updateShipping(...params);
   };
 
   updateBilling = (...params) => {
-    GA.trackEvent("cart", "enter billing address");
     return super.updateBilling(...params);
   };
 
   updatePayment = (...params) => {
-    GA.trackEvent("cart", "enter payment details");
     return super.updatePayment(...params);
   };
 
@@ -51,7 +47,6 @@ export default class CartStore extends Cart {
     const response = await ApiInstance.get(`/carts/${this.resolvedId}`);
     const onSuccess = cart => {
       this.update(cart);
-      GA.trackEvent("cart", "fetch", `${this.resolvedId}`);
     };
     const onError = this.onInvalidCartLoad;
 
@@ -70,7 +65,6 @@ export default class CartStore extends Cart {
     });
     const onSuccess = cart => {
       this.update(cart);
-      GA.trackEvent("cart", "update");
     };
 
     return this._handleResponse(response, onSuccess);
@@ -89,7 +83,11 @@ export default class CartStore extends Cart {
         "cart",
         "add to cart - success",
         `${product.id}`,
-        product.price
+        product.price,
+        {
+          products: [product.toGA()],
+          productAction: { action: GA.ProductActions.Add }
+        }
       );
     };
 
@@ -106,7 +104,10 @@ export default class CartStore extends Cart {
       super.removeItem(cartItem);
 
       // track on GA
-      GA.trackEvent("cart", "remove item", `${cartItem.productId}`);
+      GA.trackEvent("cart", "remove item", `${cartItem.productId}`, 0, {
+        products: [cartItem.product.toGA()],
+        productAction: { action: GA.ProductActions.Remove }
+      });
       return Promise.resolve({ success: true });
     }
 
@@ -149,7 +150,21 @@ export default class CartStore extends Cart {
 
     const onSuccess = cart => {
       this.update(cart);
-      GA.trackEvent("cart", "purchase", `${this.resolvedId}`, this.totalPrice);
+
+      GA.trackEvent("cart", "purchase", null, null, {
+        products: this.cartItems.map(ci => ci.toGA()),
+        productAction: {
+          transaction: {
+            id: `CART${this.id}`,
+            affiliation: "LOCALYYZ",
+            revenue: this.totalPriceDollars,
+            tax: this.totalTaxDollars,
+            shipping: this.totalShippingDollars
+            //couponCode: this.discountCode ? this.discountCode : ""
+          },
+          action: GA.ProductActions.Purchase
+        }
+      });
     };
 
     return this._handleResponse(response, onSuccess);
@@ -157,9 +172,11 @@ export default class CartStore extends Cart {
 
   // internally used
   _handleError = ({ status, details, onError }) => {
-    GA.trackEvent("cart", "error", details);
     let error = { error: details, status: status };
     onError && onError(error);
+    GA.trackEvent("cart", "error", `cart ${this.id} ${details}`);
+    GA.trackException(`cart ${this.id}: status: ${status} ${details}`);
+    navbarStore.notify(details);
 
     return Promise.resolve(error);
   };

@@ -118,6 +118,11 @@ export default class SettingsMenu extends React.Component {
                 </View>
               )}
             </Forms.Section>
+            <Forms.Section label="Settings">
+              <Forms.BaseField
+                label="Notifications"
+                onPress={() => Linking.openURL("app-settings:")}/>
+            </Forms.Section>
             <Forms.Section label="Support">
               <Forms.BaseField
                 label="Ask help on Messenger"

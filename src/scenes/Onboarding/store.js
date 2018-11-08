@@ -1,7 +1,9 @@
 // third party
 import { observable, computed, action, runInAction } from "mobx";
+import { Colours } from "~/src/constants";
 
 // custom
+import { box } from "~/src/helpers";
 import { OS, GA, ApiInstance } from "~/src/global";
 import { userStore, Merchant } from "~/src/stores";
 
@@ -11,10 +13,16 @@ export default class Store {
   @observable isLoading = false;
   @observable slideIndex = 0;
 
+  // can finish is controlled by the "outro"
+  // check the component for details
+  // => this shows/hides the action button
+  @box canFinish = false;
+
   questions = [
+    { id: "intro" },
     {
       id: "pricing",
-      label: "Q1. What kind of shopper are you?",
+      label: "What kind of shopper are you?",
       data: [
         {
           id: 21,
@@ -50,7 +58,7 @@ export default class Store {
     },
     {
       id: "gender",
-      label: "Q2: Which category would you like to see more of?",
+      label: "Which category would you like to see more of?",
       data: [
         {
           id: 20000,
@@ -72,43 +80,48 @@ export default class Store {
     },
     {
       id: "style",
-      label: "Q3: Which of these styles best describe you?",
+      label: "Which of these styles best describe you?",
       fetchPath: "/categories/styles"
     },
     {
       id: "sort",
-      label: "Q4: Are you also interested...",
+      label: "How would you like to prioritize your feed?",
       data: [
         {
           id: 30000,
           key: "sort",
           value: "newest",
           label: "Newest Products",
-          desc: "Always show me the newest products first."
+          desc: "Always show me the newest products first.",
+          backgroundColor: Colours.FirstGradient
         },
         {
           id: 40000,
           key: "sort",
           value: "trending",
           label: "Trending Products",
-          desc: "Always show me what's most trending first."
+          desc: "Always show me what's most trending first.",
+          backgroundColor: Colours.Accented
         },
         {
           id: 50000,
           key: "sort",
           value: "bestselling",
           label: "Best Selling",
-          desc: "Show me what's selling the best first."
+          desc: "Show me what's selling the best first.",
+          backgroundColor: Colours.Secondary
         },
         {
           id: 60000,
           key: "sort",
           value: "bestdeal",
           label: "Best Deals",
-          desc: "Show me the best deals first."
+          desc: "Show me the best deals first.",
+          backgroundColor: Colours.Positive
         }
       ]
-    }
+    },
+    { id: "outro" }
   ];
 
   get favouriteCount() {
@@ -126,14 +139,14 @@ export default class Store {
 
   @computed
   get selectedToParamsOS() {
-    let osParams  = {}
-    let params = this.selectedToParams
+    let osParams = {};
+    let params = this.selectedToParams;
     // iterate over param keys: { "style": [...] } => ["style", "pricing"]
     for (let key of Object.keys(params)) {
       // iterate over param values: [ "artsy", "casual", ...]
       for (let vIndex in params[key]) {
         // get current value index and make new key => { "style1": "artsy", "style2": "casual" }
-        osParams[`${key}-${params[key][vIndex]}`] = true
+        osParams[`${key}-${params[key][vIndex]}`] = true;
       }
     }
 
@@ -143,11 +156,11 @@ export default class Store {
   @action
   addToSlideIndex = i => {
     this.slideIndex = this.slideIndex + i;
-    if (i > 0) {
+    if (i > 0 && this.slideIndex) {
       GA.trackEvent(
         "personalize",
         "start",
-        this.questions[this.slideIndex - 1].id,
+        this.questions[this.slideIndex].id,
         0
       );
     }
@@ -206,12 +219,6 @@ export default class Store {
   selectOption = option => {
     if (this.selected.get(option.id)) {
       this.selected.delete(option.id);
-      GA.trackEvent(
-        "personalize",
-        "remove",
-        `${option.key} - ${option.value}`,
-        0
-      );
     } else {
       // select the current category
       GA.trackEvent(

@@ -1,5 +1,13 @@
 import React from "react";
-import { View, StyleSheet, Text, Alert, TouchableOpacity } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  Text,
+  Alert,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
 
 // third party
 import PropTypes from "prop-types";
@@ -14,9 +22,9 @@ import * as Animatable from "react-native-animatable";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { toPriceString } from "localyyz/helpers";
+import Support from "~/src/components/Support";
 
 // local
-import { Overlay } from "./components";
 import { SizeChart } from "../ProductDetails/components";
 import ProductVariantSelector from "../ProductVariantSelector";
 
@@ -174,9 +182,12 @@ export class AddedSummary extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <NavBar.Toggler />
-        <View style={styles.content}>
+        <ScrollView
+          bounces={false}
+          style={{ flex: 1 }}
+          contentContainerStyle={styles.content}>
           <View style={styles.helper}>
             <Text style={styles.header}>{this.title}</Text>
             {this.props.isSizeChartSupported ? (
@@ -235,11 +246,24 @@ export class AddedSummary extends React.Component {
               </Animatable.View>
             </View>
           ) : null}
+        </ScrollView>
+        <View style={styles.footer}>
+          <Support
+            appearDelay={2500}
+            title="Questions? We're here to help."
+            textColorTint={Colours.Foreground}/>
         </View>
-        <Overlay
-          appearDelay={SIZE_APPEAR_INTERVAL * this.props.sizes.length}
-          onDismiss={this.onDismiss}/>
-      </View>
+
+        <View pointerEvents="box-none" style={styles.close}>
+          <MaterialIcon.Button
+            name="close"
+            size={Sizes.ActionButton}
+            underlayColor={Colours.Transparent}
+            backgroundColor={Colours.Transparent}
+            color={Colours.Foreground}
+            onPress={() => this.onDismiss()}/>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -249,8 +273,13 @@ export default withNavigation(AddedSummary);
 const styles = StyleSheet.create({
   container: {
     ...Styles.Overlay,
-    justifyContent: "center",
     backgroundColor: Colours.DarkTransparent
+  },
+
+  close: {
+    position: "absolute",
+    top: 5 + Sizes.ScreenTop,
+    left: 5
   },
 
   helper: {
@@ -260,30 +289,18 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    marginHorizontal: Sizes.InnerFrame
+    marginHorizontal: Sizes.InnerFrame,
+    marginTop: 5 + Sizes.ScreenTop + Sizes.OuterFrame,
+    paddingBottom: Sizes.Height / 4
+  },
+
+  footer: {
+    bottom: 0
   },
 
   header: {
     ...Styles.Text,
     ...Styles.Title,
-    ...Styles.Alternate
-  },
-
-  size: {
-    ...Styles.RoundedButton,
-    marginVertical: Sizes.InnerFrame / 2,
-    marginRight: Sizes.InnerFrame / 2,
-    paddingHorizontal: Sizes.InnerFrame,
-    paddingVertical: Sizes.InnerFrame / 2,
-    borderRadius: Sizes.InnerFrame * 2,
-    borderWidth: 1,
-    borderColor: Colours.AlternateText,
-    backgroundColor: Colours.Transparent
-  },
-
-  sizeLabel: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
     ...Styles.Alternate
   },
 

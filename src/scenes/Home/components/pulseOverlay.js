@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "~/src/constants";
@@ -15,8 +15,8 @@ export default class ProcessingOverlay extends React.Component {
   };
 
   static defaultProps = {
-    title: "Just a minute",
-    subtitle: "Putting together your feed..."
+    title: "Just a minute...",
+    subtitle: "We're putting together your feed."
   };
 
   render() {
@@ -25,17 +25,16 @@ export default class ProcessingOverlay extends React.Component {
         animation="fadeIn"
         duration={300}
         style={styles.container}>
+        <Animatable.View
+          animation="rotate"
+          duration={3500}
+          iterationCount="infinite">
+          <Image source={{ uri: "logo_no_text" }} style={styles.icon} />
+        </Animatable.View>
         <View style={styles.text}>
           <Text style={styles.title}>{this.props.title}</Text>
           <Text style={styles.subtitle}>{this.props.subtitle}</Text>
         </View>
-        <Animatable.View
-          animation="pulse"
-          easing="ease-out"
-          duration={200}
-          iterationCount="infinite">
-          <Text style={styles.icon}>💡</Text>
-        </Animatable.View>
       </Animatable.View>
     ) : null;
   }
@@ -46,10 +45,11 @@ const styles = StyleSheet.create({
     ...Styles.Overlay,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Colours.Primary
+    backgroundColor: Colours.Accented
   },
 
   text: {
+    marginTop: 30,
     marginHorizontal: Sizes.OuterFrame * 3
   },
 
@@ -64,10 +64,13 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Alternate,
     marginTop: Sizes.InnerFrame,
-    marginBottom: Sizes.OuterFrame * 3
+    marginBottom: Sizes.OuterFrame * 3,
+    textAlign: "center"
   },
 
   icon: {
-    fontSize: Sizes.Oversized * 2
+    tintColor: "white",
+    height: Sizes.Height / 10,
+    width: Sizes.Height / 10
   }
 });

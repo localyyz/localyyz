@@ -21,6 +21,10 @@ export default class Support extends React.Component {
   };
 
   render() {
+    const textColorStyle = this.props.textColorTint
+      ? { color: this.props.textColorTint }
+      : {};
+
     return (
       <View pointerEvents="box-none" style={styles.container}>
         <TouchableOpacity onPress={() => this.props.message()}>
@@ -32,9 +36,11 @@ export default class Support extends React.Component {
             <MaterialCommunityIcon
               name={this.props.iconName}
               size={Sizes.Oversized}
-              style={styles.icon}/>
-            <Text style={styles.title}>{this.props.title}</Text>
-            <Text style={styles.content}>
+              style={[styles.icon, textColorStyle]}/>
+            <Text style={[styles.title, textColorStyle]}>
+              {this.props.title}
+            </Text>
+            <Text style={[styles.content, textColorStyle]}>
               <Text style={Styles.Underlined}>
                 {"Contact our support team"}
               </Text>

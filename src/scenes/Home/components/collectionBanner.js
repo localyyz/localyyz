@@ -121,13 +121,14 @@ const styles = StyleSheet.create({
     marginHorizontal: Sizes.OuterFrame * 2,
     marginBottom: Sizes.OuterFrame * 2,
     height: BannerHeight / 8,
-    borderWidth: 1,
+    borderWidth: Sizes.Hairline,
     borderRadius: 5,
     borderColor: Colours.Border
   },
 
   actionText: {
     fontSize: Sizes.Text,
-    fontWeight: "300"
+    fontWeight: "300",
+    fontFamily: "Helvetica"
   }
 });

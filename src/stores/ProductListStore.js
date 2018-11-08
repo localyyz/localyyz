@@ -1,12 +1,27 @@
 import { observable, runInAction } from "mobx";
-import { invariant } from "fbjs/lib";
 
 // custom
-import { GA, ApiInstance } from "localyyz/global";
+import { ApiInstance } from "~/src/global";
 
-import Product from "./Product";
+import Product from "./ProductStore";
 
 export default class ProductListStore {
+  static fetch = async (path, params = {}) => {
+    const resolve = await ApiInstance.get(path, params);
+    if (!resolve.error) {
+      // app.js trackScreen is also handling product view events
+      return new Promise.resolve({
+        products: new ProductListStore(path, resolve.data)
+      });
+    }
+    return new Promise.resolve({ error: resolve.error });
+  };
+
+  constructor(path, products = []) {
+    this._fetchPath = path;
+    this.list = products.map(p => new Product(p));
+  }
+
   @observable list = [];
   @observable totalItems;
 
@@ -14,13 +29,8 @@ export default class ProductListStore {
   _self;
   params = { page: 1, limit: 10 };
 
-  constructor(props) {
-    invariant(props.path, "path must be defined");
-    this.initialPath = props.path;
-  }
-
   get fetchPath() {
-    return this.next ? this.next.url : this.initialPath;
+    return this.next ? this.next.url : this._fetchPath;
   }
 
   fetchNext = async () => {

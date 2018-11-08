@@ -44,9 +44,11 @@ export default class SortBy extends React.Component {
             right: Sizes.InnerFrame
           }}>
           <View style={styles.option}>
-            <Text style={[styles.optionLabel]}>Sort by</Text>
-            <Text style={[styles.optionValue]} testID="sortBy">
-              {this.state.selected.label || "Recommended"}
+            <Text
+              style={[styles.optionValue]}
+              testID="sortBy"
+              numberOfLines={1}>
+              {this.state.selected.label || "Sort"}
             </Text>
           </View>
         </TouchableOpacity>
@@ -74,6 +76,7 @@ const styles = StyleSheet.create({
 
     flex: 1,
     width: Sizes.Width / 3,
+    maxWidth: Sizes.Width / 3,
     height: Sizes.Width / 8,
     marginHorizontal: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame / 4,
@@ -81,11 +84,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colours.Action
   },
 
-  optionLabel: {
-    ...Styles.SmallText
-  },
-
   optionValue: {
+    paddingLeft: Sizes.InnerFrame / 2,
+    maxWidth: Sizes.Width / 3,
     ...Styles.SmallText,
     ...Styles.Emphasized
   }

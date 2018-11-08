@@ -8,7 +8,7 @@ import { inject, Provider } from "mobx-react/native";
 import { NavBar } from "localyyz/components";
 
 // local
-import AddressForm from "~/src/scenes/Addresses/Form";
+import AddressesScene from "~/src/scenes/Addresses";
 import ProductScene from "../Product";
 import {
   EmailScene,
@@ -25,11 +25,12 @@ const CheckoutNavigator = createStackNavigator(
   {
     EmailScene: EmailScene,
     ShippingScene: ShippingScene,
-    AddressForm: AddressForm,
     PaymentScene: PaymentScene,
     ConfirmationScene: ConfirmationScene,
     DiscountScene: DiscountScene,
-    SummaryScene: SummaryScene
+    SummaryScene: SummaryScene,
+
+    Addresses: AddressesScene
   },
   {
     navigationOptions: ({ navigation: { state } }) => ({

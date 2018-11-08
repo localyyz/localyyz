@@ -1,6 +1,8 @@
 // third party
 import { observable, action } from "mobx";
 
+import { capitalize } from "~/src/helpers";
+
 // local
 import Place from "./Place";
 
@@ -31,6 +33,7 @@ export default class Product {
   @observable etc = {};
   @observable images = [];
   @observable brand = "";
+  @observable genderHint = "";
 
   @observable thumbUrl = "";
   @observable htmlDescription = "";
@@ -316,6 +319,28 @@ export default class Product {
       = selectedColor
       || product.selectedColor
       || (selectedVariant.etc ? selectedVariant.etc.color : "");
+  };
+
+  toGA = () => {
+    return {
+      id: `${this.id}`,
+      name: this.title,
+      brand: this.brand,
+      price: this.price,
+      variant: this.selectedVariant
+        ? [this.selectedVariant.etc.color, this.selectedVariant.etc.size]
+            .filter(v => v)
+            .map(v => capitalize(v))
+            .join("/")
+        : null,
+      category: this.category.type
+        ? [this.genderHint, this.category.type, this.category.value]
+            .map(c => capitalize(c))
+            .join("/")
+        : "",
+      quantity: 1
+      //couponCode: "APPARELSALE"
+    };
   };
 }
 
