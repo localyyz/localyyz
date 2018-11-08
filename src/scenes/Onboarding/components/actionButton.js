@@ -39,9 +39,7 @@ export default class ActionButton extends React.Component {
                   Styles.RoundedButtonText,
                   hasCurrentAnswer ? {} : { color: Colours.Tint }
                 ]}>
-                {shouldFinish
-                  ? "Finish"
-                  : hasCurrentAnswer ? "Next" : "Please select your answer"}
+                {shouldFinish ? "Finish" : hasCurrentAnswer ? "Next" : null}
               </Text>
             </View>
           </TouchableOpacity>

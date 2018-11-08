@@ -79,7 +79,11 @@ export default class Button extends React.Component {
     const componentWidth = this.props.fullWidth ? FULL_WIDTH : HALF_WIDTH;
     const imageStyle = StyleSheet.flatten([
       styles.background,
-      { width: componentWidth, height: HEIGHT }
+      {
+        width: componentWidth,
+        height: this.props.backgroundColor ? HEIGHT * 1.4 : HEIGHT,
+        backgroundColor: this.props.backgroundColor
+      }
     ]);
 
     return (
@@ -118,12 +122,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
-    borderRadius: Sizes.InnerFrame,
+    borderRadius: Sizes.InnerFrame / 3,
     overflow: "hidden"
   },
 
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.45)",
     position: "absolute",
     left: 0,
     right: 0,
@@ -133,10 +137,10 @@ const styles = StyleSheet.create({
   },
 
   background: {
-    backgroundColor: Colours.Background,
     overflow: "hidden",
     borderWidth: Sizes.Hairline,
-    borderColor: Colours.Border
+    borderColor: Colours.Border,
+    opacity: 0.48
   },
 
   label: {

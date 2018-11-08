@@ -1,5 +1,6 @@
 // third party
 import { observable, computed, action, runInAction } from "mobx";
+import { Colours } from "~/src/constants";
 
 // custom
 import { box } from "~/src/helpers";
@@ -91,28 +92,32 @@ export default class Store {
           key: "sort",
           value: "newest",
           label: "Newest Products",
-          desc: "Always show me the newest products first."
+          desc: "Always show me the newest products first.",
+          backgroundColor: Colours.FirstGradient
         },
         {
           id: 40000,
           key: "sort",
           value: "trending",
           label: "Trending Products",
-          desc: "Always show me what's most trending first."
+          desc: "Always show me what's most trending first.",
+          backgroundColor: Colours.Accented
         },
         {
           id: 50000,
           key: "sort",
           value: "bestselling",
           label: "Best Selling",
-          desc: "Show me what's selling the best first."
+          desc: "Show me what's selling the best first.",
+          backgroundColor: Colours.Secondary
         },
         {
           id: 60000,
           key: "sort",
           value: "bestdeal",
           label: "Best Deals",
-          desc: "Show me the best deals first."
+          desc: "Show me the best deals first.",
+          backgroundColor: Colours.Positive
         }
       ]
     },

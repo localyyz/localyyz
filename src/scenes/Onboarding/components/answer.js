@@ -43,7 +43,8 @@ export default class Answer extends React.Component {
           label={data.label}
           description={data.desc}
           imageUrl={data.imageUrl}
-          fullWidth={true}
+          fullWidth={this.state.data.length % 2 !== 0}
+          backgroundColor={data.backgroundColor}
           onPress={() => this.props.store.selectOption(data)}/>
       </Animatable.View>
     );
