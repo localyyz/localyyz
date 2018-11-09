@@ -46,10 +46,13 @@ export class ProductTileV2 extends React.Component {
                 backgroundColor: Colours.Foreground
               }}/>
           </View>
+          /* Place the merchant and price tag in one column and the favourite
+          button in the next column */
           <View style={styles.content}>
             <View
               style={{
                 flexDirection: "column"
+                // Place the merchant name and price tag into separate rows
               }}>
               <View style={{ maxWidth: Sizes.Width / 3 }}>
                 <Text style={styles.brand} numberOfLines={1}>
@@ -72,9 +75,13 @@ export class ProductTileV2 extends React.Component {
             <View
               style={[
                 styles.badge,
-                { top: Sizes.InnerFrame * 1.5, right: -Sizes.InnerFrame / 3 }
+                {
+                  top: Sizes.BadgeMarginTop,
+                  right: Sizes.BadgeMarginRight
+                }
               ]}>
               <Badge
+                badgeColor={Colours.Accented}
                 text={`${(this.props.product.discount * 100).toFixed(0)}% Off`}/>
             </View>
           ) : null}
@@ -115,8 +122,6 @@ const styles = StyleSheet.create({
   },
 
   brand: {
-    ...Styles.Subtitle,
-    alignItems: "flex-start",
-    justifyContent: "flex-start"
+    ...Styles.Subtitle
   }
 });

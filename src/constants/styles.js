@@ -156,7 +156,7 @@ export const Styles = {
 
   RoundedButtonText: {
     color: Colours.Foreground,
-    fontWeight: "700",
+    fontWeight: Sizes.Bold,
     fontSize: Sizes.Text
   },
 

@@ -30,7 +30,7 @@ export default class PriceTag extends React.Component {
             styles.label,
             this.props.size && { fontSize: this.props.size },
             this.props.product.previousPrice && {
-              marginRight: 3
+              marginRight: Sizes.InnerFrame / 3
             }
           ]}>
           {this.priceTag}
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   discountContainer: {
-    justifyContent: "space-evenly"
+    justifyContent: "space-around"
   },
 
   label: {
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
 
   previousPrice: {
-    fontSize: 12,
+    fontSize: Sizes.MiniText,
     textDecorationLine: "line-through",
     color: Colours.SubduedText,
     opacity: 0.9

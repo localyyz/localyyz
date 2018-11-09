@@ -48,7 +48,11 @@ export default class Badge extends React.Component {
 
   render() {
     return (
-      <View style={styles.badge}>
+      <View
+        style={[
+          styles.badge,
+          { backgroundColor: this.props.badgeColor || Colours.Primary }
+        ]}>
         <Text style={styles.text}>
           {this.props.text || this.props.badgeText}
         </Text>
@@ -63,17 +67,16 @@ export default class Badge extends React.Component {
 const styles = StyleSheet.create({
   badge: {
     ...Styles.RoundedButton,
-    backgroundColor: Colours.Accented,
     flexDirection: "row",
     paddingHorizontal: 8,
     paddingVertical: 5
   },
   text: {
     ...Styles.RoundedButtonText,
-    fontSize: 14
+    fontSize: Sizes.TinyText
   },
   icon: {
     ...Styles.RoundedButtonText,
-    fontSize: 14
+    fontSize: Sizes.TinyText
   }
 });
