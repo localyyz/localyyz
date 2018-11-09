@@ -13,7 +13,6 @@ import { withNavigation } from "react-navigation";
 
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
-import { GA } from "localyyz/global";
 
 // local
 import CategoryButton, { BUTTON_PADDING } from "./CategoryButton";
@@ -26,16 +25,39 @@ const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
   store: stores.searchStore,
   fetch: stores.searchStore.fetchCategories,
   gender: stores.searchStore.gender && stores.searchStore.gender.id,
-  setGender: stores.searchStore.setGender,
-  categories: stores.searchStore.categories
-    ? stores.searchStore.categories.slice()
-    : []
+  setGender: stores.searchStore.setGender
 }))
 @observer
 export class CategoryList extends React.Component {
-  componentDidMount() {
-    this.props.fetch();
+  constructor(props) {
+    super(props);
+
+    // -> this is the cached section
+    this._categories = [];
+    this.state = {
+      sections: [],
+      sectionIndex: 0
+    };
   }
+
+  componentDidMount() {
+    this.fetch();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.gender && prevProps.gender !== this.props.gender) {
+      this.fetch();
+    }
+  }
+
+  fetch = () => {
+    this.props.fetch().then(resolved => {
+      if (resolved.categories) {
+        this._categories = resolved.categories;
+        this.setState({ sections: this._categories.slice(0, 1) });
+      }
+    });
+  };
 
   buildParams = category => {
     return {
@@ -48,11 +70,6 @@ export class CategoryList extends React.Component {
 
   // this selects a category from the main search browse screen
   onSelectCategory = category => {
-    GA.trackEvent(
-      "category",
-      "select",
-      `${this.props.gender}-${category.title}`
-    );
     this.props.navigation.navigate({
       routeName: "ProductList",
       params: this.buildParams(category),
@@ -60,7 +77,7 @@ export class CategoryList extends React.Component {
     });
   };
 
-  renderItem = ({ section, index }) => {
+  renderSection = ({ section, index }) => {
     // NOTE: this is a hack version of numcolumns = 2 with sectioned list
 
     // skip the odd number columns because it was
@@ -83,7 +100,8 @@ export class CategoryList extends React.Component {
         {rowItems.map(d => (
           <CategoryButton
             key={`cat-${d.id}`}
-            {...d}
+            imageUrl={d.imageUrl}
+            title={d.title}
             onPress={() => this.onSelectCategory(d)}/>
         ))}
       </View>
@@ -118,16 +136,34 @@ export class CategoryList extends React.Component {
     );
   };
 
+  onEndReached = ({ distanceFromEnd }) => {
+    const nextIndex = this.state.sectionIndex + 1;
+    if (distanceFromEnd > 0 && this._categories.length - 1 > nextIndex) {
+      // not the last page.
+      const nextSection = this._categories[nextIndex];
+      this.setState({
+        sectionIndex: nextIndex,
+        sections: [...this.state.sections, nextSection]
+      });
+    }
+  };
+
   render() {
     return (
       <SectionList
-        sections={this.props.categories}
+        sections={this.state.sections}
         ListHeaderComponent={this.renderHeader}
-        renderItem={this.renderItem}
+        renderItem={this.renderSection}
         renderSectionHeader={this.renderSectionHeader}
         renderSectionFooter={this.renderSectionFooter}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={
+          // number smaller than 1 here means the distance
+          // to end is less than 80% of the visible page.
+          0.8
+        }
         scrollEventThrottle={16}
-        initialNumToRender={8}
+        initialNumToRender={1}
         contentContainerStyle={styles.list}
         style={styles.container}/>
     );

@@ -47,19 +47,18 @@ export default class Store {
       .map(v => ({
         ...v,
         id: v.type,
-        title: capitalize(v.title || v.type),
-        data:
-          (v.values || []).length > 0 ? this.parseCategoryValues(v.values) : []
+        title: capitalize(v.title || v.type)
+        //data:
+        //(v.values || []).length > 0 ? this.parseCategoryValues(v.values) : []
       }))
       .slice();
   };
 
   @action
   fetchCategories = async () => {
-    let response = await ApiInstance.get(
+    const response = await ApiInstance.get(
       "categories",
-      this.fetchCategoriesParams,
-      true
+      this.fetchCategoriesParams
     );
     if (response.status < 400 && response.data && response.data.length > 0) {
       runInAction("[ACTION] fetch categories", () => {
@@ -71,5 +70,9 @@ export default class Store {
         }));
       });
     }
+    return new Promise.resolve({
+      categories: this.categories,
+      error: response.error
+    });
   };
 }

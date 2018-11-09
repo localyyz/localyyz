@@ -74,6 +74,7 @@ export class DealCard extends React.Component {
           Moment(this.props.endAt).fromNow(true)
         ) : (
           <Timer
+            key={`timer${this.props.id}`}
             style={styles.timer}
             target={Moment(this.props.endAt).toArray()}/>
         )}
@@ -85,6 +86,7 @@ export class DealCard extends React.Component {
           Moment(this.props.startAt).fromNow(true)
         ) : (
           <Timer
+            key={`timer${this.props.id}`}
             style={styles.timer}
             target={Moment(this.props.startAt).toArray()}/>
         )}

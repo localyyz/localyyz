@@ -11,12 +11,19 @@ import {
 // third party
 import * as Animatable from "react-native-animatable";
 import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import PropTypes from "prop-types";
 
 // custom
 import { Sizes, Styles } from "~/src/constants";
 import { OS } from "~/src/global";
 
 export default class NotfPrompt extends React.Component {
+  static propTypes = {
+    title: PropTypes.string,
+    promptText: PropTypes.string,
+    dismissAfter: PropTypes.number
+  };
+
   static defaultProps = {
     title: "",
     promptText: ""
@@ -43,10 +50,18 @@ export default class NotfPrompt extends React.Component {
   componentDidMount() {
     AppState.addEventListener("change", this._appStateListener);
     this._checkNotify();
+
+    if (this.props.dismissAfter) {
+      this._dismissTimeout = setTimeout(
+        () => this.onDismiss(),
+        this.props.dismissAfter
+      );
+    }
   }
 
   componentWillUnmount() {
     AppState.removeEventListener("change", this._appStateListener);
+    this._dismissTimeout && clearTimeout(this._dismissTimeout);
   }
 
   _checkNotify = () => {
