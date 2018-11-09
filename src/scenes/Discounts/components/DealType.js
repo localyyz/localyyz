@@ -21,33 +21,40 @@ const DEALTAB = [
 @observer
 export default class DealType extends React.Component {
   render() {
+    const buttonWidth = Sizes.Width / DEALTAB.length;
+    const textWidth = buttonWidth - Sizes.OuterFrame;
     return (
-      <View>
-        <View>
-          <Text style={styles.instructions}>
-            Enter applicable discount codes at checkout to see if your cart is
-            eligible for even more savings!
-          </Text>
-        </View>
-        <View style={styles.container}>
-          {DEALTAB.map(dealTab => (
+      <View style={styles.container}>
+        {DEALTAB.map(dealTab => {
+          const isActive
+            = this.props.dealTab && this.props.dealTab.id === dealTab.id;
+          return (
             <TouchableOpacity
               key={`dealTab-${dealTab.id}`}
               onPress={() => this.props.setDealTab(dealTab)}>
-              <SloppyView style={styles.button}>
-                <View
-                  style={[
-                    styles.option,
-                    this.props.dealTab
-                      && this.props.dealTab.id == dealTab.id
-                      && styles.active
-                  ]}>
-                  <Text style={styles.label}>{dealTab.label}</Text>
+              <SloppyView
+                style={[
+                  styles.button,
+                  isActive && styles.active,
+                  { width: buttonWidth }
+                ]}>
+                <View style={[styles.option, { maxWidth: textWidth }]}>
+                  <Text
+                    style={[
+                      styles.label,
+                      isActive && {
+                        fontWeight: "bold",
+                        color: Colours.Foreground
+                      }
+                    ]}
+                    numberOfLines={2}>
+                    {dealTab.label}
+                  </Text>
                 </View>
               </SloppyView>
             </TouchableOpacity>
-          ))}
-        </View>
+          );
+        })}
       </View>
     );
   }
@@ -56,45 +63,27 @@ export default class DealType extends React.Component {
 const styles = StyleSheet.create({
   container: {
     ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    padding: Sizes.InnerFrame,
-    width: Sizes.Width,
-    justifyContent: "space-evenly",
     backgroundColor: Colours.Foreground,
-    borderBottomColor: Colours.Background,
-    borderBottomWidth: 2
+    borderBottomColor: Colours.Border,
+    borderBottomWidth: Sizes.Hairline
   },
 
   button: {
-    alignItems: "center",
-    justifyContent: "center"
+    height: Sizes.OuterFrame * 3,
+    justifyContent: "center",
+    alignItems: "center"
   },
 
   option: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: Sizes.InnerFrame / 4,
-    paddingHorizontal: Sizes.OuterFrame * 2 / 3,
-    borderRadius: Sizes.InnerFrame
+    padding: Sizes.InnerFrame / 2
   },
 
   active: {
-    backgroundColor: Colours.Action
+    backgroundColor: Colours.Accented
   },
 
   label: {
-    fontWeight: Sizes.Normal,
-    fontSize: 15,
-    color: Colours.Text,
-    backgroundColor: Colours.Transparent,
-    ...Styles.Emphasized
-  },
-
-  instructions: {
-    ...Styles.Subdued,
-    fontSize: 13,
-    backgroundColor: Colours.Foreground,
-    paddingHorizontal: Sizes.InnerFrame,
-    alignItems: "center"
+    ...Styles.SmallText,
+    textAlign: "center"
   }
 });

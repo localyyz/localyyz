@@ -4,7 +4,7 @@ import { action, observable, computed } from "mobx";
 import Moment from "moment";
 
 // custom
-import { Product } from "localyyz/stores";
+import { Product } from "~/src/stores";
 
 // constants
 const DEBUG = false;

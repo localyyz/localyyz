@@ -1,26 +1,21 @@
 import React from "react";
 
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  View,
-  SectionList,
-  AppState
-} from "react-native";
+import { StyleSheet, Text, View, SectionList, AppState } from "react-native";
 
 // third party
 import { observer, inject } from "mobx-react/native";
-import { reaction } from "mobx";
 import { withNavigation } from "react-navigation";
 
 // custom
-import { Sizes, Styles, Colours } from "localyyz/constants";
+import { Sizes, Styles, Colours } from "~/src/constants";
+import {
+  Placeholder as ProductTilePlaceholder,
+  BadgeType
+} from "~/src/components/ProductTileV2";
 
 // local
-import DealCard, { CardWidth, CardHeight } from "./DealCard";
-import DealType from "./DealType";
-import FeaturedDealsCarousel from "./FeaturedDealsCarousel";
+import DealCard, { CardHeight } from "./DealCard";
+import FeaturedDeals from "./FeaturedDeals";
 
 @inject(stores => ({
   store: stores.dealStore,
@@ -28,15 +23,15 @@ import FeaturedDealsCarousel from "./FeaturedDealsCarousel";
   fetchFeatured: stores.dealStore.fetchFeaturedDeals,
   refresh: stores.dealStore.refreshDeals,
   dealTab: stores.dealStore.dealTab && stores.dealStore.dealTab.id,
-  deals: stores.dealStore.deals ? stores.dealStore.deals.slice() : [],
   isLoading: stores.dealStore.isLoading,
-  isRefreshing: stores.dealStore.isRefreshing
+  isRefreshing: stores.dealStore.isRefreshing,
+  deals: stores.dealStore.deals.slice(),
+  featuredDeals: stores.dealStore.featuredDeals.slice()
 }))
 @observer
 export class DealList extends React.Component {
   constructor(props) {
     super(props);
-    this.sectionListRef = React.createRef();
     this.appState = AppState.currentState;
   }
 
@@ -47,21 +42,6 @@ export class DealList extends React.Component {
       this.refreshDeals
     );
     AppState.addEventListener("change", this._appStateListener);
-
-    reaction(
-      () => this.props.dealTab,
-      () => {
-        setTimeout(() => {
-          this.sectionListRef.current.scrollToLocation({
-            animated: true,
-            sectionIndex: 0,
-            itemIndex: 0,
-            viewPosition: 0,
-            viewOffset: Sizes.InnerFrame * 7
-          });
-        }, 1000);
-      }
-    );
   }
 
   componentWillUnmount() {
@@ -78,14 +58,17 @@ export class DealList extends React.Component {
     this.appState = nextState;
   };
 
-  renderItem = ({ item: deal }) => {
+  renderDeals = ({ item: deal }) => {
     return (
       <View
         style={{
-          paddingTop: Sizes.InnerFrame,
+          backgroundColor: Colours.Foreground,
+          borderBottomWidth: Sizes.Hairline,
+          borderBottomColor: Colours.Border,
+          paddingTop: Sizes.InnerFrame / 2,
           paddingHorizontal: Sizes.InnerFrame / 2
         }}>
-        <DealCard {...deal} cardStyle={{ width: CardWidth }} />
+        <DealCard {...deal} />
       </View>
     );
   };
@@ -96,37 +79,21 @@ export class DealList extends React.Component {
     }
   };
 
-  renderDealType = () => {
-    return (
-      <View style={styles.sectionHeader}>
-        <DealType />
-      </View>
-    );
-  };
-
-  renderEmptyItem = ({ section }) => {
-    if (
-      section.data.length == 0
-      && !this.props.isLoading
-      && !this.props.isRefreshing
-    ) {
-      return (
-        <View>
-          <View height={20} />
-          <Text style={styles.emptyListStyle}>
-            Check back later for more deals!
-          </Text>
-        </View>
-      );
-    }
-
-    return this.props.isLoading && !this.props.isRefreshing ? (
-      <View>
-        <View height={20} />
-        <ActivityIndicator
-          style={styles.loading}
-          animating={true}
-          size="large"/>
+  renderSectionFooter = ({ section }) => {
+    return section.type !== "featured"
+      && this.props.featuredDeals.length === 0
+      && section.data.length === 0
+      && !(this.props.isLoading && this.props.isRefreshing) ? (
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: 20
+        }}>
+        <ProductTilePlaceholder scale={0.9} badgeType={BadgeType.Deal} />
+        <Text style={styles.emptyListStyle}>
+          No deals yet. come back later for more!
+        </Text>
       </View>
     ) : null;
   };
@@ -139,22 +106,33 @@ export class DealList extends React.Component {
   render() {
     return (
       <SectionList
-        ref={this.sectionListRef}
         alwaysBounceHorizontal={false}
         showsHorizontalScrollIndicator={false}
-        sections={[{ data: this.props.deals }]}
-        renderItem={this.renderItem}
-        ListHeaderComponent={<FeaturedDealsCarousel />}
-        renderSectionHeader={this.renderDealType}
+        style={styles.container}
+        contentContainerStyle={styles.content}
+        extraData={{
+          isRefreshing: this.props.isRefreshing
+        }}
+        sections={[
+          {
+            data: this.props.featuredDeals,
+            title: "Featured Deals",
+            type: "featured",
+            renderItem: ({ index }) =>
+              index === 0 && this.props.featuredDeals.length > 0 ? (
+                <FeaturedDeals />
+              ) : null
+          },
+          { data: this.props.deals }
+        ]}
         scrollEventThrottle={16}
         initialNumToRender={1}
-        contentContainerStyle={styles.list}
-        style={styles.container}
         onEndReached={this.fetchMore}
         onEndReachedThreshold={1}
         refreshing={this.props.isRefreshing}
         onRefresh={this.refreshDeals}
-        renderSectionFooter={this.renderEmptyItem}/>
+        renderItem={this.renderDeals}
+        renderSectionFooter={this.renderSectionFooter}/>
     );
   }
 }
@@ -163,21 +141,12 @@ export default withNavigation(DealList);
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: Sizes.InnerFrame,
     backgroundColor: Colours.Foreground
   },
 
-  loading: {
-    flex: 1,
-    backgroundColor: Colours.Foreground
-  },
-
-  list: {
-    justifyContent: "center",
+  content: {
     paddingBottom: Sizes.ScreenBottom + CardHeight,
-    backgroundColor: Colours.Foreground
-  },
-
-  sectionHeader: {
     backgroundColor: Colours.Foreground
   },
 

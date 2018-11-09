@@ -18,6 +18,9 @@ let LightShadow = "rgba(255, 255, 255, 0.5)";
 let Highlight = "rgba(255, 255, 255, 0.1)";
 let LightYellow = "#FFFFE0";
 
+let SlideBlack = "#1a1917";
+let SlideGrey = "#888888";
+
 let Purple = "#B721FF";
 let Blue = "rgb(33, 212, 253)";
 
@@ -60,6 +63,10 @@ export const Colours = {
   Highlight: Highlight,
   Alert: LightYellow,
   Tint: Black,
+
+  // slide backgrounds
+  SlideBlack: SlideBlack,
+  SlideGrey: SlideGrey,
 
   // border
   Border: SterlingGrey,
