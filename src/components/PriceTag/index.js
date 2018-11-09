@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   discountContainer: {
-    justifyContent: "flex-end"
+    justifyContent: "space-evenly"
   },
 
   label: {
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   previousPrice: {
     fontSize: 12,
     textDecorationLine: "line-through",
-    color: Colours.Accented,
+    color: Colours.SubduedText,
     opacity: 0.9
   }
 });

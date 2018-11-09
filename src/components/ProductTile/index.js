@@ -73,7 +73,7 @@ export default class ProductTile extends React.PureComponent {
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.timer && clearTimeout(this.timer);
   }
 
@@ -98,8 +98,8 @@ export default class ProductTile extends React.PureComponent {
                 ref="productTileImage"
                 source={{
                   uri:
-                  this.props.product.associatedPhotos[0]
-                  && this.props.product.associatedPhotos[0].imageUrl
+                    this.props.product.associatedPhotos[0]
+                    && this.props.product.associatedPhotos[0].imageUrl
                 }}
                 sourceWidth={
                   this.props.product.associatedPhotos[0]
@@ -113,8 +113,7 @@ export default class ProductTile extends React.PureComponent {
                 constrainHeight={Sizes.Height / 4}/>
             ) : null}
             <View style={styles.favouriteButton}>
-              <Favourite
-                product={this.props.product}/>
+              <Favourite product={this.props.product} />
             </View>
           </View>
           <View style={styles.content}>
@@ -142,7 +141,7 @@ export default class ProductTile extends React.PureComponent {
                   {this.props.isVariant && this.props.product.selectedColor
                     ? capitalize(this.props.product.selectedColor)
                     : this.props.product.brand
-                    || this.props.product.truncatedTitle}
+                      || this.props.product.truncatedTitle}
                 </Text>
               </Text>
             </View>
