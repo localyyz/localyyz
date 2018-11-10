@@ -24,48 +24,54 @@ export default class PriceTag extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.props.product.previousPrice ? (
-          <View style={styles.background}>
-            <View style={styles.highlighter} />
-          </View>
-        ) : null}
         <Text
           ref="price"
           style={[
             styles.label,
             this.props.size && { fontSize: this.props.size },
             this.props.product.previousPrice && {
-              marginHorizontal: Sizes.InnerFrame / 3
+              marginRight: Sizes.InnerFrame / 3
             }
           ]}>
           {this.priceTag}
         </Text>
+        {this.props.product.discount > 0.1 ? (
+          <View style={styles.discountContainer}>
+            <Text
+              style={[
+                styles.previousPrice,
+                this.props.discountSize && {
+                  fontSize: this.props.discountSize
+                },
+                { marginHorizontal: Sizes.InnerFrame / 3 }
+              ]}>
+              {toPriceString(this.props.product.previousPrice)}
+            </Text>
+          </View>
+        ) : null}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {},
-
-  background: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: "center"
+  container: {
+    flexDirection: "row"
   },
 
-  highlighter: {
-    width: "100%",
-    height: Sizes.InnerFrame * 2 / 3,
-    marginTop: Sizes.InnerFrame / 6,
-    backgroundColor: Colours.Clearance
+  discountContainer: {
+    justifyContent: "space-around"
   },
 
   label: {
     ...Styles.Text,
     ...Styles.Emphasized
+  },
+
+  previousPrice: {
+    fontSize: Sizes.MiniText,
+    textDecorationLine: "line-through",
+    color: Colours.SubduedText,
+    opacity: 0.9
   }
 });

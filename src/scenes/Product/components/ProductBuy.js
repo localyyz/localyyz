@@ -98,7 +98,10 @@ export class ProductBuy extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.details}>
-          <PriceTag size={Sizes.H1} product={this.props.product} />
+          <PriceTag
+            size={Sizes.H1}
+            discountSize={Sizes.SmallText}
+            product={this.props.product}/>
           <this.touchableComponent
             onPress={() =>
               this.props.navigation.navigate(
@@ -108,18 +111,6 @@ export class ProductBuy extends React.Component {
             }>
             <SloppyView>
               <Text numberOfLines={1} style={styles.subtitle}>
-                {this.props.isOnSale ? (
-                  <Text>
-                    <Text style={styles.previousPrice}>
-                      {toPriceString(
-                        this.props.previousPrice,
-                        this.props.product.place.currency
-                      )}
-                    </Text>
-                    <Text> · </Text>
-                  </Text>
-                ) : null}
-
                 <Text style={styles.brand}>
                   {this.props.product.brand || this.props.placeName}
                 </Text>

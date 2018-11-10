@@ -11,6 +11,7 @@ import { PriceTag, ProgressiveImage } from "~/src/components";
 
 // local
 import Favourite from "./Favourite";
+import Badge from "./Badge";
 
 export const PADDING = Sizes.InnerFrame;
 export const ProductTileWidth = Sizes.Width / 2 - PADDING - PADDING / 2;
@@ -45,23 +46,45 @@ export class ProductTileV2 extends React.Component {
                 backgroundColor: Colours.Foreground
               }}/>
           </View>
+          /* Place the merchant and price tag in one column and the favourite
+          button in the next column */
           <View style={styles.content}>
-            <View style={{ maxWidth: Sizes.Width / 3 }}>
-              <Text numberOfLines={1} style={Styles.Subtitle}>
-                {this.props.product.brand}
-              </Text>
-            </View>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between"
+                flexDirection: "column"
+                // Place the merchant name and price tag into separate rows
               }}>
-              <View style={styles.price}>
-                <PriceTag product={this.props.product} size={Sizes.SmallText} />
+              <View style={{ maxWidth: Sizes.Width / 3 }}>
+                <Text style={styles.brand} numberOfLines={1}>
+                  {this.props.product.brand}
+                </Text>
               </View>
+              <View style={styles.price}>
+                <PriceTag
+                  product={this.props.product}
+                  size={Sizes.SmallText}
+                  discountSize={Sizes.TinyText}/>
+              </View>
+            </View>
+
+            <View style={{ alignContent: "center" }}>
               <Favourite product={this.props.product} />
             </View>
           </View>
+          {this.props.product.discount > 0.1 ? (
+            <View
+              style={[
+                styles.badge,
+                {
+                  top: Sizes.BadgeMarginTop,
+                  right: Sizes.BadgeMarginRight
+                }
+              ]}>
+              <Badge
+                badgeColor={Colours.Accented}
+                text={`${(this.props.product.discount * 100).toFixed(0)}% Off`}/>
+            </View>
+          ) : null}
         </View>
       </TouchableWithoutFeedback>
     );
@@ -82,11 +105,23 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    paddingVertical: Sizes.InnerFrame
+    paddingVertical: Sizes.InnerFrame / 2,
+    paddingHorizontal: Sizes.InnerFrame / 4,
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
 
   price: {
-    ...Styles.Horizontal,
-    marginBottom: Sizes.InnerFrame / 2
+    ...Styles.Horizontal
+  },
+
+  badge: {
+    position: "absolute",
+    top: 0,
+    right: 0
+  },
+
+  brand: {
+    ...Styles.Subtitle
   }
 });

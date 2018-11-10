@@ -187,7 +187,7 @@ export class FeedRow extends React.Component {
             <View style={{ height: ProductTileHeight + Sizes.InnerFrame }} />
           }
           ItemSeparatorComponent={() => (
-            <View style={{ width: Sizes.InnerFrame / 3 }} />
+            <View style={{ width: Sizes.InnerFrame / 2 }} />
           )}
           onEndReached={this.fetchMore}
           contentContainerStyle={{ padding: Sizes.InnerFrame }}

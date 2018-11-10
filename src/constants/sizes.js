@@ -59,6 +59,7 @@ export const Sizes = {
   Text: ResponsiveFontSize(20),
   SmallText: ResponsiveFontSize(16),
   TinyText: ResponsiveFontSize(14),
+  MiniText: ResponsiveFontSize(12),
 
   // weights
   Obese: "800",
@@ -86,6 +87,10 @@ export const Sizes = {
   // apple specific
   TabBarButton: 23,
   TabBarText: 10,
+
+  // badge
+  BadgeMarginTop: ResponsiveFontSize(10),
+  BadgeMarginRight: -ResponsiveFontSize(6),
 
   // spacer
   Spacer: 1 / PixelRatio.get(),
