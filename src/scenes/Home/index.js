@@ -40,7 +40,7 @@ export default class Home extends React.Component {
           <SafeAreaView style={styles.container}>
             <Header />
             <NotfPrompt
-              dismissAfter={5000}
+              dismissAfter={10000}
               title="Want the latest fashion curated just for you?"
               promptText="Sure, why not."/>
             <Feed />
