@@ -21,6 +21,7 @@ export const BadgeType = {
 @observer
 export default class Badge extends React.Component {
   static propTypes = {
+    text: PropTypes.string, // badge text
     badgeType: PropTypes.number
   };
 
@@ -53,9 +54,7 @@ export default class Badge extends React.Component {
           styles.badge,
           { backgroundColor: this.props.badgeColor || Colours.Primary }
         ]}>
-        <Text style={styles.text}>
-          {this.props.text || this.props.badgeText}
-        </Text>
+        <Text style={styles.text}>{this.props.text || this.badgeText}</Text>
         {this.badgeIcon ? (
           <EntypoIcon name={this.badgeIcon} style={styles.icon} />
         ) : null}

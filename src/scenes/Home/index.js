@@ -42,7 +42,7 @@ export default class Home extends React.Component {
             <NotfPrompt
               dismissAfter={10000}
               title="Want the latest fashion curated just for you?"
-              promptText="Sure, why not."/>
+              promptText="Sure, Update me."/>
             <Feed />
           </SafeAreaView>
         )}
