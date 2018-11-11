@@ -133,19 +133,22 @@ export class DealCard extends React.Component {
           <View style={[styles.image, { width: collageWidth }]}>
             {this.renderImage()}
           </View>
-          <View style={{ padding: 5 }}>
-            <View>
+          <View style={{ width: infoWidth, padding: 5 }}>
+            <View style={{ maxWidth: infoWidth }}>
               <Text
-                numberOfLines={2}
-                style={[
-                  styles.text,
-                  { width: infoWidth, color: this.props.textColor }
-                ]}>
+                numberOfLines={1}
+                style={[styles.text, { color: this.props.textColor }]}>
                 {this.props.description}
               </Text>
-              <View style={{ maxWidth: infoWidth }}>{this.renderTimer()}</View>
+              <View
+                style={{
+                  maxWidth: infoWidth,
+                  paddingBottom: Sizes.InnerFrame
+                }}>
+                {this.renderTimer()}
+              </View>
               <View style={styles.infoContainer}>
-                <Text style={{ fontSize: Sizes.SmallText }}>
+                <Text numberOfLines={1} style={{ fontSize: Sizes.SmallText }}>
                   {this.props.place.name.toUpperCase()}
                 </Text>
                 {this.props.info && (
@@ -157,7 +160,7 @@ export class DealCard extends React.Component {
             </View>
             <View style={styles.buttons}>
               <TouchableOpacity onPress={this.copyCodeButton}>
-                <View style={[styles.getCode]}>
+                <View style={styles.getCode}>
                   <MaterialCommunityIcon name="content-copy" size={Sizes.Text}>
                     <Text style={styles.buttonText}>{"Get Code"}</Text>
                   </MaterialCommunityIcon>
@@ -185,15 +188,14 @@ const styles = StyleSheet.create({
   },
 
   timer: {
-    fontSize: Sizes.Text,
+    fontSize: Sizes.SmallText,
     fontWeight: Sizes.Medium,
     color: Colours.DarkBlue
   },
 
   buttons: {
     flex: 1,
-    justifyContent: "flex-end",
-    paddingHorizontal: Sizes.InnerFrame / 2
+    justifyContent: "flex-end"
   },
 
   buttonText: {
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
   getCode: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    padding: Sizes.InnerFrame
+    paddingBottom: Sizes.InnerFrame / 2
   },
 
   info: {

@@ -1,6 +1,13 @@
 import React from "react";
 
-import { StyleSheet, Text, View, SectionList, AppState } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  View,
+  SectionList,
+  AppState
+} from "react-native";
 
 // third party
 import { observer, inject } from "mobx-react/native";
@@ -22,7 +29,6 @@ import FeaturedDeals from "./FeaturedDeals";
   fetch: stores.dealStore.fetchDeals,
   fetchFeatured: stores.dealStore.fetchFeaturedDeals,
   refresh: stores.dealStore.refreshDeals,
-  dealTab: stores.dealStore.dealTab && stores.dealStore.dealTab.id,
   isLoading: stores.dealStore.isLoading,
   isRefreshing: stores.dealStore.isRefreshing,
   deals: stores.dealStore.deals.slice(),
@@ -58,6 +64,11 @@ export class DealList extends React.Component {
     this.appState = nextState;
   };
 
+  refreshDeals = () => {
+    this.props.refresh();
+    this.props.fetchFeatured();
+  };
+
   renderDeals = ({ item: deal }) => {
     return (
       <View
@@ -83,7 +94,8 @@ export class DealList extends React.Component {
     return section.type !== "featured"
       && this.props.featuredDeals.length === 0
       && section.data.length === 0
-      && !(this.props.isLoading && this.props.isRefreshing) ? (
+      && !this.props.isLoading
+      && !this.props.isRefreshing ? (
       <View
         style={{
           alignItems: "center",
@@ -91,16 +103,23 @@ export class DealList extends React.Component {
           paddingTop: 20
         }}>
         <ProductTilePlaceholder scale={0.9} badgeType={BadgeType.Deal} />
-        <Text style={styles.emptyListStyle}>
+        <Text style={styles.loadingText}>
           No deals yet. come back later for more!
         </Text>
       </View>
+    ) : section.type !== "featured"
+    && this.props.isLoading
+    && !this.props.isRefreshing ? (
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: 20
+        }}>
+        <Text style={styles.loadingText}>Loading...</Text>
+        <ActivityIndicator size={"large"} />
+      </View>
     ) : null;
-  };
-
-  refreshDeals = () => {
-    this.props.refresh();
-    this.props.fetchFeatured();
   };
 
   render() {
@@ -111,7 +130,8 @@ export class DealList extends React.Component {
         style={styles.container}
         contentContainerStyle={styles.content}
         extraData={{
-          isRefreshing: this.props.isRefreshing
+          isRefreshing: this.props.isRefreshing,
+          isLoading: this.props.isLoading
         }}
         sections={[
           {
@@ -142,6 +162,7 @@ export default withNavigation(DealList);
 const styles = StyleSheet.create({
   container: {
     paddingTop: Sizes.InnerFrame,
+    height: Sizes.Height,
     backgroundColor: Colours.Foreground
   },
 
@@ -150,10 +171,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colours.Foreground
   },
 
-  emptyListStyle: {
+  loadingText: {
     textAlign: "center",
     ...Styles.Subdued,
-    fontSize: 15,
+    fontSize: Sizes.Text,
     paddingHorizontal: 0,
     backgroundColor: Colours.Foreground
   }
