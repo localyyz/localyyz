@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { Provider, observer } from "mobx-react/native";
 
 // local
-import { CategoryList } from "./components";
+import CategoryList from "./components/CategoryList";
 import SearchInputBox from "./SearchInput";
 import Store from "./store";
 

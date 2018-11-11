@@ -1,12 +1,10 @@
 import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
-import { observer, inject } from "mobx-react/native";
+import { observer, inject, Provider } from "mobx-react/native";
 
 // custom
 import { Colours } from "localyyz/constants";
-
-// third party
-import { Provider } from "mobx-react/native";
+import NotfPrompt from "~/src/components/NotfPrompt";
 
 // local
 import Store from "./store";
@@ -41,6 +39,10 @@ export default class Home extends React.Component {
         ) : (
           <SafeAreaView style={styles.container}>
             <Header />
+            <NotfPrompt
+              dismissAfter={10000}
+              title="Want the latest fashion curated just for you?"
+              promptText="Sure, Update me."/>
             <Feed />
           </SafeAreaView>
         )}

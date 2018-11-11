@@ -31,8 +31,7 @@ export default class Badge extends React.Component {
             <FontAwesomeIcon
               name={this.props.icon}
               color={Colours.AlternateText}
-              size={this.props.size || Sizes.Text}
-            />
+              size={this.props.size || Sizes.Text}/>
           </View>
         )}
       </View>

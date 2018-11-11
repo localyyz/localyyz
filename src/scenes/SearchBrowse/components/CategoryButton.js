@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity
-} from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles } from "~/src/constants";
@@ -17,6 +11,10 @@ const WIDTH = Sizes.Width / 2 - BUTTON_PADDING - BUTTON_PADDING / 2;
 const HEIGHT = 2 * Sizes.Width / 5;
 
 export default class CategoryButton extends React.Component {
+  shouldCompontUpdate(nextProps) {
+    return nextProps.imageUrl !== this.props.imageUrl;
+  }
+
   render() {
     return (
       <TouchableOpacity activeOpacity={1} onPress={this.props.onPress}>

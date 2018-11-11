@@ -7,7 +7,7 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 import { observer } from "mobx-react/native";
 
 // custom
-import { Sizes, Styles } from "~/src/constants";
+import { Sizes, Styles, Colours } from "~/src/constants";
 
 export const BadgeType = {
   Deal: 1,
@@ -21,6 +21,7 @@ export const BadgeType = {
 @observer
 export default class Badge extends React.Component {
   static propTypes = {
+    text: PropTypes.string, // badge text
     badgeType: PropTypes.number
   };
 
@@ -48,8 +49,12 @@ export default class Badge extends React.Component {
 
   render() {
     return (
-      <View style={styles.badge}>
-        <Text style={styles.text}>{this.badgeText}</Text>
+      <View
+        style={[
+          styles.badge,
+          { backgroundColor: this.props.badgeColor || Colours.Primary }
+        ]}>
+        <Text style={styles.text}>{this.props.text || this.badgeText}</Text>
         {this.badgeIcon ? (
           <EntypoIcon name={this.badgeIcon} style={styles.icon} />
         ) : null}

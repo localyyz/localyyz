@@ -25,6 +25,7 @@ export default class DealsUIStore {
     this.dealTab = dealTab;
     this.next = null;
     this.self = null;
+    this.deals.clear();
     this.fetchDeals();
   };
 
@@ -33,6 +34,7 @@ export default class DealsUIStore {
     this.isRefreshing = true;
     this.next = null;
     this.self = null;
+    this.deals.clear();
     this.fetchDeals();
     this.isRefreshing = false;
   };
