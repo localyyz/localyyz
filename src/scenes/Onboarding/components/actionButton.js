@@ -10,46 +10,69 @@ import { Colours, Sizes, Styles } from "~/src/constants";
 @observer
 export default class ActionButton extends React.Component {
   render() {
-    const shouldFinish
-      = this.props.store.slideIndex === this.props.store.questions.length - 1;
+    const index = this.props.store.slideIndex;
+    const shouldFinish = index === this.props.store.questions.length - 1;
     const onNext = shouldFinish ? this.props.onFinish : this.props.onNext;
 
-    let hasCurrentAnswer;
-    // edge case because first slide index is an intro
-    if (this.props.store.slideIndex == 0 || shouldFinish) {
-      hasCurrentAnswer = true;
+    let isVisible;
+    // if skippable or finish, we can activate
+    if (this.props.store.slideSkippable || shouldFinish) {
+      isVisible = true;
     } else {
       //check if the (index)th question has been answered or not
-      let key = this.props.store.questions[this.props.store.slideIndex].id;
-      hasCurrentAnswer = key in this.props.store.selectedToParams;
+      let key = this.props.store.activeSlideKey;
+      isVisible = key in this.props.store.selectedToParams;
     }
 
     return (
-      <View
-        style={{
-          position: "absolute",
-          bottom: Sizes.ScreenBottom ? Sizes.ScreenBottom : Sizes.InnerFrame,
-          marginHorizontal: Sizes.OuterFrame
-        }}>
-        {!shouldFinish || (shouldFinish && this.props.store.canFinish) ? (
-          <TouchableOpacity onPress={hasCurrentAnswer ? onNext : () => {}}>
-            <View style={hasCurrentAnswer ? styles.actionButton : {}}>
-              <Text
-                style={[
-                  Styles.RoundedButtonText,
-                  hasCurrentAnswer ? {} : { color: Colours.Tint }
-                ]}>
-                {shouldFinish ? "Finish" : hasCurrentAnswer ? "Next" : null}
+      <View style={styles.container}>
+        <View style={styles.inner}>
+          {!shouldFinish || (shouldFinish && this.props.store.canFinish) ? (
+            <TouchableOpacity onPress={isVisible ? onNext : () => {}}>
+              <View style={isVisible ? styles.actionButton : {}}>
+                <Text
+                  style={[
+                    Styles.RoundedButtonText,
+                    isVisible ? {} : { color: Colours.Tint }
+                  ]}>
+                  {shouldFinish ? "Finish" : isVisible ? "Next" : null}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ) : null}
+
+          {index === 0 ? (
+            <TouchableOpacity onPress={this.props.onExit}>
+              <Text style={styles.skip}>
+                Can't wait to start exploring? Skip for now.
               </Text>
-            </View>
-          </TouchableOpacity>
-        ) : null}
+            </TouchableOpacity>
+          ) : this.props.store.slideSkippable ? (
+            <TouchableOpacity onPress={this.props.onSkip}>
+              <Text style={styles.skip}>Skip to questions.</Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: Sizes.Height / 6,
+    marginHorizontal: Sizes.OuterFrame,
+    justifyContent: "center"
+  },
+
+  inner: {
+    flex: 1
+  },
+
   actionButton: {
     width: Sizes.Width - 2 * Sizes.OuterFrame,
     borderRadius: Sizes.OuterFrame / 2,
@@ -57,5 +80,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: Sizes.InnerFrame,
     paddingBottom: Sizes.InnerFrame
+  },
+
+  skip: {
+    ...Styles.SmallText,
+    ...Styles.Subtitle,
+    textAlign: "center",
+    paddingTop: Sizes.InnerFrame / 2
   }
 });

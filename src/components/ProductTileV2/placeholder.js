@@ -46,7 +46,9 @@ export default class Placeholder extends React.Component {
         </View>
         <View
           style={[styles.badge, { top: badgeMarging, right: -badgeMarging }]}>
-          <Badge badgeType={this.props.badgeType} />
+          <Badge
+            badgeIcon={this.props.badgeIcon}
+            badgeType={this.props.badgeType}/>
         </View>
       </View>
     );

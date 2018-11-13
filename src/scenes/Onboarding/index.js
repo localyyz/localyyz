@@ -6,6 +6,7 @@ import { Provider } from "mobx-react/native";
 // local
 import Store from "./store";
 import OnboardingScene from "./onboarding";
+import Header from "./components/header";
 
 const OnboardingStack = createStackNavigator(
   {
@@ -13,10 +14,12 @@ const OnboardingStack = createStackNavigator(
   },
   {
     initialRouteName: "Personalize",
-    navigationOptions: ({ navigation: navigationOptions }) => ({
-      ...navigationOptions,
-      header: null
-    })
+    navigationOptions: ({ navigation }) => {
+      return {
+        ...navigation.navigationOptions,
+        header: <Header />
+      };
+    }
   }
 );
 

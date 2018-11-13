@@ -1,18 +1,30 @@
 import React from "react";
 import { View } from "react-native";
-import { HeaderBackButton } from "react-navigation";
+import { observer, inject } from "mobx-react/native";
 
 import { Colours, Sizes } from "~/src/constants";
 
+@inject(stores => ({
+  onboardingStore: stores.onboardingStore
+}))
+@observer
 export default class Header extends React.Component {
-  render() {
-    const { context, index } = this.props;
+  constructor(props) {
+    super(props);
+    this.store = props.onboardingStore;
+  }
 
-    const pageWidth = (Sizes.Width - 10) / context.props.children.length;
+  renderPagination = () => {
+    const total = this.store.questions.length;
+    const index = this.store.slideIndex;
+
+    const pageWidth = (Sizes.Width - 10) / total;
     const pageStyle = {
       backgroundColor: Colours.Background,
       height: 6,
-      width: pageWidth
+      width: pageWidth,
+      borderRightWidth: Sizes.Hairline,
+      borderRightColor: Colours.Border
     };
     const activeStyle = { backgroundColor: Colours.Accented };
 
@@ -20,22 +32,25 @@ export default class Header extends React.Component {
     const Page = <View style={pageStyle} />;
     const ActivePage = <View style={[pageStyle, activeStyle]} />;
 
-    for (let i = 0; i < context.state.total; i++) {
+    for (let i = 0; i < total; i++) {
       pages.push(
-        i <= context.state.index
+        i <= index
           ? React.cloneElement(ActivePage, { key: i })
           : React.cloneElement(Page, { key: i })
       );
     }
 
+    return pages;
+  };
+
+  render() {
     const containerStyle = {
       position: "absolute",
       top: 0,
       left: 0,
       right: 0,
-      height: Sizes.ScreenTop + 60,
-      paddingTop: Sizes.ScreenTop,
-      paddingBottom: 10,
+      paddingTop: Sizes.ScreenTop + Sizes.InnerFrame,
+      paddingBottom: Sizes.InnerFrame,
       paddingHorizontal: 10,
       backgroundColor: Colours.Foreground
     };
@@ -47,29 +62,11 @@ export default class Header extends React.Component {
       alignItems: "center"
     };
 
-    const percentage = {
-      //position: "absolute",
-      //top: 0,
-      //left: 0,
-      //right: 0,
-    };
-
-    const onBack = index == 0 ? this.props.onExit : this.props.onBack;
-    const title = index == 0 ? "Quit" : "Back";
-
     return (
       <View style={containerStyle}>
-        <HeaderBackButton
-          title={title}
-          onPress={onBack}
-          tintColor={Colours.Tint}/>
         <View pointerEvents="none" style={paginationStyle}>
-          {pages}
+          {this.renderPagination()}
         </View>
-        {/*
-        <View style={percentage}>
-          <Text>{index * 100 / context.state.total}%</Text>
-          </View> */}
       </View>
     );
   }

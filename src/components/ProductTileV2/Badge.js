@@ -55,8 +55,10 @@ export default class Badge extends React.Component {
           { backgroundColor: this.props.badgeColor || Colours.Primary }
         ]}>
         <Text style={styles.text}>{this.props.text || this.badgeText}</Text>
-        {this.badgeIcon ? (
-          <EntypoIcon name={this.badgeIcon} style={styles.icon} />
+        {this.props.badgeIcon || this.badgeIcon ? (
+          <EntypoIcon
+            name={this.props.badgeIcon || this.badgeIcon}
+            style={styles.icon}/>
         ) : null}
       </View>
     );
@@ -70,12 +72,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 5
   },
+
   text: {
     ...Styles.RoundedButtonText,
     fontSize: Sizes.TinyText
   },
+
   icon: {
     ...Styles.RoundedButtonText,
-    fontSize: Sizes.TinyText
+    fontSize: Sizes.SmallText
   }
 });

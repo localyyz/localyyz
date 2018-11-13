@@ -1,15 +1,14 @@
 // third party
-import { observable, computed, action, runInAction } from "mobx";
+import { observable, computed, action } from "mobx";
 import { Colours } from "~/src/constants";
 
 // custom
 import { box } from "~/src/helpers";
 import { OS, GA, ApiInstance } from "~/src/global";
-import { userStore, Merchant } from "~/src/stores";
+import { userStore } from "~/src/stores";
 
 export default class Store {
   @observable selected = observable.map({});
-  @observable merchants = [];
   @observable isLoading = false;
   @observable slideIndex = 0;
 
@@ -19,10 +18,49 @@ export default class Store {
   @box canFinish = false;
 
   questions = [
-    { id: "intro" },
+    {
+      id: "save",
+      line1: "Save up to 80% on designer fashion.",
+      line2: "Get notified in real-time on price drops.",
+      line3:
+        "We keep you in the know and get you updates fast - on thousands of sale items.",
+      imageSrc: "person_foreground",
+      skippable: true
+    },
+    {
+      id: "discount",
+      line1: "Discover offers with ease.",
+      line2: "Updated daily from hundreds of stores.",
+      line3:
+        "Tired of waiting for a discount code? Easily browse hundreds all in one place.",
+      imageSrc: "",
+      iconSrc: "price-tag",
+      skippable: true
+    },
+    {
+      id: "discover",
+      line1: "Shop top brands and styles.",
+      line2: "Across hundreds of stores from all over the world.",
+      line3:
+        "Discover hand curated brands from New York, Los Angeles, Paris and London all in one app.",
+      imageSrc: "",
+      iconSrc: "globe",
+      skippable: true
+    },
+    {
+      id: "personalize",
+      line1: "We are your personal shopper.",
+      line2: "Discover the perfect look tailored just for you.",
+      line3:
+        "We know everyone is different, that's why use the power of machine learning to learn and adapt Localyyz to your unique style.",
+      iconSrc: "user",
+      skippable: true
+    },
     {
       id: "pricing",
-      label: "What kind of shopper are you?",
+      title: "What's your price range?",
+      info:
+        "Select the price ranges you are interested in, this will help us filter the app and send you savings based on your selection",
       data: [
         {
           id: 21,
@@ -58,7 +96,9 @@ export default class Store {
     },
     {
       id: "gender",
-      label: "Which category would you like to see more of?",
+      title: "Which is your preferred category?",
+      info:
+        "Select a category you are most interested in, this will help us filter the app based on your selection",
       data: [
         {
           id: 20000,
@@ -80,12 +120,17 @@ export default class Store {
     },
     {
       id: "style",
-      label: "Which of these styles best describe you?",
-      fetchPath: "/categories/styles"
+      title: "Which of these styles best describe you?",
+      info:
+        "Select the styles you are interested in, this will help us filter the app and send you savings based on your selection",
+      fetchPath: "/categories/styles",
+      data: []
     },
     {
       id: "sort",
-      label: "How would you like to prioritize your feed?",
+      title: "How would you like to prioritize your feed?",
+      info:
+        "Select what products you like to see first, this will help us filter the app and send you savings based on your selection",
       data: [
         {
           id: 30000,
@@ -121,11 +166,24 @@ export default class Store {
         }
       ]
     },
-    { id: "outro" }
+    { id: "outro", title: "Almost done!" }
   ];
 
-  get favouriteCount() {
-    return this.merchants.slice().filter(m => m.isFavourite).length;
+  get skipToQuestionN() {
+    return 4 - this.slideIndex;
+  }
+
+  get slideSkippable() {
+    return this.questions[this.slideIndex].skippable;
+  }
+
+  get slideTitle() {
+    return this.questions[this.slideIndex].title;
+  }
+
+  @computed
+  get activeSlideKey() {
+    return this.questions[this.slideIndex].id;
   }
 
   @computed
@@ -140,8 +198,7 @@ export default class Store {
   @computed
   get selectedToParamsOS() {
     let osParams = {};
-    let params = this.selectedToParams;
-    // iterate over param keys: { "style": [...] } => ["style", "pricing"]
+    let params = this.selectedToParams; // iterate over param keys: { "style": [...] } => ["style", "pricing"]
     for (let key of Object.keys(params)) {
       // iterate over param values: [ "artsy", "casual", ...]
       for (let vIndex in params[key]) {
@@ -157,31 +214,10 @@ export default class Store {
   addToSlideIndex = i => {
     this.slideIndex = this.slideIndex + i;
     if (i > 0 && this.slideIndex) {
-      GA.trackEvent(
-        "personalize",
-        "start",
-        this.questions[this.slideIndex].id,
-        0
-      );
+      let name = this.questions[this.slideIndex].id;
+      GA.trackScreen(`onboarding-${name}`);
+      GA.trackEvent("personalize", "start", name, 0);
     }
-  };
-
-  get selectedToQuery() {
-    const params = this.selectedToParams;
-    return `filter=gender,val=${params.gender}`;
-  }
-
-  @action
-  toggleLoading = state => {
-    this.isLoading = state;
-  };
-
-  @action
-  fetchMerchants = () => {
-    this.next = null;
-    this.self = null;
-    this.merchants.clear();
-    return this.fetchNextPage();
   };
 
   fetchQuestionData = async path => {
@@ -189,29 +225,6 @@ export default class Store {
     if (!resolved.error) {
       return Promise.resolve({ styles: resolved.data });
     }
-    return Promise.resolve({ error: resolved.error });
-  };
-
-  @action
-  fetchNextPage = async () => {
-    if (this.isLoading || (this.self && !this.next)) {
-      // end of page!
-      return;
-    }
-    this.toggleLoading(true);
-    const path = this.next ? this.next.url : "categories/merchants";
-    const resolved = await ApiInstance.post(path, this.selectedToParams, {
-      limit: 5
-    });
-    if (!resolved.error) {
-      // eslint-disable-next-line
-      this.next = resolved.link && resolved.link.next;
-      this.self = resolved.link && resolved.link.self;
-      runInAction("merchant", () => {
-        resolved.data.forEach(m => this.merchants.push(new Merchant(m)));
-      });
-    }
-    this.toggleLoading(false);
     return Promise.resolve({ error: resolved.error });
   };
 
