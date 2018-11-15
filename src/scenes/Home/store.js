@@ -1,6 +1,6 @@
 // custom
 import { ApiInstance } from "~/src/global";
-import { box } from "~/src/helpers";
+import { capitalize, box } from "~/src/helpers";
 import { Collection } from "~/src/stores";
 
 // third party
@@ -34,9 +34,28 @@ export default class HomeStore {
     rows = rows.concat(
       resolved.data
         .map(row => {
+          let title;
+          switch (row.type) {
+            case "recommend":
+              title = `Latest ${capitalize(row.style)} ${capitalize(
+                row.category.label
+              )}`;
+              break;
+            case "sale":
+              title = `${capitalize(row.style)} ${capitalize(
+                row.category.label
+              )} On Sale`;
+              break;
+            default:
+              title = row.title;
+          }
+
           row = {
             ...row,
-            products: row.products.map(p => new Product(p))
+            title: title,
+            products: row.products.map(
+              p => new Product({ ...p, listTitle: title })
+            )
           };
           if (row.order) {
             orderedRows.push(row);

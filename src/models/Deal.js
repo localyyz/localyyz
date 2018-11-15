@@ -44,7 +44,9 @@ export default class Deal {
 
     // products
     if (data.products) {
-      this.products = data.products.map(product => new Product(product));
+      this.products = data.products.map(
+        product => new Product({ ...product, listTitle: `deal-${this.id}` })
+      );
     }
 
     // inject delay into the startAt and endAt times to allow for server to process

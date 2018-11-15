@@ -96,6 +96,8 @@ export class MerchantDetails extends React.Component {
         content={"View Shipping Info"}
         onExpand={() => {
           this.props.navigation.navigate("Modal", {
+            type: "shipping policy",
+            title: `${this.props.placeName}`,
             component: <ShippingPolicy placeId={this.props.placeId} />
           });
         }}/>
@@ -106,6 +108,8 @@ export class MerchantDetails extends React.Component {
     const returnPolicyFn = () => {
       this.props.returnPolicy && this.props.returnPolicy.desc.length > 0
         ? this.props.navigation.navigate("Modal", {
+            type: "return policy",
+            title: `${this.props.placeName}`,
             component: (
               <ScrollView
                 contentContainerStyle={{

@@ -117,52 +117,58 @@ class AppView extends React.Component {
   // this tracks navigations and sends screen transitions to Google Analytics
   trackScreen = (prevState, currentState) => {
     const currentScreen = getActiveRoute(currentState);
+    const prevScreen = getActiveRoute(prevState);
 
-    switch (currentScreen.routeName.toLowerCase()) {
-      case "productlist":
-        if (!currentScreen.params.title) {
-          GA.trackEvent("collection", "view", "filter/sort from home");
-        } else {
+    if (currentScreen !== prevScreen) {
+      switch (currentScreen.routeName.toLowerCase()) {
+        case "productlist":
           GA.trackEvent("collection", "view", currentScreen.params.title);
-        }
-        GA.trackScreen("collection");
-        break;
-      case "product":
-        GA.trackEvent(
-          "product",
-          "view",
-          currentScreen.params.product.title,
-          currentScreen.params.product.price,
-          {
-            products: [currentScreen.params.product.toGA()],
-            productAction: {
-              // ecommerce: product detail view
-              // -> click is for favourite
-              action: GA.ProductActions.Detail
+          GA.trackScreen("collection");
+          break;
+        case "product":
+          GA.trackEvent(
+            "product",
+            "view",
+            currentScreen.params.product.title,
+            currentScreen.params.product.price,
+            {
+              impressionList: currentScreen.params.product.listTitle,
+              products: [currentScreen.params.product.toGA()],
+              productAction: {
+                // ecommerce: product detail view
+                // -> click is for favourite
+                productActionList: currentScreen.params.product.listTitle,
+                action: GA.ProductActions.Detail
+              }
             }
-          }
-        );
-        GA.trackScreen("product");
-        break;
-      case "modal":
-        GA.trackEvent("filter/sort", "open");
-        GA.trackScreen("filter/sort");
-        break;
-      case "orders":
-        GA.trackEvent("settings", "view orders", "order history");
-        GA.trackScreen("settings - orders");
-        break;
-      case "addresses":
-        GA.trackEvent("settings", "view account", "saved addresses");
-        GA.trackScreen("settings - saved addresses");
-        break;
-      case "addressform":
-        GA.trackEvent("settings", "view account", "edit addresses");
-        GA.trackScreen("settings - edit addresses");
-        break;
-      default:
-        // by default, track screen names
-        GA.trackScreen(currentScreen.routeName.toLowerCase());
+          );
+
+          GA.trackScreen("product");
+          break;
+        case "orders":
+          GA.trackEvent("settings", "view orders", "order history");
+          GA.trackScreen("settings - orders");
+          break;
+        case "addresses":
+          GA.trackEvent("settings", "view account", "saved addresses");
+          GA.trackScreen("settings - saved addresses");
+          break;
+        case "addressform":
+          GA.trackEvent("settings", "view account", "edit addresses");
+          GA.trackScreen("settings - edit addresses");
+          break;
+        case "modal":
+          GA.trackEvent(
+            currentScreen.params.type,
+            "view",
+            currentScreen.params.title
+          );
+          GA.trackScreen(currentScreen.params.type);
+          break;
+        default:
+          // by default, track screen names
+          GA.trackScreen(currentScreen.routeName.toLowerCase());
+      }
     }
   };
 

@@ -3,7 +3,7 @@ import { ApplePayExpressPayment } from "localyyz/effects";
 import { facebook as Facebook } from "localyyz/effects";
 import { ApiInstance } from "localyyz/global";
 import { Cart, UserAddress } from "localyyz/models";
-import { assistantStore } from "localyyz/stores";
+//import { assistantStore } from "localyyz/stores";
 
 // third party
 import Moment from "moment";
@@ -701,7 +701,7 @@ export default class ExpressCartStore {
   };
 
   _onExpressCheckoutFailure = (response = {}, message) => {
-    assistantStore.cancel(message);
+    //assistantStore.cancel(message);
 
     // clear the current cart and refetch
     this.clear();
@@ -746,7 +746,6 @@ export default class ExpressCartStore {
 
     // block user progress until express is ready
     let message = "Hold on, I'm preparing your express checkout..";
-    assistantStore.write(message, 10000, true);
 
     try {
       // clear the previous express cart,
@@ -782,7 +781,7 @@ export default class ExpressCartStore {
       response = await this._launchExpressPayment();
 
       // sheet ready, so reveal and close assistant
-      assistantStore.cancel(message);
+      //assistantStore.cancel(message);
 
       // wait for user to complete sheet
       response = await this._onUserAcceptPayment(response);

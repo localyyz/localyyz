@@ -34,7 +34,7 @@ export default class GoogleAnalytics {
       this.tracker.allowIDFA(true);
       this.tracker.setClient(uniqueID);
 
-      const interval = __DEV__ ? 30 : 5;
+      const interval = __DEV__ ? 30 : 1;
       GoogleAnalyticsSettings.setDispatchInterval(interval);
     }
   };

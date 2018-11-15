@@ -81,10 +81,12 @@ class Store {
 
         // NOTE/TODO: make this better
         if (this.self && this.self.page == 1) {
-          this.products = response.data.map(p => new Product(p));
+          this.products = response.data.map(
+            p => new Product({ ...p, listTitle: this.title })
+          );
         } else {
           response.data.forEach(p => {
-            this.products.push(new Product(p));
+            this.products.push(new Product({ ...p, listTitle: this.title }));
           });
         }
 

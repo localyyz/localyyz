@@ -51,6 +51,8 @@ export class ProductDetails extends React.Component {
           content={this.props.description}
           onExpand={() => {
             this.props.navigation.navigate("Modal", {
+              type: "product detail",
+              title: `${this.props.title}`,
               component: this.expandedDescriptionComponent
             });
           }}/>
