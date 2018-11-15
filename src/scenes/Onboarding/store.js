@@ -17,14 +17,19 @@ export default class Store {
   // => this shows/hides the action button
   @box canFinish = false;
 
+  // fetched for styles questions slide
+  @observable styles = []
+
   questions = [
     {
       id: "save",
-      line1: "Save up to 80% on designer fashion.",
-      line2: "Get notified in real-time on price drops.",
+      line1: "Welcome to Localyyz",
+      line2: "Save up to 80% on designer fashion.",
       line3:
-        "We keep you in the know and get you updates fast - on thousands of sale items.",
-      imageSrc: "person_foreground",
+        "We keep you in the know via push notifications on thousands of sale items.",
+      imageSrc: "",
+      iconSrc: "shop",
+      backgroundColor: Colours.CokeBottleGreen,
       skippable: true
     },
     {
@@ -35,16 +40,18 @@ export default class Store {
         "Tired of waiting for a discount code? Easily browse hundreds all in one place.",
       imageSrc: "",
       iconSrc: "price-tag",
+      backgroundColor: Colours.RoseRed,
       skippable: true
     },
     {
       id: "discover",
       line1: "Shop top brands and styles.",
-      line2: "Across hundreds of stores from all over the world.",
+      line2: "From 100s of stores around the world.",
       line3:
         "Discover hand curated brands from New York, Los Angeles, Paris and London all in one app.",
       imageSrc: "",
       iconSrc: "globe",
+      backgroundColor: Colours.UltraViolet,
       skippable: true
     },
     {
@@ -54,6 +61,7 @@ export default class Store {
       line3:
         "We know everyone is different, that's why use the power of machine learning to learn and adapt Localyyz to your unique style.",
       iconSrc: "user",
+      backgroundColor: Colours.FloridaOrange,
       skippable: true
     },
     {

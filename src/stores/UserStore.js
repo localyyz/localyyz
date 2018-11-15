@@ -1,5 +1,6 @@
 import { action } from "mobx";
 
+import { storage } from "localyyz/effects";
 import { ApiInstance } from "~/src/global";
 import { User as UserModel } from "localyyz/models";
 
@@ -17,6 +18,10 @@ export default class UserStore extends UserModel {
       return Promise.resolve({ error: resolved.error });
     }
 
+    await storage.save("session", {
+      ...resolved.data,
+      jwt: this.jwt
+    });
     this.update(resolved.data);
     return Promise.resolve({ success: true });
   };

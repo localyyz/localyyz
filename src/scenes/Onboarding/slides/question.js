@@ -1,5 +1,11 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator
+} from "react-native";
 import { observer, inject } from "mobx-react/native";
 
 import { Colours, Styles, Sizes } from "~/src/constants";
@@ -21,14 +27,16 @@ export default class Question extends React.Component {
     if (this.props.active && !prevProps.active && this.props.fetchPath) {
       // NOTE/TODO: special case...
       // fetch additional data here
-      this.props.store.fetchQuestionData(this.props.fetchPath).then(resp => {
-        this.setState({
-          data: resp.styles.map(s => ({
-            ...s,
-            key: this.props.id
-          }))
-        });
-      });
+      this.setState({ data: [] }, () =>
+        this.props.store.fetchQuestionData(this.props.fetchPath).then(resp => {
+          this.setState({
+            data: resp.styles.map(s => ({
+              ...s,
+              key: this.props.id
+            }))
+          });
+        })
+      );
     }
   }
 
@@ -50,6 +58,7 @@ export default class Question extends React.Component {
         extraData={{ length: this.state.data.length }}
         renderItem={this.renderItem}
         keyExtractor={d => `item${d.id}`}
+        style={styles.container}
         contentContainerStyle={styles.slide}
         ItemSeparatorComponent={() => (
           <View
@@ -59,6 +68,9 @@ export default class Question extends React.Component {
               borderColor: Colours.Foreground
             }}/>
         )}
+        ListEmptyComponent={
+          <ActivityIndicator size="large" color={Colours.Tint} />
+        }
         ListHeaderComponent={
           <View style={styles.title}>
             <Text style={styles.titleText}>{this.props.title}</Text>
@@ -70,6 +82,8 @@ export default class Question extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {},
+
   slide: {
     marginHorizontal: BUTTON_PADDING,
     paddingTop: Sizes.ScreenTop + Sizes.InnerFrame * 3,

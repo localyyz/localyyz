@@ -6,7 +6,6 @@ import { StackActions, NavigationActions } from "react-navigation";
 
 import { Colours } from "~/src/constants";
 import ActionButton from "./components/actionButton";
-import PulseOverlay from "./components/pulseOverlay";
 
 // slides
 import Outro from "./slides/outro";
@@ -38,6 +37,7 @@ export default class OnboardingScene extends React.Component {
     const prvIndex = this.store.slideIndex;
     const isNext = state.index > prvIndex;
     const prvSlide = this.store.questions[prvIndex];
+    const currentSlide = this.store.questions[state.index];
 
     if (isNext && !prvSlide.skippable) {
       if (!(prvSlide.id in this.store.selectedToParams)) {
@@ -57,11 +57,6 @@ export default class OnboardingScene extends React.Component {
   };
 
   onFinish = () => {
-    this.setState({
-      isProcessing: true,
-      processingSubtitle: "Putting together your feed..."
-    });
-
     this.store.saveSelectedOptions().then(resolved => {
       if (resolved.success) {
         this.props.navigation.dispatch(
@@ -107,7 +102,8 @@ export default class OnboardingScene extends React.Component {
           ref={ref => (this._swiper = ref)}
           autoplay={false}
           loop={false}
-          showsPagination={false}
+          showsPagination={true}
+          activeDotColor={Colours.Foreground}
           onMomentumScrollEnd={this.onMomentumScrollEnd}>
           {slides}
         </Swiper>
@@ -116,9 +112,6 @@ export default class OnboardingScene extends React.Component {
           onNext={this.onNext}
           onFinish={this.onFinish}
           onExit={() => this.props.navigation.goBack(null)}/>
-        <PulseOverlay
-          subtitle={this.state.processingSubtitle}
-          isProcessing={this.state.isProcessing}/>
       </View>
     );
   }

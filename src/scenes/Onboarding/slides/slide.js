@@ -19,7 +19,11 @@ const SlidePaddingTop = Sizes.ScreenTop + Sizes.OuterFrame * 3;
 export default class Slide extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: this.props.backgroundColor }
+        ]}>
         <View
           style={{
             justifyContent: "center",
@@ -36,7 +40,7 @@ export default class Slide extends React.Component {
               }}/>
           ) : (
             <Icon
-              color={Colours.Primary}
+              color={Colours.Foreground}
               size={Sizes.SquareButton}
               name={this.props.iconSrc}/>
           )}
@@ -47,7 +51,7 @@ export default class Slide extends React.Component {
             justifyContent: "center"
           }}>
           <Text style={styles.title}>{this.props.line1}</Text>
-          <Text style={styles.title}>{this.props.line2}</Text>
+          <Text style={styles.subtitle}>{this.props.line2}</Text>
           <View
             style={{
               minHeight: Sizes.Height / 5,
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: SlidePaddingTop,
     paddingBottom: Sizes.InnerFrame,
-    paddingHorizontal: 2 * Sizes.InnerFrame / 3,
+    paddingHorizontal: Sizes.InnerFrame,
     justifyContent: "center",
     alignItems: "center",
     minHeight: Sizes.InnerFrame * 3,
@@ -75,15 +79,17 @@ const styles = StyleSheet.create({
 
   title: {
     ...Styles.Emphasized,
-    fontSize: Sizes.Text,
+    fontSize: Sizes.H1,
     textAlign: "center",
-    lineHeight: Sizes.LineHeightOneHalf
+    lineHeight: Sizes.LineHeightOneHalf,
+    color: Colours.Foreground
   },
 
   subtitle: {
     ...Styles.Subtitle,
-    fontSize: Sizes.Text,
+    fontSize: Sizes.SmallText,
     textAlign: "center",
-    lineHeight: Sizes.LineHeightOneHalf
+    lineHeight: Sizes.LineHeightOneHalf,
+    color: Colours.Foreground
   }
 });

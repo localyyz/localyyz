@@ -35,7 +35,7 @@ export default class User {
     // if the user id is even and
     // was created in the last 5 min.
     // onboard them right away
-    return this.shouldOnboard && this.etc && this.etc.autoOnboard;
+    return this.shouldOnboard && this.autoOnboard;
   }
 
   @computed
