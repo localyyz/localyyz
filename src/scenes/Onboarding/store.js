@@ -23,7 +23,7 @@ export default class Store {
   @box canFinish = false;
 
   // fetched for styles questions slide
-  @observable.ref styles = [];
+  @observable styles = [];
 
   onboard = [
     {
@@ -221,6 +221,7 @@ export default class Store {
 
   @action
   fetchStyles = async path => {
+    this.styles.clear();
     const resolved = await ApiInstance.post(path, this.selectedToParams);
     runInAction("[ACTION] fetch styles", () => {
       if (!resolved.error) {

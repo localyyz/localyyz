@@ -32,7 +32,6 @@ export default class Question extends React.Component {
     return (
       <FlatList
         data={this.props.data.slice()}
-        extraData={{ length: this.props.data.length }}
         renderItem={this.renderItem}
         keyExtractor={d => `item${d.id}`}
         style={styles.container}
