@@ -1,4 +1,3 @@
-export { default as ProductBuy } from "./ProductBuy";
 export { default as ProductVariantSelector } from "./ProductVariantSelector";
 export { default as ImageCarousel } from "./ImageCarousel";
 export { default as AddedSummary } from "./AddedSummary";

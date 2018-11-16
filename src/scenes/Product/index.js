@@ -6,11 +6,10 @@ import Store from "./store";
 import { Colours, Sizes, NAVBAR_HEIGHT } from "localyyz/constants";
 import { ContentCoverSlider, PhotoDetails } from "localyyz/components";
 import { box } from "localyyz/helpers";
-import { NavBar } from "localyyz/components";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer, Provider } from "mobx-react/native";
+import { observer, Provider } from "mobx-react/native";
 
 // local component
 import {

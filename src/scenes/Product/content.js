@@ -3,15 +3,12 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableWithoutFeedback,
-  Text
+  TouchableWithoutFeedback
 } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 import { ReactiveSpacer } from "localyyz/components";
-import Favourite from "~/src/components/ProductTileV2/Favourite";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 // third party
 import PropTypes from "prop-types";
@@ -21,7 +18,6 @@ import { withNavigation } from "react-navigation";
 
 // local component
 import {
-  ProductShare,
   RelatedProducts,
   ProductDetails,
   MerchantDetails,
@@ -32,9 +28,6 @@ import {
 } from "./components";
 
 @inject(stores => ({
-  isOnSale:
-    stores.productStore.product
-    && stores.productStore.product.previousPrice > 0,
   coverImage:
     stores.productStore.product && stores.productStore.product.imageUrl,
   backgroundPosition: stores.uiStore.backgroundPosition,
