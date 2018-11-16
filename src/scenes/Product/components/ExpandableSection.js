@@ -37,7 +37,7 @@ export default class ExpandedDescription extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: Sizes.InnerFrame / 2
+    marginVertical: Sizes.InnerFrame
   },
 
   header: {
@@ -46,12 +46,13 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    ...Styles.Text,
-    ...Styles.Emphasized
+    ...Styles.Emphasized,
+    fontSize: Sizes.SmallText
   },
 
   content: {
-    ...Styles.Text,
-    marginTop: Sizes.InnerFrame / 2
+    marginTop: Sizes.InnerFrame / 4,
+    fontWeight: Sizes.Normal,
+    fontSize: Sizes.SmallText
   }
 });

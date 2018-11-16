@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, Alert, Share } from "react-native";
 import PropTypes from "prop-types";
 
 // custom
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { Sizes, Colours } from "localyyz/constants";
 
 // third party
 import { inject, observer } from "mobx-react/native";
@@ -89,7 +89,7 @@ export default class ProductShare extends React.Component {
         onPress={() => {
           this.shareProduct();
         }}>
-        <Icon name="share" size={15} />
+        <Icon name="share" size={Sizes.Text} color={Colours.Foreground} />
       </TouchableOpacity>
     );
   }
@@ -100,19 +100,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    height: Sizes.InnerFrame * 2,
-    paddingHorizontal: Sizes.InnerFrame,
-    borderRadius: Sizes.InnerFrame * 2 / 3,
-    marginHorizontal: Sizes.InnerFrame,
-    backgroundColor: Colours.Foreground,
+    paddingHorizontal: Sizes.OuterFrame * 2,
+    paddingTop: Sizes.OuterFrame / 3,
     ...ifIphoneX(
       {
         marginVertical: Sizes.InnerFrame * 2.25
       },
       {
-        marginVertical: Sizes.InnerFrame * 1.25
+        marginVertical: Sizes.InnerFrame * 1.5
       }
     )
   }

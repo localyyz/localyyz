@@ -42,9 +42,8 @@ const styles = StyleSheet.create({
   },
 
   callToActionLabel: {
-    ...Styles.Text,
-    ...Styles.Terminal,
-    ...Styles.Medium,
+    fontSize: Sizes.H2,
+    fontWeight: Sizes.Medium,
     marginRight: Sizes.InnerFrame / 2
   }
 });

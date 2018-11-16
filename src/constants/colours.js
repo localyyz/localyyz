@@ -54,6 +54,7 @@ export const Colours = {
   DarkGold: DarkGold,
   SubduedForeground: Grey,
   MenuBackground: Black,
+  FooterBackground: GhostGrey,
   StatusBar: Black,
   Transparent: Transparent,
   BlackTransparent: BlackTransparent,
