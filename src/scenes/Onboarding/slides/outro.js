@@ -16,13 +16,8 @@ import { BadgeType } from "~/src/components/ProductTileV2/Badge";
 import { Colours, Sizes, Styles } from "~/src/constants";
 import { OS } from "~/src/global";
 
-// there is an issue with safe area view with react navigation modal
-// and for some reason adding top level padding breaks swiper (probably because
-// it relies on onLayout to do some state calculation)
-const SlidePaddingTop = Sizes.ScreenTop + Sizes.OuterFrame * 3;
-
 @inject(stores => ({
-  onboardingStore: stores.onboardingStore,
+  onboardingStore: stores.onboardingStore
 }))
 @observer
 export default class Outro extends React.Component {
@@ -138,8 +133,7 @@ export default class Outro extends React.Component {
           <Text style={{ fontWeight: "bold" }}>{messaging}</Text> curated just
           for you?
         </Text>
-        <Animatable.View
-          style={styles.placeholder}>
+        <Animatable.View style={styles.placeholder}>
           <View
             style={{
               width: Sizes.Width / 2,
@@ -217,7 +211,7 @@ export default class Outro extends React.Component {
 
 const styles = StyleSheet.create({
   outro: {
-    paddingTop: SlidePaddingTop,
+    paddingTop: Sizes.ScreenTop + Sizes.InnerFrame * 3,
     paddingBottom: Sizes.InnerFrame,
     paddingHorizontal: Sizes.OuterFrame,
     justifyContent: "center",
