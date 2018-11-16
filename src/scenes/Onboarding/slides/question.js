@@ -11,35 +11,12 @@ import { observer, inject } from "mobx-react/native";
 import { Colours, Styles, Sizes } from "~/src/constants";
 import Button, { BUTTON_PADDING } from "../components/button";
 
-@inject((stores, props) => ({
-  active: stores.onboardingStore.activeSlideKey === props.id
+@inject(stores => ({
+  onboardingStore: stores.onboardingStore,
+  selectOption: stores.onboardingStore.selectOption
 }))
 @observer
 export default class Question extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.data
-    };
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.active && !prevProps.active && this.props.fetchPath) {
-      // NOTE/TODO: special case...
-      // fetch additional data here
-      this.setState({ data: [] }, () =>
-        this.props.store.fetchQuestionData(this.props.fetchPath).then(resp => {
-          this.setState({
-            data: resp.styles.map(s => ({
-              ...s,
-              key: this.props.id
-            }))
-          });
-        })
-      );
-    }
-  }
-
   renderItem = ({ item }) => {
     return (
       <Button
@@ -47,15 +24,15 @@ export default class Question extends React.Component {
         description={item.desc}
         imageUrl={item.imageUrl}
         backgroundColor={item.backgroundColor}
-        onPress={() => this.props.store.selectOption(item)}/>
+        onPress={() => this.props.selectOption(item)}/>
     );
   };
 
   render() {
     return (
       <FlatList
-        data={this.state.data}
-        extraData={{ length: this.state.data.length }}
+        data={this.props.data.slice()}
+        extraData={{ length: this.props.data.length }}
         renderItem={this.renderItem}
         keyExtractor={d => `item${d.id}`}
         style={styles.container}

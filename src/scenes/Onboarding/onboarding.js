@@ -1,118 +1,97 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { observer, inject } from "mobx-react/native";
-import Swiper from "react-native-swiper";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { Provider, observer, inject } from "mobx-react/native";
 import { StackActions, NavigationActions } from "react-navigation";
+import Swiper from "react-native-swiper";
 
-import { Colours } from "~/src/constants";
-import ActionButton from "./components/actionButton";
+import { Styles, Sizes, Colours } from "~/src/constants";
+import { GA } from "~/src/global";
 
 // slides
-import Outro from "./slides/outro";
 import Slide from "./slides/slide";
-import Question from "./slides/question";
+import Store from "./store";
 
 @inject(stores => ({
-  onboardingStore: stores.onboardingStore
+  userStore: stores.userStore
 }))
 @observer
 export default class OnboardingScene extends React.Component {
   constructor(props) {
     super(props);
-    this.store = props.onboardingStore;
-
-    this.state = {
-      processingSubtitle: "",
-      isProcessing: false
-    };
+    this.store = new Store();
   }
 
-  onNext = () => {
-    this.store.addToSlideIndex(1);
-    this.scrollBy(1);
-  };
+  componentDidMount() {
+    this.props.userStore.markOnboarded();
+  }
 
   onMomentumScrollEnd = (_, state) => {
-    // check if the previous question needed an answer
-    const prvIndex = this.store.slideIndex;
-    const isNext = state.index > prvIndex;
-    const prvSlide = this.store.questions[prvIndex];
-    const currentSlide = this.store.questions[state.index];
-
-    if (isNext && !prvSlide.skippable) {
-      if (!(prvSlide.id in this.store.selectedToParams)) {
-        this.scrollBy(-1);
-        return;
-      }
-    }
-    this.store.addToSlideIndex(state.index - prvIndex);
+    this.store.slideIndex = state.index;
+    let name = this.store.onboard[state.index].id;
+    GA.trackScreen(`onboarding-${name}`);
+    GA.trackEvent("personalize", "start", name, 0);
   };
 
-  scrollBy = i => {
-    this._swiper && this._swiper.scrollBy(i, true);
-  };
-
-  onSkipToQuestions = () => {
-    this._swiper && this._swiper.scrollBy(this.store.skipToQuestionN, false);
+  onExit = () => {
+    this.props.navigation.dispatch(
+      StackActions.reset({
+        index: 1,
+        key: null,
+        actions: [
+          NavigationActions.navigate({
+            routeName: "App"
+          }),
+          NavigationActions.navigate({
+            routeName: "App",
+            action: NavigationActions.navigate({
+              routeName: "Home"
+            })
+          })
+        ]
+      })
+    );
   };
 
   onFinish = () => {
-    this.store.saveSelectedOptions().then(resolved => {
-      if (resolved.success) {
-        this.props.navigation.dispatch(
-          StackActions.reset({
-            index: 1,
-            key: null,
-            actions: [
-              NavigationActions.navigate({
-                routeName: "App"
-              }),
-              NavigationActions.navigate({
-                routeName: "App",
-                action: NavigationActions.navigate({
-                  routeName: "Home"
-                })
-              })
-            ]
-          })
-        );
-      }
-    });
+    this.props.navigation.navigate("Personalize");
   };
 
   render() {
-    const slides = this.store.questions.map(item => {
-      const key = `slide${item.id}`;
-      switch (item.id) {
-        case "discount":
-        case "save":
-        case "discover":
-        case "personalize":
-          return <Slide key={key} {...item} />;
-        case "outro":
-          return <Outro key={key} {...item} />;
-        default:
-          return <Question {...item} key={key} store={this.store} />;
-      }
+    const slides = this.store.onboard.map(item => {
+      return <Slide key={`slide${item.id}`} {...item} />;
     });
 
     return (
-      <View style={styles.container}>
-        <Swiper
-          ref={ref => (this._swiper = ref)}
-          autoplay={false}
-          loop={false}
-          showsPagination={true}
-          activeDotColor={Colours.Foreground}
-          onMomentumScrollEnd={this.onMomentumScrollEnd}>
-          {slides}
-        </Swiper>
-        <ActionButton
-          onSkip={this.onSkipToQuestions}
-          onNext={this.onNext}
-          onFinish={this.onFinish}
-          onExit={() => this.props.navigation.goBack(null)}/>
-      </View>
+      <Provider onboardingStore={this.store}>
+        <View style={styles.container}>
+          <Swiper
+            autoplay={true}
+            loop={false}
+            showsPagination={true}
+            activeDotColor={Colours.Foreground}
+            scrollEventThrottle={16}
+            onMomentumScrollEnd={this.onMomentumScrollEnd}>
+            {slides}
+          </Swiper>
+          <View style={styles.buttonContainer}>
+            <View style={styles.inner}>
+              {this.store.slideIndex === 0 ? (
+                <TouchableOpacity onPress={this.onExit}>
+                  <Text style={styles.exit}>
+                    Can't wait to start exploring? Skip for now.
+                  </Text>
+                </TouchableOpacity>
+              ) : this.store.slideIndex === this.store.onboard.length - 1 ? (
+                <TouchableOpacity onPress={this.onFinish}>
+                  <View style={styles.actionButton}>
+                    <Text style={Styles.RoundedButtonText}>Start the quiz</Text>
+                  </View>
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </View>
+        </View>
+      </Provider>
     );
   }
 }
@@ -121,5 +100,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colours.Foreground
+  },
+  buttonContainer: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: Sizes.Height / 8,
+    marginHorizontal: Sizes.OuterFrame,
+    justifyContent: "center"
+  },
+
+  inner: {
+    flex: 1
+  },
+
+  actionButton: {
+    ...Styles.RoundedButton,
+    width: Sizes.Width - 2 * Sizes.OuterFrame,
+    alignItems: "center",
+    paddingTop: Sizes.InnerFrame,
+    paddingBottom: Sizes.InnerFrame
+  },
+
+  exit: {
+    ...Styles.SmallText,
+    ...Styles.Subtitle,
+    textAlign: "center",
+    paddingTop: Sizes.InnerFrame / 2,
+    color: Colours.Foreground
   }
 });

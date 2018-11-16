@@ -1,18 +1,18 @@
 // third party
-import React from "react";
 import { createStackNavigator } from "react-navigation";
-import { Provider } from "mobx-react/native";
 
 // local
-import Store from "./store";
 import OnboardingScene from "./onboarding";
+import PersonalizeScene from "./personalize";
 
 const OnboardingStack = createStackNavigator(
   {
-    Personalize: { screen: OnboardingScene }
+    Onboard: { screen: OnboardingScene },
+    Personalize: { screen: PersonalizeScene }
   },
   {
-    initialRouteName: "Personalize",
+    mode: "modal",
+    initialRouteName: "Onboard",
     navigationOptions: ({ navigation }) => ({
       ...navigation.navigationOptions,
       header: null
@@ -20,19 +20,4 @@ const OnboardingStack = createStackNavigator(
   }
 );
 
-export default class Onboarding extends React.Component {
-  static router = OnboardingStack.router;
-
-  constructor(props) {
-    super(props);
-    this.store = new Store();
-  }
-
-  render() {
-    return (
-      <Provider onboardingStore={this.store}>
-        <OnboardingStack navigation={this.props.navigation} />
-      </Provider>
-    );
-  }
-}
+export default OnboardingStack;

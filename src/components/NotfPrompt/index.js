@@ -60,16 +60,18 @@ export default class NotfPrompt extends React.Component {
   }
 
   componentWillUnmount() {
+    this._unmounted = true;
     AppState.removeEventListener("change", this._appStateListener);
     this._dismissTimeout && clearTimeout(this._dismissTimeout);
   }
 
   _checkNotify = () => {
     const callback = state => {
-      this.setState({
-        notificationsEnabled: state.notificationsEnabled,
-        hasPrompted: state.hasPrompted
-      });
+      !this._unmounted
+        && this.setState({
+          notificationsEnabled: state.notificationsEnabled,
+          hasPrompted: state.hasPrompted
+        });
     };
 
     // check push subscription state
@@ -89,7 +91,8 @@ export default class NotfPrompt extends React.Component {
 
   onPressNotify = () => {
     const callback = state => {
-      this.setState({ hasPrompted: true, notificationsEnabled: state });
+      !this._unmounted
+        && this.setState({ hasPrompted: true, notificationsEnabled: state });
     };
 
     // based on if prompted + state =>
@@ -103,7 +106,7 @@ export default class NotfPrompt extends React.Component {
   };
 
   onDismiss = () => {
-    this.setState({ hasDismissed: true });
+    !this._unmounted && this.setState({ hasDismissed: true });
   };
 
   render() {

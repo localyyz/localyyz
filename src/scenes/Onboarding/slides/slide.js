@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Animated, View, Text, StyleSheet } from "react-native";
 import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
-import Icon from "react-native-vector-icons/Entypo";
+import Entypo from "react-native-vector-icons/Entypo";
+import Material from "react-native-vector-icons/MaterialIcons";
 import { Colours, Sizes, Styles } from "~/src/constants";
 
 // there is an issue with safe area view with react navigation modal
@@ -11,15 +12,16 @@ import { Colours, Sizes, Styles } from "~/src/constants";
 // it relies on onLayout to do some state calculation)
 const SlidePaddingTop = Sizes.ScreenTop + Sizes.OuterFrame * 3;
 
-@inject((stores, props) => ({
-  onboardingStore: stores.onboardingStore,
-  active: stores.onboardingStore.activeSlideKey === props.id
+@inject(stores => ({
+  onboardingStore: stores.onboardingStore
 }))
 @observer
 export default class Slide extends React.Component {
   render() {
+    const Icon = this.props.iconTyle == "MaterialIcons" ? Material : Entypo;
+
     return (
-      <View
+      <Animated.View
         style={[
           styles.container,
           { backgroundColor: this.props.backgroundColor }
@@ -60,7 +62,7 @@ export default class Slide extends React.Component {
             <Text style={styles.subtitle}>{this.props.line3}</Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
     );
   }
 }

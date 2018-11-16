@@ -9,18 +9,8 @@ import { BadgeType } from "~/src/components/ProductTileV2/Badge";
 
 class OnboardPrompt extends React.Component {
   gotoOnboarding = () => {
-    this.props.navigation.navigate("Onboarding", {
-      onFinish: this.props.navigation.goBack
-    });
+    this.props.navigation.navigate("Personalize");
   };
-
-  componentDidMount() {
-    if (this.props.shouldOnboardRightAway) {
-      // every other user that needs onboarding will be presented
-      //  be redirect directly to onboarding.
-      this.gotoOnboarding();
-    }
-  }
 
   render() {
     return (

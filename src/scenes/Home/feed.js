@@ -46,7 +46,8 @@ export default class Feed extends React.Component {
 
   fetchFeed = () => {
     this.props.navbarStore.hide();
-    this.setState({ lastFetchedAt: Moment(), isProcessing: true });
+    !this._unmounted
+      && this.setState({ lastFetchedAt: Moment(), isProcessing: true });
     this.props.fetch().then(() => {
       this.props.navbarStore.show();
       let layoutProvider = new LayoutProvider(
@@ -63,10 +64,11 @@ export default class Feed extends React.Component {
           dim.height = type == 1 ? CollectionH : RowH;
         }
       );
-      this.setState({
-        isProcessing: false,
-        layoutProvider: layoutProvider
-      });
+      !this._unmounted
+        && this.setState({
+          isProcessing: false,
+          layoutProvider: layoutProvider
+        });
     });
   };
 
@@ -76,6 +78,7 @@ export default class Feed extends React.Component {
   }
 
   componentWillUnmount() {
+    this._unmounted = true;
     // unsubscribe to listeners
     this.focusListener && this.focusListener.remove();
     this.focusListener = null;

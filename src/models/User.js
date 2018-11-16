@@ -26,16 +26,16 @@ export default class User {
   }
 
   @computed
-  get shouldOnboard() {
+  get shouldPersonalize() {
     return !this.prf;
   }
 
   @computed
-  get shouldOnboardRightAway() {
+  get shouldPersonalizeRightAway() {
     // if the user id is even and
     // was created in the last 5 min.
     // onboard them right away
-    return this.shouldOnboard && this.autoOnboard;
+    return this.shouldPersonalize && this.autoOnboard;
   }
 
   @computed
@@ -61,7 +61,7 @@ export default class User {
         this[k] = user[k];
       }
     }
-    this.gender = user.etc.gender;
+    this.gender = user.etc && user.etc.gender;
   }
 
   @computed

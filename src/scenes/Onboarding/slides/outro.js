@@ -23,7 +23,6 @@ const SlidePaddingTop = Sizes.ScreenTop + Sizes.OuterFrame * 3;
 
 @inject(stores => ({
   onboardingStore: stores.onboardingStore,
-  activeSlideKey: stores.onboardingStore.activeSlideKey
 }))
 @observer
 export default class Outro extends React.Component {
@@ -140,7 +139,6 @@ export default class Outro extends React.Component {
           for you?
         </Text>
         <Animatable.View
-          animation={this.props.activeSlideKey === "outro" ? "zoomIn" : ""}
           style={styles.placeholder}>
           <View
             style={{

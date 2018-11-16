@@ -1,8 +1,9 @@
 // third party
-import { observable, computed, action } from "mobx";
-import { Colours } from "~/src/constants";
+import { observable, computed, action, runInAction } from "mobx";
+import { Animated } from "react-native";
 
 // custom
+import { Colours } from "~/src/constants";
 import { box } from "~/src/helpers";
 import { OS, GA, ApiInstance } from "~/src/global";
 import { userStore } from "~/src/stores";
@@ -10,7 +11,11 @@ import { userStore } from "~/src/stores";
 export default class Store {
   @observable selected = observable.map({});
   @observable isLoading = false;
-  @observable slideIndex = 0;
+  @box slideIndex = 0;
+
+  // sync up swipers scroll animation
+  @box scrollAnimate = new Animated.Value(0);
+  @observable scrollDir = "";
 
   // can finish is controlled by the "outro"
   // check the component for details
@@ -18,9 +23,9 @@ export default class Store {
   @box canFinish = false;
 
   // fetched for styles questions slide
-  @observable styles = []
+  @observable.ref styles = [];
 
-  questions = [
+  onboard = [
     {
       id: "save",
       line1: "Welcome to Localyyz",
@@ -28,8 +33,8 @@ export default class Store {
       line3:
         "We keep you in the know via push notifications on thousands of sale items.",
       imageSrc: "",
-      iconSrc: "shop",
-      backgroundColor: Colours.CokeBottleGreen,
+      iconSrc: "price-tag",
+      backgroundColor: Colours.SkyBlue,
       skippable: true
     },
     {
@@ -39,7 +44,7 @@ export default class Store {
       line3:
         "Tired of waiting for a discount code? Easily browse hundreds all in one place.",
       imageSrc: "",
-      iconSrc: "price-tag",
+      iconSrc: "wallet",
       backgroundColor: Colours.RoseRed,
       skippable: true
     },
@@ -64,6 +69,20 @@ export default class Store {
       backgroundColor: Colours.FloridaOrange,
       skippable: true
     },
+    {
+      id: "questions",
+      line1: "Ready to go?",
+      line2: "Complete the style quiz.",
+      line3:
+        "Answer a few questions to help us personalize the home feed for you.",
+      iconSrc: "question-answer",
+      iconTyle: "MaterialIcons",
+      backgroundColor: Colours.FloridaOrange,
+      skippable: true
+    }
+  ];
+
+  questions = [
     {
       id: "pricing",
       title: "What's your price range?",
@@ -131,8 +150,7 @@ export default class Store {
       title: "Which of these styles best describe you?",
       info:
         "Select the styles you are interested in, this will help us filter the app and send you savings based on your selection",
-      fetchPath: "/categories/styles",
-      data: []
+      fetchPath: "/categories/styles"
     },
     {
       id: "sort",
@@ -177,23 +195,6 @@ export default class Store {
     { id: "outro", title: "Almost done!" }
   ];
 
-  get skipToQuestionN() {
-    return 4 - this.slideIndex;
-  }
-
-  get slideSkippable() {
-    return this.questions[this.slideIndex].skippable;
-  }
-
-  get slideTitle() {
-    return this.questions[this.slideIndex].title;
-  }
-
-  @computed
-  get activeSlideKey() {
-    return this.questions[this.slideIndex].id;
-  }
-
   @computed
   get selectedToParams() {
     let params = {};
@@ -219,21 +220,16 @@ export default class Store {
   }
 
   @action
-  addToSlideIndex = i => {
-    this.slideIndex = this.slideIndex + i;
-    if (i > 0 && this.slideIndex) {
-      let name = this.questions[this.slideIndex].id;
-      GA.trackScreen(`onboarding-${name}`);
-      GA.trackEvent("personalize", "start", name, 0);
-    }
-  };
-
-  fetchQuestionData = async path => {
+  fetchStyles = async path => {
     const resolved = await ApiInstance.post(path, this.selectedToParams);
-    if (!resolved.error) {
-      return Promise.resolve({ styles: resolved.data });
-    }
-    return Promise.resolve({ error: resolved.error });
+    runInAction("[ACTION] fetch styles", () => {
+      if (!resolved.error) {
+        this.styles = resolved.data.map(s => ({
+          ...s,
+          key: "style"
+        }));
+      }
+    });
   };
 
   @action

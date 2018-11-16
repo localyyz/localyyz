@@ -32,6 +32,7 @@ let UltraViolet = "#9013FE";
 let RoseRed = "#E35071";
 let FloridaOrange = "#FE9013"
 let CokeBottleGreen = "#50E3C2";
+let SkyBlue = "#50bbe3";
 let SterlingGrey = "#D8D8D8";
 let GhostGrey = "#FAFAFA";
 let IntoTheGrey = "#313131";
@@ -114,6 +115,7 @@ export const Colours = {
   CokeBottleGreen: CokeBottleGreen,
   RoseRed: RoseRed,
   FloridaOrange: FloridaOrange,
+  SkyBlue: SkyBlue,
 
   // brand transparencies
   PrimaryTransparent: PurpleRainTransparent,
