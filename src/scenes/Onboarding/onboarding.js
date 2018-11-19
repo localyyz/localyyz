@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { Provider, observer, inject } from "mobx-react/native";
+import { observer, inject } from "mobx-react/native";
 import { StackActions, NavigationActions } from "react-navigation";
 import Swiper from "react-native-swiper";
 
@@ -9,7 +9,63 @@ import { GA } from "~/src/global";
 
 // slides
 import Slide from "./slides/slide";
-import Store from "./store";
+
+const onboard = [
+  {
+    id: "save",
+    line1: "Welcome to Localyyz",
+    line2: "Save up to 80% on designer fashion.",
+    line3:
+      "We keep you in the know via push notifications on thousands of sale items.",
+    imageSrc: "",
+    iconSrc: "price-tag",
+    backgroundColor: Colours.SkyBlue,
+    skippable: true
+  },
+  {
+    id: "discount",
+    line1: "Discover offers with ease.",
+    line2: "Updated daily from hundreds of stores.",
+    line3:
+      "Tired of waiting for a discount code? Easily browse hundreds all in one place.",
+    imageSrc: "",
+    iconSrc: "wallet",
+    backgroundColor: Colours.RoseRed,
+    skippable: true
+  },
+  {
+    id: "discover",
+    line1: "Shop top brands and styles.",
+    line2: "From 100s of stores around the world.",
+    line3:
+      "Discover hand curated brands from New York, Los Angeles, Paris and London all in one app.",
+    imageSrc: "",
+    iconSrc: "globe",
+    backgroundColor: Colours.UltraViolet,
+    skippable: true
+  },
+  {
+    id: "personalize",
+    line1: "We are your personal shopper.",
+    line2: "Discover the perfect look tailored just for you.",
+    line3:
+      "We know everyone is different, that's why use the power of machine learning to learn and adapt Localyyz to your unique style.",
+    iconSrc: "user",
+    backgroundColor: Colours.FloridaOrange,
+    skippable: true
+  },
+  {
+    id: "questions",
+    line1: "Ready to go?",
+    line2: "Complete the style quiz.",
+    line3:
+      "Answer a few questions to help us personalize the home feed for you.",
+    iconSrc: "question-answer",
+    iconTyle: "MaterialIcons",
+    backgroundColor: Colours.FloridaOrange,
+    skippable: true
+  }
+];
 
 @inject(stores => ({
   userStore: stores.userStore
@@ -18,7 +74,9 @@ import Store from "./store";
 export default class OnboardingScene extends React.Component {
   constructor(props) {
     super(props);
-    this.store = new Store();
+    this.state = {
+      slideIndex: 0
+    };
   }
 
   componentDidMount() {
@@ -26,8 +84,8 @@ export default class OnboardingScene extends React.Component {
   }
 
   onMomentumScrollEnd = (_, state) => {
-    this.store.slideIndex = state.index;
-    let name = this.store.onboard[state.index].id;
+    this.setState({ slideIndex: state.index });
+    let name = onboard[state.index].id;
     GA.trackScreen(`onboarding-${name}`);
     GA.trackEvent("personalize", "start", name, 0);
   };
@@ -57,41 +115,39 @@ export default class OnboardingScene extends React.Component {
   };
 
   render() {
-    const slides = this.store.onboard.map(item => {
+    const slides = onboard.map(item => {
       return <Slide key={`slide${item.id}`} {...item} />;
     });
 
     return (
-      <Provider onboardingStore={this.store}>
-        <View style={styles.container}>
-          <Swiper
-            autoplay={true}
-            loop={false}
-            showsPagination={true}
-            activeDotColor={Colours.Foreground}
-            scrollEventThrottle={16}
-            onMomentumScrollEnd={this.onMomentumScrollEnd}>
-            {slides}
-          </Swiper>
-          <View style={styles.buttonContainer}>
-            <View style={styles.inner}>
-              {this.store.slideIndex === 0 ? (
-                <TouchableOpacity onPress={this.onExit}>
-                  <Text style={styles.exit}>
-                    Can't wait to start exploring? Skip for now.
-                  </Text>
-                </TouchableOpacity>
-              ) : this.store.slideIndex === this.store.onboard.length - 1 ? (
-                <TouchableOpacity onPress={this.onFinish}>
-                  <View style={styles.actionButton}>
-                    <Text style={Styles.RoundedButtonText}>Start the quiz</Text>
-                  </View>
-                </TouchableOpacity>
-              ) : null}
-            </View>
+      <View style={styles.container}>
+        <Swiper
+          autoplay={true}
+          loop={false}
+          showsPagination={true}
+          activeDotColor={Colours.Foreground}
+          scrollEventThrottle={16}
+          onMomentumScrollEnd={this.onMomentumScrollEnd}>
+          {slides}
+        </Swiper>
+        <View style={styles.buttonContainer}>
+          <View style={styles.inner}>
+            {this.state.slideIndex === 0 ? (
+              <TouchableOpacity onPress={this.onExit}>
+                <Text style={styles.exit}>
+                  Can't wait to start exploring? Skip for now.
+                </Text>
+              </TouchableOpacity>
+            ) : this.state.slideIndex === onboard.length - 1 ? (
+              <TouchableOpacity onPress={this.onFinish}>
+                <View style={styles.actionButton}>
+                  <Text style={Styles.RoundedButtonText}>Start the quiz</Text>
+                </View>
+              </TouchableOpacity>
+            ) : null}
           </View>
         </View>
-      </Provider>
+      </View>
     );
   }
 }

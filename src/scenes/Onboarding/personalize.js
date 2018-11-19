@@ -1,10 +1,16 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Text
+} from "react-native";
 import { observer, Provider } from "mobx-react/native";
-import Swiper from "react-native-swiper";
 import { StackActions, NavigationActions } from "react-navigation";
+import EntypoIcon from "react-native-vector-icons/Entypo";
+import * as Animatable from "react-native-animatable";
 
-import { GA } from "~/src/global";
 import { Sizes, Styles, Colours } from "~/src/constants";
 
 // slides
@@ -14,33 +20,16 @@ import Store from "./store";
 
 @observer
 export default class PersonalizeScene extends React.Component {
+  static navigationOptions = ({ navigationOptions }) => ({
+    ...navigationOptions,
+    gesturesEnabled: false
+  });
+
   constructor(props) {
     super(props);
     this.store = new Store();
+    this.state = { reachedEnd: false };
   }
-
-  onMomentumScrollEnd = (_, state) => {
-    // check if the previous question needed an answer
-    const isNext = state.index > this.store.slideIndex;
-
-    if (isNext) {
-      // if we are going to the next slide + is asking questions
-      // check if they've answered the previous question
-      const prv = this.store.questions[this.store.slideIndex];
-      if (!(prv.id in this.store.selectedToParams)) {
-        this._swiper && this._swiper.scrollBy(-1, true);
-        return;
-      }
-    }
-
-    this.store.slideIndex = state.index;
-    let slide = this.store.questions[state.index];
-    if (slide.fetchPath) {
-      this.store.fetchStyles(slide.fetchPath);
-    }
-    GA.trackScreen(`onboarding-${slide.id}`);
-    GA.trackEvent("personalize", "start", slide.id, 0);
-  };
 
   onFinish = () => {
     this.store.saveSelectedOptions().then(resolved => {
@@ -66,6 +55,17 @@ export default class PersonalizeScene extends React.Component {
     });
   };
 
+  onScroll = ({
+    nativeEvent: { layoutMeasurement, contentOffset, contentSize }
+  }) => {
+    // reached end?
+    this.setState({
+      reachedEnd:
+        layoutMeasurement.height + contentOffset.y
+        >= contentSize.height - Sizes.Height / 3
+    });
+  };
+
   render() {
     const slides = this.store.questions.map(item => {
       const key = `slide${item.id}`;
@@ -82,26 +82,37 @@ export default class PersonalizeScene extends React.Component {
     return (
       <Provider onboardingStore={this.store}>
         <View style={styles.container}>
-          <Swiper
-            ref={ref => (this._swiper = ref)}
-            autoplay={false}
-            loop={false}
-            showsPagination={true}
-            scrollEventThrottle={16}
-            onMomentumScrollEnd={this.onMomentumScrollEnd}>
+          <ScrollView
+            style={styles.content}
+            scrollEventThrottle={64}
+            pagingEnabled={true}
+            onScroll={this.onScroll}>
             {slides}
-          </Swiper>
+          </ScrollView>
+
           <View style={styles.button}>
-            <View style={styles.inner}>
-              {this.store.slideIndex === this.store.questions.length - 1
-              && this.store.canFinish ? (
+            {this.store.canFinish ? (
+              <View style={styles.inner}>
                 <TouchableOpacity onPress={this.onFinish}>
                   <View style={styles.actionButton}>
                     <Text style={Styles.RoundedButtonText}>Finish</Text>
                   </View>
                 </TouchableOpacity>
-              ) : null}
-            </View>
+              </View>
+            ) : (
+              !this.state.reachedEnd && (
+                <Animatable.View
+                  animation="bounce"
+                  iterationCount="infinite"
+                  duration={2500}
+                  style={{ alignItems: "center" }}>
+                  <EntypoIcon
+                    name="chevron-thin-down"
+                    color={Colours.Foreground}
+                    size={Sizes.ActionButton}/>
+                </Animatable.View>
+              )
+            )}
           </View>
         </View>
       </Provider>
@@ -111,9 +122,10 @@ export default class PersonalizeScene extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Colours.Foreground
+    backgroundColor: Colours.BlueSteel
   },
+
+  content: {},
 
   button: {
     position: "absolute",

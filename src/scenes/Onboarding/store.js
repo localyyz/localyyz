@@ -1,9 +1,9 @@
 // third party
-import { observable, computed, action, runInAction } from "mobx";
+import { observable, computed, action, reaction, runInAction } from "mobx";
 import { Animated } from "react-native";
+import isEqual from "lodash.isequal";
 
 // custom
-import { Colours } from "~/src/constants";
 import { box } from "~/src/helpers";
 import { OS, GA, ApiInstance } from "~/src/global";
 import { userStore } from "~/src/stores";
@@ -20,115 +20,68 @@ export default class Store {
   // can finish is controlled by the "outro"
   // check the component for details
   // => this shows/hides the action button
-  @box canFinish = false;
+  @box hasPromptedNotf = false;
 
   // fetched for styles questions slide
   @observable styles = [];
 
-  onboard = [
-    {
-      id: "save",
-      line1: "Welcome to Localyyz",
-      line2: "Save up to 80% on designer fashion.",
-      line3:
-        "We keep you in the know via push notifications on thousands of sale items.",
-      imageSrc: "",
-      iconSrc: "price-tag",
-      backgroundColor: Colours.SkyBlue,
-      skippable: true
-    },
-    {
-      id: "discount",
-      line1: "Discover offers with ease.",
-      line2: "Updated daily from hundreds of stores.",
-      line3:
-        "Tired of waiting for a discount code? Easily browse hundreds all in one place.",
-      imageSrc: "",
-      iconSrc: "wallet",
-      backgroundColor: Colours.RoseRed,
-      skippable: true
-    },
-    {
-      id: "discover",
-      line1: "Shop top brands and styles.",
-      line2: "From 100s of stores around the world.",
-      line3:
-        "Discover hand curated brands from New York, Los Angeles, Paris and London all in one app.",
-      imageSrc: "",
-      iconSrc: "globe",
-      backgroundColor: Colours.UltraViolet,
-      skippable: true
-    },
-    {
-      id: "personalize",
-      line1: "We are your personal shopper.",
-      line2: "Discover the perfect look tailored just for you.",
-      line3:
-        "We know everyone is different, that's why use the power of machine learning to learn and adapt Localyyz to your unique style.",
-      iconSrc: "user",
-      backgroundColor: Colours.FloridaOrange,
-      skippable: true
-    },
-    {
-      id: "questions",
-      line1: "Ready to go?",
-      line2: "Complete the style quiz.",
-      line3:
-        "Answer a few questions to help us personalize the home feed for you.",
-      iconSrc: "question-answer",
-      iconTyle: "MaterialIcons",
-      backgroundColor: Colours.FloridaOrange,
-      skippable: true
+  constructor() {
+    if (userStore.prf) {
+      this.initializePrf(userStore.prf);
     }
-  ];
+  }
+
+  @action
+  initializePrf = prfs => {
+    for (let key in prfs) {
+      let answers = prfs[key];
+
+      for (let val of answers.slice()) {
+        const id = `${key}-${val}`;
+        this.selected.set(id, { id: id, key: key, value: val });
+      }
+    }
+  };
 
   questions = [
     {
       id: "pricing",
       title: "What's your price range?",
-      info:
-        "Select the price ranges you are interested in, this will help us filter the app and send you savings based on your selection",
+      info: "Select all that apply.",
       data: [
         {
-          id: 21,
-          label: "Smart Shopper",
+          id: "pricing-low",
+          label: "Smart Shopper (~$50)",
           key: "pricing",
           value: "low",
           desc:
-            "You're a smart shopper. You usually spend less than $50 on most of your purchases.",
-          imageUrl:
-            "https://cdn.shopify.com/s/files/1/0052/8731/3526/files/smart.jpeg?1796429249853876044"
+            "You're a smart shopper. You usually spend less than $50 on most of your purchases."
         },
         {
-          id: 22,
-          label: "Quality Hunter",
+          id: "pricing-medium",
+          label: "Quality Hunter ($50-200)",
           key: "pricing",
           value: "medium",
           desc:
-            "You like to showcase your sense of style, and not afraid to spend a little more. Usually your purchases are between $50-$200.",
-          imageUrl:
-            "https://cdn.shopify.com/s/files/1/0052/8731/3526/files/medium.jpeg?1796429249853876044"
+            "You like to showcase your sense of style, and not afraid to spend a little more. Usually your purchases are between $50-$200."
         },
         {
-          id: 23,
-          label: "Luxury Lover",
+          id: "pricing-high",
+          label: "Luxury Lover ($200+)",
           key: "pricing",
           value: "high",
           desc:
-            "You love everything luxury and big name brands. Usually you spend more than $200.",
-          imageUrl:
-            "https://cdn.shopify.com/s/files/1/0052/8731/3526/files/luxury.jpeg?1796429249853876044"
+            "You love everything luxury and big name brands. Usually you spend more than $200."
         }
       ]
     },
     {
       id: "gender",
       title: "Which is your preferred category?",
-      info:
-        "Select a category you are most interested in, this will help us filter the app based on your selection",
+      info: "Select all that apply.",
       data: [
         {
-          id: 20000,
+          id: "gender-woman",
           key: "gender",
           value: "woman",
           label: "Women",
@@ -136,7 +89,7 @@ export default class Store {
             "https://cdn.shopify.com/s/files/1/0052/8731/3526/files/Women_Fashion.jpg?2201626930138486138"
         },
         {
-          id: 10000,
+          id: "gender-man",
           key: "gender",
           value: "man",
           label: "Men",
@@ -148,47 +101,40 @@ export default class Store {
     {
       id: "style",
       title: "Which of these styles best describe you?",
-      info:
-        "Select the styles you are interested in, this will help us filter the app and send you savings based on your selection",
-      fetchPath: "/categories/styles"
+      info: "Select all that apply."
     },
     {
       id: "sort",
       title: "How would you like to prioritize your feed?",
-      info:
-        "Select what products you like to see first, this will help us filter the app and send you savings based on your selection",
+      info: "Select all that apply.",
       data: [
         {
-          id: 30000,
+          id: "sort-newest",
           key: "sort",
           value: "newest",
           label: "Newest Products",
-          desc: "Always show me the newest products first.",
-          backgroundColor: Colours.FirstGradient
+          desc: "Always show me the newest products first."
         },
         {
-          id: 40000,
+          id: "sort-trending",
           key: "sort",
           value: "trending",
           label: "Trending Products",
-          desc: "Always show me what's most trending first.",
-          backgroundColor: Colours.Accented
+          desc: "Always show me what's most trending first."
         },
         {
-          id: 50000,
+          id: "sort-bestselling",
           key: "sort",
           value: "bestselling",
           label: "Best Selling",
-          desc: "Show me what's selling the best first.",
-          backgroundColor: Colours.Secondary
+          desc: "Show me what's selling the best first."
         },
         {
-          id: 60000,
+          id: "sort-bestdeal",
           key: "sort",
           value: "bestdeal",
           label: "Best Deals",
-          desc: "Show me the best deals first.",
-          backgroundColor: Colours.Positive
+          desc: "Show me the best deals first."
         }
       ]
     },
@@ -219,14 +165,47 @@ export default class Store {
     return osParams;
   }
 
+  @computed
+  get canFinish() {
+    return (
+      this.hasPromptedNotf
+      && this.selectedToParams.pricing
+      && this.selectedToParams.gender
+      && this.selectedToParams.style
+      && this.selectedToParams.sort
+    );
+  }
+
+  fetchStyleReaction = reaction(
+    () => this.selectedToParams,
+    params => {
+      if ("pricing" in params && "gender" in params) {
+        this.fetchStyles();
+      }
+    },
+    {
+      fireImmediately: false,
+      delay: 250,
+      equals: (from, to) => {
+        return (
+          isEqual(from.pricing, to.pricing) && isEqual(from.gender, to.gender)
+        );
+      }
+    }
+  );
+
   @action
-  fetchStyles = async path => {
+  fetchStyles = async () => {
     this.styles.clear();
-    const resolved = await ApiInstance.post(path, this.selectedToParams);
+    const resolved = await ApiInstance.post(
+      "/categories/styles",
+      this.selectedToParams
+    );
     runInAction("[ACTION] fetch styles", () => {
       if (!resolved.error) {
         this.styles = resolved.data.map(s => ({
           ...s,
+          id: `style-${s.value}`,
           key: "style"
         }));
       }

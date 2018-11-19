@@ -27,7 +27,8 @@ class Selected extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      scale: new Animated.Value(0.91)
+      scale: new Animated.Value(0.91),
+      selected: props.selected
     };
   }
 
@@ -44,7 +45,7 @@ class Selected extends React.Component {
       <Animated.View style={[{ transform: [{ scale: this.state.scale }] }]}>
         <EntypoIcon
           color={Colours.Foreground}
-          name="check"
+          name={this.state.selected ? "check" : "circle"}
           size={Sizes.SocialButton}/>
       </Animated.View>
     );
@@ -81,8 +82,7 @@ export default class Button extends React.Component {
       styles.background,
       {
         width: componentWidth,
-        height: HEIGHT,
-        backgroundColor: this.props.backgroundColor
+        height: HEIGHT
       }
     ];
 
@@ -107,7 +107,11 @@ export default class Button extends React.Component {
                 ? { backgroundColor: "rgba(0, 0, 0, 0.8)" }
                 : {}
             ]}>
-            {this.state.selected ? <Selected /> : null}
+            <View style={{ padding: Sizes.InnerFrame / 2 }}>
+              <Selected
+                key={`selected-${this.state.selected}`}
+                selected={this.state.selected}/>
+            </View>
           </View>
           <View style={textStyle}>
             <Text style={styles.label}>{capitalize(this.props.label)}</Text>

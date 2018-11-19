@@ -1,6 +1,5 @@
 import React from "react";
 import { Animated, View, Text, StyleSheet } from "react-native";
-import { observer, inject } from "mobx-react/native";
 import * as Animatable from "react-native-animatable";
 
 import Entypo from "react-native-vector-icons/Entypo";
@@ -12,10 +11,6 @@ import { Colours, Sizes, Styles } from "~/src/constants";
 // it relies on onLayout to do some state calculation)
 const SlidePaddingTop = Sizes.ScreenTop + Sizes.OuterFrame * 3;
 
-@inject(stores => ({
-  onboardingStore: stores.onboardingStore
-}))
-@observer
 export default class Slide extends React.Component {
   render() {
     const Icon = this.props.iconTyle == "MaterialIcons" ? Material : Entypo;
