@@ -85,8 +85,6 @@ export class AddedSummary extends React.Component {
   constructor(props) {
     super(props);
 
-    this.errorMessage = "Failed to Add to Cart";
-
     this.state = {
       isAdding: false,
       isAdded: false,
@@ -128,23 +126,22 @@ export class AddedSummary extends React.Component {
         variantId: this.props.selectedVariant.id
       }));
 
+    let errorMessage;
+
+    if (response.error === "Already exists!") {
+      errorMessage = "Already added to cart!";
+    } else {
+      errorMessage = response.error;
+    }
+
     this.setState({ isAdding: true }, () => {
-      if (!response.error) {
-        setTimeout(() => {
-          this.setState({ isAdding: false, isAdded: true }, () => {});
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          this.errorMessage = response.error;
-          this.setState(
-            {
-              isAdding: false,
-              addingError: true
-            },
-            () => {}
-          );
-        }, 1000);
-      }
+      setTimeout(() => {
+        this.setState({
+          isAdding: false,
+          isAdded: !response.error,
+          addingError: errorMessage
+        });
+      }, 1000);
     });
   }
 
@@ -272,7 +269,7 @@ export class AddedSummary extends React.Component {
                                     style={styles.addButtonIcon}/>
                                 </View>
                                 <Text style={styles.addButtonLabel}>
-                                  {this.errorMessage}
+                                  {this.state.addingError}
                                 </Text>
                               </View>
                             ) : (
