@@ -31,14 +31,6 @@ export default class User {
   }
 
   @computed
-  get shouldPersonalizeRightAway() {
-    // if the user id is even and
-    // was created in the last 5 min.
-    // onboard them right away
-    return this.shouldPersonalize && this.autoOnboard;
-  }
-
-  @computed
   get hasSession() {
     return Boolean(this.id);
   }
