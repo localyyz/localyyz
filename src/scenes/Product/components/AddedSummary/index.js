@@ -136,11 +136,20 @@ export class AddedSummary extends React.Component {
 
     this.setState({ isAdding: true }, () => {
       setTimeout(() => {
-        this.setState({
-          isAdding: false,
-          isAdded: !response.error,
-          addingError: errorMessage
-        });
+        this.setState(
+          {
+            isAdding: false,
+            isAdded: !response.error,
+            addingError: errorMessage
+          },
+          () => {
+            if (!response.error) {
+              setTimeout(() => {
+                this.onDismiss();
+              }, 2000);
+            }
+          }
+        );
       }, 1000);
     });
   }
