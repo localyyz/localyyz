@@ -36,11 +36,7 @@ export default class Question extends React.Component {
   render() {
     // each button height is defined. figure out how many we can fit in one screen
     const slideHeight
-      = Sizes.Height
-      - (Sizes.InnerFrame
-        + Sizes.OuterFrame
-        + Sizes.ScreenTop
-        + Sizes.ScreenBottom);
+      = Sizes.Height - (Sizes.OuterFrame + Sizes.ScreenTop + Sizes.ScreenBottom);
     const itemPerHeight = Math.floor(slideHeight / BUTTON_HEIGHT);
     // math ceil the pagination multiple
     const pageMult = Math.ceil(this.props.data.length / itemPerHeight) || 1;

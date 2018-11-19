@@ -157,7 +157,7 @@ export default class Outro extends React.Component {
             activeOpacity={0.9}
             onPress={() => {
               this.setState({ hasPrompted: true }, () => {
-                this.store.canFinish = true;
+                this.store.hasPromptedNotf = true;
               });
             }}>
             <View>
