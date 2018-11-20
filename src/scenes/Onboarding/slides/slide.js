@@ -1,6 +1,5 @@
 import React from "react";
 import { Animated, View, Text, StyleSheet } from "react-native";
-import * as Animatable from "react-native-animatable";
 
 import Entypo from "react-native-vector-icons/Entypo";
 import Material from "react-native-vector-icons/MaterialIcons";
@@ -27,20 +26,10 @@ export default class Slide extends React.Component {
             height: Sizes.Width / 2,
             minHeight: Sizes.Width / 2
           }}>
-          {this.props.imageSrc ? (
-            <Animatable.Image
-              animation={this.props.active ? "zoomIn" : ""}
-              source={{ uri: this.props.imageSrc }}
-              style={{
-                width: Sizes.Width / 2,
-                height: Sizes.Width / 2
-              }}/>
-          ) : (
-            <Icon
-              color={Colours.Foreground}
-              size={Sizes.SquareButton}
-              name={this.props.iconSrc}/>
-          )}
+          <Icon
+            color={Colours.Foreground}
+            size={Sizes.SquareButton}
+            name={this.props.iconSrc}/>
         </View>
         <View
           style={{
@@ -52,7 +41,7 @@ export default class Slide extends React.Component {
           <View
             style={{
               minHeight: Sizes.Height / 5,
-              paddingTop: Sizes.InnerFrame / 2
+              paddingTop: Sizes.InnerFrame
             }}>
             <Text style={styles.subtitle}>{this.props.line3}</Text>
           </View>
@@ -86,7 +75,6 @@ const styles = StyleSheet.create({
     ...Styles.Subtitle,
     fontSize: Sizes.SmallText,
     textAlign: "center",
-    lineHeight: Sizes.LineHeightOneHalf,
     color: Colours.Foreground
   }
 });

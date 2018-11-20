@@ -90,7 +90,7 @@ export default class PersonalizeScene extends React.Component {
             {slides}
           </ScrollView>
 
-          <View style={styles.button}>
+          <View style={styles.button} pointerEvents="box-none">
             {this.store.canFinish ? (
               <View style={styles.inner}>
                 <TouchableOpacity onPress={this.onFinish}>
@@ -105,6 +105,7 @@ export default class PersonalizeScene extends React.Component {
                   animation="bounce"
                   iterationCount="infinite"
                   duration={2500}
+                  pointerEvents="none"
                   style={{ alignItems: "center" }}>
                   <EntypoIcon
                     name="chevron-thin-down"

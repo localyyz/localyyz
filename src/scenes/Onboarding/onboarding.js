@@ -127,6 +127,7 @@ export default class OnboardingScene extends React.Component {
           showsPagination={true}
           activeDotColor={Colours.Foreground}
           scrollEventThrottle={16}
+          autoplayTimeout={3.5}
           onMomentumScrollEnd={this.onMomentumScrollEnd}>
           {slides}
         </Swiper>
