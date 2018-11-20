@@ -160,6 +160,12 @@ export default class Product {
       : 0;
   }
 
+  get valueOff() {
+    return this.previousPrice > 0
+      ? (this.previousPrice - this.price).toFixed(0)
+      : 0;
+  }
+
   get shippingPolicy() {
     return this.place.shippingPolicy
       && this.place.shippingPolicy.desc.length > 0
@@ -235,6 +241,12 @@ export default class Product {
     return this.sizes.filter(
       size => _associatedSizes.findIndex(_s => _s === size) >= 0
     );
+  }
+
+  get isOneSize() {
+    let _allSizes = this.variants.map(variant => variant.etc.size);
+
+    return _allSizes.length <= 1;
   }
 
   // photos associated with this color

@@ -10,52 +10,65 @@ import { Colours, Sizes, Styles } from "~/src/constants";
 @observer
 export default class ActionButton extends React.Component {
   render() {
-    const shouldFinish
-      = this.props.store.slideIndex === this.props.store.questions.length - 1;
-    const onNext = shouldFinish ? this.props.onFinish : this.props.onNext;
-
-    let hasCurrentAnswer;
-    // edge case because first slide index is an intro
-    if (this.props.store.slideIndex == 0 || shouldFinish) {
-      hasCurrentAnswer = true;
-    } else {
-      //check if the (index)th question has been answered or not
-      let key = this.props.store.questions[this.props.store.slideIndex].id;
-      hasCurrentAnswer = key in this.props.store.selectedToParams;
-    }
+    const index = this.props.store.slideIndex;
+    const shouldFinish = index === this.props.store.questions.length - 1;
 
     return (
-      <View
-        style={{
-          position: "absolute",
-          bottom: Sizes.ScreenBottom ? Sizes.ScreenBottom : Sizes.InnerFrame,
-          marginHorizontal: Sizes.OuterFrame
-        }}>
-        {!shouldFinish || (shouldFinish && this.props.store.canFinish) ? (
-          <TouchableOpacity onPress={hasCurrentAnswer ? onNext : () => {}}>
-            <View style={hasCurrentAnswer ? styles.actionButton : {}}>
-              <Text
-                style={[
-                  Styles.RoundedButtonText,
-                  hasCurrentAnswer ? {} : { color: Colours.Tint }
-                ]}>
-                {shouldFinish ? "Finish" : hasCurrentAnswer ? "Next" : null}
+      <View style={styles.container}>
+        <View style={styles.inner}>
+          {shouldFinish && this.props.store.canFinish ? (
+            <TouchableOpacity onPress={this.props.onFinish}>
+              <View style={styles.actionButton}>
+                <Text style={Styles.RoundedButtonText}>Finish</Text>
+              </View>
+            </TouchableOpacity>
+          ) : null}
+
+          {index === 0 ? (
+            <TouchableOpacity onPress={this.props.onExit}>
+              <Text style={styles.skip}>
+                Can't wait to start exploring? Skip for now.
               </Text>
-            </View>
-          </TouchableOpacity>
-        ) : null}
+            </TouchableOpacity>
+          ) : this.props.store.slideSkippable ? (
+            <TouchableOpacity onPress={this.props.onSkip}>
+              <Text style={styles.skip}>Skip to the questions.</Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: Sizes.Height / 8,
+    marginHorizontal: Sizes.OuterFrame,
+    justifyContent: "center"
+  },
+
+  inner: {
+    flex: 1
+  },
+
   actionButton: {
+    ...Styles.RoundedButton,
     width: Sizes.Width - 2 * Sizes.OuterFrame,
-    borderRadius: Sizes.OuterFrame / 2,
-    backgroundColor: Colours.PositiveButton,
     alignItems: "center",
     paddingTop: Sizes.InnerFrame,
     paddingBottom: Sizes.InnerFrame
+  },
+
+  skip: {
+    ...Styles.SmallText,
+    ...Styles.Subtitle,
+    textAlign: "center",
+    paddingTop: Sizes.InnerFrame / 2,
+    color: Colours.Foreground
   }
 });

@@ -1,67 +1,87 @@
 // third party
-import { observable, computed, action, runInAction } from "mobx";
-import { Colours } from "~/src/constants";
+import { observable, computed, action, reaction, runInAction } from "mobx";
+import { Animated } from "react-native";
+import isEqual from "lodash.isequal";
 
 // custom
 import { box } from "~/src/helpers";
 import { OS, GA, ApiInstance } from "~/src/global";
-import { userStore, Merchant } from "~/src/stores";
+import { userStore } from "~/src/stores";
 
 export default class Store {
   @observable selected = observable.map({});
-  @observable merchants = [];
   @observable isLoading = false;
-  @observable slideIndex = 0;
+  @box slideIndex = 0;
+
+  // sync up swipers scroll animation
+  @box scrollAnimate = new Animated.Value(0);
+  @observable scrollDir = "";
 
   // can finish is controlled by the "outro"
   // check the component for details
   // => this shows/hides the action button
-  @box canFinish = false;
+  @box hasPromptedNotf = false;
+
+  // fetched for styles questions slide
+  @observable styles = [];
+
+  constructor() {
+    if (userStore.prf) {
+      this.initializePrf(userStore.prf);
+    }
+  }
+
+  @action
+  initializePrf = prfs => {
+    for (let key in prfs) {
+      let answers = prfs[key];
+
+      for (let val of answers.slice()) {
+        const id = `${key}-${val}`;
+        this.selected.set(id, { id: id, key: key, value: val });
+      }
+    }
+  };
 
   questions = [
-    { id: "intro" },
     {
       id: "pricing",
-      label: "What kind of shopper are you?",
+      title: "What's your price range?",
+      info: "Select all that apply.",
       data: [
         {
-          id: 21,
-          label: "Smart Shopper",
+          id: "pricing-low",
+          label: "Smart Shopper (~$50)",
           key: "pricing",
           value: "low",
           desc:
-            "You're a smart shopper. You usually spend less than $50 on most of your purchases.",
-          imageUrl:
-            "https://cdn.shopify.com/s/files/1/0052/8731/3526/files/smart.jpeg?1796429249853876044"
+            "You're a smart shopper. You usually spend less than $50 on most of your purchases."
         },
         {
-          id: 22,
-          label: "Quality Hunter",
+          id: "pricing-medium",
+          label: "Quality Hunter ($50-200)",
           key: "pricing",
           value: "medium",
           desc:
-            "You like to showcase your sense of style, and not afraid to spend a little more. Usually your purchases are between $50-$200.",
-          imageUrl:
-            "https://cdn.shopify.com/s/files/1/0052/8731/3526/files/medium.jpeg?1796429249853876044"
+            "You like to showcase your sense of style, and not afraid to spend a little more. Usually your purchases are between $50-$200."
         },
         {
-          id: 23,
-          label: "Luxury Lover",
+          id: "pricing-high",
+          label: "Luxury Lover ($200+)",
           key: "pricing",
           value: "high",
           desc:
-            "You love everything luxury and big name brands. Usually you spend more than $200.",
-          imageUrl:
-            "https://cdn.shopify.com/s/files/1/0052/8731/3526/files/luxury.jpeg?1796429249853876044"
+            "You love everything luxury and big name brands. Usually you spend more than $200."
         }
       ]
     },
     {
       id: "gender",
-      label: "Which category would you like to see more of?",
+      title: "Which is your preferred category?",
+      info: "Select all that apply.",
       data: [
         {
-          id: 20000,
+          id: "gender-woman",
           key: "gender",
           value: "woman",
           label: "Women",
@@ -69,7 +89,7 @@ export default class Store {
             "https://cdn.shopify.com/s/files/1/0052/8731/3526/files/Women_Fashion.jpg?2201626930138486138"
         },
         {
-          id: 10000,
+          id: "gender-man",
           key: "gender",
           value: "man",
           label: "Men",
@@ -80,53 +100,46 @@ export default class Store {
     },
     {
       id: "style",
-      label: "Which of these styles best describe you?",
-      fetchPath: "/categories/styles"
+      title: "Which of these styles best describe you?",
+      info: "Select all that apply."
     },
     {
       id: "sort",
-      label: "How would you like to prioritize your feed?",
+      title: "How would you like to prioritize your feed?",
+      info: "Select all that apply.",
       data: [
         {
-          id: 30000,
+          id: "sort-newest",
           key: "sort",
           value: "newest",
           label: "Newest Products",
-          desc: "Always show me the newest products first.",
-          backgroundColor: Colours.FirstGradient
+          desc: "Always show me the newest products first."
         },
         {
-          id: 40000,
+          id: "sort-trending",
           key: "sort",
           value: "trending",
           label: "Trending Products",
-          desc: "Always show me what's most trending first.",
-          backgroundColor: Colours.Accented
+          desc: "Always show me what's most trending first."
         },
         {
-          id: 50000,
+          id: "sort-bestselling",
           key: "sort",
           value: "bestselling",
           label: "Best Selling",
-          desc: "Show me what's selling the best first.",
-          backgroundColor: Colours.Secondary
+          desc: "Show me what's selling the best first."
         },
         {
-          id: 60000,
+          id: "sort-bestdeal",
           key: "sort",
           value: "bestdeal",
           label: "Best Deals",
-          desc: "Show me the best deals first.",
-          backgroundColor: Colours.Positive
+          desc: "Show me the best deals first."
         }
       ]
     },
-    { id: "outro" }
+    { id: "outro", title: "Almost done!" }
   ];
-
-  get favouriteCount() {
-    return this.merchants.slice().filter(m => m.isFavourite).length;
-  }
 
   @computed
   get selectedToParams() {
@@ -140,8 +153,7 @@ export default class Store {
   @computed
   get selectedToParamsOS() {
     let osParams = {};
-    let params = this.selectedToParams;
-    // iterate over param keys: { "style": [...] } => ["style", "pricing"]
+    let params = this.selectedToParams; // iterate over param keys: { "style": [...] } => ["style", "pricing"]
     for (let key of Object.keys(params)) {
       // iterate over param values: [ "artsy", "casual", ...]
       for (let vIndex in params[key]) {
@@ -153,66 +165,51 @@ export default class Store {
     return osParams;
   }
 
-  @action
-  addToSlideIndex = i => {
-    this.slideIndex = this.slideIndex + i;
-    if (i > 0 && this.slideIndex) {
-      GA.trackEvent(
-        "personalize",
-        "start",
-        this.questions[this.slideIndex].id,
-        0
-      );
-    }
-  };
-
-  get selectedToQuery() {
-    const params = this.selectedToParams;
-    return `filter=gender,val=${params.gender}`;
+  @computed
+  get canFinish() {
+    return (
+      this.hasPromptedNotf
+      && this.selectedToParams.pricing
+      && this.selectedToParams.gender
+      && this.selectedToParams.style
+      && this.selectedToParams.sort
+    );
   }
 
-  @action
-  toggleLoading = state => {
-    this.isLoading = state;
-  };
-
-  @action
-  fetchMerchants = () => {
-    this.next = null;
-    this.self = null;
-    this.merchants.clear();
-    return this.fetchNextPage();
-  };
-
-  fetchQuestionData = async path => {
-    const resolved = await ApiInstance.post(path, this.selectedToParams);
-    if (!resolved.error) {
-      return Promise.resolve({ styles: resolved.data });
+  fetchStyleReaction = reaction(
+    () => this.selectedToParams,
+    params => {
+      if ("pricing" in params && "gender" in params) {
+        this.fetchStyles();
+      }
+    },
+    {
+      fireImmediately: false,
+      delay: 250,
+      equals: (from, to) => {
+        return (
+          isEqual(from.pricing, to.pricing) && isEqual(from.gender, to.gender)
+        );
+      }
     }
-    return Promise.resolve({ error: resolved.error });
-  };
+  );
 
   @action
-  fetchNextPage = async () => {
-    if (this.isLoading || (this.self && !this.next)) {
-      // end of page!
-      return;
-    }
-    this.toggleLoading(true);
-    const path = this.next ? this.next.url : "categories/merchants";
-    const resolved = await ApiInstance.post(path, this.selectedToParams, {
-      limit: 5
+  fetchStyles = async () => {
+    this.styles.clear();
+    const resolved = await ApiInstance.post(
+      "/categories/styles",
+      this.selectedToParams
+    );
+    runInAction("[ACTION] fetch styles", () => {
+      if (!resolved.error) {
+        this.styles = resolved.data.map(s => ({
+          ...s,
+          id: `style-${s.value}`,
+          key: "style"
+        }));
+      }
     });
-    if (!resolved.error) {
-      // eslint-disable-next-line
-      this.next = resolved.link && resolved.link.next;
-      this.self = resolved.link && resolved.link.self;
-      runInAction("merchant", () => {
-        resolved.data.forEach(m => this.merchants.push(new Merchant(m)));
-      });
-    }
-    this.toggleLoading(false);
-    return Promise.resolve({ error: resolved.error });
   };
 
   @action

@@ -184,7 +184,7 @@ export default class LoginStore {
         break;
     }
 
-    return this._wasLoginSuccessful;
+    return new Promise.resolve({ sucesss: this._wasLoginSuccessful });
   };
 
   handleErr(err) {

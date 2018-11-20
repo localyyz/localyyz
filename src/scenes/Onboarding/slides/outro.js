@@ -8,18 +8,9 @@ import {
   Linking
 } from "react-native";
 import { observer, inject } from "mobx-react/native";
-import { BlurView } from "react-native-blur";
-import * as Animatable from "react-native-animatable";
 
-import { Placeholder as ProductTilePlaceholder } from "~/src/components/ProductTileV2";
-import { BadgeType } from "~/src/components/ProductTileV2/Badge";
 import { Colours, Sizes, Styles } from "~/src/constants";
 import { OS } from "~/src/global";
-
-// there is an issue with safe area view with react navigation modal
-// and for some reason adding top level padding breaks swiper (probably because
-// it relies on onLayout to do some state calculation)
-const SlidePaddingTop = Sizes.ScreenTop + Sizes.OuterFrame * 3;
 
 @inject(stores => ({
   onboardingStore: stores.onboardingStore
@@ -74,7 +65,7 @@ export default class Outro extends React.Component {
       });
       if (state.hasPrompted) {
         // if has prompted, we can finish
-        this.store.canFinish = true;
+        this.store.hasPromptedNotf = true;
       }
     };
 
@@ -88,7 +79,7 @@ export default class Outro extends React.Component {
         { isPrompting: false, hasPrompted: true, notificationsEnabled: state },
         () => {
           // whatever the result, we can finish
-          this.store.canFinish = true;
+          this.store.hasPromptedNotf = true;
         }
       );
     };
@@ -108,24 +99,19 @@ export default class Outro extends React.Component {
   render() {
     let messaging = "the best deals";
     let sortedBy = this.store.selectedToParams.sort;
-    let badgeType = BadgeType.Deal;
     if (sortedBy && sortedBy.length) {
       switch (sortedBy[0]) {
         case "newest":
           messaging = "the newest fashion";
-          badgeType = BadgeType.New;
           break;
         case "trending":
           messaging = "what's trending";
-          badgeType = BadgeType.Trend;
           break;
         case "bestselling":
           messaging = "the best selling items";
-          badgeType = BadgeType.BestSell;
           break;
         case "bestdeal":
           messaging = "the best deals";
-          badgeType = BadgeType.Deal;
           break;
       }
     }
@@ -138,33 +124,6 @@ export default class Outro extends React.Component {
           <Text style={{ fontWeight: "bold" }}>{messaging}</Text> curated just
           for you?
         </Text>
-        <Animatable.View
-          animation={
-            this.store.slideIndex === this.store.questions.length - 1
-              ? "zoomIn"
-              : ""
-          }
-          style={styles.placeholder}>
-          <View
-            style={{
-              width: Sizes.Width / 2,
-              height: Sizes.Width / 2,
-              top: Sizes.OuterFrame * 2,
-              left: -Sizes.OuterFrame * 2,
-              position: "absolute",
-              backgroundColor: Colours.BackgroundAccent
-            }}/>
-          <View
-            style={{
-              width: Sizes.Width / 2,
-              height: Sizes.Width / 2,
-              bottom: Sizes.OuterFrame * 2,
-              right: -Sizes.OuterFrame * 2,
-              position: "absolute",
-              backgroundColor: Colours.BackgroundAccent
-            }}/>
-          <ProductTilePlaceholder scale={0.9} badgeType={badgeType} />
-        </Animatable.View>
         {!this.state.hasPrompted ? (
           <Text
             style={[
@@ -198,22 +157,19 @@ export default class Outro extends React.Component {
             activeOpacity={0.9}
             onPress={() => {
               this.setState({ hasPrompted: true }, () => {
-                this.store.canFinish = true;
+                this.store.hasPromptedNotf = true;
               });
             }}>
             <View>
-              <Text style={{ fontSize: Sizes.SmallText }}>
+              <Text
+                style={{
+                  fontSize: Sizes.SmallText,
+                  color: Colours.Foreground
+                }}>
                 No, I like missing out 😉
               </Text>
             </View>
           </TouchableOpacity>
-        ) : null}
-
-        {this.state.isPrompting ? (
-          <BlurView
-            style={styles.blurOverlay}
-            blurType="light"
-            blurAmount={20}/>
         ) : null}
       </View>
     );
@@ -222,31 +178,24 @@ export default class Outro extends React.Component {
 
 const styles = StyleSheet.create({
   outro: {
-    paddingTop: SlidePaddingTop,
-    paddingBottom: Sizes.InnerFrame,
+    paddingBottom: Sizes.Height / 4,
     paddingHorizontal: Sizes.OuterFrame,
     justifyContent: "center",
     alignItems: "center",
-    minHeight: Sizes.InnerFrame * 3,
+    minHeight: Sizes.Height,
     backgroundColor: Colours.Transparent
-  },
-
-  blurOverlay: {
-    ...Styles.Overlay
-  },
-
-  placeholder: {
-    paddingVertical: Sizes.OuterFrame
   },
 
   h1: {
     ...Styles.Text,
     ...Styles.EmphasizedText,
     ...Styles.Title,
-    paddingBottom: Sizes.InnerFrame
+    paddingBottom: Sizes.InnerFrame,
+    color: Colours.Foreground
   },
 
   subtitle: {
-    ...Styles.Text
+    ...Styles.Text,
+    color: Colours.Foreground
   }
 });

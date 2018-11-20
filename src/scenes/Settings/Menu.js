@@ -102,7 +102,7 @@ export default class SettingsMenu extends React.Component {
               <Forms.BaseField
                 label="Personalize"
                 onPress={() => {
-                  this.props.navigation.navigate("Onboarding");
+                  this.props.navigation.navigate("Personalize");
                 }}/>
               {this.props.hasSession ? (
                 <View>

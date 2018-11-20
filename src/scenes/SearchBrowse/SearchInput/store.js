@@ -115,10 +115,14 @@ export default class Store {
 
             // NOTE/TODO: make this better
             if (this._selfSearch && this._selfSearch.page == 1) {
-              this.products = response.data.map(p => new Product(p));
+              this.products = response.data.map(
+                p => new Product({ ...p, listTitle: this.searchQuery })
+              );
             } else {
               response.data.forEach(p => {
-                this.products.push(new Product(p));
+                this.products.push(
+                  new Product({ ...p, listTitle: this.searchQuery })
+                );
               });
             }
           });

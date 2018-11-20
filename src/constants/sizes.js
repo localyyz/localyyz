@@ -33,7 +33,6 @@ export const Sizes = {
   Width: WIDTH,
   Height: HEIGHT,
   Ratio: 1 / PixelRatio.get(1),
-  Hairline: StyleSheet.hairlineWidth,
 
   // device specific
   ScreenTop: isIphoneX() ? 44 : 30,
@@ -57,14 +56,19 @@ export const Sizes = {
   H2: ResponsiveFontSize(22),
   H3: ResponsiveFontSize(21),
   Text: ResponsiveFontSize(20),
+  MediumText: ResponsiveFontSize(19),
   SmallText: ResponsiveFontSize(16),
   TinyText: ResponsiveFontSize(14),
   MiniText: ResponsiveFontSize(12),
+
+  // iOS default is probably 18
+  LineHeightOneHalf: ResponsiveFontSize(27),
 
   // weights
   Obese: "800",
   Heavy: "700",
   Bold: "bold",
+  Emphasized: "600",
   Medium: "500",
   Normal: "300",
   Light: "100",
@@ -74,13 +78,15 @@ export const Sizes = {
 
   // decor
   RoundedBorders: 5,
+  ThickBorder: ResponsiveFontSize(2),
+  Hairline: StyleSheet.hairlineWidth,
 
   // buttons
   SquareButton: 75,
   IconButton: 20,
   Avatar: 40,
   SocialButton: 30,
-  ActionButton: ResponsiveFontSize(30),
+  ActionButton: ResponsiveFontSize(28),
   NavLeft: Platform.OS == "ios" ? 18 : 36,
   Button: 44,
 

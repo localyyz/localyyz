@@ -9,10 +9,15 @@ import { box } from "localyyz/helpers";
 
 // third party
 import PropTypes from "prop-types";
-import { inject, observer, Provider } from "mobx-react/native";
+import { observer, Provider } from "mobx-react/native";
 
 // local component
-import { AddedSummary, ProductHeader, ProductShare } from "./components";
+import {
+  AddedSummary,
+  ProductHeader,
+  ProductSupport,
+  ProductShare
+} from "./components";
 import Content from "./content";
 
 // constants
@@ -141,6 +146,7 @@ class ProductScene extends React.Component {
               onScroll={this.onScroll}/>
           </ContentCoverSlider>
           <ProductShare />
+          <ProductSupport />
           <PhotoDetails
             navigation={this.props.navigation}
             ref={this.photoDetailsRef}/>

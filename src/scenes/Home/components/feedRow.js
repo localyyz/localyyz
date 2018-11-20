@@ -28,25 +28,9 @@ export class FeedRow extends React.Component {
   };
 
   onViewMore = () => {
-    let title;
-    switch (this.props.type) {
-      case "recommend":
-        title = `Latest ${capitalize(this.props.style)} ${capitalize(
-          this.props.category.label
-        )}`;
-        break;
-      case "sale":
-        title = `${capitalize(this.props.style)} ${capitalize(
-          this.props.category.label
-        )} On Sale`;
-        break;
-      default:
-        title = this.props.title;
-    }
-
     let params = {
       fetchPath: this.props.fetchPath,
-      title: title
+      title: this.props.title
     };
 
     params.filtersort = {

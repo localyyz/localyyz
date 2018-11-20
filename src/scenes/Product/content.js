@@ -18,13 +18,13 @@ import { withNavigation } from "react-navigation";
 
 // local component
 import {
-  ProductBuy,
   RelatedProducts,
   ProductDetails,
   MerchantDetails,
   Photos,
   ColourVariants,
-  DealSection
+  DealSection,
+  AddToCartButton
 } from "./components";
 
 @inject(stores => ({
@@ -32,9 +32,14 @@ import {
     stores.productStore.product && stores.productStore.product.imageUrl,
   backgroundPosition: stores.uiStore.backgroundPosition,
   product: stores.productStore.product,
+  valueOff: stores.productStore.product && stores.productStore.product.valueOff,
+  discount: stores.productStore.product && stores.productStore.product.discount,
 
   // today's deal
-  isDeal: !!stores.dealStore
+  isDeal: !!stores.dealStore,
+  selectedVariant: stores.productStore.selectedVariant,
+
+  openAddSummary: async () => stores.productStore.toggleAddedSummary(true)
 }))
 @observer
 export class Content extends React.Component {
@@ -43,7 +48,8 @@ export class Content extends React.Component {
     product: PropTypes.object.isRequired,
     onScroll: PropTypes.func.isRequired,
     onPressImage: PropTypes.func.isRequired,
-    isBrowsingDisabled: PropTypes.bool
+    isBrowsingDisabled: PropTypes.bool,
+    selectedVariant: PropTypes.object
   };
 
   static defaultProps = {
@@ -86,49 +92,53 @@ export class Content extends React.Component {
 
   render() {
     return (
-      <ScrollView
-        ref={this.contentScrollViewRef}
-        contentContainerStyle={styles.productContainer}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        onScroll={this.props.onScroll}>
-        <TouchableWithoutFeedback
-          onPress={() => this.props.onPressImage(this.props.coverImage)}>
-          <View>
-            <ReactiveSpacer
-              store={this.props}
-              heightProp="backgroundPosition"/>
-            <LinearGradient
-              colors={[Colours.Transparent, Colours.Background]}
-              style={styles.optionsContainer}>
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          ref={this.contentScrollViewRef}
+          contentContainerStyle={styles.productContainer}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          onScroll={this.props.onScroll}>
+          <TouchableWithoutFeedback
+            onPress={() => this.props.onPressImage(this.props.coverImage)}>
+            <View>
+              <ReactiveSpacer
+                store={this.props}
+                heightProp="backgroundPosition"/>
               <LinearGradient
-                colors={[
-                  Colours.Transparent,
-                  Colours.Transparent,
-                  Colours.Background
-                ]}
-                style={styles.optionsGradient}
-                start={{ y: 0, x: 1 }}
-                end={{ y: 1, x: 0 }}>
-                <ProductBuy
-                  isBrowsingDisabled={this.props.isBrowsingDisabled}/>
-                {this.props.isDeal ? (
-                  <DealSection navigation={this.props.navigation} />
-                ) : null}
+                colors={[Colours.Transparent, Colours.Background]}
+                style={styles.optionsContainer}>
+                <LinearGradient
+                  colors={[
+                    Colours.Transparent,
+                    Colours.Transparent,
+                    Colours.Background
+                  ]}
+                  style={styles.optionsGradient}
+                  start={{ y: 0, x: 1 }}
+                  end={{ y: 1, x: 0 }}>
+                  {this.props.isDeal ? (
+                    <DealSection navigation={this.props.navigation} />
+                  ) : null}
+                </LinearGradient>
               </LinearGradient>
-            </LinearGradient>
+            </View>
+          </TouchableWithoutFeedback>
+          <View style={[styles.card, styles.firstCard]}>
+            <ProductDetails />
           </View>
-        </TouchableWithoutFeedback>
-        <View style={[styles.card, styles.firstCard]}>
-          <ProductDetails />
+          <Photos onPress={this.props.onPressImage} />
+          <ColourVariants />
+          <View style={styles.card}>
+            <MerchantDetails
+              isBrowsingDisabled={this.props.isBrowsingDisabled}/>
+          </View>
+          {!this.props.isBrowsingDisabled ? <RelatedProducts /> : null}
+        </ScrollView>
+        <View style={styles.footerContainer}>
+          <AddToCartButton />
         </View>
-        <Photos onPress={this.props.onPressImage} />
-        <ColourVariants />
-        <View style={styles.card}>
-          <MerchantDetails isBrowsingDisabled={this.props.isBrowsingDisabled} />
-        </View>
-        {!this.props.isBrowsingDisabled ? <RelatedProducts /> : null}
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -143,6 +153,7 @@ const styles = StyleSheet.create({
   // content area
   card: {
     ...Styles.Card,
+    paddingTop: Sizes.InnerFrame,
     marginVertical: Sizes.InnerFrame / 8
   },
 
@@ -151,6 +162,8 @@ const styles = StyleSheet.create({
     marginBottom: Sizes.InnerFrame / 8
   },
 
-  // options
-  optionsGradient: {}
+  footerContainer: {
+    backgroundColor: Colours.Foreground,
+    width: Sizes.Width
+  }
 });

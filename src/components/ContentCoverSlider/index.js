@@ -250,7 +250,6 @@ const styles = StyleSheet.create({
 
   statusBarTitleLabel: {
     ...Styles.Text,
-    ...Styles.Terminal,
     ...Styles.Alternate
   },
 

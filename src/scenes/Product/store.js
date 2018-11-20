@@ -41,19 +41,6 @@ class ProductUIStore {
   };
 
   @action
-  fetchProduct = async productId => {
-    const response = await ApiInstance.get(`products/${productId}`);
-    if (response && response.data) {
-      runInAction("fetch product", () => {
-        this.product = new Product(response.data);
-        this.product.changeDescriptionWordsLength(40);
-        this.history.log(this.product);
-      });
-    }
-    return;
-  };
-
-  @action
   fetchRelatedProduct = async () => {
     let params = { limit: 10 };
     const response = await ApiInstance.get(

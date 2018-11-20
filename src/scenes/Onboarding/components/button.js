@@ -7,7 +7,6 @@ import {
   Animated
 } from "react-native";
 
-import PropTypes from "prop-types";
 import EntypoIcon from "react-native-vector-icons/Entypo";
 
 // custom
@@ -17,7 +16,7 @@ import { Colours, Sizes, Styles } from "~/src/constants";
 import { ProgressiveImage } from "~/src/components";
 
 // constants
-export const BUTTON_PADDING = 5;
+export const BUTTON_PADDING = Sizes.InnerFrame / 2;
 const HALF_WIDTH = Sizes.Width / 2 - BUTTON_PADDING - BUTTON_PADDING / 2;
 const HEIGHT = 2 * Sizes.Width / 5;
 const FULL_WIDTH = Sizes.Width - 2 * BUTTON_PADDING;
@@ -28,7 +27,8 @@ class Selected extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      scale: new Animated.Value(0.91)
+      scale: new Animated.Value(0.91),
+      selected: props.selected
     };
   }
 
@@ -45,7 +45,7 @@ class Selected extends React.Component {
       <Animated.View style={[{ transform: [{ scale: this.state.scale }] }]}>
         <EntypoIcon
           color={Colours.Foreground}
-          name="check"
+          name={this.state.selected ? "check" : "circle"}
           size={Sizes.SocialButton}/>
       </Animated.View>
     );
@@ -53,14 +53,6 @@ class Selected extends React.Component {
 }
 
 export default class Button extends React.Component {
-  static propTypes = {
-    fullWidth: PropTypes.bool
-  };
-
-  static defaultProps = {
-    fullWidth: false
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -76,41 +68,55 @@ export default class Button extends React.Component {
 
   render() {
     const BackgroundComponent = this.props.imageUrl ? ProgressiveImage : View;
-    const componentWidth = this.props.fullWidth ? FULL_WIDTH : HALF_WIDTH;
-    const imageStyle = StyleSheet.flatten([
+    const componentWidth = FULL_WIDTH;
+
+    const containerStyle = [
+      styles.container,
+      {
+        width: componentWidth,
+        height: HEIGHT
+      }
+    ];
+
+    const imageStyle = [
       styles.background,
       {
         width: componentWidth,
-        height: this.props.backgroundColor ? HEIGHT * 1.4 : HEIGHT,
-        backgroundColor: this.props.backgroundColor
+        height: HEIGHT
       }
-    ]);
+    ];
+
+    const textStyle = [
+      styles.textOverlay,
+      {
+        maxWidth: componentWidth
+      }
+    ];
 
     return (
       <TouchableOpacity activeOpacity={1} onPress={this.onPress}>
-        <View style={styles.container}>
+        <View style={containerStyle}>
           <BackgroundComponent
             source={{ uri: this.props.imageUrl }}
             resizeMode="cover"
-            style={imageStyle}>
-            <View
-              style={[
-                styles.overlay,
-                this.state.selected
-                  ? { backgroundColor: "rgba(0, 0, 0, 0.8)" }
-                  : {}
-              ]}>
-              {this.state.selected ? <Selected /> : null}
+            style={imageStyle}/>
+          <View
+            style={[
+              styles.overlay,
+              this.state.selected
+                ? { backgroundColor: "rgba(0, 0, 0, 0.8)" }
+                : {}
+            ]}>
+            <View style={{ padding: Sizes.InnerFrame / 2 }}>
+              <Selected
+                key={`selected-${this.state.selected}`}
+                selected={this.state.selected}/>
             </View>
-            <View style={styles.labelBackground}>
-              <Text numberOfLines={2} style={styles.label}>
-                {capitalize(this.props.label)}
-              </Text>
-              <Text numberOfLines={4} style={styles.description}>
-                {this.props.description}
-              </Text>
-            </View>
-          </BackgroundComponent>
+          </View>
+          <View style={textStyle}>
+            <Text style={styles.label}>{capitalize(this.props.label)}</Text>
+            <Text style={styles.description}>{this.props.description}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -118,21 +124,11 @@ export default class Button extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderRadius: Sizes.InnerFrame / 3,
-    overflow: "hidden"
-  },
+  container: {},
 
   overlay: {
+    ...Styles.Overlay,
     backgroundColor: "rgba(0, 0, 0, 0.45)",
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
     alignItems: "flex-end"
   },
 
@@ -147,16 +143,18 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Emphasized,
     color: "white",
-    paddingBottom: Sizes.InnerFrame
+    paddingBottom: Sizes.InnerFrame,
+    textAlign: "left"
   },
 
   description: {
     ...Styles.SmallText,
-    color: "white"
+    color: "white",
+    textAlign: "left"
   },
 
-  labelBackground: {
-    flex: 1,
+  textOverlay: {
+    ...Styles.Overlay,
     padding: Sizes.InnerFrame
   }
 });

@@ -14,8 +14,8 @@ import Feed from "./feed";
 import OnboardPrompt from "./components/onboardPrompt";
 
 @inject(stores => ({
-  shouldOnboard: stores.userStore.shouldOnboard,
-  shouldOnboardRightAway: stores.userStore.shouldOnboardRightAway,
+  shouldUserOnboard: stores.userStore.shouldOnboard,
+  shouldPersonalize: stores.userStore.shouldPersonalize,
   userId: stores.userStore.id
 }))
 @observer
@@ -29,13 +29,23 @@ export default class Home extends React.Component {
     this.store = new Store();
   }
 
+  componentDidMount() {
+    if (this.props.shouldUserOnboard) {
+      this.props.navigation.navigate("Onboard");
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.shouldUserOnboard && this.props.shouldUserOnboard) {
+      this.props.navigation.navigate("Onboard");
+    }
+  }
+
   render() {
     return (
       <Provider homeStore={this.store}>
-        {this.props.shouldOnboard ? (
-          <OnboardPrompt
-            key={this.props.userId}
-            shouldOnboardRightAway={this.props.shouldOnboardRightAway}/>
+        {this.props.shouldPersonalize ? (
+          <OnboardPrompt key={this.props.userId} />
         ) : (
           <SafeAreaView style={styles.container}>
             <Header />

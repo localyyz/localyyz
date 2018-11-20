@@ -96,6 +96,8 @@ export class MerchantDetails extends React.Component {
         content={"View Shipping Info"}
         onExpand={() => {
           this.props.navigation.navigate("Modal", {
+            type: "shipping policy",
+            title: `${this.props.placeName}`,
             component: <ShippingPolicy placeId={this.props.placeId} />
           });
         }}/>
@@ -106,6 +108,8 @@ export class MerchantDetails extends React.Component {
     const returnPolicyFn = () => {
       this.props.returnPolicy && this.props.returnPolicy.desc.length > 0
         ? this.props.navigation.navigate("Modal", {
+            type: "return policy",
+            title: `${this.props.placeName}`,
             component: (
               <ScrollView
                 contentContainerStyle={{
@@ -220,7 +224,8 @@ const styles = StyleSheet.create({
 
   title: {
     ...Styles.Text,
-    ...Styles.Emphasized
+    ...Styles.Emphasized,
+    fontSize: Sizes.SmallText
   },
 
   banner: {
@@ -234,10 +239,10 @@ const styles = StyleSheet.create({
   },
 
   bannerHeaderTitle: {
-    ...Styles.Text,
-    ...Styles.Title,
     flexWrap: "wrap",
-    marginBottom: Sizes.InnerFrame
+    marginBottom: Sizes.InnerFrame,
+    fontSize: Sizes.LargeInput,
+    fontWeight: Sizes.Bold
   },
 
   // social

@@ -29,7 +29,10 @@ let PurpleRain = "#44179E";
 let PurpleRainTransparent = "rgba(68, 23, 158, 0)";
 let BlueSteel = "#2E62F1";
 let UltraViolet = "#9013FE";
+let RoseRed = "#E35071";
+let FloridaOrange = "#FE9013"
 let CokeBottleGreen = "#50E3C2";
+let SkyBlue = "#50bbe3";
 let SterlingGrey = "#D8D8D8";
 let GhostGrey = "#FAFAFA";
 let IntoTheGrey = "#313131";
@@ -51,6 +54,7 @@ export const Colours = {
   DarkGold: DarkGold,
   SubduedForeground: Grey,
   MenuBackground: Black,
+  FooterBackground: GhostGrey,
   StatusBar: Black,
   Transparent: Transparent,
   BlackTransparent: BlackTransparent,
@@ -104,6 +108,15 @@ export const Colours = {
   Secondary: BlueSteel,
   Accented: CokeBottleGreen,
   Positive: UltraViolet,
+
+  // brand colors
+  PurpleRain: PurpleRain,
+  BlueSteel: BlueSteel,
+  UltraViolet: UltraViolet,
+  CokeBottleGreen: CokeBottleGreen,
+  RoseRed: RoseRed,
+  FloridaOrange: FloridaOrange,
+  SkyBlue: SkyBlue,
 
   // brand transparencies
   PrimaryTransparent: PurpleRainTransparent,
