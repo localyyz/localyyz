@@ -107,6 +107,13 @@ export default class PersonalizeScene extends React.Component {
                   duration={2500}
                   pointerEvents="none"
                   style={{ alignItems: "center" }}>
+                  <Text
+                    style={{
+                      fontSize: Sizes.SmallText,
+                      color: Colours.Foreground
+                    }}>
+                    Scroll
+                  </Text>
                   <EntypoIcon
                     name="chevron-thin-down"
                     color={Colours.Foreground}
