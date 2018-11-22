@@ -31,7 +31,7 @@ export default class FeaturedDeals extends React.Component {
           paddingBottom: 18 // needed for shadow
         }}>
         <View style={styles.shadow} />
-        <DealCard {...deal} cardWidth={itemWidth} />
+        <DealCard {...deal} cardWidth={slideWidth} />
       </View>
     );
   };

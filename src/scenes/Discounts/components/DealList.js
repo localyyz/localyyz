@@ -45,7 +45,7 @@ export class DealList extends React.Component {
     // ON focus, refresh deals
     this.focusListener = this.props.navigation.addListener(
       "didFocus",
-      this.refreshDeals
+      this.props.fetchFeatured
     );
     AppState.addEventListener("change", this._appStateListener);
   }

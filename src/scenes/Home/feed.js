@@ -20,7 +20,7 @@ import PulseOverlay from "./components/pulseOverlay";
 
 const SeparatorH = Sizes.OuterFrame * 2.5 + 1;
 const ProductTileH = ProductTileHeight + Sizes.InnerFrame * 4;
-const RowH = Sizes.OuterFrame * 2 + ProductTileH + SeparatorH;
+const RowH = (Sizes.OuterFrame * 2 + Sizes.InnerFrame) + ProductTileH + SeparatorH;
 const CollectionH = CollectionHeight + SeparatorH;
 
 @inject(stores => ({

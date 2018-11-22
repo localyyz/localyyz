@@ -125,7 +125,7 @@ export class DealCard extends React.Component {
   render() {
     const cardWidth = this.props.cardWidth || CardWidth;
     const collageWidth = 2 * cardWidth / 5;
-    const infoWidth = 3 * (cardWidth - Sizes.InnerFrame) / 5;
+    const infoWidth = 3 * cardWidth / 5;
 
     return (
       <TouchableOpacity activeOpacity={1} onPress={this.onPress}>
@@ -133,8 +133,13 @@ export class DealCard extends React.Component {
           <View style={[styles.image, { width: collageWidth }]}>
             {this.renderImage()}
           </View>
-          <View style={{ width: infoWidth, padding: 5 }}>
-            <View style={{ maxWidth: infoWidth }}>
+          <View
+            style={{
+              flex: 1,
+              width: infoWidth,
+              padding: 5
+            }}>
+            <View>
               <Text
                 numberOfLines={1}
                 style={[styles.text, { color: this.props.textColor }]}>

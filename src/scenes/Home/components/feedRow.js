@@ -132,36 +132,14 @@ export class FeedRow extends React.Component {
     }
 
     return (
-      <View style={{ paddingBottom: Sizes.OuterFrame }}>
+      <View style={{ paddingVertical: Sizes.OuterFrame }}>
         <View
           style={{
             paddingBottom: Sizes.InnerFrame / 4,
             paddingHorizontal: Sizes.InnerFrame
           }}>
           <Text style={styles.rowTypeText}>{typeText}</Text>
-          <View
-            style={{
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexDirection: "row"
-            }}>
-            {titleEl}
-            <MaterialIcon.Button
-              name="chevron-right"
-              style={{ paddingTop: 0, paddingBottom: 0, paddingRight: 0 }}
-              iconStyle={{ marginRight: 0 }}
-              underlayColor={Colours.Transparent}
-              backgroundColor={Colours.Transparent}
-              onPress={this.onViewMore}
-              size={Sizes.ActionButton}
-              color={Colours.EmphasizedText}
-              hitSlop={{
-                top: Sizes.OuterFrame,
-                bottom: Sizes.OuterFrame,
-                left: Sizes.OuterFrame,
-                right: Sizes.OuterFrame
-              }}/>
-          </View>
+          {titleEl}
         </View>
         <FlatList
           horizontal
@@ -174,11 +152,37 @@ export class FeedRow extends React.Component {
             <View style={{ width: Sizes.InnerFrame / 2 }} />
           )}
           onEndReached={this.fetchMore}
-          contentContainerStyle={{ padding: Sizes.InnerFrame }}
+          contentContainerStyle={{
+            paddingVertical: Sizes.InnerFrame / 2,
+            paddingHorizontal: Sizes.InnerFrame
+          }}
           directionalLockEnabled={true}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           keyExtractor={p => `p${p.id}`}/>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end"
+          }}>
+          <Text style={{ textAlign: "center" }}>View More</Text>
+          <MaterialIcon.Button
+            name="chevron-right"
+            style={{ paddingTop: 0, paddingBottom: 0, paddingRight: 0 }}
+            iconStyle={{ marginRight: 0 }}
+            underlayColor={Colours.Transparent}
+            backgroundColor={Colours.Transparent}
+            onPress={this.onViewMore}
+            size={Sizes.ActionButton}
+            color={Colours.EmphasizedText}
+            hitSlop={{
+              top: Sizes.OuterFrame,
+              bottom: Sizes.OuterFrame,
+              left: Sizes.OuterFrame,
+              right: Sizes.OuterFrame
+            }}/>
+        </View>
       </View>
     );
   }
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
   rowTitle: {
     fontSize: Sizes.Text,
     fontWeight: "bold",
-    maxWidth: 3 * Sizes.Width / 4,
+    maxWidth: Sizes.Width - Sizes.InnerFrame * 2,
     fontFamily: "Helvetica",
     color: Colours.EmphasizedText
   },
