@@ -18,9 +18,9 @@ import CollectionBanner, {
 import FeedRow from "./components/feedRow";
 import PulseOverlay from "./components/pulseOverlay";
 
-const SeparatorH = Sizes.OuterFrame * 2.5 + 1;
+const SeparatorH = Sizes.OuterFrame * 3 + Sizes.InnerFrame;
 const ProductTileH = ProductTileHeight + Sizes.InnerFrame * 4;
-const RowH = Sizes.OuterFrame * 2 + ProductTileH + SeparatorH;
+const RowH = Sizes.OuterFrame * 2 + Sizes.Width / 8 + ProductTileH + SeparatorH;
 const CollectionH = CollectionHeight + SeparatorH;
 
 @inject(stores => ({

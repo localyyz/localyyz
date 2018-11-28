@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity
+} from "react-native";
 
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
@@ -132,36 +138,14 @@ export class FeedRow extends React.Component {
     }
 
     return (
-      <View style={{ paddingBottom: Sizes.OuterFrame }}>
+      <View style={{ paddingVertical: Sizes.OuterFrame }}>
         <View
           style={{
             paddingBottom: Sizes.InnerFrame / 4,
             paddingHorizontal: Sizes.InnerFrame
           }}>
           <Text style={styles.rowTypeText}>{typeText}</Text>
-          <View
-            style={{
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexDirection: "row"
-            }}>
-            {titleEl}
-            <MaterialIcon.Button
-              name="chevron-right"
-              style={{ paddingTop: 0, paddingBottom: 0, paddingRight: 0 }}
-              iconStyle={{ marginRight: 0 }}
-              underlayColor={Colours.Transparent}
-              backgroundColor={Colours.Transparent}
-              onPress={this.onViewMore}
-              size={Sizes.ActionButton}
-              color={Colours.EmphasizedText}
-              hitSlop={{
-                top: Sizes.OuterFrame,
-                bottom: Sizes.OuterFrame,
-                left: Sizes.OuterFrame,
-                right: Sizes.OuterFrame
-              }}/>
-          </View>
+          {titleEl}
         </View>
         <FlatList
           horizontal
@@ -174,11 +158,39 @@ export class FeedRow extends React.Component {
             <View style={{ width: Sizes.InnerFrame / 2 }} />
           )}
           onEndReached={this.fetchMore}
-          contentContainerStyle={{ padding: Sizes.InnerFrame }}
+          contentContainerStyle={{
+            paddingVertical: Sizes.InnerFrame / 2,
+            paddingHorizontal: Sizes.InnerFrame
+          }}
           directionalLockEnabled={true}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           keyExtractor={p => `p${p.id}`}/>
+        <TouchableOpacity
+          activeOpactity={1}
+          onPress={this.onViewMore}
+          hitSlop={{
+            top: Sizes.OuterFrame,
+            bottom: Sizes.OuterFrame,
+            left: Sizes.OuterFrame,
+            right: Sizes.OuterFrame
+          }}
+          style={{
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+          <View style={styles.action}>
+            <Text style={styles.actionText}>View More</Text>
+            <MaterialIcon
+              name="chevron-right"
+              style={{ paddingTop: 0, paddingBottom: 0, paddingRight: 0 }}
+              iconStyle={{ marginRight: 0 }}
+              underlayColor={Colours.Transparent}
+              backgroundColor={Colours.Transparent}
+              size={Sizes.ActionButton}
+              color={Colours.Primary}/>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -201,7 +213,7 @@ const styles = StyleSheet.create({
   rowTitle: {
     fontSize: Sizes.Text,
     fontWeight: "bold",
-    maxWidth: 3 * Sizes.Width / 4,
+    maxWidth: Sizes.Width - Sizes.InnerFrame * 2,
     fontFamily: "Helvetica",
     color: Colours.EmphasizedText
   },
@@ -211,5 +223,25 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
     fontFamily: "Helvetica",
     color: Colours.SubduedText
+  },
+
+  action: {
+    ...Styles.RoundedButton,
+
+    backgroundColor: Colours.Foreground,
+    width: Sizes.Width - Sizes.OuterFrame * 4,
+    marginHorizontal: Sizes.OuterFrame * 2,
+    marginBottom: Sizes.OuterFrame * 2,
+    height: Sizes.Width / 8,
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: Colours.Primary
+  },
+
+  actionText: {
+    fontSize: Sizes.SmallText,
+    fontWeight: "500",
+    fontFamily: "Helvetica",
+    color: Colours.Primary
   }
 });
