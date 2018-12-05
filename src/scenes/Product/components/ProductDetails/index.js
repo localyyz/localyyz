@@ -18,6 +18,15 @@ import { toPriceString } from "localyyz/helpers";
   title: stores.productStore.product && stores.productStore.product.title,
   brand: stores.productStore.product && stores.productStore.product.brand,
   product: stores.productStore.product && stores.productStore.product,
+  oneSize: stores.productStore.product && stores.productStore.product.isOneSize,
+  stock:
+    stores.productStore.product && stores.productStore.product.associatedStock,
+  inStock:
+    stores.productStore.selectedVariant
+    && stores.productStore.selectedVariant.limits > 0,
+  sizes:
+    stores.productStore.product
+    && stores.productStore.product.associatedSizes.length,
   price:
     stores.productStore.product && stores.productStore.product.price.toFixed(0),
   previousPrice:
@@ -45,6 +54,32 @@ export class ProductDetails extends React.Component {
     description: "",
     isSizeChartSupported: false
   };
+
+  get stockMessage() {
+    return (
+      <View
+        style={{
+          paddingTop: Sizes.InnerFrame / 2,
+          flexDirection: "row"
+        }}>
+        <Text style={styles.lowStock}>
+          {`Only ${this.props.stock} available`}
+        </Text>
+        {!this.props.oneSize ? (
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.lowStock}>{`in ${this.props.sizes}`}</Text>
+            {this.props.sizes === 1 ? (
+              <Text style={styles.lowStock}>{" size!"}</Text>
+            ) : (
+              <Text style={styles.lowStock}>{" sizes!"}</Text>
+            )}
+          </View>
+        ) : (
+          <Text style={styles.lowStock}>!</Text>
+        )}
+      </View>
+    );
+  }
 
   get expandedDescriptionComponent() {
     return (
@@ -89,6 +124,7 @@ export class ProductDetails extends React.Component {
             </View>
           </View>
         </View>
+        {this.props.stock < 10 && this.props.inStock ? this.stockMessage : null}
         <ExpandableSection
           title="Details"
           content={this.props.description}
@@ -152,5 +188,9 @@ const styles = StyleSheet.create({
   dealTextValue: {
     fontSize: Sizes.SmallText,
     fontWeight: Sizes.Bold
+  },
+
+  lowStock: {
+    color: Colours.RoseRed
   }
 });

@@ -243,8 +243,18 @@ export default class Product {
     );
   }
 
+  get associatedStock() {
+    let _associatedStock = this.associatedVariants.map(
+      variant => variant.limits
+    );
+
+    const stockSum = stock => stock.reduce((a, b) => a + b, 0);
+
+    return stockSum(_associatedStock);
+  }
+
   get isOneSize() {
-    let _allSizes = this.variants.map(variant => variant.etc.size);
+    let _allSizes = this.associatedVariants.map(variant => variant.etc.size);
 
     return _allSizes.length <= 1;
   }
