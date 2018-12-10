@@ -52,7 +52,8 @@ export default class Product {
   @observable views = 0;
   @observable purchased = 0;
 
-  @observable freeShipping = {};
+  @observable hasFreeShipping;
+  @observable hasFreeReturn;
 
   // extra non observables
   place = {};

@@ -98,6 +98,7 @@ export const Sizes = {
   BadgeMarginTop: ResponsiveFontSize(7),
   BadgeMarginRight: -ResponsiveFontSize(6),
   BadgeText: ResponsiveFontSize(13),
+  BadgeIcon: ResponsiveFontSize(30),
 
   // spacer
   Spacer: 1 / PixelRatio.get(),

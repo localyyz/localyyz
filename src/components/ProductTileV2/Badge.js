@@ -8,7 +8,6 @@ import { observer } from "mobx-react/native";
 
 // custom
 import { Sizes, Styles, Colours } from "~/src/constants";
-import { ResponsiveFontSize } from "../../constants/sizes";
 
 export const BadgeType = {
   Deal: 1,
