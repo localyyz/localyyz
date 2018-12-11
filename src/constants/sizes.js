@@ -95,8 +95,9 @@ export const Sizes = {
   TabBarText: 10,
 
   // badge
-  BadgeMarginTop: ResponsiveFontSize(10),
+  BadgeMarginTop: ResponsiveFontSize(7),
   BadgeMarginRight: -ResponsiveFontSize(6),
+  BadgeText: ResponsiveFontSize(13),
 
   // spacer
   Spacer: 1 / PixelRatio.get(),

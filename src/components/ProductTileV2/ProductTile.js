@@ -71,20 +71,22 @@ export class ProductTileV2 extends React.Component {
               <Favourite product={this.props.product} />
             </View>
           </View>
-          {this.props.product.discount > 0.1 ? (
-            <View
-              style={[
-                styles.badge,
-                {
-                  top: Sizes.BadgeMarginTop,
-                  right: Sizes.BadgeMarginRight
-                }
-              ]}>
+          <View
+            style={[
+              styles.badge,
+              {
+                top: Sizes.BadgeMarginTop,
+                right: Sizes.BadgeMarginRight
+              }
+            ]}>
+            {this.props.product.discount > 0.1 ? (
               <Badge
                 badgeColor={Colours.Accented}
                 text={`${(this.props.product.discount * 100).toFixed(0)}% Off`}/>
-            </View>
-          ) : null}
+            ) : this.props.product.associatedStock < 10 ? (
+              <Badge badgeColor={Colours.RoseRed} text={"Low Stock!"} />
+            ) : null}
+          </View>
         </View>
       </TouchableWithoutFeedback>
     );
