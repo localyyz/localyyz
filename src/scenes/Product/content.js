@@ -24,7 +24,8 @@ import {
   Photos,
   ColourVariants,
   DealSection,
-  AddToCartButton
+  AddToCartButton,
+  ProductBadges
 } from "./components";
 
 @inject(stores => ({
@@ -129,6 +130,9 @@ export class Content extends React.Component {
           </View>
           <Photos onPress={this.props.onPressImage} />
           <ColourVariants />
+          <View>
+            <ProductBadges />
+          </View>
           <View style={styles.card}>
             <MerchantDetails
               isBrowsingDisabled={this.props.isBrowsingDisabled}/>
