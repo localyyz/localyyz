@@ -30,23 +30,7 @@ export class Index extends React.Component {
 
   render() {
     return (
-      <View
-        style={{
-          backgroundColor: Colours.Foreground,
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          paddingVertical: Sizes.InnerFrame / 2,
-          paddingHorizontal: Sizes.InnerFrame / 2
-        }}>
-        {this.isOnSale ? (
-          <View>
-            <Badge
-              name={"money-off"}
-              size={Sizes.BadgeIcon}
-              color={Colours.Foreground}
-              label={"On Sale"}/>
-          </View>
-        ) : null}
+      <View style={styles.iconContainer}>
         {this.props.product.hasFreeShipping ? (
           <View>
             <Badge
@@ -65,6 +49,15 @@ export class Index extends React.Component {
               label={"Free Returns"}/>
           </View>
         ) : null}
+        {this.isOnSale ? (
+          <View>
+            <Badge
+              name={"money-off"}
+              size={Sizes.BadgeIcon}
+              color={Colours.Foreground}
+              label={"On Sale"}/>
+          </View>
+        ) : null}
         {this.hasLowStock ? (
           <View>
             <Badge
@@ -80,3 +73,13 @@ export class Index extends React.Component {
 }
 
 export default withNavigation(Index);
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    backgroundColor: Colours.Foreground,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 2 * Sizes.InnerFrame / 3,
+    paddingHorizontal: Sizes.InnerFrame / 2
+  }
+});

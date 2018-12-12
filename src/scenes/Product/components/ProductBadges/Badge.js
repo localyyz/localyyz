@@ -24,8 +24,8 @@ export class Badge extends React.Component {
         </View>
         <View
           style={{
-            paddingVertical: 3,
-            height: Sizes.InnerFrame * 3,
+            paddingTop: 3,
+            height: Sizes.InnerFrame * 2.5,
             justifyContent: "center"
           }}>
           <Text style={styles.iconText}>{this.props.label}</Text>
