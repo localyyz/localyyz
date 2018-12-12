@@ -12,7 +12,6 @@ export { default as ExplodingButton } from "./ExplodingButton";
 export { default as NavBar } from "./NavBar";
 export { default as LiquidImage } from "./LiquidImage";
 export { default as PhotoDetails } from "./PhotoDetails";
-export { default as ProductTile } from "./ProductTile";
 export { default as ProductTileV2 } from "./ProductTileV2";
 export { default as MoreTile } from "./MoreTile";
 export { default as StaggeredList } from "./StaggeredList";

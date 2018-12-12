@@ -1,77 +1,66 @@
 // custom
 import { ApiInstance } from "localyyz/global";
-import { userStore } from "localyyz/stores";
 import { capitalize } from "localyyz/helpers";
+import { userStore } from "~/src/stores";
 
 // third party
-import { observable, action, runInAction, computed } from "mobx";
+import { action } from "mobx";
 
 // constants
+const parseCategoryValues = values => {
+  return (values || [])
+    .map(v => ({
+      ...v,
+      id: v.type,
+      title: capitalize(v.title || v.type)
+    }))
+    .slice();
+};
 
 export default class Store {
-  constructor() {
-    // default: female
-    //  or respect user choices
-    this.gender
-      = userStore && userStore.gender
-        ? userStore.gender === "male"
-          ? { id: "male", filterId: "man" }
-          : { id: "female", filterId: "woman" }
-        : { id: "female", filterId: "woman" };
-  }
-
-  /////////////////////////////////// category states below
-  // mobx array works weird with SectionList.. need to make shallow
-  @observable.shallow categories = [];
-  @observable gender;
-
-  @computed
-  get fetchCategoriesParams() {
-    return {
-      filter: [...(this.gender ? [`gender,val=${this.gender.filterId}`] : [])]
-    };
-  }
-
-  @action
-  setGender = gender => {
-    // if same, then toggle off
-    this.gender = gender;
-
-    // trigger refresh of categories
-    this.fetchCategories();
-  };
-
-  parseCategoryValues = values => {
-    return (values || [])
-      .filter(v => v.imageUrl)
-      .map(v => ({
-        ...v,
-        id: v.type,
-        title: capitalize(v.title || v.type)
-        //data:
-        //(v.values || []).length > 0 ? this.parseCategoryValues(v.values) : []
-      }))
-      .slice();
-  };
-
   @action
   fetchCategories = async () => {
-    const response = await ApiInstance.get(
-      "categories",
-      this.fetchCategoriesParams
-    );
-    if (response.status < 400 && response.data && response.data.length > 0) {
-      runInAction("[ACTION] fetch categories", () => {
-        this.categories = response.data.map(category => ({
-          ...category,
-          id: category.type,
-          title: capitalize(category.title || category.type),
-          data: this.parseCategoryValues(category.values)
-        }));
-      });
+    const response = await ApiInstance.get("categories");
+    let categories = [];
+    if (response.data) {
+      categories = response.data.map(category => ({
+        ...category,
+        id: category.type,
+        title: capitalize(category.title || category.type),
+        data: parseCategoryValues(category.values)
+      }));
+
+      // sort MALE/FEMALE section based on user preference
+      if (userStore.genderPreference) {
+        categories.sort((a, b) => {
+          if (a.value === userStore.genderPreference) {
+            return -1;
+          }
+          return 1;
+        });
+      }
+    }
+
+    return new Promise.resolve({
+      categories: categories,
+      error: response.error
+    });
+  };
+
+  @action
+  fetchCategory = async categoryId => {
+    const response = await ApiInstance.get(`categories/${categoryId}`);
+    let category = {};
+    if (response.data) {
+      category = {
+        ...response.data,
+        id: response.data.type,
+        title: capitalize(response.data.title || response.data.type),
+        data: this.parseCategoryValues(response.data.values)
+      };
     }
     return new Promise.resolve({
-      categories: this.categories,
+      category: category,
       error: response.error
     });
   };

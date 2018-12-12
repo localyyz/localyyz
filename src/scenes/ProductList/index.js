@@ -3,53 +3,41 @@ import { createStackNavigator } from "react-navigation";
 
 // custom
 import Product from "../Product";
-import { Colours } from "localyyz/constants";
+import { Styles, Colours } from "localyyz/constants";
 
 // local
 import {
   ProductList,
-  Filter,
+  FilterMenu,
   FilterList,
   DiscountFilterList,
-  PriceFilterList,
-  CategoryFilterList
+  PriceFilterList
 } from "./scenes";
-
-const FilterStack = createStackNavigator(
-  {
-    Filter: { screen: Filter },
-    FilterList: { screen: FilterList },
-    FilterPriceList: { screen: PriceFilterList },
-    FilterDiscountList: { screen: DiscountFilterList },
-    FilterCategoryList: { screen: CategoryFilterList }
-  },
-  {
-    navigationOptions: ({ navigation: { state }, navigationOptions }) => ({
-      ...navigationOptions,
-      gesturesEnabled: state.params && state.params.gesturesEnabled,
-      headerTintColor: Colours.DarkTransparent
-    }),
-    headerMode: "none"
-  }
-);
 
 const ProductListStack = createStackNavigator(
   {
     ProductList: { screen: ProductList },
     Product: { screen: Product },
-    Filter: {
-      screen: FilterStack,
-      navigationOptions: { header: undefined }
-    }
+    Filter: { screen: FilterMenu },
+    FilterList: { screen: FilterList },
+    FilterPriceList: { screen: PriceFilterList },
+    FilterDiscountList: { screen: DiscountFilterList }
   },
   {
     initialRouteName: "ProductList",
-    navigationOptions: ({ navigation: { state }, navigationOptions }) => ({
-      ...navigationOptions,
-      gesturesEnabled: state.params && state.params.gesturesEnabled,
-      headerTintColor: Colours.DarkTransparent,
-      header: null
-    })
+    navigationOptions: ({ navigation: { state }, navigationOptions }) => {
+      return {
+        ...navigationOptions,
+        gesturesEnabled: state.params && state.params.gesturesEnabled,
+        headerStyle: { borderBottomWidth: 0 },
+        headerTintColor: Colours.LabelBlack,
+        headerTitleStyle: {
+          ...Styles.Text,
+          ...Styles.Emphasized,
+          color: Colours.LabelBlack
+        }
+      };
+    }
   }
 );
 

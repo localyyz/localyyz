@@ -12,10 +12,7 @@ import PropTypes from "prop-types";
 
 @inject(stores => ({
   relatedProducts: stores.productStore.relatedProducts.slice() || [],
-  fetch: () =>
-    stores.productStore.product
-      ? stores.productStore.fetchRelatedProduct()
-      : {},
+  fetch: stores.productStore.fetchRelatedProduct,
   placeId:
     stores.productStore.product
     && stores.productStore.product.place

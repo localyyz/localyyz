@@ -7,6 +7,14 @@ import PropTypes from "prop-types";
 
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
+const SORT_BYS = [
+  { label: "Recommended" },
+  { label: "What's new", value: "-created_at" },
+  { label: "Price (Low to high)", value: "price" },
+  { label: "Price (High to low)", value: "-price" },
+  { label: "Discount (High to low, % off)", value: "-discount" }
+];
+
 export default class SortBy extends React.Component {
   static propTypes = {
     // mobx store
@@ -19,8 +27,8 @@ export default class SortBy extends React.Component {
   }
 
   onPress = sortByIndex => {
-    if (sortByIndex !== this.props.store.sortBys.length) {
-      const selected = this.props.store.sortBys[sortByIndex];
+    if (sortByIndex !== SORT_BYS.length) {
+      const selected = SORT_BYS[sortByIndex];
       this.props.store.setSortBy(selected.value);
 
       this.setState({ selected: selected });
@@ -33,7 +41,7 @@ export default class SortBy extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TouchableOpacity
           style={{ flex: 1 }}
           onPress={this.showSortBy}
@@ -48,7 +56,7 @@ export default class SortBy extends React.Component {
               style={[styles.optionValue]}
               testID="sortBy"
               numberOfLines={1}>
-              {this.state.selected.label || "Sort"}
+              {this.state.selected.label || this.props.label}
             </Text>
           </View>
         </TouchableOpacity>
@@ -56,11 +64,8 @@ export default class SortBy extends React.Component {
         <ActionSheet
           ref={ref => (this.actionSheet = ref)}
           title={"Sort By"}
-          options={[
-            ...this.props.store.sortBys.slice().map(s => s.label),
-            "Cancel"
-          ]}
-          cancelButtonIndex={this.props.store.sortBys.length}
+          options={[...SORT_BYS.slice().map(s => s.label), "Cancel"]}
+          cancelButtonIndex={SORT_BYS.length}
           onPress={this.onPress}/>
       </View>
     );
@@ -68,15 +73,18 @@ export default class SortBy extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  option: {
-    borderRadius: Sizes.RoundedBorders,
+  container: {
+    flex: 1
+  },
 
-    marginTop: 1,
+  option: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderRadius: Sizes.RoundedBorders,
     justifyContent: "space-around",
 
-    flex: 1,
-    width: Sizes.Width / 3,
-    maxWidth: Sizes.Width / 3,
     height: Sizes.Width / 8,
     marginHorizontal: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame / 4,

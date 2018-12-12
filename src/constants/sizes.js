@@ -87,7 +87,7 @@ export const Sizes = {
   Avatar: 40,
   SocialButton: 30,
   ActionButton: ResponsiveFontSize(28),
-  NavLeft: Platform.OS == "ios" ? 18 : 36,
+  NavLeft: ResponsiveFontSize(28),
   Button: 44,
 
   // apple specific

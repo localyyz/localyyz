@@ -38,7 +38,6 @@ export default class Cart extends React.Component {
     // bindings
     this.fetch = this.fetch.bind(this);
     this.onNext = this.onNext.bind(this);
-    this.onProductPress = this.onProductPress.bind(this);
     this.renderItem = this.renderItem.bind(this);
   }
 
@@ -66,15 +65,8 @@ export default class Cart extends React.Component {
     this.focusListener = null;
   }
 
-  onProductPress(product) {
-    this.props.navigation.navigate("Product", {
-      product: product,
-      isBrowsingDisabled: true
-    });
-  }
-
   get cartItems() {
-    return <CartItems onProductPress={this.onProductPress} />;
+    return <CartItems />;
   }
 
   onNext() {

@@ -1,35 +1,21 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  FlatList
-} from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
-import IonIcon from "react-native-vector-icons/Ionicons";
-
-// third party
-//import PropTypes from "prop-types";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 // custom
-import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
-import { GA } from "localyyz/global";
-
-// constants
-const SHOW_ALL_LABEL = "Show all";
+import { Colours, Sizes } from "localyyz/constants";
 
 export default class PriceFilterList extends React.Component {
   static navigationOptions = ({ navigationOptions }) => ({
     ...navigationOptions,
-    header: undefined,
     title: "Price"
   });
 
   constructor(props) {
     super(props);
 
-    this.filterStore = this.props.navigation.getParam("filterStore", {});
+    this.store = this.props.navigation.getParam("filterStore", {});
     // NOTE: navigation state params
     //  id
     //  title
@@ -39,111 +25,82 @@ export default class PriceFilterList extends React.Component {
     //  clearFilter
     //  setFilter
     //  filterStore
-    this.data = [SHOW_ALL_LABEL, ...this.filterStore.prices.slice()];
+    this.state = {
+      minPrice: 0,
+      maxPrice: 0
+    };
   }
 
-  onSelect = ({ min, max }) => {
-    GA.trackEvent(
-      "filter/sort",
-      "filter by price",
-      max ? `$${min} - $${max}` : `$${min}+`
-    );
-    const fn = this.props.navigation.getParam("setFilter");
-    fn(min, max);
+  componentDidMount() {
+    this.props.navigation
+      .getParam("asyncFetch")()
+      .then(response => {
+        if (response && response.data && response.data.length == 2) {
+          const min = parseInt(response.data[0]);
+          const max = parseInt(response.data[1]);
+          this.setState({
+            minPrice: min,
+            maxPrice: max,
+            selectedMin: this.store.priceMin || min,
+            selectedMax: this.store.priceMax || max
+          });
+        }
+      });
+  }
 
-    return this.props.navigation.goBack(null);
-  };
-
-  renderItem = ({ item }) => {
-    const selectedValue = this.props.navigation.getParam("selectedValue", {});
-
-    return item === SHOW_ALL_LABEL ? (
-      <View style={[styles.wrapper, styles.topWrapper]}>
-        <TouchableOpacity onPress={() => this.onSelect({})}>
-          <View style={styles.topOption}>
-            <Text style={styles.topOptionLabel}>All Prices</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    ) : (
-      <View style={[styles.wrapper]}>
-        <TouchableOpacity onPress={() => this.onSelect(item)}>
-          <View style={styles.option}>
-            <Text style={styles.optionLabel}>
-              {item.max !== undefined
-                ? `$${item.min} - $${item.max}`
-                : `$${item.min}+`}
-            </Text>
-            <View>
-              {selectedValue.min === item.min
-                && selectedValue.max === item.max && (
-                  <IonIcon name="ios-checkmark" size={30} color="black" />
-                )}
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
+  onSelect = values => {
+    //GA.trackEvent(
+    //"filter/sort",
+    //"filter by price",
+    //max ? `$${min} - $${max}` : `$${min}+`
+    //);
+    this.setState(
+      {
+        selectedMin: values[0],
+        selectedMax: values[1]
+      },
+      () => {
+        this.props.navigation.getParam("setFilter")(
+          this.state.selectedMin,
+          this.state.selectedMax
+        );
+      }
     );
   };
 
   render() {
+    const sliderLength = Sizes.Width - 4 * Sizes.OuterFrame;
     return (
-      <FlatList
-        data={this.data}
-        keyExtractor={(_, i) => `filter${this.props.id}${i}`}
-        renderItem={this.renderItem}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={16}
-        contentContainerStyle={styles.content}
-        style={styles.container}/>
+      <View style={styles.container}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: sliderLength, // base slider width
+            paddingBottom: Sizes.OuterFrame
+          }}>
+          <Text>${this.state.selectedMin}</Text>
+          <Text>${this.state.selectedMax}</Text>
+        </View>
+        <MultiSlider
+          enabledOne
+          enabledTwo
+          values={[this.state.selectedMin, this.state.selectedMax]}
+          onValuesChange={this.onSelect}
+          sliderLength={sliderLength}
+          min={this.state.minPrice}
+          max={this.state.maxPrice}/>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colours.Foreground
-  },
-
-  content: {
-    paddingBottom: NAVBAR_HEIGHT,
-    paddingHorizontal: Sizes.InnerFrame
-  },
-
-  wrapper: {
+    backgroundColor: Colours.Foreground,
     justifyContent: "center",
-    paddingVertical: Sizes.InnerFrame,
-    borderBottomWidth: Sizes.Hairline,
-    borderColor: Colours.Border
-  },
-
-  topWrapper: {
-    paddingTop: Sizes.InnerFrame,
-    justifyContent: "center"
-  },
-
-  topOption: {
-    borderWidth: 1,
-    height: Sizes.InnerFrame * 3,
-    justifyContent: "center"
-  },
-
-  option: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: Sizes.InnerFrame / 2
-  },
-
-  optionLabel: {
-    ...Styles.Title,
-    ...Styles.Emphasized
-  },
-
-  topOptionLabel: {
-    ...Styles.Emphasized,
-    textAlign: "center"
+    height: Sizes.Height / 3,
+    paddingHorizontal: Sizes.OuterFrame
   }
 });

@@ -171,12 +171,21 @@ export default class CartStore extends Cart {
   };
 
   // internally used
-  _handleError = ({ status, details, onError }) => {
+  _handleError = ({ status, message, details, onError }) => {
     let error = { error: details, status: status };
     onError && onError(error);
     GA.trackEvent("cart", "error", `cart ${this.id} ${details}`);
     GA.trackException(`cart ${this.id}: status: ${status} ${details}`);
     navbarStore.notify(details);
+
+    // translate cart error
+    switch (details) {
+      case "Already exists!":
+        error.error = "Already added to cart";
+        break;
+      default:
+        error.error = details || message;
+    }
 
     return Promise.resolve(error);
   };

@@ -23,6 +23,21 @@ export default class ProductStore extends ProductModel {
     super(product, selectedColor);
   }
 
+  fetchRelated = async () => {
+    const response = await ApiInstance.get(`/products/${this.id}/related`);
+    if (response && response.data) {
+      let products = response.data.map(p => {
+        return new ProductStore({
+          ...p,
+          description: p.noTagDescription,
+          listTitle: `Related ${this.title}`
+        });
+      });
+      return new Promise.resolve({ products: products });
+    }
+    return new Promise.resolve({ error: response.error });
+  };
+
   addFavourite = async () => {
     const resolve = await ApiInstance.post(`products/${this.id}/favourite`);
     if (!resolve.error) {

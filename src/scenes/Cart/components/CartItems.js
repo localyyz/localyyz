@@ -14,8 +14,6 @@ import PropTypes from "prop-types";
 export default class CartItems extends React.Component {
   static propTypes = {
     items: PropTypes.array,
-    onRemove: PropTypes.func,
-    onProductPress: PropTypes.func
   };
 
   static defaultProps = {
@@ -35,8 +33,6 @@ export default class CartItems extends React.Component {
         <CartItem
           {...this.props}
           item={item}
-          onPress={this.props.onProductPress}
-          onRemove={this.props.onRemove}
           style={this.props.itemStyle}/>
       </View>
     );

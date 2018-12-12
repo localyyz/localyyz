@@ -16,6 +16,7 @@ class Store {
   constructor(props) {
     this.fetchPath = props.fetchPath;
     this.defaultParams = props.params || {};
+    this.title = (props.params || {}).title;
 
     // unset
     this.isLoading;
@@ -55,11 +56,15 @@ class Store {
       /*global __DEV__:true*/
       __DEV__
         ? console.log(
-            `skip page fetch already loading or reached end. l:${
-              this.isLoading
-            } n:${this.next}`
+            `skip page fetch already loading or reached end.
+            l:${this.isLoading}
+            n:${this.next && this.next.url}`
           )
         : null;
+      if (this.self && !this.next) {
+        // if we have no next page. mark as finished
+        this.isLoading = false;
+      }
       return;
     }
     this.isLoading = true;

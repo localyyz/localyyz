@@ -17,9 +17,12 @@ let WhiteShadow = "rgba(255, 255, 255, 0.1)";
 let LightShadow = "rgba(255, 255, 255, 0.5)";
 let Highlight = "rgba(255, 255, 255, 0.1)";
 let LightYellow = "#FFFFE0";
+let IOSGrey = "#DCDCE1";
 
 let SlideBlack = "#1a1917";
 let SlideGrey = "#888888";
+let LabelGrey = "#515151";
+let LabelBlack = "#363636";
 
 let Purple = "#B721FF";
 let Blue = "rgb(33, 212, 253)";
@@ -30,8 +33,9 @@ let PurpleRainTransparent = "rgba(68, 23, 158, 0)";
 let BlueSteel = "#2E62F1";
 let UltraViolet = "#9013FE";
 let RoseRed = "#E35071";
-let FloridaOrange = "#FE9013"
+let FloridaOrange = "#FE9013";
 let CokeBottleGreen = "#50E3C2";
+let GrassRootGreen = "#20c7a1";
 let SkyBlue = "#50bbe3";
 let SterlingGrey = "#D8D8D8";
 let GhostGrey = "#FAFAFA";
@@ -67,6 +71,7 @@ export const Colours = {
   Highlight: Highlight,
   Alert: LightYellow,
   Tint: Black,
+  Input: IOSGrey,
 
   // slide backgrounds
   SlideBlack: SlideBlack,
@@ -91,6 +96,8 @@ export const Colours = {
   SubduedText: LightGrey,
   OnSale: Red,
   ButtonLabel: Foreground,
+  LabelGrey: LabelGrey,
+  LabelBlack: LabelBlack,
 
   // debug
   Facebook: "rgb(59, 89, 153)",
@@ -106,7 +113,7 @@ export const Colours = {
   // brand colors
   Primary: PurpleRain,
   Secondary: BlueSteel,
-  Accented: CokeBottleGreen,
+  Accented: GrassRootGreen,
   Positive: UltraViolet,
 
   // brand colors
@@ -117,6 +124,7 @@ export const Colours = {
   RoseRed: RoseRed,
   FloridaOrange: FloridaOrange,
   SkyBlue: SkyBlue,
+  GrassRootGreen: GrassRootGreen,
 
   // brand transparencies
   PrimaryTransparent: PurpleRainTransparent,

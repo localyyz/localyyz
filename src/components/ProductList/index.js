@@ -27,15 +27,15 @@ class ProductListItem extends React.Component {
     return false;
   }
 
+  onPress = () => {
+    this.props.navigation.push("Product", {
+      product: this.props.product
+    });
+  };
+
   render() {
     return (
-      <ProductTileV2
-        onPress={() =>
-          this.props.navigation.push("Product", {
-            product: this.props.product
-          })
-        }
-        product={this.props.product}/>
+      <ProductTileV2 onPress={this.onPress} product={this.props.product} />
     );
   }
 }

@@ -23,7 +23,7 @@ export default class ProductSupport extends React.Component {
         }}>
         <MaterialCommunityIcon
           name={"facebook-messenger"}
-          size={Sizes.H3}
+          size={Sizes.ActionButton}
           color={Colours.Foreground}/>
       </TouchableOpacity>
     );

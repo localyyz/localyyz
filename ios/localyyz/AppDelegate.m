@@ -35,7 +35,7 @@
   } else {
     jsCodeLocation = [CodePush bundleURL];
   }
-  
+
   NSString *apiUrl;
   if (RCT_DEBUG == 1) {
     NSString *ipGuess;
