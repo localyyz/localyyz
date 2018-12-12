@@ -167,9 +167,6 @@ export class MerchantDetails extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>About the merchant</Text>
-        </View>
         <View style={styles.banner}>
           <View style={styles.bannerHeader}>
             <this.touchableComponent
