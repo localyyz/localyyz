@@ -67,7 +67,7 @@ export class ProductDetails extends React.Component {
         </Text>
         {!this.props.oneSize ? (
           <View style={{ flexDirection: "row" }}>
-            <Text style={styles.lowStock}>{`in ${this.props.sizes}`}</Text>
+            <Text style={styles.lowStock}>{` in ${this.props.sizes}`}</Text>
             {this.props.sizes === 1 ? (
               <Text style={styles.lowStock}>{" size!"}</Text>
             ) : (
