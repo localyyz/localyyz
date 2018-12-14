@@ -121,62 +121,62 @@ export default class FilterStore {
 
   @action
   setSizeFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by size", val.join(","));
     this.size = val;
   };
 
   @action
   setColorFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by color", val.join(","));
     this.color = val;
   };
 
   @action
   setGenderFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by gender", val.join(","));
     this.gender = val;
   };
 
   @action
   setBrandFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by brand", val.join(","));
     this.brand = val;
   };
 
   @action
   setMerchantFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by merchant", val.join(","));
     this.merchant = val;
   };
 
   @action
-  setCategoryFilter = category => {
-    category
-      && category.length > 0
-      && GA.trackEvent(
-        "filter",
-        "by category",
-        category.join(",") || "all categories"
-      );
-    this.categoryValue = category;
+  setCategoryFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by category", val.join(","));
+    this.categoryValue = val;
   };
 
   @action
   setCategoryV2Filter = category => {
-    GA.trackEvent("filter/sort", "filter by category v2", `${category}`);
+    GA.trackEvent("filter", "by category v2", `${category}`);
     this.categoryV2 = parseInt(category, 10);
   };
 
   @action
   setPriceFilter = (min = 0, max) => {
+    (min || max) && GA.trackEvent("filter", "by price", `$${min}-$${max}`);
     this.priceMin = min;
     this.priceMax = max;
   };
 
   @action
   setDiscountFilter = (min = 0) => {
-    GA.trackEvent("filter/sort", "discount", `${min}`);
+    min && GA.trackEvent("filter", "by discount", `${min}%`);
     this.discountMin = min;
   };
 
   @action
   setSortBy = sorter => {
-    GA.trackEvent("filter/sort", "sort", sorter);
+    GA.trackEvent("sort", sorter);
     this.sortBy = sorter;
   };
 
