@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  TouchableOpacity,
   SectionList
 } from "react-native";
 
@@ -16,16 +15,10 @@ import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 
 // local
 import CategoryButton, { BUTTON_PADDING } from "./CategoryButton";
-import CategoryGender from "./CategoryGender";
-
-// constants
-const CATEGORY_PRODUCT_LIST_KEY = "categoryProductList";
 
 @inject(stores => ({
   store: stores.searchStore,
-  fetch: stores.searchStore.fetchCategories,
-  gender: stores.searchStore.gender && stores.searchStore.gender.id,
-  setGender: stores.searchStore.setGender
+  fetch: stores.searchStore.fetchCategories
 }))
 @observer
 export class CategoryList extends React.Component {
@@ -44,13 +37,8 @@ export class CategoryList extends React.Component {
     this.fetch();
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.gender && prevProps.gender !== this.props.gender) {
-      this.fetch();
-    }
-  }
-
   fetch = () => {
+    this.setState({ sections: [] });
     this.props.fetch().then(resolved => {
       if (resolved.categories) {
         this._categories = resolved.categories;
@@ -59,67 +47,29 @@ export class CategoryList extends React.Component {
     });
   };
 
-  buildParams = category => {
-    return {
-      fetchPath: `categories/${category.id}/products`,
-      title: category.title,
-      gender: this.props.gender,
-      category: category
-    };
-  };
-
   // this selects a category from the main search browse screen
   onSelectCategory = category => {
     this.props.navigation.navigate({
-      routeName: "ProductList",
-      params: this.buildParams(category),
-      key: `${CATEGORY_PRODUCT_LIST_KEY}-${category.id}`
+      routeName: "Category",
+      params: {
+        category: category
+      }
     });
   };
 
-  renderSection = ({ section, index }) => {
-    // NOTE: this is a hack version of numcolumns = 2 with sectioned list
-
-    // skip the odd number columns because it was
-    // already handled by even numbered once
-    if (index % 2 > 0) return null;
-
-    const rowItems = [section.data[index]];
-    if (index + 1 < section.data.length) {
-      rowItems.push(section.data[index + 1]);
-    }
-
+  renderSection = ({ item }) => {
     return (
-      <View
-        key={"row-" + rowItems.map(d => d.id).join("-")}
-        style={{
-          paddingBottom: BUTTON_PADDING,
-          flexDirection: "row",
-          justifyContent: "space-between"
-        }}>
-        {rowItems.map(d => (
-          <CategoryButton
-            key={`cat-${d.id}`}
-            imageUrl={d.imageUrl}
-            title={d.title}
-            onPress={() => this.onSelectCategory(d)}/>
-        ))}
+      <View style={styles.button}>
+        <CategoryButton category={item} />
       </View>
     );
   };
 
   renderSectionHeader = ({ section: category }) => {
     return (
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => this.onSelectCategory(category)}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{category.title.toUpperCase()}</Text>
-          <View style={styles.button}>
-            <Text style={styles.buttonLabel}>View all</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <Text style={styles.title}>{category.title.toUpperCase()}</Text>
+      </View>
     );
   };
 
@@ -127,18 +77,9 @@ export class CategoryList extends React.Component {
     return <View style={styles.separator} />;
   };
 
-  renderHeader = () => {
-    return (
-      <CategoryGender
-        key={`gender-${this.props.gender.id}`}
-        setGender={this.props.setGender}
-        gender={this.props.gender}/>
-    );
-  };
-
   onEndReached = ({ distanceFromEnd }) => {
     const nextIndex = this.state.sectionIndex + 1;
-    if (distanceFromEnd > 0 && this._categories.length - 1 > nextIndex) {
+    if (distanceFromEnd > 0 && nextIndex <= this._categories.length - 1) {
       // not the last page.
       const nextSection = this._categories[nextIndex];
       this.setState({
@@ -152,7 +93,6 @@ export class CategoryList extends React.Component {
     return (
       <SectionList
         sections={this.state.sections}
-        ListHeaderComponent={this.renderHeader}
         renderItem={this.renderSection}
         renderSectionHeader={this.renderSectionHeader}
         renderSectionFooter={this.renderSectionFooter}
@@ -162,6 +102,7 @@ export class CategoryList extends React.Component {
           // to end is less than 80% of the visible page.
           0.8
         }
+        stickySectionHeadersEnabled={false}
         scrollEventThrottle={16}
         initialNumToRender={1}
         contentContainerStyle={styles.list}
@@ -194,6 +135,12 @@ const styles = StyleSheet.create({
     width: Sizes.Width
   },
 
+  button: {
+    paddingBottom: BUTTON_PADDING,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+
   header: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
@@ -203,19 +150,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    ...Styles.Text
-  },
-
-  button: {
-    ...Styles.RoundedButton,
-    paddingHorizontal: Sizes.InnerFrame,
-    paddingVertical: Sizes.InnerFrame / 4,
-    backgroundColor: Colours.Action
-  },
-
-  buttonLabel: {
     ...Styles.Text,
-    ...Styles.Emphasized,
-    ...Styles.TinyText
+    ...Styles.Emphasized
   }
 });

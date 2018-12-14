@@ -35,7 +35,7 @@ export default class PriceTag extends React.Component {
           ]}>
           {this.priceTag}
         </Text>
-        {this.props.product.discount > 0.1 ? (
+        {this.props.product.discount > 0.1 && !this.props.product.maxPrice ? (
           <View style={styles.discountContainer}>
             <Text
               style={[

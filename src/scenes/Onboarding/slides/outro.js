@@ -161,11 +161,7 @@ export default class Outro extends React.Component {
               });
             }}>
             <View>
-              <Text
-                style={{
-                  fontSize: Sizes.SmallText,
-                  color: Colours.Foreground
-                }}>
+              <Text style={{ fontSize: Sizes.SmallText }}>
                 No, I like missing out 😉
               </Text>
             </View>
@@ -190,12 +186,10 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.EmphasizedText,
     ...Styles.Title,
-    paddingBottom: Sizes.InnerFrame,
-    color: Colours.Foreground
+    paddingBottom: Sizes.InnerFrame
   },
 
   subtitle: {
-    ...Styles.Text,
-    color: Colours.Foreground
+    ...Styles.Text
   }
 });

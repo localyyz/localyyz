@@ -6,8 +6,7 @@ import {
   Text,
   Alert,
   TouchableOpacity,
-  ScrollView,
-  ActivityIndicator
+  ScrollView
 } from "react-native";
 
 // third party
@@ -21,12 +20,13 @@ import * as Animatable from "react-native-animatable";
 
 // custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
-import { toPriceString } from "localyyz/helpers";
 import Support from "~/src/components/Support";
 
 // local
 import { SizeChart } from "../ProductDetails/components";
 import ProductVariantSelector from "../ProductVariantSelector";
+
+import ConfirmAddToCartButton from "./ConfirmAddToCartButton";
 
 // constants
 const SIZE_APPEAR_INTERVAL = 100;
@@ -85,15 +85,7 @@ export class AddedSummary extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isAdding: false,
-      isAdded: false,
-      addingError: false
-    };
-
     // bindings
-    this.onDismiss = this.onDismiss.bind(this);
-    this.onAdd = this.onAdd.bind(this);
     this.onExpressCheckout = this.onExpressCheckout.bind(this);
     this.onOutOfStock = this.onOutOfStock.bind(this);
     this.openSizeChart = this.openSizeChart.bind(this);
@@ -107,51 +99,6 @@ export class AddedSummary extends React.Component {
     ) {
       this.props.toggleAddButtons(true);
     }
-  }
-
-  onDismiss(callback) {
-    this.props.toggleAddButtons(false);
-    this.props.closeAddedSummary();
-
-    // callback to revert back to cart open on back
-    callback && callback();
-  }
-
-  async onAdd() {
-    let response
-      = this.props.product
-      && this.props.selectedVariant
-      && (await this.props.addProduct({
-        product: this.props.product,
-        variantId: this.props.selectedVariant.id
-      }));
-
-    let errorMessage;
-
-    if (response.error === "Already exists!") {
-      errorMessage = "Already added to cart!";
-    } else {
-      errorMessage = response.error;
-    }
-
-    this.setState({ isAdding: true }, () => {
-      setTimeout(() => {
-        this.setState(
-          {
-            isAdding: false,
-            isAdded: !response.error,
-            addingError: errorMessage
-          },
-          () => {
-            if (!response.error) {
-              setTimeout(() => {
-                this.onDismiss();
-              }, 2000);
-            }
-          }
-        );
-      }, 1000);
-    });
   }
 
   onExpressCheckout() {
@@ -203,6 +150,11 @@ export class AddedSummary extends React.Component {
       : "Select purchase method";
   }
 
+  onDismiss = () => {
+    this.props.toggleAddButtons(false);
+    this.props.closeAddedSummary();
+  };
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -230,82 +182,7 @@ export class AddedSummary extends React.Component {
               <Animatable.View
                 animation="fadeIn"
                 duration={SIZE_APPEAR_INTERVAL * 6}>
-                <TouchableOpacity onPress={this.onAdd}>
-                  <View>
-                    {this.state.isAdding ? (
-                      <View
-                        style={[
-                          styles.addButton,
-                          { justifyContent: "center" }
-                        ]}>
-                        <ActivityIndicator size={"small"} color={"white"} />
-                      </View>
-                    ) : (
-                      <View>
-                        {this.state.isAdded ? (
-                          <View
-                            style={[
-                              styles.addButton,
-                              { justifyContent: "flex-start" }
-                            ]}>
-                            <View style={{ paddingRight: Sizes.OuterFrame }}>
-                              <MaterialIcon
-                                name="check"
-                                color={Colours.AlternateText}
-                                size={Sizes.H2}
-                                style={styles.addButtonIcon}/>
-                            </View>
-                            <Text style={styles.addButtonLabel}>
-                              Added to cart
-                            </Text>
-                          </View>
-                        ) : (
-                          <View>
-                            {this.state.addingError ? (
-                              <View
-                                style={[
-                                  styles.addButton,
-                                  { justifyContent: "flex-start" }
-                                ]}>
-                                <View
-                                  style={{
-                                    paddingRight: Sizes.OuterFrame
-                                  }}>
-                                  <MaterialIcon
-                                    name="close"
-                                    color={Colours.AlternateText}
-                                    size={Sizes.H2}
-                                    style={styles.addButtonIcon}/>
-                                </View>
-                                <Text style={styles.addButtonLabel}>
-                                  {this.state.addingError}
-                                </Text>
-                              </View>
-                            ) : (
-                              <View style={styles.addButton}>
-                                <Text style={styles.addButtonLabel}>
-                                  Add to cart
-                                </Text>
-                                <View style={styles.addButtonDetails}>
-                                  <Text style={styles.addButtonLabel}>
-                                    {toPriceString(
-                                      this.props.selectedVariant.price
-                                    )}
-                                  </Text>
-                                  <MaterialIcon
-                                    name="add-shopping-cart"
-                                    color={Colours.AlternateText}
-                                    size={Sizes.H2}
-                                    style={styles.addButtonIcon}/>
-                                </View>
-                              </View>
-                            )}
-                          </View>
-                        )}
-                      </View>
-                    )}
-                  </View>
-                </TouchableOpacity>
+                <ConfirmAddToCartButton />
               </Animatable.View>
               <Animatable.View
                 animation="fadeIn"

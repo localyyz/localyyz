@@ -27,10 +27,6 @@ import Store from "./store";
 const FADE_HEIGHT = 50;
 const POP_HEIGHT = Sizes.Height / 4;
 
-// NOTE: there's an issue with setState after component is unmounted
-//  here we throttle the speed to navigate back to 200ms
-const RECOMMENDED_BROWSING_SPEED = 0;
-
 // NOTE: there's also an issue with scrollviews not rendering photos, so
 // allows hack to work without making the header visible on load
 const SCROLL_OFFSET = 1;
@@ -282,7 +278,7 @@ const styles = StyleSheet.create({
   backButton: {
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    marginTop: Sizes.ScreenTop - 0.1,
+    marginTop: Sizes.ScreenTop,
     marginLeft: Sizes.InnerFrame
   },
 

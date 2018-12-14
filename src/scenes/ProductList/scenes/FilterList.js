@@ -4,21 +4,27 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  SectionList
+  SectionList,
+  ActivityIndicator
 } from "react-native";
 
 // custom
 import { Colours, Sizes, Styles, NAVBAR_HEIGHT } from "localyyz/constants";
 import { capitalize } from "localyyz/helpers";
-import { GA } from "localyyz/global";
 
 // third party
-import { computed } from "mobx";
-import { Provider, inject, observer } from "mobx-react/native";
-import IonIcon from "react-native-vector-icons/Ionicons";
+import PropTypes from "prop-types";
+import cloneDeep from "lodash.clonedeep";
+import EntypoIcon from "react-native-vector-icons/Entypo";
 
 // constants
 const SHOW_ALL_LABEL = "Show all";
+
+const ALPHANUM_SECTIONS = Object.assign(
+  {},
+  ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(letter => ({ [letter]: [] })),
+  ..."0123456789".split("").map(num => ({ [num]: [] }))
+);
 
 export default class FilterList extends React.Component {
   static navigationOptions = ({ navigation, navigationOptions }) => ({
@@ -27,9 +33,21 @@ export default class FilterList extends React.Component {
     title: capitalize(navigation.getParam("title", ""))
   });
 
-  componentDidMount() {
-    // here we Async fetch the filter list
-    this.settings.asyncFetch && this.settings.asyncFetch();
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      _data: [],
+      sections: [],
+      selected: (this.settings.filterStore[this.settings.id] || []).reduce(
+        // reduce array to object for quick lookup
+        (res, itm) => {
+          res[itm] = true;
+          return res;
+        },
+        {}
+      )
+    };
   }
 
   get settings() {
@@ -41,42 +59,72 @@ export default class FilterList extends React.Component {
     );
   }
 
-  render() {
-    return (
-      <Provider filterStore={this.settings.filterStore}>
-        <Options {...this.settings} data={this.settings.data || []} />
-      </Provider>
-    );
+  componentDidMount() {
+    // here we Async fetch the filter list
+    this.setState({ isLoading: true, sections: [] });
+    this.settings.asyncFetch().then(response => {
+      // start with empty alphabet list object
+      let sections = cloneDeep(ALPHANUM_SECTIONS);
+
+      // add options appropriately by first letter
+      (response.data || []).map(
+        option =>
+          option
+          && option[0]
+          && sections[option[0].toUpperCase()]
+          && sections[option[0].toUpperCase()].push(option)
+      );
+
+      // filter and transform sections
+      sections = Object.keys(sections)
+        .filter(section => sections[section].length > 0)
+        .map(section => ({
+          title: section,
+          data: sections[section].sort()
+        }));
+
+      // check initial section length, append more if applicable
+      let initialSections = [];
+      let itemCount = 0;
+      for (let idx in sections) {
+        if (itemCount > 10) {
+          break;
+        }
+        initialSections.push(sections[idx]);
+        itemCount += sections[idx].data.length;
+      }
+
+      this.setState({
+        isLoading: false,
+        _data: sections,
+        sectionIndex: initialSections.length,
+        sections: initialSections
+      });
+    });
   }
-}
 
-@inject((stores, props) => ({
-  filterStore: stores.filterStore,
-  data:
-    (stores.filterStore[props.id] && stores.filterStore[props.id].slice()) || []
-}))
-@observer
-export class Options extends React.Component {
-  constructor(props) {
-    super(props);
+  onSelectChange = (val, selected = true) => {
+    selected
+      ? (this.state.selected[val] = true)
+      : delete this.state.selected[val];
+    this.settings.setFilter(Object.keys(this.state.selected));
+  };
 
-    // bindings
-    this.renderItem = this.renderItem.bind(this);
-    this.renderSectionHeader = this.renderSectionHeader.bind(this);
-    this.renderClear = this.renderClear.bind(this);
-  }
+  onClear = () => {
+    this.settings.clearFilter();
+    this.props.navigation.goBack();
+  };
 
-  renderItem({ item: option }) {
+  renderItem = ({ item: option }) => {
     return (
       <Option
-        {...this.props}
-        navigation={this.props.navigation}
+        selected={this.state.selected[option]}
         option={option.label || option}
-        onSelect={option.onSelect || (() => this.props.setFilter(option))}/>
+        onSelect={this.onSelectChange}/>
     );
-  }
+  };
 
-  renderSectionHeader({ section: { title } }) {
+  renderSectionHeader = ({ section: { title } }) => {
     return title ? (
       <View style={styles.wrapper}>
         <View style={styles.sectionHeader}>
@@ -84,115 +132,110 @@ export class Options extends React.Component {
         </View>
       </View>
     ) : null;
-  }
-
-  renderClear() {
-    return this.renderItem({
-      item: {
-        label: SHOW_ALL_LABEL,
-        onSelect: this.props.clearFilter
-      }
-    });
-  }
-
-  @computed
-  get sections() {
-    // build listing of keys and init their arrays
-    let sections = Object.assign(
-      {},
-      ..."abcdefghijklmnopqrstuvwxyz"
-        .toUpperCase()
-        .split("")
-        .map(letter => ({ [letter]: [] })),
-      ..."0123456789".split("").map(num => ({ [num]: [] }))
-    );
-
-    // add options appropriately by first letter
-    let data = this.props.data;
-    data.map(
-      option =>
-        option
-        && option[0]
-        && sections[option[0].toUpperCase()]
-        && sections[option[0].toUpperCase()].push(option)
-    );
-
-    // and finally sort each subarray and out
-    return [
-      // spacer
-
-      // clear filter
-      { data: [{}], renderItem: this.renderClear },
-
-      // actual options
-      ...Object.keys(sections)
-        .filter(section => sections[section].length > 0)
-        .map(section => ({ title: section, data: sections[section].sort() }))
-    ];
-  }
+  };
 
   render() {
     return (
       <SectionList
-        {...this.props}
-        sections={this.sections}
+        sections={this.state.sections}
         keyExtractor={(e, i) => `filter-list-${e}-${i}`}
+        extraData={{
+          isLoading: this.state.isLoading
+        }}
         renderSectionHeader={this.renderSectionHeader}
         renderItem={this.renderItem}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
-        ListFooterComponent={<View style={styles.footer} />}
+        initialNumToRender={2}
+        onEndReachedThreshold={0.8}
+        onEndReached={({ distanceFromEnd }) => {
+          const sectionIndex = this.state.sectionIndex + 2;
+          if (
+            distanceFromEnd > 0
+            && !this.state.isLoading
+            && this.state.sections.length != this.state._data.length
+          ) {
+            this.setState({
+              sectionIndex: sectionIndex,
+              sections: this.state._data.slice(0, sectionIndex)
+            });
+          }
+        }}
+        ListEmptyComponent={
+          <View style={styles.footer}>
+            <ActivityIndicator
+              animating={this.state.isLoading}
+              style={{ backgroundColor: Colours.Foreground }}
+              size={"large"}/>
+          </View>
+        }
+        ListHeaderComponent={
+          <View style={[styles.wrapper, styles.topWrapper]}>
+            <TouchableOpacity onPress={this.onClear}>
+              <View style={styles.topOption}>
+                <Text style={styles.topOptionLabel}>{SHOW_ALL_LABEL}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        }
+        ListFooterComponent={
+          <View style={styles.footer}>
+            {this.state.sections.length && (
+              <ActivityIndicator
+                animating={this.state.isLoading}
+                style={{ backgroundColor: Colours.Foreground }}
+                size={"large"}/>
+            )}
+          </View>
+        }
         contentContainerStyle={styles.container}/>
     );
   }
 }
 
 class Option extends React.Component {
+  static propTypes = {
+    option: PropTypes.string
+  };
+
   constructor(props) {
     super(props);
 
-    // bindings
-    this.onSelect = this.onSelect.bind(this);
+    this.state = {
+      selected: props.selected
+    };
   }
 
-  onSelect() {
-    GA.trackEvent(
-      "filter/sort",
-      "filter by " + this.props.title,
-      this.props.option
+  onSelect = () => {
+    this.setState(
+      {
+        selected: !this.state.selected
+      },
+      () => {
+        //this.state.selected
+        //&& GA.trackEvent("filter/sort", "add filter", this.props.option);
+        this.props.onSelect
+          && this.props.onSelect(this.props.option, this.state.selected);
+      }
     );
-    this.props.onSelect && this.props.onSelect();
-    return this.props.navigation.goBack(null);
-  }
-
-  shouldComponentUpdate(prevProps) {
-    return prevProps.selected !== this.props.selected;
-  }
+  };
 
   render() {
-    return this.props.option === SHOW_ALL_LABEL ? (
-      <View style={[styles.wrapper, styles.topWrapper]}>
-        <TouchableOpacity onPress={this.onSelect}>
-          <View style={styles.topOption}>
-            <Text style={styles.topOptionLabel}>
-              {capitalize(this.props.option)}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    ) : (
+    return (
       <View style={[styles.wrapper]}>
         <TouchableOpacity onPress={this.onSelect}>
           <View style={styles.option}>
             <Text style={styles.optionLabel}>
               {capitalize(this.props.option)}
             </Text>
-            <View>
-              {this.props.selected === this.props.option && (
-                <IonIcon name="ios-checkmark" size={30} color="black" />
-              )}
-            </View>
+            {this.state.selected ? (
+              <EntypoIcon
+                name="check"
+                size={18}
+                color="black"
+                style={{ paddingRight: 5 }}/>
+            ) : null}
           </View>
         </TouchableOpacity>
       </View>
@@ -206,18 +249,17 @@ const styles = StyleSheet.create({
   },
 
   option: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: Sizes.InnerFrame / 2,
     borderBottomWidth: Sizes.Hairline,
     borderColor: Colours.Border,
-    marginHorizontal: Sizes.InnerFrame
+    marginHorizontal: Sizes.InnerFrame,
+    height: Sizes.Button
   },
 
   optionLabel: {
-    ...Styles.Title,
-    ...Styles.Emphasized
+    ...Styles.SmallText
   },
 
   sectionHeader: {
@@ -234,7 +276,7 @@ const styles = StyleSheet.create({
 
   wrapper: {
     paddingLeft: Sizes.InnerFrame,
-    paddingVertical: Sizes.InnerFrame / 4,
+    paddingVertical: Sizes.InnerFrame / 2,
     backgroundColor: Colours.Foreground
   },
 

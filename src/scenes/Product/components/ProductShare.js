@@ -89,7 +89,7 @@ export default class ProductShare extends React.Component {
         onPress={() => {
           this.shareProduct();
         }}>
-        <Icon name="share" size={Sizes.Text} color={Colours.Foreground} />
+        <Icon name="share" size={Sizes.ActionButton} color={Colours.Foreground} />
       </TouchableOpacity>
     );
   }

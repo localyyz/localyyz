@@ -56,7 +56,7 @@ export class ProductTileV2 extends React.Component {
               }}>
               <View style={{ maxWidth: Sizes.Width / 3 }}>
                 <Text style={styles.brand} numberOfLines={1}>
-                  {this.props.product.brand}
+                  {this.props.product.brand || this.props.product.place.name}
                 </Text>
               </View>
               <View style={styles.price}>

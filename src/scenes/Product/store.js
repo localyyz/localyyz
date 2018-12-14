@@ -1,9 +1,8 @@
 import { action, runInAction, observable } from "mobx";
 
 import { box } from "localyyz/helpers";
-import { historyStore, Product } from "localyyz/stores";
+import { historyStore } from "localyyz/stores";
 
-import { ApiInstance } from "localyyz/global";
 import branch from "react-native-branch";
 
 class ProductUIStore {
@@ -42,16 +41,10 @@ class ProductUIStore {
 
   @action
   fetchRelatedProduct = async () => {
-    let params = { limit: 10 };
-    const response = await ApiInstance.get(
-      `/products/${this.product.id}/related`,
-      params
-    );
-    if (response && response.data) {
+    const resolved = await this.product.fetchRelated();
+    if (resolved.products) {
       runInAction("fetch related product", () => {
-        this.relatedProducts = response.data.map(p => {
-          return new Product({ ...p, description: p.noTagDescription });
-        });
+        this.relatedProducts = resolved.products;
       });
     }
   };

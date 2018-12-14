@@ -60,6 +60,7 @@ export default class PersonalizeScene extends React.Component {
   }) => {
     // reached end?
     this.setState({
+      hasScrolled: contentOffset.y / Sizes.Height >= 1,
       reachedEnd:
         layoutMeasurement.height + contentOffset.y
         >= contentSize.height - Sizes.Height / 3
@@ -91,36 +92,35 @@ export default class PersonalizeScene extends React.Component {
           </ScrollView>
 
           <View style={styles.button} pointerEvents="box-none">
-            {this.store.canFinish ? (
-              <View style={styles.inner}>
-                <TouchableOpacity onPress={this.onFinish}>
-                  <View style={styles.actionButton}>
-                    <Text style={Styles.RoundedButtonText}>Finish</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              !this.state.reachedEnd && (
+            <View style={styles.inner}>
+              {!this.state.hasScrolled && (
                 <Animatable.View
                   animation="bounce"
-                  iterationCount="infinite"
+                  iterationCount={2}
                   duration={2500}
                   pointerEvents="none"
-                  style={{ alignItems: "center" }}>
-                  <Text
-                    style={{
-                      fontSize: Sizes.SmallText,
-                      color: Colours.Foreground
-                    }}>
-                    Scroll
-                  </Text>
+                  style={{
+                    alignItems: "center"
+                  }}>
                   <EntypoIcon
-                    name="chevron-thin-down"
-                    color={Colours.Foreground}
+                    name="chevron-thin-up"
+                    style={{ fontWeight: "bold" }}
                     size={Sizes.ActionButton}/>
+                  <Text
+                    style={{ fontSize: Sizes.SmallText, fontWeight: "bold" }}>
+                    Swipe Up
+                  </Text>
                 </Animatable.View>
-              )
-            )}
+              )}
+              {this.store.canFinish
+                && this.state.reachedEnd && (
+                  <TouchableOpacity onPress={this.onFinish}>
+                    <View style={styles.actionButton}>
+                      <Text style={Styles.RoundedButtonText}>Finish</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+            </View>
           </View>
         </View>
       </Provider>
@@ -129,9 +129,7 @@ export default class PersonalizeScene extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colours.BlueSteel
-  },
+  container: {},
 
   content: {},
 

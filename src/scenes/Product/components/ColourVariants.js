@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, FlatList } from "react-native";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
-import { ProductTile } from "localyyz/components";
+import { ProductTileV2 } from "localyyz/components";
 import { Product } from "localyyz/stores";
 
 // third party
@@ -12,9 +12,7 @@ import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
 @inject(stores => ({
-  product: stores.productStore.product,
-  dealStore: stores.dealStore,
-  activeDealStore: stores.activeDealStore
+  product: stores.productStore.product
 }))
 @observer
 export class ColourVariants extends React.Component {
@@ -23,35 +21,19 @@ export class ColourVariants extends React.Component {
     product: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.renderItem = this.renderItem.bind(this);
-  }
-
-  renderItem({ item: color }) {
+  renderItem = ({ item: color }) => {
     // instantiate a new virtual product model of this color only
     let product = new Product(this.props.product, color);
     return (
       <View style={styles.tile}>
-        <ProductTile
-          isVariant
+        <ProductTileV2
           product={product}
           onPress={() =>
-            this.props.navigation.push("Product", {
-              product: product,
-
-              // used for now timer sync
-              dealStore: this.props.dealStore,
-
-              // deal data itself
-              activeDealStore: this.props.activeDealStore
-            })
+            this.props.navigation.push("Product", { product: product })
           }/>
       </View>
     );
-  }
+  };
 
   render() {
     return this.props.product
@@ -107,7 +89,6 @@ const styles = StyleSheet.create({
   },
 
   tile: {
-    width: Sizes.Width / 2 - Sizes.InnerFrame * 3,
     paddingHorizontal: Sizes.InnerFrame / 2
   },
 
