@@ -30,7 +30,11 @@ export class Category extends React.Component {
     return (
       <FlatList
         data={[
-          { ...this.category, title: `All ${this.category.title}`, toProductList: true },
+          {
+            ...this.category,
+            label: `All ${this.category.label}`,
+            toProductList: true
+          },
           ...this.category.values
         ]}
         keyExtractor={item => `cat${item.id}`}

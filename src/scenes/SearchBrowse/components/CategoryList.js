@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  SectionList
-} from "react-native";
+import { View, StyleSheet, Text, SectionList } from "react-native";
 
 // third party
 import { observer, inject } from "mobx-react/native";
@@ -47,20 +42,10 @@ export class CategoryList extends React.Component {
     });
   };
 
-  // this selects a category from the main search browse screen
-  onSelectCategory = category => {
-    this.props.navigation.navigate({
-      routeName: "Category",
-      params: {
-        category: category
-      }
-    });
-  };
-
-  renderSection = ({ item }) => {
+  renderSection = ({ item, section }) => {
     return (
       <View style={styles.button}>
-        <CategoryButton category={item} />
+        <CategoryButton category={item} parent={{ ...section, values: [] }} />
       </View>
     );
   };
@@ -68,7 +53,7 @@ export class CategoryList extends React.Component {
   renderSectionHeader = ({ section: category }) => {
     return (
       <View style={styles.header}>
-        <Text style={styles.title}>{category.title.toUpperCase()}</Text>
+        <Text style={styles.title}>{category.label.toUpperCase()}</Text>
       </View>
     );
   };
@@ -80,7 +65,6 @@ export class CategoryList extends React.Component {
   onEndReached = ({ distanceFromEnd }) => {
     const nextIndex = this.state.sectionIndex + 1;
     if (distanceFromEnd > 0 && nextIndex <= this._categories.length - 1) {
-      // not the last page.
       const nextSection = this._categories[nextIndex];
       this.setState({
         sectionIndex: nextIndex,

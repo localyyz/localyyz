@@ -5,14 +5,30 @@ import { capitalize } from "~/src/helpers";
 import { GA, ApiInstance } from "~/src/global";
 
 export default class CategoryStore {
-  static fetchCategories = async path => {
-    const resolved = await ApiInstance.get(path);
-    if (!resolved.error) {
-      return Promise.resolve({
-        categories: resolved.data.values.map(c => new CategoryStore(c))
+  static fetchOne = async categoryId => {
+    return ApiInstance.get(`categories/${categoryId}`).then(response => {
+      return new Promise.resolve({
+        category: response.data,
+        error: response.error
       });
+    });
+  };
+
+  static fetch = async () => {
+    const response = await ApiInstance.get("categories");
+    let categories = [];
+
+    if (response.data) {
+      categories = response.data.map(category => ({
+        ...category,
+        data: category.values
+      }));
     }
-    return Promise.resolve({ error: resolved.error });
+
+    return new Promise.resolve({
+      categories: categories,
+      error: response.error
+    });
   };
 
   constructor(props) {

@@ -26,7 +26,7 @@ const SearchBrowseStack = createStackNavigator(
           color: Colours.LabelBlack
         },
         gesturesEnabled: state.params && state.params.gesturesEnabled,
-        title: state.params && state.params.title,
+        title: state.params && state.params.title.toUpperCase(),
         header: state.routeName === "Category" ? undefined : null
       };
     }

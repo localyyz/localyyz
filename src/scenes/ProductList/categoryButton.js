@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity
@@ -31,7 +30,7 @@ export default class CategoryButton extends React.Component {
             <Text
               numberOfLines={1}
               style={[styles.label, isSelected ? styles.selected : {}]}>
-              {this.props.title}
+              {this.props.label}
             </Text>
           </View>
         </View>

@@ -32,24 +32,22 @@ export default class CategoryHeader extends React.Component {
   }
 
   fetchCategories = category => {
-    CategoryStore.fetchCategories(`categories/${category.id}`).then(
-      resolved => {
-        runInAction("[ACTION] fetch categories", () => {
-          let categories = [];
-          category.parent && categories.push(category);
-          if (resolved.categories && resolved.categories.length > 0) {
-            categories = categories.concat(
-              resolved.categories.filter(c => c.imageUrl).map(c => ({
-                ...c,
-                parent: category
-              }))
-            );
-          }
-          categories = categories.length > 0 ? categories : [category];
-          this.categories.replace(categories);
-        });
-      }
-    );
+    CategoryStore.fetchOne(category.id).then(resolved => {
+      runInAction("[ACTION] fetch categories", () => {
+        let categories = [];
+        category.parent && categories.push(category);
+        if (resolved.category) {
+          categories = categories.concat(
+            resolved.category.values.map(c => ({
+              ...c,
+              parent: category
+            }))
+          );
+        }
+        categories = categories.length > 0 ? categories : [category];
+        this.categories.replace(categories);
+      });
+    });
   };
 
   @action

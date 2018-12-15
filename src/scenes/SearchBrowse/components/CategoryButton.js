@@ -16,6 +16,11 @@ const CATEGORY_MIN = 5;
 
 export class CategoryButton extends React.Component {
   onPress = () => {
+    if (this.props.category.value.startsWith("sale")) {
+      this.toSale();
+      return;
+    }
+
     // depending on if we have more nested categories
     // or not. navigate to product list
 
@@ -35,28 +40,42 @@ export class CategoryButton extends React.Component {
         // remove value from parent so we don't iterate again on select
         return acc.concat([{ ...val, values: [] }, ...val.values]);
       }, []);
-
-      values.push({
-        value: `${this.props.category.value}-sale`,
-        label: `${this.props.category.title} Sale`
-      });
     }
 
-    if (values.length >= CATEGORY_MIN) {
-      this.props.navigation.navigate({
-        routeName: "Category",
-        key: `category${this.props.category.value}`,
-        params: {
-          title: capitalize(this.props.category.title),
-          category: {
-            ...this.props.category,
-            values: values
-          },
+    values.length >= CATEGORY_MIN
+      ? this.toCategory(values)
+      : this.toProductList();
+  };
+
+  toSale = () => {
+    this.props.navigation.navigate({
+      routeName: "ProductList",
+      key: `sale${this.props.category.value}`,
+      params: {
+        title: capitalize(this.props.category.label),
+        fetchPath: "products",
+        usePreferredGender: false,
+        hideCategoryBar: true,
+        filtersort: {
+          discountMin: 40,
+          category: this.props.parent
+        },
+      }
+    });
+  };
+
+  toCategory = values => {
+    this.props.navigation.navigate({
+      routeName: "Category",
+      key: `category${this.props.category.value}`,
+      params: {
+        title: capitalize(this.props.category.label),
+        category: {
+          ...this.props.category,
+          values: values
         }
-      });
-    } else {
-      this.toProductList();
-    }
+      }
+    });
   };
 
   toProductList = () => {
@@ -65,7 +84,7 @@ export class CategoryButton extends React.Component {
       key: `categoryProduct-${this.props.category.id}`,
       params: {
         fetchPath: `categories/${this.props.category.id}/products`,
-        title: capitalize(this.props.category.title),
+        title: capitalize(this.props.category.label),
         hideCategoryBar: true,
         usePreferredGender: false
       }
@@ -73,7 +92,7 @@ export class CategoryButton extends React.Component {
   };
 
   render() {
-    const { toProductList, imageUrl, title } = this.props.category;
+    const { toProductList, imageUrl, label } = this.props.category;
 
     return (
       <TouchableOpacity
@@ -86,7 +105,7 @@ export class CategoryButton extends React.Component {
             style={styles.photo}/>
           <View style={styles.labelContainer}>
             <Text style={styles.label} numberOfLines={2}>
-              {title.toUpperCase()}
+              {label.toUpperCase()}
             </Text>
             <Text style={styles.subtitle}>View Collection</Text>
           </View>
