@@ -6,16 +6,18 @@ import { Styles, Sizes } from "localyyz/constants";
 import PropTypes from "prop-types";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-export default class ExpandedDescription extends React.Component {
+export default class ExpandableSection extends React.Component {
   static propTypes = {
     onExpand: PropTypes.func,
     title: PropTypes.string,
-    content: PropTypes.string
+    content: PropTypes.string,
+    showPreview: PropTypes.bool
   };
 
   static defaultProps = {
     title: "",
-    content: ""
+    content: "",
+    showPreview: false
   };
 
   render() {
@@ -23,12 +25,16 @@ export default class ExpandedDescription extends React.Component {
       <TouchableOpacity onPress={this.props.onExpand}>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.title}>{this.props.title}</Text>
+            {this.props.title && (
+              <Text style={styles.title}>{this.props.title}</Text>
+            )}
             {this.props.onExpand ? (
               <MaterialIcon name="expand-more" size={Sizes.Text} />
             ) : null}
           </View>
-          <Text style={styles.content}>{this.props.content}</Text>
+          {this.props.showPreview && (
+            <Text style={styles.content}>{this.props.content}</Text>
+          )}
         </View>
       </TouchableOpacity>
     );
@@ -46,7 +52,6 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    ...Styles.Emphasized,
     fontSize: Sizes.SmallText
   },
 

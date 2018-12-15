@@ -44,8 +44,6 @@ import ShippingPolicy from "./ShippingPolicy";
 @observer
 export class MerchantDetails extends React.Component {
   static propTypes = {
-    isBrowsingDisabled: PropTypes.bool,
-
     // mobx injected
     placeName: PropTypes.string,
     placeLogo: PropTypes.string,
@@ -57,7 +55,6 @@ export class MerchantDetails extends React.Component {
   };
 
   static defaultProps = {
-    isBrowsingDisabled: false,
     placeName: "",
     isSocial: false
   };
@@ -92,12 +89,11 @@ export class MerchantDetails extends React.Component {
   get renderShippingPolicy() {
     return (
       <ExpandableSection
-        title="Shipping"
+        title="Shipping policy"
         content={"View Shipping Info"}
         onExpand={() => {
           this.props.navigation.navigate("Modal", {
             type: "shipping policy",
-            title: `${this.props.placeName}`,
             component: <ShippingPolicy placeId={this.props.placeId} />
           });
         }}/>
@@ -109,7 +105,6 @@ export class MerchantDetails extends React.Component {
       this.props.returnPolicy && this.props.returnPolicy.desc.length > 0
         ? this.props.navigation.navigate("Modal", {
             type: "return policy",
-            title: `${this.props.placeName}`,
             component: (
               <ScrollView
                 contentContainerStyle={{
@@ -160,47 +155,9 @@ export class MerchantDetails extends React.Component {
     ) : null;
   }
 
-  get touchableComponent() {
-    return this.props.isBrowsingDisabled ? View : TouchableOpacity;
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.banner}>
-          <View style={styles.bannerHeader}>
-            <this.touchableComponent
-              onPress={() =>
-                this.props.navigation.push("ProductList", {
-                  fetchPath: `places/${this.props.placeId}/products`,
-                  title: capitalize(this.props.placeName)
-                })
-              }>
-              <SloppyView>
-                <Text style={styles.bannerHeaderTitle}>
-                  {this.props.placeName}
-                </Text>
-              </SloppyView>
-            </this.touchableComponent>
-            {this.renderSocial}
-          </View>
-          {this.props.placeLogo ? (
-            <this.touchableComponent
-              onPress={() =>
-                this.props.navigation.push("ProductList", {
-                  fetchPath: `places/${this.props.placeId}/products`,
-                  title: capitalize(this.props.placeName)
-                })
-              }>
-              <SloppyView>
-                <ConstrainedAspectImage
-                  constrainHeight={Sizes.Width / 8}
-                  constrainWidth={Sizes.Width / 3}
-                  source={{ uri: this.props.placeLogo }}/>
-              </SloppyView>
-            </this.touchableComponent>
-          ) : null}
-        </View>
         {this.renderShippingPolicy}
         {this.renderReturnPolicy}
       </View>
@@ -213,18 +170,6 @@ export default withNavigation(MerchantDetails);
 const styles = StyleSheet.create({
   container: {},
 
-  header: {
-    ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    marginVertical: Sizes.InnerFrame / 2
-  },
-
-  title: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    fontSize: Sizes.SmallText
-  },
-
   banner: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
@@ -235,17 +180,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
-  bannerHeaderTitle: {
-    flexWrap: "wrap",
-    marginBottom: Sizes.InnerFrame,
-    fontSize: Sizes.LargeInput,
-    fontWeight: Sizes.Bold
-  },
-
   // social
   socialContainer: {
     ...Styles.Horizontal
-  },
-
-  socialIcon: {}
+  }
 });

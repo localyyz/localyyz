@@ -41,10 +41,7 @@ export class ColourVariants extends React.Component {
       && this.props.product.colors.length > 1 ? (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerLabel}>Other colors</Text>
-          <Text style={styles.headerDescription}>
-            This product is also available in other colors.
-          </Text>
+          <Text style={styles.title}>Other Variants</Text>
         </View>
         <View style={styles.content}>
           <FlatList
@@ -72,19 +69,14 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    paddingHorizontal: Sizes.OuterFrame - Sizes.InnerFrame,
     paddingVertical: Sizes.InnerFrame,
     marginHorizontal: Sizes.InnerFrame,
     backgroundColor: Colours.Transparent
   },
 
-  headerLabel: {
+  title: {
     ...Styles.Text,
-    ...Styles.Emphasized
-  },
-
-  headerDescription: {
-    ...Styles.Text,
+    ...Styles.Emphasized,
     marginTop: Sizes.InnerFrame / 2
   },
 

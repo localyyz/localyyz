@@ -13,7 +13,7 @@ import { withNavigation } from "react-navigation";
 import { inject, observer } from "mobx-react/native";
 
 // custom
-import { Colours } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 import ProductTileV2, {
   ProductTileHeight,
   PADDING as ProductTilePadding
@@ -60,7 +60,7 @@ export class ProductList extends React.Component {
   renderItem = ({ item: product, index }) => {
     const itemStyle = index % 2 == 0 ? styles.itemEven : styles.itemOdd;
     return (
-      <View style={itemStyle}>
+      <View style={[styles.separator, itemStyle]}>
         <ProductListItem product={product} navigation={this.props.navigation} />
       </View>
     );
@@ -93,6 +93,10 @@ const styles = StyleSheet.create({
   content: {
     paddingBottom: ProductTileHeight,
     backgroundColor: Colours.Foreground
+  },
+
+  separator: {
+    paddingBottom: Sizes.OuterFrame
   },
 
   itemEven: {

@@ -28,6 +28,10 @@ import {
   ProductBadges
 } from "./components";
 
+// local
+import ExpandableSection from "./components/ExpandableSection";
+import ExpandedDescription from "./components/ExpandedDescription";
+
 @inject(stores => ({
   coverImage:
     stores.productStore.product && stores.productStore.product.imageUrl,
@@ -49,13 +53,11 @@ export class Content extends React.Component {
     product: PropTypes.object.isRequired,
     onScroll: PropTypes.func.isRequired,
     onPressImage: PropTypes.func.isRequired,
-    isBrowsingDisabled: PropTypes.bool,
     selectedVariant: PropTypes.object
   };
 
   static defaultProps = {
-    backgroundPosition: 0,
-    isBrowsingDisabled: false
+    backgroundPosition: 0
   };
 
   constructor(props) {
@@ -125,19 +127,29 @@ export class Content extends React.Component {
               </LinearGradient>
             </View>
           </TouchableWithoutFeedback>
-          <View style={[styles.card, styles.firstCard]}>
+          <View style={styles.card}>
             <ProductDetails />
           </View>
+          <ProductBadges />
           <Photos onPress={this.props.onPressImage} />
-          <ColourVariants />
-          <View>
-            <ProductBadges />
-          </View>
+
           <View style={styles.card}>
-            <MerchantDetails
-              isBrowsingDisabled={this.props.isBrowsingDisabled}/>
+            <ExpandableSection
+              content={this.props.description}
+              title="Product Information"
+              onExpand={() => {
+                this.props.navigation.navigate("Modal", {
+                  type: "product detail",
+                  title: this.props.product.title,
+                  description: this.props.product.htmlDescription,
+                  component: <ExpandedDescription />
+                });
+              }}/>
+            <MerchantDetails />
           </View>
-          {!this.props.isBrowsingDisabled ? <RelatedProducts /> : null}
+
+          <ColourVariants />
+          <RelatedProducts />
         </ScrollView>
         <View style={styles.footerContainer}>
           <AddToCartButton />
@@ -159,11 +171,6 @@ const styles = StyleSheet.create({
     ...Styles.Card,
     paddingTop: Sizes.InnerFrame,
     marginVertical: Sizes.InnerFrame / 8
-  },
-
-  firstCard: {
-    marginVertical: null,
-    marginBottom: Sizes.InnerFrame / 8
   },
 
   footerContainer: {

@@ -1,11 +1,20 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import PropTypes from "prop-types";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { toPriceString } from "localyyz/helpers";
 
 export default class PriceTag extends React.Component {
+  static propTypes = {
+    size: PropTypes.any
+  };
+
+  static defaultProps = {
+    size: Sizes.Text
+  };
+
   get priceTag() {
     return this.props.product.minPrice >= this.props.product.maxPrice
       ? toPriceString(

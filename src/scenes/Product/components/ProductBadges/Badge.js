@@ -5,17 +5,12 @@ import { View, Text, StyleSheet } from "react-native";
 import { Colours, Sizes } from "localyyz/constants";
 
 // third party
-import { withNavigation } from "react-navigation";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
-export class Badge extends React.Component {
-  get Icon() {
+export default class Badge extends React.Component {
+  render() {
     return (
-      <View
-        style={{
-          alignItems: "center",
-          width: Sizes.Width / 4
-        }}>
+      <View style={styles.container}>
         <View style={styles.iconBackground}>
           <MaterialIcon
             name={this.props.name}
@@ -33,15 +28,15 @@ export class Badge extends React.Component {
       </View>
     );
   }
-
-  render() {
-    return <View>{this.Icon}</View>;
-  }
 }
 
-export default withNavigation(Badge);
-
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    width: Sizes.Width / 4,
+    paddingVertical: Sizes.InnerFrame
+  },
+
   iconBackground: {
     alignItems: "center",
     justifyContent: "center",

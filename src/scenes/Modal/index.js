@@ -8,8 +8,9 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 export default class Modal extends React.Component {
   render() {
     // modal receives component to render via navigation props
-    const { state: { params: { component } } } = this.props.navigation;
+    const { state: { params: { component, ...rest } } } = this.props.navigation;
     const Component = React.cloneElement(component, {
+      ...rest,
       onClose: () => {
         this.props.navigation.goBack();
       }

@@ -32,40 +32,32 @@ export class Index extends React.Component {
     return (
       <View style={styles.iconContainer}>
         {this.props.product.hasFreeShipping ? (
-          <View>
-            <Badge
-              name={"local-shipping"}
-              size={Sizes.BadgeIcon}
-              color={Colours.Foreground}
-              label={"Free U.S. Shipping"}/>
-          </View>
+          <Badge
+            name={"local-shipping"}
+            size={Sizes.BadgeIcon}
+            color={Colours.Foreground}
+            label={"Free U.S. Shipping"}/>
         ) : null}
         {this.props.product.hasFreeReturn ? (
-          <View>
-            <Badge
-              name={"keyboard-return"}
-              size={Sizes.BadgeIcon}
-              color={Colours.Foreground}
-              label={"Free Returns"}/>
-          </View>
+          <Badge
+            name={"keyboard-return"}
+            size={Sizes.BadgeIcon}
+            color={Colours.Foreground}
+            label={"Free Returns"}/>
         ) : null}
         {this.isOnSale ? (
-          <View>
-            <Badge
-              name={"money-off"}
-              size={Sizes.BadgeIcon}
-              color={Colours.Foreground}
-              label={"On Sale"}/>
-          </View>
+          <Badge
+            name={"money-off"}
+            size={Sizes.BadgeIcon}
+            color={Colours.Foreground}
+            label={"On Sale"}/>
         ) : null}
         {this.hasLowStock ? (
-          <View>
-            <Badge
-              name={"priority-high"}
-              size={Sizes.BadgeIcon}
-              color={Colours.Foreground}
-              label={"Low Stock"}/>
-          </View>
+          <Badge
+            name={"priority-high"}
+            size={Sizes.BadgeIcon}
+            color={Colours.Foreground}
+            label={"Low Stock"}/>
         ) : null}
       </View>
     );
@@ -78,8 +70,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     backgroundColor: Colours.Foreground,
     flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 2 * Sizes.InnerFrame / 3,
-    paddingHorizontal: Sizes.InnerFrame / 2
+    alignItems: "center"
   }
 });

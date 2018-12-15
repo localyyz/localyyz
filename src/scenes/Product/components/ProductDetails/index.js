@@ -1,17 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Sizes, Colours } from "localyyz/constants";
-import Favourite from "~/src/components/ProductTileV2/Favourite";
+import { Sizes, Colours, Styles } from "localyyz/constants";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-
-// local
-import ExpandableSection from "../ExpandableSection";
-import { ExpandedDescription, UsedIndicator } from "./components";
 
 // third party
 import PropTypes from "prop-types";
 import { withNavigation } from "react-navigation";
-import { observer, inject, Provider } from "mobx-react/native";
+import { observer, inject } from "mobx-react/native";
 import { toPriceString } from "localyyz/helpers";
 
 @inject(stores => ({
@@ -81,22 +76,10 @@ export class ProductDetails extends React.Component {
     );
   }
 
-  get expandedDescriptionComponent() {
-    return (
-      <Provider productStore={this.props.productStore}>
-        <ExpandedDescription />
-      </Provider>
-    );
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.productTitle}>{this.props.title}</Text>
-          <View style={styles.brandContainer}>
-            <Text style={styles.productBrand}>{this.props.brand}</Text>
-          </View>
           <View style={styles.priceLine}>
             <View>
               <Text style={styles.productPrice}>{`$${this.props.price}`}</Text>
@@ -125,17 +108,7 @@ export class ProductDetails extends React.Component {
           </View>
         </View>
         {this.props.stock < 10 && this.props.inStock ? this.stockMessage : null}
-        <ExpandableSection
-          title="Details"
-          content={this.props.description}
-          onExpand={() => {
-            this.props.navigation.navigate("Modal", {
-              type: "product detail",
-              title: `${this.props.title}`,
-              component: this.expandedDescriptionComponent
-            });
-          }}/>
-        <UsedIndicator />
+        <Text style={styles.title}>{this.props.title}</Text>
       </View>
     );
   }
@@ -146,12 +119,6 @@ export default withNavigation(ProductDetails);
 const styles = StyleSheet.create({
   container: {},
 
-  brandContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-
   priceLine: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -159,20 +126,15 @@ const styles = StyleSheet.create({
     paddingTop: Sizes.InnerFrame
   },
 
-  productTitle: {
-    fontSize: Sizes.Text,
-    fontWeight: Sizes.Bold
-  },
-
-  productBrand: {
-    fontSize: Sizes.MediumText,
-    fontWeight: Sizes.Medium,
-    color: Colours.SubduedText
+  title: {
+    fontSize: Sizes.SmallText,
+    color: Colours.LabelGrey,
+    paddingVertical: Sizes.InnerFrame
   },
 
   productPrice: {
-    fontSize: Sizes.MediumText,
-    fontWeight: Sizes.Medium
+    ...Styles.Text,
+    ...Styles.Emphasized
   },
 
   previousPrice: {

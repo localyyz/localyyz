@@ -49,21 +49,16 @@ export class ProductTileV2 extends React.Component {
           /* Place the merchant and price tag in one column and the favourite
           button in the next column */
           <View style={styles.content}>
-            <View
-              style={{
-                flexDirection: "column"
-                // Place the merchant name and price tag into separate rows
-              }}>
+            <View style={{ flexDirection: "column" }}>
+              <View style={styles.price}>
+                <PriceTag
+                  product={this.props.product}
+                  discountSize={Sizes.TinyText}/>
+              </View>
               <View style={{ maxWidth: Sizes.Width / 3 }}>
                 <Text style={styles.brand} numberOfLines={1}>
                   {this.props.product.brand || this.props.product.place.name}
                 </Text>
-              </View>
-              <View style={styles.price}>
-                <PriceTag
-                  product={this.props.product}
-                  size={Sizes.SmallText}
-                  discountSize={Sizes.TinyText}/>
               </View>
             </View>
 
@@ -108,7 +103,6 @@ const styles = StyleSheet.create({
 
   content: {
     paddingVertical: Sizes.InnerFrame / 2,
-    paddingHorizontal: Sizes.InnerFrame / 4,
     flexDirection: "row",
     justifyContent: "space-between"
   },
