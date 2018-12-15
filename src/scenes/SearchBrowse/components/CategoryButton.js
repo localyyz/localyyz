@@ -53,13 +53,12 @@ export class CategoryButton extends React.Component {
       key: `sale${this.props.category.value}`,
       params: {
         title: capitalize(this.props.category.label),
-        fetchPath: "products",
+        fetchPath: `categories/${this.props.parent.id}/products`,
         usePreferredGender: false,
         hideCategoryBar: true,
         filtersort: {
-          discountMin: 40,
-          category: this.props.parent
-        },
+          discountMin: 40
+        }
       }
     });
   };

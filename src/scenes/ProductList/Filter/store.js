@@ -192,7 +192,7 @@ export default class FilterStore {
     if (gender) {
       p.gender = [gender];
     }
-    this.personalize = p == {} ? undefined : p;
+    this.personalize = !Object.keys(p).length ? undefined : p;
   }
 
   @computed
