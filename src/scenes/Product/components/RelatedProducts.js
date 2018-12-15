@@ -1,14 +1,15 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
-import { ProductList, MoreTile } from "localyyz/components";
+import { ProductList } from "localyyz/components";
 
 // third party
 import { withNavigation } from "react-navigation";
 import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
+import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
 @inject(stores => ({
   relatedProducts: stores.productStore.relatedProducts.slice() || [],
@@ -42,24 +43,34 @@ export class RelatedProducts extends React.Component {
     this.props.fetch();
   }
 
+  onPressMore = () => {
+    this.props.navigation.push("ProductList", {
+      fetchPath: `places/${this.props.placeId}/products`,
+      title: `${this.props.placeName}`,
+      subtitle: "Here's some related products from this merchant"
+    });
+  };
+
   render() {
     return this.props.relatedProducts.length > 0 ? (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerLabel}>Others also viewed</Text>
         </View>
-        <ProductList products={this.props.relatedProducts} />
-        <View style={styles.footer}>
-          <MoreTile
-            onPress={() =>
-              this.props.placeId
-              && this.props.navigation.push("ProductList", {
-                fetchPath: `places/${this.props.placeId}/products`,
-                title: `${this.props.placeName}`,
-                subtitle: "Here's some related products from this merchant"
-              })
-            }/>
-        </View>
+        <ProductList
+          containerStyle={{ paddingBottom: 0 }}
+          products={this.props.relatedProducts}/>
+        <TouchableOpacity onPress={this.onPressMore} style={styles.tile}>
+          <View style={styles.callToAction}>
+            <Text style={styles.callToActionLabel}>
+              View {this.props.placeName} Collection
+            </Text>
+            <MaterialCommunityIcon
+              name="arrow-right"
+              size={Sizes.Text}
+              color={Colours.Text}/>
+          </View>
+        </TouchableOpacity>
       </View>
     ) : null;
   }
@@ -70,7 +81,7 @@ export default withNavigation(RelatedProducts);
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colours.Foreground,
-    marginVertical: Sizes.InnerFrame
+    paddingBottom: Sizes.InnerFrame
   },
 
   header: {
@@ -83,10 +94,19 @@ const styles = StyleSheet.create({
     ...Styles.Emphasized,
     marginHorizontal: Sizes.InnerFrame
   },
-
-  footer: {
+  tile: {
     alignItems: "flex-end",
-    justifyContent: "flex-end",
-    marginVertical: Sizes.OuterFrame
+    marginHorizontal: Sizes.InnerFrame
+  },
+
+  callToAction: {
+    ...Styles.Horizontal,
+    paddingBottom: Sizes.InnerFrame / 4,
+    width: Sizes.Width / 2
+  },
+
+  callToActionLabel: {
+    fontSize: Sizes.SmallText,
+    marginRight: Sizes.InnerFrame / 2
   }
 });

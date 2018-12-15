@@ -15,7 +15,6 @@ import { inject, observer } from "mobx-react/native";
 // custom
 import { Colours, Sizes } from "localyyz/constants";
 import ProductTileV2, {
-  ProductTileHeight,
   PADDING as ProductTilePadding
 } from "~/src/components/ProductTileV2";
 
@@ -75,14 +74,16 @@ export class ProductList extends React.Component {
         keyExtractor={i => i.id}
         renderItem={this.renderItem}
         ListFooterComponent={
-          <ActivityIndicator size="large" animating={this.props.isLoading} />
+          <ActivityIndicator
+            size="large"
+            animating={this.props.isLoading || false}/>
         }
         onEndReachedThreshold={1}
         scrollEventThrottle={16}
         initialNumToRender={6}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[this.props.containerStyle, styles.content]}/>
+        contentContainerStyle={[styles.content, this.props.containerStyle]}/>
     );
   }
 }
@@ -91,8 +92,8 @@ export default withNavigation(ProductList);
 
 const styles = StyleSheet.create({
   content: {
-    paddingBottom: ProductTileHeight,
-    backgroundColor: Colours.Foreground
+    backgroundColor: Colours.Foreground,
+    paddingBottom: Sizes.Height / 6
   },
 
   separator: {
