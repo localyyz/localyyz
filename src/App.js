@@ -3,7 +3,7 @@ import { AppState, Alert, Platform, Linking } from "react-native";
 import { createStackNavigator, createTabNavigator } from "react-navigation";
 
 // custom
-import { Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
+import { Styles, Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
 import { ApiInstance, GA, OS } from "localyyz/global";
@@ -195,13 +195,15 @@ const AppNavigator = createStackNavigator(
   },
   {
     initialRouteName: "Home",
-    navigationOptions: ({ navigation: { state } }) => ({
-      header: null,
-      headerTintColor: Colours.LabelBlack,
+    navigationOptions: ({ navigation: { state }, navigationOptions }) => ({
+      ...navigationOptions,
+      gesturesEnabled: state.params && state.params.gesturesEnabled,
+      header: state.routeName === "Product" ? undefined : null,
       headerStyle: { borderBottomWidth: 0 },
-      gesturesEnabled: state.params && state.params.gesturesEnabled
-    }),
-    headerMode: "none"
+      headerBackTitle: null,
+      headerTintColor: Colours.LabelBlack,
+      headerTransparent: state.routeName === "Product"
+    })
   }
 );
 

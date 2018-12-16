@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // custom
 import Product from "~/src/stores/ProductStore";
-import { ConstrainedAspectImage } from "localyyz/components";
+import { ProgressiveImage } from "localyyz/components";
 import { toPriceString } from "localyyz/helpers";
 import { Colours, Sizes, Styles } from "localyyz/constants";
 
@@ -56,22 +56,17 @@ export class CartItem extends React.Component {
           <TouchableOpacity onPress={this.onPress}>
             <View style={styles.container}>
               <View style={styles.photo}>
-                <ConstrainedAspectImage
+                <ProgressiveImage
                   testID="photo"
                   source={{
                     uri:
-                      this.props.item.product.associatedPhotos[0]
-                      && this.props.item.product.associatedPhotos[0].imageUrl
+                      this.props.item.product.images[0]
+                      && this.props.item.product.images[0].imageUrl
                   }}
-                  sourceWidth={
-                    this.props.item.product.associatedPhotos[0]
-                    && this.props.item.product.associatedPhotos[0].width
-                  }
-                  sourceHeight={
-                    this.props.item.product.associatedPhotos[0]
-                    && this.props.item.product.associatedPhotos[0].height
-                  }
-                  constrainWidth={MAX_PHOTO_SIZE}/>
+                  style={{
+                    height: MAX_PHOTO_SIZE,
+                    width: MAX_PHOTO_SIZE
+                  }}/>
               </View>
               <View style={styles.content}>
                 {this.props.item.hasError && (

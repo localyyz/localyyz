@@ -37,8 +37,8 @@ export class ProductTileV2 extends React.Component {
               resizeMode={"contain"}
               source={{
                 uri:
-                  this.props.product.associatedPhotos[0]
-                  && this.props.product.associatedPhotos[0].imageUrl
+                  this.props.product.images[0]
+                  && this.props.product.images[0].imageUrl
               }}
               style={{
                 width: ProductTileWidth,

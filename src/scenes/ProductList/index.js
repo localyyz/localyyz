@@ -30,12 +30,14 @@ const ProductListStack = createStackNavigator(
         ...navigationOptions,
         gesturesEnabled: state.params && state.params.gesturesEnabled,
         headerStyle: { borderBottomWidth: 0 },
+        headerBackTitle: null,
         headerTintColor: Colours.LabelBlack,
         headerTitleStyle: {
           ...Styles.Text,
           ...Styles.Emphasized,
           color: Colours.LabelBlack
-        }
+        },
+        headerTransparent: state.routeName === "Product"
       };
     }
   }

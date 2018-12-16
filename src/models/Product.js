@@ -260,68 +260,6 @@ export default class Product {
     return _allSizes.length <= 1;
   }
 
-  // photos associated with this color
-  get associatedPhotos() {
-    let photoGroups = this.photoGroups;
-
-    // proposed, group if exists else common
-    return this.selectedColor
-      && photoGroups[this.selectedColor]
-      && photoGroups[this.selectedColor].length > 0
-      ? photoGroups[this.selectedColor]
-      : photoGroups._common;
-
-    // alternative: merge common with group
-    // return [...(photoGroups[this.selectedColor] || []), ...photoGroups._common];
-  }
-
-  get photoGroups() {
-    let currentGroup = "_common";
-    let groups = { [currentGroup]: [] };
-
-    // edge case, if only 1 color, no need to group
-    if (this.colors.length == 1) {
-      return { ...groups, [this.colors[0]]: this.images.slice() };
-    }
-
-    // build keys of imageId's to colours
-    let keys = {};
-    for (let variant of this.variants || []) {
-      if (variant.imageId) {
-        keys[variant.imageId] = variant.etc.color;
-
-        // init the group array
-        groups[variant.etc.color] = [];
-      }
-    }
-
-    // cycle through photos until we hit one thats a "key photo" for a known
-    // variant, at which we swap the currentGroup
-
-    // assuming images are grouped by colour, and the first group is
-    // common to all
-    for (let photo of this.images.slice()) {
-      // key has changed, so switch new photos into that group
-      if (keys[photo.id]) {
-        currentGroup = keys[photo.id];
-      }
-
-      groups[currentGroup].push(photo);
-    }
-
-    // fail safe: if any color at this point doesn't have any images
-    // associated, and that _common is empty.
-    if (groups["_common"].length == 0) {
-      for (let color of this.colors.slice()) {
-        if (!groups[color]) {
-          groups[color] = this.images.slice();
-        }
-      }
-    }
-
-    return groups;
-  }
-
   @action
   setProduct = (product, selectedColor) => {
     // set or use default value

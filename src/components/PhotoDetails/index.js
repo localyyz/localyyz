@@ -2,7 +2,6 @@ import React from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
 
 // custom
-import { NavBar } from "localyyz/components";
 import { Colours, Sizes } from "localyyz/constants";
 
 // third party
@@ -18,12 +17,9 @@ export default class PhotoDetails extends React.Component {
       isVisible: false,
       source: null
     };
-
-    // bindings
-    this.toggle = this.toggle.bind(this);
   }
 
-  toggle(forceShow, source) {
+  toggle = (forceShow, source) => {
     const shouldShow = forceShow != null ? forceShow : !this.state.isVisible;
 
     // color of statusBar
@@ -39,7 +35,7 @@ export default class PhotoDetails extends React.Component {
         this.props.onDismiss && shouldShow === false && this.props.onDismiss();
       }
     );
-  }
+  };
 
   render() {
     return (
@@ -51,7 +47,8 @@ export default class PhotoDetails extends React.Component {
           <View style={styles.overlay}>
             <PhotoView
               source={{ uri: this.state.source }}
-              minimumZoomScale={0.9}
+              scale={1.5}
+              minimumZoomScale={1}
               maximumZoomScale={3}
               androidScaleType="center"
               onViewTap={() => this.toggle(false)}

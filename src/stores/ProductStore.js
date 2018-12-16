@@ -1,4 +1,5 @@
 import { runInAction } from "mobx";
+import branch from "react-native-branch";
 
 // custom
 import { GA, ApiInstance } from "localyyz/global";
@@ -73,5 +74,28 @@ export default class ProductStore extends ProductModel {
 
   toggleFavourite = () => {
     this.isFavourite ? this.removeFavourite() : this.addFavourite();
+  };
+
+  generateDeepLink = async () => {
+    let branchUniversalObject = await branch.createBranchUniversalObject(
+      `product:${this.id}`,
+      {
+        locallyIndex: true,
+        title: this.title,
+        contentDescription: this.description
+      }
+    );
+
+    let controlParams = {
+      destination: "product",
+      destination_id: this.id
+    };
+
+    let { url } = await branchUniversalObject.generateShortUrl(
+      {},
+      controlParams
+    );
+
+    return url;
   };
 }

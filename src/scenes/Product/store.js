@@ -3,8 +3,6 @@ import { action, runInAction, observable } from "mobx";
 import { box } from "localyyz/helpers";
 import { historyStore } from "localyyz/stores";
 
-import branch from "react-native-branch";
-
 class ProductUIStore {
   @box product = {};
   @box isVariantSelectorVisible = false;
@@ -48,36 +46,6 @@ class ProductUIStore {
       });
     }
   };
-
-  async generateProductDeeplink(
-    productID,
-    productTitle,
-    productDescription,
-    isDeal
-  ) {
-    let branchUniversalObject = await branch.createBranchUniversalObject(
-      `product:${productID}`,
-      {
-        locallyIndex: true,
-        title: productTitle,
-        contentDescription: productDescription
-      }
-    );
-
-    let controlParams = isDeal
-      ? { destination: "deals" }
-      : {
-          destination: "product",
-          destination_id: productID
-        };
-
-    let { url } = await branchUniversalObject.generateShortUrl(
-      {},
-      controlParams
-    );
-
-    return url;
-  }
 }
 
 export default ProductUIStore;

@@ -20,6 +20,7 @@ const SearchBrowseStack = createStackNavigator(
         ...navigationOptions,
         headerStyle: { borderBottomWidth: 0 },
         headerTintColor: Colours.LabelBlack,
+        headerBackTitle: false,
         headerTitleStyle: {
           ...Styles.Text,
           ...Styles.Emphasized,
