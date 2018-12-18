@@ -3,7 +3,7 @@ import { AppState, Alert, Platform, Linking } from "react-native";
 import { createStackNavigator, createTabNavigator } from "react-navigation";
 
 // custom
-import { Styles, Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
+import { Colours, Config, DEV_REMOTE_API } from "localyyz/constants";
 import { NavBar } from "localyyz/components";
 import { stores } from "localyyz/stores";
 import { ApiInstance, GA, OS } from "localyyz/global";

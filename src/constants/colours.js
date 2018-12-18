@@ -90,7 +90,7 @@ export const Colours = {
   DarkBlue: DarkBlue,
 
   // text
-  Text: Text,
+  Text: LabelBlack,
   AlternateText: Foreground,
   EmphasizedText: Black,
   SubduedText: LightGrey,

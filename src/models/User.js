@@ -26,8 +26,13 @@ export default class User {
   }
 
   @computed
-  get shouldPersonalize() {
-    return !this.prf;
+  get needPersonalize() {
+    // no preference
+    //  AND none selected
+    return !(
+      this.prf
+      && (this.prf.gender || this.prf.styles || this.prf.pricing)
+    );
   }
 
   @computed

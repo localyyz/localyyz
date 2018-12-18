@@ -80,7 +80,7 @@ export class FeedRow extends React.Component {
               Styles.Emphasized,
               { paddingBottom: Sizes.InnerFrame }
             ]}>
-            Favorite More Products
+            Add More Favourites
           </Text>
           <Text style={[Styles.Subdued, { textAlign: "center" }]}>
             Recommendations based on your favorite products will appear in your

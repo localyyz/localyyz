@@ -10,6 +10,11 @@ export const Styles = {
     backgroundColor: Colours.Transparent
   },
 
+  Subtext: {
+    fontSize: Sizes.SmallText,
+    color: Colours.LabelGrey
+  },
+
   Medium: {
     fontWeight: Sizes.Medium
   },
