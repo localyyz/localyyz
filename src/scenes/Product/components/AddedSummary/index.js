@@ -214,14 +214,17 @@ export class AddedSummary extends React.Component {
             textColorTint={Colours.Foreground}/>
         </View>
 
-        <View pointerEvents="box-none" style={styles.close}>
+        <View style={styles.close}>
           <MaterialIcon.Button
             name="close"
             size={Sizes.ActionButton}
             underlayColor={Colours.Transparent}
             backgroundColor={Colours.Transparent}
             color={Colours.Foreground}
-            onPress={() => this.onDismiss()}/>
+            onPress={() => {
+              this.props.navigation.setParams({ addSummaryVisible: false });
+              this.onDismiss();
+            }}/>
         </View>
       </SafeAreaView>
     );
@@ -238,8 +241,11 @@ const styles = StyleSheet.create({
 
   close: {
     position: "absolute",
-    top: 5 + Sizes.ScreenTop,
-    left: 5
+    top: 0,
+    left: 0,
+
+    paddingLeft: 5,
+    paddingTop: 5 + Sizes.ScreenTop
   },
 
   helper: {
@@ -262,30 +268,6 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Title,
     ...Styles.Alternate
-  },
-
-  addButton: {
-    ...Styles.RoundedButton,
-    ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    paddingHorizontal: Sizes.OuterFrame,
-    paddingVertical: Sizes.OuterFrame / 2,
-    borderRadius: Sizes.OuterFrame,
-    backgroundColor: Colours.Accented
-  },
-
-  addButtonLabel: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    ...Styles.Alternate
-  },
-
-  addButtonDetails: {
-    ...Styles.Horizontal
-  },
-
-  addButtonIcon: {
-    marginLeft: Sizes.InnerFrame / 2
   },
 
   centeredButtons: {

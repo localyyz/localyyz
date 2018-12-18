@@ -33,6 +33,11 @@ class ProductScene extends React.Component {
 
     return {
       ...navigationOptions,
+      // NOTE: this is terrible. when add summary is open
+      // there's some weird issue with header buttons always clicked
+      // on top of everything else. we need to hide it or the x button
+      // wont work
+      header: params.addSummaryVisible ? null : undefined,
       headerRight: (
         <View
           style={{

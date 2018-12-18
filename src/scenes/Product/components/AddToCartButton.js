@@ -22,6 +22,7 @@ export class AddToCartButton extends React.Component {
   }
 
   onPress() {
+    this.props.navigation.setParams({ addSummaryVisible: true });
     this.isInStock && this.props.openAddSummary();
   }
 
