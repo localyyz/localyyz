@@ -11,9 +11,8 @@ import { NAVBAR_HEIGHT } from "../../../constants";
 
 @inject(stores => ({
   product: stores.productStore.product,
-  selectedVariant: stores.productStore.selectedVariant,
-
-  openAddSummary: async () => stores.productStore.toggleAddedSummary(true)
+  selectedColor: stores.productStore.selectedColor,
+  openAddSummary: () => stores.productStore.toggleAddedSummary(true)
 }))
 @observer
 export class AddToCartButton extends React.Component {
@@ -21,17 +20,27 @@ export class AddToCartButton extends React.Component {
     super(props);
   }
 
-  onPress() {
-    this.props.navigation.setParams({ addSummaryVisible: true });
-    this.isInStock && this.props.openAddSummary();
-  }
+  onPress = () => {
+    this.isInStock
+      && this.props.navigation.setParams({ addSummaryVisible: true })
+      && this.props.openAddSummary();
+  };
 
   get isInStock() {
-    return this.props.selectedVariant && this.props.selectedVariant.limits > 0;
+    return (
+      this.props.product.variants
+        .filter(v => v.etc.color == this.props.selectedColor)
+        .map(v => v.limits)
+        .reduce((a, b) => a + b, 0) > 0
+    );
   }
 
   get isOneSize() {
-    return this.props.product && this.props.product.isOneSize;
+    return (
+      this.props.product
+      && this.props.product.sizes
+      && this.props.product.sizes.length < 2
+    );
   }
 
   get buttonLabel() {
@@ -47,11 +56,7 @@ export class AddToCartButton extends React.Component {
   render() {
     return (
       <View style={styles.buttons}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => {
-            this.onPress();
-          }}>
+        <TouchableOpacity activeOpacity={0.5} onPress={this.onPress}>
           <SloppyView style={styles.button}>
             <MaterialIcon
               name={this.buttonIcon}

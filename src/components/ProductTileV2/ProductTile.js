@@ -7,9 +7,10 @@ import PropTypes from "prop-types";
 
 // custom
 import { Colours, Sizes, Styles } from "~/src/constants";
-import { PriceTag, ProgressiveImage } from "~/src/components";
+import { ProgressiveImage } from "~/src/components";
 
 // local
+import PriceTag from "./PriceTag";
 import Favourite from "./Favourite";
 import Badge from "./Badge";
 
@@ -19,45 +20,67 @@ export const ProductTileHeight = Sizes.Height / 3;
 
 export class ProductTileV2 extends React.Component {
   static propTypes = {
-    product: PropTypes.object.isRequired
+    product: PropTypes.object.isRequired,
+    selectedColor: PropTypes.string // optional selected color
   };
 
   onPress = () => {
     this.props.navigation.push("Product", {
-      product: this.props.product
+      product: this.props.product,
+      selectedColor: this.props.selectedColor
     });
   };
 
   render() {
+    const inventorySum = this.props.product.variants
+      .filter(
+        v =>
+          this.props.selectedColor
+            ? v.etc.color == this.props.selectedColor
+            : true
+      )
+      .map(v => v.limits)
+      .reduce((a, b) => a + b, 0);
+
+    let imageUrl = this.props.product.images[0].imageUrl;
+    if (this.props.selectedColor) {
+      let selectedVariant = this.props.product.variants.find(
+        v => v.etc.color == this.props.selectedColor
+      );
+      if (selectedVariant.imageId) {
+        let selectedImage = this.props.product.images.find(
+          m => m.id == selectedVariant.imageId
+        );
+        imageUrl = selectedImage.imageUrl;
+      }
+    }
+
     return (
       <TouchableWithoutFeedback onPress={this.onPress}>
         <View style={styles.container}>
           <View style={styles.photoContainer}>
             <ProgressiveImage
               resizeMode={"contain"}
-              source={{
-                uri:
-                  this.props.product.images[0]
-                  && this.props.product.images[0].imageUrl
-              }}
+              source={{ uri: imageUrl }}
               style={{
                 width: ProductTileWidth,
                 height: ProductTileHeight,
                 backgroundColor: Colours.Foreground
               }}/>
           </View>
-          /* Place the merchant and price tag in one column and the favourite
-          button in the next column */
+
           <View style={styles.content}>
             <View style={{ flexDirection: "column" }}>
               <View style={styles.price}>
-                <PriceTag
-                  product={this.props.product}
-                  discountSize={Sizes.TinyText}/>
+                <PriceTag product={this.props.product} />
               </View>
               <View style={{ maxWidth: Sizes.Width / 3 }}>
                 <Text style={styles.brand} numberOfLines={1}>
-                  {this.props.product.brand || this.props.product.place.name}
+                  {this.props.selectedColor
+                    ? this.props.selectedColor
+                    : this.props.product.title
+                      || this.props.product.brand
+                      || this.props.product.place.name}
                 </Text>
               </View>
             </View>
@@ -66,19 +89,13 @@ export class ProductTileV2 extends React.Component {
               <Favourite product={this.props.product} />
             </View>
           </View>
-          <View
-            style={[
-              styles.badge,
-              {
-                top: Sizes.BadgeMarginTop,
-                right: Sizes.BadgeMarginRight
-              }
-            ]}>
+
+          <View style={styles.badge}>
             {this.props.product.discount > 0.1 ? (
               <Badge
                 badgeColor={Colours.Accented}
                 text={`${(this.props.product.discount * 100).toFixed(0)}% Off`}/>
-            ) : this.props.product.associatedStock < 10 ? (
+            ) : inventorySum < 10 ? (
               <Badge badgeColor={Colours.RoseRed} text={"Low Stock!"} />
             ) : null}
           </View>
@@ -113,8 +130,8 @@ const styles = StyleSheet.create({
 
   badge: {
     position: "absolute",
-    top: 0,
-    right: 0
+    top: Sizes.BadgeMarginTop,
+    right: Sizes.BadgeMarginRight
   },
 
   brand: {

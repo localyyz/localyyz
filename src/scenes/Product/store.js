@@ -1,26 +1,59 @@
-import { action, runInAction, observable } from "mobx";
+import { action, computed, runInAction, observable } from "mobx";
 
 import { box } from "localyyz/helpers";
 import { historyStore } from "localyyz/stores";
 
 class ProductUIStore {
   @box product = {};
-  @box isVariantSelectorVisible = false;
   @observable isAddedSummaryVisible = false;
   @observable relatedProducts = [];
-  @observable selectedVariant;
 
-  // deep linking
-  isDeepLinked = false;
+  @observable selectedColor;
+  @observable selectedSize;
 
-  constructor({ product }) {
+  constructor({ product, selectedColor }) {
     this.product = product;
-
-    // initialize the default variant
-    this.onSelectVariant(this.product.selectedVariant);
+    this.selectedColor = selectedColor || product.variants[0].etc.color;
 
     // log to history
     historyStore.log(product);
+  }
+
+  get currency() {
+    return this.product.place.currency;
+  }
+
+  // computed get images => reordered by selected color
+  @computed
+  get price() {
+    return this.selectedVariant.price;
+  }
+
+  @computed
+  get previousPrice() {
+    return this.selectedVariant.prevPrice;
+  }
+
+  getVariantBySize = size => {
+    return this.product.variants.find(
+      v => v.etc.color == this.selectedColor && v.etc.size == size
+    );
+  };
+
+  @computed
+  get selectedVariant() {
+    return this.product.variants.find(
+      v =>
+        v.etc.color == this.selectedColor
+        && (this.selectedSize ? v.etc.size == this.selectedSize : true)
+    );
+  }
+
+  @computed
+  get associatedSizes() {
+    return this.product.variants
+      .filter(v => v.etc.color == this.selectedColor)
+      .map(v => v.etc.size);
   }
 
   // added summary
@@ -32,9 +65,8 @@ class ProductUIStore {
 
   // select variant syncs selected variant across components
   @action
-  onSelectVariant = variant => {
-    this.selectedVariant = variant;
-    this.product.selectedVariant = variant;
+  onSelectSize = size => {
+    this.selectedSize = size;
   };
 
   @action

@@ -27,5 +27,4 @@ export { default as Forms } from "./Forms";
 export { default as BaseScene } from "./BaseScene";
 export { default as Timer } from "./Timer";
 export { default as ProgressBar } from "./ProgressBar";
-export { default as PriceTag } from "./PriceTag";
 export { default as ProgressiveImage } from "./ProgressiveImage";

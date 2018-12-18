@@ -23,6 +23,7 @@ export class CollectionBanner extends React.Component {
       || nextProps.type !== this.props.type
       || (nextProps.products
         && nextProps.products.filter(e => !this.props.products.includes(e)))
+      || false
     );
   }
 

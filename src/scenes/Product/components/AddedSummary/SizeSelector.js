@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
@@ -15,44 +15,38 @@ import * as Animatable from "react-native-animatable";
 const DEFAULT_SIZE_APPEAR_INTERVAL = 100;
 
 @inject(stores => ({
-  product: stores.productStore.product,
-  onSelectVariant: stores.productStore.onSelectVariant
+  associatedSizes: stores.productStore.associatedSizes,
+  getVariantBySize: stores.productStore.getVariantBySize
 }))
-class ProductVariantSelector extends React.Component {
+export default class SizeSelector extends React.Component {
   static propTypes = {
-    product: PropTypes.object.isRequired,
-    onSelectVariant: PropTypes.func.isRequired
+    onSelectSize: PropTypes.func.isRequired,
+    selectedSize: PropTypes.string
   };
 
   constructor(props) {
     super(props);
-    this.state = {};
+
+    this.state = {
+      selectedSize: props.selectedSize
+    };
   }
 
-  onSizeSelect(size) {
+  onSizeSelect = size => {
     this.setState(
       {
-        size: size
+        selectedSize: size
       },
       () => {
-        this.props.onSelectVariant(
-          this.props.product.getVariant(size, this.state.color)
-        );
-        this.props.toggle(true);
+        this.props.onSelectSize(size);
       }
     );
-  }
+  };
 
-  alertOos() {
-    Alert.alert(
-      "Size out of stock",
-      "Please try again later or try a different size"
-    );
-  }
-
-  renderSize(size, i = 0) {
-    let variant = this.props.product.getVariant(size, this.state.color);
-    let isSelected = size === this.state.size;
+  renderSize = (size, i = 0) => {
+    let variant = this.props.getVariantBySize(size);
+    let isSelected = size === this.state.selectedSize;
+    let isOutStock = variant.limits == 0;
 
     return variant ? (
       <Animatable.View
@@ -66,16 +60,20 @@ class ProductVariantSelector extends React.Component {
         }>
         <TouchableOpacity
           key={`size-${size}`}
-          onPress={() =>
-            variant.limits > 0 ? this.onSizeSelect(size) : this.alertOos()
-          }>
+          onPress={() => !isOutStock && this.onSizeSelect(size)}>
           <SloppyView>
-            <View style={[styles.size, isSelected && styles.selected]}>
+            <View
+              style={[
+                styles.size,
+                isSelected && styles.selected,
+                isOutStock && styles.outStock
+              ]}>
               <Text
                 style={[
                   styles.sizeLabel,
                   variant.limits <= 0 && styles.oosLabel,
-                  isSelected && styles.selectedLabel
+                  isSelected && styles.selectedLabel,
+                  isOutStock && { textDecorationStyle: "dashed" }
                 ]}>
                 {`${size}`.toUpperCase()}
               </Text>
@@ -91,25 +89,12 @@ class ProductVariantSelector extends React.Component {
         </TouchableOpacity>
       </Animatable.View>
     ) : null;
-  }
-
-  get hasSelectableOptions() {
-    return (
-      this.props.product
-      && this.props.product.associatedSizes
-      && this.props.product.associatedSizes.length > 1
-    );
-  }
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        {this.props.product.associatedSizes
-          .filter(
-            size =>
-              this.props.product.getVariant(size, this.state.color).limits > 0
-          )
-          .map((size, i) => this.renderSize(size, i))}
+        {this.props.associatedSizes.map((size, i) => this.renderSize(size, i))}
       </View>
     );
   }
@@ -148,7 +133,9 @@ const styles = StyleSheet.create({
 
   selectedLabel: {
     color: Colours.Text
+  },
+
+  outStock: {
+    backgroundColor: Colours.Unselected
   }
 });
-
-export default ProductVariantSelector;

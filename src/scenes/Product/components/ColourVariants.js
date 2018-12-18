@@ -4,7 +4,6 @@ import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // custom
 import { ProductTileV2 } from "localyyz/components";
-import { Product } from "localyyz/stores";
 
 // third party
 import { withNavigation } from "react-navigation";
@@ -22,34 +21,24 @@ export class ColourVariants extends React.Component {
   };
 
   renderItem = ({ item: color }) => {
-    // instantiate a new virtual product model of this color only
-    let product = new Product(this.props.product, color);
     return (
       <View style={styles.tile}>
-        <ProductTileV2
-          product={product}
-          onPress={() =>
-            this.props.navigation.push("Product", { product: product })
-          }/>
+        <ProductTileV2 product={this.props.product} selectedColor={color} />
       </View>
     );
   };
 
   render() {
-    return this.props.product
-      && this.props.product.colors
-      && this.props.product.colors.length > 1 ? (
+    return this.props.product.colors.length > 0 ? (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Other Variants</Text>
+          <Text style={styles.title}>Other Colors</Text>
         </View>
         <View style={styles.content}>
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={this.props.product.colors
-              .slice()
-              .filter(color => color != this.props.product.selectedColor)}
+            data={this.props.product.colors.slice()}
             keyExtractor={item => item}
             renderItem={this.renderItem}
             contentContainerStyle={styles.splitList}/>

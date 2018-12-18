@@ -12,10 +12,22 @@ import PropTypes from "prop-types";
 export default class ProductHeader extends React.Component {
   static propTypes = {
     images: PropTypes.array.isRequired,
+    selectedVariant: PropTypes.object,
     onPress: PropTypes.func
   };
 
   render() {
+    const images = this.props.images;
+    images.sort((a, b) => {
+      if (
+        this.props.selectedVariant
+        && a.id == this.props.selectedVariant.imageId
+      ) {
+        return -1;
+      }
+      return a.ordering - b.ordering;
+    });
+
     return (
       <Swiper
         loop={false}
@@ -24,15 +36,13 @@ export default class ProductHeader extends React.Component {
         style={styles.container}
         contentContainerStyle={styles.content}
         scrollEventThrottle={16}>
-        {this.props.images.map(image => {
+        {images.map(image => {
           return (
             <TouchableWithoutFeedback
               key={`image${image.id}`}
               onPress={() => this.props.onPress(image.imageUrl)}>
               <ProgressiveImage
-                resizeMode={
-                  image.width >= image.height ? "contain" : "cover"
-                }
+                resizeMode={image.width >= image.height ? "contain" : "cover"}
                 source={{
                   uri: image.imageUrl
                 }}

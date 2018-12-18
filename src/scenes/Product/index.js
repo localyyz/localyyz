@@ -14,8 +14,8 @@ import { AddedSummary, ProductSupport, ProductShare } from "./components";
 import {
   RelatedProducts,
   ProductDetails,
-  MerchantDetails,
   ColourVariants,
+  MerchantDetails,
   AddToCartButton,
   ProductBadges,
   ProductHeader
@@ -56,7 +56,7 @@ class ProductScene extends React.Component {
     this.settings = this.props.navigation.state.params;
 
     // data
-    this.store = new Store(props.navigation.state.params);
+    this.store = new Store(this.settings);
     this.photoDetailsRef = React.createRef();
   }
 
@@ -79,11 +79,10 @@ class ProductScene extends React.Component {
               showsVerticalScrollIndicator={false}>
               <ProductHeader
                 onPress={this.onPressImage}
+                selectedVariant={this.store.selectedVariant}
                 images={this.store.product.images.slice()}/>
 
-              <View style={styles.card}>
-                <ProductDetails />
-              </View>
+              <ProductDetails />
               <ProductBadges />
 
               <View style={styles.card}>

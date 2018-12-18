@@ -64,7 +64,7 @@ export class HistoryItem extends React.Component {
             <View style={styles.photo} />
           )}
           <View style={styles.content}>
-            <Text style={styles.title}>{this.product.truncatedTitle}</Text>
+            <Text style={styles.title}>{this.product.title}</Text>
             {this.props.lastPrice > this.product.price ? (
               <Text style={styles.lastViewedPrice}>
                 {`Last viewed ${Moment(
