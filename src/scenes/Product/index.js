@@ -37,7 +37,7 @@ class ProductScene extends React.Component {
       // there's some weird issue with header buttons always clicked
       // on top of everything else. we need to hide it or the x button
       // wont work
-      header: params.addSummaryVisible ? null : undefined,
+      header: params.hideHeader ? null : undefined,
       headerRight: (
         <View
           style={{
@@ -69,12 +69,25 @@ class ProductScene extends React.Component {
     );
   };
 
+  onScroll = ({ nativeEvent }) => {
+    const hidingHeader = this.props.navigation.getParam("hideHeader");
+    if (nativeEvent.contentOffset.y > Sizes.Height / 3 && !hidingHeader) {
+      this.props.navigation.setParams({ hideHeader: true });
+    } else if (
+      nativeEvent.contentOffset.y <= Sizes.Height / 3
+      && hidingHeader
+    ) {
+      this.props.navigation.setParams({ hideHeader: false });
+    }
+  };
+
   render() {
     return (
       <Provider productStore={this.store}>
         <View style={styles.container}>
           <View style={{ flex: 1 }}>
             <ScrollView
+              onScroll={this.onScroll}
               scrollEventThrottle={16}
               showsVerticalScrollIndicator={false}>
               <ProductHeader

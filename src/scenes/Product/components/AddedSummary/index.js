@@ -109,6 +109,7 @@ export class AddedSummary extends React.Component {
   }
 
   onDismiss = () => {
+    this.props.navigation.setParams({ hideHeader: false });
     this.props.closeAddedSummary();
   };
 
@@ -185,7 +186,6 @@ export class AddedSummary extends React.Component {
             backgroundColor={Colours.Transparent}
             color={Colours.Foreground}
             onPress={() => {
-              this.props.navigation.setParams({ addSummaryVisible: false });
               this.onDismiss();
             }}/>
         </View>
