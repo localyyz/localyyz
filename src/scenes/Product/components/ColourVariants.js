@@ -11,7 +11,8 @@ import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
 @inject(stores => ({
-  product: stores.productStore.product
+  product: stores.productStore.product,
+  selectedColor: stores.productStore.selectedColor
 }))
 @observer
 export class ColourVariants extends React.Component {
@@ -38,7 +39,9 @@ export class ColourVariants extends React.Component {
           <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={this.props.product.colors.slice()}
+            data={this.props.product.colors
+              .filter(c => c != this.props.selectedColor)
+              .slice()}
             keyExtractor={item => item}
             renderItem={this.renderItem}
             contentContainerStyle={styles.splitList}/>
