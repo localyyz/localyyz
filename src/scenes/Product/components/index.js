@@ -10,3 +10,4 @@ export { default as ProductShare } from "./ProductShare";
 export { default as AddToCartButton } from "./AddToCartButton";
 export { default as ProductSupport } from "./ProductSupport";
 export { default as ProductBadges } from "./ProductBadges";
+export { default as PhotoDetails } from "./PhotoDetails";

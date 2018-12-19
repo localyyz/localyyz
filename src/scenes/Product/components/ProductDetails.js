@@ -30,9 +30,8 @@ export class ProductDetails extends React.Component {
         .reduce((a, b) => a + b, 0),
       price: props.store.price,
       prevPrice: props.store.prevPrice,
-      title: props.store.selectedColor
-        ? `${props.store.product.title} - ${props.store.selectedColor}`
-        : props.store.product.title
+      color: props.store.selectedColor,
+      title: props.store.product.title
     };
   }
 
@@ -82,12 +81,16 @@ export class ProductDetails extends React.Component {
   }
 
   render() {
+    const title = this.state.colour
+      ? `${this.state.title} in ${this.state.color}`
+      : this.state.title;
+
     return (
       <View style={styles.container}>
         {this.priceMessage}
         {this.state.inventorySum < 10 ? this.stockMessage : null}
-        <Text numberOfLines={2} style={styles.title}>
-          {this.state.title}
+        <Text numberOfLines={3} style={styles.title}>
+          {title}
         </Text>
       </View>
     );

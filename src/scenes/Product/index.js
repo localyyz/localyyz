@@ -4,7 +4,6 @@ import { ScrollView, View, StyleSheet } from "react-native";
 // custom
 import Store from "./store";
 import { Colours, Sizes, Styles } from "localyyz/constants";
-import { PhotoDetails } from "localyyz/components";
 
 // third party
 import { observer, Provider } from "mobx-react/native";
@@ -18,7 +17,8 @@ import {
   MerchantDetails,
   AddToCartButton,
   ProductBadges,
-  ProductHeader
+  ProductHeader,
+  PhotoDetails
 } from "./components";
 
 // local

@@ -29,7 +29,10 @@ export default class PhotoDetails extends React.Component {
     this.setState(
       { isVisible: shouldShow, source: source || this.state.source },
       () => {
-        this.props.navigation.setParams({ gesturesEnabled: !shouldShow });
+        this.props.navigation.setParams({
+          gesturesEnabled: !shouldShow,
+          hideHeader: shouldShow
+        });
 
         // callback if specified
         this.props.onDismiss && shouldShow === false && this.props.onDismiss();
