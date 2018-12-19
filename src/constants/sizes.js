@@ -37,7 +37,8 @@ export const Sizes = {
   // device specific
   ScreenTop: isIphoneX() ? 44 : 30,
   ScreenBottom: isIphoneX() ? 34 : 0,
-  StatusBar: Platform.OS === "ios" ? 20 : StatusBar.currentHeight,
+  StatusBar:
+    Platform.OS === "ios" ? (isIphoneX() ? 44 : 40) : StatusBar.currentHeight,
 
   // Tabbar
   IOSTabBar: 48 + isIphoneX() ? 34 : 0,

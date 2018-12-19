@@ -25,7 +25,7 @@ export default class ProductHeader extends React.Component {
       ) {
         return -1;
       }
-      return a.ordering - b.ordering;
+      return Math.max(a.ordering - b.ordering, b.ordering - a.ordering);
     });
 
     return (
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
 
   image: {
     width: Sizes.Width,
-    height: 2 * Sizes.Height / 3
+    height: 2 * Sizes.Height / 3,
+    top: -Sizes.StatusBar
   }
 });

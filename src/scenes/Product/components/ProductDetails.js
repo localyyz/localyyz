@@ -81,7 +81,7 @@ export class ProductDetails extends React.Component {
   }
 
   render() {
-    const title = this.state.colour
+    const title = this.state.color
       ? `${this.state.title} in ${this.state.color}`
       : this.state.title;
 
