@@ -6,11 +6,6 @@ import { Colours, Sizes } from "localyyz/constants";
 import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
-@inject(stores => ({
-  description:
-    stores.productStore.product && stores.productStore.product.htmlDescription
-}))
-@observer
 export default class ExpandedDescription extends React.Component {
   static propTypes = {
     description: PropTypes.string

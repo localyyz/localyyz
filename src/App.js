@@ -132,7 +132,9 @@ class AppView extends React.Component {
             currentScreen.params.product.title,
             currentScreen.params.product.price,
             {
-              impressionList: currentScreen.params.product.listTitle,
+              impressionList:
+                currentScreen.params.product.listTitle
+                || currentScreen.params.listTitle,
               products: [currentScreen.params.product.toGA()],
               productAction: {
                 // ecommerce: product detail view
@@ -193,12 +195,15 @@ const AppNavigator = createStackNavigator(
   },
   {
     initialRouteName: "Home",
-    navigationOptions: ({ navigation: { state } }) => ({
-      header: null,
-      headerTintColor: Colours.DarkTransparent,
-      gesturesEnabled: state.params && state.params.gesturesEnabled
-    }),
-    headerMode: "none"
+    navigationOptions: ({ navigation: { state }, navigationOptions }) => ({
+      ...navigationOptions,
+      gesturesEnabled: state.params && state.params.gesturesEnabled,
+      header: state.routeName === "Product" ? undefined : null,
+      headerStyle: { borderBottomWidth: 0 },
+      headerBackTitle: null,
+      headerTintColor: Colours.LabelBlack,
+      headerTransparent: state.routeName === "Product"
+    })
   }
 );
 
@@ -214,13 +219,15 @@ const TabNavigator = createTabNavigator(
     navigationOptions: ({ navigation: { state } }) => {
       const currentScreen = getActiveRoute(state);
       return {
-        tabBarVisible: currentScreen.routeName !== "Product"
+        tabBarVisible:
+          currentScreen.routeName !== "Product"
+          && !currentScreen.routeName.startsWith("Filter")
       };
     },
     tabBarComponent: NavBar,
     tabBarPosition: "bottom",
     lazy: true,
-    animationEnabled: true
+    animationEnabled: false
   }
 );
 

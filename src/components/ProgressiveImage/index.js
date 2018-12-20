@@ -32,21 +32,21 @@ export default class ProgressiveImage extends React.Component {
 
   render() {
     const { source, style, children, ...props } = this.props;
-    const thumbnailSource = shopifyImageUrl(source.uri, "small");
+    const thumbnailSource = parseImageUrl(source.uri, "small");
 
     return (
       <View style={styles.container}>
         <Animated.Image
           {...props}
           source={{ uri: thumbnailSource }}
-          style={[style, { opacity: this.thumbnailAnimated }]}
+          style={[{ opacity: this.thumbnailAnimated }, style]}
           onLoad={this.handleThumbnailLoad}
           blurRadius={1}/>
 
         <Animated.Image
           {...props}
           source={source}
-          style={[style, styles.overlay, { opacity: this.imageAnimated }]}
+          style={[styles.overlay, { opacity: this.imageAnimated }, style]}
           onLoad={this.onImageLoad}/>
 
         {children && children.length > 0 ? (
@@ -70,6 +70,32 @@ const styles = StyleSheet.create({
 });
 
 const SHOPIFY_LIQUID = "cdn.shopify.com";
+const UNIQLO = "im.uniqlo.com";
+
+const CDN_TYPES = {
+  [SHOPIFY_LIQUID]: shopifyImageUrl,
+  [UNIQLO]: uniqloImageUrl
+};
+
+function parseImageUrl(src, size) {
+  for (let key in CDN_TYPES) {
+    if (src.includes(key)) {
+      return CDN_TYPES[key](src, size);
+    }
+  }
+  return "";
+}
+
+function uniqloImageUrl(src, size) {
+  // remove any current image size then add the new image size
+  return src && src.includes(UNIQLO)
+    ? src
+        .replace(/_(small|large|middles)+\./gi, ".")
+        .replace(/\.jpg|\.png|\.gif|\.jpeg/gi, function(match) {
+          return "_" + size + match;
+        })
+    : "";
+}
 
 // via: https://gist.github.com/DanWebb/cce6ab34dd521fcac6ba
 function shopifyImageUrl(src, size) {
@@ -83,5 +109,5 @@ function shopifyImageUrl(src, size) {
         .replace(/\.jpg|\.png|\.gif|\.jpeg/gi, function(match) {
           return "_" + size + match;
         })
-    : src;
+    : "";
 }

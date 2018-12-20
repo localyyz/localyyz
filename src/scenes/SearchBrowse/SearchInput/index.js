@@ -48,7 +48,9 @@ export class SearchInputBox extends React.Component {
           onSearch={this.onSubmitEditing}
           inputStyle={styles.input}
           cancelButtonTextStyle={styles.cancel}
-          backgroundColor={Colours.Foreground}/>;
+          placeholderTextColor={Colours.Text}
+          tintColorSearch={Colours.Text}
+          backgroundColor={Colours.Foreground}/>
       </View>
     );
   }
@@ -61,7 +63,10 @@ const styles = StyleSheet.create({
     // NOTE: we are NOT using safeareaview because there
     // are some issue with wrapper header component inside it.
     paddingTop: Sizes.ScreenTop,
-    backgroundColor: Colours.Foreground
+    paddingBottom: Sizes.InnerFrame / 2,
+    backgroundColor: Colours.Foreground,
+    borderBottomWidth: Sizes.Hairline,
+    borderColor: Colours.Border
   },
 
   cancel: {
@@ -72,6 +77,8 @@ const styles = StyleSheet.create({
   input: {
     fontWeight: Sizes.Normal,
     fontSize: Sizes.Text,
-    color: Colours.Text
+    backgroundColor: Colours.Input,
+    height: 36,
+    borderRadius: 18
   }
 });

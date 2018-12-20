@@ -92,7 +92,11 @@ export default class CartUIStore {
 
   trackGACheckout = (step, index) => {
     GA.trackEvent("checkout", step, null, 0, {
-      products: this.cart.cartItems.map(ci => ci.product.toGA()),
+      // only include products on the first step. this stops us
+      // from over inflating the number of times the product has been checked
+      // out.
+      products:
+        index == 1 ? this.cart.cartItems.map(ci => ci.product.toGA()) : [],
       productAction: {
         action: GA.ProductActions.Checkout,
         checkoutStep: index

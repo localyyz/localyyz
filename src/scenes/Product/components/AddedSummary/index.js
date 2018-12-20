@@ -6,49 +6,39 @@ import {
   Text,
   Alert,
   TouchableOpacity,
-  ScrollView,
-  ActivityIndicator
+  ScrollView
 } from "react-native";
 
 // third party
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/native";
 import { withNavigation } from "react-navigation";
-import { GA } from "localyyz/global";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { ApplePayButton } from "react-native-payments";
 import * as Animatable from "react-native-animatable";
 
 // custom
 import { Styles, Colours, Sizes } from "localyyz/constants";
-import { toPriceString } from "localyyz/helpers";
 import Support from "~/src/components/Support";
 
 // local
-import { SizeChart } from "../ProductDetails/components";
-import ProductVariantSelector from "../ProductVariantSelector";
+import SizeChart from "./SizeChart";
+import SizeSelector from "./SizeSelector";
+
+import ConfirmAddToCartButton from "./ConfirmAddToCartButton";
 
 // constants
 const SIZE_APPEAR_INTERVAL = 100;
 
 @inject(stores => ({
-  isVisible: stores.productStore.isVariantSelectorVisible,
-
-  // notification on add
-  notify: stores.navbarStore.notify,
-
   // toggles
   closeAddedSummary: () => stores.productStore.toggleAddedSummary(false),
-  toggleAddButtons: forceShow =>
-    (stores.productStore.isVariantSelectorVisible
-      = forceShow != null
-        ? forceShow
-        : !stores.productStore.isVariantSelectorVisible),
 
   // regular checkout (add)
   addProduct: stores.cartStore.addProduct,
   product: stores.productStore.product,
   selectedVariant: stores.productStore.selectedVariant,
+  onSelectSize: stores.productStore.onSelectSize,
 
   // express checkout
   onExpressCheckout: (productId, color, size) =>
@@ -58,26 +48,13 @@ const SIZE_APPEAR_INTERVAL = 100;
       size: size
     }),
 
-  // sizes
-  isSizeChartSupported:
-    stores.productStore.product
-    && stores.productStore.product.isSizeChartSupported,
-  sizeChartType:
-    stores.productStore.product
-    && stores.productStore.product.category
-    && stores.productStore.product.category.value,
-
   // data
-  sizes:
-    (stores.productStore.product
-      && stores.productStore.product.associatedSizes.slice())
-    || []
+  associatedSizes: stores.productStore.associatedSizes.slice(),
+  selectedSize: stores.productStore.selectedSize
 }))
 @observer
 export class AddedSummary extends React.Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired,
-
     // mobx injected
     closeAddedSummary: PropTypes.func.isRequired
   };
@@ -86,75 +63,12 @@ export class AddedSummary extends React.Component {
     super(props);
 
     this.state = {
-      isAdding: false,
-      isAdded: false,
-      addingError: false
+      // can add to cart? no sizes to select or default/already selected
+      canAddToCart: props.selectedSize || !props.associatedSizes
     };
-
-    // bindings
-    this.onDismiss = this.onDismiss.bind(this);
-    this.onAdd = this.onAdd.bind(this);
-    this.onExpressCheckout = this.onExpressCheckout.bind(this);
-    this.onOutOfStock = this.onOutOfStock.bind(this);
-    this.openSizeChart = this.openSizeChart.bind(this);
   }
 
-  componentDidMount() {
-    // allow adding without sizes
-    if (
-      !this.props.product.associatedSizes
-      || this.props.product.associatedSizes.length < 1
-    ) {
-      this.props.toggleAddButtons(true);
-    }
-  }
-
-  onDismiss(callback) {
-    this.props.toggleAddButtons(false);
-    this.props.closeAddedSummary();
-
-    // callback to revert back to cart open on back
-    callback && callback();
-  }
-
-  async onAdd() {
-    let response
-      = this.props.product
-      && this.props.selectedVariant
-      && (await this.props.addProduct({
-        product: this.props.product,
-        variantId: this.props.selectedVariant.id
-      }));
-
-    let errorMessage;
-
-    if (response.error === "Already exists!") {
-      errorMessage = "Already added to cart!";
-    } else {
-      errorMessage = response.error;
-    }
-
-    this.setState({ isAdding: true }, () => {
-      setTimeout(() => {
-        this.setState(
-          {
-            isAdding: false,
-            isAdded: !response.error,
-            addingError: errorMessage
-          },
-          () => {
-            if (!response.error) {
-              setTimeout(() => {
-                this.onDismiss();
-              }, 2000);
-            }
-          }
-        );
-      }, 1000);
-    });
-  }
-
-  onExpressCheckout() {
+  onExpressCheckout = () => {
     this.props.product
       && this.props.selectedVariant
       && this.props
@@ -170,38 +84,66 @@ export class AddedSummary extends React.Component {
             Alert.alert(response.title, response.message, response.buttons);
           }
         });
-  }
+  };
 
-  onOutOfStock() {
-    GA.trackEvent(
-      "cart",
-      "add to cart - item out of stock",
-      String(this.props.product.id)
-    );
-    Alert.alert(
-      "Out of stock",
-      "The product with your selected options is currently not in stock",
-      [{ text: "OK" }]
-    );
-  }
+  openSizeChart = () => {
+    // sizes
+    const sizeChartType
+      = this.props.product.category && this.props.product.category.value;
 
-  openSizeChart() {
     return this.props.navigation.navigate("Modal", {
       type: "size chart",
       title: `${this.props.product.title}`,
-      component: <SizeChart type={this.props.sizeChartType} />
+      component: <SizeChart type={sizeChartType} />
     });
-  }
+  };
 
   get isInStock() {
     return this.props.selectedVariant && this.props.selectedVariant.limits > 0;
   }
 
   get title() {
-    return this.props.product.associatedSizes.length >= 1
+    return this.props.associatedSizes.length >= 1
       ? "Select size"
       : "Select purchase method";
   }
+
+  onDismiss = () => {
+    this.props.navigation.setParams({ hideHeader: false });
+    this.props.closeAddedSummary();
+  };
+
+  get renderAddToCart() {
+    return (
+      <View style={styles.buttons}>
+        <Animatable.View animation="fadeIn" duration={SIZE_APPEAR_INTERVAL * 6}>
+          <ConfirmAddToCartButton />
+        </Animatable.View>
+        <Animatable.View
+          animation="fadeIn"
+          duration={SIZE_APPEAR_INTERVAL * 6}
+          delay={SIZE_APPEAR_INTERVAL * 6 / 2}>
+          <View style={styles.spacer} />
+          <View style={styles.centeredButtons}>
+            <TouchableOpacity>
+              <ApplePayButton
+                width={Sizes.Width / 2}
+                height={Sizes.Width / 10}
+                onPress={() => this.onExpressCheckout()}
+                style="white"
+                type="buy"/>
+            </TouchableOpacity>
+          </View>
+        </Animatable.View>
+      </View>
+    );
+  }
+
+  onSelectSize = size => {
+    this.setState({ canAddToCart: true }, () => {
+      this.props.onSelectSize(size);
+    });
+  };
 
   render() {
     return (
@@ -212,124 +154,23 @@ export class AddedSummary extends React.Component {
           contentContainerStyle={styles.content}>
           <View style={styles.helper}>
             <Text style={styles.header}>{this.title}</Text>
-            {this.props.isSizeChartSupported ? (
-              <TouchableOpacity onPress={this.openSizeChart}>
-                <View style={styles.sizeGuide}>
-                  <Text style={styles.sizeGuideLabel}>size guide</Text>
-                  <MaterialIcon
-                    name="help"
-                    size={Sizes.Text}
-                    color={Colours.AlternateText}/>
-                </View>
-              </TouchableOpacity>
-            ) : null}
+            <TouchableOpacity onPress={this.openSizeChart}>
+              <View style={styles.sizeGuide}>
+                <Text style={styles.sizeGuideLabel}>size guide</Text>
+                <MaterialIcon
+                  name="help"
+                  size={Sizes.Text}
+                  color={Colours.AlternateText}/>
+              </View>
+            </TouchableOpacity>
           </View>
-          <ProductVariantSelector sizeAppearInterval={SIZE_APPEAR_INTERVAL} />
-          {this.props.isVisible ? (
-            <View style={styles.buttons}>
-              <Animatable.View
-                animation="fadeIn"
-                duration={SIZE_APPEAR_INTERVAL * 6}>
-                <TouchableOpacity onPress={this.onAdd}>
-                  <View>
-                    {this.state.isAdding ? (
-                      <View
-                        style={[
-                          styles.addButton,
-                          { justifyContent: "center" }
-                        ]}>
-                        <ActivityIndicator size={"small"} color={"white"} />
-                      </View>
-                    ) : (
-                      <View>
-                        {this.state.isAdded ? (
-                          <View
-                            style={[
-                              styles.addButton,
-                              { justifyContent: "flex-start" }
-                            ]}>
-                            <View style={{ paddingRight: Sizes.OuterFrame }}>
-                              <MaterialIcon
-                                name="check"
-                                color={Colours.AlternateText}
-                                size={Sizes.H2}
-                                style={styles.addButtonIcon}/>
-                            </View>
-                            <Text style={styles.addButtonLabel}>
-                              Added to cart
-                            </Text>
-                          </View>
-                        ) : (
-                          <View>
-                            {this.state.addingError ? (
-                              <View
-                                style={[
-                                  styles.addButton,
-                                  { justifyContent: "flex-start" }
-                                ]}>
-                                <View
-                                  style={{
-                                    paddingRight: Sizes.OuterFrame
-                                  }}>
-                                  <MaterialIcon
-                                    name="close"
-                                    color={Colours.AlternateText}
-                                    size={Sizes.H2}
-                                    style={styles.addButtonIcon}/>
-                                </View>
-                                <Text style={styles.addButtonLabel}>
-                                  {this.state.addingError}
-                                </Text>
-                              </View>
-                            ) : (
-                              <View style={styles.addButton}>
-                                <Text style={styles.addButtonLabel}>
-                                  Add to cart
-                                </Text>
-                                <View style={styles.addButtonDetails}>
-                                  <Text style={styles.addButtonLabel}>
-                                    {toPriceString(
-                                      this.props.selectedVariant.price
-                                    )}
-                                  </Text>
-                                  <MaterialIcon
-                                    name="add-shopping-cart"
-                                    color={Colours.AlternateText}
-                                    size={Sizes.H2}
-                                    style={styles.addButtonIcon}/>
-                                </View>
-                              </View>
-                            )}
-                          </View>
-                        )}
-                      </View>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              </Animatable.View>
-              <Animatable.View
-                animation="fadeIn"
-                duration={SIZE_APPEAR_INTERVAL * 6}
-                delay={SIZE_APPEAR_INTERVAL * 6 / 2}>
-                <View style={styles.spacer} />
-                <View style={styles.centeredButtons}>
-                  <TouchableOpacity>
-                    <ApplePayButton
-                      width={Sizes.Width / 2}
-                      height={Sizes.Width / 10}
-                      onPress={() => {
-                        this.isInStock
-                          ? this.onExpressCheckout()
-                          : this.onOutOfStock();
-                      }}
-                      style="white"
-                      type="buy"/>
-                  </TouchableOpacity>
-                </View>
-              </Animatable.View>
-            </View>
-          ) : null}
+          <SizeSelector
+            selectedSize={this.props.selectedSize}
+            onSelectSize={this.onSelectSize}
+            sizeAppearInterval={SIZE_APPEAR_INTERVAL}/>
+          {this.state.canAddToCart ? this.renderAddToCart : null}
         </ScrollView>
+
         <View style={styles.footer}>
           <Support
             appearDelay={2500}
@@ -337,14 +178,16 @@ export class AddedSummary extends React.Component {
             textColorTint={Colours.Foreground}/>
         </View>
 
-        <View pointerEvents="box-none" style={styles.close}>
+        <View style={styles.close}>
           <MaterialIcon.Button
             name="close"
             size={Sizes.ActionButton}
             underlayColor={Colours.Transparent}
             backgroundColor={Colours.Transparent}
             color={Colours.Foreground}
-            onPress={() => this.onDismiss()}/>
+            onPress={() => {
+              this.onDismiss();
+            }}/>
         </View>
       </SafeAreaView>
     );
@@ -361,8 +204,11 @@ const styles = StyleSheet.create({
 
   close: {
     position: "absolute",
-    top: 5 + Sizes.ScreenTop,
-    left: 5
+    top: 0,
+    left: 0,
+
+    paddingLeft: 5,
+    paddingTop: 5 + Sizes.ScreenTop
   },
 
   helper: {
@@ -385,30 +231,6 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Title,
     ...Styles.Alternate
-  },
-
-  addButton: {
-    ...Styles.RoundedButton,
-    ...Styles.Horizontal,
-    ...Styles.EqualColumns,
-    paddingHorizontal: Sizes.OuterFrame,
-    paddingVertical: Sizes.OuterFrame / 2,
-    borderRadius: Sizes.OuterFrame,
-    backgroundColor: Colours.Accented
-  },
-
-  addButtonLabel: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    ...Styles.Alternate
-  },
-
-  addButtonDetails: {
-    ...Styles.Horizontal
-  },
-
-  addButtonIcon: {
-    marginLeft: Sizes.InnerFrame / 2
   },
 
   centeredButtons: {

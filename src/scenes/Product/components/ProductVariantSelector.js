@@ -16,12 +16,7 @@ const DEFAULT_SIZE_APPEAR_INTERVAL = 100;
 
 @inject(stores => ({
   product: stores.productStore.product,
-  onSelectVariant: stores.productStore.onSelectVariant,
-  toggle: forceShow =>
-    (stores.productStore.isVariantSelectorVisible
-      = forceShow != null
-        ? forceShow
-        : !stores.productStore.isVariantSelectorVisible)
+  onSelectVariant: stores.productStore.onSelectVariant
 }))
 class ProductVariantSelector extends React.Component {
   static propTypes = {
@@ -31,40 +26,7 @@ class ProductVariantSelector extends React.Component {
 
   constructor(props) {
     super(props);
-    let defaultVariant
-      = this.props.product && this.props.product.selectedVariant;
-
-    this.state = {
-      color: defaultVariant.etc && defaultVariant.etc.color
-    };
-
-    // bindings
-    this.renderSize = this.renderSize.bind(this);
-    this.onSizeSelect = this.onSizeSelect.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !!(
-      nextState.size !== this.state.size
-      || nextState.color !== this.state.color
-      || nextProps.isVisible !== this.props.isVisible
-    );
-  }
-
-  componentDidMount() {
-    // select first size if only one size available
-    this.props.product.associatedSizes.length == 1
-      && this.onSizeSelect(this.props.product.associatedSizes[0]);
-  }
-
-  componentDidUpdate() {
-    // as if an network call, sync up the variant to other
-    // components in the localyyz universe
-    this.props.product
-      && this.props.onSelectVariant(
-        this.props.product.getVariant(this.state.size, this.state.color)
-          || this.props.product.selectedVariant
-      );
+    this.state = {};
   }
 
   onSizeSelect(size) {

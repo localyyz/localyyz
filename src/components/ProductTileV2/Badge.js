@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 
   text: {
     ...Styles.RoundedButtonText,
-    fontSize: Sizes.TinyText
+    fontSize: Sizes.BadgeText
   },
 
   icon: {

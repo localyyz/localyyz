@@ -13,9 +13,8 @@ import { withNavigation } from "react-navigation";
 import { inject, observer } from "mobx-react/native";
 
 // custom
-import { Colours } from "localyyz/constants";
+import { Colours, Sizes } from "localyyz/constants";
 import ProductTileV2, {
-  ProductTileHeight,
   PADDING as ProductTilePadding
 } from "~/src/components/ProductTileV2";
 
@@ -27,15 +26,15 @@ class ProductListItem extends React.Component {
     return false;
   }
 
+  onPress = () => {
+    this.props.navigation.push("Product", {
+      product: this.props.product
+    });
+  };
+
   render() {
     return (
-      <ProductTileV2
-        onPress={() =>
-          this.props.navigation.push("Product", {
-            product: this.props.product
-          })
-        }
-        product={this.props.product}/>
+      <ProductTileV2 onPress={this.onPress} product={this.props.product} />
     );
   }
 }
@@ -60,7 +59,7 @@ export class ProductList extends React.Component {
   renderItem = ({ item: product, index }) => {
     const itemStyle = index % 2 == 0 ? styles.itemEven : styles.itemOdd;
     return (
-      <View style={itemStyle}>
+      <View style={[styles.separator, itemStyle]}>
         <ProductListItem product={product} navigation={this.props.navigation} />
       </View>
     );
@@ -75,14 +74,16 @@ export class ProductList extends React.Component {
         keyExtractor={i => i.id}
         renderItem={this.renderItem}
         ListFooterComponent={
-          <ActivityIndicator size="large" animating={this.props.isLoading} />
+          <ActivityIndicator
+            size="large"
+            animating={this.props.isLoading || false}/>
         }
         onEndReachedThreshold={1}
         scrollEventThrottle={16}
         initialNumToRender={6}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[this.props.containerStyle, styles.content]}/>
+        contentContainerStyle={[styles.content, this.props.containerStyle]}/>
     );
   }
 }
@@ -91,8 +92,12 @@ export default withNavigation(ProductList);
 
 const styles = StyleSheet.create({
   content: {
-    paddingBottom: ProductTileHeight,
-    backgroundColor: Colours.Foreground
+    backgroundColor: Colours.Foreground,
+    paddingBottom: Sizes.Height / 6
+  },
+
+  separator: {
+    paddingBottom: Sizes.OuterFrame
   },
 
   itemEven: {

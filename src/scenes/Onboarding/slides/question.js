@@ -53,7 +53,7 @@ export default class Question extends React.Component {
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
-              <ActivityIndicator size="large" color={Colours.Foreground} />
+              <ActivityIndicator size="large" color={Colours.Tint} />
               <Text style={styles.titleText}>
                 Answer the previous questions to select your style
               </Text>
@@ -71,9 +71,7 @@ export default class Question extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colours.BlueSteel
-  },
+  container: {},
 
   slide: {
     marginHorizontal: BUTTON_PADDING
@@ -89,7 +87,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Sizes.InnerFrame,
     paddingVertical: Sizes.OuterFrame * 5,
     borderWidth: 1,
-    borderColor: Colours.Foreground,
     borderStyle: "dashed"
   },
 
@@ -101,13 +98,12 @@ const styles = StyleSheet.create({
     ...Styles.Text,
     ...Styles.Emphasized,
     textAlign: "center",
-    color: Colours.Foreground
+    fontSize: Sizes.H1
   },
 
   infoText: {
     ...Styles.SmallText,
     ...Styles.Subdued,
-    textAlign: "center",
-    color: Colours.Foreground
+    textAlign: "center"
   }
 });

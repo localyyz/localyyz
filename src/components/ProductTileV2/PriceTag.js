@@ -1,27 +1,37 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import PropTypes from "prop-types";
 
 // custom
 import { Colours, Sizes, Styles } from "localyyz/constants";
 import { toPriceString } from "localyyz/helpers";
 
 export default class PriceTag extends React.Component {
-  get priceTag() {
-    return this.props.product.minPrice >= this.props.product.maxPrice
-      ? toPriceString(
-          this.props.product.price,
-          this.props.product.place && this.props.product.place.currency
-        )
-      : `${toPriceString(
-          this.props.product.minPrice,
-          this.props.product.place && this.props.product.place.currency
-        )}—${toPriceString(
-          this.props.product.maxPrice,
-          this.props.product.place && this.props.product.place.currency
-        )}`;
-  }
+  static propTypes = {
+    product: PropTypes.object,
+    size: PropTypes.any
+  };
+
+  static defaultProps = {
+    size: Sizes.Text
+  };
 
   render() {
+    const minPrice = Math.min(...this.props.product.variants.map(v => v.price));
+    const maxPrice = Math.max(...this.props.product.variants.map(v => v.price));
+    const currency
+      = (this.props.product.place && this.props.product.place.currency) || "USD";
+
+    const minPriceStr = toPriceString(minPrice, currency);
+    const maxPriceStr = toPriceString(maxPrice, currency);
+    const priceTag
+      = maxPrice > minPrice ? `${minPriceStr}-${maxPriceStr}` : minPriceStr;
+
+    const prevPriceStr
+      = this.props.product.discount > 0.1 && !maxPrice
+        ? toPriceString(minPrice - this.props.product.discount * minPrice)
+        : "";
+
     return (
       <View style={styles.container}>
         <Text
@@ -33,20 +43,11 @@ export default class PriceTag extends React.Component {
               marginRight: Sizes.InnerFrame / 3
             }
           ]}>
-          {this.priceTag}
+          {priceTag}
         </Text>
-        {this.props.product.discount > 0.1 ? (
+        {prevPriceStr ? (
           <View style={styles.discountContainer}>
-            <Text
-              style={[
-                styles.previousPrice,
-                this.props.discountSize && {
-                  fontSize: this.props.discountSize
-                },
-                { marginHorizontal: Sizes.InnerFrame / 3 }
-              ]}>
-              {toPriceString(this.props.product.previousPrice)}
-            </Text>
+            <Text style={styles.previousPrice}>{prevPriceStr}</Text>
           </View>
         ) : null}
       </View>
@@ -69,9 +70,10 @@ const styles = StyleSheet.create({
   },
 
   previousPrice: {
-    fontSize: Sizes.MiniText,
+    fontSize: Sizes.TinyText,
     textDecorationLine: "line-through",
     color: Colours.SubduedText,
+    marginHorizontal: Sizes.InnerFrame / 3,
     opacity: 0.9
   }
 });

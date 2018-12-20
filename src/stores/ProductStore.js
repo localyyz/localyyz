@@ -1,4 +1,5 @@
 import { runInAction } from "mobx";
+import branch from "react-native-branch";
 
 // custom
 import { GA, ApiInstance } from "localyyz/global";
@@ -22,6 +23,21 @@ export default class ProductStore extends ProductModel {
   constructor(product, selectedColor) {
     super(product, selectedColor);
   }
+
+  fetchRelated = async () => {
+    const response = await ApiInstance.get(`/products/${this.id}/related`);
+    if (response && response.data) {
+      let products = response.data.map(p => {
+        return new ProductStore({
+          ...p,
+          description: p.noTagDescription,
+          listTitle: `Related ${this.title}`
+        });
+      });
+      return new Promise.resolve({ products: products });
+    }
+    return new Promise.resolve({ error: response.error });
+  };
 
   addFavourite = async () => {
     const resolve = await ApiInstance.post(`products/${this.id}/favourite`);
@@ -58,5 +74,28 @@ export default class ProductStore extends ProductModel {
 
   toggleFavourite = () => {
     this.isFavourite ? this.removeFavourite() : this.addFavourite();
+  };
+
+  generateDeepLink = async () => {
+    let branchUniversalObject = await branch.createBranchUniversalObject(
+      `product:${this.id}`,
+      {
+        locallyIndex: true,
+        title: this.title,
+        contentDescription: this.description
+      }
+    );
+
+    let controlParams = {
+      destination: "product",
+      destination_id: this.id
+    };
+
+    let { url } = await branchUniversalObject.generateShortUrl(
+      {},
+      controlParams
+    );
+
+    return url;
   };
 }

@@ -1,9 +1,7 @@
-import { runInAction, action, observable, computed, get, set } from "mobx";
+import { action, observable, computed } from "mobx";
 
 import { GA, ApiInstance } from "~/src/global";
 import { userStore } from "~/src/stores";
-
-// constants
 
 export default class FilterStore {
   // sorting
@@ -17,66 +15,19 @@ export default class FilterStore {
   @observable discountMin;
 
   // gender filter
-  @observable _gender;
+  @observable gender;
 
   // other filters
   @observable brand;
   @observable size;
   @observable color;
-  @observable category;
-  @observable subcategory;
+  @observable categoryValue;
   @observable merchant;
   @observable categoryV2;
 
   // customize personalize filters
   @observable personalize;
 
-  // lists
-  @observable genders = ["man", "woman"];
-  @observable
-  sortBys = [
-    { label: "Recommended" },
-    { label: "What's new", value: "-created_at" },
-    { label: "Price (Low to high)", value: "price" },
-    { label: "Price (High to low)", value: "-price" },
-    { label: "Discount (High to low, % off)", value: "-discount" }
-  ];
-  @observable brands = [];
-  @observable colors = [];
-  @observable
-  sizes = [
-    /* M, L, S */
-  ];
-  @observable
-  categories = observable.object({
-    /*
-     * "apparel": [ "blazers", "shirts" ],
-     */
-  });
-  @observable merchants = [];
-  @observable
-  prices = [
-    { min: 1, max: 25 },
-    { min: 25, max: 50 },
-    { min: 50, max: 100 },
-    { min: 100, max: 150 },
-    { min: 150, max: 250 },
-    { min: 250, max: 500 },
-    { min: 500, max: 1000 },
-    { min: 1000, max: 2500 },
-    { min: 2500, max: 5000 },
-    { min: 5000 }
-  ];
-  @observable
-  sales = [
-    { min: 1 },
-    { min: 20 },
-    { min: 30 },
-    { min: 40 },
-    { min: 50 },
-    { min: 60 },
-    { min: 70 }
-  ];
   // TODO: make section list:
   //  sales %
   //  new sales
@@ -86,32 +37,28 @@ export default class FilterStore {
     // requires .reset(params) and .numProducts
     this.searchStore = searchStore;
 
-    this.fetchColors = this.fetchColors.bind(this);
-    this.fetchSizes = this.fetchSizes.bind(this);
-    this.fetchBrands = this.fetchBrands.bind(this);
-
-    this.setSizeFilter = this.setSizeFilter.bind(this);
-    this.setColorFilter = this.setColorFilter.bind(this);
-    this.setBrandFilter = this.setBrandFilter.bind(this);
-    this.setPriceFilter = this.setPriceFilter.bind(this);
-    this.setDiscountFilter = this.setDiscountFilter.bind(this);
-
     // set gender from settings on mount, can be overrided
     // NOTE: defaultGender for example can be passed in from search browse
     // as a navigation param. TODO: let's fix this.
-    let gender = props.gender || userStore.genderPreference;
-    gender && this.setGenderFilter(gender);
+    //
+    // usePreferredGender by default is true. but if we're accessing
+    // product list from categories, we don't want to filter
+    if (props.usePreferredGender) {
+      let gender = props.gender || userStore.genderPreference;
+      gender && this.setGenderFilter([gender]);
+    }
 
     // initial settings
     if (props.filtersort) {
       props.filtersort.category
-        && this.setCategoryV2Filter(props.filtersort.category);
+        && this.setCategoryV2Filter([props.filtersort.category]);
       props.filtersort.merchant
-        && this.setMerchantFilter(props.filtersort.merchant);
-      props.filtersort.brand
-        && this.setBrandFilter(props.filtersort.brand);
+        && this.setMerchantFilter([props.filtersort.merchant]);
+      props.filtersort.brand && this.setBrandFilter([props.filtersort.brand]);
       props.filtersort.discountMin
         && this.setDiscountFilter(props.filtersort.discountMin);
+      props.filtersort.gender
+        && this.setGenderFilter([props.filtersort.gender]);
       this.setPersonalize(props.filtersort);
     }
   }
@@ -125,7 +72,7 @@ export default class FilterStore {
     count += this.brand ? 1 : 0;
     count += this.size ? 1 : 0;
     count += this.color ? 1 : 0;
-    count += this.category ? 1 : 0;
+    count += this.categoryValue ? 1 : 0;
     count += this.merchant ? 1 : 0;
     return count;
   }
@@ -134,11 +81,10 @@ export default class FilterStore {
     this.setSizeFilter();
     this.setBrandFilter();
     this.setColorFilter();
-    this.setDiscountFilter();
-    this.setPriceFilter();
     this.setCategoryFilter();
     this.setMerchantFilter();
     this.setCategoryV2Filter();
+    this.setPriceFilter();
 
     // and update based on reset filters
     this.refresh(fetchPath);
@@ -157,138 +103,80 @@ export default class FilterStore {
   //
   asyncFetch = (filterBy = "", params = {}) => {
     const fetchPath = this.searchStore.fetchPath || "products";
-    const fetchParams = { ...params, ...this.fetchParams };
+    let fetchParams = { ...params, ...this.fetchParams };
+    fetchParams.filter = fetchParams.filter.filter(
+      f => !f.startsWith(filterBy)
+    );
     return this.searchStore.fetch
       ? this.searchStore.fetch(filterBy, fetchParams)
       : ApiInstance.get(`${fetchPath}/${filterBy}`, fetchParams);
   };
 
-  @action
-  fetchColors() {
-    // if top level category is set, fetch subcategory
-    // this.colors.clear();
-    this.asyncFetch("colors").then(response => {
-      runInAction("[ACTION] fetch colors", () => {
-        this.colors = (response && response.data) || [];
-      });
-    });
-  }
+  fetchPrices = () => this.asyncFetch("prices");
+  fetchColors = () => this.asyncFetch("colors");
+  fetchSizes = () => this.asyncFetch("sizes");
+  fetchBrands = () => this.asyncFetch("brands");
+  fetchMerchants = () => this.asyncFetch("stores");
+  fetchCategories = () => this.asyncFetch("subcategories");
 
   @action
-  fetchSizes() {
-    // if top level category is set, fetch subcategory
-    this.asyncFetch("sizes").then(response => {
-      runInAction("[ACTION] fetch sizes", () => {
-        this.sizes = (response && response.data) || [];
-      });
-    });
-  }
-
-  @action
-  fetchBrands() {
-    this.asyncFetch("brands").then(response => {
-      runInAction("[ACTION] fetch brands", () => {
-        this.brands = (response && response.data) || [];
-      });
-    });
-  }
-
-  @action
-  fetchCategories = () => {
-    // if top level category is set, fetch subcategory
-    // this.colors.clear();
-    this.asyncFetch("categories").then(response => {
-      runInAction("[ACTION] fetch categories", () => {
-        for (let category of response.data) {
-          let subcategory = get(this.categories, category) || [];
-          set(this.categories, category, subcategory);
-        }
-      });
-    });
-  };
-
-  @action
-  fetchSubcategories = category => {
-    this.asyncFetch("subcategories").then(response => {
-      runInAction("[ACTION] fetch subcategories", () => {
-        set(this.categories, category, response.data);
-      });
-    });
-  };
-
-  @action
-  fetchMerchants = () => {
-    this.asyncFetch("stores").then(response => {
-      runInAction("[ACTION] fetch merchants", () => {
-        this.merchants = (response && response.data) || [];
-      });
-    });
-  };
-
-  @action
-  setSizeFilter(val) {
+  setSizeFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by size", val.join(","));
     this.size = val;
-  }
+  };
 
   @action
-  setColorFilter(val) {
+  setColorFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by color", val.join(","));
     this.color = val;
-  }
+  };
 
   @action
   setGenderFilter = val => {
-    this._gender = val;
+    val && val.length && GA.trackEvent("filter", "by gender", val.join(","));
+    this.gender = val;
   };
 
   @action
-  setBrandFilter(val) {
+  setBrandFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by brand", val.join(","));
     this.brand = val;
-    this.brands.clear();
-  }
-
-  @action
-  setCategoryFilter = category => {
-    GA.trackEvent("filter/sort", "filter by category", category || "all");
-    this.category = category;
-    this.subcategory = undefined;
-  };
-
-  @action
-  setSubcategoryFilter = subcategory => {
-    GA.trackEvent(
-      "filter/sort",
-      "filter by category",
-      subcategory || this.category || "all"
-    );
-    this.subcategory = subcategory;
-  };
-
-  @action
-  setCategoryV2Filter = category => {
-    GA.trackEvent("filter/sort", "filter by category v2", `${category}`);
-    this.categoryV2 = parseInt(category, 10);
   };
 
   @action
   setMerchantFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by merchant", val.join(","));
     this.merchant = val;
   };
 
   @action
-  setPriceFilter(min = 0, max) {
-    this.priceMin = min;
-    this.priceMax = max;
-  }
+  setCategoryFilter = val => {
+    val && val.length && GA.trackEvent("filter", "by category", val.join(","));
+    this.categoryValue = val;
+  };
 
   @action
-  setDiscountFilter(min = 0) {
-    GA.trackEvent("filter/sort", "discount", `${min}`);
+  setCategoryV2Filter = category => {
+    GA.trackEvent("filter", "by category v2", `${category}`);
+    this.categoryV2 = parseInt(category, 10);
+  };
+
+  @action
+  setPriceFilter = (min = 0, max) => {
+    (min || max) && GA.trackEvent("filter", "by price", `$${min}-$${max}`);
+    this.priceMin = min;
+    this.priceMax = max;
+  };
+
+  @action
+  setDiscountFilter = (min = 0) => {
+    min && GA.trackEvent("filter", "by discount", `${min}%`);
     this.discountMin = min;
-  }
+  };
 
   @action
   setSortBy = sorter => {
-    GA.trackEvent("filter/sort", "sort", sorter);
+    GA.trackEvent("sort", sorter);
     this.sortBy = sorter;
   };
 
@@ -304,7 +192,17 @@ export default class FilterStore {
     if (gender) {
       p.gender = [gender];
     }
-    this.personalize = p == {} ? undefined : p;
+    this.personalize = !Object.keys(p).length ? undefined : p;
+  }
+
+  @computed
+  get price() {
+    return this.priceMin ? [`$${this.priceMin} - $${this.priceMax}`] : [];
+  }
+
+  @computed
+  get discount() {
+    return this.discountMin ? [`On sale ${this.discountMin}% Off`] : [];
   }
 
   @computed
@@ -322,33 +220,25 @@ export default class FilterStore {
   }
 
   @computed
-  get gender() {
-    return this._gender;
-  }
-
-  get isSearchSupported() {
-    return !!this.searchStore && !!this.searchStore.reset;
-  }
-
-  @computed
   get fetchParams() {
     return {
       ...(this.sortBy && {
         sort: this.sortBy
       }),
       filter: [
-        ...(this.priceMin !== undefined ? [`price,min=${this.priceMin}`] : []),
-        ...(this.priceMax !== undefined ? [`price,max=${this.priceMax}`] : []),
+        ...(this.priceMin !== undefined ? [`prices,min=${this.priceMin}`] : []),
+        ...(this.priceMax !== undefined ? [`prices,max=${this.priceMax}`] : []),
         ...(this.discountMin !== undefined
-          ? [`discount,min=${this.discountMin}`]
+          ? [`discounts,min=${this.discountMin}`]
           : []),
-        ...(this.gender ? [`gender,val=${this.gender}`] : []),
-        ...(this.brand ? [`brand,val=${this.brand}`] : []),
-        ...(this.color ? [`color,val=${this.color}`] : []),
-        ...(this.size ? [`size,val=${this.size}`] : []),
-        ...(this.category ? [`categoryType,val=${this.category}`] : []),
-        ...(this.subcategory ? [`categoryValue,val=${this.subcategory}`] : []),
-        ...(this.merchant ? [`merchant,val=${this.merchant}`] : []),
+        ...(this.gender ? [`genders,val=${this.gender.join("|")}`] : []),
+        ...(this.brand ? [`brands,val=${this.brand.join("|")}`] : []),
+        ...(this.color ? [`colors,val=${this.color.join("|")}`] : []),
+        ...(this.size ? [`sizes,val=${this.size.join("|")}`] : []),
+        ...(this.merchant ? [`merchants,val=${this.merchant.join("|")}`] : []),
+        ...(this.categoryValue
+          ? [`categoryValues,val=${this.categoryValue.join("|")}`]
+          : []),
         ...(this.categoryV2
           ? [`categories,val=${JSON.stringify([this.categoryV2])}`]
           : []),

@@ -62,7 +62,7 @@ const onboard = [
       "Answer a few questions to help us personalize the home feed for you.",
     iconSrc: "question-answer",
     iconTyle: "MaterialIcons",
-    backgroundColor: Colours.FloridaOrange,
+    backgroundColor: Colours.GrassRootGreen,
     skippable: true
   }
 ];

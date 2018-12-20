@@ -8,7 +8,8 @@ import { withNavigation } from "react-navigation";
 import { Colours, Sizes } from "localyyz/constants";
 
 // local
-import { Brands, FilterButton } from "./Types";
+import Brands from "./Brand";
+import FilterButton from "./FilterButton";
 import SortBy from "./SortBy";
 
 export const BAR_HEIGHT = Sizes.Button + Sizes.InnerFrame / 2;
@@ -21,16 +22,10 @@ export class Bar extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Brands
-          id="brands"
-          label="Brands"
-          value="/brands"
-          {...this.props}
-          isButton/>
-        <SortBy id="sortBy" label="Sort By" value="" {...this.props} isButton />
+        <SortBy id="sortBy" label="SORT" value="" {...this.props} isButton />
         <FilterButton
           id="filterAll"
-          label="Filter"
+          label="FILTER"
           value="filter all"
           {...this.props}
           isButton/>
@@ -45,6 +40,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     paddingVertical: Sizes.InnerFrame / 2,
+    paddingHorizontal: Sizes.InnerFrame / 2,
     height: BAR_HEIGHT,
     backgroundColor: Colours.Foreground
   }

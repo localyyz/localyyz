@@ -6,6 +6,7 @@ import { inject, Provider } from "mobx-react/native";
 
 // custom
 import { NavBar } from "localyyz/components";
+import { Colours } from "localyyz/constants";
 
 // local
 import AddressesScene from "~/src/scenes/Addresses";
@@ -56,14 +57,19 @@ class CheckoutStack extends React.Component {
 const CartNavigator = createStackNavigator(
   {
     CartScene: CartScene,
-    CheckoutStack: CheckoutStack,
-    Product: ProductScene
+    Product: ProductScene,
+    CheckoutStack: CheckoutStack
   },
   {
-    navigationOptions: () => ({
-      gesturesEnabled: false
-    }),
-    headerMode: "none"
+    navigationOptions: ({ navigation: { state } }) => ({
+      header: state.routeName === "Product" ? undefined : null,
+      gesturesEnabled: state.routeName === "Product",
+      headerStyle: { borderBottomWidth: 0 },
+      headerBackTitle: null,
+      headerTintColor: Colours.LabelBlack,
+      headerTransparent: state.routeName === "Product"
+    })
+    //headerMode: "none"
   }
 );
 

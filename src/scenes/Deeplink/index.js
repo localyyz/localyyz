@@ -5,27 +5,30 @@ import {
   Collection as CollectionStore
 } from "~/src/stores";
 
+import { storage } from "~/src/effects";
+
 import branch from "react-native-branch";
 import OneSignal from "react-native-onesignal";
 import { inject } from "mobx-react/native";
 
 @inject(stores => ({
   loginStore: stores.loginStore,
-  historyStore: stores.historyStore
+  userStore: stores.userStore
 }))
 export default class Deeplink extends React.Component {
   constructor(props) {
     super(props);
+
+    this._next = "App";
+  }
+
+  componentWillMount() {
+    this.branchUnsubscriber = branch.subscribe(this.onBranchDeepLink);
+    OneSignal.addEventListener("opened", this.onOpened);
   }
 
   componentDidMount() {
     this.props.loginStore.skipLogin();
-
-    // navigating with key = null will reset the root navigator
-    this.props.navigation.replace("App");
-    this.branchUnsubscriber = branch.subscribe(this.onBranchDeepLink);
-
-    OneSignal.addEventListener("opened", this.onOpened);
   }
 
   componentWillUnmount = () => {
@@ -129,9 +132,16 @@ export default class Deeplink extends React.Component {
   */
   onBranchDeepLink = async ({ error, params }) => {
     if (error) {
-      console.log("Error: failed to deep link", error);
-    } else if (params) {
+      __DEV__ && console.log("Branch: " + error);
+      this.props.navigation.replace("App");
+    } else if (params.destination) {
       this.navigateTo(params);
+    } else {
+      // check if device has been onboarded. if not should onboarding
+      storage.load("onboarded", val => {
+        const next = val ? "App" : "Onboarding";
+        this.props.navigation.replace(next);
+      });
     }
   };
 

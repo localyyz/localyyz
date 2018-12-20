@@ -1,31 +1,20 @@
-import { runInAction, action, observable, computed } from "mobx";
+import { action } from "mobx";
 
 import { storage } from "~/src/effects";
 import { ApiInstance } from "~/src/global";
 import { User as UserModel } from "~/src/models";
 
 export default class UserStore extends UserModel {
-  @observable _onboarded = true;
-
   constructor(user) {
     super(user);
-    storage.load("onboarded", (val) => {
-      runInAction("[ACTION] get onboarded", () => {
-        this._onboarded = !!val;
-      })
-    });
   }
 
-  @computed
-  get shouldOnboard() {
-    return !this._onboarded;
-  }
+  hasOnboarded = async cb => {
+    storage.load("onboarded", cb);
+  };
 
-  markOnboarded = async () => {
-    runInAction("[ACTION] set onboarded", () => {
-      this._onboarded = true;
-    })
-    await storage.save("onboarded", { v: 1 });
+  markOnboarded = () => {
+    storage.save("onboarded", { v: 1 });
   };
 
   @action

@@ -21,12 +21,14 @@ export default class NotfPrompt extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     promptText: PropTypes.string,
-    dismissAfter: PropTypes.number
+    dismissAfter: PropTypes.number,
+    delay: PropTypes.number
   };
 
   static defaultProps = {
     title: "",
-    promptText: ""
+    promptText: "",
+    delay: 1000
   };
 
   constructor(props) {
@@ -111,23 +113,30 @@ export default class NotfPrompt extends React.Component {
 
   render() {
     return !this.state.hasDismissed && !this.state.notificationsEnabled ? (
-      <Animatable.View animation="slideInDown" style={styles.container}>
-        <Text style={styles.title}>{this.props.title}</Text>
-        <TouchableOpacity onPress={this.onPressNotify}>
-          <View style={{ padding: Sizes.InnerFrame }}>
-            <View style={Styles.RoundedButton}>
-              <Text style={Styles.RoundedButtonText}>
-                {this.state.hasPrompted
-                  ? "Change Settings"
-                  : this.props.promptText}
-              </Text>
+      <Animatable.View
+        delay={this.props.delay}
+        animation={{
+          from: { opacity: 0, translateY: -150 },
+          to: { opacity: 1, translateY: 0 }
+        }}>
+        <View style={styles.container}>
+          <Text style={styles.title}>{this.props.title}</Text>
+          <TouchableOpacity onPress={this.onPressNotify}>
+            <View style={{ padding: Sizes.InnerFrame }}>
+              <View style={Styles.RoundedButton}>
+                <Text style={Styles.RoundedButtonText}>
+                  {this.state.hasPrompted
+                    ? "Change Settings"
+                    : this.props.promptText}
+                </Text>
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.dismiss}>
-          <TouchableOpacity onPress={this.onDismiss}>
-            <MaterialCommunityIcon name="close" size={Sizes.ActionButton} />
           </TouchableOpacity>
+          <View style={styles.dismiss}>
+            <TouchableOpacity onPress={this.onDismiss}>
+              <MaterialCommunityIcon name="close" size={Sizes.ActionButton} />
+            </TouchableOpacity>
+          </View>
         </View>
       </Animatable.View>
     ) : null;

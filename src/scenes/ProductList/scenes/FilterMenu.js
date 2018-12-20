@@ -1,17 +1,21 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
 
 // third party
 import { Provider } from "mobx-react/native";
-import LinearGradient from "react-native-linear-gradient";
 
 // custom
-import { NavBar } from "localyyz/components";
 import { Styles, Colours, Sizes } from "localyyz/constants";
 
 // local
 import {
-  Price,
+  Prices,
   Discounts,
   Brands,
   Sizes as SizesFilter,
@@ -19,20 +23,19 @@ import {
   Categories,
   ProductCount,
   Merchants,
-  Gender
-} from "../Filter";
+  Genders
+} from "../Filter/components";
 
 export default class FilterMenu extends React.Component {
-  static navigationOptions = ({ navigationOptions }) => ({
-    ...navigationOptions,
-    title: "Filter"
-  });
+  static navigationOptions = ({ navigationOptions }) => {
+    return {
+      ...navigationOptions,
+      title: "Filter"
+    };
+  };
 
   constructor(props) {
     super(props);
-
-    // bindings
-    this.close = this.close.bind(this);
   }
 
   get settings() {
@@ -48,11 +51,11 @@ export default class FilterMenu extends React.Component {
     this.settings.store && this.settings.store.refresh();
   }
 
-  close() {
+  close = () => {
     return this.settings.onBack
       ? this.settings.onBack()
       : this.props.navigation.goBack(null);
-  }
+  };
 
   // Filter Main scene embeds the Filter component
   // which is a collection of individual filterable parts
@@ -60,35 +63,27 @@ export default class FilterMenu extends React.Component {
   render() {
     return (
       <Provider filterStore={this.settings.store}>
-        <View style={styles.container}>
-          <NavBar.Toggler hasPriority />
-          <View style={styles.filter}>
-            <Gender />
+        <SafeAreaView style={styles.container}>
+          <ScrollView contentContainerStyle={styles.content}>
+            <Genders />
             <Categories />
             <SizesFilter />
-            <Price />
+            <Prices />
             <Colors />
             <Brands />
             <Merchants />
             <Discounts />
-          </View>
+          </ScrollView>
           <View pointerEvents="box-none" style={styles.footer}>
-            <LinearGradient
-              pointerEvents="box-none"
-              colors={[Colours.WhiteTransparent, Colours.Transparent]}
-              start={{ y: 1, x: 0 }}
-              end={{ y: 0, x: 0 }}
-              style={styles.gradient}>
-              <View style={styles.toggle}>
-                <TouchableOpacity onPress={this.close}>
-                  <View style={styles.button}>
-                    <ProductCount labelStyle={styles.label} />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </LinearGradient>
+            <View style={styles.toggle}>
+              <TouchableOpacity onPress={this.close}>
+                <View style={styles.button}>
+                  <ProductCount labelStyle={styles.label} />
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </SafeAreaView>
       </Provider>
     );
   }
@@ -107,26 +102,24 @@ const styles = StyleSheet.create({
     right: 0
   },
 
-  gradient: {},
+  content: {
+    paddingHorizontal: Sizes.InnerFrame,
+    paddingBottom: Sizes.Height / 6
+  },
 
   toggle: {
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: Sizes.InnerFrame
   },
 
   button: {
     ...Styles.RoundedButton,
     alignItems: "center",
     margin: Sizes.InnerFrame,
-    paddingHorizontal: Sizes.OuterFrame * 2,
-    backgroundColor: Colours.Action
+    paddingHorizontal: Sizes.OuterFrame * 2
   },
 
   label: {
-    ...Styles.Text,
-    ...Styles.Emphasized
-  },
-
-  filter: {
-    paddingHorizontal: Sizes.InnerFrame
+    ...Styles.RoundedButtonText
   }
 });

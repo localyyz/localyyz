@@ -91,7 +91,10 @@ export default class HistoryStore {
       let products = this.products;
       for (let product of response.data) {
         products = Object.assign({}, products, {
-          [product.id]: new Product(product).changeTitleWordsLength(6)
+          [product.id]: new Product({
+            ...product,
+            listTitle: "history"
+          }).changeTitleWordsLength(6)
         });
       }
 

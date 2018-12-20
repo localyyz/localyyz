@@ -37,7 +37,8 @@ export const Sizes = {
   // device specific
   ScreenTop: isIphoneX() ? 44 : 30,
   ScreenBottom: isIphoneX() ? 34 : 0,
-  StatusBar: Platform.OS === "ios" ? 20 : StatusBar.currentHeight,
+  StatusBar:
+    Platform.OS === "ios" ? (isIphoneX() ? 44 : 40) : StatusBar.currentHeight,
 
   // Tabbar
   IOSTabBar: 48 + isIphoneX() ? 34 : 0,
@@ -87,7 +88,7 @@ export const Sizes = {
   Avatar: 40,
   SocialButton: 30,
   ActionButton: ResponsiveFontSize(28),
-  NavLeft: Platform.OS == "ios" ? 18 : 36,
+  NavLeft: ResponsiveFontSize(28),
   Button: 44,
 
   // apple specific
@@ -95,8 +96,10 @@ export const Sizes = {
   TabBarText: 10,
 
   // badge
-  BadgeMarginTop: ResponsiveFontSize(10),
+  BadgeMarginTop: ResponsiveFontSize(7),
   BadgeMarginRight: -ResponsiveFontSize(6),
+  BadgeText: ResponsiveFontSize(13),
+  BadgeIcon: ResponsiveFontSize(30),
 
   // spacer
   Spacer: 1 / PixelRatio.get(),

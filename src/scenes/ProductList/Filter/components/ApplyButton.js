@@ -37,7 +37,9 @@ export class Button extends React.Component {
           <View style={styles.toggle}>
             <TouchableOpacity onPress={this.close}>
               <View style={styles.button}>
-                <Text>Show {this.numProducts} Products</Text>
+                <Text style={styles.label}>
+                  Show {this.numProducts} Products
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -67,7 +69,10 @@ const styles = StyleSheet.create({
     ...Styles.RoundedButton,
     alignItems: "center",
     margin: Sizes.InnerFrame,
-    paddingHorizontal: Sizes.OuterFrame * 2,
-    backgroundColor: Colours.Action
+    paddingHorizontal: Sizes.OuterFrame * 2
+  },
+
+  label: {
+    ...Styles.RoundedButtonText
   }
 });

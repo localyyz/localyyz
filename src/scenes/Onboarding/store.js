@@ -103,41 +103,6 @@ export default class Store {
       title: "Which of these styles best describe you?",
       info: "Select all that apply."
     },
-    {
-      id: "sort",
-      title: "How would you like to prioritize your feed?",
-      info: "Select all that apply.",
-      data: [
-        {
-          id: "sort-newest",
-          key: "sort",
-          value: "newest",
-          label: "Newest Products",
-          desc: "Always show me the newest products first."
-        },
-        {
-          id: "sort-trending",
-          key: "sort",
-          value: "trending",
-          label: "Trending Products",
-          desc: "Always show me what's most trending first."
-        },
-        {
-          id: "sort-bestselling",
-          key: "sort",
-          value: "bestselling",
-          label: "Best Selling",
-          desc: "Show me what's selling the best first."
-        },
-        {
-          id: "sort-bestdeal",
-          key: "sort",
-          value: "bestdeal",
-          label: "Best Deals",
-          desc: "Show me the best deals first."
-        }
-      ]
-    },
     { id: "outro", title: "Almost done!" }
   ];
 
@@ -172,7 +137,6 @@ export default class Store {
       && this.selectedToParams.pricing
       && this.selectedToParams.gender
       && this.selectedToParams.style
-      && this.selectedToParams.sort
     );
   }
 

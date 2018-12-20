@@ -19,15 +19,13 @@ import { GA } from "localyyz/global";
 export class Common extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    asyncFetch: PropTypes.func.isRequired,
     setFilter: PropTypes.func.isRequired,
-    clearFilter: PropTypes.func.isRequired,
-
     // optional
     //
     // scene name
+    asyncFetch: PropTypes.func,
+    clearFilter: PropTypes.func,
     scene: PropTypes.string,
-    selected: PropTypes.string,
     title: PropTypes.string,
     icon: PropTypes.string,
     onPress: PropTypes.func,
@@ -41,14 +39,7 @@ export class Common extends React.Component {
     icon: null
   };
 
-  constructor(props) {
-    super(props);
-
-    // bindings
-    this.onSelect = this.onSelect.bind(this);
-  }
-
-  onSelect() {
+  onSelect = () => {
     GA.trackEvent("filter/sort", "filter by " + this.props.title);
     this.props.onPress
       ? this.props.onPress()
@@ -57,6 +48,10 @@ export class Common extends React.Component {
           title: this.props.title || this.props.label,
           filterStore: this.props.filterStore
         });
+  };
+
+  get selected() {
+    return (this.props.filterStore[this.props.id] || []).slice();
   }
 
   get renderSelectedOption() {
@@ -65,7 +60,10 @@ export class Common extends React.Component {
         <Text
           style={[styles.optionLabel, styles.selectedOptionLabel]}
           numberOfLines={1}>
-          {capitalize(this.props.selected)}
+          {this.selected.length > 1
+            ? `${capitalize(this.selected[0])} (${this.selected.length
+                - 1} more)`
+            : capitalize(this.selected)}
         </Text>
       </View>
     );
@@ -87,27 +85,22 @@ export class Common extends React.Component {
             style={[styles.optionLabel]}
             testID={`filter${this.props.id}`}
             numberOfLines={1}>
-            {this.props.selected
+            {this.selected.length > 1
               ? this.renderSelectedOption
               : capitalize(this.props.title)}
           </Text>
-          {this.props.icon ? (
-            <MaterialIcon
-              name="playlist-add"
-              size={Sizes.Text}
-              color={Colours.Text}/>
-          ) : (
-            <View />
-          )}
         </View>
       </TouchableOpacity>
     ) : (
       <TouchableOpacity onPress={this.onSelect}>
         <View style={styles.container}>
-          <Text style={styles.headerLabel}>{capitalize(this.props.title)}</Text>
+          <Text style={styles.typeLabel}>{capitalize(this.props.title)}</Text>
           <View style={styles.selectedValue}>
             <Text style={styles.selectedValueLabel}>
-              {capitalize(this.props.selected || "All")}
+              {this.selected.length > 1
+                ? `${capitalize(this.selected[0])} (${this.selected.length
+                    - 1} more)`
+                : capitalize(this.selected) || "All"}
             </Text>
           </View>
         </View>
@@ -122,17 +115,19 @@ const styles = StyleSheet.create({
   container: {
     ...Styles.Horizontal,
     ...Styles.EqualColumns,
-    marginVertical: Sizes.InnerFrame
+    paddingVertical: Sizes.InnerFrame * 1.5,
+    borderBottomWidth: 1,
+    borderBottomColor: Colours.Border
   },
 
   option: {
     ...Styles.Horizontal,
+    flex: 1,
 
     borderRadius: Sizes.RoundedBorders,
     marginTop: 1,
     justifyContent: "space-around",
 
-    flex: 1,
     height: Sizes.Button,
     marginHorizontal: Sizes.InnerFrame / 4,
     paddingHorizontal: Sizes.InnerFrame / 4,
@@ -165,13 +160,12 @@ const styles = StyleSheet.create({
     ...Styles.Emphasized
   },
 
-  headerLabel: {
-    ...Styles.Text,
-    ...Styles.Emphasized,
-    fontSize: Sizes.H2
+  typeLabel: {
+    ...Styles.SmallText
   },
 
   selectedValueLabel: {
-    ...Styles.Text
+    ...Styles.SmallText,
+    ...Styles.Emphasized
   }
 });

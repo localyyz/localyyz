@@ -1,4 +1,3 @@
-export { default as ProductVariantSelector } from "./ProductVariantSelector";
 export { default as ImageCarousel } from "./ImageCarousel";
 export { default as AddedSummary } from "./AddedSummary";
 export { default as RelatedProducts } from "./RelatedProducts";
@@ -6,9 +5,9 @@ export { default as ProductHeader } from "./ProductHeader";
 export { default as ExpandableSection } from "./ExpandableSection";
 export { default as ProductDetails } from "./ProductDetails";
 export { default as MerchantDetails } from "./MerchantDetails";
-export { default as Photos } from "./Photos";
 export { default as ColourVariants } from "./ColourVariants";
-export { default as DealSection } from "./DealSection";
 export { default as ProductShare } from "./ProductShare";
 export { default as AddToCartButton } from "./AddToCartButton";
 export { default as ProductSupport } from "./ProductSupport";
+export { default as ProductBadges } from "./ProductBadges";
+export { default as PhotoDetails } from "./PhotoDetails";

@@ -7,6 +7,7 @@ import { ProductList } from "localyyz/components";
 import { Colours, Sizes } from "localyyz/constants";
 
 // third party
+import PropTypes from "prop-types";
 import { Provider } from "mobx-react/native";
 import { HeaderBackButton } from "react-navigation";
 
@@ -21,7 +22,7 @@ import FilterBar, {
 } from "../Filter/components/Bar";
 import Store from "../store";
 
-const BAR_HEIGHT = CategoryBarHeight + FilterBarHeight;
+const FULL_BAR_HEIGHT = CategoryBarHeight + FilterBarHeight;
 
 export default class ProductListScene extends React.Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -42,13 +43,24 @@ export default class ProductListScene extends React.Component {
     return opt;
   };
 
+  static propTypes = {
+    category: PropTypes.object,
+    hideCategoryBar: PropTypes.bool,
+    usePreferredGender: PropTypes.bool
+  };
+
+  static defaultProps = {
+    category: {},
+    hideCategoryBar: false,
+    usePreferredGender: true
+  };
+
   constructor(props) {
     super(props);
 
     // stores
     this.store = this.settings.store || new Store(this.settings);
     this.filterStore = new FilterStore(this.store, this.settings);
-    this.store.title = this.settings.title;
 
     const scrollAnim = new Animated.Value(0);
     const offsetAnim = new Animated.Value(0);
@@ -56,9 +68,14 @@ export default class ProductListScene extends React.Component {
     this._offsetValue = 0;
     this._scrollValue = 0;
 
+    const barHeight = this.settings.hideCategoryBar
+      ? FilterBarHeight
+      : FULL_BAR_HEIGHT;
+
     this.state = {
       scrollAnim,
       offsetAnim,
+      barHeight,
       // handle scrolling and clamp filterbar
       clampedScroll: Animated.diffClamp(
         Animated.add(
@@ -70,7 +87,7 @@ export default class ProductListScene extends React.Component {
           offsetAnim
         ),
         0,
-        BAR_HEIGHT
+        barHeight
       )
     };
   }
@@ -91,7 +108,7 @@ export default class ProductListScene extends React.Component {
       this._scrollValue = value;
       this._clampedScrollValue = Math.min(
         Math.max(this._clampedScrollValue + diff, 0),
-        BAR_HEIGHT
+        this.state.barHeight
       );
     });
     this.state.offsetAnim.addListener(({ value }) => {
@@ -146,10 +163,10 @@ export default class ProductListScene extends React.Component {
 
   _onMomentumScrollEnd = () => {
     const toValue
-      = this._scrollValue > BAR_HEIGHT
-      && this._clampedScrollValue > BAR_HEIGHT / 2
-        ? this._offsetValue + BAR_HEIGHT
-        : this._offsetValue - BAR_HEIGHT;
+      = this._scrollValue > this.state.barHeight
+      && this._clampedScrollValue > this.state.barHeight / 2
+        ? this._offsetValue + this.state.barHeight
+        : this._offsetValue - this.state.barHeight;
 
     Animated.timing(this.state.offsetAnim, {
       toValue,
@@ -161,13 +178,13 @@ export default class ProductListScene extends React.Component {
     const { clampedScroll } = this.state;
 
     const filterbarTranslate = clampedScroll.interpolate({
-      inputRange: [0, BAR_HEIGHT],
-      outputRange: [0, -BAR_HEIGHT],
+      inputRange: [0, this.state.barHeight],
+      outputRange: [0, -this.state.barHeight],
       extrapolate: "clamp"
     });
     const filterbarHeightAnimate = this.state.scrollAnim.interpolate({
       inputRange: [0, CategoryBarHeight],
-      outputRange: [BAR_HEIGHT, FilterBarHeight],
+      outputRange: [this.state.barHeight, FilterBarHeight],
       extrapolate: "clamp"
     });
     const categoryBarHeightAnimate = this.state.scrollAnim.interpolate({
@@ -191,7 +208,7 @@ export default class ProductListScene extends React.Component {
             onMomentumScrollBegin={this._onMomentumScrollBegin}
             onMomentumScrollEnd={this._onMomentumScrollEnd}
             onScrollEndDrag={this._onScrollEndDrag}
-            containerStyle={{ paddingTop: BAR_HEIGHT }}
+            containerStyle={{ paddingTop: this.state.barHeight }}
             ListHeaderComponent={this.listHeader}
             onEndReached={this.fetchMore}/>
           <Animated.View
@@ -202,13 +219,15 @@ export default class ProductListScene extends React.Component {
                 height: filterbarHeightAnimate
               }
             ]}>
-            <Animated.View
-              style={{
-                height: categoryBarHeightAnimate,
-                opacity: categoryBarOpacityAnimate
-              }}>
-              <CategoryHeader category={this.settings.category} />
-            </Animated.View>
+            {!this.settings.hideCategoryBar ? (
+              <Animated.View
+                style={{
+                  height: categoryBarHeightAnimate,
+                  opacity: categoryBarOpacityAnimate
+                }}>
+                <CategoryHeader category={this.settings.category} />
+              </Animated.View>
+            ) : null}
             <FilterBar />
           </Animated.View>
         </View>

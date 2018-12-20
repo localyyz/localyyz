@@ -1,16 +1,17 @@
 import React from "react";
-import { View, StyleSheet, Text, Alert, TouchableOpacity } from "react-native";
-import { Colours, Sizes, Styles } from "localyyz/constants";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // custom
-import { Product } from "localyyz/models";
-import { ConstrainedAspectImage } from "localyyz/components";
+import Product from "~/src/stores/ProductStore";
+import { ProgressiveImage } from "localyyz/components";
 import { toPriceString } from "localyyz/helpers";
+import { Colours, Sizes, Styles } from "localyyz/constants";
 
 // third-party
-import PropTypes from "prop-types";
 import { inject } from "mobx-react/native";
+import PropTypes from "prop-types";
 import Swipeout from "react-native-swipeout";
+import { withNavigation } from "react-navigation";
 
 // cart photo sizes
 const MAX_PHOTO_SIZE = Sizes.Width / 5;
@@ -19,12 +20,11 @@ const MAX_PHOTO_SIZE = Sizes.Width / 5;
   removeItem: stores.cartStore.removeItem,
   setScrollEnabled: stores.cartUiStore.setScrollEnabled
 }))
-export default class CartItem extends React.Component {
+export class CartItem extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     removeItem: PropTypes.func.isRequired,
-    onRemove: PropTypes.func,
-    onPress: PropTypes.func
+    onRemove: PropTypes.func
   };
 
   constructor(props) {
@@ -32,39 +32,18 @@ export default class CartItem extends React.Component {
 
     // data
     this.product = new Product(props.item.product);
-
-    // bindings
-    this.onPress = this.onPress.bind(this);
-    this.onRemove = this.onRemove.bind(this);
   }
 
-  onPress() {
-    this.props.onPress && this.props.onPress(this.props.item.product);
-  }
+  onPress = () => {
+    this.props.navigation.navigate("Product", {
+      product: this.product,
+      listTitle: "Cart"
+    });
+  };
 
-  onRemove() {
-    Alert.alert("Remove this item?", null, [
-      {
-        text: "Cancel",
-        style: "cancel"
-      },
-      {
-        text: "Remove",
-        onPress: async () => {
-          const resolved = await this.props.removeItem(this.props.item);
-          if (resolved.error) {
-            Alert.alert("Please try again", resolved.error);
-          } else {
-            this.props.onRemove && this.props.onRemove();
-          }
-        }
-      }
-    ]);
-  }
-
-  get touchableComponent() {
-    return this.props.onPress ? TouchableOpacity : View;
-  }
+  onRemove = () => {
+    this.props.removeItem(this.props.item);
+  };
 
   get options() {
     return [{ text: "Remove", type: "delete", onPress: this.onRemove }];
@@ -74,25 +53,20 @@ export default class CartItem extends React.Component {
     return (
       <View style={this.props.style}>
         <Swipeout right={this.options} scroll={this.props.setScrollEnabled}>
-          <this.touchableComponent onPress={this.onPress}>
+          <TouchableOpacity onPress={this.onPress}>
             <View style={styles.container}>
               <View style={styles.photo}>
-                <ConstrainedAspectImage
+                <ProgressiveImage
                   testID="photo"
                   source={{
                     uri:
-                      this.props.item.product.associatedPhotos[0]
-                      && this.props.item.product.associatedPhotos[0].imageUrl
+                      this.props.item.product.images[0]
+                      && this.props.item.product.images[0].imageUrl
                   }}
-                  sourceWidth={
-                    this.props.item.product.associatedPhotos[0]
-                    && this.props.item.product.associatedPhotos[0].width
-                  }
-                  sourceHeight={
-                    this.props.item.product.associatedPhotos[0]
-                    && this.props.item.product.associatedPhotos[0].height
-                  }
-                  constrainWidth={MAX_PHOTO_SIZE}/>
+                  style={{
+                    height: MAX_PHOTO_SIZE,
+                    width: MAX_PHOTO_SIZE
+                  }}/>
               </View>
               <View style={styles.content}>
                 {this.props.item.hasError && (
@@ -147,12 +121,14 @@ export default class CartItem extends React.Component {
                 </View>
               </View>
             </View>
-          </this.touchableComponent>
+          </TouchableOpacity>
         </Swipeout>
       </View>
     );
   }
 }
+
+export default withNavigation(CartItem);
 
 const styles = StyleSheet.create({
   container: {

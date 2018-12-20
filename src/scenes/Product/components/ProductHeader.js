@@ -1,77 +1,69 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Sizes } from "localyyz/constants";
+import { StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { Colours, Sizes } from "localyyz/constants";
 
 // custom
-import { ConstrainedAspectImage } from "localyyz/components";
+import ProgressiveImage from "~/src/components/ProgressiveImage";
+import Swiper from "react-native-swiper";
 
 // third party
-import { inject, observer } from "mobx-react/native";
 import PropTypes from "prop-types";
 
-@inject(stores => ({
-  product: stores.productStore.product,
-  coverPhoto:
-    stores.productStore.product
-    && stores.productStore.product.associatedPhotos[0]
-    && stores.productStore.product.associatedPhotos[0].imageUrl,
-  coverPhotoWidth:
-    stores.productStore.product
-    && stores.productStore.product.associatedPhotos[0]
-    && stores.productStore.product.associatedPhotos[0].width,
-  coverPhotoHeight:
-    stores.productStore.product
-    && stores.productStore.product.associatedPhotos[0]
-    && stores.productStore.product.associatedPhotos[0].height,
-  discount: stores.productStore.product && stores.productStore.product.discount,
-  placeRank:
-    stores.productStore.product
-    && stores.productStore.product.place
-    && stores.productStore.product.place.weight,
-  placeName:
-    stores.productStore.product
-    && stores.productStore.product.place
-    && stores.productStore.product.place.name,
-  title: stores.productStore.product && stores.productStore.product.title,
-  numTitleWords:
-    stores.productStore.product && stores.productStore.product.numTitleWords
-}))
-@observer
 export default class ProductHeader extends React.Component {
   static propTypes = {
-    // mobx injected
-    discount: PropTypes.number,
-    placeRank: PropTypes.number,
-    numTitleWords: PropTypes.number,
-    placeName: PropTypes.string,
-    title: PropTypes.string
-  };
-
-  static defaultProps = {
-    discount: 0,
-    numTitleWords: 0,
-    placeRank: 0,
-    placeName: "",
-    title: ""
+    images: PropTypes.array.isRequired,
+    selectedVariant: PropTypes.object,
+    onPress: PropTypes.func
   };
 
   render() {
+    const images = this.props.images;
+    images.sort((a, b) => {
+      if (
+        this.props.selectedVariant
+        && a.id == this.props.selectedVariant.imageId
+      ) {
+        return -1;
+      }
+      return Math.max(a.ordering - b.ordering, b.ordering - a.ordering);
+    });
+
     return (
-      <View {...this.props} style={styles.container}>
-        <ConstrainedAspectImage
-          shouldPinWidth
-          constrainWidth={Sizes.Width}
-          source={{ uri: this.props.coverPhoto }}
-          sourceWidth={this.props.coverPhotoWidth}
-          sourceHeight={this.props.coverPhotoHeight}/>
-      </View>
+      <Swiper
+        loop={false}
+        showsPagination={true}
+        activeDotColor={Colours.Accented}
+        style={styles.container}
+        contentContainerStyle={styles.content}
+        scrollEventThrottle={16}>
+        {images.map(image => {
+          return (
+            <TouchableWithoutFeedback
+              key={`image${image.id}`}
+              onPress={() => this.props.onPress(image.imageUrl)}>
+              <ProgressiveImage
+                resizeMode={image.width >= image.height ? "contain" : "cover"}
+                source={{
+                  uri: image.imageUrl
+                }}
+                style={styles.image}/>
+            </TouchableWithoutFeedback>
+          );
+        })}
+      </Swiper>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: Sizes.OuterFrame * 3,
-    alignItems: "center"
+    backgroundColor: Colours.Foreground,
+    maxHeight: 2 * Sizes.Height / 3
+  },
+
+  image: {
+    width: Sizes.Width,
+    height: 2 * Sizes.Height / 3,
+    top: -Sizes.StatusBar
   }
 });
